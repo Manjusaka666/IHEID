@@ -1,0 +1,69 @@
+\section{Consistency}
+In this section, we first present a set of sufficient conditions under which an extremum estimator is consistent. Those conditions will then be specialized to NLS, ML, and GMM.
+
+\subsection{Two Consistency Theorems for Extremum Estimators}
+The objective function $Q_n(\cdot)$ is a random function because for each $\theta$ its value $Q_n(\theta)$, being dependent on the data $(w_1, \ldots, w_n)$, is a random variable. The basic idea for the consistency of an extremum estimator is that if $Q_n(\theta)$ converges in probability to $Q_0(\theta)$, and the true parameter $\theta_0$ solves the ``limit problem'' of maximizing the limit function $Q_0(\theta)$, then the limit of the maximum $\hat{\theta}$ should be $\theta_0$. Sufficient conditions for the maximum of the limit to be the limit of the maximum are that the convergence in probability be ``uniform'' (in the sense made precise in a moment) and that the parameter space $\Theta$ be compact. As already mentioned, the parameter space is not compact in most applications. We therefore provide an alternative set of consistency conditions, which does not require $\Theta$ to be compact.
+
+To state the first consistency theorem for extremum estimators, we need to make precise what we mean by convergence being ''uniform.'' If you are already familiar from calculus with the notion of uniform convergence of a sequence of functions, you will recognize that the definition about to be given is a natural extension to a sequence of random functions, $Q_n(\cdot)$ $(n = 1, 2, \ldots)$. Pointwise convergence in probability of $Q_n(\cdot)$ to some nonrandom function $Q_0(\cdot)$ simply means $\lim_{n \to \infty} Q_n(\theta) = Q_0(\theta)$ for all $\theta$, namely, that the sequence of random variables $\{Q_n(\theta)\}$ converges in probability to the constant $Q_0(\theta)$ for each $\theta$.
+
+\begin{proposition}[Consistency of Extremum Estimators with Compact Parameter Space]
+Suppose that
+\begin{enumerate}
+    \item $\Theta$ is a compact subset of $\mathbb{R}^p$,
+    \item $Q_n(\theta)$ is continuous in $\theta$ for any data $(w_1, \ldots, w_n)$, and
+    \item $Q_n(\theta)$ converges uniformly in probability to $Q_0(\theta)$ as $n \to \infty$,
+\end{enumerate}
+and that there is a unique $\theta_0 \in \Theta$ that maximizes $Q_0(\theta)$. Then $\hat{\theta} \to_p \theta_0$ as $n \to \infty$.
+\end{proposition}
+
+\begin{proposition}[Consistency of Extremum Estimators without Compactness]
+Suppose that
+\begin{enumerate}
+    \item the true parameter vector $\theta_0$ is an element of the interior of a convex parameter space $\Theta \subset \mathbb{R}^p$,
+    \item $Q_n(\theta)$ is concave over the parameter space for all $w_i$, and
+    \item $Q_n(\theta)$ is a measurable function of the data for all $\theta$ in $\Theta$.
+\end{enumerate}
+Let $\hat{\theta}$ be the M-estimator defined by (7.1.1) and (7.1.2). Suppose, further, that
+\begin{enumerate}
+    \item (identification) $E[m(w_i; \theta)]$ is uniquely maximized on $\Theta$ at $\theta_0 \in \Theta$,
+    \item (uniform convergence) $Q_n(\cdot)$ converges in probability to $Q_0(\cdot)$ uniformly over $\Theta$,
+\end{enumerate}
+then, as $n \to \infty$, $\hat{\theta} \to_p \theta_0$.
+
+The following example shows that probit conditional ML satisfies the concavity condition.
+
+\subsection{Consistency of M-Estimators}
+For an M-estimator, the objective function is given by (7.1.2). If $\{w_i\}$ is ergodic stationary, the Ergodic Theorem implies pointwise convergence for $Q_n(\theta)$: $Q_n(\theta)$ converges in probability pointwise for each $\theta \in \Theta$ to $Q_0(\theta)$ given by
+\begin{equation}
+Q_0(\theta) = E[m(w_i; \theta)]
+\end{equation}
+(provided, of course, that $E[m(w_i; \theta)]$ exists and is finite). To apply the first consistency result (Proposition 7.1) to M-estimators, we need to show that the convergence of $\frac{1}{n} \sum_{i=1}^n m(w_i; \cdot)$ to $E[m(w_i; \cdot)]$ is uniform. A standard method to prove uniform convergence in probability, which exploits the fact that the expression is a sample mean, is
+
+\begin{proposition}[Consistency of M-estimators with compact parameter space]
+Let $\{w_i\}$ be ergodic stationary. Suppose that (i) the parameter space $\Theta$ is a compact subset of $\mathbb{R}^p$, (ii) $m(w_i; \theta)$ is continuous in $\theta$ for all $w_i$, and (iii) $m(w_i; \theta)$ is measurable in $w_i$ for all $\theta$ in $\Theta$. Let $\hat{\theta}$ be the M-estimator defined by (7.1.1) and (7.1.2). Suppose, further, that
+\begin{enumerate}
+    \item (identification) $E[m(w_i; \theta)]$ is uniquely maximized on $\Theta$ at $\theta_0 \in \Theta$,
+    \item (dominance) $E[\sup_{\theta \in \Theta} |m(w_i; \theta)|] < \infty$.
+\end{enumerate}
+Then $\hat{\theta} \to_p \theta_0$.
+
+It is even more straightforward to specialize the second consistency theorem for extremum estimators to M-estimators. The objective function $Q_n(\theta)$ is concave if $m(w_i; \theta)$ is concave in $\theta$. As noted above, the pointwise convergence of $Q_n(\theta)$ to $Q_0(\theta)$ (= $E[m(w_i; \theta)]$) is assured by the Ergodic Theorem if $E[m(w_i; \theta)]$ exists and is finite for all $\theta$. Thus
+
+\begin{proposition}[Consistency of M-estimators without compactness]
+Let $\{w_i\}$ be ergodic stationary. Suppose that (i) the true parameter vector $\theta_0$ is an element of the interior of a convex parameter space $\Theta \subset \mathbb{R}^p$, (ii) $m(w_i; \theta)$ is concave over the parameter space for all $w_i$, and (iii) $m(w_i; \theta)$ is measurable in $w_i$ for all $\theta$ in $\Theta$. Let $\hat{\theta}$ be the M-estimator defined by (7.1.1) and (7.1.2). Suppose, further, that
+\begin{enumerate}
+    \item (identification) $E[m(w_i; \theta)]$ is uniquely maximized on $\Theta$ at $\theta_0 \in \Theta$,
+    \item (dominance) $E[\sup_{\theta \in \Theta} |m(w_i; \theta)|] < \infty$.
+\end{enumerate}
+Then $\hat{\theta} \to_p \theta_0$.
+
+\subsection{Example: Concavity of the probit likelihood function}
+The $m$ function for probit is given in (7.1.15) where $\Phi(\cdot)$ is the cumulative density function of the standard normal distribution. Since the normal distribution is symmetric, $\Phi(-v) = 1 - \Phi(v)$ and the $m$ function can be rewritten as
+\begin{equation}
+m(w_i; \theta) = y_i \log \Phi(x_i'\theta) + (1 - y_i) \log \Phi(-x_i'\theta).
+\end{equation}
+Concavity of $m$ is implied if both $\log \Phi(x_i'\theta)$ and $\log \Phi(-x_i'\theta)$ are concave in $\theta$. Since $x_i'\theta$ is linear in $\theta$, it suffices to show concavity of $\log \Phi(v)$. The first derivative of $\log \Phi(v)$ is
+\begin{equation}
+\frac{d \log \Phi(v)}{dv} = \frac{\phi(v)}{\Phi(v)},
+\end{equation}
+where $\phi(v) (= \Phi'(v))$ is the density function of $N(0, 1)$. It is well known that $\phi(v)/\Phi(v)$ is a decreasing function. So $\log \Phi(v)$ is (strictly) concave.

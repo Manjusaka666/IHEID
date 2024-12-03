@@ -1,0 +1,61 @@
+\documentclass[a4paper]{report}
+
+\input{setup/preamble}
+\input{setup/macros}
+\input{setup/letterfonts}
+
+\addbibresource{gr.bib} 
+
+\course{International Finance}
+\professor[Professor's email]{Ugo Panizza}
+\me[jingle.fu@graduateinstitute.ch]{}
+\institute{Graduate of International and Developoment Studies, Geneva}
+\class{International Economics}
+\session{Semester I, 2024}
+\date{Based on lectures by \profloc{} in Autumn semester, 2024
+% \\ Notes created by Mubtasim Fuad 
+\\~\\ Draft updated on \today}
+
+\begin{document}
+
+\renewcommand\thepage{Title}
+\maketitle
+\renewcommand\thepage{Preface} 
+% \chapter*{Preface}  % to show preface on toc
+\input{preface}
+% \addcontentsline{toc}{chapter}{\protect\numberline{}Preface} % to show preface on toc
+\pagenumbering{gobble}
+% \pagenumbering{roman}   % to show preface on toc
+\newpage
+\pagestyle{plain}
+\pagenumbering{roman}
+\pdfbookmark{\contentsname}{toc}              
+\setcounter{tocdepth}{0}
+\tableofcontents
+\newpage
+\pagestyle{head}
+\pagenumbering{arabic}
+
+% start lectures
+\chapter{Endowment Theory}
+\input{lectures/240923}
+\chapter{Open Economy with Capital}
+\input{lectures/240930}
+\chapter{Business Cycle in EMs Productivity Shocks versus Financial Frictions}
+\input{lectures/241021}
+\chapter{Interest Rate Shocks}
+\input{lectures/241028}
+\chapter{Nominal Rigidities}
+\input{lectures/241104}
+\chapter{Exchange Rate Policy and Capital Controls}
+\input{lectures/241118}
+\chapter{Sovereign Debt and Default:Facts and a Case Study}
+\input{lectures/241125}
+
+
+% end lectures
+\nocite{*} % Add this line to include all entries in the bibliography
+
+\input{endpage}
+
+\end{document}

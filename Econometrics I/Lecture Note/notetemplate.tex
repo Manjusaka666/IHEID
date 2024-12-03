@@ -1,0 +1,595 @@
+% basics
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{textcomp}
+\usepackage[hyphens]{url}
+\usepackage[style=alphabetic,maxcitenames=1]{biblatex}
+\usepackage[colorlinks=true,linkcolor=cyan,urlcolor=magenta,citecolor=violet]{hyperref}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{booktabs}
+\usepackage{emptypage}
+\usepackage{subcaption}
+\usepackage[usenames,dvipsnames]{xcolor}
+
+\usepackage{amsmath, amsfonts, mathtools, amsthm, amssymb, mathrsfs}
+\usepackage{geometry}
+\usepackage{cancel}
+\usepackage{systeme}
+
+\usepackage[inline, shortlabels]{enumitem}
+\usepackage{multicol}
+\setlength\multicolsep{0pt}
+
+\usepackage{caption}
+\captionsetup{belowskip=0pt}
+\geometry{a4paper,left=2.54cm,right=2.54cm,top=1.73cm,bottom=1.73cm}
+
+% for the big braces
+\usepackage{bigdelim}
+
+% correct
+\definecolor{correct}{HTML}{009900}
+\newcommand\correct[2]{\ensuremath{\:}{\color{red}{#1}}\ensuremath{\to }{\color{correct}{#2}}\ensuremath{\:}}
+\newcommand\green[1]{{\color{correct}{#1}}}
+
+% hide parts
+\newcommand\hide[1]{}
+
+% si unitx
+\usepackage{siunitx}
+\sisetup{locale = FR}
+\newcommand\mat[1]{\mathbf{#1}}
+
+% tikz
+\usepackage{tikz}
+\usetikzlibrary{intersections, angles, quotes, positioning}
+\usetikzlibrary{arrows.meta}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.13}
+
+\tikzset{
+    force/.style={thick, {Circle[length=2pt]}-stealth, shorten <=-1pt}
+}
+
+% Algorithm Env
+\usepackage[linesnumbered,lined,vlined,ruled,commentsnumbered,resetcount,algochapter]{algorithm2e}
+\SetKwComment{Comment}{// }{}
+\SetArgSty{textsl}
+\def\algocflineautorefname{Algorithm}
+\counterwithin{algocfline}{chapter}
+
+% Clear out the item autoref name
+\makeatletter
+\def\itemautorefname{\@gobble}
+\makeatother
+
+% theorems
+\usepackage{thmtools}
+\usepackage[framemethod=TikZ]{mdframed}
+
+\mdfsetup{skipabove=1em,skipbelow=0em}
+
+\theoremstyle{definition}
+
+% ... [All theorem styles from header.tex]
+\declaretheoremstyle[
+	headfont=\bfseries\sffamily\color{ForestGreen!70!black}, bodyfont=\normalfont,
+	mdframed={
+			linewidth=2pt,
+			rightline=false, topline=false, bottomline=false,
+			linecolor=ForestGreen, backgroundcolor=ForestGreen!5,
+			nobreak=false
+		}
+]{thmgreenbox}
+
+\declaretheoremstyle[
+	headfont=\bfseries\sffamily\color{ForestGreen!70!black}, bodyfont=\normalfont,
+	mdframed={
+			linewidth=2pt,
+			rightline=false, topline=false, bottomline=false,
+			linecolor=ForestGreen, backgroundcolor=ForestGreen!8,
+			nobreak=false
+		}
+]{thmgreen2box}
+
+\declaretheoremstyle[
+	headfont=\bfseries\sffamily\color{NavyBlue!70!black}, bodyfont=\normalfont,
+	mdframed={
+			linewidth=2pt,
+			rightline=false, topline=false, bottomline=false,
+			linecolor=NavyBlue, backgroundcolor=NavyBlue!5,
+			nobreak=false
+		}
+]{thmbluebox}
+
+\declaretheoremstyle[
+	headfont=\bfseries\sffamily\color{TealBlue!70!black}, bodyfont=\normalfont,
+	mdframed={
+			linewidth=2pt,
+			rightline=false, topline=false, bottomline=false,
+			linecolor=TealBlue,
+			nobreak=false
+		}
+]{thmblueline}
+
+\declaretheoremstyle[
+	headfont=\bfseries\sffamily\color{RawSienna!70!black}, bodyfont=\normalfont,
+	mdframed={
+			linewidth=2pt,
+			rightline=false, topline=false, bottomline=false,
+			linecolor=RawSienna, backgroundcolor=RawSienna!5,
+			nobreak=false
+		}
+]{thmredbox}
+
+\declaretheoremstyle[
+	headfont=\bfseries\sffamily\color{RawSienna!70!black}, bodyfont=\normalfont,
+	mdframed={
+			linewidth=2pt,
+			rightline=false, topline=false, bottomline=false,
+			linecolor=RawSienna, backgroundcolor=RawSienna!8,
+			nobreak=false
+		}
+]{thmred2box}
+
+\declaretheoremstyle[
+	headfont=\bfseries\sffamily\color{SeaGreen!70!black}, bodyfont=\normalfont,
+	mdframed={
+			linewidth=2pt,
+			rightline=false, topline=false, bottomline=false,
+			linecolor=SeaGreen, backgroundcolor=SeaGreen!2,
+			nobreak=false
+		}
+]{thmgreen3box}
+
+\declaretheoremstyle[
+	headfont=\bfseries\sffamily\color{WildStrawberry!70!black}, bodyfont=\normalfont,
+	mdframed={
+			linewidth=2pt,
+			rightline=false, topline=false, bottomline=false,
+			linecolor=WildStrawberry, backgroundcolor=WildStrawberry!5,
+			nobreak=false
+		}
+]{thmpinkbox}
+
+\declaretheoremstyle[
+	headfont=\bfseries\sffamily\color{MidnightBlue!70!black}, bodyfont=\normalfont,
+	mdframed={
+			linewidth=2pt,
+			rightline=false, topline=false, bottomline=false,
+			linecolor=MidnightBlue, backgroundcolor=MidnightBlue!5,
+			nobreak=false
+		}
+]{thmblue2box}
+
+\declaretheoremstyle[
+	headfont=\bfseries\sffamily\color{Gray!70!black}, bodyfont=\normalfont,
+	mdframed={
+			linewidth=2pt,
+			rightline=false, topline=false, bottomline=false,
+			linecolor=Gray, backgroundcolor=Gray!5,
+			nobreak=false
+		}
+]{notgraybox}
+
+\declaretheoremstyle[
+	headfont=\bfseries\sffamily\color{Gray!70!black}, bodyfont=\normalfont,
+	mdframed={
+			linewidth=2pt,
+			rightline=false, topline=false, bottomline=false,
+			linecolor=Gray,
+			nobreak=false
+		}
+]{notgrayline}
+
+\declaretheoremstyle[
+	headfont=\bfseries\sffamily\color{RawSienna!70!black}, bodyfont=\normalfont,
+	numbered=no,
+	mdframed={
+			linewidth=2pt,
+			rightline=false, topline=false, bottomline=false,
+			linecolor=RawSienna, backgroundcolor=RawSienna!1,
+		},
+	qed=\qedsymbol
+]{thmproofbox}
+
+\declaretheoremstyle[
+	headfont=\bfseries\sffamily\color{NavyBlue!70!black}, bodyfont=\normalfont,
+	numbered=no,
+	mdframed={
+			linewidth=2pt,
+			rightline=false, topline=false, bottomline=false,
+			linecolor=NavyBlue, backgroundcolor=NavyBlue!1,
+			nobreak=false
+		}
+]{thmexplanationbox}
+
+\declaretheoremstyle[
+	headfont=\bfseries\sffamily\color{WildStrawberry!70!black}, bodyfont=\normalfont,
+	numbered=no,
+	mdframed={
+			linewidth=2pt,
+			rightline=false, topline=false, bottomline=false,
+			linecolor=WildStrawberry, backgroundcolor=WildStrawberry!1,
+			nobreak=false
+		}
+]{thmanswerbox}
+
+\declaretheoremstyle[
+	headfont=\bfseries\sffamily\color{Violet!70!black}, bodyfont=\normalfont,
+	mdframed={
+			linewidth=2pt,
+			rightline=false, topline=false, bottomline=false,
+			linecolor=Violet, backgroundcolor=Violet!1,
+			nobreak=false
+		}
+]{conjpurplebox}
+
+\declaretheorem[style=thmgreenbox, name=Definition, numberwithin=section]{definition}
+\declaretheorem[style=thmgreen2box, name=Definition, numbered=no]{definition*}
+\declaretheorem[style=thmredbox, name=Theorem, numberwithin=section]{theorem}
+\declaretheorem[style=thmred2box, name=Theorem, numbered=no]{theorem*}
+\declaretheorem[style=thmredbox, name=Lemma, numberwithin=section]{lemma}
+\declaretheorem[style=thmredbox, name=Proposition, numberwithin=section]{proposition}
+\declaretheorem[style=thmredbox, name=Corollary, numberwithin=section]{corollary}
+\declaretheorem[style=thmpinkbox, name=Problem, numberwithin=section]{problem}
+\declaretheorem[style=thmpinkbox, name=Problem, numbered=no]{problem*}
+\declaretheorem[style=thmblue2box, name=Claim, numbered=no]{claim}
+\declaretheorem[style=conjpurplebox, name=Conjecture, numberwithin=section]{conjecture}
+
+% Redefine proof environment to get a full control.
+\makeatletter
+\renewenvironment{proof}[1][\proofname]{\par
+	\pushQED{\qed}%
+	\normalfont \topsep-2\p@\@plus6\p@\relax
+	\trivlist
+	\item[\hskip\labelsep
+	            \color{RawSienna!70!black}\sffamily\bfseries
+	            #1\@addpunct{.}]\ignorespaces
+	\begin{mdframed}[linewidth=2pt,rightline=false, topline=false, bottomline=false,linecolor=RawSienna, backgroundcolor=RawSienna!1]
+		}{%
+		\popQED\endtrivlist\@endpefalse
+	\end{mdframed}
+}
+\makeatother
+
+\declaretheorem[style=thmbluebox, numbered=no, name=Example]{eg}
+\declaretheorem[style=thmexplanationbox, numbered=no, name=Proof]{tmpexplanation}
+\newenvironment{explanation}[1][]{\vspace{-10pt}\pushQED{\(\circledast\)}\begin{tmpexplanation}}{\null\hfill\popQED\end{tmpexplanation}}
+
+\declaretheorem[style=thmblueline, numbered=no, name=Remark]{remark}
+\declaretheorem[style=thmblueline, numbered=no, name=Note]{note}
+\declaretheorem[style=thmpinkbox, numbered=no, name=Exercise]{exercise}
+\declaretheorem[style=notgrayline, numbered=no, name=As previously seen]{prev}
+\declaretheorem[style=thmgreen3box, numbered=no, name=Intuition]{intuition}
+\declaretheorem[style=notgraybox, numbered=no, name=Notation]{notation}
+\declaretheorem[style=thmanswerbox, numbered=no, name=Answer]{tmpanswer}
+\newenvironment{answer}[1][]{\vspace{-10pt}\pushQED{\(\circledast\)}\begin{tmpanswer}}{\null\hfill\popQED\end{tmpanswer}}
+
+
+\usepackage{etoolbox}
+\renewcommand{\qed}{\null\hfill\(\blacksquare\)}
+
+\makeatletter
+
+\def\testdateparts#1{\dateparts#1\relax}
+\def\dateparts#1 #2 #3 #4 #5\relax{
+	\marginpar{\small\textsf{\mbox{#1 #2 #3 #5}}}
+}
+
+\def\@lecture{}%
+\newcommand{\lecture}[3]{
+	\ifthenelse{\isempty{#3}}{%
+		\global\def\@lecture{Lecture #1}%
+	}{%
+		\global\def\@lecture{Lecture #1: #3}%
+	}%
+	\section*{\@lecture}
+	\marginpar{\small\textsf{\mbox{#2}}}
+}
+
+\usepackage{pgffor}%
+\newcommand{\lec}[2]{%
+	\foreach \c in {#1,...,#2}{%
+			\IfFileExists{Lectures/lec_\c.tex} {%
+				\input{Lectures/lec_\c.tex}%
+			}{}%
+		}%
+}
+
+% fancy headers
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhead[L]{}
+\fancyhead[R]{\@lecture}
+\fancyfoot[L]{}
+\fancyfoot[R]{\thepage}
+\fancyfoot[C]{\leftmark}
+
+\makeatother
+
+% notes
+\usepackage[color=pink]{todonotes}
+\usepackage{marginnote}
+\let\marginpar\marginnote
+
+% Fix some stuff
+% %http://tex.stackexchange.com/questions/76273/multiple-pdfs-with-page-group-included-in-a-single-page-warning
+% \pdfsuppresswarningpagegroup=1
+
+% Appendix environment
+\usepackage{appendix}
+\def\chapterautorefname{Section}
+\def\sectionautorefname{Section}
+\def\appendixautorefname{Appendix}
+\renewcommand\appendixname{Appendix}
+\renewcommand\appendixtocname{Appendix}
+\renewcommand\appendixpagename{Appendix}
+% begin appendix autoref patch [\autoref subsections in appendix](https://tex.stackexchange.com/questions/149807/autoref-subsections-in-appendix)
+\makeatletter
+\patchcmd{\hyper@makecurrent}{%
+	\ifx\Hy@param\Hy@chapterstring
+		\let\Hy@param\Hy@chapapp
+	\fi
+}{%
+	\iftoggle{inappendix}{%true-branch
+		% list the names of all sectioning counters here
+		\@checkappendixparam{chapter}%
+		\@checkappendixparam{section}%
+		\@checkappendixparam{subsection}%
+		\@checkappendixparam{subsubsection}%
+		\@checkappendixparam{paragraph}%
+		\@checkappendixparam{subparagraph}%
+	}{}%
+}{}{\errmessage{failed to patch}}
+
+\newcommand*{\@checkappendixparam}[1]{%
+	\def\@checkappendixparamtmp{#1}%
+	\ifx\Hy@param\@checkappendixparamtmp
+		\let\Hy@param\Hy@appendixstring
+	\fi
+}
+\makeatletter
+
+\newtoggle{inappendix}
+\togglefalse{inappendix}
+
+\apptocmd{\appendix}{\toggletrue{inappendix}}{}{\errmessage{failed to patch}}
+\apptocmd{\subappendices}{\toggletrue{inappendix}}{}{\errmessage{failed to patch}}
+% end appendix autoref patch
+
+\setcounter{tocdepth}{1}
+
+% ListStyle.tex
+\usepackage{listings}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\definecolor{maroon}{cmyk}{0, 0.87, 0.68, 0.32}
+\definecolor{halfgray}{gray}{0.55}
+\definecolor{ipython_frame}{RGB}{207, 207, 207}
+\definecolor{ipython_bg}{RGB}{247, 247, 247}
+\definecolor{ipython_red}{RGB}{186, 33, 33}
+\definecolor{ipython_green}{RGB}{0, 128, 0}
+\definecolor{ipython_cyan}{RGB}{64, 128, 128}
+\definecolor{ipython_purple}{RGB}{170, 34, 255}
+
+\colorlet{mygray}{black!30}
+\colorlet{mygreen}{green!60!blue}
+\colorlet{mymauve}{red!60!blue}
+\lstdefinelanguage{commandline}{
+	basicstyle=\ttfamily,
+	columns=fullflexible,
+	breakatwhitespace=false,
+	breaklines=true,
+	captionpos=b,
+	commentstyle=\color{mygreen},
+	extendedchars=true,
+	frame=single,
+	keepspaces=true,
+	keywordstyle=\color{blue},
+	language=c++,
+	numbers=none,
+	numbersep=5pt,
+	numberstyle=\tiny\color{blue},
+	rulecolor=\color{mygray},
+	showspaces=false,
+	showtabs=false,
+	stepnumber=5,
+	stringstyle=\color{mymauve},
+	tabsize=3,
+	title=\lstname
+}
+\lstset{
+breaklines=true,
+%
+extendedchars=true,
+literate=
+	{á}{{\'a}}1 {é}{{\'e}}1 {í}{{\'i}}1 {ó}{{\'o}}1 {ú}{{\'u}}1
+{Á}{{\'A}}1 {É}{{\'E}}1 {Í}{{\'I}}1 {Ó}{{\'O}}1 {Ú}{{\'U}}1
+{à}{{\`a}}1 {è}{{\`e}}1 {ì}{{\`i}}1 {ò}{{\`o}}1 {ù}{{\`u}}1
+{À}{{\`A}}1 {È}{{\'E}}1 {Ì}{{\`I}}1 {Ò}{{\`O}}1 {Ù}{{\`U}}1
+{ä}{{\"a}}1 {ë}{{\"e}}1 {ï}{{\"i}}1 {ö}{{\"o}}1 {ü}{{\"u}}1
+{Ä}{{\"A}}1 {Ë}{{\"E}}1 {Ï}{{\"I}}1 {Ö}{{\"O}}1 {Ü}{{\"U}}1
+{â}{{\^a}}1 {ê}{{\^e}}1 {î}{{\^i}}1 {ô}{{\^o}}1 {û}{{\^u}}1
+{Â}{{\^A}}1 {Ê}{{\^E}}1 {Î}{{\^I}}1 {Ô}{{\^O}}1 {Û}{{\^U}}1
+{œ}{{\oe}}1 {Œ}{{\OE}}1 {æ}{{\ae}}1 {Æ}{{\AE}}1 {ß}{{\ss}}1
+{ç}{{\c c}}1 {Ç}{{\c C}}1 {ø}{{\o}}1 {å}{{\r a}}1 {Å}{{\r A}}1
+{€}{{\EUR}}1 {£}{{\pounds}}1
+}
+
+%%
+%% Python definition (c) 1998 Michael Weber
+%% Additional definitions (2013) Alexis Dimitriadis
+%% modified by me (should not have empty lines)
+%%
+\lstdefinelanguage{iPython}{
+morekeywords={access,and,break,class,continue,def,del,elif,else,except,exec,finally,for,from,global,if,import,in,is,lambda,not,or,pass,print,raise,return,try,while},%
+%
+% Built-ins
+morekeywords=[2]{abs,all,any,basestring,bin,bool,bytearray,callable,chr,classmethod,cmp,compile,complex,delattr,dict,dir,divmod,enumerate,eval,execfile,file,filter,float,format,frozenset,getattr,globals,hasattr,hash,help,hex,id,input,int,isinstance,issubclass,iter,len,list,locals,long,map,max,memoryview,min,next,object,oct,open,ord,pow,property,range,raw_input,reduce,reload,repr,reversed,round,set,setattr,slice,sorted,staticmethod,str,sum,super,tuple,type,unichr,unicode,vars,xrange,zip,apply,buffer,coerce,intern},%
+%
+sensitive=true,%
+morecomment=[l]\#,%
+morestring=[b]',%
+morestring=[b]",%
+%
+morestring=[s]{'''}{'''},% used for documentation text (mulitiline strings)
+morestring=[s]{"""}{"""},% added by Philipp Matthias Hahn
+%
+morestring=[s]{r'}{'},% `raw' strings
+morestring=[s]{r"}{"},%
+morestring=[s]{r'''}{'''},%
+morestring=[s]{r"""}{"""},%
+morestring=[s]{u'}{'},% unicode strings
+morestring=[s]{u"}{"},%
+morestring=[s]{u'''}{'''},%
+morestring=[s]{u"""}{"""},%
+%
+% {replace}{replacement}{lenght of replace}
+% *{-}{-}{1} will not replace in comments and so on
+literate=
+	{á}{{\'a}}1 {é}{{\'e}}1 {í}{{\'i}}1 {ó}{{\'o}}1 {ú}{{\'u}}1
+{Á}{{\'A}}1 {É}{{\'E}}1 {Í}{{\'I}}1 {Ó}{{\'O}}1 {Ú}{{\'U}}1
+{à}{{\`a}}1 {è}{{\`e}}1 {ì}{{\`i}}1 {ò}{{\`o}}1 {ù}{{\`u}}1
+{À}{{\`A}}1 {È}{{\'E}}1 {Ì}{{\`I}}1 {Ò}{{\`O}}1 {Ù}{{\`U}}1
+{ä}{{\"a}}1 {ë}{{\"e}}1 {ï}{{\"i}}1 {ö}{{\"o}}1 {ü}{{\"u}}1
+{Ä}{{\"A}}1 {Ë}{{\"E}}1 {Ï}{{\"I}}1 {Ö}{{\"O}}1 {Ü}{{\"U}}1
+{â}{{\^a}}1 {ê}{{\^e}}1 {î}{{\^i}}1 {ô}{{\^o}}1 {û}{{\^u}}1
+{Â}{{\^A}}1 {Ê}{{\^E}}1 {Î}{{\^I}}1 {Ô}{{\^O}}1 {Û}{{\^U}}1
+{œ}{{\oe}}1 {Œ}{{\OE}}1 {æ}{{\ae}}1 {Æ}{{\AE}}1 {ß}{{\ss}}1
+{ç}{{\c c}}1 {Ç}{{\c C}}1 {ø}{{\o}}1 {å}{{\r a}}1 {Å}{{\r A}}1
+{€}{{\EUR}}1 {£}{{\pounds}}1
+%
+{^}{{{\color{ipython_purple}\^{}}}}1
+{=}{{{\color{ipython_purple}=}}}1
+%
+{+}{{{\color{ipython_purple}+}}}1
+{*}{{{\color{ipython_purple}$^\ast$}}}1
+{/}{{{\color{ipython_purple}/}}}1
+%
+{+=}{{{+=}}}1
+{-=}{{{-=}}}1
+{*=}{{{$^\ast$=}}}1
+{/=}{{{/=}}}1,
+literate=
+	*{-}{{{\color{ipython_purple}-}}}1
+{?}{{{\color{ipython_purple}?}}}1,
+%
+identifierstyle=\color{black}\ttfamily,
+commentstyle=\color{ipython_cyan}\ttfamily,
+stringstyle=\color{ipython_red}\ttfamily,
+keepspaces=true,
+showspaces=false,
+showstringspaces=false,
+%
+rulecolor=\color{ipython_frame},
+frame=single,
+frameround={t}{t}{t}{t},
+framexleftmargin=6mm,
+numbers=left,
+numberstyle=\tiny\color{halfgray},
+%
+%
+backgroundcolor=\color{ipython_bg},
+%   extendedchars=true,
+basicstyle=\scriptsize,
+keywordstyle=\color{ipython_green}\ttfamily,
+}
+\lstdefinestyle{DOS}
+{
+	backgroundcolor=\color{black},
+	basicstyle=\scriptsize\color{white}\ttfamily
+}
+
+% Additional packages and settings from Math.tex
+% quiver style
+\usepackage{tikz-cd}
+% `calc` is necessary to draw curved arrows.
+\usetikzlibrary{calc}
+% `pathmorphing` is necessary to draw squiggly arrows.
+\usetikzlibrary{decorations.pathmorphing}
+
+% A TikZ style for curved arrows of a fixed height, due to AndréC.
+\tikzset{curve/.style={settings={#1},to path={(\tikztostart)
+					.. controls ($(\tikztostart)!\pv{pos}!(\tikztotarget)!\pv{height}!270:(\tikztotarget)$)
+					and ($(\tikztostart)!1-\pv{pos}!(\tikztotarget)!\pv{height}!270:(\tikztotarget)$)
+					.. (\tikztotarget)\tikztonodes}},
+	settings/.code={\tikzset{quiver/.cd,#1}
+			\def\pv##1{\pgfkeysvalueof{/tikz/quiver/##1}}},
+	quiver/.cd,pos/.initial=0.35,height/.initial=0}
+
+% TikZ arrowhead/tail styles.
+\tikzset{tail reversed/.code={\pgfsetarrowsstart{tikzcd to}}}
+\tikzset{2tail/.code={\pgfsetarrowsstart{Implies[reversed]}}}
+\tikzset{2tail reversed/.code={\pgfsetarrowsstart{Implies}}}
+% TikZ arrow styles.
+\tikzset{no body/.style={/tikz/dash pattern=on 0 off 1mm}}
+
+% useful macro for class
+\newcommand{\at}[3]{\left.#1\right\vert_{#2}^{#3}}
+\newcommand\quotient[2]{
+	\mathchoice
+	{% \displaystyle
+		\text{\raise1ex\hbox{$#1$}\Big/\lower1ex\hbox{$#2$}}%
+	}
+	{% \textstyle
+		#1\,/\,#2
+	}
+	{% \scriptstyle
+		#1\,/\,#2
+	}
+	{% \scriptscriptstyle
+		#1\,/\,#2
+	}
+}
+
+\newcommand{\True}{\textsf{True}}
+\newcommand{\T}{\textsf{T}}
+\newcommand{\False}{\textsf{False}}
+\newcommand{\F}{\textsf{F}}
+\newcommand{\act}{\rotatebox[origin=c]{-180}{\(\,\circlearrowright\,\)}}
+
+\usepackage{physics}
+\usepackage{complexity}
+
+\DeclareMathOperator{\id}{id}
+\DeclareMathOperator{\Span}{span}
+\DeclareMathOperator{\supp}{supp}
+\DeclareMathOperator{\vol}{vol}
+\DeclareMathOperator{\dist}{dist}
+\DeclareMathOperator{\diam}{diam}
+\DeclareMathOperator{\im}{Im}
+\DeclareMathOperator{\sgn}{sgn}
+\DeclareMathOperator{\Int}{Int}
+\DeclareMathOperator{\diag}{diag}
+\DeclareMathOperator{\dom}{dom}
+\DeclareMathOperator*{\argmax}{arg\,max}
+\DeclareMathOperator*{\argmin}{arg\,min}
+\DeclareMathOperator{\Var}{Var}
+\DeclareMathOperator{\Cov}{Cov}
+\DeclareMathOperator{\Corr}{Corr}
+
+\let\implies\Rightarrow
+\let\impliedby\Leftarrow
+\let\iff\Leftrightarrow
+
+\usepackage{stmaryrd} % for \lightning
+\newcommand\conta{\scalebox{1.1}{\(\lightning\)}}
+
+\usepackage{bm}
+\usepackage{bbm}
+
+% % figure support
+% \usepackage{import}
+% \usepackage{xifthen}
+% \pdfminorversion=7
+% \usepackage{pdfpages}
+% \usepackage{transparent}
+% \newcommand{\incfig}[1]{%
+% 	\def\svgwidth{\columnwidth}
+% 	\import{./Figures/}{#1.pdf_tex}
+% }
+\AtBeginDocument{\RenewCommandCopy\qty\SI}
+
+\endinput

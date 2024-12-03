@@ -1,0 +1,71 @@
+\section{From Advanced Economies (AE) to EMDEs}
+
+We saw that a calibrated version of the SOE-RBC model captures well
+key empirical regularities of a developed SOE like Canada (chapter 4).
+\begin{question}
+    Can the OE-RBC model also explain business cycles in EMDEs?
+\end{question}
+
+\begin{note}
+    A quick reminder of the SOE-RBC Model:
+    \begin{align*}
+        \max \quad & E_0 \sum_{t=0}^{\infty}\beta ^t U(c_t, h_t) \\
+        s.t. \quad & d_t + A_t F(k_t, h_t) = (1+r_{t-1} )d_{t-1} +c_t + k_{t+1} - (1-\delta)k_t + \Phi(k_{t+1} - k_t) \\
+    \end{align*}
+    and a non-Ponzi game constraint.
+\end{note}
+
+In theory, we can get higher volatility of every component by increasing $\epsilon$, or we can make consumption more volatile than output if we increasr
+$\rho $.
+
+The more persistent the shock is, the longer income stays above the steady state.
+If the permanent income increase greatly, the consumption will respondingly increase.
+
+\begin{intuition}
+    \ 
+
+    \begin{itemize}
+        \item In principle, the SOE-RBC model can easily handle this difference.
+        \item Simply jack up (by a factor of around 2) the standard deviation of the productivity shock. After all, in the SOE-RBC model, $\sigma _a$ was calibrated to match the standard deviation of Canadian GDP.
+        \item Since not only output but also all of the components of aggregate demand (consumption, investment, net exports) are more volatile in
+        EMDEs than in AEs, increasing $\sigma _a$ would help along more than one dimension.
+        \item But in models with just one exogenous shocks, up to first order, the
+        ratio of two standard deviations is independent of the standard
+        deviation of the exogenous shocks
+    \end{itemize}
+\end{intuition}
+
+\subsection{The SOE-RBC Model With Nonstationary Technology Shocks: Consumption}
+
+The HH problem:
+\[
+\max \quad E_0\sum_{t=0}^\infty\beta^t\frac{[C_t^\gamma(1-h_t)^{1-\gamma}]^{1-\sigma}-1}{1-\sigma}
+\]
+subject to the standard NPG $$\lim_{j\to\infty}E_t\frac{D_{t+j+1}}{\Pi_{s=0}^j(1+r_{t+s})}\leq0$$ and
+
+$$\frac{D_{t+1}}{1+r_t}+Y_t=D_t+C_t+K_{t+1}-(1-\delta)K_t+\frac\phi2\left(\frac{K_{t+1}}{K_t}-g\right)^2K_t,$$
+
+\begin{itemize}
+    \item Most variables and parameters as before.
+    \item We now have a Cobb-Douglas period utility index instead of GHH. 
+    \item Debt takes the form of one-period discount bonds. The HH receives $\frac{D_{t+1}}{(1+r_t)}$ units ot
+    good in period $t$ and needs to repay $D_t+1$ in period $t+1.$ (for the HH, there is no difference between this formulation and the one introduced before, to see this set $D_t^{\prime}=D_t/(1+r_{t-1}).$
+    \item Also: $\beta$, and $\delta$ are between 0 and 1 and $\gamma,\sigma,\phi$,and $g(g$ is the gross growth rate
+    of $X$ in a non-stochastic equilibrium path; $X$ will be defined next page) are
+positive
+\end{itemize}
+
+Set up the Lagrangean and get:
+
+\begin{align*}
+    & \frac{1-\gamma}\gamma\frac{C_t}{1-h_t}=(1-\alpha)a_tX_t\left(\frac{K_t}{X_th_t}\right)^\alpha \\
+    & \gamma C_t^{\gamma(1-\sigma)-1}(1-h_t)^{(1-\gamma)(1-\sigma)}=\Lambda_t\\
+    & \Lambda_t=\beta(1+r_t)E_t\Lambda_{t+1}
+\end{align*}
+\[
+\Lambda_{t}\left(1+\phi\left(\frac{K_{t+1}}{K_{t}}-g\right)\right)=\beta E_{t}\Lambda_{t+1}\left[1-\delta+\alpha a_{t+1}\left(\frac{K_{t+1}}{X_{t+1}h_{t+1}}\right)^{\alpha-1}+\phi\frac{K_{t+2}}{K_{t+1}}\left(\frac{K_{t+2}}{K_{t+1}-g}\right)-\frac{\phi}{2}\left(\frac{K_{t+2}}{K_{t+1}-g}\right)^{2}\right]
+\]
+
+$\Lambda_t$ is the Lagrange multiplier associated with the sequential budget
+constraint of the household.
+

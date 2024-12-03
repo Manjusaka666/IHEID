@@ -1,0 +1,292 @@
+\section{Numerical Estimation}
+
+For previous estomation methods, we have:
+\[
+\hat{\theta} = \arg \min_{\theta} \mathcal{Q}_n (\theta; Y_n).
+\]
+Take the first-order condition to higher orders, we have:
+\begin{align*}
+    \mathcal{Q}^{(1)}(\theta ) &= \frac{\partial \mathcal{Q}(\theta)}{\partial \theta} = \begin{bmatrix}
+        \frac{\partial \mathcal{Q}(\theta)}{\partial \theta_1} \\
+        \vdots \\
+        \frac{\partial \mathcal{Q}(\theta)}{\partial \theta_k}
+    \end{bmatrix} \\
+    \Rightarrow 
+    \mathcal{Q}^{(n)}(\theta^{m+1}) &= \mathcal{Q}^{(1)}(\theta^{m}) + \mathcal{Q}^{(2)}(\theta^{m}) (\theta^{m+1} - \theta^{m}) + \frac{1}{2} \mathcal{Q}^{(3)}(\theta^{m}) (\theta^{m+1} - \theta^{m})^2 + \cdots \\
+    & \approx \mathcal{Q}^{(1)}(\theta^{m}) + \mathcal{Q}^{(2)}(\theta^{m}) (\theta^{m+1} - \theta^{m}) \\
+    &= 0. \\
+    \Rightarrow \theta^{m+1} &= \theta^{m} - \left[\mathcal{Q}^{(2)}(\theta^{m})\right]^{-1} \mathcal{Q}^{(1)}(\theta^{m}).
+\end{align*}
+
+\begin{note}[\textbf{Newton-Raphson Method}]
+    \
+
+    The Newton-Raphson method is a root-finding algorithm that uses the first few terms of the Taylor series of a function $f(x)$ in the vicinity of a starting point $x_0$ to find the root of the function. 
+    The method is based on the idea that a continuous and differentiable function can be approximated by a straight line tangent to it. 
+    The method is iterative and converges quadratically to the root.
+
+    \begin{algorithm}[H]
+        \caption{Newton-Raphson Method}
+        \SetAlgoLined
+        \SetKwInOut{Input}{Input}
+        % \SetKwInOut{Output}{Output}
+        
+        \Input{Initialize $\theta_0$, tolerence level $\varepsilon>0$}
+        % \Output{Decision to accept or reject $H_0$}
+        
+        \For{$m = 1$ \KwTo $M$}{
+            Given $\theta ^m$, compute $\mathcal{Q}^{(2)}\left(\theta^m, Y^n\right)^{-1}$ and $\mathcal{Q}^{(1)}\left(\theta^m, Y^n\right)$\;
+            Set $\theta^{m+1} = \theta^m - \mathcal{Q}^{(2)}\left(\theta^m, Y^n\right)^{-1} \mathcal{Q}^{(1)}\left(\theta^m, Y^n\right)$\;
+            \eIf{$\left\| \theta^{m+1} - \theta^m  \right\| <\varepsilon $}{
+            $\hat{\theta} = \theta^{m+1}$\;
+            }{
+                Proceed to the next iteration\;
+            }
+        }
+    \end{algorithm}
+\end{note}
+
+In some cases, we are not able to find the joint expectation of $\beta$ and $\Sigma$, but may know identically.
+
+\begin{eg}
+    $$\hat{\theta} = \arg \min_{\theta} \mathcal{Q}(\theta; Y_n)$$ cannot be obtained analytically.\\
+    As $\theta = [\theta_1, \theta_2]^{\prime}$, we know $\hat{\theta}_1 \mid \theta_2$ and $\hat{\theta}_2 \mid \theta_1$
+\end{eg}
+
+Suppose we have the following model:
+\[
+y_i = x_i^{\prime} \beta + u_i, \quad u_i|x_i \sim \mathcal{N}(0, \sigma_i^2).
+\]
+Then, the likelihood function is:
+\begin{align*}
+    \hat{\theta}\left(\hat{\beta}, \hat{\Sigma}\right) &= \arg \max_{\theta} p\left(y \mid \beta, \Sigma\right) \\
+    \Rightarrow p\left(y \mid \beta, \Sigma\right) &= \prod_{i=1}^{n} p\left(y_i \mid \beta, \Sigma\right) \\
+    &= \prod_{i=1}^{n} \frac{1}{\sqrt{2\pi \sigma_i^2}} \exp\left\{-\frac{1}{2\sigma_i^2} \left(y_i - x_i^{\prime} \beta\right)^2\right\} \\
+    &= \left(2\pi\right)^{-\frac{n}{2}} \prod_{i=1}^{n} \sigma_i^{-1} \exp\left\{-\frac{1}{2} \sum_{i=1}^{n} \frac{1}{\sigma_i^2} \left(y_i - x_i^{\prime} \beta\right)^2\right\} \\
+    &= \left(2\pi\right)^{-\frac{n}{2}} \left(\prod_{i=1}^{n} \sigma_i^{-1}\right) \exp\left\{-\frac{1}{2} \left(Y - X \beta\right)^{\prime} \Sigma^{-1} \left(Y - X \beta\right)\right\}\\
+    &= \left(2\pi\right)^{-\frac{n}{2}} \vert \Sigma \vert ^{-\frac{1}{2}} \exp\left\{-\frac{1}{2} \left(Y - X \beta\right)^{\prime} \Sigma^{-1} \left(Y - X \beta\right)\right\}. \\
+    \Rightarrow \hat{\beta} \mid \Sigma &= \left(X^{\prime} \Sigma^{-1} X\right)^{-1}X^{\prime} \Sigma^{-1}Y,\\
+    \hat{\Sigma} \mid \beta &= \frac{1}{n} \sum_{i=1}^{n} \left(y_i - x_i^{\prime} \hat{\beta}\right)^2 = diag{(Y-X \beta)(Y - X \beta)^{\prime}}.
+\end{align*}
+
+WE can obtain the estimator $\hat{\theta}$ by iterating between $\hat{\beta} \mid \hat{\Sigma}$ and $\hat{\Sigma} \mid \hat{\beta}$.
+
+\begin{note}[\textbf{Meng and Rubin (1993) Algorithm}]
+    \
+
+    \begin{algorithm}[H]
+        \caption{Meng and Rubin (1993) Algorithm}
+        \SetAlgoLined
+        \SetKwInOut{Input}{Input}
+        % \SetKwInOut{Output}{Output}
+        
+        \Input{Initialize $\Sigma_0$(i.e. $=I$), tolerence level $\varepsilon>0$}
+        % \Output{Decision to accept or reject $H_0$}
+        
+        \For{$m = 1$ \KwTo $M$ given $\Sigma^m$}{
+            Compute $\beta^{m+1} = \hat{\beta} \mid \hat{\Sigma}^m$ \;
+            Compute $\Sigma^{m+1}  = \hat{\Sigma} \mid \hat{\beta}^{m+1}$\;
+            \eIf{$\left\| \theta^{m+1} - \theta^m  \right\| <\varepsilon $}{
+            $\hat{\theta} = \theta^{m+1}$\;
+            }{
+                Proceed to the next iteration\;
+            }
+        }
+    \end{algorithm}
+\end{note}
+
+\section{Bootstrapping}
+
+For some point estimator $\hat{\theta}$, we only have the aympototic distribution of $\hat{\theta}$, but not the finite-sample distribution.
+
+\begin{eg}
+    Suppose we have the following model:
+    \[
+    y_i = x_i^{\prime} \beta + u_i, \quad u_i|x_i \sim \mathcal{N}(0, \sigma^2).
+    \]
+    Then, the estimator $\hat{\beta}$ is:
+    \[
+    \hat{\beta} = \left(X^{\prime}X\right)^{-1}X^{\prime}Y.
+    \]
+    We know that:
+    \[
+    \sqrt{n} \left(\hat{\beta} - \beta\right) \xrightarrow{d} \mathcal{N}\left(0, \sigma^2 \left(X^{\prime}X\right)^{-1}\right).
+    \]
+    However, we do not know the finite-sample distribution of $\hat{\beta}$.
+\end{eg}
+
+But, we could use the bootstrapping method to estimate the finite-sample distribution of $\hat{\beta}$.
+
+\begin{note}[\textbf{Bootstrapping Method}]
+    \
+
+    \begin{algorithm}[H]
+        \caption{Bootstrapping Method}
+        \SetAlgoLined
+        \SetKwInOut{Input}{Input}
+        % \SetKwInOut{Output}{Output}
+        
+        \Input{Sample $Y^n = \{y_1, \cdots, y_n\}$, number of bootstrap samples $B$}
+        % \Output{Decision to accept or reject $H_0$}
+        
+        \For{$m = 1$ \KwTo $M$}{
+            Generate a bootstrap sample of $n_B$ observations by sampling with replacement from $\{z_i\}_{i=1}^n$\;
+            Compute the bootstrap estimator $\hat{\theta}^{m}$ using $\{z_i^m\}_{i=1}^{n_B}$\;
+        }
+        
+        The set $\{\hat{\theta}_m\}_{m=1}^M$ approximates the finite-sample distribution of $\hat{\theta} \mid \theta$ for sample size $n_{B} $\;
+
+        Compute the bootstrap standard error $\hat{\sigma}_{\hat{\theta}} = \sqrt{\frac{1}{B} \sum_{m=1}^{B} \left(\hat{\theta}^{m} - \bar{\hat{\theta}}\right)^2}$\;
+    \end{algorithm}
+\end{note}
+
+\section{Extremum Estimation}
+
+\subsection{Standard Asymptotics}
+
+We have a general form of question:
+\[
+\hat{\theta} = \arg \min_{\theta \in \Theta} \mathcal{Q}_n(\theta; Y^n).
+\]
+
+\begin{problem*}
+    \
+
+    \begin{itemize}
+        \item Consistency: $\hat{\theta} \overset{p}{\rightarrow} \theta_0$ ?
+        \item Distribution: $\sqrt{n}(\hat{\theta} - \theta) \overset{d}{\rightarrow} \mathcal{N}(0, V) \rightarrow \hat{\theta}_0 \overset{approx}{\rightarrow} \mathcal{N}\left(0, \frac{1}{n} \hat{V}\right)$ ?
+    \end{itemize}
+\end{problem*}
+
+\begin{eg}[\textbf{Probit Model}]
+    \[
+    \hat{\beta} = \arg \min_{\beta} -\frac{1}{n} \sum_{i=1}^{n} \left\{y_i \log \Phi\left(x_i^{\prime} \beta\right) + (1-y_i) \log \left(-\Phi\left(x_i^{\prime} \beta\right)\right)\right\} = \ell(\beta \mid y).
+    \]
+\end{eg}
+
+\begin{proposition}[\textbf{Consistency}] \label{prop:consistency}
+    \ 
+    
+    \begin{assumption}
+        \
+
+        \begin{itemize}
+            \item $\Theta$ is compact.
+            \item $\mathcal{Q}_n(\theta, Y^n)$ converges uniformly in probability to $\mathcal{Q}(\theta)$ uniformly in $\theta$;\\
+            i.e. \[
+            \forall \varepsilon > 0, \mathbb{P}\left[\sup_{\theta \in \Theta} \left| \mathcal{Q}_n(\theta, Y^n) - \mathcal{Q}(\theta) \right| < \varepsilon\right] \to 1;
+            \]
+            \item $\mathcal{Q}(\theta)$ is continuous in $\Theta$;
+            \item $\mathcal{Q}(\theta)$ is uniquely minimized by $\theta_0$, i.e. $\mathcal{Q}(\theta) > \mathcal{Q}(\theta_0) \quad \forall \theta \in \Theta, \theta \neq \theta_0.$
+        \end{itemize}
+    \end{assumption}   
+    Then, $\hat{\theta} \overset{p}{\rightarrow} \theta_0$.
+\end{proposition}
+
+For our original model:
+\[
+\left\{ y_i \right\}^{i=1}_{n} \quad \text{with} \quad \mathbb{E}[y_i]=0.
+\]
+we have:
+\begin{align*}
+    \hat{\theta} &= \arg \min_{\theta} \sum_{i=1}^{n} \left(y_{i}-\theta \right)^2 \\
+    \Rightarrow \hat{\theta} &= \frac{1}{n} \sum_{i=1}^{n} y_i \overset{p}{\rightarrow} \mathbb{E}[y_i] = 0.
+\end{align*}
+In this case, we have:
+\begin{itemize}
+    \item $\Theta$ is compact, take $\Theta = [-c, c]$ for some large $c$.
+    \item $\mathcal{Q}_n(\theta, Y^n) = \sum_{i=1}^{n} \left(y_i - \theta\right)^2 \overset{p}{\rightarrow} \underset{Q \left | \theta  \right \rangle}{\underbrace{\mathbb{E}\left[(y_{i-\theta})^2\right]}}$ by LLN;
+    \item $Q \left | \theta  \right \rangle = \mathbb{E}[y_i^2] - 2 \theta \mathbb{E}[y_i] + \theta^2 = \mathbb{V}[y_i] + \left( \mathbb{E}[y_i]-\theta \right)^2$ is continuous.
+    \item $Q \left | \theta  \right \rangle$ is uniquely minimized by $\theta_0 = \mathbb{E}[y_i]$.
+    \item $\hat{\theta} = \frac{1}{n} \sum_{i=1}^{n} y_i \overset{p}{\rightarrow} \mathbb{E}[y_i] = 0$.
+\end{itemize}
+
+\begin{eg}[\textbf{Nonlinear Least Squares(NLS)}]
+    \
+
+    Consider the nonlinear least squares (NLS) estimation of the regression model:
+    \[y_{i}=\left(x_{i}^{\prime} \beta\right)^{3}+u_{i}, \quad \mathbb{E}\left[u_{i} \mid x_{i}\right]=0 .\]
+
+    Define  $\mathscr{B}=\left\{\beta \in \mathbb{R}^{k}:\|\beta\| \leq c\right\}$ for some $c>0$ large and let
+    \[
+    \hat{\beta}=\arg \min _{\beta \in \mathscr{B}} Q_{n}\left(\beta, Y^{n}\right)=\arg \min _{\beta \in \mathcal{B}} \frac{1}{2 n} \sum_{i=1}^{n}\left(y_{i}-\left(x_{i}^{\prime} \beta\right)^{3}\right)^{2} .
+    \]
+    To show  $\hat{\beta} \xrightarrow{p} \beta_{0}$ , we show uniform convergence in probability of  $Q_{n}$:
+    \begin{itemize}
+        \item $\mathscr{B}$  is compact in $\mathbb{R}^{k}$.
+        \item $\mathcal{Q}_n(\beta) = \frac{1}{n} \sum \frac{1}{2} \left(y_i - (x_i^{\prime} \beta)^3\right)^2 \overset{p}{\rightarrow} \mathbb{E}\left[\frac{1}{2} \left(y_i - (x_i^{\prime} \beta)^3\right)^2 \right] = \mathcal{Q} (\beta)$;
+        \footnote{$Q_{n}(\beta)=\frac{1}{2} \frac{1}{n} \sum_{i=1}^{n} m\left(\left(x_{i}, y_{i}\right), \beta\right)$ converges uniformly in probability to 
+        $Q(\beta)=\frac{1}{2} \mathbb{E}[m(x ; \theta)]=   \mathbb{E}\left[\left(y_{i}-\left(x_{i}^{\prime} \beta\right)^{3}\right)^{2}\right]$
+        because $m\left(\left(x_{i}, y_{i}\right), \beta\right)=\left(y_{i}-\left(x_{i}^{\prime} \beta\right)^{3}\right)^{2}$  satisfies the conditions for the ULLN; 
+        the first three are obvious, and for the fourth it is sufficient to assume $\mathbb{E}\left[\left\|u_{i}\right\|^{2}\right]<\infty$ and $\mathbb{E}\left[\left\|x_{i}\right\|^{6}\right]<\infty$, along with $\|\beta\| \leq c$:
+        \begin{align*}
+            \mathbb{E}\left[\sup _{\beta \in \mathscr{A}}\left\|m\left(\left(x_{i}, y_{i}\right), \beta\right)\right\|\right] &\leqslant \mathbb{E}\left[\left|y_{i}\right|^{2}\right]+\sup _{\beta \in \mathscr{A}} 2 \mathbb{E}\left[\left|y_{i}\right|\left|x_{i}\right|^{3}\|\beta\|^{3}\right]+\sup _{\beta \in \mathscr{A}}\left[\left|x_{i}\right|^{6}\|\beta\|^{6}\right] \\
+            &<\infty .
+        \end{align*}
+        }
+        \item We know $\mathbb{E}\left[\left(y_{i}-h\left(x_{i}\right)\right)^{2}\right]$ is uniquely minimized at $h\left(x_{i}\right)=\mathbb{E}\left[y_{i} \mid x_{i}\right]=\left(x_{i}^{\prime} \beta_{0}\right)^{3}$.
+        Thus, $Q_{n}(\beta)=\frac{1}{2} \mathbb{E}\left[\left(y_{i}-\left(x_{i}^{\prime} \beta\right)^{3}\right)^{2}\right]$ is uniqely minimized at $\beta=\beta_{0}$.
+        \item $Q(\theta)$ is continuous
+    \end{itemize}
+\end{eg}
+
+In general, there are three ways to show that $\theta_0$ is the unique minimizer of $Q(\theta)$.
+First, one can write out $Q(\theta)$ to see it explicitly by looking at FOCs (and SOCs) as in the first example
+above. Second, one can use the conditional-expectation-argument as in the second example
+above. Third, one can show that $Q(\tilde{\theta}) - Q(\theta_0) > 0 \quad \forall \tilde{\theta} \neq \theta_0$.
+
+\begin{proposition}[\textbf{Asymptotic Normality}]
+    \
+    
+    In addition to the conditions in \ref{prop:consistency}, we assume:
+    \begin{assumption}
+        \
+
+        \begin{itemize}
+            \item $\theta_0 \in int(\Theta)$;
+            \item $\sqrt{n} \mathcal{Q}_n^{(1)}(\theta_0, Y^n) \overset{d}{\rightarrow} \mathcal{N}(0, M)$.
+            \item $\mathcal{Q}_n(\theta, Y^n) \in \mathcal{C}^2$ w.r.t. $\theta\quad \forall Y^n$.
+            Also, $\exists H$ s.t. $\mathcal{Q}_n^{(2)}(\theta_0, Y^n) \overset{p}{\rightarrow}H \quad \forall \theta_n \overset{p}{\rightarrow}\theta_0$.
+            Then,
+            \[
+            \sqrt{n}(\hat{\theta} - \theta_0) \overset{d}{\rightarrow} \mathcal{N}(0, H^{-1} M H^{-1}).
+            \]
+        \end{itemize}
+    \end{assumption}
+\end{proposition}
+
+\begin{eg}
+    \
+    
+    Let's look at the NLS example again. We have:
+    \begin{itemize}
+        \item $\beta_0 \in int(\mathscr{B})$ for large $c$.
+        \item By CLT, we have:
+        \begin{align*}
+            \mathcal{Q}_n(\beta) &= \frac{1}{n} \sum_{i=1}^{n} \left(y_i - (x_i^{\prime} \beta)^3\right)^2 \\
+            \sqrt{n} \mathcal{Q}_n^{(1)}(\beta_0, Y^n) &= -\frac{1}{\sqrt{n} } \sum_{i=1}^{n} \left(y_i - (x_i^{\prime} \beta_0)^3\right) 3\left(x_i^{\prime} \beta_0\right)^2 x_i \\
+            & \overset{d}{\rightarrow} \mathbb{E}\left[9u_i^2(x_i^{\prime} \beta_0)^4 x_i x_i^{\prime} \right] \\
+            & \equiv \mathcal{N}(0, M).\\
+        \end{align*}
+        \item $\mathcal{Q}_n(\beta) \in \mathcal{C}^2$ w.r.t. $\beta$.
+        \begin{align*}
+            \mathcal{Q}_n^{(2)}(\beta_0, Y^n) &= \frac{1}{n} \sum_{i=1}^{n} -\left(y_i - (x_i^{\prime} \beta_0)^3\right) \left[6(x_i^{\prime} \beta_0)^4 x_i^{\prime} x_i\right] + 9\left(x_i^{\prime} \beta_0\right)^4 x_i x_i^{\prime}  \\
+            & \overset{d}{\rightarrow} \mathbb{E}\left[9(x_i^{\prime} \beta_0)^4 x_i x_i^{\prime} \right] \\
+            & \equiv H.       
+        \end{align*}
+    \end{itemize}
+    As we know $M = \mathbb{E}\left[9u_i^2(x_i^{\prime} \beta_0)^4 x_i x_i^{\prime} \right]$ and $H = \mathbb{E}\left[9(x_i^{\prime} \beta_0)^4 x_i x_i^{\prime} \right]$,
+    we have:
+    \[
+    \sqrt{n}(\hat{\beta} - \beta_0) \overset{d}{\rightarrow} \mathcal{N}(0, \underset{V}{\underbrace{H^{-1} M H^{-1}}}).
+    \]
+    where
+    \begin{align*}
+        V &= \left(\mathbb{E}\left[9(x_i^{\prime} \beta_0)^4 x_i x_i^{\prime} \right]\right)^{-1} \mathbb{E}\left[9u_i^2(x_i^{\prime} \beta_0)^4 x_i x_i^{\prime} \right] \left(\mathbb{E}\left[9(x_i^{\prime} \beta_0)^4 x_i x_i^{\prime} \right]\right)^{-1} \\
+        \Rightarrow \hat{V} &= \frac{1}{9}\left(\frac{1}{n} \sum_{i=1}^{n} (x_i^{\prime} \hat{\beta})^4 x_i x_i^{\prime} \right)^{-1} \left(\frac{1}{n} \sum_{i=1}^{n} (x_i^{\prime} \hat{\beta})^4 x_i x_i^{\prime} \hat{u}_i^2 \right) \left(\frac{1}{n} \sum_{i=1}^{n} (x_i^{\prime} \hat{\beta})^4 x_i x_i^{\prime} \right)^{-1} \\
+        \overset{\mathbb{E}[u_i^2|x_i]=0}{\Longrightarrow} \hat{V} &= \frac{1}{9}\left(\frac{1}{n} \sum_{i=1}^{n} (x_i^{\prime} \hat{\beta})^4 x_i x_i^{\prime} \right)^{-1} \sigma^2\mathbb{E}\left[(x_i^{\prime} \beta)^4 x_i x_i^{\prime} \right] \left(\frac{1}{n} \sum_{i=1}^{n} (x_i^{\prime} \hat{\beta})^4 x_i x_i^{\prime} \right)^{-1} \\
+        &= \frac{\hat{\sigma}^2}{9} \left(\mathbb{E}\left[(x_i^{\prime} \beta)^4 x_i x_i^{\prime} \right]\right)^{-1} \\
+        &= \frac{\hat{\sigma}^2}{9} \left[\frac{1}{n} \sum (x_i^{\prime} \beta)^4 x_i x_i^{\prime} \right]^{-1} \\
+    \end{align*}
+
+\end{eg}

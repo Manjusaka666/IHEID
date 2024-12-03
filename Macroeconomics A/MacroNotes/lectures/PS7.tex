@@ -1,0 +1,177 @@
+\section*{The zero lower bound: discretion and commitment}
+Suppose the central bank has the following loss function:
+\[
+L_t = \frac{1}{2} x_t^2,
+\]
+where $x_t$ is the output gap (defined relative to the efficient level of output). The output gap is determined by the IS equation
+\[
+x_t = E_t x_{t+1} - \sigma(i_t - E_t \pi_{t+1} - \hat{r}_t),
+\]
+where $i_t$ is the nominal interest rate (controlled by the central bank), $\pi_t$ is the inflation rate, and $\hat{r}_t$ is the efficient interest rate. Inflation is determined by the Phillips curve
+\[
+\pi_t = E_t \pi_{t+1} + \kappa x_t
+\]
+(assuming the discount factor $\beta = 1$, and ignoring cost-push shocks).
+Nominal interest rates are subject to a zero lower bound. Since all variables, including $i_t$, are given as percentage deviations from steady-state levels, and since the steady-state nominal interest rate is likely to be positive, the lower bound on $i_t$ can be stated as $i_t \geq -b$ for some $b > 0$. (Note: $i_t$ is the percentage deviation of the gross nominal interest rate from the steady-state level. The gross nominal interest rate is equal to one at the "zero lower bound"!)
+
+\begin{problem*}[1]
+What factors would determine the size of $b$?
+\end{problem*}
+
+\begin{solution}
+    As we know, $\tilde{i}_t = \frac{\hat{i}_t - i^*}{i^*}$, where $\tilde{i}_t$ is the percentage deviation of the nominal interest rate from the steady-state level, $\hat{i}_t$ is the nominal interest rate, and $i^*$ is the steady-state nominal interest rate. 
+    Since the steady-state nominal interest rate is likely to be positive, the lower bound on $\tilde{i}_t$ can be stated as $\tilde{i}_t \geq -b$. 
+\end{solution}
+
+\begin{problem*}[2]
+Now suppose at time $t$ there is a temporary negative shock to the efficient interest rate $\hat{r}_t$, so that $\hat{r}_t = \hat{r} < 0$ and $\hat{r}_{t+1} = \hat{r}_{t+2} = \ldots = 0$.
+Find the optimal interest rate $i_t$ when the central bank acts with discretion, and the resulting value of the output gap $x_t$. Distinguish between the cases $\hat{r} \geq -b$ and $\hat{r} < -b$ in your answer.
+\end{problem*}
+
+\begin{solution}
+    There are two cases to consider: $\hat{r} \geq -b$ and $\hat{r} < -b$.
+    If $\hat{r} \geq -b$, then the optimal interest rate $i_t$ is given by
+    \[
+    i_t = E_t \pi_{t+1} + \kappa x_t + \hat{r}.
+    \]
+    Substituting this into the IS equation, we get
+    \[
+    x_t = E_t x_{t+1} - \sigma(E_t \pi_{t+1} + \kappa x_t + \hat{r} - E_t \pi_{t+1} - \hat{r}) = E_t x_{t+1} - \sigma \kappa x_t.
+    \]
+    Rearranging, we get
+    \[
+    x_t = \frac{1}{1 + \sigma \kappa} E_t x_{t+1}.
+    \]
+    Since $\hat{r}_{t+1} = \hat{r}_{t+2} = \ldots = 0$, we have $x_{t+1} = 0$, so $x_t = 0$.
+\end{solution}
+
+\begin{problem*}[3]
+Suppose that $\hat{r} < -b$, and that the shock now lasts for two periods, hence $\hat{r}_t = \hat{r}_{t+1} = \hat{r}$ and $\hat{r}_{t+2} = \hat{r}_{t+3} = \ldots = 0$.
+Find the level of the output gap $x_t$ when the central bank follows the optimal policy with discretion. [Hint: work backwards, starting from period $t + 2$.] Compare your answer to part 2 (assuming $\hat{r}$ is the same in both cases) and explain the intuition.
+\end{problem*}
+
+\begin{solution}
+    If $\hat{r} < -b$, the problem is:
+    \[
+    \min_{i_t} L_t = \frac{1}{2} \left(-\sigma(i_t - r_t)\right)^2,
+    \]
+    take the first-order condition:
+    \[
+    \sigma(i_t - \hat{r}_t) = 0 \Rightarrow i_t = \hat{r}_t = \hat{r}.
+    \]
+    Substituting this into the IS equation, we get
+    \[
+    x_t = -\sigma (i_t - \hat{r}) = -\sigma (-b-\hat{r}) = \sigma (b+\hat{r}).
+    \]
+\end{solution}
+
+\begin{problem*}[4]
+Suppose again that the shock is only temporary ($\hat{r}_{t+1} = \hat{r}_{t+2} = \ldots = 0$), 
+and that $\hat{r}_t = \hat{r} < -b$.
+Assume the central bank is now able to commit to an interest-rate policy at time $t$ for two periods, 
+that is, it can choose both $i_t$ and $i_{t+1}$ at time $t$ (but not influence outcomes further in the future). Find the optimal policy with commitment (minimizing the sum $L_t + L_{t+1}$, and assuming the shock is such that the zero lower bound will not bind at time $t + 1$). Compare the total loss $L_t + L_{t+1}$ under discretion and commitment, and comment on the behaviour of long-term interest rates in the two cases.
+\end{problem*}
+
+\begin{solution}
+    In stage $t+2$, we have:
+    \begin{align*}
+        \mathbb{E}_t x_{t+2} &=0 \\
+        \mathbb{E}_t \pi_{t+2} &=0 \\
+        \mathbb{E}_t i_{t+2} &=0
+    \end{align*}
+    We have:
+    \[
+    x_{t+1} = \mathbb{E}_t x_{t+2} - \sigma(i_{t+1} - \mathbb{E}_t \pi_{t+2} - \hat{r}_{t+1}) = -\sigma(i_{t+1} - \hat{r}).
+    \]
+    We aim to minimize the sum of losses $L_t + L_{t+1}$:
+    \[
+    L_t + L_{t+1} = \frac{1}{2} x_t^2 + \frac{1}{2} x_{t+1}^2 = \frac{1}{2} \sigma^2 (b+\hat{r})^2 + \frac{1}{2} \sigma^2 (i_{t+1} - \hat{r})^2.
+    \]
+    The first-order condition is:
+    \[
+    i_{t+1} = -b
+    \]
+    thus, $x_{t+1} = \sigma (b+\hat{r})$ and $\pi_{t+1} = \kappa \sigma(b + \hat{r}). $
+    To solve:
+    \begin{align*}
+        \min & \frac{1}{2}x_t^2 \\
+        \text{s.t.} & x_t = E_t x_{t+1} - \sigma(i_t - E_t \pi_{t+1} - \hat{r}_t) \\
+        & \pi_{t+1} = \kappa \sigma x_{t+1}
+    \end{align*}
+    So, we have:
+    \[
+    x_t = \sigma (b+\hat{r}) - \sigma(i_t - \kappa \sigma (b+\hat{r}) - \hat{r}) = (1+\sigma \kappa) \sigma (b+\hat{r}) - \sigma (i_{t}-\hat{r}).
+    \]
+    The problem is to solve:
+    \[ 
+    \min_{i_t} \frac{1}{2} \left[(1+\sigma \kappa) \sigma (b+\hat{r}) - \sigma (i_{t-\hat{r}})\right]^2.
+    \]
+    The first-order condition is:
+    \[
+    -\sigma \left[(1+\sigma \kappa)\sigma (b+\hat{r}) - \sigma (i_t - \hat{r}_t)\right] = 0
+    \]
+    which implies:
+    \[
+    i_t = (1+\sigma \kappa)\sigma (b+\hat{r}) + \hat{r}.
+    \]
+    The central bank could only set $i_t = -b$ in the commitment case, so that:
+    \[ 
+    x_t = 2\sigma (b+\hat{r}) + \kappa\sigma^2(b+\hat{r})<0.
+    \]
+    Then, we can find the total loss under discretion and commitment:
+    \[
+    L_t + L_{t+1} = \frac{1}{2} \sigma^2 (b+\hat{r})^2 + \frac{1}{2} \sigma^2 (2\sigma (b+\hat{r}) + \kappa\sigma^2(b+\hat{r}))^2 = \frac{1}{2} \sigma^2 (b+\hat{r})^2 + \frac{1}{2} \sigma^2 (2\sigma (b+\hat{r}) + \kappa\sigma^2(b+\hat{r}))^2.
+    \]
+    
+\end{solution}
+
+\begin{problem*}[5]
+Describe the time-inconsistency problem* inherent in the optimal commitment found in part 4.
+Explain whether there is an analogy with the inflation bias problem*.
+\end{problem*}
+
+\begin{solution}
+    This time, we have: $\hat{r}_t = \hat{r} < -b$ and $\hat{r}_{t+1} = \hat{r}_{t+2} = \cdots = 0. $
+    We still need to solve:
+    
+    \begin{align*}
+        \min_{i_t, i_{t+1}} & \quad L_t + L_{t+1} \\
+        \text{s.t.} & \quad x_t = E_t x_{t+1} - \sigma(i_t - E_t \pi_{t+1} - \hat{r}) \\
+        & \quad x_{t+1} = \mathbb{E}_t x_{t+2} - \sigma(i_{t+1} - \mathbb{E}_t \pi_{t+2} - \hat{r}_{t+1} ) = -\sigma i_{t+1}\\
+        & \quad \pi_{t+1} = \mathbb{E}_t \pi_{t+2}   = \kappa x_{t+1} \\
+    \end{align*}
+    the problem can be then rewrite as:
+    \begin{align*}
+        \min_{i_t, i_{t+1}} & \quad \frac{1}{2} x_t^2 + \frac{1}{2} \sigma^2 i_{t+1}^2 \\
+        \text{s.t.} & \quad x_t = -(1+\sigma \kappa) \sigma i_{t+1}  - \sigma(i_t - \hat{r}) \\
+    \end{align*}
+    implement the condition into the objective function:
+    \[
+    \min_{i_t} \frac{1}{2} \left[(1+\sigma \kappa) \sigma i_{t+1} + \sigma(i_t - \hat{r})\right]^2 + \frac{1}{2} \sigma^2 i_{t+1}^2.
+    \]
+    the first-order condition with respect to $i_t$ and $i_{t+1} $ is:
+    \begin{align*}
+        \sigma \left[(1+\sigma \kappa) \sigma i_{t+1} + \sigma(i_t - \hat{r})\right] &= 0 \\
+        \left[(1+\sigma \kappa) \sigma i_{t+1} + \sigma(i_t - \hat{r})\right](1+\kappa \sigma)\sigma + \sigma ^2 i_{t+1}  &= 0
+    \end{align*}
+    the solution is:
+    \begin{align*}
+        i_t &= \hat{r} \\
+        i_{t+1} &= 0
+    \end{align*}
+    but as $\hat{r} < -b$, we cannot rech this policy, we can only set $i_t = -b$:
+    Then, we need to solve:
+    \begin{align*}
+        \min_{i_t} & \quad \frac{1}{2} \left[(1+\sigma \kappa) \sigma i_{t+1} + \sigma(i_t - \hat{r})\right]^2 + \frac{1}{2} \sigma^2 i_{t+1}^2 \\
+        \text{s.t.} & \quad i_t = -b
+    \end{align*}
+    the FOC with respect to $i_{t+1}$ is:
+    \[
+    \sigma(1+\kappa \sigma) \left[(1+\sigma \kappa) \sigma i_{t+1} + \sigma(i_t - \hat{r})\right] + \sigma^2 i_{t+1}  = 0
+    \]
+    the solution is:
+    \begin{align*}
+        i_t &= -b \\
+        i_{t+1} &= \frac{1+\kappa \sigma}{1+(1+\sigma \kappa)^2} (b + \hat{r})<0
+    \end{align*}
+\end{solution}

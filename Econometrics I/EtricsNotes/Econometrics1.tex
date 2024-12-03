@@ -1,0 +1,71 @@
+\documentclass[a4paper]{report}
+
+\input{setup/preamble}
+\input{setup/macros}
+\input{setup/letterfonts}
+
+\addbibresource{gr.bib} 
+
+\course{Econometrics I}
+\professor[https://markomlikota.github.io/]{Marko Milkota}
+\me[jingle.fu@graduateinstitute.ch]{}
+\institute{Graduate of International and Developoment Studies, Geneva}
+\class{International Economics}
+\session{Semester I, 2024}
+\date{Based on lectures by \profloc{} in Autumn semester, 2024
+% \\ Notes created by Mubtasim Fuad 
+\\~\\ Draft updated on \today}
+
+\begin{document}
+
+\renewcommand\thepage{Title}
+\maketitle
+\renewcommand\thepage{Preface} 
+% \chapter*{Preface}  % to show preface on toc
+\input{preface}
+% \addcontentsline{toc}{chapter}{\protect\numberline{}Preface} % to show preface on toc
+\pagenumbering{gobble}
+% \pagenumbering{roman}   % to show preface on toc
+\newpage
+\pagestyle{plain}
+\pagenumbering{roman}
+\pdfbookmark{\contentsname}{toc}              
+\setcounter{tocdepth}{3}
+\tableofcontents
+\newpage
+\pagestyle{head}
+\pagenumbering{arabic}
+
+% start lectures
+\chapter{Statistical Inference}
+\input{lectures/240917}
+\chapter{Problem Set 1}
+\input{lectures/PS1}
+\chapter{Hypothesis Testing}
+\input{lectures/240924}
+\chapter{Problem Set 2}
+\input{lectures/PS2}
+\chapter{Least Squares Estimation of the Linear Regression Model}
+\input{lectures/241001}
+\chapter{Likelihood-Based Inference}
+\input{lectures/241029}
+\chapter{Likelihood-Based Inference(2)}
+\input{lectures/241105}
+\chapter{Review Sesison}
+\input{lectures/241030R}
+\chapter{Topics in Econometrics}
+\input{lectures/241125}
+\chapter*{Appendix for Extremum Estimation}
+% \input{lectures/241125Ap}
+\chapter{Cross-Sectional Topics}
+\input{lectures/241202}
+
+
+\chapter{Appendix}
+\input{lectures/Appendix}
+\nocite{*} % Add this line to include all entries in the bibliography
+% end lectures
+
+\input{endpage}
+
+\end{document}

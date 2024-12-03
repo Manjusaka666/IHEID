@@ -1,0 +1,71 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <meta name="Author" content="Martin Uribe">
+   <meta name="GENERATOR" content="Mozilla/4.7 [en] (Win98; U) [Netscape]">
+   <title>Second-order approximation: Matlab code</title>
+</head>
+<body>
+<a href="https://WWW.columbia.edu/~mu2166/2nd_order/2nd_order.pdf">"Solving
+Dynamic General Equilibrium Models Using a Second-Order Approximation to
+the Policy Function,"</a> by <a href="https://WWW.columbia.edu/~ss3501">Stephanie
+Schmitt-Grohe</a> and <a href="https://WWW.columbia.edu/~mu2166/">Martin
+Uribe </a> (JEDC, vol. 28, January 2004, pp. 755-775)
+
+
+<p><b>Matlab code</b>
+
+<p><b>First-order approximation</b>
+<br><a href="https://WWW.columbia.edu/~mu2166/2nd_order/gx_hx.m">gx_hx.m</a>
+
+
+
+
+<p><b>Second-order approximation</b>
+<br><a href="https://WWW.columbia.edu/~mu2166/2nd_order/gxx_hxx.html">gxx_hxx.m</a>
+<br><a href="https://WWW.columbia.edu/~mu2166/2nd_order/gss_hss.m">gss_hss.m</a>
+<p><b>Obtaining the derivatives of <i>f</i></b>
+<br>(requires Matlab's Symbolic Math Toolbox)
+<br><a href="https://WWW.columbia.edu/~mu2166/2nd_order/anal_deriv.m">anal_deriv.m</a>
+<br><a href="https://WWW.columbia.edu/~mu2166/2nd_order/num_eval.m">num_eval.m</a>
+
+<p><b>Model Simulation:</b>
+<br> <a href="https://WWW.columbia.edu/~mu2166/2nd_order/simu_2nd.m">simu_2nd.m</a>
+
+<p><b>Writing the Output of anal_deriv.m to an M-file:</b> This program saves significant amount of computational time in applications in which the output of anal_deriv.m has to be evaluated repeatedly.
+<br><a href="https://WWW.columbia.edu/~mu2166/2nd_order/anal_deriv_print2f.m">anal_deriv_print2f.m</a> by   Andrea Pescatori
+
+
+
+<p><b>Computing Unconditional Second Moments:</b> <a href="https://WWW.columbia.edu/~mu2166/2nd_order/mom.m">mom.m</a>
+
+<p><b>Computing Unconditional Means:</b> <a href="https://WWW.columbia.edu/~mu2166/2nd_order/unconditional_mean.m">unconditional_mean.m</a>
+
+<!--
+<p><b>Computing Impulse Responses:</b> <a href="https://WWW.columbia.edu/~mu2166/2nd_order/ir.m">ir.m</a>
+-->
+
+<p><b>Implementing</b>  <a href="https://WWW.columbia.edu/~mu2166/iskrev/iskrev.html"> Iskrev's Identifiability Test  	</a>
+
+
+
+<p><b>Example 1: The neoclassical growth model</b>
+<br>(requires Matlab's Symbolic Math Toolbox)
+<br><a href="https://WWW.columbia.edu/~mu2166/2nd_order/neoclassical_model.m">neoclassical_model.m</a>
+<br><a href="https://WWW.columbia.edu/~mu2166/2nd_order/neoclassical_model_ss.m">neoclassical_model_ss.m</a>
+<br><a href="https://WWW.columbia.edu/~mu2166/2nd_order/neoclassical_model_run.m">neoclassical_model_run.m</a>
+<p><b>Example 2: A Two-Country Model With Complete Asset Markets (J. Kim
+and S. Kim, <i><tt>JIE</tt></i>, 2003)</b>
+<br>(requires Matlab's Symbolic Math Toolbox)
+<br><a href="https://WWW.columbia.edu/~mu2166/2nd_order/kim_model.m">kim_model.m</a>
+<br><a href="https://WWW.columbia.edu/~mu2166/2nd_order/kim_ss.m">kim_ss.m</a>
+<br><a href="https://WWW.columbia.edu/~mu2166/2nd_order/kim_run.m">kim_run.m</a>
+<p><b>Example 3: An Asset Pricing Model (Burnside, <i>JEDC</i> 1998; and
+Collard and Juillard, <i>JEDC</i> 2001)</b>
+<br>(requires Matlab's Symbolic Math Toolbox)
+<br><a href="https://WWW.columbia.edu/~mu2166/2nd_order/asset_model.m">asset_model.m</a>
+<br><a href="https://WWW.columbia.edu/~mu2166/2nd_order/asset_ss.m">asset_ss.m</a>
+<br><a href="https://WWW.columbia.edu/~mu2166/2nd_order/asset_run.m">asset_run.m</a>
+</body>
+</html>

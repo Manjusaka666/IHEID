@@ -1,0 +1,132 @@
+\section{Neoclassical Growth Model}
+
+The same basic environment as Solow model without the assumption of the constant exogenous saving rate.
+\[ Y = F(K(t), L(t), Z(t)) \]
+
+As in basic general equilibrium theory, let us suppose that preference orderings can be represented by utility functions. In particular, suppose that there is a unique consumption good, and each household $h$ has an \textit{\textcolor{blue}{instantaneous utility function}} given by: $u(c^h(t))$, where $c^h(t)$ is the consumption and $u : \mathbb{R}_+ \rightarrow \mathbb{R}$ is increasing and concave.
+
+\begin{note}
+\textcolor{red}{Negative levels of consumption are not allowed.}
+\end{note}
+
+We shall make 2 major assumptions:
+
+\begin{description}[nosep]
+\item[1.] Household does not derive any utility from the consumption of other households, so consumption externalities are ruled out.
+\item[2.] Impose the condition that overall utility is \textcolor{blue}{\textit{time-separable and stationary}}; that is, instantaneous utility at time $t$ is independent of the consumption levels at past or future dates and is represented by the same utility function $u^h$ at all dates.
+\end{description}
+
+Representative household with preferences:
+\[ U^h(T) = \sum_{t = 0}^T (\beta^h)^t u^h(c^h(t)) \]
+where $\beta^h \in (0, 1)$ is the time discount factor of household $h$.
+
+A solution $\{x(t)\}_{t = 1}^T$ to a dynamic optimization problem is \textit{\textcolor{blue}{time-consistent}} if the following is true: \textit{When $\{x(t)\}_{t = 1}^T$ is a solution to the continuation dynamic optimization problem starting from $t = 0$, $\{x(t)\}_{t = t'}^T$ is a solution to the continuation dynamic optimization starting from the time $t = t' > 0$}.
+
+Let's consider the simplest case and suppose all households are infinitely-lived and identical. Then the demand side of the economy can be represented as the solution of the following maximization problem at time $t = 0$:
+\[ \max \sum_{t = 0}^{\infty} \beta^t u(c(t)) \]
+where $\beta \in (0, 1)$.
+
+Budget constraint:
+\[ C(t) + K(t + 1) = (1 + r(t))K(t) + w(t)L(t) \]
+$r(t)$ is the rate of return on lending capital to firms.
+
+\begin{note}
+\textbf{\textcolor{blue}{Optimal Growth}}
+
+\textbf{If the economy consists of a number of identical households, then this problem corresponds to the Pareto optimal allocation giving the same (Pareto) weight to all households. Therefore the optimal growth problem in discrete time with no uncertainty, no population growth, and no technological progress can be written as follows:}
+\begin{align*}
+    \max_{\{c(t), k(t)\}_{t=1}^{\infty}} &\sum_{t = 0}^{\infty} \beta^t u(c(t)) \\
+    \text{s.t.} \quad &k(t + 1) = f(k(t)) + (1 - \delta)k(t) - c(t)
+\end{align*}
+with $k(t) \geq 0$ and given $k(0) > 0$.
+
+The constraint is straightforward to understand: \textit{\textcolor{blue}{total output per capita produced with capital-labor ratio $k(t)$, $f(k(t))$, together with a fraction $(1 - \delta)$ of the capital that is undepreciated make up the total resources of the economy at date $t$.}}
+
+Assuming that the representative household has $L(t)$ unit of labor supplied inelastically and denoting its assets at time $t$ by $a(t)$, this problem can be written as:
+\begin{align*}
+    \max_{\{c(t), k(t)\}_{t=1}^{\infty}} &\sum_{t = 0}^{\infty} \beta^t u(c(t)) \\
+    \text{s.t.} \quad &a(t + 1) = (1 + r(t))a(t) - c(t) + w(t)L(t)
+\end{align*}
+where $r(t)$ is the net rate of return on assets, so that $1 + r(t)$ is the gross rate of return, and $w(t)$ is the equilibrium wage rate. \textcolor{red}{Market clearing then requires $a(t) = k(t)$.}
+\end{note}
+
+And, we have the non-Ponzi condition:
+\[ \lim_{t \to \infty} \left\{K(t)\left[\prod_{s = 1}^{t-1} \left(\frac{1}{1 + r_s}\right)\right]\right\} \geq 0 \]
+which refers to: limit of the PDV of debt has to be nonnegative (you cannot die in debt)
+
+\begin{theorem}[\textcolor{blue}{\textbf{Euler Equation}}]
+\[ \forall t : u'(c_t) = \beta(1 + r_{t + 1})u'(c_{t + 1}) \]
+\end{theorem}
+
+With an infinite horizon ($T \to \infty$), the Euler equations still determine the relative consumption levels. The terminal condition becomes \textcolor{blue}{transversality condition} is the limit of the terminal condition:
+\[ \lim_{T \to \infty} K_{T + 1}\beta^T u'(c_T) = \lim_{T \to \infty} K_{T + 1}\beta^{T + 1}u'(c_{T + 1})(1 + r_{T + 1}) = 0 \]
+Hence
+\[ \lim_{t \to \infty} \beta^t u'(c_t)(1 + r_t)K_t = 0 \]
+Then, we have two conditions involve the infinity:
+\begin{equation}
+    \lim_{t \to \infty} \beta^t u'(c_t)(1 + r_t)K_t = 0 \label{eq:trans}
+\end{equation}
+\begin{equation}
+    \lim_{t \to \infty} \left\{K(t)\left[\prod_{s = 1}^{t-1} \left(\frac{1}{1 + r_s}\right)\right]\right\} \geq 0 \label{eq:nonponzi}
+\end{equation}
+The \eqref{eq:trans} is a condition for optimal behavior. The \eqref{eq:nonponzi} is a condition to make sure that the flow budget constraints are consistent with a lifetime budget constraint and no perpetual debt.
+
+\textbf{Steady State} $(C^*, K^*)$
+
+From the Euler equation:
+\[ u'(C^*) = \beta(1 + F_K(K^*, L))u'(C^*) \]
+hence
+\[ 1 + r^* = 1 + F_K(k^*, 1) - \delta = \frac{1}{\beta} \]
+which fully determines $k^*$.
+
+\begin{note}
+This shows that $k^*$ does not depend on $u(\cdot)$.
+\end{note}
+
+Level of per-capita consumption is then given by the economy's resource constraint:
+\[ C^* + K^* = (1 - \delta)K^* + F(K^*, L) \]
+hence,
+\[ c^* = F(k^*, 1) - \delta k^* \]
+\[ F_K(k^*, 1) = \delta + \left(\frac{1}{\beta} - 1\right) \]
+In the Solow model the golden-rule level of capital (which maximizes steady-state consumption) satisfies
+\[ F_K(k_S^{\text{GR}}, 1) = \delta \]
+hence
+\[ k^*_{\text{NGM}} < k_S^{\text{GR}} \]
+
+\begin{note}
+\textbf{Intuition:}
+
+In NGM model, people tend to consume more on the near future rather than in the far steady state.
+\end{note}
+
+\section{NGM in continuous time}
+
+Assume labor supply $L$ growth at rate $n$:
+\[ L(t) = e^{nt} \]
+Households choose consumption/saving to maximize
+\[ U = \int_0^{\infty} e^{-\rho t}e^{nt}u(c(t))dt = \int_0^{\infty} e^{(n-\rho)t}u(c(t))dt \]
+Intertemporal budget constraint: as in the discrete time case, but treat $\Delta K \to 0$:
+\[ \dot{K}(t) = w(t)L(t) + (1 + r(t))K(t) - C(t) \]
+Write in per-capita units:
+\[ \dot{k}(t) = w(t) + (1 + r(t))k(t) - c(t) - nk(t) \]
+Non-Ponzi condition:
+\[ \lim_{t \to \infty} \left\{k(t)\exp\left[-\int_0^t(r(v) - n)dv\right]\right\} \geq 0 \]
+To solve this, we define the \textbf{Hamiltonian}:
+\[ H(c, k, \mu) = e^{-(\rho - n)t}u(c(t)) + \mu(t)[w(t) + (1 + r(t) - n)k(t) - c(t)] \]
+optimality conditions are
+\begin{align*}
+    H_c(c, k, \mu) &= 0 \\
+    H_k(c, k, \mu) &= -\dot{\mu}(t) \\
+    H_{\mu}(c, k, \mu) &= \dot{k}(t) \\
+    \lim_{t \to \infty} \mu(t)k(t) &= 0
+\end{align*}
+Hence:
+\begin{align*}
+    e^{-(\rho - n)t}u'(c(t)) - \mu(t) &= 0 \\
+    \mu(t)(1 + r(t) - n) &= -\dot{\mu}(t)
+\end{align*}
+and we get:
+\[ e^{-(\rho - n)t}u'(c(t))(1 + r(t) - n) = -e^{-(\rho - n)t}u''(c(t))\dot{c}(t) + (\rho - n)e^{-(\rho - n)t}u'(c(t)) \]
+Denote $\sigma(c) = -\frac{u'(c)}{u''(c)c}$, we have the Euler equation in continuous time:
+\[ \sigma(c)(1 + r(t) - \rho) = \frac{\dot{c}(t)}{c(t)} \]
+$\sigma(c)$ is the intertemporal elasticity of substitution (IES).

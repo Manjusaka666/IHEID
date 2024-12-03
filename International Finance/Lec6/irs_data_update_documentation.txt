@@ -1,0 +1,53 @@
+Variables in irs_data_update.mat  
+
+data  
+column 1: country number
+column 2: date
+column 3: real GDP per capita, log-deviation from linear trend. 
+column 4: real investment per capita, log-deviation from linear trend. 
+column 5: trade balance-to-GDP ratio, in deviations from mean.
+column 6: U.S. real interest rate,  annualized,  deviation from mean,  in percent (0.01=1%). 
+column 7: Country  interest rate, annualized,   deviation from mean,  in percent (0.01=1%). 
+
+country
+column 1: list of countries
+
+level_rus_r
+column 1: country number
+column 2: date
+column 3: real country interest rate, annualized, percent (0.01=1%)
+column 4: real U.S. interest rate,  annualized, percent (0.01=1%)
+Note. The U.S. real interest rate is computed as the difference between the 3-month Tbill rate and average inflation over the past 4 quarters. 
+Inflation is measured using the U.S. GDP deflator. The 3-month T-bill rate is the average rate over the quarter. 
+In Uribe and Yue, by contrast, the interest rate is measured as the rate at the beginning of the quarter. 
+
+
+long_rus
+column 1: date
+column 2: real U.S. interest rate,  annualized, percent (0.01=1%)
+
+Sources:
+
+NIPA data (output, investment, trade-balance-to-GDP ratio): USG, chapter 1, file Data_q_1101.xls
+
+Country Interest rate: J.P. Morgan, EMBI
+
+Real U.S. Interest rate:  Own calculations based on data on 3-month TB interest rate and GDP deflator from the Federal Reserve Bank of St. Louis.
+
+Sample
+Argentina: from 1994 to 2012.75
+Brazil: from 1994.25 to 2012.75
+Bulgaria: from 1994.5 to 2012.75
+Chile: from 1999.25 to 2012.75
+Colombia: from 1997 to 2012.75
+Ecuador: from 1995 to 2012.75
+Hungary: from 1999 to 2012.75
+Korea, Rep.: from 1994 to 2004
+Malaysia: from 1996.75 to 2012.75
+Mexico: from 1994 to 2012.75
+Peru: from 1997 to 2012.75
+South Africa: from 1994.75 to 2012.75
+Thailand: from 1997.25 to 2006
+Turkey: from 1996.25 to 2012.75
+Uruguay: from 2001.25 to 2012.75
+
