@@ -138,6 +138,117 @@ The Graduate Institute, Fall 2024, Marko Milkota\\
 
 \section*{Problem 1}
 
+The dataset \texttt{dat\_SalesCustomers.csv} contains data on sales of shopping malls in Istanbul. 
+It includes the following variables: \textit{invoice no} (identifier of transaction or invoice), 
+\textit{customer id} (identifier of customer), 
+\textit{category} (type of goods sold), 
+\textit{price} (in TRY, Turkish Lira), 
+\textit{invoice date}, \textit{shopping mall}, \textit{gender}, 
+\textit{age}, and \textit{payment method} (cash vs. credit card vs. debit card payment). 
+
+You are interested in shedding light on the determinants of cash- vs card-payment. 
+For this purpose, you set up a probit model:
+\begin{equation}
+    y^*_i = x'_i \beta + u_i \quad  u_i \mid x_i \sim N(0, 1)
+\end{equation}
+whereby we observe $y_i = \mathbf{1}\{y^*_i > 0\}$, a dummy variable for cash payment. Recall that the Maxi-
+mum Likelihood (ML) estimator for $\beta $ solves
+\begin{equation}
+    \hat{\beta} = \arg\min_{\beta} Q_n(\beta; Z_n) \quad Q_n(\beta; Z_n) = -\frac{1}{n} \ell(\beta; Z_n)
+\end{equation}
+where
+\[\ell(\beta; Z_n) = \sum_{i=1}^n \left[ y_i \log(\Phi(x'_i \beta)) + (1 - y_i) \log(\Phi(-x'_i \beta)) \right] \]
+is the log-likelihood and $Z_n = \{y_i, x_i\}^n_{i=1}$ comprises all of the data you have available (outcome-variables and covariates for the n observations in your sample).
+
+\subsection*{(a)}
+Are there missing values in your data? Delete all observations with a missing value in the variables \textit{category}, \textit{price}, \textit{gender}, \textit{age} or \textit{payment method}. How many observations do you have left?
+
+\subsection*{(b)}
+Based on the variable \textit{payment method}, generate a dummy variable for cash payment and call it \textit{paid in cash}. Also, based on \textit{gender}, create a dummy for males, \textit{male}. What fraction of transactions were carried out in cash? What fraction of the overall sales (in TRY) were carried out in cash?
+
+\subsection*{(c)}
+To decrease computational costs, consider only the first $n = 1000$ observations for the following questions.
+Based on the variable category, create a dummy for each of the following four categories: 
+i) clothes and shoes, 
+ii) cosmetics, 
+iii) food, 
+iv) technology. 
+In this way, we divide the categories into five groups, 
+whereby the fifth is made up by the rest, 
+i.e. goods that do not belong to either of the four categories. 
+How are the transactions split across these five categories? 
+How are the sales split across these five categories?
+
+\subsection*{(d)}
+Taking \textit{paid in cash} as your outcome variable $y_i$ and \textit{price}, \textit{male}, \textit{age} and all category-dummies but one as your covariates $x_i$, 
+use a numerical optimization-command from the software of your choice to solve the optimization problem in Eq. (2) 
+and obtain $\hat{\beta}$ for your sample. If manual optimization does not work, 
+you can use a pre-programmed command to estimate the probit model.
+
+\subsection*{(e)}
+Based on your estimate, compute the effect of age increasing by 5 years on the expected probability of using cash for a 30 year-old male who bought clothes for 500 TRY, i.e. for an observation with $x_i = x^*_i \equiv [500, 1, 30, 0, \ldots, 0, 1, 0, \ldots, 0]$. 
+Put differently, this is the difference in expected probabilities 
+of cash payment between a 60 year-old and a 30 year-old male who
+bought clothes/shoes for 500 TRY. 
+We will call this quantity $\gamma_1(\hat{\beta})$.
+
+Also, compute the same effect without conditioning on the category of goods 
+sold in two steps: 
+(i) compute the effect for each of the five categories and
+(ii)  take a weighted average of them, with weights given by 
+the proportions of these goods-categories in overall sales 
+(see your answer to (c)).
+We will call this quantity $\gamma_2(\hat{\beta})$.
+
+\subsection*{(f)}
+Suppose that your probit model in Eq.(1) is correctly specified. Is your estimator $\hat{\beta}$ consistent? Use the simplified version of the extremum estimation theory we discussed in class to answer this question.
+
+\subsection*{(g)}
+Use bootstrapping to find a numerical approximation of the finite sample distribution of $\hat{\beta}$ 
+as well as the two marginal effects 
+$\gamma_1(\hat{\beta})$ and $\gamma_2(\hat{\beta})$: 
+draw $M = 100$ different samples of $n$ observations with replacement 
+from your dataset and compute (numerically) $\hat{\beta}$, 
+$\gamma_1(\hat{\beta})$ and $\gamma_2(\hat{\beta})$ for each of them. 
+Plot the finite sample distributions you obtained 
+(regarding $\hat{\beta}$, 
+you can limit yourself to the coefficient on age).
+
+\subsection*{(h)}
+Another approach to approximate the finite sample distribution of $\hat{\beta}$ and functions of it like the marginal effects is to use their asymptotic distribution. Use the simplified version of the extremum estimation theory we discussed in class to show that the asymptotic distribution of $\hat{\beta}$ is given by
+\[
+\sqrt{n}(\hat{\beta} - \beta_0) \overset{d}{\to} N\left(0, H^{-1}\right),
+\]
+with 
+\begin{equation}
+    H = E\left[ \frac{\phi(x'_i \beta_0)^2}{\Phi(x'_i \beta_0)\Phi(-x'_i \beta_0)} x_i x'_i \right]. 
+\end{equation}
+Then, use the asymptotic distribution in Eq. (3) to approximate the finite sample distribution of $\hat{\beta}$ in your sample.
+How does this approximate finite sample distribution of the estimated coefficient on age compare to the one obtained via bootstrapping?
+
+Hint: The numerator and the denominator in the fraction that appears in H are often both
+very close to zero. Rather than computing it as-is, first compute the log of it and then take
+the exponential, i.e. compute 
+\[
+\frac{\phi(x_i^{\prime} \beta_0)^2}{\Phi(x_i^{\prime} \beta_0)\Phi(-x_i^{\prime} \beta_0)} \text{ as } \exp\left\{ 2\log \phi(x_{i}^{\prime} \beta_0) - \log \Phi(x_i^{\prime} \beta_0) - \log \Phi(-x_i^{\prime} \beta_0) \right\}
+\]
+
+\subsection*{(i)}
+Use the asymptotic distribution of $\hat{\beta}$ from Eq. (3) and the Delta method to find the asymptotic distribution of $\gamma_1(\hat{\beta})$. Then, use it to approximate the finite sample distribution of $\gamma_1(\hat{\beta})$ in your sample. How does this approximate finite sample distribution compare to the one obtained via bootstrapping?
+
+\subsection*{(j)}
+Now let's test whether the true partial effect $\gamma_1(\hat{\beta})$ (i.e. the true change in the expected probability of cash payment for a 30 year-old male buying clothes for 500 TRY when this individual becomes 5 years older) is significantly different from 0 at the $\alpha = 0.05$ level:
+\[
+H_0 : \gamma_1(\beta) = 0 \quad \text{vs.} \quad H_1 : \gamma_1(\beta) \neq 0 .
+\]
+(In other words, we are testing whether the expected probabilities of cash payment for a 30 year-old and a 35 year-old male buying clothes for 500 TRY are different.) One approach to do so uses the finite sample distribution of $\gamma_1(\hat{\beta})$ approximated via its asymptotic distribution,
+\[
+\gamma_1(\hat{\beta}) \overset{approx}{\sim} N\left( \gamma_1(\beta), \frac{1}{n} \hat{V} \right),
+\]
+for some $\hat{V}$ you had to find. Use this expression to construct a t-test. What do you conclude?
+
+Also, use the above expression to construct a 95\% confidence interval for $\gamma_1(\beta)$. (If you couldn't find $\hat{V}$, just state the test statistic and critical value for a general $\hat{V}$.)
+
 \begin{autosolution}
     \ 
 
@@ -150,6 +261,8 @@ The Graduate Institute, Fall 2024, Marko Milkota\\
 \begin{autosolution}
     \
 
+    The fraction of transactions carried out in cash is 44.69\% and the fraction
+    of the overall sales(in TRY) carried out in cash is also 44.79\%.
 \end{autosolution}
 
 \begin{autosolution}
