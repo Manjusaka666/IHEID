@@ -234,7 +234,9 @@ the exponential, i.e. compute
 \]
 
 \subsection*{(i)}
-Use the asymptotic distribution of $\hat{\beta}$ from Eq. (3) and the Delta method to find the asymptotic distribution of $\gamma_1(\hat{\beta})$. Then, use it to approximate the finite sample distribution of $\gamma_1(\hat{\beta})$ in your sample. How does this approximate finite sample distribution compare to the one obtained via bootstrapping?
+Use the asymptotic distribution of $\hat{\beta}$ from Eq. (3) and the Delta method to find the asymptotic distribution of $\gamma_1(\hat{\beta})$. 
+Then, use it to approximate the finite sample distribution of $\gamma_1(\hat{\beta})$ in your sample. 
+How does this approximate finite sample distribution compare to the one obtained via bootstrapping?
 
 \subsection*{(j)}
 Now let's test whether the true partial effect $\gamma_1(\hat{\beta})$ (i.e. the true change in the expected probability of cash payment for a 30 year-old male buying clothes for 500 TRY when this individual becomes 5 years older) is significantly different from 0 at the $\alpha = 0.05$ level:
@@ -331,6 +333,7 @@ Also, use the above expression to construct a 95\% confidence interval for $\gam
     \nabla_{\beta}\ell(\beta;Z_n) = \sum_{i=1}^n \left[ y_i \frac{\phi(x_i'\beta)}{\Phi(x_i'\beta)} - (1-y_i)\frac{\phi(x_i'\beta)}{1-\Phi(x_i'\beta)} \right] x_i.
     \]
     \textbf{Step 1: Characterizing the MLE $\hat{\beta}$}
+    
     The MLE $\hat{\beta}$ sets the gradient to zero:
     \[
     \nabla_{\beta}\ell(\hat{\beta};Z_n) = 0.
@@ -422,9 +425,31 @@ Also, use the above expression to construct a 95\% confidence interval for $\gam
 \begin{autosolution}
     \
 
-    $\gamma_1$ (effect of age increasing by 30 years): -0.02096
-    
-    $\gamma_2$ (weighted effect over categories): -0.020774
+    We define
+    \[
+    \gamma_1(\beta) = \Phi(x_2^{\prime} \beta) - \Phi(x_1^{\prime} \beta),
+    \]
+    where $x_1^{\prime} $ is a vector for a 30-year-old male buying Clothes/Shoes for 500 TRY, 
+    and $x_2^{\prime}$ is the same vector but with age increased to 60 years old. 
+    Only the age element of $x_i$ changes from 30 to 60.
+
+    For our estimated $\hat{\beta}$,
+    \[
+    \gamma_1(\hat{\beta}) \approx -0.02096.
+    \]
+    This suggests that increasing age from 30 to 60 reduces the probability of cash payment by about 2.1 percentage points for this specific profile.
+
+    For $\gamma_2(\beta)$, we do not condition on category. We take a weighted average of the partial effects across the five categories, with weights given by their share in total sales:
+    \[
+    \gamma_2(\hat{\beta}) = \sum_{j} w_j \left[\Phi(x_{2,j}^{\prime} \beta) - \Phi(x_{1,j}^{\prime} \beta)\right],
+    \]
+    where $w_j$ is the sales fraction for category $j$.
+
+    Empirically,
+    \[
+    \gamma_2(\hat{\beta}) \approx -0.02077,
+    \]
+    very close to $\gamma_1(\hat{\beta})$, indicating a similar overall effect once categories are averaged by their sales importance.
 \end{autosolution}
 
 \begin{autosolution}
@@ -445,19 +470,99 @@ Also, use the above expression to construct a 95\% confidence interval for $\gam
 \begin{autosolution}
     \
 
+    The Delta Method states that if 
+    \[
+    \sqrt{n}(\hat{\beta}-\beta_0) \xrightarrow{d} N(0,H^{-1}),
+    \]
+    and $g(\cdot)$ is a continuously differentiable function at $\beta_0$, then
+    \[
+    \sqrt{n}(g(\hat{\beta}) - g(\beta_0)) \xrightarrow{d} N(0, \nabla_\beta g(\beta_0)' H^{-1} \nabla_\beta g(\beta_0)).
+    \]
+
+    In our case, $g(\beta) = \gamma_1(\beta)$.
+
+    \underline{Computing the Gradient $\nabla_\beta \gamma_1(\beta)$:}
+
+    We have:
+    \[
+    \gamma_1(\beta) = \Phi(x_2^{\prime}\beta) - \Phi(x_1^{\prime}\beta).
+    \]
+    The gradient with respect to $\beta$ is:
+    \[
+    \nabla_\beta \gamma_1(\beta) = \frac{\partial}{\partial \beta}\left[\Phi(x_2^{\prime}\beta)\right] - \frac{\partial}{\partial \beta}\left[\Phi(x_1^{\prime}\beta)\right].
+    \]
+    Since $\frac{d}{dt}\Phi(t)=\phi(t)$, we get:
+    \[
+    \nabla_\beta \gamma_1(\beta) = \phi(x_2^{\prime}\beta) x_2 - \phi(x_1^{\prime}\beta) x_1.
+    \]
+    \underline{Asymptotic Distribution of $\gamma_1(\hat{\beta})$:}
+
+    Applying the Delta Method at $\beta_0$:
+    \[
+    \sqrt{n}(\gamma_1(\hat{\beta}) - \gamma_1(\beta_0)) \xrightarrow{d} N(0, \nabla_\beta \gamma_1(\beta_0)' H^{-1} \nabla_\beta \gamma_1(\beta_0)).
+    \]
+    In finite samples, we replace $\beta_0$ with $\hat{\beta}$, and $H$ with its estimator $\hat{H}$, thus:
+    \[
+    \gamma_1(\hat{\beta}) \overset{approx}{\sim} N\left(\gamma_1(\hat{\beta}), \frac{1}{n}\nabla_\beta \gamma_1(\hat{\beta})' \hat{H}^{-1} \nabla_\beta \gamma_1(\hat{\beta})\right),
+    \]
+    where $\hat{H}$ and $\nabla_\beta \gamma_1(\hat{\beta})$ are computed from the sample and the estimated parameters. 
+    This gives us an asymptotic approximation to the finite sample distribution of $\gamma_1(\hat{\beta})$.
+
+    To summarize, the asymptotic variance of $\gamma_1(\hat{\beta})$ is:
+    \[
+    \widehat{\text{Var}}(\gamma_1(\hat{\beta})) = \frac{1}{n}\nabla_\beta \gamma_1(\hat{\beta})' \hat{H}^{-1} \nabla_\beta \gamma_1(\hat{\beta}).
+    \]
+    \underline{Empirical Implementation:}
+
+    1. Estimate $\hat{\beta}$ using the Probit model.
+
+    2. Compute $\nabla_\beta \gamma_1(\hat{\beta}) = \phi(x_2^{\prime}\hat{\beta})x_2 - \phi(x_1^{\prime}\hat{\beta})x_1$.
+
+    3. Compute $\hat{H}^{-1}$ (the inverse of the estimated $H$ matrix).
+
+    4. Approximate:
+    \[
+    \gamma_1(\hat{\beta}) \sim N\left(\gamma_1(\hat{\beta}), \frac{1}{n}\nabla_\beta \gamma_1(\hat{\beta})' \hat{H}^{-1} \nabla_\beta \gamma_1(\hat{\beta})\right).
+    \]
 \end{autosolution}
 
 \begin{autosolution}
     \
 
-    t-statistic: -0.68,
+    We test
+    \[
+    H_0: \gamma_1(\beta)=0 \quad \text{vs.} \quad H_1: \gamma_1(\beta)\neq 0.
+    \]
+    Under the asymptotic approximation,
+    \[
+    \gamma_1(\hat{\beta}) \approx N\left(\gamma_1(\beta_0), \frac{1}{n}\hat{V}\right),
+    \]
+    where
+    \[
+    \hat{V} = \nabla_\beta \gamma_1(\hat{\beta})' \hat{H}^{-1} \nabla_\beta \gamma_1(\hat{\beta}).
+    \]
+    The t-statistic is:
+    \[
+    t = \frac{\gamma_1(\hat{\beta})}{\sqrt{\hat{V}/n}}.
+    \]
+    Empirically, $t \approx -0.68$.
+    
+    A 95\% confidence interval for $\gamma_1(\beta)$ is:
+    \[
+    \gamma_1(\hat{\beta}) \pm 1.96 \sqrt{\frac{\hat{V}}{n}}.
+    \]
 
-    We cannot reject the null hypothesis at the 5\% significance level.
-
-    So, we conclude that the expected probabilities of cash payment for a 30 year-old
+    Empirically, the 95\% Confidence Interval for $\gamma_1(\beta)$ is: -0.0815 to 0.0396,
+    covering 0. So, we conclude that the expected probabilities of cash payment for a 30 year-old
     and a 60 year-old male buying clothes for 500 TRY are not significantly different.
-
-    95\% Confidence Interval for $\gamma_1(\beta)$: -0.0815 to 0.0396
+    
+    \textbf{Graphical Analysis and Econometric Interpretation:}
+    \begin{itemize}
+        \item The bootstrap histograms of the coefficient on age, $\gamma_1(\hat{\beta})$, and $\gamma_2(\hat{\beta})$ all resemble roughly normal shapes, centered near their estimated values. This supports the use of normal approximations.
+        \item The asymptotic approximations (shown by smooth curves on histograms) align reasonably with the bootstrap distributions, suggesting that for $n=1000$, the asymptotic theory is not grossly inaccurate.
+        \item The negative partial effects of age, though small in magnitude, show that older individuals might be slightly less likely to pay in cash. However, statistical tests indicate this difference is not significant at conventional levels.
+        \item Category-specific differences matter, as seen from the significance of some category dummies. Clothes/Shoes, for example, differ in their propensity of cash usage compared to the base category.
+    \end{itemize}
 \end{autosolution}
 
 \end{document}
