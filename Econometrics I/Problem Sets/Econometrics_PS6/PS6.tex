@@ -8,7 +8,7 @@
 \usepackage{pifont}
 % \usepackage{ctex}
 \usepackage{amsthm, amsmath, amssymb, mathrsfs,mathtools}
-
+\usepackage[ruled,vlined,linesnumbered]{algorithm2e}
 % Defining a new theorem style without italics
 \newtheoremstyle{nonitalic}% name
   {\topsep}% Space above
@@ -254,26 +254,168 @@ Also, use the above expression to construct a 95\% confidence interval for $\gam
 
     Yes, here missing values in the data set.
     The initial number of observations is 99457,
-    and after deleting missing values,
-    the remaining number of observations is 99338.
+    The dataset's reported missing values indicate that only 
+    \textit{age} has missing observations (119 missing values). 
+    After dropping these, we end up with 99338 observations.
 \end{autosolution}
 
 \begin{autosolution}
     \
 
-    The fraction of transactions carried out in cash is 44.69\% and the fraction
-    of the overall sales(in TRY) carried out in cash is also 44.79\%.
+    Define
+    \begin{align*}
+        \text{paid\_in\_cash}_i &= \mathbf{1}\{\text{payment\_method}_i = \text{Cash}\} \\
+        \text{male}_i &= \mathbf{1}\{\text{gender}_i = \text{Male}\}
+    \end{align*}
+
+    The fraction of transactions carried out in cash is
+    \[
+    \frac{1}{n}\sum_{i=1}^n \text{paid\_in\_cash}_i.
+    \]
+    Empirically, this is about $44.69\%$.
+
+    The fraction of overall sales carried out in cash is
+    \[
+    \frac{\sum_{i=1}^n \text{paid\_in\_cash}_i \cdot price_i}{\sum_{i=1}^n price_i}.
+    \]
+    Empirically, this fraction is about $44.79\%$.
+
+    These results indicate that cash payments represent nearly half of all transactions and sales value.
 \end{autosolution}
 
 \begin{autosolution}
     \
 
+    We now consider only the first $n=1000$ observations. Let the categories be divided into five mutually exclusive groups: 
+    Clothes and Shoes (C), Cosmetics (Cos), Food (F), Technology (T), and Other (O). Define indicator variables:
+    \begin{align*}
+        d_{C,i} &= \mathbf{1}\{\text{category}_i=\text{Clothes and Shoes}\} \\
+        d_{Cos,i} &= \mathbf{1}\{\text{category}_i=\text{Cosmetics}\} \\
+        d_{F,i} &= \mathbf{1}\{\text{category}_i=\text{Food}\} \\
+        d_{T,i} &= \mathbf{1}\{\text{category}_i=\text{Technology}\} \\
+        d_{O,i} &= 1 - (d_{C,i}+d_{Cos,i}+d_{F,i}+d_{T,i}).
+    \end{align*}
+    The fraction of transactions in category $j$ is
+    \[
+    \frac{1}{1000}\sum_{i=1}^{1000} d_{j,i}.
+    \]
+    The fraction of sales in category $j$ is
+    \[
+    \frac{\sum_{i=1}^{1000} d_{j,i} \cdot price_i}{\sum_{i=1}^{1000} price_i}.
+    \]
+    Empirically:
+    \begin{itemize}
+        \item Transactions fraction: Clothes/Shoes: 43.8\%, Cosmetics: 14.8\%, Food: 14.0\%, Technology: 5.0\%, Other: 22.4\%.
+        \item Sales fraction: Clothes/Shoes: 70.58\%, Cosmetics: 2.72\%, Food: 0.32\%, Technology: 23.9\%, Other: 2.49\%.
+    \end{itemize}
+    The result shows that most transactions and sales are in the Clothes/Shoes category. Technology, though having the lowest transaction fraction, has the second-highest sales fraction, meaning that it has the highest average price.
+\end{autosolution}
+
+\begin{autosolution}
+    \
     
-\end{autosolution}
+    To find the Maximum Likelihood Estimator (MLE) $\hat{\beta}$, we differentiate the log-likelihood with respect to $\beta$. Let $\phi(\cdot)$ denote the standard normal PDF. We use:
+    \[
+    \frac{d}{dt}\log(\Phi(t)) = \frac{\phi(t)}{\Phi(t)}, \quad \text{and} \quad \frac{d}{dt}\log(1-\Phi(t)) = -\frac{\phi(t)}{1-\Phi(t)}.
+    \]
+    For each element $\beta_j$ of $\beta$, the derivative of the log-likelihood is:
+    \[
+    \frac{\partial \ell(\beta;Z_n)}{\partial \beta_j} = \sum_{i=1}^n \left[y_i \frac{\phi(x_i'\beta)}{\Phi(x_i'\beta)} - (1-y_i)\frac{\phi(x_i'\beta)}{1-\Phi(x_i'\beta)}\right]x_{ij}.
+    \]
+    Stacking all partial derivatives together, the gradient (score vector) is:
+    \[
+    \nabla_{\beta}\ell(\beta;Z_n) = \sum_{i=1}^n \left[ \frac{y_i - \Phi(x_i'\beta)}{\Phi(x_i'\beta)(1-\Phi(x_i'\beta))} \phi(x_i'\beta) \right] x_i.
+    \]
+    Often written more simply as:
+    \[
+    \nabla_{\beta}\ell(\beta;Z_n) = \sum_{i=1}^n \left[ y_i \frac{\phi(x_i'\beta)}{\Phi(x_i'\beta)} - (1-y_i)\frac{\phi(x_i'\beta)}{1-\Phi(x_i'\beta)} \right] x_i.
+    \]
+    \textbf{Step 1: Characterizing the MLE $\hat{\beta}$}
+    The MLE $\hat{\beta}$ sets the gradient to zero:
+    \[
+    \nabla_{\beta}\ell(\hat{\beta};Z_n) = 0.
+    \]
+    Substituting back:
+    \[
+    \sum_{i=1}^n \left[ y_i \frac{\phi(x_i'\hat{\beta})}{\Phi(x_i'\hat{\beta})} - (1-y_i)\frac{\phi(x_i'\hat{\beta})}{1-\Phi(x_i'\hat{\beta})} \right] x_i = 0.
+    \]
+    This is a system of $k$ nonlinear equations in the $k$ unknowns $\hat{\beta} = (\hat{\beta}_1, \ldots, \hat{\beta}_k)'$.
+    \textbf{Step 2: No Closed-Form Solution}
 
-\begin{autosolution}
-    \
+    Unlike in linear regression or the logit model (even the logit doesn't have a closed form), the Probit model does not admit a closed-form solution for $\hat{\beta}$. The equation above must be solved using numerical optimization techniques such as the Newton-Raphson algorithm or other iterative methods.
+
+    \textbf{Step 3: Numerical Optimization}
+
+    A common iterative procedure is:
+
+    % \begin{note}[\textbf{Newton-Raphson Method}]
+    %     \
     
+    %     The Newton-Raphson method is a root-finding algorithm that uses the first few terms of the Taylor series of a function $f(x)$ in the vicinity of a starting point $x_0$ to find the root of the function. 
+    %     The method is based on the idea that a continuous and differentiable function can be approximated by a straight line tangent to it. 
+    %     The method is iterative and converges quadratically to the root.
+    
+        \begin{algorithm}[H]
+            \caption{Newton-Raphson Method}
+            \SetAlgoLined
+            \SetKwInOut{Input}{Input}
+            % \SetKwInOut{Output}{Output}
+            
+            \Input{Initialize $\beta_0$, tolerence level $\varepsilon>0$}
+            % \Output{Decision to accept or reject $H_0$}
+            
+            \For{$m = 1$ \KwTo $M$}{
+                Given $\beta ^m$, compute $\nabla_{\beta}\ell(\beta^{(m)};Z_n)$ and $[H(\beta^{(m)};Z_n)]$\;
+                Set $    \beta^{(m+1)} = \beta^{(m)} - [H(\beta^{(m)};Z_n)]^{-1}\nabla_{\beta}\ell(\beta^{(m)};Z_n),$\;
+                \eIf{$\left\| \beta^{m+1} - \beta^m  \right\| <\varepsilon $}{
+                $\hat{\beta} = \beta^{m+1}$\;
+                }{
+                    Proceed to the next iteration\;
+                }
+            }
+        \end{algorithm}
+    % \end{note}
+    where $H(\beta;Z_n)$ is the Hessian matrix of second derivatives evaluated at $\beta$. 
+    Convergence is achieved when changes in $\beta$ or the norm of the gradient are below a given tolerance.
+
+    The regression result is as follows:
+    \[ 
+    \begin{gathered}\hat{\beta}=
+        \begin{bmatrix}
+            \hat{\beta}_0\\
+            \hat{\beta}_{price}\\
+            \hat{\beta}_{male}\\
+            \hat{\beta}_{age}\\
+            \hat{\beta}_{cosmetics}\\
+            \hat{\beta}_{food}\\
+            \hat{\beta}_{technology}
+        \end{bmatrix}
+        =
+        \begin{bmatrix}
+            0.0682\\
+            0.000112\\
+            -0.0502\\
+            -0.00183\\
+            -0.2879\\
+            -0.1195\\
+            0.0640\\
+            -0.4195
+        \end{bmatrix}.
+    \end{gathered}
+    \]
+
+    \textbf{Interpretation:}
+
+    \begin{itemize}
+        \item The coefficient on price is positive but very small, suggesting a tiny positive association
+        of price with the probability of cash payment (not statistically significant).
+        \item male is negative, but not significant, suggesting no strong gender effect on the
+        probability of cash usage.
+        \item age coefficient is negative and small, not statistically significant either.
+        \item Some category dummies (like Clothes/Shoes) are significantly different from zero,
+              indicating that the reference category (likely"Other") differs in payment method probability.            
+    \end{itemize}
+
     \input{d.tex}
 \end{autosolution}
 
