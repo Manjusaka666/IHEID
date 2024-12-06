@@ -1,3 +1,4 @@
+setwd("E:/IHEID国际经济学硕士/IHEID/Econometrics I/Problem Sets/Econometrics_PS6")
 rm(list = ls())
 library(tidyverse)
 library(ggplot2)
@@ -32,13 +33,15 @@ dat_clean$male <- ifelse(dat_clean$gender == "Male", 1, 0)
 
 # Calculate the fraction of transactions carried out in cash
 fraction_cash_transactions <- mean(dat_clean$paid_in_cash)
-print(paste("Fraction of transactions carried out in cash:", round(fraction_cash_transactions * 100, 2), "%"))
+print(paste("Fraction of transactions carried out in cash:", 
+            round(fraction_cash_transactions * 100, 2), "%"))
 
 # Calculate the fraction of overall sales (in TRY) carried out in cash
 total_sales <- sum(dat_clean$price)
 cash_sales <- sum(dat_clean$price[dat_clean$paid_in_cash == 1])
 fraction_cash_sales <- cash_sales / total_sales
-print(paste("Fraction of overall sales carried out in cash:", round(fraction_cash_sales * 100, 2), "%"))
+print(paste("Fraction of overall sales carried out in cash:", 
+            round(fraction_cash_sales * 100, 2), "%"))
 
 # (c)
 # Consider only the first 1000 observations
@@ -133,7 +136,8 @@ print(beta_hat)
 
 ### Programming method
 # Use built-in function for probit model
-model <- glm(paid_in_cash ~ price + male + age + clothes_shoes + cosmetics + food + technology, data = dat_1000, family = binomial(link = "probit"))
+model <- glm(paid_in_cash ~ price + male + age + clothes_shoes + cosmetics + food + technology, 
+             data = dat_1000, family = binomial(link = "probit"))
 stargazer(model, type = "latex", title = "Optimization model", out = "d.tex")
 # Estimated coefficients
 beta_hat2 <- coef(model)
@@ -143,7 +147,7 @@ print(beta_hat2)
 # (e)
 ### Gamma1
 # x_i for age = 30
-x_age_30 <- c(1, 500, 1, 30, 1, 0, 0, 0)  # Including intercept and category dummies
+x_age_30 <- c(1, 500, 1, 30, 1, 0, 0, 0)
 
 # x_i for age = 35
 x_age_60 <- x_age_30
@@ -274,9 +278,6 @@ H_hat <- t(X) %*% X_weighted / nrow(X)
 # Compute V_hat
 V_hat <- solve(H_hat)
 
-# Assign row and column names to V_hat
-colnames(V_hat) <- rownames(V_hat) <- colnames(H_hat)
-
 # Extract variance of the coefficient on "age"
 variance_beta_age <- V_hat[4, 4]
 
@@ -316,6 +317,8 @@ grad_g <- phi_age_60 * x_age_60 - phi_age_30 * x_age_30
 var_gamma_1 <- t(grad_g) %*% V_hat %*% grad_g / nrow(dat_1000)
 gamma_1_sd <- sqrt(var_gamma_1)
 
+print(nrow(dat_1000))
+
 # Approximate finite sample distribution
 gamma_1_values <- seq(gamma_1 - 4 * gamma_1_sd, gamma_1 + 4 * gamma_1_sd, length.out = 100)
 gamma_1_density <- dnorm(gamma_1_values, mean = gamma_1, sd = gamma_1_sd)
@@ -324,6 +327,8 @@ gamma_1_density <- dnorm(gamma_1_values, mean = gamma_1, sd = gamma_1_sd)
 plot(gamma_1_values, gamma_1_density, type = "l", main = "Asymptotic Approximation of Gamma_1", xlab = "Gamma_1", ylab = "Density")
 
 # (j)
+print(gamma_1_sd)
+print(gamma_1)
 t_statistic <- gamma_1 / gamma_1_sd
 critical_value <- qnorm(0.975)  # 1.96 for 95% confidence
 
