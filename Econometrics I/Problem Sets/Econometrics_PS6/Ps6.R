@@ -192,6 +192,8 @@ print(paste("Gamma_2 (weighted effect over categories):", gamma_2))
 M <- 100
 n <- nrow(dat_1000)  # Should be 1000
 
+print(n)
+
 # Initialize vectors to store bootstrap estimates
 beta_age_bootstrap <- numeric(M)
 gamma_1_bootstrap <- numeric(M)
@@ -214,7 +216,7 @@ for (m in 1:M) {
   # Compute gamma_1(beta_hat)
   x_age_30 <- c(1, 500, 1, 30, 1, 0, 0, 0)
   x_age_60 <- x_age_30
-  x_age_60[4] <- 35  # Update age to 35
+  x_age_60[4] <- 60  # Update age to 35
   prob_age_30 <- pnorm(sum(x_age_30 * beta_hat_boot))
   prob_age_60 <- pnorm(sum(x_age_60 * beta_hat_boot))
   gamma_1_bootstrap[m] <- prob_age_60 - prob_age_30
@@ -313,11 +315,13 @@ phi_age_60 <- dnorm(sum(x_age_60 * beta_hat))
 phi_age_30 <- dnorm(sum(x_age_30 * beta_hat))
 grad_g <- phi_age_60 * x_age_60 - phi_age_30 * x_age_30
 
+print(grad_g)
+
 # Compute asymptotic variance
 var_gamma_1 <- t(grad_g) %*% V_hat %*% grad_g / nrow(dat_1000)
 gamma_1_sd <- sqrt(var_gamma_1)
 
-print(nrow(dat_1000))
+print(gamma_1_sd)
 
 # Approximate finite sample distribution
 gamma_1_values <- seq(gamma_1 - 4 * gamma_1_sd, gamma_1 + 4 * gamma_1_sd, length.out = 100)
@@ -327,8 +331,6 @@ gamma_1_density <- dnorm(gamma_1_values, mean = gamma_1, sd = gamma_1_sd)
 plot(gamma_1_values, gamma_1_density, type = "l", main = "Asymptotic Approximation of Gamma_1", xlab = "Gamma_1", ylab = "Density")
 
 # (j)
-print(gamma_1_sd)
-print(gamma_1)
 t_statistic <- gamma_1 / gamma_1_sd
 critical_value <- qnorm(0.975)  # 1.96 for 95% confidence
 
