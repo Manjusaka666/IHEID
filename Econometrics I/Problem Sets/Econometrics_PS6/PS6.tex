@@ -134,7 +134,7 @@ The Graduate Institute, Fall 2024, Marko Milkota\\
 \end{center}  
 
 \vspace{0.4cm}
-\setstretch{1.5}
+\setstretch{1.2}
 
 \section*{Problem 1}
 
@@ -146,7 +146,7 @@ It includes the following variables: \textit{invoice no} (identifier of transact
 \textit{invoice date}, \textit{shopping mall}, \textit{gender}, 
 \textit{age}, and \textit{payment method} (cash vs. credit card vs. debit card payment). 
 
-You are interested in shedding light on the determinants of cash- vs card-payment. 
+You are interested in shedding light on the determinants of cash vs card payment. 
 For this purpose, you set up a probit model:
 \begin{equation}
     y^*_i = x'_i \beta + u_i \quad  u_i \mid x_i \sim N(0, 1)
@@ -259,6 +259,30 @@ Also, use the above expression to construct a 95\% confidence interval for $\gam
     The dataset's reported missing values indicate that only 
     \textit{age} has missing observations (119 missing values). 
     After dropping these, we end up with 99338 observations.
+
+    \begin{lstlisting}[language=R]
+rm(list = ls())
+library(tidyverse)
+library(ggplot2)
+library(dplyr)
+library(broom)
+library(stats)
+library(stargazer)
+library(car)
+
+set.seed(2024)
+
+dat <- read.csv("dat_SalesCustomers.csv")
+variables_to_check <- c("category", "price", "gender", "age", "payment_method")
+missing_counts <- sapply(dat[variables_to_check], function(x) sum(is.na(x)))
+print("Number of missing values in each variable:")
+print(missing_counts)
+
+dat_clean <- dat[complete.cases(dat[variables_to_check]), ]
+
+num_observations <- nrow(dat_clean)
+print(paste("Number of observations after removing missing values:", num_observations))
+    \end{lstlisting}
 \end{autosolution}
 
 \begin{autosolution}
@@ -283,6 +307,20 @@ Also, use the above expression to construct a 95\% confidence interval for $\gam
     Empirically, this fraction is about $44.79\%$.
 
     These results indicate that cash payments represent nearly half of all transactions and sales value.
+
+    \begin{lstlisting}[language=R]
+dat_clean$paid_in_cash <- ifelse(dat_clean$payment_method == "Cash", 1, 0)
+dat_clean$male <- ifelse(dat_clean$gender == "Male", 1, 0)
+fraction_cash_transactions <- mean(dat_clean$paid_in_cash)
+print(paste("Fraction of transactions carried out in cash:", 
+            round(fraction_cash_transactions * 100, 2), "%"))
+
+total_sales <- sum(dat_clean$price)
+cash_sales <- sum(dat_clean$price[dat_clean$paid_in_cash == 1])
+fraction_cash_sales <- cash_sales / total_sales
+print(paste("Fraction of overall sales carried out in cash:", 
+            round(fraction_cash_sales * 100, 2), "%"))
+    \end{lstlisting}
 \end{autosolution}
 
 \begin{autosolution}
@@ -310,7 +348,50 @@ Also, use the above expression to construct a 95\% confidence interval for $\gam
         \item Transactions fraction: Clothes/Shoes: 43.8\%, Cosmetics: 14.8\%, Food: 14.0\%, Technology: 5.0\%, Other: 22.4\%.
         \item Sales fraction: Clothes/Shoes: 70.58\%, Cosmetics: 2.72\%, Food: 0.32\%, Technology: 23.9\%, Other: 2.49\%.
     \end{itemize}
-    The result shows that most transactions and sales are in the Clothes/Shoes category. Technology, though having the lowest transaction fraction, has the second-highest sales fraction, meaning that it has the highest average price.
+    The result shows that most transactions and sales are in the Clothes/Shoes category. 
+    Technology, though having the lowest transaction fraction, has the second-highest sales fraction, 
+    meaning that it has the highest average price.
+
+    \begin{lstlisting}[language=R]
+dat_1000 <- dat_clean[1:1000, ]
+
+dat_1000$clothes_shoes <- ifelse(dat_1000$category %in% c("Clothing", "Shoes"), 1, 0)
+dat_1000$cosmetics <- ifelse(dat_1000$category == "Cosmetics", 1, 0)
+dat_1000$food <- ifelse(dat_1000$category %in% c("Food", "Food & Beverage"), 1, 0)
+dat_1000$technology <- ifelse(dat_1000$category == "Technology", 1, 0)
+
+dat_1000$other_category <- ifelse(dat_1000$clothes_shoes + dat_1000$cosmetics + dat_1000$food + dat_1000$technology == 0, 1, 0)
+
+all(dat_1000$clothes_shoes + dat_1000$cosmetics + dat_1000$food + dat_1000$technology + dat_1000$other_category == 1)
+
+fraction_transactions <- c(
+  "Clothes and Shoes" = mean(dat_1000$clothes_shoes),
+  "Cosmetics" = mean(dat_1000$cosmetics),
+  "Food" = mean(dat_1000$food),
+  "Technology" = mean(dat_1000$technology),
+  "Other" = mean(dat_1000$other_category)
+)
+print("Fraction of transactions in each category:")
+print(round(fraction_transactions * 100, 2))
+
+total_sales_1000 <- sum(dat_1000$price)
+sales_clothes_shoes <- sum(dat_1000$price[dat_1000$clothes_shoes == 1])
+sales_cosmetics <- sum(dat_1000$price[dat_1000$cosmetics == 1])
+sales_food <- sum(dat_1000$price[dat_1000$food == 1])
+sales_technology <- sum(dat_1000$price[dat_1000$technology == 1])
+sales_other <- sum(dat_1000$price[dat_1000$other_category == 1])
+
+fraction_sales <- c(
+  "Clothes and Shoes" = sales_clothes_shoes / total_sales_1000,
+  "Cosmetics" = sales_cosmetics / total_sales_1000,
+  "Food" = sales_food / total_sales_1000,
+  "Technology" = sales_technology / total_sales_1000,
+  "Other" = sales_other / total_sales_1000
+)
+
+print("Fraction of sales in each category:")
+print(round(fraction_sales * 100, 2))
+    \end{lstlisting}
 \end{autosolution}
 
 \begin{autosolution}
@@ -332,7 +413,7 @@ Also, use the above expression to construct a 95\% confidence interval for $\gam
     \[
     \nabla_{\beta}\ell(\beta;Z_n) = \sum_{i=1}^n \left[ y_i \frac{\phi(x_i'\beta)}{\Phi(x_i'\beta)} - (1-y_i)\frac{\phi(x_i'\beta)}{1-\Phi(x_i'\beta)} \right] x_i.
     \]
-    \textbf{Step 1: Characterizing the MLE $\hat{\beta}$}
+    \underline{Step 1: Characterizing the MLE $\hat{\beta}$}
     
     The MLE $\hat{\beta}$ sets the gradient to zero:
     \[
@@ -343,11 +424,12 @@ Also, use the above expression to construct a 95\% confidence interval for $\gam
     \sum_{i=1}^n \left[ y_i \frac{\phi(x_i'\hat{\beta})}{\Phi(x_i'\hat{\beta})} - (1-y_i)\frac{\phi(x_i'\hat{\beta})}{1-\Phi(x_i'\hat{\beta})} \right] x_i = 0.
     \]
     This is a system of $k$ nonlinear equations in the $k$ unknowns $\hat{\beta} = (\hat{\beta}_1, \ldots, \hat{\beta}_k)'$.
-    \textbf{Step 2: No Closed-Form Solution}
+    
+    \underline{Step 2: No Closed-Form Solution}
 
     Unlike in linear regression or the logit model (even the logit doesn't have a closed form), the Probit model does not admit a closed-form solution for $\hat{\beta}$. The equation above must be solved using numerical optimization techniques such as the Newton-Raphson algorithm or other iterative methods.
 
-    \textbf{Step 3: Numerical Optimization}
+    \underline{Step 3: Numerical Optimization}
 
     A common iterative procedure is:
 
@@ -416,10 +498,57 @@ Also, use the above expression to construct a 95\% confidence interval for $\gam
         probability of cash usage.
         \item age coefficient is negative and small, not statistically significant either.
         \item Some category dummies (like Clothes/Shoes) are significantly different from zero,
-              indicating that the reference category (likely"Other") differs in payment method probability.            
+              indicating that the reference category (likely "Other") differs in payment method probability.            
     \end{itemize}
-
     \input{d.tex}
+
+    \begin{lstlisting}[language=R]
+X <- as.matrix(cbind(1, dat_1000[, c("price", "male", "age", "clothes_shoes", "cosmetics", "food", "technology")]))
+y <- dat_1000$paid_in_cash
+
+neg_log_likelihood <- function(beta, X, y) {
+  X_beta <- X %*% beta
+  log_phi_Xb <- pnorm(X_beta, log.p = TRUE)
+  log_phi_minus_Xb <- pnorm(-X_beta, log.p = TRUE)
+  ll <- sum(y * log_phi_Xb + (1 - y) * log_phi_minus_Xb)
+  return(-ll)
+}
+
+neg_log_likelihood_grad <- function(beta, X, y) {
+  X_beta <- X %*% beta
+  phi_Xb <- dnorm(X_beta)
+  Phi_Xb <- pnorm(X_beta)
+  Phi_minus_Xb <- pnorm(-X_beta)
+  epsilon <- 1e-16
+  Phi_Xb <- pmax(Phi_Xb, epsilon)
+  Phi_minus_Xb <- pmax(Phi_minus_Xb, epsilon)
+  gradient <- -t(X) %*% ((y * phi_Xb / Phi_Xb) - ((1 - y) * phi_Xb / Phi_minus_Xb))
+  return(as.vector(gradient))
+}
+
+initial_beta <- rep(0, ncol(X))
+
+result <- optim(par = initial_beta, fn = neg_log_likelihood, gr = neg_log_likelihood_grad, X = X, y = y, method = "BFGS")
+
+if (result$convergence == 0) {
+  cat("Optimization converged.\n")
+} else {
+  cat("Optimization did not converge.\n")
+}
+
+beta_hat <- result$par
+print("Estimated coefficients (beta_hat):")
+print(beta_hat)
+
+### Programming Method
+model <- glm(paid_in_cash ~ price + male + age + clothes_shoes + cosmetics + food + technology, 
+     data = dat_1000, family = binomial(link = "probit"))
+stargazer(model, type = "latex", title = "Optimization model", out = "d.tex")
+
+beta_hat2 <- coef(model)
+print("Estimated coefficients (beta_hat):")
+print(beta_hat2)
+    \end{lstlisting}
 \end{autosolution}
 
 \begin{autosolution}
@@ -450,21 +579,315 @@ Also, use the above expression to construct a 95\% confidence interval for $\gam
     \gamma_2(\hat{\beta}) \approx -0.02077,
     \]
     very close to $\gamma_1(\hat{\beta})$, indicating a similar overall effect once categories are averaged by their sales importance.
+
+    \begin{lstlisting}[language=R]
+x_age_30 <- c(1, 500, 1, 30, 1, 0, 0, 0)
+
+x_age_60 <- x_age_30
+x_age_60[4] <- 60  # Update age to 35
+
+prob_age_30 <- pnorm(sum(x_age_30 * beta_hat))
+prob_age_60 <- pnorm(sum(x_age_60 * beta_hat))
+
+gamma_1 <- prob_age_60 - prob_age_30
+print(paste("Gamma_1 (effect of age increasing by 5 years):", gamma_1))
+
+gamma_c <- numeric(length(fraction_sales))
+names(gamma_c) <- names(fraction_sales)
+
+for (cat in names(fraction_sales)) {
+  clothes_shoes <- ifelse(cat == "Clothes and Shoes", 1, 0)
+  cosmetics <- ifelse(cat == "Cosmetics", 1, 0)
+  food <- ifelse(cat == "Food", 1, 0)
+  technology <- ifelse(cat == "Technology", 1, 0)
+  
+  x_age_30_2 <- c(1, 500, 1, 30, clothes_shoes, cosmetics, food, technology)
+  x_age_60_2 <- x_age_30_2
+  x_age_60_2[4] <- 60  # Update age to 35
+  
+  prob_age_30_2 <- pnorm(sum(x_age_30_2 * beta_hat))
+  prob_age_60_2 <- pnorm(sum(x_age_60_2 * beta_hat))
+  
+  gamma_c[cat] <- prob_age_60_2 - prob_age_30_2
+}
+
+gamma_2 <- sum(fraction_sales * gamma_c)
+print(paste("Gamma_2 (weighted effect over categories):", gamma_2))        
+    \end{lstlisting}
 \end{autosolution}
 
 \begin{autosolution}
     \ 
 
+    Consider the linear model
+    \[
+    y_i = x_i' \beta + u_i
+    \]
+    where $ u_i \mid x_i \sim N(0,1) $.
+
+    \underline{Step 1: Define the Objective Function}
+
+    Define $\mathcal{B} = \left\{ \beta\in \mathbb{R}: \left\| \beta\right\| \leq c \right\}$ for some very large $c$. 
+    
+    The objective function is given by:
+    \[
+    \hat{\beta} = \arg \underset{\beta \in \mathcal{B}}{\min}Q_n(\beta) = \arg \underset{\beta \in \mathcal{B}}{\min} \frac{1}{n} \sum_{i=1}^n (y_i - x_i' \beta)^2
+    \]
+
+    \underline{Step 2: Express the Limiting Behavior of the Objective Function}
+
+    The expected form of the objective function $Q_n(\beta)$ is:
+    \begin{align*}
+        Q(\beta) &= E[(y_i - x_i' \beta)^2]\\
+        &= E[(x_i' \beta_0 + u_i - x_i' \beta)^2]\\
+        &= E[(x_i' (\beta_0 - \beta) + u_i)^2] \\
+        &= E[(x_i' (\beta_0 - \beta))^2] + 2E[x_i' (\beta_0 - \beta) u_i] + E[u_i^2] \\
+        &= E[(x_i' (\beta_0 - \beta))^2] + \sigma^2 \\
+        &= (\beta_0 - \beta)' E[x_i x_i'] (\beta_0 - \beta) + 1
+    \end{align*}
+    since $E[u_i \mid x_i] = 0$ and $\sigma^2 = 1$.
+
+    \underline{Step 3: Show Minimization of $Q(\beta)$ at $\beta_0$}
+
+    As $E[x_i x_i^{\prime}]$ is positive definite, the function $Q(\beta)$ is minimized at $\beta_0$ because:
+    \[
+    (\beta_0 - \beta)' E[x_i x_i'] (\beta_0 - \beta) \geq 0
+    \]
+    which is zero if and only if $\beta = \beta_0$.
+
+    \underline{Step 4: Prove Uniform Convergence of $Q_n(\beta)$ to $Q(\beta)$}
+
+    It's obvious that $m(x_i, y_i, \beta) = (y_i - x_i^{\prime} \beta)^{2}$ satisfies the first three conditions of the Uniform Law of Large Numbers(ULLN).
+    
+    We then prove the fourth one:
+    \begin{align*}
+        E\left[\underset{\beta \in \mathcal{B} }{\sup} \left \| m(x_i, y_i, \beta) \right \|  \right] &\leq E\left[\left | y_i \right |^2  \right] 
+        + \underset{\beta \in \mathcal{B}}{\sup} 2E\left[ \left|y_i\right|\left|x_i\right|\left\| \beta \right\| \right]
+        + \underset{\beta \in \mathcal{B}}{\sup} E\left[ \left|x_i \right| ^2 \left \| \beta^2 \right \| \right] \\
+        & < \infty
+    \end{align*}
+
+    By ULLN:
+    \[
+    Q_n(\beta) \overset{p}{\rightarrow} Q(\beta), n \to \infty
+    \]
+
+    \underline{Step 5: Demonstrate the Consistency of $\hat{\beta}_n$}
+
+    According to extremum estimator theory, if $Q_n(\beta)$ converges uniformly to $Q(\beta)$ and $Q(\beta)$ has a unique global minimum at $\beta_0$, then:
+    \[
+    \hat{\beta}_n \stackrel{p}{\rightarrow} \beta_0
+    \]
+
+    First, we define $m(w_i; \theta) = y_i \log(\Phi (x_i^{\prime} \beta)) + (1-y_i) \log(\Phi (-x_i^{\prime} \beta))$.
+
+    \underline{Step 1: Uniform convergence}
+
+    By the Uniform Law of Large Numbers (ULLN), we have that
+    \[
+    \frac{1}{n} \sum_{i=1}^n m(w_i; \theta) \xrightarrow{p} E[m(w_i; \theta)].
+    \]
+
+
 \end{autosolution}
 
 \begin{autosolution}
     \
 
+    \begin{lstlisting}[language=R]
+M <- 100
+n <- nrow(dat_1000)
+beta_age_bootstrap <- numeric(M)
+gamma_1_bootstrap <- numeric(M)
+gamma_2_bootstrap <- numeric(M)
+set.seed(2024)
+
+for (m in 1:M) {
+  indices <- sample(1:n, size = n, replace = TRUE)
+  dat_bootstrap <- dat_1000[indices, ]
+  
+  model_boot <- glm(paid_in_cash ~ price + male + age + clothes_shoes + cosmetics + food + technology, data = dat_bootstrap, family = binomial(link = "probit"))
+  beta_hat_boot <- coef(model_boot)
+  
+  beta_age_bootstrap[m] <- beta_hat_boot["age"]
+  
+  x_age_30 <- c(1, 500, 1, 30, 1, 0, 0, 0)
+  x_age_60 <- x_age_30
+  x_age_60[4] <- 60  # Update age to 35
+  prob_age_30 <- pnorm(sum(x_age_30 * beta_hat_boot))
+  prob_age_60 <- pnorm(sum(x_age_60 * beta_hat_boot))
+  gamma_1_bootstrap[m] <- prob_age_60 - prob_age_30
+  
+  gamma_c <- numeric(length(fraction_sales))
+  names(gamma_c) <- names(fraction_sales)
+  
+  for (cat in names(fraction_sales)) {
+    clothes_shoes <- ifelse(cat == "Clothes and Shoes", 1, 0)
+    cosmetics <- ifelse(cat == "Cosmetics", 1, 0)
+    food <- ifelse(cat == "Food", 1, 0)
+    technology <- ifelse(cat == "Technology", 1, 0)
+    
+    x_age_30_2 <- c(1, 500, 1, 30, clothes_shoes, cosmetics, food, technology)
+    x_age_60_2 <- x_age_30
+    x_age_60_2[4] <- 60  # Update age to 35
+    
+    prob_age_30_2 <- pnorm(sum(x_age_30_2 * beta_hat_boot))
+    prob_age_60_2 <- pnorm(sum(x_age_60_2 * beta_hat_boot))
+    gamma_c[cat] <- prob_age_60_2 - prob_age_30_2
+  }
+  
+  gamma_2_bootstrap[m] <- sum(fraction_sales * gamma_c)
+}
+
+hist(beta_age_bootstrap, main = "Bootstrap Distribution of Coefficient on Age", xlab = "Coefficient on Age", breaks = 20)
+hist(gamma_1_bootstrap, main = "Bootstrap Distribution of Gamma_1", xlab = "Gamma_1", breaks = 20)
+hist(gamma_2_bootstrap, main = "Bootstrap Distribution of Gamma_2", xlab = "Gamma_2", breaks = 20)
+    \end{lstlisting}
 \end{autosolution}
 
 \begin{autosolution}
     \
 
+    For a sample $\{(y_i,x_i)\}_{i=1}^n$, the log-likelihood function is:
+    \[
+    \ell(\beta; Z_n) = \sum_{i=1}^n \left[ y_i \log(\Phi(x_i'\beta)) + (1 - y_i)\log(1 - \Phi(x_i'\beta)) \right].
+    \]
+
+    To derive the Hessian, focus on a single observation $i$ and then we will take expectations:
+    \[
+    \ell_i(\beta) = y_i \log(\Phi(t_i)) + (1 - y_i)\log(1 - \Phi(t_i)), \quad t_i = x_i'\beta.
+    \]
+
+    \underline{First Derivative (Score):}  
+
+    First, take the derivative with respect to $t_i$:
+    \[
+    \frac{\partial \ell_i(\beta)}{\partial t_i} = y_i \frac{\phi(t_i)}{\Phi(t_i)} - (1 - y_i)\frac{\phi(t_i)}{1 - \Phi(t_i)},
+    \]
+    where $\phi(\cdot)$ is the standard normal PDF.
+
+    Combine the fractions:
+    \[
+    \frac{\partial \ell_i(\beta)}{\partial t_i} 
+    = \phi(t_i)\left[\frac{y_i}{\Phi(t_i)} - \frac{1 - y_i}{1 - \Phi(t_i)}\right].
+    \]
+
+    Find a common denominator $\Phi(t_i)(1-\Phi(t_i))$:
+    \[
+    \frac{\partial \ell_i(\beta)}{\partial t_i} 
+    = \frac{\phi(t_i)}{\Phi(t_i)(1-\Phi(t_i))}(y_i - \Phi(t_i)).
+    \]
+
+    Since $y_i - \Phi(t_i) = y_i - p_i$, we have:
+    \[
+    \frac{\partial \ell_i(\beta)}{\partial t_i} = \frac{\phi(t_i)}{p_i(1-p_i)}(y_i - p_i).
+    \]
+
+    To get the gradient w.r.t. $\beta$, use chain rule:
+    \[
+    \frac{\partial \ell_i(\beta)}{\partial \beta} = \frac{\partial \ell_i(\beta)}{\partial t_i} x_i = \frac{\phi(t_i)}{p_i(1-p_i)}(y_i - p_i) x_i.
+    \]
+
+    This is the score vector for a single observation.
+
+    \underline{Second Derivative (Hessian):}
+
+    Now differentiate again with respect to $\beta$:
+    \[
+    \frac{\partial^2 \ell_i(\beta)}{\partial \beta \partial \beta'} = \frac{\partial}{\partial \beta}\left(\frac{\phi(t_i)}{p_i(1-p_i)}(y_i - p_i) x_i\right).
+    \]
+
+    Since $t_i = x_i'\beta$, $\frac{\partial t_i}{\partial \beta} = x_i$. Thus, second derivatives w.r.t. $\beta$ come through differentiating w.r.t. $t_i$, then applying chain rule again:
+    \[
+    \frac{\partial^2 \ell_i(\beta)}{\partial \beta \partial \beta'} = \left(\frac{\partial^2 \ell_i(\beta)}{\partial t_i^2}\right) x_i x_i'.
+    \]
+
+    So the main task is to find:
+    \[
+    \frac{\partial^2 \ell_i(\beta)}{\partial t_i^2}.
+    \]
+
+    We have:
+    \[
+    \frac{\partial \ell_i(\beta)}{\partial t_i} = \frac{\phi(t_i)}{p_i(1-p_i)}(y_i - p_i).
+    \]
+
+    Take the derivative w.r.t. $t_i$:
+    \[
+    \frac{\partial^2 \ell_i(\beta)}{\partial t_i^2} 
+    = \frac{\partial}{\partial t_i}\left[\frac{\phi(t_i)}{p_i(1-p_i)}(y_i - p_i)\right].
+    \]
+
+    This involves the product rule and quotient rule. However, \textit{the key simplification occurs when we take expectations at the true parameter $\beta_0$}. Under the true model, $E[y_i]=p_i$, so $E[y_i - p_i]=0$. Terms involving $(y_i - p_i)$ vanish when taking expectation.
+
+    At the true parameter, the Fisher information (which is $-E[\partial^2 \ell_i(\beta_0)/\partial \beta \partial \beta']$) simplifies dramatically. Instead of going through the full complex algebra of the second derivative in the $y_i$ form, we use the known result from standard Probit derivations:
+
+    Under correct specification, the expected Hessian w.r.t. $t_i$ at $\beta_0$ is known to be:
+    \[
+    E\left[\frac{\partial^2 \ell_i(\beta_0)}{\partial t_i^2}\right] = -\frac{\phi(t_i)^2}{p_i(1-p_i)}.
+    \]
+    Thus:
+    \[
+    E\left[\frac{\partial^2 \ell_i(\beta_0)}{\partial \beta \partial \beta'}\right] 
+    = E\left[\frac{\partial^2 \ell_i(\beta_0)}{\partial t_i^2} x_i x_i'\right] 
+    = E\left[-\frac{\phi(t_i)^2}{p_i(1-p_i)} x_i x_i'\right].
+    \]
+
+    Multiplying by $-1$, the Fisher Information matrix (which is $H$ in the problem) is:
+    \[
+    H = E\left[\frac{\phi(x_i'\beta_0)^2}{\Phi(x_i'\beta_0)[1-\Phi(x_i'\beta_0)]} x_i x_i'\right].
+    \]
+
+    Since $1-\Phi(t_i)=\Phi(-t_i)$:
+    \[
+    H = E\left[\frac{\phi(x_i'\beta_0)^2}{\Phi(x_i'\beta_0)\Phi(-x_i'\beta_0)} x_i x_i'\right].
+    \]
+
+    \begin{lstlisting}[language=R]
+X <- as.matrix(cbind(1, dat_1000[, c("price", "male", "age", "clothes_shoes", "cosmetics", "food", "technology")]))
+X_beta_hat <- X %*% beta_hat
+
+log_phi_Xb <- dnorm(X_beta_hat, log = TRUE)
+log_Phi_Xb <- pnorm(X_beta_hat, log.p = TRUE)
+
+log_Phi_minus_Xb <- pnorm(-X_beta_hat, log.p = TRUE)
+log_factor <- 2 * log_phi_Xb - log_Phi_Xb - log_Phi_minus_Xb
+factor <- exp(log_factor)
+factor[!is.finite(factor)] <- 0
+factor <- as.vector(factor)
+X_weighted <- sweep(X, 1, factor, FUN = "*")
+
+H_hat <- t(X) %*% X_weighted / nrow(X)
+V_hat <- solve(H_hat)
+
+variance_beta_age <- V_hat[4, 4]
+beta_age_sd <- sqrt(variance_beta_age / nrow(X))
+
+if (!is.finite(beta_age_sd)) {
+  stop("Standard error for the coefficient on age is not finite.")
+}
+
+mean_age <- beta_hat[4]
+simulated_draws <- rnorm(1000, mean = mean_age, sd = beta_age_sd)
+
+library(ggplot2)
+
+bootstrap_data <- data.frame(Distribution = "Bootstrap", Values = beta_age_bootstrap)
+asymptotic_data <- data.frame(Distribution = "Asymptotic", Values = simulated_draws)
+combined_data <- rbind(bootstrap_data, asymptotic_data)
+
+ggplot(combined_data, aes(x = Values, fill = Distribution)) +
+  geom_histogram(aes(y = ..density..), 
+                 bins = 20, alpha = 1, position = "identity", color = "black") +
+  scale_fill_manual(values = c("Bootstrap" = "grey", "Asymptotic" = "red")) +
+  labs(title = "Comparison of Bootstrap and Asymptotic Distributions",
+       x = "Coefficient on Age", y = "Density") +
+  theme_minimal() +
+  theme(plot.title = element_text(hjust = 0.5, size = 14),
+        legend.title = element_blank(),
+        legend.position = "topright") +
+  guides(fill = guide_legend(reverse = TRUE)) 
+    \end{lstlisting}
 \end{autosolution}
 
 \begin{autosolution}
@@ -524,6 +947,40 @@ Also, use the above expression to construct a 95\% confidence interval for $\gam
     \[
     \gamma_1(\hat{\beta}) \sim N\left(\gamma_1(\hat{\beta}), \frac{1}{n}\nabla_\beta \gamma_1(\hat{\beta})' \hat{H}^{-1} \nabla_\beta \gamma_1(\hat{\beta})\right).
     \]
+
+    \begin{lstlisting}[language=R]
+phi_age_60 <- dnorm(sum(x_age_60 * beta_hat))
+phi_age_30 <- dnorm(sum(x_age_30 * beta_hat))
+grad_g <- phi_age_60 * x_age_60 - phi_age_30 * x_age_30
+
+print(grad_g)
+
+# Compute asymptotic variance
+var_gamma_1 <- t(grad_g) %*% V_hat %*% grad_g / nrow(dat_1000)
+gamma_1_sd <- sqrt(var_gamma_1)
+
+simulated_gamma <- rnorm(1000, mean = gamma_1, sd = gamma_1_sd)
+
+bootstrap_data2 <- data.frame(Value = gamma_1_bootstrap, Distribution = "Bootstrap")
+simulated_data2 <- data.frame(Value = simulated_gamma, Distribution = "Asymptotic")
+
+# Combine data
+combined_data2 <- rbind(bootstrap_data2, simulated_data2)
+
+# Create the plot
+ggplot(combined_data2, aes(x = Value, fill = Distribution)) +
+  geom_histogram(aes(y = ..density..), bins = 20, position = "identity", alpha = 0.7, color = "black") +
+  scale_fill_manual(values = c("Bootstrap" = "grey", "Asymptotic" = "orange")) +
+  labs(title = "Comparison of Bootstrap and Asymptotic Distributions of Gamma_1",
+       x = "Gamma_1 Estimation", y = "Density") +
+  theme_minimal() +
+  theme(plot.title = element_text(hjust = 0.5, size = 16),
+        legend.title = element_blank(),
+        legend.position = "topright",
+        axis.title = element_text(size = 14),
+        axis.text = element_text(size = 12)) +
+  guides(fill = guide_legend(reverse = TRUE))        
+    \end{lstlisting}
 \end{autosolution}
 
 \begin{autosolution}
@@ -549,11 +1006,12 @@ Also, use the above expression to construct a 95\% confidence interval for $\gam
     
     A 95\% confidence interval for $\gamma_1(\beta)$ is:
     \[
-    \gamma_1(\hat{\beta}) \pm 1.96 \sqrt{\frac{\hat{V}}{n}}.
+    \left[\gamma_1(\hat{\beta}) - 1.96 \sqrt{\frac{\hat{V}}{n}}, \gamma_1(\hat{\beta}) + 1.96 \sqrt{\frac{\hat{V}}{n}}\right].
     \]
 
-    Empirically, the 95\% Confidence Interval for $\gamma_1(\beta)$ is: -0.0815 to 0.0396,
-    covering 0. So, we conclude that the expected probabilities of cash payment for a 30 year-old
+    Empirically, the 95\% Confidence Interval for $\gamma_1(\beta)$ is: -0.0815 to 0.0396, covering 0. 
+    
+    So, we conclude that the expected probabilities of cash payment for a 30 year-old
     and a 60 year-old male buying clothes for 500 TRY are not significantly different.
     
     \textbf{Graphical Analysis and Econometric Interpretation:}
@@ -563,6 +1021,25 @@ Also, use the above expression to construct a 95\% confidence interval for $\gam
         \item The negative partial effects of age, though small in magnitude, show that older individuals might be slightly less likely to pay in cash. However, statistical tests indicate this difference is not significant at conventional levels.
         \item Category-specific differences matter, as seen from the significance of some category dummies. Clothes/Shoes, for example, differ in their propensity of cash usage compared to the base category.
     \end{itemize}
+
+    \begin{lstlisting}[language=R]
+t_statistic <- gamma_1 / gamma_1_sd
+critical_value <- qnorm(0.975)  # 1.96 for 95% confidence
+
+if (abs(t_statistic) > critical_value) {
+  conclusion <- "Reject the null hypothesis."
+} else {
+  conclusion <- "Fail to reject the null hypothesis."
+}
+
+print(paste("t-statistic:", round(t_statistic, 2)))
+print(paste("Conclusion:", conclusion))
+
+lower_bound <- gamma_1 - critical_value * gamma_1_sd
+upper_bound <- gamma_1 + critical_value * gamma_1_sd
+
+print(paste("95% Confidence Interval for gamma_1:", round(lower_bound, 4), "to", round(upper_bound, 4)))    
+    \end{lstlisting}
 \end{autosolution}
 
 \end{document}

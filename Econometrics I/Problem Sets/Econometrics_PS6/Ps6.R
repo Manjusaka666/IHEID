@@ -190,9 +190,7 @@ print(paste("Gamma_2 (weighted effect over categories):", gamma_2))
 # (g)
 # Number of bootstrap samples
 M <- 100
-n <- nrow(dat_1000)  # Should be 1000
-
-print(n)
+n <- nrow(dat_1000)
 
 # Initialize vectors to store bootstrap estimates
 beta_age_bootstrap <- numeric(M)
@@ -291,22 +289,51 @@ if (!is.finite(beta_age_sd)) {
   stop("Standard error for the coefficient on age is not finite.")
 }
 
-# Approximate finite sample distribution
-beta_age_values <- seq(beta_hat[4] - 4 * beta_age_sd, beta_hat[4] + 4 * beta_age_sd, length.out = 100)
-beta_age_density <- dnorm(beta_age_values, mean = beta_hat[4], sd = beta_age_sd)
+mean_age <- beta_hat[4]
+simulated_draws <- rnorm(1000, mean = mean_age, sd = beta_age_sd)
 
-# Plot the distribution
-plot(beta_age_values, beta_age_density, type = "l", main = "Asymptotic Approximation of Coefficient on Age", xlab = "Coefficient on Age", ylab = "Density")
+library(ggplot2)
 
-### Compare with bootstrapping
-# Assuming "beta_age_bootstrap" contains the bootstrap estimates from part (g)
+# Create data frames for ggplot
+bootstrap_data <- data.frame(Distribution = "Bootstrap", Values = beta_age_bootstrap)
+asymptotic_data <- data.frame(Distribution = "Asymptotic", Values = simulated_draws)
+combined_data <- rbind(bootstrap_data, asymptotic_data)
 
-# Plot the histogram of bootstrap estimates
-hist(beta_age_bootstrap, breaks = 20, freq = FALSE, main = "Bootstrap vs. Asymptotic Distribution of Coefficient on Age", xlab = "Coefficient on Age")
+# Create the ggplot histogram
+ggplot(combined_data, aes(x = Values, fill = Distribution)) +
+  geom_histogram(aes(y = ..density..), 
+                 bins = 20, alpha = 1, position = "identity", color = "black") +
+  scale_fill_manual(values = c("Bootstrap" = "grey", "Asymptotic" = "red")) +
+  labs(title = "Comparison of Bootstrap and Asymptotic Distributions",
+       x = "Coefficient on Age", y = "Density") +
+  theme_minimal() +
+  theme(plot.title = element_text(hjust = 0.5, size = 14),
+        legend.title = element_blank(),
+        legend.position = "topright") +
+  guides(fill = guide_legend(reverse = TRUE))
 
-# Add the asymptotic density curve
-lines(beta_age_values, beta_age_density, col = "red", lwd = 2)
-legend("topright", legend = c("Bootstrap", "Asymptotic"), col = c("grey", "red"), lwd = c(1, 2))
+
+# Assuming "beta_age_bootstrap" contains the bootstrap estimates from previous computations
+# hist(beta_age_bootstrap, breaks = 20, freq = FALSE, col = "grey", main = "Bootstrap vs. Asymptotic Distribution of Coefficient on Age", xlab = "Coefficient on Age")
+# lines(density(simulated_draws), col = "red", lwd = 2)
+# legend("topright", legend = c("Bootstrap", "Asymptotic"), col = c("grey", "red"), lwd = c(1, 2))
+
+# # Approximate finite sample distribution
+# beta_age_values <- seq(beta_hat[4] - 4 * beta_age_sd, beta_hat[4] + 4 * beta_age_sd, length.out = 100)
+# beta_age_density <- dnorm(beta_age_values, mean = beta_hat[4], sd = beta_age_sd)
+
+# # Plot the distribution
+# plot(beta_age_values, beta_age_density, type = "l", main = "Asymptotic Approximation of Coefficient on Age", xlab = "Coefficient on Age", ylab = "Density")
+
+# ### Compare with bootstrapping
+# # Assuming "beta_age_bootstrap" contains the bootstrap estimates from part (g)
+
+# # Plot the histogram of bootstrap estimates
+# hist(beta_age_bootstrap, breaks = 20, freq = FALSE, main = "Bootstrap vs. Asymptotic Distribution of Coefficient on Age", xlab = "Coefficient on Age")
+
+# # Add the asymptotic density curve
+# lines(beta_age_values, beta_age_density, col = "red", lwd = 2)
+# legend("topright", legend = c("Bootstrap", "Asymptotic"), col = c("grey", "red"), lwd = c(1, 2))
 
 
 # (i)
@@ -321,14 +348,37 @@ print(grad_g)
 var_gamma_1 <- t(grad_g) %*% V_hat %*% grad_g / nrow(dat_1000)
 gamma_1_sd <- sqrt(var_gamma_1)
 
-print(gamma_1_sd)
+simulated_gamma <- rnorm(1000, mean = gamma_1, sd = gamma_1_sd)
+
+bootstrap_data2 <- data.frame(Value = gamma_1_bootstrap, Distribution = "Bootstrap")
+simulated_data2 <- data.frame(Value = simulated_gamma, Distribution = "Asymptotic")
+
+# Combine data
+combined_data2 <- rbind(bootstrap_data2, simulated_data2)
+
+# Create the plot
+ggplot(combined_data2, aes(x = Value, fill = Distribution)) +
+  geom_histogram(aes(y = ..density..), bins = 20, position = "identity", alpha = 0.7, color = "black") +
+  scale_fill_manual(values = c("Bootstrap" = "grey", "Asymptotic" = "orange")) +
+  labs(title = "Comparison of Bootstrap and Asymptotic Distributions of Gamma_1",
+       x = "Gamma_1 Estimation", y = "Density") +
+  theme_minimal() +
+  theme(plot.title = element_text(hjust = 0.5, size = 16),
+        legend.title = element_blank(),
+        legend.position = "topright",
+        axis.title = element_text(size = 14),
+        axis.text = element_text(size = 12)) +
+  guides(fill = guide_legend(reverse = TRUE))
+
+
+# print(gamma_1_sd)
 
 # Approximate finite sample distribution
-gamma_1_values <- seq(gamma_1 - 4 * gamma_1_sd, gamma_1 + 4 * gamma_1_sd, length.out = 100)
-gamma_1_density <- dnorm(gamma_1_values, mean = gamma_1, sd = gamma_1_sd)
+# gamma_1_values <- seq(gamma_1 - 4 * gamma_1_sd, gamma_1 + 4 * gamma_1_sd, length.out = 100)
+# gamma_1_density <- dnorm(gamma_1_values, mean = gamma_1, sd = gamma_1_sd)
 
 # Plot the approximate finite sample distribution
-plot(gamma_1_values, gamma_1_density, type = "l", main = "Asymptotic Approximation of Gamma_1", xlab = "Gamma_1", ylab = "Density")
+# plot(gamma_1_values, gamma_1_density, type = "l", main = "Asymptotic Approximation of Gamma_1", xlab = "Gamma_1", ylab = "Density")
 
 # (j)
 t_statistic <- gamma_1 / gamma_1_sd
