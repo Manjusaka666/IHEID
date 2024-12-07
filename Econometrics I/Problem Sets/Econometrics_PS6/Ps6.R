@@ -302,8 +302,8 @@ combined_data <- rbind(bootstrap_data, asymptotic_data)
 # Create the ggplot histogram
 ggplot(combined_data, aes(x = Values, fill = Distribution)) +
   geom_histogram(aes(y = ..density..), 
-                 bins = 20, alpha = 1, position = "identity", color = "black") +
-  scale_fill_manual(values = c("Bootstrap" = "grey", "Asymptotic" = "red")) +
+                 bins = 20, alpha = 0.7, position = "identity", color = "black") +
+  scale_fill_manual(values = c("Bootstrap" = "grey", "Asymptotic" = "orange")) +
   labs(title = "Comparison of Bootstrap and Asymptotic Distributions",
        x = "Coefficient on Age", y = "Density") +
   theme_minimal() +

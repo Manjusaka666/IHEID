@@ -2,7 +2,7 @@
 
 For previous estomation methods, we have:
 \[
-\hat{\theta} = \arg \min_{\theta} \mathcal{Q}_n (\theta; Y_n).
+\hat{\theta} = \arg \min_{\theta} \mathcal{Q}_n (\theta; Y^n).
 \]
 Take the first-order condition to higher orders, we have:
 \begin{align*}
@@ -49,7 +49,7 @@ Take the first-order condition to higher orders, we have:
 In some cases, we are not able to find the joint expectation of $\beta$ and $\Sigma$, but may know identically.
 
 \begin{eg}
-    $$\hat{\theta} = \arg \min_{\theta} \mathcal{Q}(\theta; Y_n)$$ cannot be obtained analytically.\\
+    $$\hat{\theta} = \arg \min_{\theta} \mathcal{Q}(\theta; Y^n)$$ cannot be obtained analytically.\\
     As $\theta = [\theta_1, \theta_2]^{\prime}$, we know $\hat{\theta}_1 \mid \theta_2$ and $\hat{\theta}_2 \mid \theta_1$
 \end{eg}
 
@@ -195,9 +195,9 @@ we have:
 In this case, we have:
 \begin{itemize}
     \item $\Theta$ is compact, take $\Theta = [-c, c]$ for some large $c$.
-    \item $\mathcal{Q}_n(\theta, Y^n) = \sum_{i=1}^{n} \left(y_i - \theta\right)^2 \overset{p}{\rightarrow} \underset{Q \left | \theta  \right \rangle}{\underbrace{\mathbb{E}\left[(y_{i-\theta})^2\right]}}$ by LLN;
-    \item $Q \left | \theta  \right \rangle = \mathbb{E}[y_i^2] - 2 \theta \mathbb{E}[y_i] + \theta^2 = \mathbb{V}[y_i] + \left( \mathbb{E}[y_i]-\theta \right)^2$ is continuous.
-    \item $Q \left | \theta  \right \rangle$ is uniquely minimized by $\theta_0 = \mathbb{E}[y_i]$.
+    \item $\mathcal{Q}_n(\theta, Y^n) = \sum_{i=1}^{n} \left(y_i - \theta\right)^2 \overset{p}{\rightarrow} \underset{Q (\theta)}{\underbrace{\mathbb{E}\left[(y_{i-\theta})^2\right]}}$ by LLN;
+    \item $Q (\theta) = \mathbb{E}[y_i^2] - 2 \theta \mathbb{E}[y_i] + \theta^2 = \mathbb{V}[y_i] + \left( \mathbb{E}[y_i]-\theta \right)^2$ is continuous.
+    \item $Q (\theta)$ is uniquely minimized by $\theta_0 = \mathbb{E}[y_i]$.
     \item $\hat{\theta} = \frac{1}{n} \sum_{i=1}^{n} y_i \overset{p}{\rightarrow} \mathbb{E}[y_i] = 0$.
 \end{itemize}
 

@@ -165,4 +165,96 @@ Then, we obtain
     &= \Phi \left(\frac{x_i^{\prime} \beta}{\sigma}\right) x_i^{\prime} \beta +\sigma \phi\left(\frac{x_i^{\prime} \beta}{\sigma}\right).
 \end{align*}
 
+\section{Marginal Effects of Nonlinear Models(Probit, Logit, Tobit. etc.)}
 
+\begin{note}
+    \ 
+    
+    \textcolor{red}{$\beta_{MLE}$ is not the marginal effect of $y_i$, but it can be regarded as the marginal effect of potential variable $y_i^*$.}
+\end{note}
+
+\underline{Expectation and marginal effect of $y_i^*$}
+\begin{align*}
+    \mathbb{E}[y_i^*|x_i] &= x_i^{\prime} \beta\\
+    \frac{\partial \mathbb{E}[y_i^*|x_i]}{\partial x_{ij}} &= \beta_j
+\end{align*}
+
+\underline{Truncated Models}
+\begin{align*}
+    \mathbb{E}[y_i \mid y_i>0, x_i] &= x_i^{\prime} \beta + \mathbb{E}[u_i \mid u_i > -x_i^{\prime} \beta] \\
+    &= x_i^{\prime} \beta +  \sigma \lambda\left(\frac{x_i^{\prime} \beta}{\sigma}\right)
+\end{align*}
+where $\lambda = \frac{\phi(x_i^{\prime} \beta/\sigma)}{\Phi(x_i^{\prime} \beta/\sigma)}$ is the inverse Mills ratio.
+
+\begin{align*}
+    \frac{\partial \mathbb{E}[y_i \mid y_i>0, x_i]}{\partial  x_j} &= \beta_j + \sigma \frac{\partial \lambda}{\partial x_j} \\
+    &= \beta_j + \sigma \frac{\partial \lambda}{\partial c} \frac{\partial c}{\partial x_j} \\
+    &= \beta_j + \frac{\partial \lambda}{\partial c} \beta_j \\
+    &= \beta_j \left\{ 1 - \lambda \left(\frac{x_i^{\prime} \beta}{\sigma}\right) \left[ \frac{x_i^{\prime} \beta}{\sigma} + \lambda \left(\frac{x_i^{\prime} \beta}{\sigma}\right) \right] \right\}
+\end{align*}
+So, we could tell that the effect of $x_j$ on $y_i$ is not only affected by $\beta_j$, but also affected by $\frac{x_i^{\prime} \beta}{\sigma}$.
+
+\underline{Censored Models}
+\begin{align*}
+    \mathbb{E}[y_i \mid x_i] &= \mathbb{P}[y_i>0 \mid x_i] \cdot \mathbb{E}[y_i \mid y_i>0, x_i] \\
+    &= \Phi\left(\frac{x_i^{\prime} \beta}{\sigma}\right) \mathbb{E}[y_i \mid y_i>0, x_i] \\
+    \frac{\partial \mathbb{E}[y_i \mid x_i]}{\partial x_j} &= \frac{\partial \mathbb{P}[y_i>0 \mid x_i]}{x_j} \mathbb{E}[y_i \mid y_i>0, x_i] + \mathbb{P}[y_i>0 \mid x_i] \frac{\partial \mathbb{E}[y_i \mid y_i>0, x_i]}{x_j} \\
+    &= \beta_j \Phi\left(\frac{x_i^{\prime} \beta}{\sigma}\right)
+\end{align*}
+
+\begin{table}[H]
+    \centering
+    \begin{tabular}{|c|c|}
+    \hline
+    \textbf{Derivative Function} & \textbf{Gradient} \\ \hline
+    Optimal Response $y^*$       & $\frac{\partial E(y^* \mid x)}{\partial x_j} = \beta_j$ \\ \hline
+    Positive Response $y$ (censored at 0) & $\frac{\partial E(y \mid y>0, X)}{\partial x_j} = \beta_j \{1 - \lambda(c)[c + \lambda(c)]\}$ \\ \hline
+    Non-zero Response $y$ (censored at 0) & $\frac{\partial E(y \mid x)}{\partial x_j} = \beta_j \Phi(c)$ \\ \hline
+    \end{tabular}
+    \caption{Note: $c = \frac{x \beta}{\sigma}$}
+\end{table}
+
+\pagebreak
+\section{Censored, truncated or sample-selected data \protect\footnote{This part is borrowed from Xiang Ao, March 24, 2009, \textit{An Introduction to censored, truncated or sample-selected data}, Harvard Business School.}}
+\begin{table}[H]
+    \centering
+    \caption{Comparison of censored, truncated, and sample-selected cases. (borrowed from Richard Breen)}
+    \begin{tabular}{|>{\raggedright\arraybackslash}m{2cm}|>{\raggedright\arraybackslash}m{4cm}|>{\raggedright\arraybackslash}m{4cm}|>{\raggedright\arraybackslash}m{4cm}|}
+    \hline
+    \textbf{Sample} & \textbf{$Y$ Variable} & \textbf{$X$ Variable} & \textbf{Example} \\ \hline
+    Censored & $y$ is known exactly only if some criterion defined in terms of $y$ is met. & $x$ variables are observed for the entire sample, regardless of whether $y$ is observed exactly & Determinants of income; income is measured exactly only if it above the poverty line. All other incomes are reported at the poverty line \\ \hline
+    Selected & $y$ is observed only if a criteria defined in terms of some other random variable (Z) is met. & $x$ and $w$ (the determinants of whether $Z$ = 1) are observed for the entire sample, regardless of whether $y$ is observed & Survey data with item or unit non-response \\ \hline
+    Truncated & $y$ is known only if some criterion defined in terms of $y$ is met. & $x$ variables are observed only if $y$ is observed. & Donations to political campaigns \\ \hline
+    \end{tabular}
+\end{table}
+
+\begin{definition}[Truncated]
+    A sample is truncated if some observations are systematically excluded from
+the sample.
+\end{definition}
+
+\begin{eg}
+    \
+
+    Suppose we are interested in relationship between people's income($y$) and education($x$). 
+    If we have observations of both $y$ and $x$ only for people whose income is above \$20,000 per year,
+    then we have a truncated sample. 
+\end{eg}
+
+\begin{definition}[Censored]
+    \
+
+    A sample is censored if no observations have been systematically excluded but some of information contained in them has been suppressed.
+\end{definition}
+
+\begin{eg}
+    \
+
+    If we don't observe people's income ($y$) and education($x$)
+    with income lower than \$20,000 per year, then we have a truncated sample.
+    If we have observations of $x$ for people whose income above AND below that limit,
+    but no information on exactly how much their income is for those whose income below the limit 
+    (only thing we know is that it's lower than \$20,000 per year), then we have a censored sample.
+\end{eg}
+
+\includepdf[addtotoc={1,section,1,title in toc,cc},pages=3-7,offset=0cm 0cm]{lectures/censored_selected_truncated.pdf}
