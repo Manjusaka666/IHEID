@@ -35,6 +35,12 @@
 
 
 \newtheorem{problem}{Problem}
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}{Lemma}
+\newtheorem{definition}{Definition}
+\newtheorem{corollary}{Corollary}
+\newtheorem{proposition}{Proposition}
+% \newenvironment{proof}{{\noindent\it Proof}\quad}{\hfill $\square$\par}
 \usepackage{color}
 
 % The following two packages - multirow and booktabs - are needed to create nice looking tables.
@@ -138,123 +144,10 @@ The Graduate Institute, Fall 2024, Marko Milkota\\
 
 \section*{Problem 1}
 
-The dataset \texttt{dat\_SalesCustomers.csv} contains data on sales of shopping malls in Istanbul. 
-It includes the following variables: \textit{invoice no} (identifier of transaction or invoice), 
-\textit{customer id} (identifier of customer), 
-\textit{category} (type of goods sold), 
-\textit{price} (in TRY, Turkish Lira), 
-\textit{invoice date}, \textit{shopping mall}, \textit{gender}, 
-\textit{age}, and \textit{payment method} (cash vs. credit card vs. debit card payment). 
-
-You are interested in shedding light on the determinants of cash vs card payment. 
-For this purpose, you set up a probit model:
-\begin{equation}
-    y^*_i = x'_i \beta + u_i \quad  u_i \mid x_i \sim N(0, 1)
-\end{equation}
-whereby we observe $y_i = \mathbf{1}\{y^*_i > 0\}$, a dummy variable for cash payment. Recall that the Maxi-
-mum Likelihood (ML) estimator for $\beta $ solves
-\begin{equation}
-    \hat{\beta} = \arg\min_{\beta} Q_n(\beta; Z_n) \quad Q_n(\beta; Z_n) = -\frac{1}{n} \ell(\beta; Z_n)
-\end{equation}
-where
-\[\ell(\beta; Z_n) = \sum_{i=1}^n \left[ y_i \log(\Phi(x'_i \beta)) + (1 - y_i) \log(\Phi(-x'_i \beta)) \right] \]
-is the log-likelihood and $Z_n = \{y_i, x_i\}^n_{i=1}$ comprises all of the data you have available (outcome-variables and covariates for the n observations in your sample).
-
-\subsection*{(a)}
-Are there missing values in your data? Delete all observations with a missing value in the variables \textit{category}, \textit{price}, \textit{gender}, \textit{age} or \textit{payment method}. How many observations do you have left?
-
-\subsection*{(b)}
-Based on the variable \textit{payment method}, generate a dummy variable for cash payment and call it \textit{paid in cash}. Also, based on \textit{gender}, create a dummy for males, \textit{male}. What fraction of transactions were carried out in cash? What fraction of the overall sales (in TRY) were carried out in cash?
-
-\subsection*{(c)}
-To decrease computational costs, consider only the first $n = 1000$ observations for the following questions.
-Based on the variable category, create a dummy for each of the following four categories: 
-i) clothes and shoes, 
-ii) cosmetics, 
-iii) food, 
-iv) technology. 
-In this way, we divide the categories into five groups, 
-whereby the fifth is made up by the rest, 
-i.e. goods that do not belong to either of the four categories. 
-How are the transactions split across these five categories? 
-How are the sales split across these five categories?
-
-\subsection*{(d)}
-Taking \textit{paid in cash} as your outcome variable $y_i$ and \textit{price}, \textit{male}, \textit{age} and all category-dummies but one as your covariates $x_i$, 
-use a numerical optimization-command from the software of your choice to solve the optimization problem in Eq. (2) 
-and obtain $\hat{\beta}$ for your sample. If manual optimization does not work, 
-you can use a pre-programmed command to estimate the probit model.
-
-\subsection*{(e)}
-Based on your estimate, compute the effect of age increasing by 5 years on the expected probability of using cash for a 30 year-old male who bought clothes for 500 TRY, i.e. for an observation with $x_i = x^*_i \equiv [500, 1, 30, 0, \ldots, 0, 1, 0, \ldots, 0]$. 
-Put differently, this is the difference in expected probabilities 
-of cash payment between a 60 year-old and a 30 year-old male who
-bought clothes/shoes for 500 TRY. 
-We will call this quantity $\gamma_1(\hat{\beta})$.
-
-Also, compute the same effect without conditioning on the category of goods 
-sold in two steps: 
-(i) compute the effect for each of the five categories and
-(ii)  take a weighted average of them, with weights given by 
-the proportions of these goods-categories in overall sales 
-(see your answer to (c)).
-We will call this quantity $\gamma_2(\hat{\beta})$.
-
-\subsection*{(f)}
-Suppose that your probit model in Eq.(1) is correctly specified. Is your estimator $\hat{\beta}$ consistent? Use the simplified version of the extremum estimation theory we discussed in class to answer this question.
-
-\subsection*{(g)}
-Use bootstrapping to find a numerical approximation of the finite sample distribution of $\hat{\beta}$ 
-as well as the two marginal effects 
-$\gamma_1(\hat{\beta})$ and $\gamma_2(\hat{\beta})$: 
-draw $M = 100$ different samples of $n$ observations with replacement 
-from your dataset and compute (numerically) $\hat{\beta}$, 
-$\gamma_1(\hat{\beta})$ and $\gamma_2(\hat{\beta})$ for each of them. 
-Plot the finite sample distributions you obtained 
-(regarding $\hat{\beta}$, 
-you can limit yourself to the coefficient on age).
-
-\subsection*{(h)}
-Another approach to approximate the finite sample distribution of $\hat{\beta}$ and functions of it like the marginal effects is to use their asymptotic distribution. Use the simplified version of the extremum estimation theory we discussed in class to show that the asymptotic distribution of $\hat{\beta}$ is given by
-\[
-\sqrt{n}(\hat{\beta} - \beta_0) \overset{d}{\to} N\left(0, H^{-1}\right),
-\]
-with 
-\begin{equation}
-    H = E\left[ \frac{\phi(x'_i \beta_0)^2}{\Phi(x'_i \beta_0)\Phi(-x'_i \beta_0)} x_i x'_i \right]. 
-\end{equation}
-Then, use the asymptotic distribution in Eq. (3) to approximate the finite sample distribution of $\hat{\beta}$ in your sample.
-How does this approximate finite sample distribution of the estimated coefficient on age compare to the one obtained via bootstrapping?
-
-Hint: The numerator and the denominator in the fraction that appears in H are often both
-very close to zero. Rather than computing it as-is, first compute the log of it and then take
-the exponential, i.e. compute 
-\[
-\frac{\phi(x_i^{\prime} \beta_0)^2}{\Phi(x_i^{\prime} \beta_0)\Phi(-x_i^{\prime} \beta_0)} \text{ as } \exp\left\{ 2\log \phi(x_{i}^{\prime} \beta_0) - \log \Phi(x_i^{\prime} \beta_0) - \log \Phi(-x_i^{\prime} \beta_0) \right\}
-\]
-
-\subsection*{(i)}
-Use the asymptotic distribution of $\hat{\beta}$ from Eq. (3) and the Delta method to find the asymptotic distribution of $\gamma_1(\hat{\beta})$. 
-Then, use it to approximate the finite sample distribution of $\gamma_1(\hat{\beta})$ in your sample. 
-How does this approximate finite sample distribution compare to the one obtained via bootstrapping?
-
-\subsection*{(j)}
-Now let's test whether the true partial effect $\gamma_1(\hat{\beta})$ (i.e. the true change in the expected probability of cash payment for a 30 year-old male buying clothes for 500 TRY when this individual becomes 5 years older) is significantly different from 0 at the $\alpha = 0.05$ level:
-\[
-H_0 : \gamma_1(\beta) = 0 \quad \text{vs.} \quad H_1 : \gamma_1(\beta) \neq 0 .
-\]
-(In other words, we are testing whether the expected probabilities of cash payment for a 30 year-old and a 35 year-old male buying clothes for 500 TRY are different.) One approach to do so uses the finite sample distribution of $\gamma_1(\hat{\beta})$ approximated via its asymptotic distribution,
-\[
-\gamma_1(\hat{\beta}) \overset{approx}{\sim} N\left( \gamma_1(\beta), \frac{1}{n} \hat{V} \right),
-\]
-for some $\hat{V}$ you had to find. Use this expression to construct a t-test. What do you conclude?
-
-Also, use the above expression to construct a 95\% confidence interval for $\gamma_1(\beta)$. (If you couldn't find $\hat{V}$, just state the test statistic and critical value for a general $\hat{V}$.)
-
 \begin{autosolution}
     \ 
 
-    Yes, here missing values in the data set.
+    Yes, there are missing values in the data set.
     The initial number of observations is 99457,
     The dataset's reported missing values indicate that only 
     \textit{age} has missing observations (119 missing values). 
@@ -679,16 +572,222 @@ print(paste("Gamma_2 (weighted effect over categories):", gamma_2))
     \hat{\beta}_n \stackrel{p}{\rightarrow} \beta_0
     \]
 
-    First, we define $m(w_i; \theta) = y_i \log(\Phi (x_i^{\prime} \beta)) + (1-y_i) \log(\Phi (-x_i^{\prime} \beta))$.
+    \textbf{Consistency of Probit Estimator:}
 
-    \underline{Step 1: Uniform convergence}
+    First, we define $f(w_i; \theta) = \Phi(x_i^{\prime} \beta)^{y_t} \Phi(-x_i^{\prime} \beta)^{1-y_t}$,
+    then $\log f(w_i; \theta) = y_i \log \Phi(x_i^{\prime} \beta) + (1-y_i) \log \Phi(-x_i^{\prime} \beta)$.
 
-    By the Uniform Law of Large Numbers (ULLN), we have that
-    \[
-    \frac{1}{n} \sum_{i=1}^n m(w_i; \theta) \xrightarrow{p} E[m(w_i; \theta)].
-    \]
+    \underline{Step 1: Theorem of Consistency}
 
+    \begin{theorem}
+        If $Q_n(w_i; \theta)$ is a function of $w_i$ and $\theta$ such that:
+        \begin{itemize}
+            \item[(A)] Parameter space $\Theta \in \mathbb{R}^{k}$ is compact, $\theta_0 \in \Theta$;
+            \item[(B)] $Q_n(w_i; \theta)$ is continuous in $\theta \in \Theta$ for all $w_i$.
+            \item[(C)] $Q_{n} (\theta)$ converges in probability to $Q(\theta)$ uniformly in $\theta \in \Theta$, and $Q(\theta)$ has a unique global minimum at $\theta_0$.
+        \end{itemize}
+        Define $Q_n(\hat{\theta}_n) = \underset{\theta \in \Theta}{\max} Q_n(\theta)$.
 
+        Then, $\hat{\theta}_n \stackrel{p}{\rightarrow} \theta_0$.
+    \end{theorem}
+
+    \begin{proof}[\underline{Proof for Theorem 1}]
+        \ 
+
+        Let $N$ be a neignbourhood in $\mathbb{R}^k$ containing $\theta_0$.
+        Then $\overline{N} \cap \Theta$ is compact $\Rightarrow \underset{\theta \in \overline{N} \cap \Theta}{\max} Q(\theta)$ exists.
+        
+        Denote $\varepsilon = Q(\theta_0) - \underset{\theta \in \overline{N} \cap \Theta}{\max} Q(\theta)$.
+
+        Define incident $A_n$ as: 
+        \[
+        A_n: \left| \frac{1}{n}Q_n(\theta) - Q(\theta)\right| < \frac{\varepsilon}{2}.
+        \]
+        This implies that:
+        \[
+        \begin{cases}
+            Q(\hat{\theta}_n) > \frac{1}{n} Q_n(\hat{\theta}_n) - \frac{\varepsilon}{2} \\
+            \frac{1}{n} Q_n(\hat{\theta}_n) > Q(\theta_0) - \frac{\varepsilon}{2}
+        \end{cases}
+        \]
+        But, as $Q_N(\hat{\theta}_n) \geq Q_n(\theta_0)$,
+        \[
+        Q(\hat{\theta}_n) > Q(\theta_0) - \varepsilon \Rightarrow \hat{\theta}_n \in N.
+        \]
+        Thus, $\mathbb{P}[A_n] \leq \mathbb{P}[\hat{\theta}_n \in N]$. Since we have $\underset{n\to \infty}{\lim}\mathbb{P}[A_n] = 1$ by (C),
+        we have $\mathbb{P}[\hat{\theta}_n \in N] \to 1$.
+        
+        Hence $\hat{\theta}_n \stackrel{p}{\rightarrow} \theta_0$.
+    \end{proof}
+    In our cese, we take the parameter space $\mathcal{B} = \left\{ \beta \in \mathbb{R}^k: \left\| \beta \right\| < c \right\}$ for some large c,
+    then, we have our compact parameter space $\Theta $, (A) is satisfied.
+
+    As we take $Q_n(\theta) = \frac{1}{n}\ell(\beta; Z_n) = \frac{1}{n} \sum_{i=1}^{n} \log f(w_i; \beta)$,
+    it's continuous in $\theta$ for all $w_i$, (B) is satisfied.
+
+    So, we need to prove two conditions for the theorem to hold:
+    \begin{enumerate}
+        \item $Q_{n} (\theta)$ converges in probability to $Q(\theta)$ uniformly in $\theta \in \Theta$.
+        \item (Identification) $Q(\theta)$ has a unique global minimum at $\theta_0$.
+    \end{enumerate}
+
+    \underline{Step 2: Identification of Probit Model}
+
+    \begin{definition}[Identification]
+        The information matrix $I(\theta)$ is defined as:
+        \[
+        I(\theta) = E\left[ \frac{\partial \ell^2(w_i; \theta)}{\partial \theta \partial \theta'}\right].
+        \]
+        If $I(\theta)$ is positive definite, then $\theta$ is identified.
+
+        If $\theta$ is identified, it means that if $\theta \neq \theta_0$, then $f(w_i; \theta) \neq f(w_i; \theta_0)$.
+    \end{definition}
+
+    \begin{lemma}[Information Inequality]
+        \
+        
+        If $\theta$ is identified, and $\mathbb{E}\left[\log f(w_i; \theta) < \infty\right]$ for all $\theta$,
+        then $Q(\theta) = \mathbb{E}\left[ \vert \log f(w_i; \theta) \vert  \right]$ has a unique maximum at $\theta_0$.
+    \end{lemma}
+
+    \begin{proof}[\underline{Proof for Lemma 1}]
+        For a random variable $Y$, by Jensen's inequality, we have:
+        \[-\log \mathbb{E}[Y] < \mathbb{E}\left[-\log Y \right].\]
+
+        In our case, we define a new random variable for $\theta \neq \theta_0$:
+        \[
+        Y = \frac{f(w_i; \theta)}{\mathbb{E}[f(w_i; \theta_0)]}.
+        \]
+        Then, we have:
+        \begin{align*}
+            Q(\theta_0) - Q(\theta) &= \mathbb{E}\left[ -\log Y \right] > -\log \mathbb{E}[Y] \\
+                &= -\log \int f(w_i; \theta) d \theta = 0
+        \end{align*}
+    \end{proof}
+
+    \underline{Step 3: Prove uniform convergence of Probit Model}
+
+    To prove the uniform convergence of the Probit model, we give the second theorem:
+
+    \begin{theorem}[Uniform Law of Large Numbers]
+        \
+
+        If $x_i$(or say, data) are i.i.d, and $\log f(w_i; \theta)$ is a function of $x_i, y_i, \theta$ such that:
+        \begin{itemize}
+            \item[(a)] Parameter space $\Theta \in \mathbb{R}^{k}$ is compact, $\theta_0 \in \Theta$;
+            \item[(b)] $m(w_i; \theta)$ is continuous at each $\theta \in \Theta$ with probability to 1;
+            \item[(c)] There exist a dominant function $d(w_i)$ such that $\left\| \log f(w_i; \theta) \right\| \leq \left\| d(w_i) \right\|$ $\forall \theta \in \Theta$;
+            \item[(d)] $E\left[ d(w_i) \right] < \infty$.
+        \end{itemize}
+        then, $\mathbb{E}\left[\log f(w_i; \theta)\right]$ is continuous and
+        \[
+        \underset{\theta \in \Theta}{\sup} \left\| \frac{1}{n} \sum_{i=1}^{n} \log f(w_i; \theta) - \mathbb{E}\left[\log f(w_i; \theta)\right] \right\| \stackrel{p}{\rightarrow} 0.
+        \]   
+    \end{theorem}
+
+    \begin{proof}[\underline{Proof for Theorem 2}]
+        \
+        
+        For $\forall \theta_0 \in \Theta$, we define $\mathcal{B} (\theta_0, \delta) = \left\{ \theta \in \Theta: \left\| \theta - \theta_0 \right\| < \delta \right\}$
+        and
+        \[
+        \Delta_{\delta}(w_i; \theta) = \underset{\theta \in \mathcal{B}(\theta_0, \delta)}{\sup} \left( \log f(w_i; \theta) - \mathbb{E}\left[\log f(w_i; \theta)\right] \right).
+        \]
+        For $\theta_0 \in \Theta$, we have:
+        \[
+        \mathbb{E}\left[\Delta_{\delta}(w_i; \theta) \to 0 \right] \text{ as } \delta \to 0.
+        \]
+        because
+        \begin{enumerate}
+            \item $\Delta_{\delta}(w_i; \theta_0) \to \log f(w_i; \theta) - \mathbb{E}\left[\log f(w_i; \theta)\right] $
+            almost surely as $\delta \to 0$, because:
+            \[
+            \mathbb{P}\left[ \underset{\delta \to 0}{\lim} \underset{\theta \in \mathcal{B}(\theta_0, \delta)}{\sup} \log f(w_i; \theta) = \log f(w_i; \theta_0) \right] = 1
+            \]
+            by condition (b) and that $\mathbb{E}\left[\log f(w_i; \theta)\right]$ is continuous at $\theta_0$.
+            \item By condition (c) and (d), we have:
+            \[\Delta_{\delta}(w_i; \theta_0) \leq 2 \underset{\theta \in \mathcal{B}(\theta_0, \delta)}{\sup} \vert \log f(w_i; \theta) \vert \leq 2 d(w_i) \]
+        \end{enumerate}
+        So, for all $\theta \in \Theta$, $\varepsilon > 0$, $\exists \delta_{\varepsilon}(\theta)$, such that
+        \[
+        \mathbb{E}\left[\Delta_{\delta_{\varepsilon}(\theta)}(w_i; \theta) \right] < \varepsilon.
+        \]
+        Obviously, we can cover the entire parameter space with a finite number of $\mathcal{B} (\theta, \delta_{\varepsilon}(\theta)): \theta \in \Theta $, which is:
+        \[
+        \mathcal{B} \left(\theta_k, \delta_{\varepsilon}(\theta_k): k=1, 2, \cdots, K\right) \text{ s.t. } \Theta = \bigcup_{k=1}^{K} \mathcal{B} \left(\theta_k, \delta_{\varepsilon}(\theta_k)\right).
+        \]
+        Note that:
+        \begin{align*}
+        & \quad \underset{\theta \in \Theta}{\sup} \left[ \frac{1}{n} \sum_{i=1}^{n} \log f(w_i; \theta) - \mathbb{E}\left[\log f(w_i; \theta)\right] \right] \\
+            &= \underset{k}{\max} \underset{\theta \in \mathcal{B}(\theta_k, \delta_{\varepsilon}(\theta_k))}{\sup} \left[ \frac{1}{n} \sum_{i=1}^{n} \log f(w_i; \theta) - \mathbb{E}\left[\log f(w_i; \theta)\right] \right] \\
+            &\leq \underset{k}{\max} \frac{1}{n} \left[ \sum_{i=1}^{n} \underset{\theta \in \mathcal{B}(\theta_k, \delta_{\varepsilon}(\theta_k))}{\sup} \log f(w_i; \theta) - \mathbb{E}\left[\log f(w_i; \theta)\right] \right] \\
+            &\leq \mathcal{O}_p(1) + \underset{k}{\max} \mathbb{E}^*\Delta_{\delta_{\varepsilon}(\theta_k)}(w_i; \theta_k) \\
+            &= \mathcal{O}_p(1) + \varepsilon.
+        \end{align*}
+        where the second inequality holds by the Weak Law of Large Numbers (WLLN)
+        because:
+        \[
+        \left| \underset{\theta \in \mathcal{B}(\theta_k, \delta_{\varepsilon}(\theta_k))}{\sup} \log f(w_i; \theta) \right| \leq d(w_i); \mathbb{E}[d(w_i)] < \infty.
+        \]    
+        and the third inequality holds by the definition of $\delta_{\varepsilon}(\theta_k)$.
+        By analogous argument, we can prove that:
+        \[ 
+        \underset{\theta \in \Theta}{\inf} \left[ \frac{1}{n} \sum_{i=1}^{n} \log f(w_i; \theta) - \mathbb{E}\left[\log f(w_i; \theta)\right] \right] \geq O_p(1) - \varepsilon.
+        \]
+        Combing the two results, we have:
+        \[
+        \left| \frac{1}{n} \sum_{i=1}^{n}\log f(w_i; \theta) - \mathbb{E}[\log f(w_i; \theta)] \right| \to \mathcal{O}_p(1) = 0.
+        \]
+    \end{proof}
+    Finishing the proof of Theorem 2, we can find that the Probit model still have to satisfy conditions (c) and (d) to hold the theorem.
+
+    \underline{Step 4: Proof of Conditions (c) and (d) for ULLN}
+
+    In this part, we show that identification and the uniform convergence of the Probit model are combined by
+    the existence of $\mathbb{E}[x_i x_i^{\prime} ]$ and its nonsingularity.
+    \begin{proof}[Proof for ULLN conditions (c) and (d)]
+        \
+
+        For this proof, we take two steps:
+
+        \underline{Step 1: $\mathbb{E}\left[\left|\log f(w_i; \theta)\right|\right]$ is finite.}
+
+        Let $\theta \neq \theta_0$, then 
+        \begin{align*}
+            \mathbb{E}\left[\left(x_i^{\prime} (\theta - \theta_0)\right)^2\right] &= (\theta - \theta_0)' \mathbb{E}[x_i x_i^{\prime}] (\theta - \theta_0) > 0 \\
+            & \Rightarrow x_i^{\prime} (\theta - \theta_0) \neq 0 \\
+            & \Rightarrow x_i^{\prime} \theta \neq x_i^{\prime} \theta_0 
+        \end{align*}
+        Since $\Phi$ is strictly monotone, this gives us $\Phi (x_i^{\prime} \theta) \neq \Phi(-x_i^{\prime} \theta)$.
+        So that $f(w_i; \theta) = \Phi(x_i^{\prime} \beta)^{y_t} \Phi(-x_i^{\prime} \beta)^{1-y_t} \neq f(w_i; \theta_0)$.
+
+        We know that $\frac{d \log \Phi(v)}{d x} = \frac{\phi(v)}{\Phi(v)}$ is convex and asymptotic to 0 as $v \to \infty$ and to $-v$ as $v \to -\infty$.
+
+        We take the mean-value expansion around $\theta = 0$:
+        \begin{align*}
+            \left|\log \Phi(x_i^{\prime} \theta)\right| &= \left|\log \Phi(0) + \lambda(x_i^{\prime} \tilde{\theta}) x_i^{\prime} \theta \right| \\
+            &\leq \left|\log \Phi(0)\right| + \left|\lambda(x_i^{\prime} \tilde{\theta}) x_i^{\prime} \theta\right| \\
+            &\leq \left|\log \Phi(0)\right| + C\left(1 + \left|x_i^{\prime} \tilde{\theta}\right| \right) \left|x_i^{\prime} \theta\right| \\
+            &\leq \left|\log \Phi(0)\right| + C\left(1 + \left\|x_i\right\| \left\| \theta \right\| \right) \left\|x_i\right\| \left\| \theta \right\|
+        \end{align*}
+        where $\lambda$ is the reverse Mills ratio.
+        
+        Since $1 - \Phi(v) = \Phi(-v)$ and $y$ are bounded, we have:
+        \[
+        \left|\log f(w_i; \theta)\right| \leq \left|\log \Phi(0)\right| + C\left(1 + \left\|x_i\right\| \left\| \theta \right\| \right) \left\|x_i\right\| \left\| \theta \right\|
+        \]
+        where $C$ is a constant.
+
+        Thus, we could say that $\mathbb{E}\left[\left|\log f(w_i; \theta)\right|\right]$ is finite.
+
+        \underline{Step 2: $\mathbb{E}[d(w_i)]$ exist, and is finite.}
+
+        Based on Step 1, we could directly take
+        \[d(w_i) = C\left(1 + \left\|x_i\right\|^2 \right).\]
+        It's obvious that $\mathbb{E}[d(w_i)]$ is finite.
+    \end{proof}
+
+    Combining Lemma 1, Lemma 2, Theorem 1, and Theorem 2, we could say that the Probit model estimator is consistent.
 \end{autosolution}
 
 \begin{autosolution}
@@ -743,8 +842,24 @@ hist(beta_age_bootstrap, main = "Bootstrap Distribution of Coefficient on Age", 
 hist(gamma_1_bootstrap, main = "Bootstrap Distribution of Gamma_1", xlab = "Gamma_1", breaks = 20)
 hist(gamma_2_bootstrap, main = "Bootstrap Distribution of Gamma_2", xlab = "Gamma_2", breaks = 20)
     \end{lstlisting}
+
+    \begin{figure}[!htbp]
+        \centering
+        \includegraphics[width=0.5\linewidth]{g-1.png}
+        \caption{Bootstrap Distribution of Coefficient on Age}
+        \label{fig:g-1}
+
+        \includegraphics[width=0.5\linewidth]{g-2.png}
+        \caption{Bootstrap Distribution of Gamma\_1}
+        \label{fig:g-2}
+        
+        \includegraphics[width=0.5\linewidth]{g-3.png}
+        \caption{Bootstrap Distribution of Gamma\_2}
+        \label{fig:g-3}
+    \end{figure}
 \end{autosolution}
 
+\pagebreak
 \begin{autosolution}
     \
 
@@ -842,6 +957,16 @@ hist(gamma_2_bootstrap, main = "Bootstrap Distribution of Gamma_2", xlab = "Gamm
     \[
     H = E\left[\frac{\phi(x_i'\beta_0)^2}{\Phi(x_i'\beta_0)\Phi(-x_i'\beta_0)} x_i x_i'\right].
     \]
+
+    In the dataset result, the given histograms for the bootstrap distributions and the asymptotic distributions show approximately symmetric, bell-shaped distributions. 
+    This suggests that the normal approximation may be reasonable.
+
+    \begin{figure}[!htbp]
+        \centering
+        \includegraphics[width=0.5\linewidth]{h.png}
+        \caption{Comparison of Bootstrap and Asymptotic Distributions}
+        \label{fig:h}
+    \end{figure}
 
     \begin{lstlisting}[language=R]
 X <- as.matrix(cbind(1, dat_1000[, c("price", "male", "age", "clothes_shoes", "cosmetics", "food", "technology")]))
@@ -947,6 +1072,13 @@ ggplot(combined_data, aes(x = Values, fill = Distribution)) +
     \[
     \gamma_1(\hat{\beta}) \sim N\left(\gamma_1(\hat{\beta}), \frac{1}{n}\nabla_\beta \gamma_1(\hat{\beta})' \hat{H}^{-1} \nabla_\beta \gamma_1(\hat{\beta})\right).
     \]
+    The comparison shows that both approximations yield similar conclusions: the effect is not statistically significant, and the distributions are roughly symmetric.
+    \begin{figure}[!htbp]
+        \centering
+        \includegraphics[width=0.5\linewidth]{i.png}
+        \caption{Comparison of Bootstrap and Asymptotic Distributions of Gamma\_1}
+        \label{fig:i}
+    \end{figure}
 
     \begin{lstlisting}[language=R]
 phi_age_60 <- dnorm(sum(x_age_60 * beta_hat))
@@ -1013,14 +1145,13 @@ ggplot(combined_data2, aes(x = Value, fill = Distribution)) +
     
     So, we conclude that the expected probabilities of cash payment for a 30 year-old
     and a 60 year-old male buying clothes for 500 TRY are not significantly different.
-    
-    \textbf{Graphical Analysis and Econometric Interpretation:}
-    \begin{itemize}
-        \item The bootstrap histograms of the coefficient on age, $\gamma_1(\hat{\beta})$, and $\gamma_2(\hat{\beta})$ all resemble roughly normal shapes, centered near their estimated values. This supports the use of normal approximations.
-        \item The asymptotic approximations (shown by smooth curves on histograms) align reasonably with the bootstrap distributions, suggesting that for $n=1000$, the asymptotic theory is not grossly inaccurate.
-        \item The negative partial effects of age, though small in magnitude, show that older individuals might be slightly less likely to pay in cash. However, statistical tests indicate this difference is not significant at conventional levels.
-        \item Category-specific differences matter, as seen from the significance of some category dummies. Clothes/Shoes, for example, differ in their propensity of cash usage compared to the base category.
-    \end{itemize}
+    % \textbf{Graphical Analysis and Econometric Interpretation:}
+    % \begin{itemize}
+    %     \item The bootstrap histograms of the coefficient on age, $\gamma_1(\hat{\beta})$, and $\gamma_2(\hat{\beta})$ all resemble roughly normal shapes, centered near their estimated values. This supports the use of normal approximations.
+    %     \item The asymptotic approximations (shown by smooth curves on histograms) align reasonably with the bootstrap distributions, suggesting that for $n=1000$, the asymptotic theory is not grossly inaccurate.
+    %     \item The negative partial effects of age, though small in magnitude, show that older individuals might be slightly less likely to pay in cash. However, statistical tests indicate this difference is not significant at conventional levels.
+    %     \item Category-specific differences matter, as seen from the significance of some category dummies. Clothes/Shoes, for example, differ in their propensity of cash usage compared to the base category.
+    % \end{itemize}
 
     \begin{lstlisting}[language=R]
 t_statistic <- gamma_1 / gamma_1_sd
