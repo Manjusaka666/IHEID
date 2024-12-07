@@ -290,30 +290,91 @@ print(round(fraction_sales * 100, 2))
 \begin{autosolution}
     \
     
-    To find the Maximum Likelihood Estimator (MLE) $\hat{\beta}$, we differentiate the log-likelihood with respect to $\beta$. Let $\phi(\cdot)$ denote the standard normal PDF. We use:
+    For a sample $\{(y_i,x_i)\}_{i=1}^n$, the log-likelihood function is:
     \[
-    \frac{d}{dt}\log(\Phi(t)) = \frac{\phi(t)}{\Phi(t)}, \quad \text{and} \quad \frac{d}{dt}\log(1-\Phi(t)) = -\frac{\phi(t)}{1-\Phi(t)}.
+    \ell(\beta; Z_n) = \sum_{i=1}^n \left[ y_i \log(\Phi(x_i'\beta)) + (1 - y_i)\log(1 - \Phi(x_i'\beta)) \right].
     \]
-    For each element $\beta_j$ of $\beta$, the derivative of the log-likelihood is:
+
+    To derive the Hessian, focus on a single observation $i$ and then we will take expectations:
     \[
-    \frac{\partial \ell(\beta;Z_n)}{\partial \beta_j} = \sum_{i=1}^n \left[y_i \frac{\phi(x_i'\beta)}{\Phi(x_i'\beta)} - (1-y_i)\frac{\phi(x_i'\beta)}{1-\Phi(x_i'\beta)}\right]x_{ij}.
+    \ell_i(\beta) = y_i \log(\Phi(t_i)) + (1 - y_i)\log(1 - \Phi(t_i)), \quad t_i = x_i'\beta.
     \]
-    Stacking all partial derivatives together, the gradient is:
+
+    \underline{First Derivative (Score):}  
+
+    First, take the derivative with respect to $t_i$:
     \[
-    \nabla_{\beta}\ell(\beta;Z_n) = \sum_{i=1}^n \left[ y_i \frac{\phi(x_i'\beta)}{\Phi(x_i'\beta)} - (1-y_i)\frac{\phi(x_i'\beta)}{1-\Phi(x_i'\beta)} \right] x_i^{\prime} .
+    \frac{\partial \ell_i(\beta)}{\partial t_i} = y_i \frac{\phi(t_i)}{\Phi(t_i)} - (1 - y_i)\frac{\phi(t_i)}{1 - \Phi(t_i)},
+    \]
+    where $\phi(\cdot)$ is the standard normal PDF.
+
+    Combine the fractions:
+    \[
+    \frac{\partial \ell_i(\beta)}{\partial t_i} 
+    = \phi(t_i)\left[\frac{y_i}{\Phi(t_i)} - \frac{1 - y_i}{1 - \Phi(t_i)}\right].
+    \]
+
+    Find a common denominator $\Phi(t_i)(1-\Phi(t_i))$:
+    \[
+    \frac{\partial \ell_i(\beta)}{\partial t_i} 
+    = \frac{\phi(t_i)}{\Phi(t_i)(1-\Phi(t_i))}(y_i - \Phi(t_i)).
+    \]
+
+    Since $y_i - \Phi(t_i) = y_i - p_i$, we have:
+    \[
+    \frac{\partial \ell_i(\beta)}{\partial t_i} = \frac{\phi(t_i)}{p_i(1-p_i)}(y_i - p_i).
+    \]
+
+    To get the gradient w.r.t. $\beta$, use chain rule:
+    \[
+    \frac{\partial \ell_i(\beta)}{\partial \beta} = \frac{\partial \ell_i(\beta)}{\partial t_i} x_i = \frac{\phi(t_i)}{p_i(1-p_i)}(y_i - p_i) x_i.
     \]
     So,
     \[
     s_n(\beta) = -\frac{1}{n}\nabla_{\beta}\ell(\beta;Z_n) = -\frac{1}{n}\sum_{i=1}^n \left[ y_i \frac{\phi(x_i'\beta)}{\Phi(x_i'\beta)} - (1-y_i)\frac{\phi(x_i'\beta)}{1-\Phi(x_i'\beta)} \right] x_i^{\prime} .
     \]
 
+    \underline{Second Derivative (Hessian):}
 
-    Then, we can further find the Hessian matrix $H(\beta;Z_n)$, which is the matrix of second derivatives of the log-likelihood with respect to $\beta$:
-    \begin{align*}
-        \nabla_{\beta \beta}\ell(\beta;Z_n) &= \frac{\partial \nabla_{\beta}\ell(\beta; Z_n)}{\partial \beta} \\
-        &= \sum_{i=1}^{n} x_i \frac{\partial \phi(x_i^{\prime} \beta) \left[ \frac{y_i}{\Phi(x_i^{\prime} \beta)} - \frac{(1-y_i)}{1-\Phi(x_i^{\prime} \beta)} \right]}{\partial \beta} \\
-        &= \sum_{i=1}^{n} x_i \left\{\phi^{\prime}(x_i^{\prime} \beta) x_i \left[ \frac{y_i}{\Phi(x_i^{\prime} \beta)} - \frac{(1-y_i)}{1-\Phi(x_i^{\prime} \beta)} \right] + \phi(x_i^{\prime} \beta) \left[ \frac{y_i \phi(x_i^{\prime} \beta)x_i}{\Phi^2(x_i^{\prime} \beta)} - \frac{(1-y_i)\phi(x_i^{\prime} \beta)x_i}{\left(1-\Phi(x_i^{\prime} \beta)\right)^2} \right] \right\}
-    \end{align*}
+    Now differentiate again with respect to $\beta$:
+    \[
+    \frac{\partial^2 \ell_i(\beta)}{\partial \beta \partial \beta'} = \frac{\partial}{\partial \beta}\left(\frac{\phi(t_i)}{p_i(1-p_i)}(y_i - p_i) x_i\right).
+    \]
+    Since $t_i = x_i'\beta$, $\frac{\partial t_i}{\partial \beta} = x_i$. Thus, second derivatives w.r.t. $\beta$ come through differentiating w.r.t. $t_i$, then applying chain rule again:
+    \[
+    \frac{\partial^2 \ell_i(\beta)}{\partial \beta \partial \beta'} = \left(\frac{\partial^2 \ell_i(\beta)}{\partial t_i^2}\right) x_i x_i'.
+    \]
+    We have:
+    \[
+    \frac{\partial \ell_i(\beta)}{\partial t_i} = \frac{\phi(t_i)}{p_i(1-p_i)}(y_i - p_i).
+    \]
+    Take the derivative w.r.t. $t_i$:
+    \[
+    \frac{\partial^2 \ell_i(\beta)}{\partial t_i^2} 
+    = \frac{\partial}{\partial t_i}\left[\frac{\phi(t_i)}{p_i(1-p_i)}(y_i - p_i)\right].
+    \]
+    This involves the product rule and quotient rule. However, \textit{the key simplification occurs when we take expectations at the true parameter $\beta_0$}. Under the true model, $E[y_i]=p_i$, so $E[y_i - p_i]=0$. Terms involving $(y_i - p_i)$ vanish when taking expectation.
+
+    At the true parameter, the Fisher information (which is $-E[\partial^2 \ell_i(\beta_0)/\partial \beta \partial \beta']$) simplifies dramatically. Instead of going through the full complex algebra of the second derivative in the $y_i$ form, we use the known result from standard Probit derivations:
+
+    Under correct specification, the expected Hessian w.r.t. $t_i$ at $\beta_0$ is known to be:
+    \[
+    E\left[\frac{\partial^2 \ell_i(\beta_0)}{\partial t_i^2}\right] = -\frac{\phi(t_i)^2}{p_i(1-p_i)}.
+    \]
+    Thus:
+    \[
+    E\left[\frac{\partial^2 \ell_i(\beta_0)}{\partial \beta \partial \beta'}\right] 
+    = E\left[\frac{\partial^2 \ell_i(\beta_0)}{\partial t_i^2} x_i x_i'\right] 
+    = E\left[-\frac{\phi(t_i)^2}{p_i(1-p_i)} x_i x_i'\right].
+    \]
+    Multiplying by $-1$, the Fisher Information matrix (which is $H$ in the problem) is:
+    \[
+    H = E\left[\frac{\phi(x_i'\beta_0)^2}{\Phi(x_i'\beta_0)[1-\Phi(x_i'\beta_0)]} x_i x_i'\right].
+    \]
+    Since $1-\Phi(t_i)=\Phi(-t_i)$:
+    \[
+    H = E\left[\frac{\phi(x_i'\beta_0)^2}{\Phi(x_i'\beta_0)\Phi(-x_i'\beta_0)} x_i x_i'\right].
+    \]
 
     \underline{Step 1: Characterizing the MLE $\hat{\beta}$}
     
@@ -873,101 +934,6 @@ hist(gamma_2_bootstrap, main = "Bootstrap Distribution of Gamma_2", xlab = "Gamm
 \pagebreak
 \begin{autosolution}
     \
-
-    For a sample $\{(y_i,x_i)\}_{i=1}^n$, the log-likelihood function is:
-    \[
-    \ell(\beta; Z_n) = \sum_{i=1}^n \left[ y_i \log(\Phi(x_i'\beta)) + (1 - y_i)\log(1 - \Phi(x_i'\beta)) \right].
-    \]
-
-    To derive the Hessian, focus on a single observation $i$ and then we will take expectations:
-    \[
-    \ell_i(\beta) = y_i \log(\Phi(t_i)) + (1 - y_i)\log(1 - \Phi(t_i)), \quad t_i = x_i'\beta.
-    \]
-
-    \underline{First Derivative (Score):}  
-
-    First, take the derivative with respect to $t_i$:
-    \[
-    \frac{\partial \ell_i(\beta)}{\partial t_i} = y_i \frac{\phi(t_i)}{\Phi(t_i)} - (1 - y_i)\frac{\phi(t_i)}{1 - \Phi(t_i)},
-    \]
-    where $\phi(\cdot)$ is the standard normal PDF.
-
-    Combine the fractions:
-    \[
-    \frac{\partial \ell_i(\beta)}{\partial t_i} 
-    = \phi(t_i)\left[\frac{y_i}{\Phi(t_i)} - \frac{1 - y_i}{1 - \Phi(t_i)}\right].
-    \]
-
-    Find a common denominator $\Phi(t_i)(1-\Phi(t_i))$:
-    \[
-    \frac{\partial \ell_i(\beta)}{\partial t_i} 
-    = \frac{\phi(t_i)}{\Phi(t_i)(1-\Phi(t_i))}(y_i - \Phi(t_i)).
-    \]
-
-    Since $y_i - \Phi(t_i) = y_i - p_i$, we have:
-    \[
-    \frac{\partial \ell_i(\beta)}{\partial t_i} = \frac{\phi(t_i)}{p_i(1-p_i)}(y_i - p_i).
-    \]
-
-    To get the gradient w.r.t. $\beta$, use chain rule:
-    \[
-    \frac{\partial \ell_i(\beta)}{\partial \beta} = \frac{\partial \ell_i(\beta)}{\partial t_i} x_i = \frac{\phi(t_i)}{p_i(1-p_i)}(y_i - p_i) x_i.
-    \]
-
-    This is the score vector for a single observation.
-
-    \underline{Second Derivative (Hessian):}
-
-    Now differentiate again with respect to $\beta$:
-    \[
-    \frac{\partial^2 \ell_i(\beta)}{\partial \beta \partial \beta'} = \frac{\partial}{\partial \beta}\left(\frac{\phi(t_i)}{p_i(1-p_i)}(y_i - p_i) x_i\right).
-    \]
-
-    Since $t_i = x_i'\beta$, $\frac{\partial t_i}{\partial \beta} = x_i$. Thus, second derivatives w.r.t. $\beta$ come through differentiating w.r.t. $t_i$, then applying chain rule again:
-    \[
-    \frac{\partial^2 \ell_i(\beta)}{\partial \beta \partial \beta'} = \left(\frac{\partial^2 \ell_i(\beta)}{\partial t_i^2}\right) x_i x_i'.
-    \]
-
-    So the main task is to find:
-    \[
-    \frac{\partial^2 \ell_i(\beta)}{\partial t_i^2}.
-    \]
-
-    We have:
-    \[
-    \frac{\partial \ell_i(\beta)}{\partial t_i} = \frac{\phi(t_i)}{p_i(1-p_i)}(y_i - p_i).
-    \]
-
-    Take the derivative w.r.t. $t_i$:
-    \[
-    \frac{\partial^2 \ell_i(\beta)}{\partial t_i^2} 
-    = \frac{\partial}{\partial t_i}\left[\frac{\phi(t_i)}{p_i(1-p_i)}(y_i - p_i)\right].
-    \]
-
-    This involves the product rule and quotient rule. However, \textit{the key simplification occurs when we take expectations at the true parameter $\beta_0$}. Under the true model, $E[y_i]=p_i$, so $E[y_i - p_i]=0$. Terms involving $(y_i - p_i)$ vanish when taking expectation.
-
-    At the true parameter, the Fisher information (which is $-E[\partial^2 \ell_i(\beta_0)/\partial \beta \partial \beta']$) simplifies dramatically. Instead of going through the full complex algebra of the second derivative in the $y_i$ form, we use the known result from standard Probit derivations:
-
-    Under correct specification, the expected Hessian w.r.t. $t_i$ at $\beta_0$ is known to be:
-    \[
-    E\left[\frac{\partial^2 \ell_i(\beta_0)}{\partial t_i^2}\right] = -\frac{\phi(t_i)^2}{p_i(1-p_i)}.
-    \]
-    Thus:
-    \[
-    E\left[\frac{\partial^2 \ell_i(\beta_0)}{\partial \beta \partial \beta'}\right] 
-    = E\left[\frac{\partial^2 \ell_i(\beta_0)}{\partial t_i^2} x_i x_i'\right] 
-    = E\left[-\frac{\phi(t_i)^2}{p_i(1-p_i)} x_i x_i'\right].
-    \]
-
-    Multiplying by $-1$, the Fisher Information matrix (which is $H$ in the problem) is:
-    \[
-    H = E\left[\frac{\phi(x_i'\beta_0)^2}{\Phi(x_i'\beta_0)[1-\Phi(x_i'\beta_0)]} x_i x_i'\right].
-    \]
-
-    Since $1-\Phi(t_i)=\Phi(-t_i)$:
-    \[
-    H = E\left[\frac{\phi(x_i'\beta_0)^2}{\Phi(x_i'\beta_0)\Phi(-x_i'\beta_0)} x_i x_i'\right].
-    \]
 
     In the dataset result, the given histograms for the bootstrap distributions and the asymptotic distributions show approximately symmetric, bell-shaped distributions. 
     This suggests that the normal approximation may be reasonable.
