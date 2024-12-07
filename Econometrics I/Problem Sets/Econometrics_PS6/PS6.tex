@@ -298,14 +298,23 @@ print(round(fraction_sales * 100, 2))
     \[
     \frac{\partial \ell(\beta;Z_n)}{\partial \beta_j} = \sum_{i=1}^n \left[y_i \frac{\phi(x_i'\beta)}{\Phi(x_i'\beta)} - (1-y_i)\frac{\phi(x_i'\beta)}{1-\Phi(x_i'\beta)}\right]x_{ij}.
     \]
-    Stacking all partial derivatives together, the gradient (score vector) is:
+    Stacking all partial derivatives together, the gradient is:
     \[
-    \nabla_{\beta}\ell(\beta;Z_n) = \sum_{i=1}^n \left[ \frac{y_i - \Phi(x_i'\beta)}{\Phi(x_i'\beta)(1-\Phi(x_i'\beta))} \phi(x_i'\beta) \right] x_i.
+    \nabla_{\beta}\ell(\beta;Z_n) = \sum_{i=1}^n \left[ y_i \frac{\phi(x_i'\beta)}{\Phi(x_i'\beta)} - (1-y_i)\frac{\phi(x_i'\beta)}{1-\Phi(x_i'\beta)} \right] x_i^{\prime} .
     \]
-    Often written more simply as:
+    So,
     \[
-    \nabla_{\beta}\ell(\beta;Z_n) = \sum_{i=1}^n \left[ y_i \frac{\phi(x_i'\beta)}{\Phi(x_i'\beta)} - (1-y_i)\frac{\phi(x_i'\beta)}{1-\Phi(x_i'\beta)} \right] x_i.
+    s_n(\beta) = -\frac{1}{n}\nabla_{\beta}\ell(\beta;Z_n) = -\frac{1}{n}\sum_{i=1}^n \left[ y_i \frac{\phi(x_i'\beta)}{\Phi(x_i'\beta)} - (1-y_i)\frac{\phi(x_i'\beta)}{1-\Phi(x_i'\beta)} \right] x_i^{\prime} .
     \]
+
+
+    Then, we can further find the Hessian matrix $H(\beta;Z_n)$, which is the matrix of second derivatives of the log-likelihood with respect to $\beta$:
+    \begin{align*}
+        \nabla_{\beta \beta}\ell(\beta;Z_n) &= \frac{\partial \nabla_{\beta}\ell(\beta; Z_n)}{\partial \beta} \\
+        &= \sum_{i=1}^{n} x_i \frac{\partial \phi(x_i^{\prime} \beta) \left[ \frac{y_i}{\Phi(x_i^{\prime} \beta)} - \frac{(1-y_i)}{1-\Phi(x_i^{\prime} \beta)} \right]}{\partial \beta} \\
+        &= \sum_{i=1}^{n} x_i \left\{\phi^{\prime}(x_i^{\prime} \beta) x_i \left[ \frac{y_i}{\Phi(x_i^{\prime} \beta)} - \frac{(1-y_i)}{1-\Phi(x_i^{\prime} \beta)} \right] + \phi(x_i^{\prime} \beta) \left[ \frac{y_i \phi(x_i^{\prime} \beta)x_i}{\Phi^2(x_i^{\prime} \beta)} - \frac{(1-y_i)\phi(x_i^{\prime} \beta)x_i}{\left(1-\Phi(x_i^{\prime} \beta)\right)^2} \right] \right\}
+    \end{align*}
+
     \underline{Step 1: Characterizing the MLE $\hat{\beta}$}
     
     The MLE $\hat{\beta}$ sets the gradient to zero:
