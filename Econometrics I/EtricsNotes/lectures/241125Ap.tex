@@ -1,69 +1,155 @@
-\section{Consistency}
-In this section, we first present a set of sufficient conditions under which an extremum estimator is consistent. Those conditions will then be specialized to NLS, ML, and GMM.
+\section{Asymptotic Normality of M-Estimators}
 
-\subsection{Two Consistency Theorems for Extremum Estimators}
-The objective function $Q_n(\cdot)$ is a random function because for each $\theta$ its value $Q_n(\theta)$, being dependent on the data $(w_1, \ldots, w_n)$, is a random variable. The basic idea for the consistency of an extremum estimator is that if $Q_n(\theta)$ converges in probability to $Q_0(\theta)$, and the true parameter $\theta_0$ solves the ``limit problem'' of maximizing the limit function $Q_0(\theta)$, then the limit of the maximum $\hat{\theta}$ should be $\theta_0$. Sufficient conditions for the maximum of the limit to be the limit of the maximum are that the convergence in probability be ``uniform'' (in the sense made precise in a moment) and that the parameter space $\Theta$ be compact. As already mentioned, the parameter space is not compact in most applications. We therefore provide an alternative set of consistency conditions, which does not require $\Theta$ to be compact.
+The objective function for M-estimators is 
+\begin{equation}
+    Q_n(\theta) = -\frac{1}{n} \sum_{t=1}^n m(w_t; \theta).
+\end{equation}
 
-To state the first consistency theorem for extremum estimators, we need to make precise what we mean by convergence being ''uniform.'' If you are already familiar from calculus with the notion of uniform convergence of a sequence of functions, you will recognize that the definition about to be given is a natural extension to a sequence of random functions, $Q_n(\cdot)$ $(n = 1, 2, \ldots)$. Pointwise convergence in probability of $Q_n(\cdot)$ to some nonrandom function $Q_0(\cdot)$ simply means $\lim_{n \to \infty} Q_n(\theta) = Q_0(\theta)$ for all $\theta$, namely, that the sequence of random variables $\{Q_n(\theta)\}$ converges in probability to the constant $Q_0(\theta)$ for each $\theta$.
+It will be convenient to give symbols to the gradient (vector of first derivatives) and the Hessian (matrix of second derivatives) of the $m$ function as
+\begin{align}
+    s(w_t; \theta) &= \frac{\partial m(w_t; \theta)}{\partial \theta} \\
+    H(w_t; \theta) &= \frac{\partial s(w_t; \theta)}{\partial \theta'} = \frac{\partial^2 m(w_t; \theta)}{\partial \theta \partial \theta'}.
+\end{align}
 
-\begin{proposition}[Consistency of Extremum Estimators with Compact Parameter Space]
-Suppose that
-\begin{enumerate}
-    \item $\Theta$ is a compact subset of $\mathbb{R}^p$,
-    \item $Q_n(\theta)$ is continuous in $\theta$ for any data $(w_1, \ldots, w_n)$, and
-    \item $Q_n(\theta)$ converges uniformly in probability to $Q_0(\theta)$ as $n \to \infty$,
-\end{enumerate}
-and that there is a unique $\theta_0 \in \Theta$ that maximizes $Q_0(\theta)$. Then $\hat{\theta} \to_p \theta_0$ as $n \to \infty$.
+In analogy to ML, $s(w_t; \theta)$ will be referred to as the \textbf{score vector for observation $t$}. 
+This $s(w_t; \theta)$ should not be confused with the score in the usual sense, 
+which is the gradient of the objective function $Q_n(\theta)$. 
+The score in the latter sense will be denoted $s_n(\theta)$ later in this chapter. 
+The same applies to the Hessian: $H(w_t; \theta)$ will be referred to as the \textbf{Hessian for observation $t$}, 
+and the Hessian of $Q_n(\theta)$ will be denoted $H_n(\theta)$.
+
+The goal of this subsection is the asymptotic normality of $\hat{\theta}$ described below. 
+In the process of deriving it, we will make a number of assumptions, which will be collected in Proposition 7.8 below. Assume that $m(w_t; \theta)$ is differentiable in $\theta$ and that $\hat{\theta}$ is in the interior of $\Theta$. So $\hat{\theta}$, being the interior solution to the problem of maximizing $Q_n(\theta)$, satisfies the first-order conditions
+\begin{equation}\label{eq: 9.4}
+    0 = \frac{\partial Q_n(\hat{\theta})}{\partial \theta} = \frac{1}{n} \sum_{t=1}^n s(w_t; \hat{\theta}).
+\end{equation}
+
+We now use the following result from calculus:
+
+\begin{theorem}[Mean Value Theorem]
+    \
+
+    Let $h : \mathbb{R}^p \rightarrow \mathbb{R}^q$ be continuously differentiable. Then $h(x)$ admits the mean value expansion
+    \begin{equation}
+        h(x) = h(x_0) + \frac{\partial h(\bar{x})}{\partial x'} (x - x_0),
+    \end{equation}
+    where $\tilde{x}$ is a mean value lying between $x$ and $x_0$.
+    \footnote{The Mean Value Theorem only applies to individual elements of $h$, so that $\overline{x}$ actually differs from element to
+    element of the vector equation. This complication does not affect the discussion in the text.}
+\end{theorem}
+
+Setting $q = p$, $x = \hat{\theta}$, $x_0 = \theta_0$, and $h(\cdot) = \frac{\partial Q_n(\cdot)}{\partial \theta}$ in the Mean Value Theorem, 
+we obtain the following mean value expansion:
+\begin{align}
+    \frac{\partial Q_n(\hat{\theta})}{\partial \theta} &= \frac{\partial Q_n(\theta_0)}{\partial \theta} + \frac{\partial^2 Q_n(\bar{\theta})}{\partial \theta \partial \theta'} (\hat{\theta} - \theta_0) \\
+    &= \frac{1}{n} \sum_{t=1}^n s(w_t; \theta_0) + \left[\frac{1}{n} \sum_{t=1}^n H(w_t; \bar{\theta}) \right] (\hat{\theta} - \theta_0),
+\end{align}
+where $\tilde{\theta}$ is a mean value that lies between $\hat{\theta}$ and $\theta_0$. 
+The continuous differentiability requirement of the Mean Value Theorem is satisfied if $m(w_t; \theta)$ is twice continuously differentiable with respect to $\theta$. 
+Combining this equation with the first-order condition above, we obtain
+\begin{equation}
+    0 = \frac{1}{n} \sum_{t=1}^n s(w_t; \theta_0) + \left[\frac{1}{n} \sum_{t=1}^n H(w_t; \bar{\theta}) \right] (\hat{\theta} - \theta_0).
+\end{equation}
+Assuming that $\frac{1}{n} \sum_{t=1}^n H(w_t; \bar{\theta})$ is nonsingular, this equation can be solved for $\hat{\theta} - \theta_0$ to yield
+\begin{equation}
+    \sqrt{n}(\hat{\theta} - \theta_0) = -\left[\frac{1}{n} \sum_{t=1}^n H(w_t; \bar{\theta})\right]^{-1} \frac{1}{\sqrt{n}} \sum_{t=1}^n s(w_t; \theta_0).
+\end{equation}
+This expression for $(\sqrt{n}$ times) the sampling error will be referred to as the mean value expansion for the sampling error. 
+Note that the score vector $s(w_t; \theta_0)$ is evaluated at the true parameter value $\theta_0$.
+
+Now, since $\bar{\theta}$ lies between $\theta_0$ and $\hat{\theta}$, $\bar{\theta}$ is consistent for $\theta_0$ if $\hat{\theta}$ is. If $\{w_t\}$ is ergodic stationary, 
+it is natural to conjecture that
+\begin{equation}\label{eq: 9.10}
+    \frac{1}{n} \sum_{t=1}^n H(w_t; \bar{\theta}) \rightarrow \mathbb{E}[H(w_t; \theta_0)].
+\end{equation}
+
+The ergodic stationarity of $w_t$ and consistency of $\hat{\theta}$ alone, however, 
+are not enough to ensure this; some technical condition needs to be assumed. 
+One such technical condition is the uniform convergence of $\frac{1}{n} \sum_{t=1}^n H(w_t; \cdot)$ to $\mathbb{E}[H(w_t; \cdot)]$ in a neighborhood of $\theta_0$. 
+By the Uniform Convergence Theorem, the uniform convergence of $\frac{1}{n} \sum_{t=1}^n H(w_t; \cdot)$ is satisfied if the following dominance condition is satisfied for the Hessian: 
+for some neighborhood $\mathcal{N}$ of $\theta_0$, $\mathbb{E} \left[ \sup_{\mu \in \mathcal{N}} \| H(w_t; \theta) \| \right] < \infty$. This is a sufficient condition for (\ref{eq: 9.10}); 
+if you can directly verify (\ref{eq: 9.10}), then there is no need to verify the dominance condition for asymptotic normality.
+
+Finally, if (\ref{eq: 9.10}) holds and if 
+\begin{equation}
+    \frac{1}{\sqrt{n}} \sum_{t=1}^n s(w_t; \theta_0) \xrightarrow{d} N(0, \Sigma),
+\end{equation}
+then by the Slutsky theorem we have
+\begin{equation}
+    \sqrt{n}(\hat{\theta} - \theta_0) \xrightarrow{d} N \left(0, \left(\mathbb{E}[H(w_t; \theta_0)]\right)^{-1} \Sigma \left(\mathbb{E}[H(w_t; \theta_0)]\right)^{-1} \right).
+\end{equation}
+
+\begin{proposition}[Asymptotic normality of M-estimators]\label{Prop: Asy-nor-M-est}
+    \
+
+    Suppose that the conditions of either Proposition 7.3 or Proposition 7.4 are satisfied, so that $\{w_t\}$ is ergodic stationary and the M-estimator $\hat{\theta}$ defined by (7.1.1) and (7.1.2) is consistent. Suppose, further, that
+    \begin{itemize}
+        \item[(1)] $\theta_0$ is in the interior of $\Theta$,
+        \item[(2)] $m(w_t; \theta)$ is twice continuously differentiable in $\theta$ for any $w_t$,
+        \item[(3)] $\frac{1}{\sqrt{n}} \sum_{t=1}^n s(w_t; \theta_0) \xrightarrow{d} N(0, \Sigma), \Sigma$ positive definite, 
+        where $s(w_t; \theta)$ is defined previously,
+        \item[(4)] \textbf{Local dominance condition on the Hessian} for some neighborhood $\mathcal{N}$ of $\theta_0$,
+        \[
+        \mathbb{E} \left[ \sup_{\theta \in \mathcal{N}} \| H(w_t; \theta) \| \right] < \infty,
+        \]
+        so that for any consistent estimator $\tilde{\theta}$,
+        \[
+        \frac{1}{n} \sum_{t=1}^n H(w_t; \tilde{\theta}) \xrightarrow{p} \mathbb{E}[H(w_t; \theta_0)],
+        \]
+        where $H(w_t; \theta)$ is defined previously.
+        \item[(5)] $\mathbb{E}[H(w_t; \theta_0)]$ is nonsingular.
+    \end{itemize}
+    Then $\hat{\theta}$ is asymptotically normal with
+    \[
+    \operatorname{Avar}(\hat{\theta}) = \left( \mathbb{E}[H(w_t; \theta_0)] \right)^{-1} \Sigma \left( \mathbb{E}[H(w_t; \theta_0)] \right)^{-1}.
+    \]
+    (This is Theorem 4.1.3 of Amemiya (1985)\cite{amemiya1985advanced} adapted to M-estimators). Two remarks are in order.
 \end{proposition}
 
-\begin{proposition}[Consistency of Extremum Estimators without Compactness]
-Suppose that
-\begin{enumerate}
-    \item the true parameter vector $\theta_0$ is an element of the interior of a convex parameter space $\Theta \subset \mathbb{R}^p$,
-    \item $Q_n(\theta)$ is concave over the parameter space for all $w_i$, and
-    \item $Q_n(\theta)$ is a measurable function of the data for all $\theta$ in $\Theta$.
-\end{enumerate}
-Let $\hat{\theta}$ be the M-estimator defined by (7.1.1) and (7.1.2). Suppose, further, that
-\begin{enumerate}
-    \item (identification) $E[m(w_i; \theta)]$ is uniquely maximized on $\Theta$ at $\theta_0 \in \Theta$,
-    \item (uniform convergence) $Q_n(\cdot)$ converges in probability to $Q_0(\cdot)$ uniformly over $\Theta$,
-\end{enumerate}
-then, as $n \to \infty$, $\hat{\theta} \to_p \theta_0$.
+\begin{remark}
+    \
 
-The following example shows that probit conditional ML satisfies the concavity condition.
+    \begin{itemize}
+        \item Of the assumptions we have made in the derivation of asymptotic normality, 
+        the following are not listed in the proposition: 
+        \begin{enumerate}
+            \item[(i)] $\hat{\theta}$ is an interior point,
+            \item[(ii)] $\frac{1}{n} \sum_{t=1}^n H(w_t; \hat{\theta})$ is nonsingular.
+        \end{enumerate}
+        It is intuitively clear that these conditions hold because $\hat{\theta}$ converges in probability to an interior point $\theta_0$, 
+        and $\frac{1}{n} \sum_{t=1}^n H(w_t; \hat{\theta})$ converges in probability to a nonsingular matrix $\mathbb{E}[H(w_t; \theta_0)]$. 
+        
+        See Newey and McFadden (1994, p. 2152) for a rigorous proof. This sort of technicality will be ignored in the rest of this chapter.
+    
+        \item If $w_t$ is ergodic stationary, then so is $s(w_t; \theta_0)$ and the matrix $\Sigma$ is the long run variance matrix of $\{s(w_t; \theta_0)\}$. 
+        A sufficient condition for (3) is Gordin's condition introduced in Section 6.5. 
+        So condition (3) in the proposition can be replaced by Gordin's condition on $\{s(w_t; \theta_0)\}$. 
+        
+        It is satisfied, for example, if $w_t$ is i.i.d. and $\mathbb{E}[s(w_t; \theta_0)] = 0$. 
+        The assumption that $\Sigma$ is positive definite is not really needed for the conclusion of the proposition, 
+        but we might as well assume it here because in virtually all applications it is satisfied (or assumed) and also 
+        because it will be required in the discussion of hypothesis testing later in this chapter.
+    \end{itemize}
+\end{remark}
 
-\subsection{Consistency of M-Estimators}
-For an M-estimator, the objective function is given by (7.1.2). If $\{w_i\}$ is ergodic stationary, the Ergodic Theorem implies pointwise convergence for $Q_n(\theta)$: $Q_n(\theta)$ converges in probability pointwise for each $\theta \in \Theta$ to $Q_0(\theta)$ given by
-\begin{equation}
-Q_0(\theta) = E[m(w_i; \theta)]
-\end{equation}
-(provided, of course, that $E[m(w_i; \theta)]$ exists and is finite). To apply the first consistency result (Proposition 7.1) to M-estimators, we need to show that the convergence of $\frac{1}{n} \sum_{i=1}^n m(w_i; \cdot)$ to $E[m(w_i; \cdot)]$ is uniform. A standard method to prove uniform convergence in probability, which exploits the fact that the expression is a sample mean, is
+\subsection{Consistent Asymptotic Variance Estimation}
+To use this asymptotic result for hypothesis testing, we need a consistent estimate of
+\[
+\operatorname{Avar}(\hat{\theta}) = \left( \mathbb{E}[H(w_t; \theta_0)]^{-1} \Sigma \mathbb{E}[H(w_t; \theta_0)]^{-1} \right)^{-1}.
+\]
+The long-run variance was introduced in Section 6.5.
 
-\begin{proposition}[Consistency of M-estimators with compact parameter space]
-Let $\{w_i\}$ be ergodic stationary. Suppose that (i) the parameter space $\Theta$ is a compact subset of $\mathbb{R}^p$, (ii) $m(w_i; \theta)$ is continuous in $\theta$ for all $w_i$, and (iii) $m(w_i; \theta)$ is measurable in $w_i$ for all $\theta$ in $\Theta$. Let $\hat{\theta}$ be the M-estimator defined by (7.1.1) and (7.1.2). Suppose, further, that
-\begin{enumerate}
-    \item (identification) $E[m(w_i; \theta)]$ is uniquely maximized on $\Theta$ at $\theta_0 \in \Theta$,
-    \item (dominance) $E[\sup_{\theta \in \Theta} |m(w_i; \theta)|] < \infty$.
-\end{enumerate}
-Then $\hat{\theta} \to_p \theta_0$.
+Since $\hat{\theta} \stackrel{p}{\rightarrow} \theta_0$, condition (4) of Proposition \ref{Prop: Asy-nor-M-est} implies that
+\[
+\frac{1}{n} \sum_{t=1}^n H(w_t; \hat{\theta}) \xrightarrow{p} \mathbb{E}[H(w_t; \theta_0)].
+\]
+Therefore, provided that there is available a consistent estimator $\hat{\Sigma}$ of $\Sigma$,
+\[
+\operatorname{Avar}(\hat{\theta}) = \left[ \frac{1}{n} \sum_{t=1}^n H(w_t; \hat{\theta}) \right]^{-1} \hat{\Sigma} \left[ \frac{1}{n} \sum_{t=1}^n H(w_t; \hat{\theta}) \right]^{-1}
+\]
+is a consistent estimator of the asymptotic variance matrix. 
 
-It is even more straightforward to specialize the second consistency theorem for extremum estimators to M-estimators. The objective function $Q_n(\theta)$ is concave if $m(w_i; \theta)$ is concave in $\theta$. As noted above, the pointwise convergence of $Q_n(\theta)$ to $Q_0(\theta)$ (= $E[m(w_i; \theta)]$) is assured by the Ergodic Theorem if $E[m(w_i; \theta)]$ exists and is finite for all $\theta$. Thus
+To obtain $\hat{\Sigma}$, the methods introduced in Section 6.6, 
+such as the VARHAC, can be applied to the estimated series $\{s(w_t; \hat{\theta})\}$ under some suitable technical conditions.
 
-\begin{proposition}[Consistency of M-estimators without compactness]
-Let $\{w_i\}$ be ergodic stationary. Suppose that (i) the true parameter vector $\theta_0$ is an element of the interior of a convex parameter space $\Theta \subset \mathbb{R}^p$, (ii) $m(w_i; \theta)$ is concave over the parameter space for all $w_i$, and (iii) $m(w_i; \theta)$ is measurable in $w_i$ for all $\theta$ in $\Theta$. Let $\hat{\theta}$ be the M-estimator defined by (7.1.1) and (7.1.2). Suppose, further, that
-\begin{enumerate}
-    \item (identification) $E[m(w_i; \theta)]$ is uniquely maximized on $\Theta$ at $\theta_0 \in \Theta$,
-    \item (dominance) $E[\sup_{\theta \in \Theta} |m(w_i; \theta)|] < \infty$.
-\end{enumerate}
-Then $\hat{\theta} \to_p \theta_0$.
-
-\subsection{Example: Concavity of the probit likelihood function}
-The $m$ function for probit is given in (7.1.15) where $\Phi(\cdot)$ is the cumulative density function of the standard normal distribution. Since the normal distribution is symmetric, $\Phi(-v) = 1 - \Phi(v)$ and the $m$ function can be rewritten as
-\begin{equation}
-m(w_i; \theta) = y_i \log \Phi(x_i'\theta) + (1 - y_i) \log \Phi(-x_i'\theta).
-\end{equation}
-Concavity of $m$ is implied if both $\log \Phi(x_i'\theta)$ and $\log \Phi(-x_i'\theta)$ are concave in $\theta$. Since $x_i'\theta$ is linear in $\theta$, it suffices to show concavity of $\log \Phi(v)$. The first derivative of $\log \Phi(v)$ is
-\begin{equation}
-\frac{d \log \Phi(v)}{dv} = \frac{\phi(v)}{\Phi(v)},
-\end{equation}
-where $\phi(v) (= \Phi'(v))$ is the density function of $N(0, 1)$. It is well known that $\phi(v)/\Phi(v)$ is a decreasing function. So $\log \Phi(v)$ is (strictly) concave.
+\subsection{Asymptotic Normality of Conditional ML}
