@@ -35,9 +35,13 @@ giving us :
         \item We know that $CI: \{ \mathcal{H}_0: f(\theta) = f_0 \text{ is accepted} \}$.
               But finding this set can be very hard.
               \begin{eg}
+                \
+
+                In the linear regression model, we have $\hat{\beta} \mid \beta \sim \mathcal{N}(\beta, V)$ with $V = \sigma^2\mathbb{E}[(X^{\prime} X)^{-1}]$,
+                therefore $x^{\prime} \hat{\beta} \mid x^{\prime} \beta \sim \mathcal{N}(x^{\prime} \beta, x^{\prime} Vx).$
                 \begin{align*}
                     T_w &= n g(\hat{\theta})^{\prime} [g(\hat{\theta}) g(\hat{\theta})^{\prime}]^{-1} g(\hat{\theta}) < c \\
-                    &= n\left[f(\hat{\theta})-f_0\right]^{\prime} \left[GVG\right]^{-1} \left[f(\hat{\theta})-f_0\right] < c \\
+                    &= n\left[f(\hat{\theta})-f_0\right]^{\prime} \left[GVG^{\prime} \right]^{-1} \left[f(\hat{\theta})-f_0\right] < c \\
                     & \xrightarrow{d} \chi^2 (r),
                 \end{align*}
                 where $r = \text{rank} [g(\theta)]$
@@ -61,7 +65,7 @@ giving us :
                             \sqrt{n}(\hat{\theta} - \theta) &\xrightarrow{d} \mathcal{N}(0, V) \\
                             \Rightarrow \sqrt{n} \left(g(\hat{\theta}) - g(\theta)\right) &\xrightarrow{d} \mathcal{N}(0, G V G^{\prime}) \\
                             \Rightarrow \sqrt{n}(\hat{\beta} - \beta ) &\xrightarrow{d} \mathcal{N}(0, V_{\beta}) \\
-                            \Rightarrow \sqrt{n}\left(\Phi(\tilde{x}^{\prime} \hat{\beta}) - \Phi(\tilde{x}^{\prime} \beta_0) \right) &\xrightarrow{d} \mathcal{N}\left(0, \phi(\tilde{x}^{\prime}) \tilde{x}^{\prime} V \tilde{x} \phi(\tilde{x}^{\prime} \beta)\right) \\
+                            \Rightarrow \sqrt{n}\left(\Phi(\tilde{x}^{\prime} \hat{\beta}) - \Phi(\tilde{x}^{\prime} \beta_0) \right) &\xrightarrow{d} \mathcal{N}\left(0, \phi(\tilde{x}^{\prime} \beta_0) \tilde{x}^{\prime} V \tilde{x} \phi(\tilde{x}^{\prime} \beta_0)^{\prime} \right) \\
                             \Rightarrow \Phi(\tilde{x}^{\prime} \hat{\beta}) &\xrightarrow{d} \mathcal{N}\left(\Phi(\tilde{x}^{\prime} \beta_0), \frac{\phi^{2}(\tilde{x}^{\prime} \beta_0) \tilde{x}^{\prime} V \tilde{x}}{n}\right)
                         \end{align*}
                     \end{itemize}
@@ -88,7 +92,7 @@ $\beta$ is consistent if $\mathbb{E}[x_i u_i] = 0$.
 
     \begin{enumerate}
         \item $z_i$ is exogenous to error term $u_i$: $\mathbb{E}[z_i u_i] = 0$.
-        \item $z_i$ is relevant to regressor $x_i$: $\mathbb{E}[z_i e_i] \neq 0$
+        \item $z_i$ is relevant to regressor $x_i$: $\mathbb{E}[z_i x_i^{\prime} ] \neq 0$
     \end{enumerate}
 
     Then, we have the 2SLS method:
@@ -106,16 +110,14 @@ $\beta$ is consistent if $\mathbb{E}[x_i u_i] = 0$.
                 &= \left((P_Z X)^{\prime} P_Z X\right)^{-1} (P_Z X)^{\prime} Y \\
                 &= \left(X^{\prime} P_Z^{\prime} P_Z X\right)^{-1} X^{\prime} P_Z Y \\
                 &= \left(X^{\prime} Z(Z^{\prime} Z)^{-1} Z^{\prime} X\right)^{-1} X^{\prime} Z (Z^{\prime} Z)^{-1} Z^{\prime} Y \\
-                &= \beta + (\cdots) \underset{0}{\underbrace{Z^{\prime} U}}
+                &= \beta + (\cdots) \underset{0}{\underbrace{Z^{\prime} U}} \\
+                &\stackrel{p}{\rightarrow} \beta
             \end{align*}
-
     \end{enumerate}
-
     \begin{align*}
         & \hat{\beta}_{IV} = \left( \sum_{i=1}^{n} z_i x_i^{\prime} \right)^{-1} \sum_{i=1}^{n} z_i y_i \\
         & \sqrt{n}(\hat{\beta}_{IV} - \beta) \xrightarrow{d} \mathcal{N}(0, V_{IV})
     \end{align*}
-
     \begin{itemize}
         \item $V_{IV}$ is not easy to find.
         \item $CI: \left\{ \mathcal{H}_0: \beta = \beta_0 \text{ is accepted} \right\}$.

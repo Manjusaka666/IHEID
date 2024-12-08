@@ -78,7 +78,7 @@ We take the Hessians of $\beta$ and $\sigma^2$:
         \frac{\partial^2 \ell(\theta |y_i, x)}{\partial \beta \partial \beta} & \frac{\partial^2 \ell(\theta |y_i, x)}{\partial \beta \partial \sigma^2}\\
         \frac{\partial^2 \ell(\theta |y_i, x)}{\partial \sigma^2 \partial \beta} & \frac{\partial^2 \ell(\theta |y_i, x)}{\partial \sigma^2 \partial \sigma^2}
     \end{bmatrix}\\
-    \frac{\partial^2 \ell(\theta |y_i, x)}{\partial \beta \partial \beta } &= -\frac{1}{\sigma^2}X^{\prime} X\\
+    \frac{\partial^2 \ell(\theta |y_i, x)}{\partial \beta \partial \beta^{\prime} } &= -\frac{1}{\sigma^2}X^{\prime} X\\
     \frac{\partial^2 \ell(\theta |y_i, x)}{\partial \sigma^2 \partial \sigma^2} &= \frac{n}{2(\sigma^2)^2} - \frac{1}{(\sigma^2)^3} (Y - X\beta )'(Y - X\beta )\\
     \frac{\partial^2 \ell(\theta |y_i, x)}{\partial \beta \partial \sigma^2} &= \frac{1}{(\sigma^2)^2}X'(Y - X\beta )
 \end{align*}

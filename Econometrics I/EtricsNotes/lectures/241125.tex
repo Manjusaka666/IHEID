@@ -31,10 +31,10 @@ Take the first-order condition to higher orders, we have:
         \SetKwInOut{Input}{Input}
         % \SetKwInOut{Output}{Output}
         
-        \Input{Initialize $\theta_0$, tolerence level $\varepsilon>0$}
+        \Input{Initialize $\theta^0$, tolerence level $\varepsilon>0$}
         % \Output{Decision to accept or reject $H_0$}
         
-        \For{$m = 1$ \KwTo $M$}{
+        \For{$m = 0$ \KwTo $M$}{
             Given $\theta ^m$, compute $\mathcal{Q}^{(2)}\left(\theta^m, Y^n\right)^{-1}$ and $\mathcal{Q}^{(1)}\left(\theta^m, Y^n\right)$\;
             Set $\theta^{m+1} = \theta^m - \mathcal{Q}^{(2)}\left(\theta^m, Y^n\right)^{-1} \mathcal{Q}^{(1)}\left(\theta^m, Y^n\right)$\;
             \eIf{$\left\| \theta^{m+1} - \theta^m  \right\| <\varepsilon $}{
@@ -53,7 +53,7 @@ In some cases, we are not able to find the joint expectation of $\beta$ and $\Si
     As $\theta = [\theta_1, \theta_2]^{\prime}$, we know $\hat{\theta}_1 \mid \theta_2$ and $\hat{\theta}_2 \mid \theta_1$
 \end{eg}
 
-Suppose we have the following model:
+Let's consider the GLS model:
 \[
 y_i = x_i^{\prime} \beta + u_i, \quad u_i|x_i \sim \mathcal{N}(0, \sigma_i^2).
 \]
@@ -66,10 +66,10 @@ Then, the likelihood function is:
     &= \left(2\pi\right)^{-\frac{n}{2}} \left(\prod_{i=1}^{n} \sigma_i^{-1}\right) \exp\left\{-\frac{1}{2} \left(Y - X \beta\right)^{\prime} \Sigma^{-1} \left(Y - X \beta\right)\right\}\\
     &= \left(2\pi\right)^{-\frac{n}{2}} \vert \Sigma \vert ^{-\frac{1}{2}} \exp\left\{-\frac{1}{2} \left(Y - X \beta\right)^{\prime} \Sigma^{-1} \left(Y - X \beta\right)\right\}. \\
     \Rightarrow \hat{\beta} \mid \Sigma &= \left(X^{\prime} \Sigma^{-1} X\right)^{-1}X^{\prime} \Sigma^{-1}Y,\\
-    \hat{\Sigma} \mid \beta &= \frac{1}{n} \sum_{i=1}^{n} \left(y_i - x_i^{\prime} \hat{\beta}\right)^2 = diag{(Y-X \beta)(Y - X \beta)^{\prime}}.
+    \hat{\Sigma} \mid \beta &= \frac{1}{n} \sum_{i=1}^{n} \frac{1}{\sigma_i^2}\left(y_i - x_i^{\prime} \hat{\beta}\right)^2 = diag{(Y-X \beta)(Y - X \beta)^{\prime}}.
 \end{align*}
 
-WE can obtain the estimator $\hat{\theta}$ by iterating between $\hat{\beta} \mid \hat{\Sigma}$ and $\hat{\Sigma} \mid \hat{\beta}$.
+We can obtain the estimator $\hat{\theta}$ by iterating between $\hat{\beta} \mid \hat{\Sigma}$ and $\hat{\Sigma} \mid \hat{\beta}$.
 
 \begin{note}[\textbf{Meng and Rubin (1993) Algorithm}]
     \
@@ -80,7 +80,7 @@ WE can obtain the estimator $\hat{\theta}$ by iterating between $\hat{\beta} \mi
         \SetKwInOut{Input}{Input}
         % \SetKwInOut{Output}{Output}
         
-        \Input{Initialize $\Sigma_0$(i.e. $=I$), tolerence level $\varepsilon>0$}
+        \Input{Initialize $\Sigma^0$(i.e. $=I$), tolerence level $\varepsilon>0$}
         % \Output{Decision to accept or reject $H_0$}
         
         \For{$m = 1$ \KwTo $M$ given $\Sigma^m$}{
@@ -185,7 +185,7 @@ We have a general form of question:
 
 For our original model:
 \[
-\left\{ y_i \right\}^{i=1}_{n} \quad \text{with} \quad \mathbb{E}[y_i]=0.
+\left\{ y_i \right\}_{i=1}^{n} \quad \text{with} \quad \mathbb{E}[y_i]=0.
 \]
 we have:
 \begin{align*}
@@ -200,6 +200,25 @@ In this case, we have:
     \item $Q (\theta)$ is uniquely minimized by $\theta_0 = \mathbb{E}[y_i]$.
     \item $\hat{\theta} = \frac{1}{n} \sum_{i=1}^{n} y_i \overset{p}{\rightarrow} \mathbb{E}[y_i] = 0$.
 \end{itemize}
+
+\begin{proposition}[Uniform Law of Large Numbers]
+    \
+
+    \begin{assumption}
+        \
+        
+        \begin{itemize}
+            \item $x_i$ are i.i.d;
+            \item Parameter space $\Theta$ is compact;
+            \item Object function $m(x; \theta)$ is continuous in $\theta$;
+            \item $\mathbb{E}\left[\underset{\theta \in \Theta}{\sup} \left\| m(x; \theta) \right\| \right] < \infty$.
+        \end{itemize}
+    \end{assumption}
+    Then,
+    \[
+    \underset{\theta \in \Theta}{\sup} \left|\frac{1}{n} \sum_{i=1}^{n} m(x_i; \theta) - \mathbb{E}[m(x_i; \theta)] \right| \overset{p}{\rightarrow} 0.
+    \]
+\end{proposition}
 
 \begin{eg}[\textbf{Nonlinear Least Squares(NLS)}]
     \
@@ -220,7 +239,7 @@ In this case, we have:
         because $m\left(\left(x_{i}, y_{i}\right), \beta\right)=\left(y_{i}-\left(x_{i}^{\prime} \beta\right)^{3}\right)^{2}$  satisfies the conditions for the ULLN; 
         the first three are obvious, and for the fourth it is sufficient to assume $\mathbb{E}\left[\left\|u_{i}\right\|^{2}\right]<\infty$ and $\mathbb{E}\left[\left\|x_{i}\right\|^{6}\right]<\infty$, along with $\|\beta\| \leq c$:
         \begin{align*}
-            \mathbb{E}\left[\sup _{\beta \in \mathscr{A}}\left\|m\left(\left(x_{i}, y_{i}\right), \beta\right)\right\|\right] &\leqslant \mathbb{E}\left[\left|y_{i}\right|^{2}\right]+\sup _{\beta \in \mathscr{A}} 2 \mathbb{E}\left[\left|y_{i}\right|\left|x_{i}\right|^{3}\|\beta\|^{3}\right]+\sup _{\beta \in \mathscr{A}}\left[\left|x_{i}\right|^{6}\|\beta\|^{6}\right] <\infty .
+            \mathbb{E}\left[\sup _{\beta \in \mathscr{B}}\left\|m\left(\left(x_{i}, y_{i}\right), \beta\right)\right\|\right] &\leqslant \mathbb{E}\left[\left|y_{i}\right|^{2}\right]+\sup _{\beta \in \mathscr{B}} 2 \mathbb{E}\left[\left|y_{i}\right|\left|x_{i}\right|^{3}\|\beta\|^{3}\right]+\sup _{\beta \in \mathscr{B}}\left[\left|x_{i}\right|^{6}\|\beta\|^{6}\right] <\infty .
         \end{align*}
         }
         \item We know $\mathbb{E}\left[\left(y_{i}-h\left(x_{i}\right)\right)^{2}\right]$ is uniquely minimized at $h\left(x_{i}\right)=\mathbb{E}\left[y_{i} \mid x_{i}\right]=\left(x_{i}^{\prime} \beta_{0}\right)^{3}$.
@@ -246,15 +265,15 @@ above. Third, one can show that $Q(\tilde{\theta}) - Q(\theta_0) > 0 \quad \fora
             \item $\sqrt{n} \mathcal{Q}_n^{(1)}(\theta_0, Y^n) \overset{d}{\rightarrow} \mathcal{N}(0, M)$.
             \item $\mathcal{Q}_n(\theta, Y^n) \in \mathcal{C}^2$ w.r.t. $\theta\quad \forall Y^n$.
             Also, $\exists H$ s.t. $\mathcal{Q}_n^{(2)}(\theta_0, Y^n) \overset{p}{\rightarrow}H \quad \forall \theta_n \overset{p}{\rightarrow}\theta_0$.
-            Then,
-            \[
-            \sqrt{n}(\hat{\theta} - \theta_0) \overset{d}{\rightarrow} \mathcal{N}(0, H^{-1} M H^{-1}).
-            \]
         \end{itemize}
     \end{assumption}
+    Then,
+    \[
+    \sqrt{n}(\hat{\theta} - \theta_0) \overset{d}{\rightarrow} \mathcal{N}(0, H^{-1} M H^{-1}).
+    \]
 \end{proposition}
 
-\begin{eg}
+\begin{eg}[Nonlinear Least Squares(NLS)]
     \
     
     Let's look at the NLS example again. We have:
@@ -262,14 +281,14 @@ above. Third, one can show that $Q(\tilde{\theta}) - Q(\theta_0) > 0 \quad \fora
         \item $\beta_0 \in int(\mathscr{B})$ for large $c$.
         \item By CLT, we have:
         \begin{align*}
-            \mathcal{Q}_n(\beta) &= \frac{1}{n} \sum_{i=1}^{n} \left(y_i - (x_i^{\prime} \beta)^3\right)^2 \\
+            \mathcal{Q}_n(\beta) &= \frac{1}{2n} \sum_{i=1}^{n} \left(y_i - (x_i^{\prime} \beta)^3\right)^2 \\
             \sqrt{n} \mathcal{Q}_n^{(1)}(\beta_0, Y^n) &= -\frac{1}{\sqrt{n} } \sum_{i=1}^{n} \left(y_i - (x_i^{\prime} \beta_0)^3\right) 3\left(x_i^{\prime} \beta_0\right)^2 x_i \\
             & \overset{d}{\rightarrow} \mathbb{E}\left[9u_i^2(x_i^{\prime} \beta_0)^4 x_i x_i^{\prime} \right] \\
             & \equiv \mathcal{N}(0, M).\\
         \end{align*}
         \item $\mathcal{Q}_n(\beta) \in \mathcal{C}^2$ w.r.t. $\beta$.
         \begin{align*}
-            \mathcal{Q}_n^{(2)}(\beta_0, Y^n) &= \frac{1}{n} \sum_{i=1}^{n} -\left(y_i - (x_i^{\prime} \beta_0)^3\right) \left[6(x_i^{\prime} \beta_0)^4 x_i^{\prime} x_i\right] + 9\left(x_i^{\prime} \beta_0\right)^4 x_i x_i^{\prime}  \\
+            \mathcal{Q}_n^{(2)}(\beta_0, Y^n) &= \frac{1}{n} \sum_{i=1}^{n} -\left(y_i - (x_i^{\prime} \beta_0)^3\right) \left[6(x_i^{\prime} \beta_0) x_i^{\prime} x_i\right] + 9\left(x_i^{\prime} \beta_0\right)^4 x_i x_i^{\prime}  \\
             & \overset{d}{\rightarrow} \mathbb{E}\left[9(x_i^{\prime} \beta_0)^4 x_i x_i^{\prime} \right] \\
             & \equiv H.       
         \end{align*}
@@ -287,5 +306,43 @@ above. Third, one can show that $Q(\tilde{\theta}) - Q(\theta_0) > 0 \quad \fora
         &= \frac{\hat{\sigma}^2}{9} \left(\mathbb{E}\left[(x_i^{\prime} \beta)^4 x_i x_i^{\prime} \right]\right)^{-1} \\
         &= \frac{\hat{\sigma}^2}{9} \left[\frac{1}{n} \sum (x_i^{\prime} \beta)^4 x_i x_i^{\prime} \right]^{-1} \\
     \end{align*}
+\end{eg}
 
+\begin{eg}[Maximum-likelihood Estimation]
+    \
+
+    Consider the normal maximum likelihood estimation:
+    \[
+    \hat{\theta} = \arg \min_{\theta} -\frac{1}{n}\sum_{i=1}^{n} \log f(y_i; \theta).
+    \]
+    We have:
+    \[
+    Q_n(\theta) = -\frac{1}{n} \sum_{i=1}^{n} \log f(y_i; \theta).
+    \]
+    Then, we have:
+    \begin{align*}
+        \sqrt{n} Q_n^{(1)}(\theta_0) &= -\frac{1}{n} \sum_{i=1}^{n} \frac{\partial \log f(y_i; \theta_0)}{\partial \theta} \\
+        &= -\frac{1}{\sqrt{n}} \sum_{i=1}^{n} s_i(\theta_0) \\ 
+        &\overset{d}{\rightarrow} \mathcal{N}(0, \mathbb{V}[s_i(\theta_0)]).
+    \end{align*}
+    where
+    \[
+    \mathbb{V}[s_i(\theta_0)] = \mathbb{E}[s_i(\theta_0)s_i(\theta_0)^{\prime}] - \mathbb{E}[s_i(\theta_0)]^2 \stackrel{\mathbb{E}[s_i(\theta_0)] = 0}{=} \mathbb{E}[s_i(\theta_0)s_i(\theta_0)^{\prime}].
+    \]
+    Also, we have:
+    \begin{align*}
+        Q_n^{(2)}(\theta_0) &= -\frac{1}{n} \sum_{i=1}^{n} \frac{\partial^2 \log f(y_i; \theta_0)}{\partial \theta \partial \theta^{\prime}} \\
+        &= -\frac{1}{n} \sum_{i=1}^{n} H_i(\theta_0) \\
+        &\overset{p}{\rightarrow} \mathbb{E}[-H_i(\theta_0)] = I(\theta).
+    \end{align*}
+    We know that:
+    \begin{align*}
+        s(\theta) &= \frac{1}{\sigma ^2}x_i^{\prime} (y_i - x_i \theta) \\
+        H(\theta) &= -\frac{1}{\sigma^2} x_i x_i^{\prime} \\
+        \Rightarrow \mathbb{E}[s_i(\theta_0)s_i(\theta_0)^{\prime}] &= \frac{1}{\sigma^4} \mathbb{E}[x_i^{\prime} (y_i - x_i \theta_0)(y_i - x_i \theta_0)^{\prime} x_i] \\
+        &= \frac{1}{\sigma^2} \mathbb{E}[x_i x_i^{\prime}]
+    \end{align*}
+    Thus, we have: $M = H$.
+    Hence we get:
+    \[\sqrt{n}(\hat{\theta}_{MLE} - \theta) \overset{d}{\rightarrow} \mathcal{N}(0, H^{-1})\]
 \end{eg}
