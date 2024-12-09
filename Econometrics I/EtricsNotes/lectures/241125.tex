@@ -12,7 +12,7 @@ Take the first-order condition to higher orders, we have:
         \frac{\partial \mathcal{Q}(\theta)}{\partial \theta_k}
     \end{bmatrix} \\
     \Rightarrow 
-    \mathcal{Q}^{(n)}(\theta^{m+1}) &= \mathcal{Q}^{(1)}(\theta^{m}) + \mathcal{Q}^{(2)}(\theta^{m}) (\theta^{m+1} - \theta^{m}) + \frac{1}{2} \mathcal{Q}^{(3)}(\theta^{m}) (\theta^{m+1} - \theta^{m})^2 + \cdots \\
+    \mathcal{Q}^{(1)}(\theta^{m+1}) &= \mathcal{Q}^{(1)}(\theta^{m}) + \mathcal{Q}^{(2)}(\theta^{m}) (\theta^{m+1} - \theta^{m}) + \frac{1}{2} \mathcal{Q}^{(3)}(\theta^{m}) (\theta^{m+1} - \theta^{m})^2 + \cdots \\
     & \approx \mathcal{Q}^{(1)}(\theta^{m}) + \mathcal{Q}^{(2)}(\theta^{m}) (\theta^{m+1} - \theta^{m}) \\
     &= 0. \\
     \Rightarrow \theta^{m+1} &= \theta^{m} - \left[\mathcal{Q}^{(2)}(\theta^{m})\right]^{-1} \mathcal{Q}^{(1)}(\theta^{m}).
