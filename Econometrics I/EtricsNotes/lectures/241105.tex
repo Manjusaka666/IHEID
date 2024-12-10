@@ -89,7 +89,7 @@ In this case, the probability of observing $y_i=0$ is:
 \]
 To get the PDF $p(y_i)$ for $y_{i}>0$, we derive the CDF:
 \[ 
-\mathbb{P}[y_i < y] = \mathbb{P}[y_i^* < y] = \mathbb{P}\left[\frac{u_i}{\sigma} < \frac{y_{i}-x_i^{\prime} \beta}{\sigma}\right] = \Phi\left(\frac{y_i - x_i^{\prime} \beta}{\sigma}\right),
+\mathbb{P}[y_i < y] = \mathbb{P}[y_i^* < y] = \mathbb{P}\left[\frac{u_i}{\sigma} < \frac{y-x_i^{\prime} \beta}{\sigma}\right] = \Phi\left(\frac{y - x_i^{\prime} \beta}{\sigma}\right),
 \]
 which gives that
 \[
@@ -133,7 +133,9 @@ $\mathbb{E}[Z|Z>-c]=\phi(c)/\Phi(c)$ (\textcolor{red}{inverse Mills ratio}), we 
 \mathbb{E}[y_i|y_i>0]=\mathbb{E}[x_i'\beta+u_i|u_i>-x_i'\beta]=x_i'\beta+\sigma\phi\left(\frac{x_i'\beta}{\sigma}\right)/\Phi\left(\frac{x_i'\beta}{\sigma}\right).
 \]
 
-\begin{note}
+\begin{note}[Inverse Mills Ratio]
+    \
+
     The inverse Mills ratio is the ratio of the 
     probability density function to the complementary 
     cumulative distribution function of a distribution. 
@@ -211,7 +213,7 @@ So, we could tell that the effect of $x_j$ on $y_i$ is not only affected by $\be
     Positive Response $y$ (censored at 0) & $\frac{\partial E(y \mid y>0, X)}{\partial x_j} = \beta_j \{1 - \lambda(c)[c + \lambda(c)]\}$ \\ \hline
     Non-zero Response $y$ (censored at 0) & $\frac{\partial E(y \mid x)}{\partial x_j} = \beta_j \Phi(c)$ \\ \hline
     \end{tabular}
-    \caption{Note: $c = \frac{x \beta}{\sigma}$}
+    \caption{Note: $c = \frac{x^{\prime}  \beta}{\sigma}$}
 \end{table}
 
 \pagebreak
