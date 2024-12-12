@@ -2,7 +2,7 @@
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
 \usepackage{textcomp}
-\usepackage{ctex}
+% \usepackage{ctex}
 % \usepackage[dutch]{babel}
 \usepackage{url}
 \usepackage{hyperref}
@@ -22,6 +22,9 @@
     % left=1in, right=1in, 
     % headheight=14.5pt
     ]{geometry}
+
+\usepackage{setspace}
+\setstretch{1.15}
 
 \usepackage{graphicx}
 \usepackage{float}
@@ -387,7 +390,7 @@
   {\filright
    \footnotesize
    \enspace Lecture \arabic{chapter}.\enspace}
-  {8pt}
+  {6pt}
   {\Large\bfseries\filcenter}
 \usepackage[dotinlabels]{titletoc}
 \titlecontents{chapter}[1.5em]{}{\contentslabel{2.3em}}{\hspace*{-2.3em}}{\hfill\contentspage}

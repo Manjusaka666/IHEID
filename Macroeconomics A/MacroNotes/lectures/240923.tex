@@ -188,9 +188,9 @@ In the steady state, the amount of actual investment is exactly such that it com
         \draw[->] (0,0) -- (0,5) node[above left] {Output};
         
         % Draw the curves
-        \draw[thick,domain=0:6,samples=100,smooth,variable=\x] plot ({\x},{4*\x/(0.5+\x) + 0.4/4.5*\x}) node[right] {$f(k_t)$};
+        \draw[thick,domain=0:6.2,samples=100,smooth,variable=\x] plot ({\x},{4*\x/(0.5+\x) + 0.4/4.5*\x}) node[below right] {$f(k_t)$};
         \draw[thick,domain=0:6,samples=100,smooth,variable=\x] plot ({\x},{3.2*\x/(0.5+\x) + 0.32/4.5*\x}) node[right] {$sf(k_t)$};
-        \draw[thick,domain=0:6.2] plot ({\x},{3.2/4.5*\x}) node[right] {$\delta k_t$};
+        \draw[thick,domain=0:6.2] plot ({\x},{3.2/4.5*\x}) node[above right] {$\delta k_t$};
         
         % Dashed lines for steady state
         \draw[dashed] (4.5,0) -- (4.5,4) node[pos=0.5,below right] {\scriptsize $k^*$};
@@ -202,14 +202,14 @@ In the steady state, the amount of actual investment is exactly such that it com
         \node[left] at (0,3.2) {\scriptsize $sf(k^*)$};
         
         % Annotations with boxes
-        \node[draw=red, thick, fill=white] at (6.4,6.5) {\scriptsize \textcolor{blue}{Total depreciation}};
+        \node[draw=red, thick, fill=white] at (6.4,5.3) {\scriptsize \textcolor{blue}{Total depreciation}};
         \node[draw=red, thick, fill=white] at (6,2.5) {\scriptsize \textcolor{blue}{Total investment}};
         
         % Investment and consumption text
         \node at (0,1.6) [left] {\scriptsize Investment};
         \node at (0,3.6) [left] {\scriptsize Consumption};
-        
     \end{tikzpicture}
+    \caption{Alternative representation of Solow Model SS}
 \end{figure}
 
 \underline{Comparative statics}
