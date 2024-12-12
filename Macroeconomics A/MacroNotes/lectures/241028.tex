@@ -4,7 +4,7 @@ Does an unanticipated shock to money affect real side of the
 economy (quantities)?
 
 \begin{itemize}
-    \item CLassical view: If prices are flexible, the shock
+    \item Classical view: If prices are flexible, the shock
     will change wages and prices proportionally, but not change the quantities.
 
     If the gov prints money and spend it, the prices increase and nominal assets lose in value, 
@@ -28,16 +28,158 @@ How should we conduct monetary policy?
     led to Monetarists becoming very inﬂuential.
 \end{itemize}
 
-\textcolor{blue}{Problems of previous models}
+\section{Lucas Critique}
 
+The Lucas critique (Lucas 1976 \cite{lucas1976econometric}) is an important philosophical point that forms the basis of much
+of modern macroeconomics.
+From Keynes until the mid-1970s, macroeconomics looked very different
+to what it does now.
+
+\underline{\textcolor{blue}{\textbf{Theoretical side:}}}
 \begin{itemize}
-    \item Old models are subject to the Lucas critique(policy changes
-    may affect people's response to the policies)
-    \item Hard to take seriously from a quantitative perspective
+    \item used variants of a textbook IS-LM (investment-
+    saving liquidity-money) model: not take agent optimisation, dynamics, or expectations
+    formation very seriously
 \end{itemize}
 
-Since RBC model has try to use dynamic method to explain the economy, 
-people start putting money into the model.
+\underline{\textcolor{blue}{\textbf{Empirical side:}}}
+\begin{itemize}
+    \item used large-scale macroeconometric models, systems of simultaneous equations featuring aggregate variables – many of the
+    larger models would feature hundreds of variables
+\end{itemize}
+
+The design of these macroeconometric models was based on fit and forecasting - regressions, essentially - with little attention paid to any underlying
+theory or actual economics. There was no microfoundation, and agents' behaviour was postulated to
+be based on adaptive expectations, which were essentially ad-hoc.
+
+The essential gist of Lucas' Critique is that it is fraught with hazard to try and predict the effects
+of a policy change based on correlations (regression coefficients) based on historical data.
+
+\subsection{Is econometrics useful?}
+
+The conclusion of the Lucas Critique is that we need to take economic theory seriously – correlations
+(or regression coefficients) estimated in the data may not be policy-invariant, and therefore may not
+be useful in thinking about “counterfactuals” where we think of what would happen under alternative
+policy regimes.
+
+The Lucas Critique tells us that we need to take theory seriously when
+doing econometrics; and when we do econometrics without theory (e.g. reduced form econometrics), be
+honest and open about the potential misgivings.
+
+\subsection{Empirical evidence on the effects of money supply shocks}
+
+\underline{\textbf{Problem with identification of Monetary Policy: reverse causality.}}
+
+The most widly accepted econometric methodology is the VAR (Vector Autoregression) model.
+
+\begin{eg}
+    \ 
+
+    Example with detrended money stock $M$ and detrended real output $Y$:
+    \begin{align*}
+        Y_t &= \phi_{YY}Y_{t-1} + \phi _{YM}M_{t} + u_{t}^Y \\ 
+        M_t &= \phi_{MY}Y_{t} + \phi _{MM}M_{t-1} + u_{t}^M
+    \end{align*}
+    where $u^M$ are money supply shocks and $u^Y$ are output supply(e.g. TFP) shocks(independent from other time $t$ variables and from each other).
+\end{eg}
+
+Then we consider another simple example:
+\begin{eg}
+    \begin{align*}
+        Y_t &= \phi_1 Y_{t-1} + \phi_2 M_{t} + \phi_3 M_{t-1} + u_{t}^Y \\ 
+        M_t &= \phi_4 Y_{t} + \phi_5 M_{t-1} + \phi_6 Y_{t-1} + u_{t}^M
+    \end{align*}
+    The problem is: OLS will provide inconsistent estimate of $\phi$.
+    We could do it if we have direct measures of the shocks, or an instrument(but we don't).
+
+    We rearrange the equations to get:
+    \begin{align*}
+        Y_t &= \frac{1}{1 - \phi_2 \phi_4} \left( (\phi_1 + \phi_2 \phi_6)Y_{t-1} + (\phi_3 + \phi_2 \phi_5)M_{t-1} + u_t^Y + \phi_2 u_t^M \right) \\
+        M_t &= \frac{1}{1 - \phi_2 \phi_4} \left( (\phi_6 + \phi_4 \phi_1)Y_{t-1} + (\phi_5 + \phi_4 \phi_3)M_{t-1} + u_t^M + \phi_4 u_t^Y \right)
+    \end{align*}
+    Now, we can run OLS estimation! THis gives us consistent estimatess of coefficients(under the assumption that $u$ are $\perp$ to variables at $t-1$.)
+    
+    Still, we estimate 4 coefficients, and have 6 unknowns.
+
+    Residuals we get are:
+    \begin{align*}
+        \varepsilon_t^Y &= \frac{1}{1-\phi_2 \phi_4} (u_t^Y + \phi_2 u_t^M) \\
+        \varepsilon_t^M &= \frac{1}{1-\phi_2 \phi_4} (u_t^M + \phi_4 u_t^Y)
+    \end{align*}
+    Then, we need to make additional identifying assumptions! Currently, there are two alternatives:
+    \begin{enumerate}
+        \item $\phi_4 = 0$, monetary policy does not react to the
+        contemporaneous level of output.
+        \[\varepsilon_t^Y = \phi_2 \varepsilon_t^M + \frac{1}{1-\phi_2 \phi_4} u_t^Y\]
+        We can estimate $\phi_2$ from regression of $\varepsilon_t^Y$ on $\varepsilon_t^M$.
+        \item $\phi_2 = 0$, output does not react to change in monetary policy.
+        We can estimate $\phi_4$ from regression of $\varepsilon_t^M$ on $\varepsilon_t^Y$.
+    \end{enumerate}
+    Either assumption identiﬁes all the parameters of the VAR.
+
+    Once we have all the $\phi$ parameters, we know the economy's response to a money shock 
+    $u_t^M$ or to a real shock $u_t^Y$.
+\end{eg}
+
+\subsubsection{Technical aside: Granger causality}
+
+Granger(1969\cite{granger1969investigating}) introduced the concept of Granger causality based on forecasting techniques 
+in time series econometrics. A variable $X$ is said to Granger-cause $Y$ if and only if 
+lagged values of $X$ have marginal predictive content in a forecasting equation for $Y$.
+In other words, having some information about the future of $Y$ is not enough for Granger causality, 
+and that past observations of $X$ should have more information about
+the future of $Y$ than the past $Y$ observations.
+
+Consider the simple bivariate VAR(2) model:
+\begin{align*}
+    Y_{1,t} &= c_1 + \phi_{11}^{(1)} Y_{1,t-1} + \phi_{12}^{(1)} Y_{2,t-1} + \phi_{11}^{(2)} Y_{1,t-2} + \phi_{12}^{(2)} Y_{2,t-2} + \epsilon_{1,t}, \\
+    Y_{2,t} &= c_2 + \phi_{21}^{(1)} Y_{1,t-1} + \phi_{22}^{(1)} Y_{2,t-1} + \phi_{21}^{(2)} Y_{1,t-2} + \phi_{22}^{(2)} Y_{2,t-2} + \epsilon_{2,t}.
+\end{align*}
+
+$Y_2$ does not Granger-cause $Y_1$ is analogous to saying that the coefficients of $Y_2$ in the $Y_1$ equation are all 0. 
+In other words, $\phi_{12}^{(1)} = \phi_{12}^{(2)} = 0$. We can test for the Granger causality running from $Y_2$ to $Y_1$ by 
+F-testing the null hypothesis that $\phi_{12}^{(1)} = \phi_{12}^{(2)} = 0$.
+
+\subsection{Criticisms of the VAR approach}
+
+\begin{itemize}
+    \item \textbf{Price Puzzle:} Observations show that after a contractionary policy shock, such as an increase in the Federal Funds Rate, 
+    the price level tends to rise, which contradicts typical economic expectations. This phenomenon, known as the "price puzzle," 
+    can be addressed by incorporating oil or commodity prices in the VAR system, 
+    which are critical inflation-sensitive indicators that a standard VAR might omit.
+
+    \item \textbf{Lack of Forward-Looking Variables:}\footnote{Most, if not all,
+    of what one thinks of in terms of policy and policy design represents the endogenous response of policy
+    to the economy, and “most variation in monetary policy instruments is accounted for by responses of
+    policy to the state of the economy, not by random disturbances to policy”. (Sims and Zha 1998 \cite{sims1998bayesian})} 
+    Many VAR models do not include forward-looking variables, 
+    which are crucial as central banks often rely on forecasts of future economic conditions. 
+    Without these, VARs might misattribute the impact of policy actions on subsequent economic outcomes.
+
+    \item \textbf{Limitations of VAR Analysis:}
+    \begin{itemize}
+        \item VAR primarily captures the effects of monetary policy shocks -- unanticipated changes in policy which are not a response to the economic conditions.
+        \item The majority of policy variations are endogenous, responding predictively to economic states rather than as exogenous shocks. 
+        This is often not captured well by VAR.
+        \item If monetary policy is seen solely as a feedback rule responding to the economy (with no exogenous shocks), 
+        VAR could inaccurately suggest that monetary policy does not influence economic outcomes.
+    \end{itemize}
+    
+    \item \textbf{Importance of Policy Response:} Despite VAR limitations, it's crucial to recognize that monetary policy's role is significant, 
+    especially how the economy responds to non-policy shocks which may be strongly influenced by the nature of policy adjustments.
+
+    \item \textbf{Relation to Macroeconomic Theory:} These points highlight concerns similar to those raised by the Lucas Critique about the limitations 
+    of traditional econometric approaches in capturing the dynamic interplay between policy and economic outcomes.
+\end{itemize}
+
+
+Notably, as stated by Galí (2015\cite{gali2015monetary}), the RBC model had little relevance for the analysis of macroeconomic policy. We could add
+monetary policy - as was done by papers such as Cooley and Hansen (1989\cite{cooley1989inflation}) - 
+but, in the absence of any price or wage frictions, it would have no real effects.
+
+To allow for a realistic model of business cycles and monetary policy, we need
+a framework in which prices don't simply follow the money supply, and nominal interest rates and
+inflation don't just move together one-for-one.
 
 \begin{itemize}
     \item Outcome from this program is the “New Keynesian
