@@ -30,7 +30,7 @@ How should we conduct monetary policy?
 
 \section{Lucas Critique}
 
-The Lucas critique (Lucas 1976 \cite{lucas1976econometric}) is an important philosophical point that forms the basis of much
+The Lucas critique (Lucas 1976\cite{lucas1976econometric}) is an important philosophical point that forms the basis of much
 of modern macroeconomics.
 From Keynes until the mid-1970s, macroeconomics looked very different
 to what it does now.
@@ -160,7 +160,7 @@ Their main findings were:
 
 \begin{itemize}
     \item \textbf{Price Puzzle:} Observations show that after a contractionary policy shock, such as an increase in the Federal Funds Rate, 
-    the price level tends to rise, which contradicts typical economic expectations. This phenomenon, known as the "price puzzle," 
+    the price level tends to rise, which contradicts typical economic expectations. This phenomenon, known as the 'price puzzle,' 
     can be addressed by incorporating oil or commodity prices in the VAR system, 
     which are critical inflation-sensitive indicators that a standard VAR might omit.
 
@@ -206,6 +206,17 @@ inflation don't just move together one-for-one.
 
 \section{The Monetary Transmission Mechanism}
 
+Monetary policy should be a demand shock: loose MP should
+stimulate demand through increased consumption and
+investment.
+
+We'll look into three questions and rech out to the New Keynesian model:
+\begin{itemize}
+    \item What determines demand (consumption/investment)?
+    \item What is monetary policy exactly?
+    \item The role of nominal rigidities.
+\end{itemize}
+
 \subsection{Households and nominal assets}
 
 Nominal assets are bonds $B_t$ which pay interest at nominal rate $i_t$.
@@ -219,30 +230,30 @@ $r_{t+i}$ is the rental rate of capital net of depreciation.
 
 Define the Lagrangian:
 \begin{align*}
-    \mathcal{L} = \mathbb{E}_t\sum_{i=0}^{\infty} \left[ U(C_{t+i} ) + \lambda_{t+i} \left( W_{t+i}L + P_{t+i}(1+r_{t+i})K_{t+i} + (1+i_{t+i})B_{t+i} - P_{t+i}C_{t+i} - P_{t+i}K_{t+i+1} - B_{t+i+1} \right) \right]
+    \mathcal{L} =\mathbb{E}_t\sum_{i=0}^{\infty} & \left[ U(C_{t+i} ) + \lambda_{t+i} \left( W_{t+i}L + P_{t+i}(1+r_{t+i})K_{t+i} + (1+i_{t+i})B_{t+i} \right. \right. \\ 
+    &- \left. \left. P_{t+i}C_{t+i} - P_{t+i}K_{t+i+1} - B_{t+i+1} \right) \right]
 \end{align*}
 
 The FOCs are:
 \begin{align*}
     U^{\prime} (C_{t+i} ) &= \mathbb{E}_t P_{t+i}\lambda_{t+i}  \\
     P_{t+i}\lambda_{t+i} &= \mathbb{E}_t \lambda_{t+i+1} P_{t+i+1} (1+r_{t+i+1}) \\
-    \lambda_{t+i} &= \mathbb{E}_t \lambda_{t+i+1} (1+r_{t+i+1}) \\
+    \lambda_{t+i} &= \mathbb{E}_t \lambda_{t+i+1} (1+r_{t+i+1})
 \end{align*}
 Combining the first two, we get the standard Euler equation:
 \[
     U^{\prime} (C_{t} ) = \mathbb{E}_t \left(U^{\prime} (C_{t+1} ) (1+r_{t+1})\right)
 \]
-Conbine the first and the third:
+Combine the first and the third:
 \[
     U^{\prime} (C_{t} ) = \mathbb{E}_t \left(\frac{1+i_{t+1}}{1+\pi_{t+1}} U^{\prime} (C_{t+1} )\right)
 \]
 where inflation $\pi = \frac{P_{t+1} - P_t}{P_t}$.
-
 \begin{align*}
-    U^{\prime} (C_{t} ) &= \mathbb{E}_t \left(\frac{1+i_{t+1}}{1+\pi_{t+1}} U^{\prime} (C_{t+1} )\right) \\\\
-    U^{\prime} (C_{t} ) &= \mathbb{E}_t \left((1+r_{t+1}) U^{\prime} (C_{t+1} )\right) \\\\
+    U^{\prime} (C_{t} ) &= \mathbb{E}_t \left(\frac{1+i_{t+1}}{1+\pi_{t+1}} U^{\prime} (C_{t+1} )\right) \\
+    U^{\prime} (C_{t} ) &= \mathbb{E}_t \left((1+r_{t+1}) U^{\prime} (C_{t+1} )\right)
 \end{align*}
-
+ 
 \begin{itemize}
     \item What matters for the intertemporal consumption decision is
     the real interest rate, not the nominal interest rate.
@@ -260,18 +271,28 @@ where inflation $\pi = \frac{P_{t+1} - P_t}{P_t}$.
     It's the relationship between asset returns that has to hold 
     so that the household is willing to hold positive amounts 
     of these assets in their portfolio (or: if you allow negative 
-    holdings, to clear asset markets). \\
+    holdings, to clear asset markets).
+    
+    This relationship between the real and nominal rates of interest is called the Fisher relationship, 
+    after Irving Fisher(1896)
+
     When households are risk-neutral, the FOCs become:
     \[\mathbb{E}_t (1+r_{t+1}) = \mathbb{E}_t \left(\frac{1+i_{t+1}}{1+\pi_{t+1}}\right) \]
-    In a deterministic world, there's no $E$, which is often approxima
+    In a deterministic world, there's no $E$, which is often approxima.
+
+    If we note that $(1+x)(1+y) \approx 1+x+y$, we can write the Fisher equation as:
+    \[r_{t+1} \approx i_{t+1} - \pi_{t+1} \]
 \end{corollary}
 
 \subsection{Firms}
 The firms would like to maximize profits, with perfect competition adn frictionless factor markets:
 \[MPK = r\]
-Again, real interest rate matters. 
+Again, \textit{real interest rate matters}. 
 
-\textbf{Conclusion:} if monetary policy should affect demand, the real interest rate is the key price in the economy.
+\textbf{Conclusion:} 
+\underline{If monetary policy should affect demand, the real interest rate is the key price in the economy.}
+
+
 
 \section{The tools of monetary policy}
 So, in order to stimulate demand, the central bank needs to change the real interest rate.
@@ -316,11 +337,11 @@ So, in order to stimulate demand, the central bank needs to change the real inte
 \node (output) [block, below=of consumption] {Output};
 
 % Arrows for the first branch
-\draw [arrow] (centralbank) -- (nominalrate1) node[midway, left, text width=3cm, align=left] {Sets and implements interest rate target};
+\draw [arrow] (centralbank) -- (nominalrate1) node[midway, left, text width=4cm, align=left] {Sets and implements interest rate target};
 \draw [arrow] (nominalrate1) -- (realrate) node[midway, left] {Nominal rigidities (?)};
 
 % Arrows for the second branch
-\draw [arrow] (centralbank) -- (nominalrate2) node[midway, right, text width=3cm, align=left] {Sets money supply, given a money demand curve and money market clearing we get a nominal interest rate i};
+\draw [arrow] (centralbank) -- (nominalrate2) node[midway, right, text width=7cm, align=left] {Sets money supply, given a money demand curve and money market clearing we get a nominal interest rate i};
 \draw [arrow] (nominalrate2) -- (realrate) node[midway, right] {Nominal rigidities (?)};
 
 % Arrows for the combined branch
@@ -329,7 +350,33 @@ So, in order to stimulate demand, the central bank needs to change the real inte
 
 \end{tikzpicture}
 
-\subsection*{Money supply-demand equilibrium}
+\subsection{Money supply-demand equilibrium}
+
+Originally, the money market equilibrium is the IS-LM curve, if 
+\begin{figure}[!htbp]
+    \centering
+    \begin{tikzpicture}[>=stealth, scale=1.2]
+
+        % Axes
+        \draw[thick,->] (0,0) -- (5,0) node[below] {$M_t$};
+        \draw[thick,->] (0,0) -- (0,5) node[left] {$r_t$};
+        
+        % Vertical line (Money supply)
+        \draw[thick] (3,0) -- (3,5) node[right] {\scriptsize $M^s$};
+        
+        % Downward sloping demand curve (initial)
+        \draw[thick] (0,4) -- (4,0.5) node[below] {\scriptsize $M^d$};
+        
+        % Downward sloping demand curve (shifted)
+        \draw[thick,blue] (1,4.5) -- (5,1) node[below right] {\textcolor{blue}{\scriptsize $M^d$}};
+        
+        % Dashed lines for equilibrium points
+        \draw[dashed] (0,2.75) -- (4.5,2.75) node[pos=0,left] {\scriptsize $i_1$};
+        \draw[dashed] (0,1.375) -- (4.5,1.375) node[pos=0,left] {\scriptsize $i_0$};
+    \end{tikzpicture}
+\end{figure}
+
+If we have a interest rate target and implement particular interest rate,
 
 \begin{tikzpicture}[scale=1]
     \draw[->] (0,0) -- (4.5,0) node[right] {Money M};
@@ -358,10 +405,12 @@ So, in order to stimulate demand, the central bank needs to change the real inte
 \end{tikzpicture}
 
 \section{A model of the interbank market}
+
+Then, we first build a model for interbank market,
 \begin{itemize}
     \item Market participants: $n$ banks.
     \item Banks hold reserves at the central bank.
-    \item REserves are used for settling transfers between banks arising from the payment system.
+    \item Reserves are used for settling transfers between banks arising from the payment system.
     \item Banks are unsure of the transfers htey will need to make.
     \item Banks can borrow reserves from one another in the interbank market,
     but do not know how much reserve they'll require at the point they participate in the interbank market.
@@ -403,7 +452,7 @@ So, in order to stimulate demand, the central bank needs to change the real inte
     \textbf{Borrowing facility:} Central bank charges an interest rate $i_b$ on negative balances in banks' accounts.
     \begin{itemize}
         \item Positive spread over deposit rate: $i_b > i_d$.
-        \item Equivalent to an offer to make loans at the end of perios, with the oad credited to the bank's account.
+        \item Equivalent to an offer to make loans at the end of perios, with the load credited to the bank's account.
         \item Collateral required -- we should assune banks have enough collateral to use it.
     \end{itemize}
 \end{note}
@@ -425,7 +474,7 @@ B^{\prime} _j = B_j - T_j - i(I_j + P_j) + \left\{\begin{matrix}
   \end{matrix}\right.
 \]
 
-Assume banks are risk-neutrala, and they aim to maximize their next period expected balance $\mathbb{E}(B^{\prime}_j)$.
+Assume banks are risk-neutral, and they aim to maximize their next period expected balance $\mathbb{E}(B^{\prime}_j)$.
 Choice variabls are: interbank transaction $I_j$, repo market transaction $P_j$.
 \begin{align*}
     \mathbb{E}(B^{\prime}_j) = B_j - i(I_j + P_j) &+ i_d \int_{-\infty}^{B_j + I_j + P_j} (B_j + I_j + P_j - T_j) dF(T_j) \\
@@ -476,6 +525,17 @@ The optimal demand for interbank and repo lending is characterized by the equati
 \[
 F(B_j + I_j + P_j) = \frac{i_b - i}{i_b - i_d}
 \]
+Since we know that $0 \leq F(B_j + I_j + P_j) \leq 1$, the FOC implies that:
+\[i_d \leq i \leq i_b.\]
+So, the interest rate $i$ lies in the channel $[i_d, i_b]$.
+\begin{note}
+    \ 
+
+    No one would lend at an interest rate lower than what you get from the central bank,
+    and no one would borrow at an interest rate higher than what you have to pay to the central bank.
+\end{note}
+
+Since $F$ is increasing, there is a negative relationship between $i \text{ and } I_j + P_j.$
 
 \subsection{Aggregation and market clearing}
 \begin{align*}
@@ -508,6 +568,7 @@ Indirectly determinems
 \end{itemize}
 
 \subsection{Interbank market with channel system}
+
 \begin{itemize}
     \item \textbf{Demand:} Equation $F\left(\frac{R}{n}\right) = \frac{i_b - i}{i_{b-i_d}}$, giving a negative relationship between $i$ and $R$.
     \item \textbf{Supply:} Central bank sets $R = B+P$ by open market operations.
@@ -519,6 +580,21 @@ If we hold all other policy instruments constant,
     \item An increase in $i_d$ will shift demand curve upward, increasing $i$.
     \item An increase in $i_b$ will shift demand curve upward, increasing $i$.
 \end{itemize}
+
+\begin{figure}[!htbp]
+    \centering
+    \includegraphics[width=0.8\textwidth]{figures/PS(3).png}
+    \caption{Increasing Open Market operations}
+\end{figure}
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.8\textwidth]{figures/PS(3)-2.png}
+    \caption{Increasing $i_b$ or $i_d$(similar)}
+\end{figure}
+
+Then, if the central bank would like to increase $i$ by $x$, while both $i_b$ and $i_d$ increase by $x$,
+no new open market operations are needed.
 
 \begin{note}
     \ 
@@ -539,7 +615,10 @@ If we hold all other policy instruments constant,
 \subsection{Interest rate maturity}
 
 \begin{question}
-    How does this affect medium- and long-term interest rates? How are interest rates of different maturities related?
+    \
+
+    How does this affect medium- and long-term interest rates? \\
+    How are interest rates of different maturities related?
 \end{question}
 
 \begin{eg}
@@ -548,11 +627,18 @@ If we hold all other policy instruments constant,
     Imagine an investor invest for 2 years:
     \begin{itemize}
         \item Buy a 2-year bond, keep until it matures: \[\text{return} = 1 + i_t^{(2y)}\]
-        \item Buy a 1-year bond, then buy another 1-year bond: \[\text{return} = (1+i_t^{(1y)})(1+i_{t+1}^{1y})\]    
+        \item Buy a 1-year bond, then buy another 1-year bond: \[\text{return} = (1+i_t^{(1y)})(1+i_{t+1}^{(1y)})\]    
     \end{itemize}
 
     \textbf{Expectations Hypothesis:} Expectations of these two returns should be the same:
     \[i_t^{(2y)} = \mathbb{E}_t (1 + i_t^{(1y)})(1 + i_{t+1}^{(1y)}).\]
 
-    This should hold exactly if agents are risk-neutral. WIth risk aversion, one would adjust the expected retuen for riskiness.
+    This should hold exactly if agents are risk-neutral. With risk aversion, one would adjust the expected retuen for riskiness.
+
+    But, still, the current long-term rate is determined by the current short-term rate and the expected future short-term rates.
+    \begin{note}
+        \ 
+
+        CB can use announcements of future policies to affect long-term rates.
+    \end{note}
 \end{eg}
