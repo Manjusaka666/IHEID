@@ -1,3 +1,56 @@
+\section{Introduction}
+Why do we have aggregate fluctuations (booms \& recessions)?
+
+What can we do against them?
+
+\subsection{Review of Undergrad Macro}
+Economy divided into three markets: labor market, money market,
+goods market.
+\begin{itemize}
+  \item IS: $Y = \underset{Demand for good}{\underbrace{A(Y, r, T, Y^{\prime e}, r^{\prime e}, T^{\prime e} )}} + G$
+  \item LM: $M = P\cdot L(Y, i)$
+  \item PC: $\pi = \pi^e + \underset{Deviation of output from MR level}{\underbrace{f(Y, z)}}$
+\end{itemize}
+where $Y^{\prime e}$ is the expected output of the next period, $r = i - \pi^e$ is the real expected interest rate.
+
+\subsection{Assumptions / implications of this model}
+In the short run the price level, $P$ is given, hence IS and LM determines output. Demand matters and many factors affect demand.
+
+In the medium run, $\pi^e = \pi$, so $f(Y, z) = 0$, output at the natural level. 
+
+money affects output in the short run, not in the medium run:
+\begin{itemize}
+  \item money growth affects inflation and the nominal rate
+  one-for-one in the medium run
+  \item a fiscal expansion increases output in the short run, may
+  decrease it in the medium run
+  \item expectations matter: an anticipated fiscal contraction can be
+  expansionary
+\end{itemize}
+
+\subsection{Strength and weakness of these models}
+\begin{itemize}
+  \item Strengths:
+    \begin{itemize}
+      \item provides a simple way of thinking about general equilibrium
+      (complicated)
+      \item implicit micro-foundations: life cycle, q theory,...
+      \item time-tested shortcuts (but often not based on empirical
+      evidence)
+    \end{itemize}
+  \item Weakness:
+    \begin{itemize}
+      \item Static, not dynamic
+      \item not really made for quantitative analysis (quantitative
+      attempts very short-lived)
+      \item need explicit micro-foundations: hard to do welfare analysis
+      without that (Lucas critique: curves may not be invariant to
+      policy)
+    \end{itemize}
+\end{itemize}
+
+\subsection{Business Cycle Facts}
+
 \textbf{Business Cycle Facts I}
 
 We'll study the \textbf{detrended macro times series:}
@@ -15,7 +68,18 @@ How's the trend?
 
 Linear: just run OLS regression and use residuals.
 
-\
+\textbf{Business Cycle Facts II:}
+Look at the highest correlation with GDP:
+\[
+\rho(X_t, Y_{t+k}) \quad k = -6, -5, \dots, 0, \dots, 5, 6
+\]
+\begin{itemize}
+  \item if $\rho > 0$, then $x$ is pro-cyclical.
+  \item if $\rho < 0$, then $x$ is counter-cyclical.
+  \item if $k < 0$, then $x$ lags behind output.
+  \item if $k > 0$, then $x$ leads output.
+\end{itemize}
+$\rho(X_t, X_{t+k})$ is called the autocorrelation function (as a function of $k$) of the stochastic process $X_t$.
 
 \textbf{Business Cycle Facts III:}
 
@@ -23,9 +87,139 @@ Governmetn spending, not strongly correlated with level of output, main driver
 of business cycles.
 
 Real wage is mildly pro-cyclical: average wage evolves differently than the
-wage of a continuously employed worker
+wage of a continuously employed worker.
 
-\
+\textbf{\textbf{Business Cycle Facts IV:}}
+
+Standard deviations (unit of measure is percentage deviation from
+trend).
+
+\begin{itemize}
+  \item GDP is more volatile than consumption
+  \item investment is much more volatile than GDP
+  \item government spending is pretty volatile
+  \item working hours is almost exactly as volatile as GDP
+  \item vast majority of the volatility of working hours is explained by
+  the employment volatility
+  \item TFP is very volatile
+\end{itemize}
+
+\subsection{Towards the RBC Model}
+First, it's important to state the assumptions of our economic model:
+\begin{itemize}
+  \item We will use a Walrasian model.
+  \item The model assumes perfectly competitive markets.
+  \item There are no externalities, asymmetric information, missing markets, or other imperfections.
+\end{itemize}
+
+\textcolor{blue}{\textbf{Choice of Model}}
+
+All the neoclassical models reviewed so far share these assumptions. A familiar model that could be built upon is the Ramsey model:
+\begin{itemize}
+  \item The Ramsey model is known for converging to a balanced growth path in the absence of shocks, following which it exhibits smooth growth.
+\end{itemize}
+
+\textcolor{blue}{\textbf{Model Extensions}}
+
+It appears sensible to extend the Ramsey model to incorporate:
+\begin{itemize}
+  \item Business cycle fluctuations.
+  \item Real economic shocks.
+\end{itemize}
+These extensions will enhance the model's capability to reflect dynamic economic changes.
+
+\textcolor{blue}{\textbf{Factors to Consider}}
+
+In extending the model, the following factors should be considered:
+\begin{itemize}
+  \item Worker productivity.
+  \item Government purchases.
+\end{itemize}
+Notably, since the Ramsey model does not incorporate monetary aspects, all introduced shocks will be in real terms, affecting the actual productive capacity of the economy.
+
+\textcolor{blue}{\textbf{The Real Business Cycle (RBC) Model}}
+
+The modified version of the Ramsey model, incorporating real shocks and business cycle fluctuations, is known as the Real Business Cycle (RBC) model.
+
+\section{The Basic RBC Model}
+
+\subsection{Preparation}
+We take the Cobb-Douglas production function as the basis for our model:
+\[ Y_t = K_t^{\alpha} (A_t L_t)^{1 - \alpha} \]
+Define the technological progress as:
+\[ A_t = A_t^* \tilde{A}_t \]
+where $A_t^* = G^t \overline{A} $ is the long-run non-stochastic log-linear trend $G>1$.
+
+shock process is an autoregressive process of order 1
+\[\log \tilde{A}_t = \rho \log \tilde{A}_{t-1} + \varepsilon_{A, t} \]
+where $\varepsilon_{A, t} \sim N(0, \sigma^2)$.
+
+The capital accumulation equation is:
+\[ K_{t+1} = (1 - \delta) K_t + I_t \]
+where $I_t = Y_t - C_t$ is the investment.
+
+Define the household's utility function as:
+\[ U = \mathbb{E}_t \sum_{i=0}^{\infty} \beta^i U(C_{t+i}, 1-L_{t+i} )\]
+where $\beta$ is the discount factor, $C$ is consumption, and $L$ is fraction of time spent working.
 
 $U_C (C, 1 - L) > 0, U_{C C} (C, 1 - L) < 0$ and $U_L (C, 1 - L) > 0$, $U_{L
 L} (C, 1 - L) < 0$
+
+\subsection{The Household's Problem}
+
+\begin{align*}
+  \max_{\{C_t, L_t, K_t, S_t\}} & \quad \mathbb{E}_t \sum_{i=0}^{\infty} \beta^i U(C_{t+i}, 1 - L_{t+i}) \\
+  \text{Subject to:} & \quad S_{t+i} + C_{t+i} = \tilde{R}_{t+i} K_{t+i} + W_{t+i} L_{t+i} \\
+  & \quad K_{t+i+1} = (1 - \delta) K_{t+i} + S_{t+i} \\
+  & \quad K_{t+i} \geq 0; \quad K_0 > 0
+\end{align*}
+Define the Lagrangian as:
+\[
+\mathcal{L} = \mathbb{E}_t \sum_{i=0}^{\infty} \beta^i U(C_{t+i}, 1 - L_{t+i}) - \mathbb{E}_t \sum_{i=0}^{\infty} \beta^i \lambda_{t+i} (K_{t+i+1} - (1 - \delta) K_{t+i} - \tilde{R}_{t+i} K_{t+i} - W_{t+i} L_{t+i} + C_{t+i})
+\]
+We want to take a snapshot of how the variables behave in the period in which we are optimising
+in, $t$. Then, the period $t$ variables appear as:
+\begin{align*}
+  \mathcal{L}_t &= U(C_{t}, 1 - L_{t}) - \lambda_{t} (K_{t+1} - (1 - \delta) K_{t} - \tilde{R}_{t} K_{t} - W_{t} L_{t} + C_{t})
+\end{align*}
+
+\subsubsection{Household Behavior I}
+
+The inter-temporal Euler equation is:
+\[U_1(X_t, 1-L_t) = \beta \mathbb{E}_t \left(R_{t+1} U_1(C_{t+1}, 1-L_{t+1} ) \right)\]
+where $R_{t+1} = 1 + \tilde{R}_{t+1} - \delta $.
+
+\subsection{Effect of RBC}
+
+What are the effects of a positive technological shock?
+
+It increases current and future $R$ and $W$.
+\subsubsection{Consumption}
+\begin{itemize}
+  \item \textbf{Income effect:} People feel richer which leads to an increase in consumption.
+  \item \textbf{Substitution effect:} Saving is worth more, thus consumption might decrease.
+  \item \textbf{Net effect:} Consumption is probably increased.
+\end{itemize}
+
+\subsubsection{Leisure}
+\begin{itemize}
+  \item \textbf{Income effect:} People feel richer, thus they want to enjoy more leisure, leading to an increase in leisure.
+  \item \textbf{Substitution effect:} Higher wage leads to a decrease in leisure.
+  \item \textbf{Net effect:} The overall impact on leisure depends on the relative strength of the two effects.
+\end{itemize}
+
+\subsubsection{Type of Shock}
+\begin{itemize}
+  \item \textbf{Transitory shock:} Leads to a smaller wealth effect and a stronger substitution effect.
+  \item \textbf{Permanent shock:} It is possible that consumption goes up and employment goes down.
+\end{itemize}
+
+\subsection{Brief Summary}
+\begin{itemize}
+  \item Consumption is too pro-cyclical;
+  \item investment $I_t = s_t Y_t = \alpha \beta Y_t$ also pro-cyclical;
+  \item effects of R on saving?
+  $r$ increase, then inter-temporal substitution effect led $C_t$ decreases, 
+  then the income effect increases $C_t$(in this model they cancel out)
+  \item $W_t$ is too pro-cyclical
+\end{itemize}
