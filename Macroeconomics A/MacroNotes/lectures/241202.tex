@@ -1,1 +1,206 @@
+\section{Introduction and Motivation}
+\underline{Consumption is the largest part of GDP.}
 
+So, probably utility and welfare depend the most heavily on
+consumption, and consumption is a part of a dynamic decision problem.
+
+\section{Benchmark consumption model without uncertainty}
+
+Assume perfect foresight and no uncertainty. Consumers can save
+in a risk-free one period bond, the budget constraint in period $t$ is:
+\[c_t + b_{t+1} \leq (1+r_t)b_t + y_t. \]
+
+Imagine they can also 'buy' period $t$ consumption in period 0:
+the price of period $t$ consumption relative to period 0 consumption, for a given price of perios 0 cunsumption $q_0 > 0$, is:
+\[q_t = \frac{q_0}{(1+r_1)(1+r_2)\cdots(1+r_t)}. \]
+Using this assumption, we can aggregate the per period budget constraint until $T$:
+\[\sum_{t=0}^{T} q_t c_t + q_T b_{T+1} \leq q_0(1+r_0)b_0 + \sum_{t=1}^{T} q_t y_t \]
+this inter-temporal BC is equivalent to the stream of per-period BCs.
+
+If the agent dies in period $T$, then it is optimal to have $b_{T+1} = 0$;
+
+or if the agent is immortal, then we impose $T \to \infty$, $q_T b_{T+1} \to 0$.
+
+The inter-temporal BC is given by:
+\[\sum_{t=0}^{\infty} q_t c_t \leq q_0 (1+r_0) b_0 + \sum_{t=1}^{\infty} q_t y_t = q_0 ((1+r_0)b_0 + h_0) = q_0 x_0. \]
+where:
+$(1+r_0)b_0$ is the \textit{financial wealth} of the agent at time 0,
+
+$h_0 = \sum_{t=1}^{T}\frac{q_t}{q_0}y_t$ is the \textit{human wealth} of the agent at time 0,
+
+$x_0$ is the \textit{effective wealth} of the agent at time 0.
+
+The agent’s problem can then be re-written as:
+\begin{align*}
+    \max_{c_t} &\quad \sum_{t=0}^{T} \beta^t U(c_t) \\
+    \text{s.t.} &\quad \sum_{t=0}^{T} q_t c_t \leq q_0 x_0
+\end{align*}
+
+\begin{note}
+    \
+
+    This is equivalent to cake-eating problem, as $q_0 x_0$ is given at 0,
+    due to the fact that we are not looking at general equilibrium, i.e. the consumption-saving choice 
+    does not affect the interest rates.
+
+    This can be viewed as a static consumption problem where
+    we can interpret $c_t$ as different consumption goods, and $q_t$ as the price of these goods.
+\end{note}
+
+\section{Introducing uncertainty}
+
+What is the optimal path of consumption if there is uncertainty
+about the realization of income, $y_t$?
+
+We introduce the \underline{idiosymcratic shocks}.
+
+\underline{Some notation:}
+\begin{itemize}
+    \item $s_t \in S_t$ is the current state of the economy.
+    \item $s^t = \{s_0, s_1, s_2, \dots, s_t\}$ is the history of the economy up to time $t$, where $s^t \in S^t = S_0 \times S_1 \times \cdots \times S_t$.
+    \item $\pi(s^t)$ is the probability of history $s^t$ occurring.
+    \item $y_t^i(s^t)$ is the income of individual $i$ in period $t$ if history $s^t$ occurred,
+    and $\sum_{i \in I} y_t^i(s^t) = Y_t(s^t)$ is the aggregate income in the economy upon the realization of $s^t$.
+\end{itemize}
+
+\subsection{Benchmark 1 - Autarky}
+Assuming in an endowment economy, where agents cannot trade with each other,
+and there's no storeage tech to transfer resources across time. ($b_t = 0$)
+
+In such a setup it is optimal for the agent to consume all his
+income in each period:
+\[c_t^i(s^t) = y_t^i(s^t)\]
+
+\subsection{Benchmark 2 - Complete Markets}
+Still in an endowment economy, but with full set of insurance markets, 
+where agents can trade assets that pay off one unit of consumption if a
+particular history $s^t$ occurs.(\textit{Arrow-Debreu securities})
+
+With $S$ states in each period, $T$ periods, there are $1 + S + S^2 + \cdots + S^T$ markets.
+
+Let $p_t(s^t)$ be the price in terms of period 0 consumption of a unit of income(or consumption,
+i.e. the price of the AD-security) in period after history $s^t$.
+
+For every individual $i \in I$, the budget constraint at time 0 is:
+\[\sum_{t=0}^{T} \sum_{s^t \in S^t} p_t(s^t) \left( c_t^i(s^t) - y_t^i(s^t) \right) = 0. \]
+every transfer of income across states and time is possible, as long
+as the expected discounted consumption expenditures equal (or do
+not exceed) the expected discounted income for each individual.
+
+\subsection{The AD competitive equilibrium}
+The equilibrium is an allocation of consumption and prices of AD-securities:
+\begin{align*}
+    \{c_t^i(s^t)\}_{t=0}^{T}, \{p_t(s^t)\}_{t=0}^{T}, \forall i \in I, \forall s^t \in S^t
+\end{align*}
+such that:
+
+given $p_t(s^t)$ for every $i$, $c_t^i(s^t)$ solves the utility maximization problem:
+\begin{align*}
+    \max_{c_t^i(s^t)} &\quad \sum_{t=0}^{\infty} \beta^t \sum_{s^t} \pi(s^t) U(c_t^i(s^t)) \\
+    \text{s.t.} &\quad \sum_{t=0}^{T} \sum_{s^t \in S^t} p_t(s^t) \left( c_t^i(s^t) - y_t^i(s^t) \right) = 0
+\end{align*}
+while the markets clear:
+\[\sum_{i} c_t^i(s^t) = Y_t(s^t) \forall s^t \in S^t, t \geq 0.\]
+
+Take the FOC, we get:
+\[\beta^t \pi(s^t) U^{\prime} (c_t^i(s^t)) = \lambda^i p_t(s^t) \forall i, s^t, t.\]
+
+\begin{enumerate}
+    \item \underline{Perfect risk sharing:}
+    \[ \frac{U^{\prime} (c_t^i(s^t))}{U^{\prime} (c_t^j(s^t))} = \frac{\lambda^i}{\lambda^j} \]
+    The relative marginal utility does not depend on state/history.
+
+    Given that
+    \[\sum_{i} (U^{\prime} )^{-1} \left( \frac{\lambda^i}{\lambda^j}U^{\prime} (c_t^j(s^t)) \right) = \sum_i c_t^i(s^t) = \sum_i y_t^i(s^t) = Y_t(s^t) \]
+    \textit{only aggregate income matters for individual consumption}
+
+    Hence, agents fully insure against idiosyncratic risk (but cannot insure against aggregate risk!)
+
+    \item \underline{Consumption smoothing:}
+    \[ \beta ^{t- \tau} \frac{\pi(s^t) U^{\prime} (c_t^i(s^t))}{\pi(s^{\tau} s^tau) U^{\prime} (c_t^j(s^t))} = \frac{p_t(s^t)}{p_{\tau}(s^{\tau})} \]
+    Desire to smooth consumption across time and states attenuated by prices and probabilities.
+    
+    Marginal rate of substitution = Marginal rate of transformation
+\end{enumerate}
+
+For conditions of the First Welfare Theorem hold, the competitive equilibrium is Pareto efficient.
+
+Hence, it can be modeled as the outcome of a social planner's problem:
+\begin{align*}
+    \max_{\{c_t^i(s^t)\}} &\quad \sum_{t=0}^{T} \sum_{s^t} \pi(s^t) \beta^t \pi(s^t) \sum_{i \in I} \alpha^i U(c_t^i(s^t)) \\
+    \text{s.t.} &\quad \sum_{i} c_t^i(s^t) = Y_t(s^t) \forall s^t \in S^t, t \geq 0
+\end{align*}
+yields identical outcome to decentralized Arrow-Debreu model when $\alpha ^i = (\lambda^i)^{-1}. $
+
+\section{empirical implications}
+Both autarky and complete markets benchmarks have empirically
+testable implications. 
+
+We estimate the following form micro data:
+
+\[\Delta \log c_t^i = \beta_1 \Delta \log C_t + \beta_2 \Delta \log y_t^i + \varepsilon_t\]
+
+Autareky implies that $\beta_1 = 0$, $\beta_2 = 1$.
+
+Arrow-Debreu implies that $\beta_1 = 1$, $\beta_2 = 0$.
+
+Both hypotheses are rejected, we have to look for a model of partial consmuption insurance.
+
+\section{The permanaent income hypothesis}
+Assume instead of complete markets that the household can only
+trade in a non state-contingent asset, i.e. they can only buy
+one-period bonds (which have return $r$).
+
+The consumer has an incentive to hold some bonds in order to
+smooth consumption, with the budget constrant:
+\[b_t + y_t = c_t + \frac{b_{t+1}}{1+r}\]
+which is the 'standard' setup in the RBC model.
+
+Euler equation:
+\[u^{\prime} (c_t) = \beta (1+r) \mathbb{E}_t (u^{\prime} (c_{t+1} ))\]
+Make two additional assumptions:
+\begin{enumerate}
+    \item quadratic preferences, $U(c) = a_{1}c - \frac{1}{2}a_2 c^2 $.
+    \item the interest rate on the bond equals the inverse of the
+    discount rate $\beta (1+r) = 1$.
+\end{enumerate}
+Then, the Euler equation becomes:
+\[a_1 - a_2 c_t = \beta (1+r) \mathbb{E}_t (a_1 - a_2 c_{t+1} ) \Rightarrow \mathbb{E}_t c_{t+1} = c_t \]
+which implies that consumption is a random walk.
+
+Law of iterated expectations yields $\mathbb{E}_t c_{t+j} = c_t \forall j \geq 0.$
+
+Using the budget constraint, we can get:
+\begin{align*}
+    \sum_{j=0}^{\infty }\left(\frac{1}{1+r}\right)^j \mathbb{E}_t c_{t+j} &= b_t + \underset{\equiv h_t}{\underbrace{\sum_{j=0}^{\infty }\left(\frac{1}{1+r}\right)^j \mathbb{E}_t y_{t+j} }} \\
+    \Rightarrow c_t &= \frac{r}{1+r}(b_t + h_t)
+\end{align*}
+consumption today only depends on the annuity value of income,
+on the \textit{permanent income}.
+
+\subsection{Consumption dynamics}
+\begin{align*}
+    \Delta c_t &= c_t - c_{t-1} = c_t - \mathbb{E}_{t-1} c_t \\
+    &= \frac{r}{1+r} \left( b_t - \mathbb{E}_{t-1} b_t + \sum_{j=0}^{\infty } \left(\frac{1}{1+r}\right)^j (\mathbb{E}_t y_{t+j} - \mathbb{E}_{t-1}(\mathbb{E}_t y_{t+j} ) ) \right) \\
+    &= \frac{r}{1+r} \sum_{j=0}^{\infty } \left(\frac{1}{1+r}\right)^j (\mathbb{E}_t y_{t+j} - \mathbb{E}_{t-1} y_{t+j} )
+\end{align*}
+the change in consumption between period $t-1$ and t is due to
+the revision of permanent income, and it is proportional to the
+revision of expected earnings due to information that arrived in the
+same period.
+
+
+\section{Implications}
+\begin{enumerate}
+    \item \underline{Consumption is a random walk:}
+    \[\mathbb{E}_{t-1} \Delta c_t = 0 \]
+    there is no insurance, just consumption smoothing.
+
+    \item The marginal propensity to consume from wealth is
+    \[\frac{r}{1+r}\]
+    the marginal propensity to consume from an innovation to 
+    current income depends on the persistence of the income process.
+
+    Lower persistence $\Rightarrow$ smaller reaction in consumption to
+    current income changes.
+\end{enumerate}
