@@ -9,6 +9,6 @@ Microeconomics I: Yuan Zi
 
 Macroeconomics A: Johannes Boehm
 
-Econometrics I: Marko Milkota
+Econometrics I: Marko Mlikota
 
 International Finance: Ugo Panizza
