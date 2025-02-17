@@ -1,0 +1,140 @@
+\section{Recall}
+
+For sample $X: \left\{ x_i \right\}_{i=1}^{n}$, we draw $p(x; \theta)$
+giving us :
+\begin{itemize}
+    \item point estimator $\hat{\theta}$:
+    \begin{itemize}
+        \item $p_n(\hat{\theta})$ in finite samples
+        \item $p(\hat{\theta})$ in Asymptotic samples,
+        where $\underset{n \to \infty}{\plim}(\hat{\theta})$ and $\sqrt{n} (\hat{\theta} - \theta) \xrightarrow{d} \mathcal{N} (0, V)$.
+    \end{itemize}
+    \item Hypothesis testing: $\mathcal{H}_0: \theta = \theta_0 \rightarrow g(\theta): \theta -\theta_0 = 0$.
+    \item CI construction: 
+\end{itemize}
+
+\section{Parameter Transformation}
+
+\begin{eg}
+    \
+
+    \textbf{LRM:} $y_i = x_i^{\prime} \beta  + u_i$, interest in: $\beta: \tilde{x}^{\prime} \beta = \mathbb{E}[y_i \mid x_i = \tilde{x}]$.
+
+    \textbf{Probit:} \begin{align*}
+        y_i^* &= x_i^{\prime} \beta + u_i \\
+        y_i &= \mathbf{1}\{y_i^* > 0\}.
+    \end{align*}
+    interest (mostly) in $\mathbb{E}[y_i \mid x_i = \tilde{x}] = \mathbb{E}[y_i=1 \mid x_i = \tilde{x}] = \Phi (\tilde{x}_i^{\prime} \beta)$.
+\end{eg}
+
+\begin{enumerate}
+    \item Point estimator
+    \item Hypothesis testing \& CI construction:
+    \begin{itemize}
+        \item We know how to test: $\mathcal{H}_0: g(\theta) = 0$, apply to $\mathcal{H}_0: f(\theta) = f_0$, rewrite $\mathcal{H}_0: g(\theta) = f(\theta) - f_0 = 0$.
+        \item We know that $CI: \{ \mathcal{H}_0: f(\theta) = f_0 \text{ is accepted} \}$.
+              But finding this set can be very hard.
+              \begin{eg}
+                \
+
+                In the linear regression model, we have $\hat{\beta} \mid \beta \sim \mathcal{N}(\beta, V)$ with $V = \sigma^2\mathbb{E}[(X^{\prime} X)^{-1}]$,
+                therefore $x^{\prime} \hat{\beta} \mid x^{\prime} \beta \sim \mathcal{N}(x^{\prime} \beta, x^{\prime} Vx).$
+                \begin{align*}
+                    T_w &= n g(\hat{\theta})^{\prime} [g(\hat{\theta}) g(\hat{\theta})^{\prime}]^{-1} g(\hat{\theta}) < c \\
+                    &= n\left[f(\hat{\theta})-f_0\right]^{\prime} \left[GVG^{\prime} \right]^{-1} \left[f(\hat{\theta})-f_0\right] < c \\
+                    & \xrightarrow{d} \chi^2 (r),
+                \end{align*}
+                where $r = \text{rank} [g(\theta)]$
+              \end{eg}
+        \item It's easier if $f(\theta)$ is a scalar. Try to find the distribution of $f(\hat{\theta})$.
+        \begin{itemize}
+            \item Analytically, in finite samples: \\
+                If $\hat{\beta} \mid X \sim \mathcal{N} \left(\beta_0, \underset{V}{\underbrace{\sigma^2 (X^{\prime} X)^{-1}}}\right)$, then,
+                \begin{align*}
+                    \underset{\hat{\delta}}{\underbrace{\tilde{x}^{\prime} \hat{\beta}}} \mid X &\sim \mathcal{N}\left(\tilde{x}^{\prime} \beta_0, \tilde{x}^{\prime} V\tilde{x}\right) \\
+                    \hat{\delta} &\sim \mathcal{N} (\delta_0, V_{\delta}) \\
+                    \Rightarrow T_t(x) &= \left\vert \frac{\delta - \delta_0}{\sqrt{V_{\delta}} } \right\vert 
+                \end{align*}
+            \item Analytically, in asymptotic properties:
+                \begin{eg}
+                    $\Phi (\tilde{x}^{\prime} \hat{\beta})$
+                    \begin{itemize}
+                        \item No finite sample distribution
+                        \item Asymptotic distribution based on Delta Method:
+                        \begin{align*}
+                            \sqrt{n}(\hat{\theta} - \theta) &\xrightarrow{d} \mathcal{N}(0, V) \\
+                            \Rightarrow \sqrt{n} \left(g(\hat{\theta}) - g(\theta)\right) &\xrightarrow{d} \mathcal{N}(0, G V G^{\prime}) \\
+                            \Rightarrow \sqrt{n}(\hat{\beta} - \beta ) &\xrightarrow{d} \mathcal{N}(0, V_{\beta}) \\
+                            \Rightarrow \sqrt{n}\left(\Phi(\tilde{x}^{\prime} \hat{\beta}) - \Phi(\tilde{x}^{\prime} \beta_0) \right) &\xrightarrow{d} \mathcal{N}\left(0, \phi(\tilde{x}^{\prime} \beta_0) \tilde{x}^{\prime} V \tilde{x} \phi(\tilde{x}^{\prime} \beta_0)^{\prime} \right) \\
+                            \Rightarrow \Phi(\tilde{x}^{\prime} \hat{\beta}) &\xrightarrow{d} \mathcal{N}\left(\Phi(\tilde{x}^{\prime} \beta_0), \frac{\phi^{2}(\tilde{x}^{\prime} \beta_0) \tilde{x}^{\prime} V \tilde{x}}{n}\right)
+                        \end{align*}
+                    \end{itemize}
+                \end{eg}
+                \begin{eg}[Probit Model]
+                    \
+
+                    In Probit Model, the marginal effect of one variable $x_c$ is measured by $g(\beta_c) = \phi(x^{\prime} \beta)\beta_c $,
+                    then, we implement the parameter transformation to get the distribution of $g(\hat{\beta_c})$.
+                    \begin{align*}
+                        G(\hat{\beta}) &= \frac{\partial g(\hat{\beta})}{\partial \beta^{\prime}} = \phi(x^{\prime} \beta) + \phi^{\prime} (x^{\prime} \beta)\beta\\
+                        &= \phi(x^{\prime} \beta) - (x^{\prime} \beta)\phi(x^{\prime} \beta)x^{\prime} \beta \\
+                        &= \phi(x^{\prime} \beta)\left(I - (x^{\prime} \beta)^2 \right)
+                    \end{align*}
+                    Then, using the Theorem[\ref{Delta Method}](Delta Method), we get the distribution of $g(\hat{\beta_c})$:
+                    \[ 
+                    \sqrt{n}(g(\hat{\beta})- g(\beta)) \stackrel{d}{\rightarrow} \mathcal{N}\left(0, G(\theta) V G(\theta)^{\prime} \right) 
+                    \]
+                \end{eg}
+            \item Bootstrapping: to get distribution of $f(\hat{\theta})$, take $\left\{ \hat{\theta}^m \right\}_{i=1}^{M}$ as the estimator applied to data $\left\{ x_i^{m} \right\}_{i=1}^{n_B}$.
+                Then, we get the distribution of $f(\hat{\theta})$: take $\left\{ f(\hat{\theta^m}) \right\}_{i=1}^{M}$.
+        \end{itemize}
+    \end{itemize}
+\end{enumerate}
+
+\section{Instrumental Variables}
+
+\textbf{Background:} $y_i = x_i^{\prime} \beta + u_i$, with $\mathbb{E}[x_i u_i] \neq 0$, meaning $x_i$ is endogenous.
+$\beta$ is consistent if $\mathbb{E}[x_i u_i] = 0$.
+
+\begin{eg}
+    \
+
+    So, we want to find a way to estimate $\beta$ consistently when $x_i$ is endogenous.
+    \begin{align*}
+        y_i &= x_i^{\prime} \beta + u_i \\
+        x_i &= z_i^{\prime} \gamma + e_i
+    \end{align*}
+
+    \begin{enumerate}
+        \item $z_i$ is exogenous to error term $u_i$: $\mathbb{E}[z_i u_i] = 0$.
+        \item $z_i$ is relevant to regressor $x_i$: $\mathbb{E}[z_i x_i^{\prime} ] \neq 0$
+    \end{enumerate}
+
+    Then, we have the 2SLS method:
+    \begin{enumerate}
+        \item Estimate $\hat{\gamma}$ from $x_i = z_i^{\prime} \gamma + e_i$. $\hat{\gamma} = (Z^{\prime} Z)^{-1}Z^{\prime} X$ and 
+            \begin{align*}
+                \hat{x}_i &= z_i^{\prime} \hat{\gamma} \\
+                \hat{X} &= Z \hat{\gamma} = Z(Z^{\prime} Z)^{-1}Z^{\prime} X \\
+                &= Z \gamma + Z(Z^{\prime} Z)^{-1}Z^{\prime} e \\
+                &= X + Z(Z^{\prime} Z)^{-1}Z^{\prime} e
+            \end{align*}
+        \item Estimate $\hat{\beta}$ from $y_i = \hat{x}_i^{\prime} \beta + u_i^*$. This gives us 
+            \begin{align*}
+                \hat{\beta}_{2SLS} &= \left( \hat{X}^{\prime} \hat{X} \right)^{-1} \hat{X}^{\prime} Y \\
+                &= \left((P_Z X)^{\prime} P_Z X\right)^{-1} (P_Z X)^{\prime} Y \\
+                &= \left(X^{\prime} P_Z^{\prime} P_Z X\right)^{-1} X^{\prime} P_Z Y \\
+                &= \left(X^{\prime} Z(Z^{\prime} Z)^{-1} Z^{\prime} X\right)^{-1} X^{\prime} Z (Z^{\prime} Z)^{-1} Z^{\prime} Y \\
+                &= \beta + (\cdots) \underset{0}{\underbrace{Z^{\prime} U}} \\
+                &\stackrel{p}{\rightarrow} \beta
+            \end{align*}
+    \end{enumerate}
+    \begin{align*}
+        & \hat{\beta}_{IV} = \left( \sum_{i=1}^{n} z_i x_i^{\prime} \right)^{-1} \sum_{i=1}^{n} z_i y_i \\
+        & \sqrt{n}(\hat{\beta}_{IV} - \beta) \xrightarrow{d} \mathcal{N}(0, V_{IV})
+    \end{align*}
+    \begin{itemize}
+        \item $V_{IV}$ is not easy to find.
+        \item $CI: \left\{ \mathcal{H}_0: \beta = \beta_0 \text{ is accepted} \right\}$.
+    \end{itemize}
+\end{eg}

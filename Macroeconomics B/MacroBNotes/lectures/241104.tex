@@ -1,0 +1,476 @@
+The NK model takes an RBC model as its backbone and adds some nominal rigidities - 
+here, we will add sticky prices - which allows shocks to affect the real economy.
+
+But price stickiness only makes sense when ﬁrms can set prices;
+hence, need some degree of market power. Special case of
+Rotemberg \& Woodford.
+
+Nominal rigidities: Calvo pricing: ﬁrm-speciﬁc shock that tells
+you whether you're allowed to reset your price.
+\footnote{Taylor's (1980) overlapping-contracts model adopts such a view of nominal
+rigidities and assumes that each price is fixed for some number n periods and therefore each
+period $1/n$ of the prices in the economy is updated. This assumption requires the modeler to
+keep track of n different prices. A simpler approach is to assume that a fraction $1-\theta \in [0, 1]$
+of the prices in the economy is updated each period, but unlike Taylor's model, the prices
+that are updated each period are randomly drawn from the existing prices. This assumption,
+which was introduced by Calvo (1983), leads to a much more tractable model because it is
+no longer necessary to keep track of the previously set prices as we will explain below.\\
+We'll discuss this later.}
+
+\section{Households and Consumption}
+For representative household, they maximize the utility:
+\begin{align*}
+    \max &\quad \mathbb{E}_0 \sum_{i=0}^\infty \beta^i \left[ u(c_{t+1}) - \nu(l_{t+i} ) \right] \\
+    \text{s.t.} &\quad p_tc_t + b_t = (1+i_{t-1})b_{t-1} + p_t w_t l_t + p_t d_t
+\end{align*}
+where
+
+$c_t$ is quantity of baskets of goods consumed, $p_t$ is the prive of each basket in terms of money,
+
+$d_t$ is the real wage, $d_t$ are dividends(firms' profits) received from owning firms,
+
+$i_t$ is the nominal interest rate, 
+
+$b_t$ is the quantity of nominal bonds held by the household.
+
+The intertemporal optimality condition is as follows:
+\begin{align*}
+    u'(c_t) = \beta \mathbb{E}_t(1+r_t)u'(c_{t+1})
+\end{align*}
+where $r_t$ is the real interest rate given by: $1 + r_t = \frac{1+i_t}{1+\pi_{t+1} }$
+and $\pi_{t+1} = \frac{p_{t+1}-p_t}{p_t}$ is the inflation rate between $t$ and $t+1$.
+
+Labor supply is given by:
+\begin{align*}
+    MRS_{l,c} = \frac{\nu'(l_t)}{u'(c_t)} = w_t
+\end{align*}
+
+Introduce the basket of imperfectly substitutable goods
+through a consumption aggregator, a description of consumer
+preferences over the whole set of goods (indexed by $i$).
+Formula linking consumption $c(i)$ of each good $i \in [0, 1]$ to
+an 'amount' of total baskets c enjoyed by the household.
+
+The most common aggregator used is the CES(constant
+elasticity of substitution; also called Dixit-Stiglitz):
+\[ 
+c = \left(\int c(i)^{\frac{\varepsilon-1}{\varepsilon}} di\right)^{\frac{\varepsilon}{\varepsilon-1}}
+\]
+where $\varepsilon$ is the elasticity of substitution between goods.
+
+\subsection{Expenditure minimization}
+Suppose that the household faces prices $p(i)$. The expenditure minimization problem is:
+\begin{align*}
+    \min &\quad \int p(i) c(i) di \\
+    \text{s.t.} &\quad \left(\int c(i)^{\frac{\varepsilon-1}{\varepsilon}} di\right)^{\frac{\varepsilon}{\varepsilon-1}} = c
+\end{align*}
+Define the Lagrangian:
+\begin{align*}
+    \mathcal{L} = \int p(i) c(i) di + \lambda \left( c - \left(\int c(i)^{\frac{\varepsilon-1}{\varepsilon}} di\right)^{\frac{\varepsilon}{\varepsilon-1}} \right)
+\end{align*}
+The first order conditions are:
+\begin{align*}
+    \frac{\partial \mathcal{L}}{\partial c(i)} &= p(i) - \lambda c(i)^{-\frac{1}{\varepsilon}}\left(\int c(i)^{\frac{\varepsilon-1}{\varepsilon}} di\right)^{\frac{\varepsilon}{\varepsilon-1}-1} = 0 \\
+    \Rightarrow p(i) &= \lambda c(i)^{-\frac{1}{\varepsilon}}c^{\frac{1}{\varepsilon}}
+\end{align*}
+From the first order conditions we get:
+\begin{align*}
+    c(i) = c \left( \frac{p(i)}{\lambda} \right)^{-\varepsilon}
+\end{align*}
+Substitute this into the FOC to get:
+\begin{align*}
+    c &= \left( \int \left(\frac{p(i)}{\lambda }\right)^{1-\varepsilon} c^{\frac{\varepsilon-1}{\varepsilon}} di \right)^{\frac{\varepsilon}{\varepsilon-1}} \\
+    \lambda &= \left( \int p(i)^{1-\varepsilon} di \right)^{\frac{1}{1-\varepsilon}}
+\end{align*}
+Interpret $\lambda$ as the shadow price:'If you tighten the
+constraint by one unit, the objective function increases by $\lambda$ units.'
+$\lambda$ is the price of one basket, $p_t = \lambda$.
+
+Hence, the demand for good $i$ is:
+\begin{align*}
+    c(i) = c \left( \frac{p(i)}{p} \right)^{-\varepsilon}
+\end{align*}
+where
+\begin{align*}
+    p = \left( \int p(i)^{1-\varepsilon} di \right)^{\frac{1}{1-\varepsilon}}
+\end{align*}
+Interpretation: demand depends on the relative price $p(i)/p$.
+Price elasticity of demand is now constant $\varepsilon$.
+
+\subsection{Production technology and market clearing}
+A typical intermediate firm produces output according a constant returns to scale technology in labour,
+with a common productivity shock, $a_t$:
+Output $y(i)$ is given by production function:
+\begin{align*}
+    y_t(i) = a_t h_t(i)
+\end{align*}
+where
+
+$a_t$ is the total factor productivity,
+
+$h_t(i)$ is the hours of labor used in production of good $i$.
+
+\subsubsection{\textcolor{blue}{Market Clearing}}
+
+There are three markets at each date: \textit{the labor market, the goods
+market, and the bond market.}
+
+\underline{\textbf{Labor market}} clearing requires that the total labor supplied
+by households equals the total labor used in production.
+Interpret $l_t$ as average labor supplied per good, the labor market clearing:
+\begin{align*}
+    l_t = \int h_t(i) di
+\end{align*}
+
+\underline{\textbf{Goods market}} clearing assumes that there's no investment of gov spending,
+and as consumption is the only use for final goods, 
+goods market clearing requires that production equals total consumption.
+\begin{align*}
+    y_t(i) = c_t(i), \quad c_t = y_t
+\end{align*}
+
+\underline{\textbf{Bond market}} clearing requires that the net demand for bonds is zero.
+
+
+\subsubsection{Demand, revenues and costs}
+
+Firm $i$ faces demand function:
+\begin{align*}
+    y_t(i) = c_t(i) = y_t \left( \frac{p(i)}{p} \right)^{-\varepsilon}, \quad p_t = \left( \int p_t(i)^{1-\varepsilon} di \right)^{\frac{1}{1-\varepsilon}}
+\end{align*}
+Firm $i$ has the power to set price $p_t(i)$, but it is too small to affect
+the general price level $p_t$ or aggregate demand $y_t$ (monopolistic
+competition).
+
+In a competitive market, firms can hire labor at the wage rate $w_t$, let $z_t$ denote the real cost of production
+per unit of output. With linear production function for $y(i)$, we have\footnote{The cost minimisation problem is to minimise
+total cost subject to the constraint producing enough to meet demand (see Blanchard and Kiyotaki (1987) for the derivation of this problem):
+\begin{align*}
+    \min_{h_t(i)} & \quad w_t h_t(i) \\
+    \text{s.t.} & \quad  a_t h_t(i) \geq y_t(i) = \left(\frac{p_t(i)}{p_t}\right)^{-\varepsilon}y_t
+\end{align*}
+define the Lagranrian(use $z_t$ to replace $\lambda$) and take the FOC, we'll have:
+\[\pd{\mathcal{L}}{h_t(i)} = w_t - z_t a_t = 0\]}:
+\[
+z_t = \frac{w_t}{a_t}
+\]
+with total revenue: $\frac{p_t(i)}{p_t} y_t(i)$, total real cost of production: $z_t y_t(i)$.
+
+\subsubsection{Profits}
+
+The profits(in real terms) made by firm $i$ at time $t$ is:
+\[
+d_t(i) = \frac{p_t(i)}{p_t} y_t(i) - z_t y_t(i) = \left(\frac{p_t(i)}{p_t}-z_t\right)\left(\frac{p_t(i)}{p_t}\right)^{-\varepsilon}y_t
+\]
+Let $\mu_t(i) = \frac{p_t(i)}{p_t z_t}$ be the firm $i$'s (gross) markup of price over marginal cost.
+
+The expression for profits can be rewritten as:
+\[
+d_t(i) = z_t^{1-\varepsilon}y_t (\mu_t(i)^{1-\varepsilon} - \mu_t(i)^{-\varepsilon})
+\]
+
+Let's first consider a world with flexible prices. To maximize profits, firm $i$ chooses $\mu_t(i)$ to solve:
+\[
+\max_{\mu_t(i)} \quad d_t(i) = z_t^{1-\varepsilon}y_t (\mu_t(i)^{1-\varepsilon} - \mu_t(i)^{-\varepsilon})
+\]
+The first order condition is:
+\[
+\frac{\partial d_t(i)}{\partial \mu_t(i)} = z_t^{1-\varepsilon}y_t ((1-\varepsilon)\mu_t(i)^{-\varepsilon} + \varepsilon \mu_t(i)^{-\varepsilon-1}) = 0 \Rightarrow \mu_t^* = \frac{\varepsilon}{\varepsilon-1}
+\]
+So, a higher price elasticity $\varepsilon$ will cause a lower markup.
+
+\subsection{General Equilibrium with flexible prices}
+
+Assuming the following utility function:
+\[
+u(c_t) = \frac{c_t^{1-\frac{1}{\sigma}}}{1-\frac{1}{\sigma}}, \quad \nu(l) = l
+\]
+The labor supply condition is:
+\[
+w_t = \frac{\nu^{\prime}(l_t)}{u^{\prime}(c_t)} = y_t^{\frac{1}{\sigma}}
+\]
+Assuming the market clearing condition holds, $c_t = y_t$.
+The firm's profit maximization implies that 
+\[
+w_t = \frac{a_t}{\mu_t^*}.
+\]
+\textcolor{red}{Wage equals to the marginal revenue product of capital.}
+
+\subsection{Flexible-price world: natural level of output}
+With flexible prices, all firms set the samse markup: $\mu_t(i) = \mu_t^*$.
+Hence the price would also be the same: $p_t(i) = p_t^*$ and the markups
+become:
+\[
+\mu_t^* = \frac{1}{z_t}
+\]
+The \underline{\textcolor{blue}{natural level of output}} is the level of output that would be produced if all prices were flexible.
+
+Equating labor supply and labor demand with ﬂexible prices:
+\[
+y_t^{\frac{1}{\sigma}} = w_t = \frac{a_t}{\mu_t^*}
+\]
+hence the natural level of output $y_t^*$ is:
+\[
+y_t^* = \left( \frac{a_t}{\mu_t^*} \right)^{\sigma}
+\]
+\begin{itemize}
+    \item The natural output is higher when productivity $a_t$ is higher.
+    \item The natural output is lower when the markup(market power) $\mu_t^*$ is higher.
+\end{itemize}
+
+\subsection{Natural real interest rate}
+The \underline{\textcolor{blue}{natural real interest rate}} is the real interest rate consistent with the natural level of output.
+
+This requires $c_t = y_t = y_t^*$, which implies by Euler equation:
+\[
+u^{\prime} (y_t^*) = \beta (1+r_t^*)u^{\prime} (y_{t+1}^*)
+\]
+with $r_t^*$ being the natural real interest rate.
+
+Using $u^{\prime}(c) = c^{-\frac{1}{\sigma}}$, we get:
+\begin{align*}
+    \left(y_t^{*}\right)^{-\frac{1}{\sigma}} &= \beta (1+r_t^*)\left(y_{t+1}^*\right)^{-\frac{1}{\sigma}}\\
+    \frac{\mu_t^*}{a_t} &= \beta (1+r_t^*)\frac{\mu_{t+1}^*}{a_{t+1}}
+\end{align*}
+The natural interest rate is given by:
+\[
+1 + r_t^* = (1+\bar{r}) \frac{a_{t+1}}{a_t} \frac{\mu_t^*}{ \mu_{t+1}^*}
+\]
+where $\bar{r}$ is the average interest rate in the steady state with $\beta = \frac{1}{1+\overline{r}}$.
+
+\subsection{Efficiency of output}
+
+Imperfect competition makes market allocation of output not Pareto efficient.
+
+Perfect competition is consistent with efficiency, so we can ask what level of output is efficient by 
+finding the equilibrium in the special case of perfect competition:
+\begin{itemize}
+    \item perfect competition: perfectly elastic demand curve because of perfect substitutability(no market power): $\varepsilon \to \infty$
+    \item zero markup: $\mu_t^* \to 1$.
+\end{itemize}
+
+\textbf{Efficient output} $\hat{y}_t$ found using formula for natural output, and setting $\mu_t^* = 1$:
+\[
+\hat{y}_t = a_t^{\sigma}
+\]
+
+\textbf{Efficient interest rate} $\hat{r}_t$ is the real interest rate consistent with output as its efficient level:
+\[
+1 + \hat{r}_t = (1+\bar{r}) \frac{a_{t+1}}{a_t}.
+\]
+
+\section{Nominal Rigidities}
+
+\begin{assumption}[Calvo pricing, Calvo and Yun]
+    \ 
+
+    Each period, a random selected fraction of $1-\phi$ of firms has an opportunity to reset its price.
+    All other firms must continue to use the same price as before.
+
+    This is a simple idea in a complicated approach:
+    \begin{itemize}
+        \item firms face a fixed physical cost of adjusting prices
+        \item need to calculate the points in time when gains from adjusting prices exceed the costs
+        \item hard to do in a dynamic model
+    \end{itemize}
+\end{assumption}
+
+\subsection{Setting a new price}
+
+Suppose firm $i$ set the new price $s_t$ at time $t$.
+In each subsequent period, probability $\phi $ that the price won't be changed.
+Hence, the probability that the price is still used at time $T>t$ is $\phi^{T-t}$.
+
+The expected present value of profits from setting price $s_t$ at time $t$ is:
+\[
+d_t(i) + \phi \frac{d_{t+1}(i)}{1+r_t} + \phi^2 \frac{d_{t+2}(i)}{(1+r_t)(1+r_{t+1})} + \ldots
+\]
+where dividends(=profits) $d_t, d_{t+1}, \ldots$ are calculated assuming the price remains 'sticky' at $s_t$:
+$p_t = p_{t+1} = \ldots = s_t.$
+
+From the firms' profits equation, we have:
+\[
+d_t(i) = \left(\frac{p_t(i)}{p_t} - z_t\right)\left(\frac{p_t(i)}{p_t}\right)^{-\varepsilon}y_t
+\]
+we get the objective function to maximize:
+\[
+\max \quad \mathbb{E}_t \sum_{i=0}^{\infty} \left(\prod_{j=1}^{i}\frac{1}{1+r_{t+j-1} }\right) \phi^{i} \left(\frac{p_t(i)}{p_{t+i}} - z_{t+i}\right)\left(\frac{p_t(i)}{p_{t+i}}\right)^{-\varepsilon}y_{t+i}
+\]
+the first order condition with respect to $\varepsilon$ is:
+\[
+\mathbb{E}_t \sum_{i=0}^{\infty} \left(\prod_{j=1}^{i}\frac{1}{1+r_{t+j-1} }\right) \phi^{i} \left((1-\varepsilon)\frac{p_t(i)}{p_{t+i}} + \varepsilon z_{t+i}\right) \frac{1}{p_t(i)} \left(\frac{p_t(i)}{p_{t+i}}\right)^{-\varepsilon}y_{t+i} = 0
+\]
+plug in the Euler equation to get rid of the interest rates:
+\[
+\mathbb{E}_t \sum_{i=0}^{\infty} y_{t+i}^{1+\frac{1}{\sigma}}  \beta^{i} \phi^{i} \left((1-\varepsilon)\frac{p_t(i)}{p_{t+i}} + \varepsilon z_{t+i}\right) \frac{1}{p_t(i)} \left(\frac{p_t(i)}{p_{t+i}}\right)^{-\varepsilon}= 0
+\]
+The optimal reset price $p_t(i)$ doesn't depend on the current price level $p_t$, denote by $s_t$ for simplicity.
+We have:
+\[
+\mathbb{E}_t \sum_{i=0}^{\infty} y_{t+i}^{1+\frac{1}{\sigma}} (\beta\phi)^{i} \left(\frac{s_t}{p_{t+i}}\right)^{1-\varepsilon} = \frac{\varepsilon}{1-\varepsilon} \mathbb{E}_t \sum_{i=0}^{\infty} y_{t+i}^{1+\frac{1}{\sigma}} (\beta\phi)^{i} z_{t+i} \left(\frac{s_t}{p_{t+i}}\right)^{-\varepsilon}
+\]
+then log-linearize the above equation to get:
+\[
+\tilde{s_t} = (1 - \beta \phi)\mathbb{E}_t\left(\sum_{i=0}^{\infty}(\beta \phi)^i(\tilde{p}_{t+i}+\tilde{z}_{t+i}) \right)
+\]
+
+\begin{note}
+    \ 
+
+    This indicates that firms set price in accordance with current and expected future price level and cost deviations.
+\end{note}
+
+Write the equation for time $t+1$ and subtract from this equation to get:
+\[
+\tilde{s_t} - \beta \phi\mathbb{E}_t \tilde{s}_{t+1} = (1-\beta \phi)(\tilde{p}_t + \tilde{z}_t)
+\]
+
+\subsection{Overall price level}
+Recall the overall price level:
+\[
+p_t = \left( \int p_t(i)^{1-\varepsilon} di \right)^{\frac{1}{1-\varepsilon}}
+\]
+The log-linearized version\footnote{We define $\tilde{x} = \frac{x_{t}-x^*}{x_t}$ for any variable $x$ as the percent deviation under log-linearization.} of the above equation is:
+\[
+\tilde{p}_t = \int \tilde{p}_t(i)di
+\]
+How old are the prices of the firms?
+\begin{itemize}
+    \item $1-\phi$ reset prices at time $t$,
+    \item $\phi(1-\phi)$ reset prices at time $t-1$,
+    \item $\phi^2(1-\phi)$ reset prices at time $t-2$, etc.
+\end{itemize}
+Hence,
+\[
+\tilde{p_t} = (1-\phi)\tilde{s}_t + \phi(1-\phi)\tilde{s}_{t-1} + \phi^2(1-\phi)\tilde{s}_{t-2} + \ldots
+\]
+Write for $t-1$ and subtract, we get:
+\[\tilde{p_t} - \phi \tilde{p}_{t-1} = (1-\phi)\tilde{s_t}\]
+
+\begin{note}
+    \ 
+
+    The price level today is a weighted average of past price level and the reset prices.
+\end{note}
+
+Log-linearize the inflation rate:
+\[\tilde{\pi_t} = \tilde{p_t} - \tilde{p}_{t-1}\]
+plug in the above equation, we get:
+\[\phi \tilde{\pi _t} = (1-\phi)(\tilde{s_t} - \tilde{p_t}).\]
+
+Taking the firm's FOC,
+\[\tilde{s_t} = (1-\beta \phi )(\tilde{p_t} + \tilde{z_t}) + \beta \phi \mathbb{E}_t \tilde{s}_{t+1} \]
+subtract $\tilde{p_t}$ and times $1-\phi $, we get:
+\[(1-\phi )(\tilde{s_t} - \tilde{p_t}) = (1-\beta \phi)(1-\phi)\tilde{z_t} + \beta \phi (1-\phi)(\mathbb{E}_t \tilde{s}_{t+1} - \tilde{p_t}) \]
+as we assumed prices are sticky, $\tilde{p_t} = \tilde{p}_{t+1} $, we have:
+\[\phi \tilde{\pi _t} = \beta \phi \mathbb{E}_t \tilde{\pi}_{t+1} + (1-\beta \phi)(1-\phi)\tilde{z_t}\]
+so that
+\[\tilde{\pi _t} = \beta \mathbb{E}_t \tilde{\pi}_{t+1} + \underset{\equiv \gamma}{\underbrace{\frac{(1-\beta \phi)(1-\phi)}{\phi}}} \tilde{z_t}\protect\label{NKPC1}.\]
+
+This expression is called the \textcolor{blue}{\textit{'New Keynesian Phillips Curve' (NKPC)}}.
+It is 'new' because it is forward-looking unlike classic Phillips Curves, 
+but it's a Phillips Curve in the sense that it captures a relationship between inflation and some real measure. 
+
+\subsection{Output gap}
+We define the output gap as the deviation of actual output from its efficient level:
+\[x_t \equiv \frac{y_t}{\hat{y_t}}.\]
+
+\begin{remark}
+    \ 
+
+    Even in the nonstochastic steady state, $y_t < \hat{y_t}$. Why?
+
+    because output responds significantly less than the flexible price level of output to the productivity shock, 
+    we see a large negative output gap opening up following the positive productivity shock.
+\end{remark}
+
+Recall the following:
+\begin{itemize}
+    \item Real marginal cost: $z_t = \frac{w_t}{a_t}$;
+    \item Labor supply: $w_t = y_t^{\frac{1}{\sigma}}$;
+    \item Efficient output: $\hat{y_t} = a_t^{\sigma}$;
+\end{itemize}
+We can get:
+\begin{align*}
+    z_t &= \left(\frac{y_t}{\hat{y_t}}\right)^{\frac{1}{\sigma}} = x_t^{\frac{1}{\sigma}} \\
+    \Rightarrow \tilde{z_t} &= \frac{1}{\sigma} \tilde{x_t}
+\end{align*}
+
+We can re-write the NKPC(\ref{NKPC1}) in terms of the output gap, we get:
+\[\tilde{\pi _t} = \beta \mathbb{E}_t \tilde{\pi}_{t+1} + \underset{\equiv \kappa}{\underbrace{\frac{\gamma}{\sigma}}} \tilde{x_t} \protect\label{NKPC2}.\]
+In our derivation we assumed that $\varepsilon$ is constant.
+
+\subsection{The New Keynesian model with Rotemberg (1982) pricing}
+If instead we make $\varepsilon$ stochastic and allow shocks to it(as done by Rotemberg 1982),
+would have shocks to markups even in a frictionless world:
+\[\mu_t^* = \frac{\varepsilon_t}{\varepsilon_t - 1}.\]
+Then, we use $\tilde{z_t} + \tilde{\mu_t^*}$ to replace $\tilde{z_t}$, and we get:
+\begin{equation}\label{NKPC}
+    \tilde{\pi _t} = \beta \mathbb{E}_t \tilde{\pi}_{t+1} + \kappa \tilde{x_t} + \underset{\equiv e_t}{\underbrace{\gamma \tilde{\mu_t^*}}}.
+\end{equation}
+
+\section{The New Keynesian Phillips curve}
+The New Keynesian Phillips curve is a forward-looking relationship between inflation and the output gap.
+Inflation is forward-looking and increasing in the current output gap.
+
+The slope of the Phillips curve, $\kappa$, is larger if prices are more
+flexible (lower $\phi$) or if marginal cost is more sensitive to the level of production.
+
+\begin{itemize}
+    \item Expected future inﬂation $\beta \mathbb{E}_t \tilde{\pi}_{t+1}$: ﬁrms try to anticipate future
+    inﬂation and increase current price in line with expected future inﬂation;
+    \item Current output gap $\kappa\tilde{x_t}$: higher real marginal cost means higher prices, $\phi =0$ means $\kappa \to \infty$,
+    gives a vertical NKPC, $\phi = 1$ means $\kappa = 0$, gives a horizontal NKPC;
+    \item 'Cost-push shock' $e_t$: shock to magnitude of markups over real marginal cost.
+\end{itemize}
+
+\subsection{The IS equation}
+The NKPC explains inflation in terms of the output gap, but how do we find the output gap?
+
+Take consumption Euler equation with market clearing condition($c_t = y_t$):
+\begin{align*}
+    y_t^{-\frac{1}{\sigma}} &= \beta \mathbb{E}_t \left(y_{t+1}^{-\frac{1}{\sigma}}(1+r_{t})\right) \\
+    \Rightarrow y_t^{-\frac{1}{\sigma}} &= \mathbb{E}_t \left(y_{t+1}^{-\frac{1}{\sigma}} \frac{(1+r_{t})}{1+\bar{r}}\right)
+\end{align*}
+where $\beta  = \frac{1}{1+\bar{r}}$, log-linearize it, we get:
+\begin{align*}
+    -\frac{1}{\sigma}\log y_t &= \mathbb{E_t}\left(-\frac{1}{\sigma}\log y_{t+1} + \log{(1+r_t)} - \log{(1+\bar{r})} \right) \\
+    \Rightarrow \tilde{y_t} &= \mathbb{E}_t \left(\tilde{y}_{t+1} - \sigma \tilde{r_t} \right)
+\end{align*}
+
+Plug in approximate Fisher equation $\tilde{r_t} = \tilde{i_t} - \tilde{\pi}_{t+1}$ to get:
+\[\tilde{y_t} = \mathbb{E}_t \left(\tilde{y}_{t+1} - \sigma (\tilde{i_t} - \tilde{\pi}_{t+1} ) \right)\]
+Similarly, for the efficient level of output:
+\[\tilde{\hat{y_t}} = \mathbb{E}_t \left(\tilde{\hat{y}}_{t+1} - \sigma \tilde{\hat{r_t}}\right).\]
+Use the definition of the output gap: $\tilde{x_t} = \tilde{y_t} - \tilde{\hat{y_t}}$, we have:
+\begin{equation*}\label{NKIS}
+    \tilde{x_t} = \mathbb{E}_t \left(\tilde{x}_{t+1} - \sigma (\tilde{i_t} - \tilde{\pi}_{t+1}) \right) + \underset{\equiv v_t}{\underbrace{\sigma \tilde{\hat{r_t}}}}
+\end{equation*}
+which is the \textcolor{blue}{\textit{New Keynesian IS equation}}, $v_t$ is a shock to the efficient real interest rate.
+
+\subsection{The New Keynesian model}
+We can write the approximated dynamics of the model as:
+\begin{align}
+    \text{(NKPC)} \quad \tilde{\pi _t} &= \beta \mathbb{E}_t \tilde{\pi}_{t+1} + \kappa \tilde{x_t} + e_t \nonumber \\
+    \text{(NKIS)} \quad \tilde{x_t} &= \mathbb{E}_t \left(\tilde{x}_{t+1} - \sigma (\tilde{i_t} - \tilde{\pi}_{t+1}) \right) + v_t \nonumber \\
+    \text{(Taylor rule)} \quad \tilde{i_t} &= \alpha_1 \tilde{\pi_t} + \alpha_2 \tilde{x_t} + u_t \nonumber
+\end{align}
+Sometimes researches specify that monetary policy (through the
+interest rate) follows the Taylor rule, i.e. interest rates respond to
+inflation and output gap deviations, subject to a shock $u_t$,
+which generally delivers a pretty good description of how MP is
+done.
+
+\subsection{Problem of the New Keynesian model}
+\begin{itemize}
+    \item Calvo pricing does not really make sense;
+    \item Ideally price setting should be coming from ﬁrm's optimal
+    responses to policy
+    \item Large literature (even before NK model) where price rigidities
+    are coming from adjustment costs to prices (menu costs)
+    \item Alternative approach: imperfect information
+    \item A large number of ad-hoc economic mechanisms designed mainly to fit persistence properties of
+    the data rather than because economists have a strong belief in these particular stories;
+    \item A large amount of unexplained shocks which are often highly persistent;
+    \item Very limited modelling of policy tools or details of national accounts.
+\end{itemize}
