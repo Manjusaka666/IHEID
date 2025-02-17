@@ -1,0 +1,45 @@
+\section{Basic assumtions}
+\label{sec:basic-assumtions}
+
+As awe know, \[
+    \hat{\beta} = (X^{\prime} X)^{-1}X^{\prime} y \overset{p}{\to} \beta
+\]
+if
+\begin{enumerate}
+    \item Model is correctly specified: $y_i = x_i^{\prime} \beta + u_i$
+    \item $X$ is full rank
+    \item $\mathbb{E}[x_i u_i] = 0$: $x_i$ is exogenous.
+    \item Unbiased CIA: $\mathbb{E}[u_i|x_i] = 0$
+\end{enumerate}
+
+\begin{theorem}[Frisch-Waugh-Lovell (FWL) theorem]
+    \label{thm:FWL}
+    \ 
+
+    Recall: $\hat{Y} = X \hat{\beta} = X(X^{\prime} X)^{-1}X^{\prime} Y = P_X Y$, $Y = \hat{Y} + \hat{U} \rightarrow \hat{U} = (I - P_X)Y = M_X Y$.
+
+    Take $Y = X_1 \beta_1 + X_2 \beta_2 + U = X \beta ^{\prime} +U$,
+    let $P_1 = X_1 (X_1^{\prime} X_1)^{-1}X_1^{\prime} $, $M_1 = I - P_1$.
+
+    And write $M_1 Y = M_1 X_2 b + M_1 U$, then
+    \[\hat{\beta_{2, OLS}} = \hat{b}.\]
+\end{theorem}
+
+\section{Endogeneity}
+\label{sec:endogeneity}
+
+Three reasons for endogeneity:
+\begin{enumerate}
+    \item Measurement error: $x_i$ is measured with error.
+        Assume the true Regression is: $y_i = x_i^{* \prime} \beta +\epsilon$, $\mathbb{E}[x_i^* \epsilon_i] = 0$,
+        we run: $y_i = x_i^{\prime} \beta +u_i$, $x_i = x_i^* + v_i$, $u_i = \epsilon_i - v_i^{\prime} \beta$.
+        \begin{align*}
+            \mathbb{E}[x_i u_i] &= \underset{0}{\underbrace{\mathbb{E}[x_i \epsilon_i]}} - \mathbb{E}[x_i v_i^{\prime} ]\beta \\
+            &= -\mathbb{E}[(x_i^* + v_i) v_i^{\prime} ]\beta \\
+            &= -\underset{0}{\underbrace{\mathbb{E}[x_i^* v_i^{\prime}]}}\beta - \mathbb{E}[v_i v_i^{\prime} ]\beta \\
+            &= - \mathbb{E}[v_i v_i^{\prime} ]\beta
+        \end{align*}
+    \item Omitted variables: $x_i$ is correlated with $u_i$.
+    \item Simultaneity: $x_i$ is endogenous.
+\end{enumerate}
+
