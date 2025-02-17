@@ -31,6 +31,7 @@ if
 Three reasons for endogeneity:
 \begin{enumerate}
     \item Measurement error: $x_i$ is measured with error.
+        \\
         Assume the true Regression is: $y_i = x_i^{* \prime} \beta +\epsilon$, $\mathbb{E}[x_i^* \epsilon_i] = 0$,
         we run: $y_i = x_i^{\prime} \beta +u_i$, $x_i = x_i^* + v_i$, $u_i = \epsilon_i - v_i^{\prime} \beta$.
         \begin{align*}
@@ -39,7 +40,15 @@ Three reasons for endogeneity:
             &= -\underset{0}{\underbrace{\mathbb{E}[x_i^* v_i^{\prime}]}}\beta - \mathbb{E}[v_i v_i^{\prime} ]\beta \\
             &= - \mathbb{E}[v_i v_i^{\prime} ]\beta
         \end{align*}
-    \item Omitted variables: $x_i$ is correlated with $u_i$.
-    \item Simultaneity: $x_i$ is endogenous.
+    \item Simultaneity(Reverse causality): $x_i$ is endogenous.\\
+        $y_i = x_i^{\prime} \beta + u_i = x_{i1}^* \beta_1 + x_{i2} \beta_2  + u_i$, $x_i = z_i^{\prime} \gamma + y_i \delta+ v_i$.\\
+
+    \item Omitted variables: $x_i$ is correlated with $u_i$.\\
+        The true regression is: $y_i = x_i^{\prime} \beta + w_i^{\prime} \delta +\epsilon_i$, $\mathbb{E}[x_i \epsilon_i] \neq 0$, $\mathbb{E}[w_i \epsilon_i] = 0$.\\
+        We run: $y_i = x_i^{\prime} \beta + u_i$, then
+        \begin{align*}
+            \mathbb{E}[x_i u_i] &= \mathbb{E}[x_i(w_i^{\prime} \delta + \epsilon_i)] \\
+            &= \mathbb{E}[x_i w_i^{\prime}]\delta + \underset{0}{\underbrace{\mathbb{E}[x_i \epsilon_i]}}
+        \end{align*}
 \end{enumerate}
 
