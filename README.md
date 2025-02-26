@@ -7,8 +7,16 @@ Currently, these are just drafts of the lecture notes. There can be typos and mi
 
 Microeconomics I: Yuan Zi
 
+Microeconomics II:
+
 Macroeconomics A: Johannes Boehm
 
-Econometrics I: Marko Mlikota
+Macroeconomics B: Cedric Tille
+
+Econometrics I / Econometrics II: Marko Mlikota
 
 International Finance: Ugo Panizza
+
+International Trade I: Monica Mrazova(UNIGE)
+
+Impact Evaluation: Michelle Pellizzatti(UNIGE)
