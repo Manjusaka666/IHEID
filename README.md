@@ -7,7 +7,7 @@ Currently, these are just drafts of the lecture notes. There can be typos and mi
 
 Microeconomics I: Yuan Zi
 
-Microeconomics II:
+Microeconomics II: Dominic Rohner
 
 Macroeconomics A: Johannes Boehm
 
@@ -19,4 +19,4 @@ International Finance: Ugo Panizza
 
 International Trade I: Monica Mrazova(UNIGE)
 
-Impact Evaluation: Michelle Pellizzatti(UNIGE)
+Impact Evaluation: Michelle Pellizzari(UNIGE)
