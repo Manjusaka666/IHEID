@@ -218,40 +218,40 @@ Similarly, by the law of total variance:
 =0.5\cdot 3+0.5\cdot 7+0.5\Big[(3-5)^2+(7-5)^2\Big]=5+4=9.
 \]
 
-\subsection*{Calculation of $\operatorname{Cov}(x_i^*, g_i)$}
+% \paragraph{Calculation of $\operatorname{Cov}(x_i^*, g_i)$}
 
-We have
-\[
-\operatorname{Cov}(x_i^*, g_i)=\mathbb{E}[x_i^*g_i]-\mathbb{E}[x_i^*]\,\mathbb{E}[g_i].
-\]
-Since $\mathbb{E}[x_i^*]=5$ and $\mathbb{E}[g_i]=1$, it remains to compute $\mathbb{E}[x_i^*g_i]$. Conditioning on $r_i$,
-\[
-\mathbb{E}[x_i^*g_i]=E\left[\mathbb{E}[x_i^*g_i\mid r_i]\right]=0.5\,\mathbb{E}[x_i^*g_i\mid r_i=1]+0.5\,\mathbb{E}[x_i^*g_i\mid r_i=0].
-\]
-For each group we write:
-\[
-\mathbb{E}[x_i^*g_i\mid r_i=i]=\mathbb{E}[x_i^*\mid r_i=i]\mathbb{E}[g_i\mid r_i=i]+\operatorname{Cov}(x_i^*,g_i\mid r_i=i),\quad i=0,1.
-\]
-Since the DGP does not explicitly state a dependence between $x_i^*$ and $g_i$, we denote their conditional covariance by
-\[
-\operatorname{Cov}(x_i^*,g_i\mid r_i=i)=\rho_i\sqrt{\mathbb{V}[x_i^*\mid r_i=i]\mathbb{V}[g_i]},\quad i=0,1,
-\]
-with $\rho_i$ being the (conditional) correlation. Thus, for $r_i=1$:
-\[
-\mathbb{E}[x_i^*g_i\mid r_i=1]=3\cdot 1+\rho_1\sqrt{3\cdot 0.5}=3+\rho_1\sqrt{1.5},
-\]
-and for $r_i=0$:
-\[
-\mathbb{E}[x_i^*g_i\mid r_i=0]=7\cdot 1+\rho_0\sqrt{7\cdot 0.5}=7+\rho_0\sqrt{3.5}.
-\]
-Averaging, we obtain:
-\[
-\mathbb{E}[x_i^*g_i]=5+\frac{1}{2}\left(\rho_1\sqrt{1.5}+\rho_0\sqrt{3.5}\right).
-\]
-Therefore,
-\[
-\operatorname{Cov}(x_i^*, g_i)=\frac{1}{2}\left(\rho_1\sqrt{1.5}+\rho_0\sqrt{3.5}\right).
-\]
+% We have
+% \[
+% \operatorname{Cov}(x_i^*, g_i)=\mathbb{E}[x_i^*g_i]-\mathbb{E}[x_i^*]\,\mathbb{E}[g_i].
+% \]
+% Since $\mathbb{E}[x_i^*]=5$ and $\mathbb{E}[g_i]=1$, it remains to compute $\mathbb{E}[x_i^*g_i]$. Conditioning on $r_i$,
+% \[
+% \mathbb{E}[x_i^*g_i]=E\left[\mathbb{E}[x_i^*g_i\mid r_i]\right]=0.5\,\mathbb{E}[x_i^*g_i\mid r_i=1]+0.5\,\mathbb{E}[x_i^*g_i\mid r_i=0].
+% \]
+% For each group we write:
+% \[
+% \mathbb{E}[x_i^*g_i\mid r_i=i]=\mathbb{E}[x_i^*\mid r_i=i]\mathbb{E}[g_i\mid r_i=i]+\operatorname{Cov}(x_i^*,g_i\mid r_i=i),\quad i=0,1.
+% \]
+% Since the DGP does not explicitly state a dependence between $x_i^*$ and $g_i$, we denote their conditional covariance by
+% \[
+% \operatorname{Cov}(x_i^*,g_i\mid r_i=i)=\rho_i\sqrt{\mathbb{V}[x_i^*\mid r_i=i]\mathbb{V}[g_i]},\quad i=0,1,
+% \]
+% with $\rho_i$ being the (conditional) correlation. Thus, for $r_i=1$:
+% \[
+% \mathbb{E}[x_i^*g_i\mid r_i=1]=3\cdot 1+\rho_1\sqrt{3\cdot 0.5}=3+\rho_1\sqrt{1.5},
+% \]
+% and for $r_i=0$:
+% \[
+% \mathbb{E}[x_i^*g_i\mid r_i=0]=7\cdot 1+\rho_0\sqrt{7\cdot 0.5}=7+\rho_0\sqrt{3.5}.
+% \]
+% Averaging, we obtain:
+% \[
+% \mathbb{E}[x_i^*g_i]=5+\frac{1}{2}\left(\rho_1\sqrt{1.5}+\rho_0\sqrt{3.5}\right).
+% \]
+% Therefore,
+% \[
+% \operatorname{Cov}(x_i^*, g_i)=\frac{1}{2}\left(\rho_1\sqrt{1.5}+\rho_0\sqrt{3.5}\right).
+% \]
 
 \textbf{Regression 1:} $y_i = \beta_0 + \beta_1 x^*_i + \text{error}_i$
 
@@ -281,13 +281,17 @@ and $\mathbb{E}[r_i]=0.5$, it follows that
 \operatorname{Cov}(x_i^*,r_i)=1.5-5\cdot 0.5=1.5-2.5=-1.
 \]
 
+\paragraph{Calculation of $\operatorname{Cov}(x_i^*,g_i)$:}
+
+From the construction of $g_i$, we have $\operatorname{Cov}(x_i^*,g_i) = 0.$
+
 Thus, the probability limit of $\hat{\beta}_1$ is:
 \[
-\operatorname*{plim}\hat{\beta}_1=\beta_1+\frac{\beta_2(-1)+\beta_3\Bigl\{\frac{1}{2}\left(\rho_1\sqrt{1.5}+\rho_0\sqrt{3.5}\right)\Bigr\}}{9}.
+\operatorname*{plim}\hat{\beta}_1=\beta_1+\frac{\beta_2(-1)+\beta_3 (0)}{9}.
 \]
 That is, the \textbf{omitted variable bias} is:
 \[
-\text{Bias}^{(1)}=\frac{-\beta_2+\frac{1}{2}\beta_3\left(\rho_1\sqrt{1.5}+\rho_0\sqrt{3.5}\right)}{9}.
+\text{Bias}^{(1)}=-\frac{\beta_2}{9}.
 \]
 % This is a misspecified model due to omitted variables. The OLS estimator for $\beta_1$ in this regression is:
 % \[
@@ -353,23 +357,23 @@ A brief calculation shows:
 =5-5=0.
 \]
 Also,
-\[
-\mathbb{V}[\tilde{x}_i]=E\left[\mathbb{V}[x_i^*\mid r_i]\right]
-=0.5\cdot 3+0.5\cdot 7=5.
-\]
+\[\operatorname{Cov}(x_i^*, g_i) = 0\]
+% \[
+% \mathbb{V}[\tilde{x}_i]=E\left[\mathbb{V}[x_i^*\mid r_i]\right]
+% =0.5\cdot 3+0.5\cdot 7=5.
+% \]
 Thus, the probability limit is:
 \[
-\operatorname*{plim}\hat{\beta}_1=\beta_1+\frac{\beta_3\,\operatorname{Cov}(x_i^*,g_i)}{5}
-=\beta_1+\frac{\beta_3\,\frac{1}{2}\left(\rho_1\sqrt{1.5}+\rho_0\sqrt{3.5}\right)}{5}.
+\operatorname*{plim}\hat{\beta}_1=\beta_1.
 \]
-That is, the bias in Regression 2 is:
-\[
-\text{Bias}^{(2)}=\frac{\beta_3\,\left(\rho_1\sqrt{1.5}+\rho_0\sqrt{3.5}\right)}{10}.
-\]
-The asymptotic variance is:
-\[
-\mathbb{V}[\hat{\beta}_1]\approx\frac{1}{n}\,\frac{\mathbb{V}[\beta_3g_i+u_i]}{5}.
-\]
+% That is, the bias in Regression 2 is:
+% \[
+% \text{Bias}^{(2)}=\frac{\beta_3\,\left(\rho_1\sqrt{1.5}+\rho_0\sqrt{3.5}\right)}{10}.
+% \]
+% The asymptotic variance is:
+% \[
+% \mathbb{V}[\hat{\beta}_1]\approx\frac{1}{n}\,\frac{\mathbb{V}[\beta_3g_i+u_i]}{5}.
+% \]
 % This regression includes $r_i$ but omits $g_i$. The OLS estimator for $\beta_1$ can be derived as:
 % \[
 % \hat{\beta}_1^{(2)} = \beta_1 + \beta_3 \frac{\text{Cov}(g_i, x^*_i \mid \text{controlling for } r_i)}{\text{Var}(x^*_i \mid \text{controlling for } r_i)}
@@ -406,7 +410,7 @@ where the design matrix $X$ includes the moments and cross-moments of $x_i^*$, $
 
 \textbf{Regression 4:} $y_i = \beta_0 + \beta_1 x^*_i + \beta_2 r_i + \beta_4 n_i + \text{error}_i$
 
-Since $n_i^1\sim N(10,3)$ is generated independently of $x_i^*$, $r_i$, $g_i$, and $u_i$, 
+Since $n_i\sim N(10,3)$ is generated independently of $x_i^*$, $r_i$, $g_i$, and $u_i$, 
 it is an \emph{irrelevant regressor}. 
 Under the standard OLS assumptions, 
 the inclusion of an irrelevant regressor does not 
@@ -419,8 +423,8 @@ In particular, the variance formula now becomes
 \[
 \mathbb{V}[\hat{\beta}_1] = \sigma_u^2\left[(X'X)^{-1}\right]_{11},
 \]
-where the design matrix $X$ now includes the column corresponding to $n_i^1$. 
-If $n_i^1$ is only weakly correlated with $x_i^*$, 
+where the design matrix $X$ now includes the column corresponding to $n_i$. 
+If $n_i$ is only weakly correlated with $x_i^*$, 
 then the increase in variance is modest. 
 In summary, \textbf{Regression 4} yields a consistent estimator for $\beta_1$, with no additional bias but possibly a slight inflation in variance.
 
@@ -429,25 +433,25 @@ In summary, \textbf{Regression 4} yields a consistent estimator for $\beta_1$, w
 
 \end{lstlisting}
 
-\textbf{Regression 5:} $y_i = \beta_0 + \beta_1 x^*_i + \beta_2 r_i + \beta_4 n_i^2 + \text{error}_i$
+\textbf{Regression 5:} $y_i = \beta_0 + \beta_1 x^*_i + \beta_2 r_i + \beta_4 b_i + \text{error}_i$
 
 Here,
 \[
-n_i^2 \sim N\left(5+\sqrt{x_i^*},\,3\right),
+b_i \sim N\left(5+\sqrt{x_i^*},\,3\right),
 \]
-so that $n_i^2$ is a non-linear function of $x_i^*$. 
-This implies that $n_i^2$ is correlated with $x_i^*$. 
+so that $b_i$ is a non-linear function of $x_i^*$. 
+This implies that $b_i$ is correlated with $x_i^*$. 
 In particular, since
 \[
-\mathbb{E}[n_i^2\mid x_i^*] = 5 + \sqrt{x_i^*},
+\mathbb{E}[b_i\mid x_i^*] = 5 + \sqrt{x_i^*},
 \]
 we have
 \[
-\operatorname{Cov}(x_i^*, n_i^2) \neq 0.
+\operatorname{Cov}(x_i^*, b_i) \neq 0.
 \]
-The inclusion of $n_i^2$ does not cause endogeneity provided that 
+The inclusion of $b_i$ does not cause endogeneity provided that 
 \[
-\mathbb{E}[u_i \mid x_i^*, r_i, g_i, n_i^2] = 0.
+\mathbb{E}[u_i \mid x_i^*, r_i, g_i, b_i] = 0.
 \]
 Thus, by the Frisch--Waugh--Lovell theorem, 
 the coefficient $\beta_1$ is still identified and
@@ -455,17 +459,17 @@ the coefficient $\beta_1$ is still identified and
 \operatorname*{plim}\hat{\beta}_1 = \beta_1.
 \]
 
-However, the strong correlation between $x_i^*$ and $n_i^2$ increases multicollinearity. 
+However, the strong correlation between $x_i^*$ and $b_i$ increases multicollinearity. 
 To see this more formally, consider the variance of $\hat{\beta}_1$ in a multiple regression:
 \[
 \mathbb{V}[\hat{\beta}_1] = \sigma_u^2 \left[(X'X)^{-1}\right]_{11}.
 \]
-When $x_i^*$ is highly collinear with $n_i^2$, 
+When $x_i^*$ is highly collinear with $b_i$, 
 the effective variation in $x_i^*$ 
-(after partialling out the effect of $n_i^2$ along with $r_i$ and $g_i$) 
+(after partialling out the effect of $b_i$ along with $r_i$ and $g_i$) 
 is reduced. 
 Denote by $R^2_{x,n^2}$ the coefficient of determination from 
-regressing $x_i^*$ on the other regressors (including $n_i^2$). 
+regressing $x_i^*$ on the other regressors (including $b_i$). 
 Then, the variance inflation factor (VIF) for $\hat{\beta}_1$ is given by
 \[
 \text{VIF} = \frac{1}{1-R^2_{x,n^2}}.
@@ -475,9 +479,9 @@ Thus, the asymptotic variance becomes
 \mathbb{V}[\hat{\beta}_1] \approx \frac{\sigma_u^2}{n\,\mathbb{V}[x_i^*]}\cdot \frac{1}{1-R^2_{x,n^2}},
 \]
 which is larger than that in Regression 3 
-(which does not include $n_i^2$). 
+(which does not include $b_i$). 
 In summary, while \textbf{Regression 5} still provides a consistent estimate of $\beta_1$, 
-the estimator`s variance is inflated due to the high collinearity between $x_i^*$ and $n_i^2$.
+the estimator`s variance is inflated due to the high collinearity between $x_i^*$ and $b_i$.
 
 
 \begin{lstlisting}[language=R]
@@ -490,10 +494,10 @@ summary_reg2 <- summary(reg2)
 reg3 <- lm(y ~ x_star + r + g, data = data)
 summary_reg3 <- summary(reg3)
 
-reg4 <- lm(y ~ x_star + r + g + n, data = data)
+reg4 <- lm(y ~ x_star + r + n, data = data)
 summary_reg4 <- summary(reg4)
 
-reg5 <- lm(y ~ x_star + r + g + n + b, data = data)
+reg5 <- lm(y ~ x_star + r + b, data = data)
 summary_reg5 <- summary(reg5)
 
 extract_results <- function(reg_summary, reg_name) {
@@ -502,11 +506,11 @@ extract_results <- function(reg_summary, reg_name) {
     beta1_true <- 5
     
     cat(paste0("\n", reg_name, ":\n"))
-    cat(paste0("Estimated $\beta_1$: ", round(beta1_estimate, 4), "\n"))
-    cat(paste0("True $\beta_1$: ", beta1_true, "\n"))
+    cat(paste0("Estimated beta_1: ", round(beta1_estimate, 4), "\n"))
+    cat(paste0("True beta_1: ", beta1_true, "\n"))
     cat(paste0("Standard Error: ", round(beta1_se, 4), "\n"))
     cat(paste0("Difference from true value: ", round(beta1_estimate - beta1_true, 4), "\n"))
-    cat(paste0("Adjusted $R^2$: ", round(reg_summary$adj.r.squared, 4), "\n"))
+    cat(paste0("Adjusted R_2: ", round(reg_summary$adj.r.squared, 4), "\n"))
 }
 
 extract_results(summary_reg1, "Regression 1 (y ~ x_star)")
@@ -533,7 +537,7 @@ From a theoretical perspective, the Monte Carlo simulation allows us to empirica
 
 \begin{figure}[H]
   \centering
-  \includegraphics[width=\textwidth]{Rplots.pdf}
+  \includegraphics[width=\textwidth]{Q(c).pdf}
   \label{fig:monte_carlo_results}
 \end{figure}
 
@@ -840,13 +844,13 @@ par(mfrow = c(1, 1))
 % \]
 % Where $\sigma^2$ is the variance of the error term (5 in this case) and $R^2_{x^* \sim \text{other regressors}}$ is the $R^2$ from regressing $x^*_i$ on the other independent variables.
 
-% For Regression 4, including the irrelevant variable $n_i^1$:
+% For Regression 4, including the irrelevant variable $n_i$:
 % \[
 % \text{Var}(\hat{\beta}_1^{(4)}) \geq \text{Var}(\hat{\beta}_1^{(3)})
 % \]
 % The inequality is due to the loss of degrees of freedom from estimating an additional parameter.
 
-% For Regression 5, including $n_i^2$ which is correlated with $x^*_i$:
+% For Regression 5, including $b_i$ which is correlated with $x^*_i$:
 % \[
 % \text{Var}(\hat{\beta}_1^{(5)}) > \text{Var}(\hat{\beta}_1^{(3)})
 % \]

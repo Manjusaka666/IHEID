@@ -65,11 +65,11 @@ reg3 <- lm(y ~ x_star + r + g, data = data)
 summary_reg3 <- summary(reg3)
 
 # Regression 4: y ~ x_star + r + g + n
-reg4 <- lm(y ~ x_star + r + g + n, data = data)
+reg4 <- lm(y ~ x_star + r + n, data = data)
 summary_reg4 <- summary(reg4)
 
 # Regression 5: y ~ x_star + r + g + b
-reg5 <- lm(y ~ x_star + r + g + b, data = data)
+reg5 <- lm(y ~ x_star + r + b, data = data)
 summary_reg5 <- summary(reg5)
 
 # Function to extract and format regression results
@@ -90,12 +90,12 @@ extract_results <- function(reg_summary, reg_name) {
 extract_results(summary_reg1, "Regression 1 (y ~ x_star)")
 extract_results(summary_reg2, "Regression 2 (y ~ x_star + r)")
 extract_results(summary_reg3, "Regression 3 (y ~ x_star + r + g)")
-extract_results(summary_reg4, "Regression 4 (y ~ x_star + r + g + n)")
-extract_results(summary_reg5, "Regression 5 (y ~ x_star + r + g + b)")
+extract_results(summary_reg4, "Regression 4 (y ~ x_star + r + n)")
+extract_results(summary_reg5, "Regression 5 (y ~ x_star + r + b)")
 
 results_b <- data.frame(
   Regression      = c("y ~ x_star", "y ~ x_star + r", "y ~ x_star + r + g", 
-                      "y ~ x_star + r + g + n", "y ~ x_star + r + g+ b"),
+                      "y ~ x_star + r + n", "y ~ x_star + r + b"),
   Estimated_beta1 = round(c(coef(reg1)["x_star"], coef(reg2)["x_star"], 
                             coef(reg3)["x_star"], coef(reg4)["x_star"], 
                             coef(reg5)["x_star"]), 4),
@@ -175,8 +175,8 @@ for (m in 1:M) {
   reg1 <- lm(y ~ x_star, data = data)
   reg2 <- lm(y ~ x_star + r, data = data)
   reg3 <- lm(y ~ x_star + r + g, data = data)
-  reg4 <- lm(y ~ x_star + r + g + n, data = data)
-  reg5 <- lm(y ~ x_star + r + g + b, data = data)
+  reg4 <- lm(y ~ x_star + r + n, data = data)
+  reg5 <- lm(y ~ x_star + r + b, data = data)
   
   # Store β₁ estimates
   beta1_estimates[m, 1] <- coef(reg1)["x_star"]
