@@ -33,8 +33,8 @@ beta_3 <- 10
 y_i <- beta_0 + beta_1 * x_star_i + beta_2 * r_i + beta_3 * g_i + u_i
 
 # Generate additional variables
-n1_i <- rnorm(n, mean = 10, sd = sqrt(3))
-n2_i <- rnorm(n, mean = 5 + sqrt(x_star_i), sd = sqrt(3))
+n_i <- rnorm(n, mean = 10, sd = sqrt(3))
+b_i <- rnorm(n, mean = 5 + sqrt(x_star_i), sd = sqrt(3))
 
 # Create dataframe
 data <- data.frame(
@@ -42,8 +42,8 @@ data <- data.frame(
   x_star = x_star_i,
   r = r_i,
   g = g_i,
-  n1 = n1_i,
-  n2 = n2_i
+  n = n_i,
+  b = b_i
 )
 
 # Display summary statistics
@@ -64,12 +64,12 @@ summary_reg2 <- summary(reg2)
 reg3 <- lm(y ~ x_star + r + g, data = data)
 summary_reg3 <- summary(reg3)
 
-# Regression 4: y ~ x_star + r + g + n1
-reg4 <- lm(y ~ x_star + r + g + n1, data = data)
+# Regression 4: y ~ x_star + r + g + n
+reg4 <- lm(y ~ x_star + r + g + n, data = data)
 summary_reg4 <- summary(reg4)
 
-# Regression 5: y ~ x_star + r + g + n2
-reg5 <- lm(y ~ x_star + r + g + n1 + n2, data = data)
+# Regression 5: y ~ x_star + r + g + b
+reg5 <- lm(y ~ x_star + r + g + b, data = data)
 summary_reg5 <- summary(reg5)
 
 # Function to extract and format regression results
@@ -90,12 +90,12 @@ extract_results <- function(reg_summary, reg_name) {
 extract_results(summary_reg1, "Regression 1 (y ~ x_star)")
 extract_results(summary_reg2, "Regression 2 (y ~ x_star + r)")
 extract_results(summary_reg3, "Regression 3 (y ~ x_star + r + g)")
-extract_results(summary_reg4, "Regression 4 (y ~ x_star + r + g + n1)")
-extract_results(summary_reg5, "Regression 5 (y ~ x_star + r + g + n1 + n2)")
+extract_results(summary_reg4, "Regression 4 (y ~ x_star + r + g + n)")
+extract_results(summary_reg5, "Regression 5 (y ~ x_star + r + g + b)")
 
 results_b <- data.frame(
   Regression      = c("y ~ x_star", "y ~ x_star + r", "y ~ x_star + r + g", 
-                      "y ~ x_star + r + g + n1", "y ~ x_star + r + g + n1 + n2"),
+                      "y ~ x_star + r + g + n", "y ~ x_star + r + g+ b"),
   Estimated_beta1 = round(c(coef(reg1)["x_star"], coef(reg2)["x_star"], 
                             coef(reg3)["x_star"], coef(reg4)["x_star"], 
                             coef(reg5)["x_star"]), 4),
@@ -159,24 +159,24 @@ for (m in 1:M) {
   
   y_i <- beta_0 + beta_1 * x_star_i + beta_2 * r_i + beta_3 * g_i + u_i
   
-  n1_i <- rnorm(n, mean = 10, sd = sqrt(3))
-  n2_i <- rnorm(n, mean = 5 + sqrt(x_star_i), sd = sqrt(3))
+  n_i <- rnorm(n, mean = 10, sd = sqrt(3))
+  b_i <- rnorm(n, mean = 5 + sqrt(x_star_i), sd = sqrt(3))
   
   data <- data.frame(
     y = y_i,
     x_star = x_star_i,
     r = r_i,
     g = g_i,
-    n1 = n1_i,
-    n2 = n2_i
+    n = n_i,
+    b = b_i
   )
   
   # Run the five regressions
   reg1 <- lm(y ~ x_star, data = data)
   reg2 <- lm(y ~ x_star + r, data = data)
   reg3 <- lm(y ~ x_star + r + g, data = data)
-  reg4 <- lm(y ~ x_star + r + g + n1, data = data)
-  reg5 <- lm(y ~ x_star + r + g + n1 + n2, data = data)
+  reg4 <- lm(y ~ x_star + r + g + n, data = data)
+  reg5 <- lm(y ~ x_star + r + g + b, data = data)
   
   # Store β₁ estimates
   beta1_estimates[m, 1] <- coef(reg1)["x_star"]

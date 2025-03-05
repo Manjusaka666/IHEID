@@ -165,16 +165,16 @@ beta_3 <- 10
 
 y_i <- beta_0 + beta_1 * x_star_i + beta_2 * r_i + beta_3 * g_i + u_i
 
-n1_i <- rnorm(n, mean = 10, sd = sqrt(3))
-n2_i <- rnorm(n, mean = 5 + sqrt(x_star_i), sd = sqrt(3))
+n_i <- rnorm(n, mean = 10, sd = sqrt(3))
+b_i <- rnorm(n, mean = 5 + sqrt(x_star_i), sd = sqrt(3))
 
 data <- data.frame(
     y = y_i,
     x_star = x_star_i,
     r = r_i,
     g = g_i,
-    n1 = n1_i,
-    n2 = n2_i
+    n = n_i,
+    b = b_i
   )
 \end{lstlisting}
 \end{autosolution}
@@ -404,7 +404,7 @@ where the design matrix $X$ includes the moments and cross-moments of $x_i^*$, $
 
 \end{lstlisting}
 
-\textbf{Regression 4:} $y_i = \beta_0 + \beta_1 x^*_i + \beta_2 r_i + \beta_3 g_i + \beta_4 n_i^1 + \text{error}_i$
+\textbf{Regression 4:} $y_i = \beta_0 + \beta_1 x^*_i + \beta_2 r_i + \beta_4 n_i + \text{error}_i$
 
 Since $n_i^1\sim N(10,3)$ is generated independently of $x_i^*$, $r_i$, $g_i$, and $u_i$, 
 it is an \emph{irrelevant regressor}. 
@@ -429,7 +429,7 @@ In summary, \textbf{Regression 4} yields a consistent estimator for $\beta_1$, w
 
 \end{lstlisting}
 
-\textbf{Regression 5:} $y_i = \beta_0 + \beta_1 x^*_i + \beta_2 r_i + \beta_3 g_i + \beta_4 n_i^2 + \text{error}_i$
+\textbf{Regression 5:} $y_i = \beta_0 + \beta_1 x^*_i + \beta_2 r_i + \beta_4 n_i^2 + \text{error}_i$
 
 Here,
 \[
@@ -490,10 +490,10 @@ summary_reg2 <- summary(reg2)
 reg3 <- lm(y ~ x_star + r + g, data = data)
 summary_reg3 <- summary(reg3)
 
-reg4 <- lm(y ~ x_star + r + g + n1, data = data)
+reg4 <- lm(y ~ x_star + r + g + n, data = data)
 summary_reg4 <- summary(reg4)
 
-reg5 <- lm(y ~ x_star + r + g + n1 + n2, data = data)
+reg5 <- lm(y ~ x_star + r + g + n + b, data = data)
 summary_reg5 <- summary(reg5)
 
 extract_results <- function(reg_summary, reg_name) {
@@ -502,18 +502,18 @@ extract_results <- function(reg_summary, reg_name) {
     beta1_true <- 5
     
     cat(paste0("\n", reg_name, ":\n"))
-    cat(paste0("Estimated β₁: ", round(beta1_estimate, 4), "\n"))
-    cat(paste0("True β₁: ", beta1_true, "\n"))
+    cat(paste0("Estimated $\beta_1$: ", round(beta1_estimate, 4), "\n"))
+    cat(paste0("True $\beta_1$: ", beta1_true, "\n"))
     cat(paste0("Standard Error: ", round(beta1_se, 4), "\n"))
     cat(paste0("Difference from true value: ", round(beta1_estimate - beta1_true, 4), "\n"))
-    cat(paste0("Adjusted R²: ", round(reg_summary$adj.r.squared, 4), "\n"))
+    cat(paste0("Adjusted $R^2$: ", round(reg_summary$adj.r.squared, 4), "\n"))
 }
 
 extract_results(summary_reg1, "Regression 1 (y ~ x_star)")
 extract_results(summary_reg2, "Regression 2 (y ~ x_star + r)")
 extract_results(summary_reg3, "Regression 3 (y ~ x_star + r + g)")
-extract_results(summary_reg4, "Regression 4 (y ~ x_star + r + g + n1)")
-extract_results(summary_reg5, "Regression 5 (y ~ x_star + r + g + n1 + n2)")
+extract_results(summary_reg4, "Regression 4 (y ~ x_star + r + g + n)")
+extract_results(summary_reg5, "Regression 5 (y ~ x_star + r + g + n + b)")
 \end{lstlisting}
 
 \input{b.tex}
@@ -566,23 +566,23 @@ for (m in 1:M) {
     
   y_i <- beta_0 + beta_1 * x_star_i + beta_2 * r_i + beta_3 * g_i + u_i
     
-  n1_i <- rnorm(n, mean = 10, sd = sqrt(3))
-  n2_i <- rnorm(n, mean = 5 + sqrt(x_star_i), sd = sqrt(3))
+  n_i <- rnorm(n, mean = 10, sd = sqrt(3))
+  b_i <- rnorm(n, mean = 5 + sqrt(x_star_i), sd = sqrt(3))
     
   data <- data.frame(
     y = y_i,
     x_star = x_star_i,
     r = r_i,
     g = g_i,
-    n1 = n1_i,
-    n2 = n2_i
+    n = n_i,
+    b = b_i
   )
   
   reg1 <- lm(y ~ x_star, data = data)
   reg2 <- lm(y ~ x_star + r, data = data)
   reg3 <- lm(y ~ x_star + r + g, data = data)
-  reg4 <- lm(y ~ x_star + r + g + n1, data = data)
-  reg5 <- lm(y ~ x_star + r + g + n1 + n2, data = data)
+  reg4 <- lm(y ~ x_star + r + g + n, data = data)
+  reg5 <- lm(y ~ x_star + r + g + n + b, data = data)
     
     # Store β₁ estimates
   beta1_estimates[m, 1] <- coef(reg1)["x_star"]
