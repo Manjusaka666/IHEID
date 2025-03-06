@@ -290,7 +290,7 @@ Thus, the probability limit of $\hat{\beta}_1$ is:
 \operatorname*{plim}\hat{\beta}_1=\beta_1+\frac{\beta_2(-1)+\beta_3 (0)}{9} = \beta_1 - \frac{\beta_2}{9} \approx -17.22.
 \]
 
-Our simulated result replrts a mean of -16.98, with a standard error of 2.5386, which is close to our theoretical expectation, 
+Our simulated result replrts a mean of -17.69, with a standard error of 2.6087, which is close to our theoretical expectation, 
 but far from the true value of 5.
 % This is a misspecified model due to omitted variables. The OLS estimator for $\beta_1$ in this regression is:
 % \[
@@ -370,7 +370,7 @@ Its variance is given by
 \sigma_{\epsilon}^{2} = \mathbb{V}[\beta_3 g_i + u_i] = \beta_3^2 \mathbb{V}[g_i] + 5.
 \]
 
-Our simulated result reports a mean of 4.3648, with a standard error of 1.2873, which is closer to the true value and less volatile than regression (1).
+Our simulated result reports a mean of 4.9383, with a standard error of 1.2396, which is closer to the true value and less volatile than regression (1).
 % That is, the bias in Regression 2 is:
 % \[
 % \text{Bias}^{(2)}=\frac{\beta_3\,\left(\rho_1\sqrt{1.5}+\rho_0\sqrt{3.5}\right)}{10}.
@@ -405,7 +405,7 @@ Its finite-sample variance is given by the standard OLS formula:
 \]
 where the design matrix $X$ includes the moments and cross-moments of $x_i^*$, $r_i$, and $g_i$.
 
-The simulated result reports a mean of 5.0395, with a standard error of 0.0957, which is almost the true value.
+The simulated result reports a mean of 4.9941, with a standard error of 0.1844, which is almost the true value.
 % This regression is correctly specified according to the DGP. Therefore:
 % \[
 % E[\hat{\beta}_1^{(3)}] = \beta_1 = 5
@@ -435,13 +435,9 @@ If $n_i$ is only weakly correlated with $x_i^*$,
 then the increase in variance is modest. 
 In summary, \textbf{Regression 4} yields a consistent estimator for $\beta_1$, with no additional bias but possibly a slight inflation in variance.
 
-The simulated result reports a mean of 4.4641, with a standard error of 1.3123, which satisfies our expectation.
+The simulated result reports a mean of 4.9529, with a standard error of 1.2403, which satisfies our expectation.
 This is because the model introduces an uncorrelated variable $n_i$ that does not affect the estimation of $\beta_1$, 
 but reduced the degree of freedom in the model. So, it's variance is higher than regression (2).
-
-\begin{lstlisting}[language=R]
-
-\end{lstlisting}
 
 \textbf{Regression 5:} $y_i = \beta_0 + \beta_1 x^*_i + \beta_2 r_i + \beta_4 b_i + \text{error}_i$
 
@@ -492,7 +488,7 @@ which is larger than that in Regression 3.
 In summary, while \textbf{Regression 5} still provides a consistent estimate of $\beta_1$, 
 the estimator's variance is inflated due to the high collinearity between $x_i^*$ and $b_i$.
 
-The simulated result reports a mean of 4.5369, with a standard error of 1.3026, which estimated $\beta$ better than regression (4), but still deviates from the true value.
+The simulated result reports a mean of 4.9499, with a standard error of 1.2584, which estimated $\beta$ worse than regression (4), as well as a higher standard error than reegression (2) and (4).
 Also, it's variance is higher than regression (2)
 
 \begin{lstlisting}[language=R]
@@ -615,7 +611,7 @@ beta1_df <- data.frame(
 beta1_summary <- data.frame(
     Regression = colnames(beta1_estimates),
     Mean = colMeans(beta1_estimates),
-    SD = apply(beta1_estimates, 2, sd),
+    SE = apply(beta1_estimates, 2, sd),
     Bias = colMeans(beta1_estimates) - 5
 )
 
@@ -763,7 +759,7 @@ run_monte_carlo <- function(x_star_equal = FALSE, beta2_zero = FALSE, r_prob = 0
     
   for (m in 1:M) {
     # Generate data according to modified DGP
-    u_i <- rnorm(n, mean = 0, sd = sqrt(5))
+    u_i <- rnorm(n, mean = 0, sd = 5)
     g_i <- rgamma(n, shape = 2, scale = 2)
     r_i <- rbinom(n, size = 1, prob = r_prob)
     

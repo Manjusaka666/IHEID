@@ -306,7 +306,7 @@ calc_summary <- function(results, scenario_name) {
 }
 
 # Calculate summaries for all scenarios
-summary_original <- calc_summary(results_original, "Original DGP")
+# summary_original <- calc_summary(results_original, "Original DGP")
 summary_xstar_equal <- calc_summary(results_xstar_equal, "x_star equal")
 summary_beta2_zero <- calc_summary(results_beta2_zero, "β₂ = 0")
 summary_r_prob_0.1 <- calc_summary(results_r_prob_0.1, "r_prob = 0.1")
@@ -314,7 +314,7 @@ summary_beta3_50 <- calc_summary(results_beta3_50, "β₃ = 50")
 
 # Combine all summaries
 all_summaries <- rbind(
-  summary_original,
+  # summary_original,
   summary_xstar_equal,
   summary_beta2_zero,
   summary_r_prob_0.1,
@@ -330,54 +330,6 @@ output_file_d <- "d.tex"
 cat(latex_table_d, file = output_file_d)
 cat("\n%% Table saved to ", output_file_d, "\n", sep = "", file = output_file_d, append = TRUE)
 
-
-# Visualization function for each scenario
-# plot_scenario_comparison <- function(original, modified, title) {
-#   par(mfrow = c(4, 3))
-  
-#   for (i in 1:3) {
-#     # Original DGP
-#     # hist(original[, i], 
-#     #      main = paste("Reg", i, "- Original"), 
-#     #      xlab = "β₁ estimate",
-#     #      breaks = 15,
-#     #      col = "lightblue",
-#     #      border = "white",
-#     #      xlim = range(c(original[, i], modified[, i])))
-#     # abline(v = 5, col = "red", lwd = 2)
-#     # abline(v = mean(original[, i]), col = "blue", lty = 2, lwd = 2)
-    
-#     # Modified DGP
-#     hist(modified[, i], 
-#          main = paste("Reg", i, "- Modified"), 
-#          xlab = "β₁ estimate",
-#          breaks = 15,
-#          col = "lightgreen",
-#          border = "white",
-#          xlim = range(c(original[, i], modified[, i])))
-#     abline(v = 5, col = "red", lwd = 2)
-#     abline(v = mean(modified[, i]), col = "blue", lty = 2, lwd = 2)
-#   }
-#   mtext(title, side = 3, line = -1.5, outer = TRUE)
-# }
-
-
-# pdf("all_scenarios_plots.pdf")
-
-# # Plot scenario: x_star equal (fertilizer distribution is identical regardless of r)
-# plot_scenario_comparison(results_original, results_xstar_equal, "Modified DGP: x_star equal")
-
-# # Plot scenario: beta2 = 0 (land quality has no effect)
-# plot_scenario_comparison(results_original, results_beta2_zero, "Modified DGP: β₂ = 0")
-
-# # Plot scenario: r_prob = 0.1 (rare high-quality land)
-# plot_scenario_comparison(results_original, results_r_prob_0.1, "Modified DGP: r_prob = 0.1")
-
-# # Plot scenario: beta3 = 50 (stronger rainfall effect)
-# plot_scenario_comparison(results_original, results_beta3_50, "Modified DGP: β₃ = 50")
-
-# # Close the PDF device
-# dev.off()
 
 scenarios <- list(
   "x_star equal" = results_xstar_equal,
