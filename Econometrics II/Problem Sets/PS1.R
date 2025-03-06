@@ -332,34 +332,86 @@ cat("\n%% Table saved to ", output_file_d, "\n", sep = "", file = output_file_d,
 
 
 # Visualization function for each scenario
-plot_scenario_comparison <- function(original, modified, title) {
-  par(mfrow = c(2, 3))
+# plot_scenario_comparison <- function(original, modified, title) {
+#   par(mfrow = c(4, 3))
   
-  for (i in 1:3) {
-    # Original DGP
-    hist(original[, i], 
-         main = paste("Reg", i, "- Original"), 
-         xlab = "β₁ estimate",
-         breaks = 15,
-         col = "lightblue",
-         border = "white",
-         xlim = range(c(original[, i], modified[, i])))
-    abline(v = 5, col = "red", lwd = 2)
-    abline(v = mean(original[, i]), col = "blue", lty = 2, lwd = 2)
+#   for (i in 1:3) {
+#     # Original DGP
+#     # hist(original[, i], 
+#     #      main = paste("Reg", i, "- Original"), 
+#     #      xlab = "β₁ estimate",
+#     #      breaks = 15,
+#     #      col = "lightblue",
+#     #      border = "white",
+#     #      xlim = range(c(original[, i], modified[, i])))
+#     # abline(v = 5, col = "red", lwd = 2)
+#     # abline(v = mean(original[, i]), col = "blue", lty = 2, lwd = 2)
     
-    # Modified DGP
-    hist(modified[, i], 
-         main = paste("Reg", i, "- Modified"), 
-         xlab = "β₁ estimate",
-         breaks = 15,
-         col = "lightgreen",
-         border = "white",
-         xlim = range(c(original[, i], modified[, i])))
-    abline(v = 5, col = "red", lwd = 2)
-    abline(v = mean(modified[, i]), col = "blue", lty = 2, lwd = 2)
+#     # Modified DGP
+#     hist(modified[, i], 
+#          main = paste("Reg", i, "- Modified"), 
+#          xlab = "β₁ estimate",
+#          breaks = 15,
+#          col = "lightgreen",
+#          border = "white",
+#          xlim = range(c(original[, i], modified[, i])))
+#     abline(v = 5, col = "red", lwd = 2)
+#     abline(v = mean(modified[, i]), col = "blue", lty = 2, lwd = 2)
+#   }
+#   mtext(title, side = 3, line = -1.5, outer = TRUE)
+# }
+
+
+# pdf("all_scenarios_plots.pdf")
+
+# # Plot scenario: x_star equal (fertilizer distribution is identical regardless of r)
+# plot_scenario_comparison(results_original, results_xstar_equal, "Modified DGP: x_star equal")
+
+# # Plot scenario: beta2 = 0 (land quality has no effect)
+# plot_scenario_comparison(results_original, results_beta2_zero, "Modified DGP: β₂ = 0")
+
+# # Plot scenario: r_prob = 0.1 (rare high-quality land)
+# plot_scenario_comparison(results_original, results_r_prob_0.1, "Modified DGP: r_prob = 0.1")
+
+# # Plot scenario: beta3 = 50 (stronger rainfall effect)
+# plot_scenario_comparison(results_original, results_beta3_50, "Modified DGP: β₃ = 50")
+
+# # Close the PDF device
+# dev.off()
+
+scenarios <- list(
+  "x_star equal" = results_xstar_equal,
+  "β₂ = 0"       = results_beta2_zero,
+  "r_prob = 0.1" = results_r_prob_0.1,
+  "β₃ = 50"      = results_beta3_50
+)
+
+# Open a PDF device to save the plots
+pdf("Q(d).pdf", width = 12, height = 12)
+
+# Set up the plotting area: 4 rows (scenarios) and 3 columns (regressions)
+par(mfrow = c(4, 3), mar = c(4, 4, 2, 1))
+
+# Loop over each scenario and each regression
+for (scenario in names(scenarios)) {
+  current <- scenarios[[scenario]]
+  for (i in 1:3) {
+    hist(current[, i],
+         main = paste(scenario, "- Regression", i),
+         xlab = expression(hat(beta)[1]),
+         breaks = 20,
+         col = "lightblue",
+         border = "white")
+    abline(v = 5, col = "red", lwd = 2) # True value
+    abline(v = mean(current[, i]), col = "blue", lty = 2, lwd = 2) # Mean estimate
+    legend("topright",
+           legend = c("True value", "Mean estimate"),
+           col = c("red", "blue"),
+           lty = c(1, 2),
+           lwd = 2,
+           cex = 0.8)
   }
-  mtext(title, side = 3, line = -1.5, outer = TRUE)
 }
 
-# Plot comparisons
-par(mfrow = c(1, 1))
+# Close the PDF device
+dev.off()

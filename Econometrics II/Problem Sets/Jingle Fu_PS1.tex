@@ -104,7 +104,7 @@
 
 \fancyhf{} % This makes sure we do not have other information in our header or footer.
 
-\lhead{\footnotesize EI062 Econometrics I}% \lhead puts text in the top left corner. \footnotesize sets our font to a smaller size.
+\lhead{\footnotesize EI035 Econometrics II}% \lhead puts text in the top left corner. \footnotesize sets our font to a smaller size.
 
 %\rhead works just like \lhead (you can also use \chead)
 \rhead{\footnotesize Jingle Fu} %<---- Fill in your lastnames.
@@ -192,7 +192,7 @@ with the following Data Generating Process (DGP):
     \item $u_i \sim N(0,5)$.
     \item $g_i \sim \Gamma(2,2)$, so that 
     \[
-    \mathbb{E}[g_i]=\frac{2}{2}=1,\quad \mathbb{V}[g_i]=\frac{2}{2^2}=\frac{2}{4}=0.5.
+    \mathbb{E}[g_i]=\frac{2}{2}=1,\quad \mathbb{V}[g_i]= 2 \times 2^2= 8.
     \]
     \item $r_i \in \{0,1\}$ with $P(r_i=1)=0.5$.
     \item Conditionally on $r_i$, the fertilizer variable $x_i^*$ is distributed as:
@@ -287,12 +287,11 @@ From the construction of $g_i$, we have $\operatorname{Cov}(x_i^*,g_i) = 0.$
 
 Thus, the probability limit of $\hat{\beta}_1$ is:
 \[
-\operatorname*{plim}\hat{\beta}_1=\beta_1+\frac{\beta_2(-1)+\beta_3 (0)}{9}.
+\operatorname*{plim}\hat{\beta}_1=\beta_1+\frac{\beta_2(-1)+\beta_3 (0)}{9} = \beta_1 - \frac{\beta_2}{9} \approx -17.22.
 \]
-That is, the \textbf{omitted variable bias} is:
-\[
-\text{Bias}^{(1)}=-\frac{\beta_2}{9}.
-\]
+
+Our simulated result replrts a mean of -16.98, with a standard error of 2.5386, which is close to our theoretical expectation, 
+but far from the true value of 5.
 % This is a misspecified model due to omitted variables. The OLS estimator for $\beta_1$ in this regression is:
 % \[
 % \hat{\beta}_1^{(1)} = \frac{\text{Cov}(y_i, x^*_i)}{\text{Var}(x^*_i)}
@@ -364,8 +363,14 @@ Also,
 % \]
 Thus, the probability limit is:
 \[
-\operatorname*{plim}\hat{\beta}_1=\beta_1.
+\operatorname*{plim}\hat{\beta}_1^{(2)}=\beta_1.
 \]
+Its variance is given by 
+\[ 
+\sigma_{\epsilon}^{2} = \mathbb{V}[\beta_3 g_i + u_i] = \beta_3^2 \mathbb{V}[g_i] + 5.
+\]
+
+Our simulated result reports a mean of 4.3648, with a standard error of 1.2873, which is closer to the true value and less volatile than regression (1).
 % That is, the bias in Regression 2 is:
 % \[
 % \text{Bias}^{(2)}=\frac{\beta_3\,\left(\rho_1\sqrt{1.5}+\rho_0\sqrt{3.5}\right)}{10}.
@@ -392,13 +397,15 @@ y_i=\beta_0+\beta_1x_i^*+\beta_2r_i+\beta_3g_i+u_i.
 \]
 Under the exogeneity assumption $\mathbb{E}[u_i\mid x_i^*,r_i,g_i]=0$, the OLS estimator for $\beta_1$ is \textbf{consistent}:
 \[
-\operatorname*{plim}\hat{\beta}_1=\beta_1.
+\operatorname*{plim}\hat{\beta}_1^{(3)}=\beta_1.
 \]
 Its finite-sample variance is given by the standard OLS formula:
 \[
-\mathbb{V}[\hat{\beta}_1]=\sigma_u^2\left[(X'X)^{-1}\right]_{11},
+\mathbb{V}[\hat{\beta}_1^{(3)}]=\sigma_{\epsilon}^2\left[(X'X)^{-1}\right]_{11},
 \]
 where the design matrix $X$ includes the moments and cross-moments of $x_i^*$, $r_i$, and $g_i$.
+
+The simulated result reports a mean of 5.0395, with a standard error of 0.0957, which is almost the true value.
 % This regression is correctly specified according to the DGP. Therefore:
 % \[
 % E[\hat{\beta}_1^{(3)}] = \beta_1 = 5
@@ -416,18 +423,21 @@ Under the standard OLS assumptions,
 the inclusion of an irrelevant regressor does not 
 cause bias in the estimated coefficient of $x_i^*$:
 \[
-\operatorname*{plim}\hat{\beta}_1 = \beta_1.
+\operatorname*{plim}\hat{\beta}_1^{(4)} = \beta_1.
 \]
 However, its inclusion may increase the finite-sample variance of $\hat{\beta}_1$. 
 In particular, the variance formula now becomes
 \[
-\mathbb{V}[\hat{\beta}_1] = \sigma_u^2\left[(X'X)^{-1}\right]_{11},
+\mathbb{V}[\hat{\beta}_1^{(4)}] = \sigma_{\epsilon}^2\left[(X'X)^{-1}\right]_{11},
 \]
 where the design matrix $X$ now includes the column corresponding to $n_i$. 
 If $n_i$ is only weakly correlated with $x_i^*$, 
 then the increase in variance is modest. 
 In summary, \textbf{Regression 4} yields a consistent estimator for $\beta_1$, with no additional bias but possibly a slight inflation in variance.
 
+The simulated result reports a mean of 4.4641, with a standard error of 1.3123, which satisfies our expectation.
+This is because the model introduces an uncorrelated variable $n_i$ that does not affect the estimation of $\beta_1$, 
+but reduced the degree of freedom in the model. So, it's variance is higher than regression (2).
 
 \begin{lstlisting}[language=R]
 
@@ -456,33 +466,34 @@ The inclusion of $b_i$ does not cause endogeneity provided that
 Thus, by the Frisch--Waugh--Lovell theorem, 
 the coefficient $\beta_1$ is still identified and
 \[
-\operatorname*{plim}\hat{\beta}_1 = \beta_1.
+\operatorname*{plim}\hat{\beta}_1^{(5)} = \beta_1.
 \]
 
 However, the strong correlation between $x_i^*$ and $b_i$ increases multicollinearity. 
 To see this more formally, consider the variance of $\hat{\beta}_1$ in a multiple regression:
 \[
-\mathbb{V}[\hat{\beta}_1] = \sigma_u^2 \left[(X'X)^{-1}\right]_{11}.
+\mathbb{V}[\hat{\beta}_1^{(5)}] = \sigma_{\epsilon}^2 \left[(X'X)^{-1}\right]_{11}.
 \]
 When $x_i^*$ is highly collinear with $b_i$, 
 the effective variation in $x_i^*$ 
 (after partialling out the effect of $b_i$ along with $r_i$ and $g_i$) 
 is reduced. 
-Denote by $R^2_{x,n^2}$ the coefficient of determination from 
+Denote by $R^2_{x,b}$ the coefficient of determination from 
 regressing $x_i^*$ on the other regressors (including $b_i$). 
 Then, the variance inflation factor (VIF) for $\hat{\beta}_1$ is given by
 \[
-\text{VIF} = \frac{1}{1-R^2_{x,n^2}}.
+\text{VIF} = \frac{1}{1-R^2_{x,b}}.
 \]
 Thus, the asymptotic variance becomes
 \[
-\mathbb{V}[\hat{\beta}_1] \approx \frac{\sigma_u^2}{n\,\mathbb{V}[x_i^*]}\cdot \frac{1}{1-R^2_{x,n^2}},
+\mathbb{V}[\hat{\beta}_1^{(5)}] \approx \frac{\sigma_{\epsilon}^2}{n\,\mathbb{V}[x_i^*]}\cdot \frac{1}{1-R^2_{x,b}},
 \]
-which is larger than that in Regression 3 
-(which does not include $b_i$). 
+which is larger than that in Regression 3. 
 In summary, while \textbf{Regression 5} still provides a consistent estimate of $\beta_1$, 
-the estimator`s variance is inflated due to the high collinearity between $x_i^*$ and $b_i$.
+the estimator's variance is inflated due to the high collinearity between $x_i^*$ and $b_i$.
 
+The simulated result reports a mean of 4.5369, with a standard error of 1.3026, which estimated $\beta$ better than regression (4), but still deviates from the true value.
+Also, it's variance is higher than regression (2)
 
 \begin{lstlisting}[language=R]
 reg1 <- lm(y ~ x_star, data = data)
@@ -516,11 +527,11 @@ extract_results <- function(reg_summary, reg_name) {
 extract_results(summary_reg1, "Regression 1 (y ~ x_star)")
 extract_results(summary_reg2, "Regression 2 (y ~ x_star + r)")
 extract_results(summary_reg3, "Regression 3 (y ~ x_star + r + g)")
-extract_results(summary_reg4, "Regression 4 (y ~ x_star + r + g + n)")
-extract_results(summary_reg5, "Regression 5 (y ~ x_star + r + g + n + b)")
+extract_results(summary_reg4, "Regression 4 (y ~ x_star + r + n)")
+extract_results(summary_reg5, "Regression 5 (y ~ x_star + r + b)")
 \end{lstlisting}
 
-\input{b.tex}
+\input{Q(b).tex}
 
 \end{autosolution}
 
@@ -585,8 +596,8 @@ for (m in 1:M) {
   reg1 <- lm(y ~ x_star, data = data)
   reg2 <- lm(y ~ x_star + r, data = data)
   reg3 <- lm(y ~ x_star + r + g, data = data)
-  reg4 <- lm(y ~ x_star + r + g + n, data = data)
-  reg5 <- lm(y ~ x_star + r + g + n + b, data = data)
+  reg4 <- lm(y ~ x_star + r + n, data = data)
+  reg5 <- lm(y ~ x_star + r + b, data = data)
     
     # Store β₁ estimates
   beta1_estimates[m, 1] <- coef(reg1)["x_star"]
@@ -648,8 +659,11 @@ In this case,
 \]
 Thus, in Regression 1 the omitted variable bias reduces to:
 \[
-\text{Bias}^{(1)}=\frac{0+\beta_3\,\operatorname{Cov}(x_i^*,g_i)}{5}.
+\text{Bias}^{(1)}=\frac{0+\beta_3\,\operatorname{Cov}(x_i^*,g_i)}{5} = 0.
 \]
+Regressions (2) and (3) remain unbiased. 
+Although Regression (1) is now unbiased, 
+omitting $r_i$ may still inflate the variance due to residual variation in $y_i$.
 % This modification makes $x^*_i$ independent of $r_i$, so $\text{Cov}(r_i, x^*_i) = 0$. The theoretical implication:
 % \[
 % E[\hat{\beta}_1^{(1)}] = \beta_1 + \beta_2 \cdot 0 + \beta_3 \frac{\text{Cov}(g_i, x^*_i)}{\text{Var}(x^*_i)} = \beta_1 + \beta_3 \frac{\text{Cov}(g_i, x^*_i)}{\text{Var}(x^*_i)}
@@ -660,9 +674,13 @@ Thus, in Regression 1 the omitted variable bias reduces to:
 
 Then the bias in Regression 1 simplifies to:
 \[
-\text{Bias}^{(1)}=\frac{\beta_3\,\operatorname{Cov}(x_i^*,g_i)}{\mathbb{V}[x_i^*]}.
+\text{Bias}^{(1)}=\frac{\beta_3\,\operatorname{Cov}(x_i^*,g_i)}{\mathbb{V}[x_i^*]} = 0.
 \]
-A similar simplification applies for Regression 2.
+Hence, the estimator is unbiased in Regression (1) even if $r_i$ is omitted. 
+
+Regressions (2) and (3) are likewise unbiased; 
+however, including $r_i$ now only increases the number of regressors without providing explanatory power, 
+potentially affecting efficiency.
 % This makes land quality irrelevant to crop yields. The theoretical implication for Regression 1:
 % \[
 % E[\hat{\beta}_1^{(1)}] = \beta_1 + 0 \cdot \frac{\text{Cov}(r_i, x^*_i)}{\text{Var}(x^*_i)} + \beta_3 \frac{\text{Cov}(g_i, x^*_i)}{\text{Var}(x^*_i)} = \beta_1 + \beta_3 \frac{\text{Cov}(g_i, x^*_i)}{\text{Var}(x^*_i)}
@@ -685,9 +703,11 @@ Thus,
 \]
 Accordingly, the bias in Regression 1 becomes:
 \[
-\text{Bias}^{(1)}=\frac{\beta_2(-0.36)+\beta_3\,\operatorname{Cov}(x_i^*,g_i)}{\mathbb{V}[x_i^*]},
+\text{Bias}^{(1)}=\frac{\beta_2(-0.36)+\beta_3\,\operatorname{Cov}(x_i^*,g_i)}{\mathbb{V}[x_i^*]} = -\frac{0.36 \beta_2}{\mathbb{V}[x_i^*]},
 \]
-with $\mathbb{V}[x_i^*]$ recalculated under the new mixture proportions.
+with $\mathbb{V}[x_i^*]$ recalculated under the new mixture proportions. 
+This is smaller in magnitude than in the balanced case (where $P(r_i=1)=0.5$). 
+Regressions (2) and (3) remain unbiased.
 % This changes the distribution of $r_i$ without changing its relationship with $x^*_i$. The covariance $\text{Cov}(r_i, x^*_i)$ will change because:
 % \begin{itemize}
 %     \item $\text{Var}(r_i) = p(1-p) = 0.1 \times 0.9 = 0.09$ (instead of 0.25 when $p = 0.5$)
@@ -697,19 +717,41 @@ with $\mathbb{V}[x_i^*]$ recalculated under the new mixture proportions.
 
 \textbf{When} $\beta_3 = 50$
 
-Then, for Regression 1, the bias is:
+In Regression (1), the omitted error is
 \[
-\text{Bias}^{(1)}=\frac{-\beta_2+50\cdot \frac{1}{2}\left(\rho_1\sqrt{1.5}+\rho_0\sqrt{3.5}\right)}{\mathbb{V}[x_i^*]}.
+\varepsilon_i = \beta_2 r_i + 50\,g_i + u_i.
 \]
-For the original DGP with $\mathbb{V}[x_i^*]=9$, 
-the bias becomes substantially larger due to the amplified effect of $\beta_3$.
+Since $\operatorname{Cov}(x^*_i,g_i)=0$, the bias in Regression (1) remains
+\[
+\text{Bias}^{(1)} = \beta_2 \frac{\operatorname{Cov}(x^*_i, r_i)}{\operatorname{Var}(x^*_i)}.
+\]
+However, the variance of the error term increases dramatically due to the larger coefficient on $g_i$, 
+thereby increasing the variance of $\hat{\beta}_1^{(1)}$. 
+
+In Regression (2), the error term becomes
+\[
+\varepsilon_i = 50\,g_i + u_i,
+\]
+and hence $\hat{\beta}_1^{(2)}$ remains unbiased but less efficient. 
+
+Regression (3) includes $g_i$, so
+\[
+\mathbb{E}[\hat{\beta}_1^{(3)}] = \beta_1,
+\]
+and this regression remains efficient despite the larger variability introduced by $50\,g_i$.
 % This increases the coefficient on precipitation. The theoretical implication for Regression 1:
 % \[
 % E[\hat{\beta}_1^{(1)}] = \beta_1 + \beta_2 \frac{\text{Cov}(r_i, x^*_i)}{\text{Var}(x^*_i)} + 50 \frac{\text{Cov}(g_i, x^*_i)}{\text{Var}(x^*_i)}
 % \]
 % If $\text{Cov}(g_i, x^*_i) \neq 0$, the larger coefficient on $g_i$ ($\beta_3 = 50$ instead of 10) will amplify the bias due to omitting precipitation.
 
-\input{d.tex}
+\input{Q(d).tex}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=\textwidth]{Q(d).pdf}
+\end{figure}
+
 
 \begin{lstlisting}[language=R]
 run_monte_carlo <- function(x_star_equal = FALSE, beta2_zero = FALSE, r_prob = 0.5, beta3_value = 10) {
@@ -802,35 +844,35 @@ output_file_d <- "d.tex"
 cat(latex_table_d, file = output_file_d)
 cat("\n%% Table saved to ", output_file_d, "\n", sep = "", file = output_file_d, append = TRUE)
 
+scenarios <- list(
+  "x_star equal" = results_xstar_equal,
+  "β₂ = 0"       = results_beta2_zero,
+  "r_prob = 0.1" = results_r_prob_0.1,
+  "β₃ = 50"      = results_beta3_50
+)
 
-plot_scenario_comparison <- function(original, modified, title) {
-  par(mfrow = c(2, 3))
-    
+pdf("Q(d).pdf", width = 12, height = 12)
+par(mfrow = c(4, 3), mar = c(4, 4, 2, 1))
+for (scenario in names(scenarios)) {
+  current <- scenarios[[scenario]]
   for (i in 1:3) {
-    hist(original[, i], 
-         main = past\mathbb{E}["Reg", i, "- Original"], 
-         xlab = "β₁ estimate",
-         breaks = 15,
+    hist(current[, i],
+         main = paste(scenario, "- Regression", i),
+         xlab = expression(hat(beta)[1]),
+         breaks = 20,
          col = "lightblue",
-         border = "white",
-         xlim = rang\mathbb{E}[c(original[, i], modified[, i]]))
-    ablin\mathbb{E}[v = 5, col = "red", lwd = 2]
-    ablin\mathbb{E}[v = mean(original[, i]], col = "blue", lty = 2, lwd = 2)
-      
-    hist(modified[, i], 
-         main = past\mathbb{E}["Reg", i, "- Modified"], 
-         xlab = "β₁ estimate",
-         breaks = 15,
-         col = "lightgreen",
-         border = "white",
-         xlim = rang\mathbb{E}[c(original[, i], modified[, i]]))
-    ablin\mathbb{E}[v = 5, col = "red", lwd = 2]
-    ablin\mathbb{E}[v = mean(modified[, i]], col = "blue", lty = 2, lwd = 2)
+         border = "white")
+    abline(v = 5, col = "red", lwd = 2)
+    abline(v = mean(current[, i]), col = "blue", lty = 2, lwd = 2) 
+    legend("topright",
+           legend = c("True value", "Mean estimate"),
+           col = c("red", "blue"),
+           lty = c(1, 2),
+           lwd = 2,
+           cex = 0.8)
   }
-  mtext(title, side = 3, line = -1.5, outer = TRUE)
 }
-  
-par(mfrow = c(1, 1))
+dev.off()
 \end{lstlisting}
 
 
