@@ -290,7 +290,7 @@ Thus, the probability limit of $\hat{\beta}_1$ is:
 \operatorname*{plim}\hat{\beta}_1=\beta_1+\frac{\beta_2(-1)+\beta_3 (0)}{9} = \beta_1 - \frac{\beta_2}{9} \approx -17.22.
 \]
 
-Our simulated result replrts a mean of -17.69, with a standard error of 2.6087, which is close to our theoretical expectation, 
+Our simulated result reports a mean of -16.981, with a standard error of 2.5386, which is close to our theoretical expectation, 
 but far from the true value of 5.
 % This is a misspecified model due to omitted variables. The OLS estimator for $\beta_1$ in this regression is:
 % \[
@@ -370,7 +370,7 @@ Its variance is given by
 \sigma_{\epsilon}^{2} = \mathbb{V}[\beta_3 g_i + u_i] = \beta_3^2 \mathbb{V}[g_i] + 5.
 \]
 
-Our simulated result reports a mean of 4.9383, with a standard error of 1.2396, which is closer to the true value and less volatile than regression (1).
+Our simulated result reports a mean of 4.3648, with a standard error of 1.2873, which is closer to the true value and less volatile than regression (1).
 % That is, the bias in Regression 2 is:
 % \[
 % \text{Bias}^{(2)}=\frac{\beta_3\,\left(\rho_1\sqrt{1.5}+\rho_0\sqrt{3.5}\right)}{10}.
@@ -405,7 +405,7 @@ Its finite-sample variance is given by the standard OLS formula:
 \]
 where the design matrix $X$ includes the moments and cross-moments of $x_i^*$, $r_i$, and $g_i$.
 
-The simulated result reports a mean of 4.9941, with a standard error of 0.1844, which is almost the true value.
+The simulated result reports a mean of 5.0395, with a standard error of 0.0957, which is almost the true value.
 % This regression is correctly specified according to the DGP. Therefore:
 % \[
 % E[\hat{\beta}_1^{(3)}] = \beta_1 = 5
@@ -435,7 +435,7 @@ If $n_i$ is only weakly correlated with $x_i^*$,
 then the increase in variance is modest. 
 In summary, \textbf{Regression 4} yields a consistent estimator for $\beta_1$, with no additional bias but possibly a slight inflation in variance.
 
-The simulated result reports a mean of 4.9529, with a standard error of 1.2403, which satisfies our expectation.
+The simulated result reports a mean of 4.4641, with a standard error of 1.3123, which satisfies our expectation.
 This is because the model introduces an uncorrelated variable $n_i$ that does not affect the estimation of $\beta_1$, 
 but reduced the degree of freedom in the model. So, it's variance is higher than regression (2).
 
@@ -488,7 +488,7 @@ which is larger than that in Regression 3.
 In summary, while \textbf{Regression 5} still provides a consistent estimate of $\beta_1$, 
 the estimator's variance is inflated due to the high collinearity between $x_i^*$ and $b_i$.
 
-The simulated result reports a mean of 4.9499, with a standard error of 1.2584, which estimated $\beta$ worse than regression (4), as well as a higher standard error than reegression (2) and (4).
+The simulated result reports a mean of 4.5369, with a standard error of 1.3026, which estimated $\beta$ worse than regression (4), with a higher standard error than reegression (2).
 Also, it's variance is higher than regression (2)
 
 \begin{lstlisting}[language=R]
@@ -660,6 +660,9 @@ Thus, in Regression 1 the omitted variable bias reduces to:
 Regressions (2) and (3) remain unbiased. 
 Although Regression (1) is now unbiased, 
 omitting $r_i$ may still inflate the variance due to residual variation in $y_i$.
+
+The relationship of variance remains the same: $\mathbb{V}[\hat{\beta}_1^{(3)}] < \mathbb{V}[\hat{\beta}_1^{(2)}] < \mathbb{V}[\hat{\beta}_1^{(1)}]$.
+
 % This modification makes $x^*_i$ independent of $r_i$, so $\text{Cov}(r_i, x^*_i) = 0$. The theoretical implication:
 % \[
 % E[\hat{\beta}_1^{(1)}] = \beta_1 + \beta_2 \cdot 0 + \beta_3 \frac{\text{Cov}(g_i, x^*_i)}{\text{Var}(x^*_i)} = \beta_1 + \beta_3 \frac{\text{Cov}(g_i, x^*_i)}{\text{Var}(x^*_i)}
@@ -677,6 +680,9 @@ Hence, the estimator is unbiased in Regression (1) even if $r_i$ is omitted.
 Regressions (2) and (3) are likewise unbiased; 
 however, including $r_i$ now only increases the number of regressors without providing explanatory power, 
 potentially affecting efficiency.
+
+The relationship of variance change: $\mathbb{V}[\hat{\beta}_1^{(3)}] < \mathbb{V}[\hat{\beta}_1^{(1)}] < \mathbb{V}[\hat{\beta}_1^{(2)}]$.
+
 % This makes land quality irrelevant to crop yields. The theoretical implication for Regression 1:
 % \[
 % E[\hat{\beta}_1^{(1)}] = \beta_1 + 0 \cdot \frac{\text{Cov}(r_i, x^*_i)}{\text{Var}(x^*_i)} + \beta_3 \frac{\text{Cov}(g_i, x^*_i)}{\text{Var}(x^*_i)} = \beta_1 + \beta_3 \frac{\text{Cov}(g_i, x^*_i)}{\text{Var}(x^*_i)}
@@ -704,6 +710,9 @@ Accordingly, the bias in Regression 1 becomes:
 with $\mathbb{V}[x_i^*]$ recalculated under the new mixture proportions. 
 This is smaller in magnitude than in the balanced case (where $P(r_i=1)=0.5$). 
 Regressions (2) and (3) remain unbiased.
+
+The relationship of variance ramains the same: $\mathbb{V}[\hat{\beta}_1^{(3)}] < \mathbb{V}[\hat{\beta}_1^{(2)}] < \mathbb{V}[\hat{\beta}_1^{(1)}]$.
+
 % This changes the distribution of $r_i$ without changing its relationship with $x^*_i$. The covariance $\text{Cov}(r_i, x^*_i)$ will change because:
 % \begin{itemize}
 %     \item $\text{Var}(r_i) = p(1-p) = 0.1 \times 0.9 = 0.09$ (instead of 0.25 when $p = 0.5$)
@@ -735,6 +744,9 @@ Regression (3) includes $g_i$, so
 \mathbb{E}[\hat{\beta}_1^{(3)}] = \beta_1,
 \]
 and this regression remains efficient despite the larger variability introduced by $50\,g_i$.
+
+The relationship of variance ramains the same: $\mathbb{V}[\hat{\beta}_1^{(3)}] < \mathbb{V}[\hat{\beta}_1^{(2)}] < \mathbb{V}[\hat{\beta}_1^{(1)}]$.
+
 % This increases the coefficient on precipitation. The theoretical implication for Regression 1:
 % \[
 % E[\hat{\beta}_1^{(1)}] = \beta_1 + \beta_2 \frac{\text{Cov}(r_i, x^*_i)}{\text{Var}(x^*_i)} + 50 \frac{\text{Cov}(g_i, x^*_i)}{\text{Var}(x^*_i)}
