@@ -135,36 +135,105 @@ The Graduate Institute, Spring 2025, Cedric Tille\\
 
 \section{Consumption Allocation}
 
-\subsection*{Home Country}
-The consumption basket is given by
+\subsection*{Problem Setup}
+The Home agent's consumption basket is given by
 \[
-C_t = C_{T,t}^{\gamma}\,C_{N,t}^{\,1-\gamma}.
+C_t = C_{T,t}^{\gamma}\,C_{N,t}^{\,1-\gamma},
 \]
-The traded good is the num\'eraire (price normalized to 1) and the non-traded good is priced at \( P_{N,t} \).
-
-Cost minimization yields the demands:
+where:
+\begin{itemize}
+    \item $C_{T,t}$ is the quantity of the traded good (its price is normalized to 1),
+    \item $C_{N,t}$ is the quantity of the domestic non-traded good (price $P_{N,t}$),
+    \item $\gamma$ is the expenditure share on the traded good.
+\end{itemize}
+We want to show that the cost--minimizing demands satisfy:
 \[
-C_{T,t} = \gamma\,P_t\,C_t, \qquad C_{N,t} = (1-\gamma)\,\frac{P_t}{P_{N,t}}\,C_t,
+C_{T,t} = \gamma\,P_t\,C_t, \quad
+C_{N,t} = (1-\gamma)\,\frac{P_t}{P_{N,t}}\,C_t,
 \]
-where the consumption price index is
+with the composite price index given by
 \[
 P_t = (P_{N,t})^{\,1-\gamma}.
 \]
-\textbf{Intuition:} An increase in \( P_{N,t} \) raises \( P_t \) and induces households to adjust the consumption shares accordingly.
 
-\subsection*{Foreign Country}
-Analogously, the Foreign consumption basket is
+\subsection*{Step 1: Set Up the Expenditure Minimization Problem}
+The consumer minimizes total expenditure subject to attaining a given consumption level $C_t$. The problem is
 \[
-C^*_t = (C^*_{T,t})^{\gamma}\,(C^*_{N,t})^{\,1-\gamma},
+\min_{C_{T,t},\,C_{N,t}} \; E = C_{T,t} + P_{N,t}\,C_{N,t} \quad \text{subject to} \quad C_{T,t}^{\gamma}\,C_{N,t}^{1-\gamma} = C_t.
 \]
-with
+
+\subsection*{Step 2: Form the Lagrangian}
+Define the Lagrangian function:
 \[
-C^*_{T,t} = \gamma\,P^*_t\,C^*_t, \quad C^*_{N,t} = (1-\gamma)\,\frac{P^*_t}{P^*_{N,t}}\,C^*_t,
+\mathcal{L} = C_{T,t} + P_{N,t}\,C_{N,t} + \lambda \Bigl(C_t - C_{T,t}^{\gamma}\,C_{N,t}^{1-\gamma}\Bigr),
 \]
-and
+where $\lambda$ is the Lagrange multiplier.
+
+\subsection*{Step 3: First-Order Conditions (FOCs)}
+Differentiate $\mathcal{L}$ with respect to $C_{T,t}$ and $C_{N,t}$.
+
+\paragraph{With respect to \(C_{T,t}\):}
 \[
-P^*_t = (P^*_{N,t})^{\,1-\gamma}.
+\frac{\partial \mathcal{L}}{\partial C_{T,t}} = 1 - \lambda\,\gamma\, C_{T,t}^{\gamma-1}\,C_{N,t}^{1-\gamma} = 0.
 \]
+Thus, we have
+\[
+\lambda = \frac{1}{\gamma\, C_{T,t}^{\gamma-1}\,C_{N,t}^{1-\gamma}}.
+\]
+
+\paragraph{With respect to \(C_{N,t}\):}
+\[
+\frac{\partial \mathcal{L}}{\partial C_{N,t}} = P_{N,t} - \lambda\,(1-\gamma)\, C_{T,t}^{\gamma}\, C_{N,t}^{-\gamma} = 0.
+\]
+This implies
+\[
+\lambda = \frac{P_{N,t}}{(1-\gamma)\, C_{T,t}^{\gamma}\, C_{N,t}^{-\gamma}}.
+\]
+
+\subsection*{Step 4: Equate the Two Expressions for \(\lambda\)}
+Setting the two expressions equal:
+\[
+\frac{1}{\gamma\, C_{T,t}^{\gamma-1}\,C_{N,t}^{1-\gamma}} = \frac{P_{N,t}}{(1-\gamma)\, C_{T,t}^{\gamma}\, C_{N,t}^{-\gamma}}.
+\]
+Multiply both sides by $\gamma\, C_{T,t}^{\gamma-1}\,C_{N,t}^{1-\gamma}$ and $(1-\gamma)\, C_{T,t}^{\gamma}\, C_{N,t}^{-\gamma}$ to simplify:
+\[
+(1-\gamma)\, C_{T,t} = \gamma\, P_{N,t}\, C_{N,t}.
+\]
+Rearranging, the ratio of optimal consumptions is:
+\[
+\frac{C_{T,t}}{C_{N,t}} = \frac{\gamma}{1-\gamma}\,P_{N,t}.
+\]
+
+\subsection*{Step 5: Derive the Price Index and Conditional Demands}
+The dual (expenditure) minimization problem yields the unit cost function (composite price index) for the consumption bundle:
+\[
+P_t\,C_t = \min \left\{ C_{T,t} + P_{N,t}\,C_{N,t} : \; C_{T,t}^{\gamma}\,C_{N,t}^{1-\gamma} = C_t \right\}.
+\]
+For a Cobb-Douglas aggregator, the unit cost function is given by
+\[
+P_t = 1^{\gamma}\,(P_{N,t})^{1-\gamma} = (P_{N,t})^{1-\gamma}.
+\]
+Thus, the optimal (conditional) demands are:
+\[
+C_{T,t} = \gamma\,\frac{P_t\,C_t}{1} = \gamma\,P_t\,C_t,
+\]
+\[
+C_{N,t} = (1-\gamma)\,\frac{P_t\,C_t}{P_{N,t}}.
+\]
+
+\subsection*{Step 6: Final Result}
+We have derived that:
+\[
+\boxed{C_{T,t} = \gamma\,P_t\,C_t,\quad C_{N,t} = (1-\gamma)\,\frac{P_t}{P_{N,t}}\,C_t,\quad \text{with} \quad P_t = (P_{N,t})^{1-\gamma}.}
+\]
+
+\subsection*{Economic Intuition}
+\begin{itemize}
+    \item The parameter $\gamma$ reflects the expenditure share on the traded good.
+    \item Since the traded good is the num\'eraire (price normalized to 1), its cost enters directly, while the cost of the non-traded good is weighted by its price $P_{N,t}$.
+    \item The composite price index $P_t$ is a weighted geometric mean of the individual prices. With the traded good’s price equal to 1, we have $P_t = (P_{N,t})^{1-\gamma}$.
+    \item The optimal consumption choices allocate expenditure in a way that equates the marginal rate of substitution to the ratio of prices.
+\end{itemize}
 
 \section{Market Clearing}
 
