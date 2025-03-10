@@ -1,0 +1,442 @@
+\documentclass[a4paper,12pt]{article} % This defines the style of your paper
+
+\usepackage[top = 2.5cm, bottom = 2.5cm, left = 2.5cm, right = 2.5cm]{geometry} 
+
+% Unfortunately, LaTeX has a hard time interpreting German Umlaute. The following two lines and packages should help. If it doesn't work for you please let me know.
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{pifont}
+% \usepackage{ctex}
+\usepackage{amsthm, amsmath, amssymb, mathrsfs,mathtools}
+
+% Defining a new theorem style without italics
+\newtheoremstyle{nonitalic}% name
+  {\topsep}% Space above
+  {\topsep}% Space below
+  {\upshape}% Body font
+  {}% Indent amount
+  {\bfseries}% Theorem head font
+  {.}% Punctuation after theorem head
+  {.5em}% Space after theorem head
+  {}% Theorem head spec (can be left empty, meaning ‘normal`)
+  
+\theoremstyle{nonitalic}
+% Define new 'solution' environment
+\newtheorem{innercustomsol}{Solution}
+\newenvironment{solution}[1]
+  {\renewcommand\theinnercustomsol{#1}\innercustomsol}
+  {\endinnercustomsol}
+
+% Custom counter for the solutions
+\newcounter{solutionctr}
+\renewcommand{\thesolutionctr}{(\alph{solutionctr})}
+
+% Environment for auto-numbering with custom format
+\newenvironment{autosolution}
+  {\stepcounter{solutionctr}\begin{solution}{\thesolutionctr}}
+  {\end{solution}}
+
+
+\newtheorem{problem}{Problem}
+\usepackage{color}
+
+% The following two packages - multirow and booktabs - are needed to create nice looking tables.
+\usepackage{multirow} % Multirow is for tables with multiple rows within one cell.
+\usepackage{booktabs} % For even nicer tables.
+
+% As we usually want to include some plots (.pdf files) we need a package for that.
+\usepackage{graphicx} 
+\usepackage{subfigure}
+
+
+% The default setting of LaTeX is to indent new paragraphs. This is useful for articles. But not really nice for homework problem sets. The following command sets the indent to 0.
+\usepackage{setspace}
+\setlength{\parindent}{0in}
+\usepackage{longtable}
+
+% Package to place figures where you want them.
+\usepackage{float}
+
+% The fancyhdr package let's us create nice headers.
+\usepackage{fancyhdr}
+
+\usepackage{fancyvrb}
+
+%Code environment 
+\usepackage{listings} % Required for insertion of code
+\usepackage{xcolor} % Required for custom colors
+
+% Define colors for code listing
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+
+% Code listing style named "mystyle"
+\lstdefinestyle{mystyle}{
+    backgroundcolor=\color{backcolour},   
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{magenta},
+    numberstyle=\tiny\color{codegray},
+    stringstyle=\color{codepurple},
+    basicstyle=\ttfamily\footnotesize, % Change to serif font
+    breakatwhitespace=false,         
+    breaklines=true,                 
+    captionpos=b,                    
+    keepspaces=true,                 
+    numbers=left,                    
+    numbersep=5pt,                  
+    showspaces=false,                
+    showstringspaces=false,
+    showtabs=false,                  
+    tabsize=2
+}
+
+\lstset{style=mystyle}
+
+\pagestyle{fancy} % With this command we can customize the header style.
+
+\fancyhf{} % This makes sure we do not have other information in our header or footer.
+
+\lhead{\footnotesize EI060 Macroeconomics B}% \lhead puts text in the top left corner. \footnotesize sets our font to a smaller size.
+
+%\rhead works just like \lhead (you can also use \chead)
+\rhead{\footnotesize Jingle Fu} %<---- Fill in your lastnames.
+
+% Similar commands work for the footer (\lfoot, \cfoot and \rfoot).
+% We want to put our page number in the center.
+\cfoot{\footnotesize \thepage}
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\begin{document}
+
+
+\thispagestyle{empty} % This command disables the header on the first page. 
+
+\begin{tabular}{p{15.5cm}} % This is a simple tabular environment to align your text nicely 
+{\large \bf EI060 Macroeconomics B} \\
+The Graduate Institute, Spring 2025, Cedric Tille\\
+\hline % \hline produces horizontal lines.
+\\
+\end{tabular} % Our tabular environment ends here.
+
+\vspace*{0.3cm} % Now we want to add some vertical space in between the line and our title.
+
+\begin{center} % Everything within the center environment is centered.
+	{\Large \bf PS1 Solutions} % <---- Don't forget to put in the right number
+	\vspace{2mm}
+	
+        % YOUR NAMES GO HERE
+	{\bf Jingle Fu} % <---- Fill in your names here!
+		
+\end{center}  
+
+\vspace{0.4cm}
+\setstretch{1.2}
+
+\section{Consumption Allocation}
+
+\subsection*{Home Country}
+The consumption basket is given by
+\[
+C_t = C_{T,t}^{\gamma}\,C_{N,t}^{\,1-\gamma}.
+\]
+The traded good is the num\'eraire (price normalized to 1) and the non-traded good is priced at \( P_{N,t} \).
+
+Cost minimization yields the demands:
+\[
+C_{T,t} = \gamma\,P_t\,C_t, \qquad C_{N,t} = (1-\gamma)\,\frac{P_t}{P_{N,t}}\,C_t,
+\]
+where the consumption price index is
+\[
+P_t = (P_{N,t})^{\,1-\gamma}.
+\]
+\textbf{Intuition:} An increase in \( P_{N,t} \) raises \( P_t \) and induces households to adjust the consumption shares accordingly.
+
+\subsection*{Foreign Country}
+Analogously, the Foreign consumption basket is
+\[
+C^*_t = (C^*_{T,t})^{\gamma}\,(C^*_{N,t})^{\,1-\gamma},
+\]
+with
+\[
+C^*_{T,t} = \gamma\,P^*_t\,C^*_t, \quad C^*_{N,t} = (1-\gamma)\,\frac{P^*_t}{P^*_{N,t}}\,C^*_t,
+\]
+and
+\[
+P^*_t = (P^*_{N,t})^{\,1-\gamma}.
+\]
+
+\section{Market Clearing}
+
+\subsection*{Non-Traded Goods Market}
+For Home, market clearing in non-traded goods is:
+\[
+n\,C_{N,t} = A_{N,t}\,(L_{N,t})^{\,1-\alpha}.
+\]
+Substituting \( C_{N,t} = (1-\gamma)\,(P_t/P_{N,t})\,C_t \) with \( P_t = (P_{N,t})^{1-\gamma} \), we obtain:
+\[
+\boxed{n(1-\gamma)\,(P_{N,t})^{-\gamma}\,C_t = A_{N,t}\,(L_{N,t})^{\,1-\alpha}.}
+\]
+For Foreign:
+\[
+\boxed{(1-n)(1-\gamma)\,(P^*_{N,t})^{-\gamma}\,C^*_t = A^*_{N,t}\,(L^*_{N,t})^{\,1-\alpha}.}
+\]
+
+\subsection*{Traded Goods Market}
+Global market clearing for traded goods is:
+\[
+n\,C_{T,t} + (1-n)\,C^*_{T,t} = A_{T,t}\,(n-L_{N,t})^{\,1-\alpha} + A^*_{T,t}\,\big((1-n)-L^*_{N,t}\big)^{\,1-\alpha}.
+\]
+Substituting \( C_{T,t}=\gamma\,P_t\,C_t \) with \( P_t=(P_{N,t})^{1-\gamma} \) (and similarly for Foreign), we have:
+\[
+\boxed{n\gamma\,(P_{N,t})^{1-\gamma}\,C_t + (1-n)\gamma\,(P^*_{N,t})^{1-\gamma}\,C^*_t = A_{T,t}\,(n-L_{N,t})^{\,1-\alpha} + A^*_{T,t}\,\big((1-n)-L^*_{N,t}\big)^{\,1-\alpha}.}
+\]
+\textbf{Intuition:} Non-traded goods are produced and consumed domestically, while traded goods are balanced across countries.
+
+\section{Intertemporal Allocation}
+
+\subsection*{Home Optimization}
+The Home agent maximizes:
+\[
+U_t = \sum_{s=0}^{\infty} (\beta_{H,t+s})^s \ln C_{t+s},
+\]
+subject to the period-\( t \) budget constraint:
+\[
+n\,P_t\,C_t + n\,B_{t+1} = A_{T,t}\,(n-L_{N,t})^{\,1-\alpha} + P_{N,t}\,A_{N,t}\,(L_{N,t})^{\,1-\alpha} + n(1+r_t)B_t.
+\]
+The first-order condition gives the Euler equation:
+\[
+\frac{1}{C_t} = \beta_{H,t+1}\,(1+r_{C,t+1})\,\frac{1}{C_{t+1}},
+\]
+with the consumption-based real return:
+\[
+1+r_{C,t+1} = (1+r_{t+1})\,\left(\frac{P_t}{P_{t+1}}\right) = (1+r_{t+1})\,\left(\frac{P_{N,t}}{P_{N,t+1}}\right)^{1-\gamma}.
+\]
+Thus,
+\[
+\boxed{C_{t+1} = \beta_{H,t+1}\,(1+r_{C,t+1})\,C_t.}
+\]
+Also, since \( C_{T,t}=\gamma\,P_t\,C_t \):
+\[
+\boxed{C_{T,t+1} = \beta_{H,t+1}\,(1+r_{t+1})\,C_{T,t}.}
+\]
+
+\subsection*{Foreign Optimization}
+Similarly, for the Foreign country:
+\[
+\boxed{C^*_{t+1} = \beta_{F,t+1}\,(1+r^*_{C,t+1})\,C^*_t, \qquad C^*_{T,t+1} = \beta_{F,t+1}\,(1+r_{t+1})\,C^*_{T,t},}
+\]
+with
+\[
+1+r^*_{C,t+1} = (1+r_{t+1})\,\left(\frac{P^*_{N,t}}{P^*_{N,t+1}}\right)^{1-\gamma}.
+\]
+\textbf{Intuition:} Households equate the marginal utility cost of consuming today versus tomorrow, with intertemporal decisions affected by relative price changes.
+
+\section{Labor Allocation}
+
+\subsection*{Home Country}
+Firms allocate labor such that:
+\[
+(1-\alpha)A_{T,t}\,(n-L_{N,t})^{-\alpha} = P_{N,t}\,(1-\alpha)A_{N,t}\,(L_{N,t})^{-\alpha}.
+\]
+Canceling \( (1-\alpha) \) and rearranging yields:
+\[
+\boxed{A_{T,t}\,(n-L_{N,t})^{-\alpha} = P_{N,t}\,A_{N,t}\,(L_{N,t})^{-\alpha}.}
+\]
+
+\subsection*{Foreign Country}
+Similarly, for Foreign:
+\[
+\boxed{A^*_{T,t}\,\big((1-n)-L^*_{N,t}\big)^{-\alpha} = P^*_{N,t}\,A^*_{N,t}\,(L^*_{N,t})^{-\alpha}.}
+\]
+\textbf{Intuition:} Labor is allocated until the marginal value products in the traded and non-traded sectors are equalized (after accounting for relative prices).
+
+\section{Resource Constraints and the Real Exchange Rate}
+
+\subsection*{Resource Constraints}
+The Home resource constraint is given by:
+\[
+n\gamma\,(P_{N,t})^{1-\gamma}\,C_t + n\,B_{t+1} = A_{T,t}\,(n-L_{N,t})^{\,1-\alpha} + n(1+r_t)B_t.
+\]
+Similarly, for Foreign:
+\[
+(1-n)\gamma\,(P^*_{N,t})^{1-\gamma}\,C^*_t - n\,B_{t+1} = A^*_{T,t}\,\big((1-n)-L^*_{N,t}\big)^{\,1-\alpha} - n(1+r_t)B_t.
+\]
+
+\subsection*{Real Exchange Rate}
+Define the real exchange rate as:
+\[
+Q_t \equiv \frac{P^*_t}{P_t} = \left(\frac{P^*_{N,t}}{P_{N,t}}\right)^{1-\gamma}.
+\]
+A higher \( Q_t \) implies that Foreign’s consumption basket is relatively more expensive, equivalent to a real depreciation for Home.
+
+\section{Steady State}
+
+Assume a symmetric steady state with no cross-country assets (\( B_0=0 \)) and constant discount factor \( \beta_0 \). Calibration is chosen as:
+\[
+A_{N,0} = A_{T,0}\left(\frac{1-\gamma}{\gamma}\right)^{\alpha}, \quad
+A^*_{T,0} = A_{T,0}\left(\frac{1-n}{n}\right)^{\alpha}, \quad
+A^*_{N,0} = A_{T,0}\left(\frac{1-n}{n}\right)^{\alpha}\left(\frac{1-\gamma}{\gamma}\right)^{\alpha}.
+\]
+Then:
+\begin{itemize}
+    \item \textbf{Interest Rate:} \( 1 = \beta_0(1+r_0) \), so
+    \[
+    r_0 = \frac{1-\beta_0}{\beta_0}.
+    \]
+    \item \textbf{Non-Traded Prices:} \( P_{N,0} = P^*_{N,0} = 1 \).
+    \item \textbf{Labor Allocation:} From the intratemporal condition, 
+    \[
+    \frac{L_{N,0}}{n-L_{N,0}} = \frac{1-\gamma}{\gamma} \quad \Rightarrow \quad L_{N,0} = n(1-\gamma),
+    \]
+    and similarly, 
+    \[
+    L^*_{N,0} = (1-n)(1-\gamma).
+    \]
+    \item \textbf{Consumption:} One can show that
+    \[
+    C_0 = \left(A_{T,0}^{\gamma}A_{N,0}^{1-\gamma}\right)\left[n^{\gamma}(1-\gamma)^{1-\gamma}\right]^{-\alpha},
+    \]
+    with a similar expression for \( C^*_0 \) so that \( C_0 = C^*_0 \).
+\end{itemize}
+
+\textbf{Intuition:} In the steady state, relative prices and allocations are balanced; country size differences aside, both countries have identical marginal conditions.
+
+\section{Log-Linear Approximation}
+
+Let the ``hat'' denote log-deviations from the steady state, e.g. \( \hat{C}_t = \frac{C_t-C_0}{C_0} \).
+
+\subsection*{Key Linearized Equations}
+
+\textbf{Non-Traded Goods Market (Home):}
+\[
+-\gamma\,\hat{P}_{N,t} + \hat{C}_t = \hat{A}_{N,t} + (1-\alpha)\,\hat{L}_{N,t}. \tag{7a}
+\]
+For Foreign:
+\[
+-\gamma\,\hat{P}^*_{N,t} + \hat{C}^*_t = \hat{A}^*_{N,t} + (1-\alpha)\,\hat{L}^*_{N,t}.
+\]
+
+\textbf{Resource Constraint (Home):}
+\[
+(1-\gamma)\,\hat{P}_{N,t} + \hat{C}_t + \hat{B}_{t+1} = \hat{A}_{T,t} - \frac{(1-\alpha)(1-\gamma)}{\gamma}\,\hat{L}_{N,t} + \frac{1}{\beta_0}\,\hat{B}_t. \tag{7b}
+\]
+
+\textbf{Euler Equation (Home):}
+\[
+\hat{C}_{t+1}-\hat{C}_t = (1-\gamma)\,(\hat{P}_{N,t}-\hat{P}_{N,t+1}) + \hat{\beta}_{H,t+1} + \beta_0\,\hat{r}_{C,t+1}. \tag{7c}
+\]
+
+\textbf{Labor Allocation (Home):}
+\[
+\hat{A}_{T,t} + \frac{\alpha}{\gamma}\,\hat{L}_{N,t} = \hat{P}_{N,t} + \hat{A}_{N,t}. \tag{7d}
+\]
+
+\textbf{Real Exchange Rate:}
+\[
+\hat{Q}_t = (1-\gamma)(\hat{P}^*_{N,t}-\hat{P}_{N,t}).
+\]
+
+\textbf{Intuition:} These equations capture the first-order responses of consumption, labor, and relative prices to shocks.
+
+\section{Worldwide Equilibrium}
+
+Define world aggregates as population-weighted averages (e.g., \( \hat{C}^W_t = n\,\hat{C}_t + (1-n)\,\hat{C}^*_t \)). Then, from the above log-linearized equations one can show:
+\begin{itemize}
+    \item \(\hat{L}^W_{N,t} = 0\), i.e., aggregate non-traded labor remains fixed.
+    \item The world non-traded price satisfies
+    \[
+    \hat{P}^W_{N,t} = \hat{A}^W_{T,t} - \hat{A}^W_{N,t}.
+    \]
+    \item World consumption is given by
+    \[
+    \hat{C}^W_t = \gamma\,\hat{A}^W_{T,t} + (1-\gamma)\,\hat{A}^W_{N,t}.
+    \]
+    \item The world Euler equation becomes
+    \[
+    \beta_0\,\hat{r}_{t+1} = -\hat{\beta}^W_{t+1} + \left(\hat{A}^W_{T,t+1}-\hat{A}^W_{T,t}\right).
+    \]
+\end{itemize}
+
+\textbf{Intuition:} World aggregates respond only to symmetric shocks, with the real interest rate driven by global productivity changes and aggregate patience.
+
+\section{Cross-Country Differences}
+
+Define differences as (Home minus Foreign) for a variable \( x \) by \( \tilde{x}_t = \hat{x}_t - \hat{x}^*_t \). Then:
+
+\textbf{Non-Traded Goods Market (Difference):}
+\[
+\frac{\gamma}{1-\gamma}\,\hat{Q}_t + \tilde{C}_t = \tilde{A}_{N,t} + (1-\alpha)\,\tilde{L}_{N,t}. \tag{9a}
+\]
+
+\textbf{Resource Constraints (Difference):}
+\[
+-\,\hat{Q}_t + \tilde{C}_t + \frac{\hat{B}_{t+1}}{1-n} = \tilde{A}_{T,t} - \frac{(1-\alpha)(1-\gamma)}{\gamma}\,\tilde{L}_{N,t}. \tag{9b}
+\]
+
+\textbf{Euler Equation (Difference):}
+\[
+\tilde{C}_{t+1}-\tilde{C}_t = (1-\gamma)\Big[(\hat{P}_{N,t}-\hat{P}^*_{N,t}) - (\hat{P}_{N,t+1}-\hat{P}^*_{N,t+1})\Big] + (\hat{\beta}_{H,t+1}-\hat{\beta}_{F,t+1}) + \beta_0\Big(\hat{r}_{C,t+1}-\hat{r}^*_{C,t+1}\Big). \tag{9c}
+\]
+
+\textbf{Labor Allocation (Difference):}
+\[
+\frac{\alpha}{\gamma}\,\tilde{L}_{N,t} = -\frac{1}{1-\gamma}\,\hat{Q}_t - \tilde{A}_{N,t}. \tag{9d}
+\]
+
+\textbf{Intuition:} These equations link cross-country differences in consumption, labor, and the real exchange rate to differences in productivity and intertemporal preferences.
+
+\section{Long-Run Allocation (Period \(t+1\))}
+
+Assume that from \( t+1 \) onward the economy reaches a new steady state with no further discount factor shocks (\( \hat{\beta}_{H,t+2} = \hat{\beta}_{F,t+2} = 0 \)). Taking the cross-country asset position \( \hat{B}_{t+1} \) as given, one can show:
+\[
+\hat{Q}_{t+1} = - (1-\gamma)\left[(\hat{A}_{T,t+1}-\hat{A}^*_{T,t+1}) - (\hat{A}_{N,t+1}-\hat{A}^*_{N,t+1})\right] - \frac{\alpha(1-\gamma)}{1-\beta_0}\frac{1}{\beta_0}\frac{\hat{B}_{t+1}}{1-n},
+\]
+\[
+\tilde{L}_{N,t+1} = \frac{\gamma}{1-\beta_0}\frac{1}{\beta_0}\frac{\hat{B}_{t+1}}{1-n},
+\]
+\[
+\tilde{C}_{t+1} = \gamma\big(\hat{A}_{T,t+1}-\hat{A}^*_{T,t+1}\big) + (1-\gamma)\big(\hat{A}_{N,t+1}-\hat{A}^*_{N,t+1}\big) + \frac{\gamma}{1-\beta_0}\frac{1}{\beta_0}\frac{\hat{B}_{t+1}}{1-n}.
+\]
+\textbf{Interpretation:}
+\begin{itemize}
+    \item A positive \( \hat{B}_{t+1} \) (Home wealthier) implies higher relative consumption and a lower \( Q_{t+1} \) (Home’s goods become relatively more expensive).
+    \item Permanent productivity differences affect steady state consumption and prices directly.
+\end{itemize}
+
+\section{Short-Run Allocation (Period \(t\))}
+
+Assume initially \( \hat{B}_t=0 \). Solving the system (starting with the labor and non-traded market conditions, then using the resource constraint and Euler equations) yields:
+\[
+\frac{\hat{B}_{t+1}}{1-n} = \frac{\beta_0}{\gamma + \alpha(1-\gamma)}\Big[(\hat{\beta}_{H,t+1}-\hat{\beta}_{F,t+1}) - (\hat{A}_{T,t+1}-\hat{A}^*_{T,t+1}) + (\hat{A}_{T,t}-\hat{A}^*_{T,t})\Big], \tag{11a}
+\]
+\[
+\tilde{C}_t = \gamma(\hat{A}_{T,t}-\hat{A}^*_{T,t}) + (1-\gamma)(\hat{A}_{N,t}-\hat{A}^*_{N,t}) - \frac{\gamma\,\beta_0}{\gamma + \alpha(1-\gamma)}\Big[(\hat{\beta}_{H,t+1}-\hat{\beta}_{F,t+1}) - (\hat{A}_{T,t+1}-\hat{A}^*_{T,t+1}) + (\hat{A}_{T,t}-\hat{A}^*_{T,t})\Big], \tag{11b}
+\]
+\[
+\hat{Q}_t = - (1-\gamma)(\hat{A}_{T,t}-\hat{A}^*_{T,t}) + (1-\gamma)(\hat{A}_{N,t}-\hat{A}^*_{N,t}) + \frac{(1-\gamma)\,\alpha\,\beta_0}{\gamma + \alpha(1-\gamma)}\Big[(\hat{\beta}_{H,t+1}-\hat{\beta}_{F,t+1}) - (\hat{A}_{T,t+1}-\hat{A}^*_{T,t+1}) + (\hat{A}_{T,t}-\hat{A}^*_{T,t})\Big], \tag{11c}
+\]
+\[
+\tilde{L}_{N,t} = -\frac{\gamma\,\beta_0}{\gamma + \alpha(1-\gamma)}\Big[(\hat{\beta}_{H,t+1}-\hat{\beta}_{F,t+1}) - (\hat{A}_{T,t+1}-\hat{A}^*_{T,t+1}) + (\hat{A}_{T,t}-\hat{A}^*_{T,t})\Big]. \tag{11d}
+\]
+
+\textbf{Interpretation:}
+\begin{itemize}
+    \item A temporary increase in Home patience (i.e. \( \hat{\beta}_{H,t+1}-\hat{\beta}_{F,t+1} > 0 \)) leads to \( \hat{B}_{t+1}>0 \) (Home runs a current account surplus), lower relative consumption, and a real exchange rate movement consistent with a trade surplus.
+    \item Temporary traded or non-traded productivity shocks affect the current account and labor allocation differently.
+    \item For permanent shocks (\( \hat{A}_{T,t}=\hat{A}_{T,t+1} \)), intertemporal balance is restored with \( \hat{B}_{t+1}=0 \) and immediate adjustment to the new steady state.
+\end{itemize}
+
+\section{Summary of Key Economic Insights}
+\begin{itemize}
+    \item \textbf{Consumption and Prices:} The structure of the consumption basket implies that a rise in the non‐traded good price \( P_{N,t} \) increases the overall consumption price \( P_t \) and shifts the consumption mix.
+    \item \textbf{Market Clearing:} Non-traded goods are produced and consumed domestically, whereas traded goods are allocated internationally, linking domestic production choices to the real exchange rate.
+    \item \textbf{Intertemporal Choices:} The Euler equations show that higher patience or higher real returns lead to deferred consumption. Cross-country differences in patience drive current account imbalances.
+    \item \textbf{Labor Allocation:} Labor is reallocated across sectors until the marginal value products are equalized; productivity shifts affect both output composition and relative prices.
+    \item \textbf{Steady State and Log-Linearization:} In a symmetric steady state, relative prices and allocations are balanced. Log-linearization permits analysis of small shocks and their propagation.
+    \item \textbf{Short-Run vs. Long-Run Dynamics:} Temporary shocks generate current account imbalances and short-run reallocation, while permanent shocks adjust consumption and prices directly with no asset accumulation.
+    \item \textbf{Wealth Effects:} A positive net asset position (Home wealthier) implies higher steady-state consumption and a relatively stronger (appreciated) currency.
+\end{itemize}
+
+\end{document}
+
