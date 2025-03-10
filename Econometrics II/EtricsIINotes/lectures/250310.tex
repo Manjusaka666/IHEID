@@ -1,0 +1,130 @@
+\section{Random Effects}
+We put $\alpha_i$ in error terms: 
+\begin{align*}
+    y_{it} &= \alpha_1 + x_{it}^{\prime} \beta + u_{it} \\
+    &= \underset{\tilde{x_{it}}^{\prime}}{\underbrace{\beta_0 + x_{it}^{\prime}\beta}} + \underset{\equiv v_{it}}{\underbrace{u_{it} + \alpha_i - \beta_0}}\\
+    \rightarrow y_{it} &= \tilde{x}_{it}^{\prime} \beta + v_{it} \\
+    \Leftrightarrow y_i &= \tilde{x}_i^{\prime} \tilde{\beta} + v_i \\
+    \rightarrow \hat{\tilde{\beta}} &= \left(\sum_i \tilde{x}_i^{\prime} \tilde{x}_i \right)^{-1} \sum_i \tilde{x}_i^{\prime} y_i
+\end{align*}
+
+\begin{note}[POLS]
+    \
+
+    Homogenous spec: $y_{it} = \alpha  + x_{it}^{\prime} \beta + u_{it} = \tilde{x_{it}}^{\prime} + u_{it}.$
+    $\hat{\tilde{\beta}}$ is consistent if $\mathbb{E}[v_{it} x_{it}]=0, \forall t.$
+\end{note}
+
+\begin{align*}
+    \hat{\tilde{\beta}} &= \left(\frac{1}{n} \sum_i \tilde{x}_i^{\prime} \tilde{x}_i \right)^{-1} \frac{1}{n} \sum_i \tilde{x}_i^{\prime} y_i \\
+    &= \tilde{\beta} + \left(\frac{1}{n} \sum_i \tilde{x}_i^{\prime} \tilde{x}_i \right)^{-1} \frac{1}{n} \sum_i \tilde{x}_i^{\prime} v_i \\
+    &\overset{p}{\rightarrow} \tilde{\beta} + \mathbb{E}[\tilde{x}_i^{\prime} \tilde{x}_i]^{-1} \mathbb{E}[\tilde{x}_i^{\prime} v_i] \\
+    \text{where} \quad \mathbb{E}[\tilde{x}_i^{\prime} v_i] &= \mathbb{E}\left[\sum_t \tilde{x}_{it}^{\prime} v_{it} \right] \\
+    &= \sum_t \mathbb{E}\left[\tilde{x}_{it}^{\prime} v_{it}  \right] \\
+    &= \sum_t \mathbb{E}\left[\tilde{x}_{it}(u_{it} + \alpha_i - \beta_0)\right]
+\end{align*}
+
+\begin{note}
+    \
+
+    Under the random effect, you have to use the heteroskedasticity-robust methods.
+    Because even if we assume $u_{it}$ to be homoskedastic, $v_{it}$ is not,
+    as it includes also the unit-speciﬁc heterogeneity $\alpha_i$.
+\end{note}
+
+Denoted by $\hat{\tilde{\beta}}_{RE-GLS} $, the random effect GLS estimator is consistent and asymptotically normal.
+\begin{align*}
+    &\sqrt{n} \left( \hat{\tilde{\beta}}_{RE-GLS} - \tilde{\beta} \right) \overset{d}{\rightarrow} \mathcal{N}\left(0, V \right) \\
+    \text{where } V &= \mathbb{E}\left[\tilde{x}_i^{\prime} \tilde{x}_i \right]^{-1} \mathbb{E}\left[\tilde{x}_i^{\prime} v_i v_i^{\prime} \tilde{x}_i \right] \mathbb{E}\left[\tilde{x}_i^{\prime} \tilde{x}_i \right] \\
+    &= \mathbb{E}\left[\tilde{x}_i^{\prime} \tilde{x}_i \underset{\equiv \Omega}{\underbrace{\mathbb{E}[v_i v_i^{\prime} | \tilde{x}_i]}}\right] \\
+    \rightarrow \hat{\tilde{\beta}}_{RE-GLS} &= \left( \sum_i \tilde{x}_i^{\prime} \Omega^{-1} \tilde{x}_i \right)^{-1} \sum_i \tilde{x}_i^{\prime} \Omega^{-1} y_i \\
+    \Omega ^{-\frac{1}{2}} y_i &= \Omega ^{-\frac{1}{2}} \tilde{x}_i^{\prime} \tilde{\beta} + \Omega^{-\frac{1}{2}}v_i \\
+    \Omega &= \mathbb{E}[v_i v_i^{\prime} | \tilde{x}_i] = \mathbb{E}\left[ \begin{bmatrix}
+        v_{i1} \\
+        v_{i2} \\
+        \vdots \\
+        v_{iT}
+    \end{bmatrix} \begin{bmatrix}
+        v_{i1} & v_{i2} & \cdots & v_{iT}
+    \end{bmatrix} | \tilde{x}_i \right]\\
+    &= \mathbb{E}\begin{bmatrix}
+        \mathbb{E}[v_{i1}^2 | \tilde{x}_i] & \mathbb{E}[v_{i1}v_{i2} | \tilde{x}_i] & \cdots & \mathbb{E}[v_{i1}v_{iT} | \tilde{x}_i] \\
+        \mathbb{E}[v_{i2}v_{i1} | \tilde{x}_i] & \mathbb{E}[v_{i2}^2 | \tilde{x}_i] & \cdots & \mathbb{E}[v_{i2}v_{iT} | \tilde{x}_i] \\
+        \vdots & \vdots & \ddots & \vdots \\
+        \mathbb{E}[v_{iT}v_{i1} | \tilde{x}_i] & \mathbb{E}[v_{iT}v_{i2} | \tilde{x}_i] & \cdots & \mathbb{E}[v_{iT}^2 | \tilde{x}_i]
+    \end{bmatrix} \\
+    &= \begin{bmatrix}
+        \mathbb{E}\left[\alpha_i^2 | \tilde{x}_i \right] + \mathbb{E}[u_{i1}^2 | \tilde{x}_i] & \mathbb{E}\left[\alpha_i^2 | \tilde{x}_i \right] + \mathbb{E}[u_{i1}u_{i2} | \tilde{x}_i] & \cdots & \mathbb{E}\left[\alpha_i^2 | \tilde{x}_i \right] + \mathbb{E}[u_{i1}u_{iT} | \tilde{x}_i] \\
+        \mathbb{E}\left[\alpha_i^2 | \tilde{x}_i \right] + \mathbb{E}[u_{i2}u_{i1} | \tilde{x}_i] & \mathbb{E}\left[\alpha_i^2 | \tilde{x}_i \right] + \mathbb{E}[u_{i2}^2 | \tilde{x}_i] & \cdots & \mathbb{E}\left[\alpha_i^2 | \tilde{x}_i \right] + \mathbb{E}[u_{i2}u_{iT} | \tilde{x}_i] \\
+        \vdots & \vdots & \ddots & \vdots \\
+        \mathbb{E}\left[\alpha_i^2 | \tilde{x}_i \right] + \mathbb{E}[u_{iT}u_{i1} | \tilde{x}_i] & \mathbb{E}\left[\alpha_i^2 | \tilde{x}_i \right] + \mathbb{E}[u_{iT}u_{i2} | \tilde{x}_i] & \cdots & \mathbb{E}\left[\alpha_i^2 | \tilde{x}_i \right] + \mathbb{E}[u_{iT}^2 | \tilde{x}_i]
+    \end{bmatrix}\\
+    &= \mathbb{E}\left[\mathbb{E}\left[\alpha_i^2 | \tilde{x}_i \right] \mathbf{1} \right] + \mathbb{E}[u_i u_i^{\prime} | \tilde{x}_i] \\
+    &= \mathbb{E}[\alpha_i^2] \mathbf{1} \mathbf{1}^{\prime} + \begin{bmatrix}
+        \mathbb{E}[u_{i1}^2 | \tilde{x}_i] & 0 & \cdots & 0 \\
+        0 & \mathbb{E}[u_{i2}^2 | \tilde{x}_i] & \cdots & 0 \\
+        \vdots & \vdots & \ddots & \vdots \\
+        0 & 0 & \cdots & \mathbb{E}[u_{iT}^2 | \tilde{x}_i]
+    \end{bmatrix} \\
+    &= \sigma_{\alpha_i}^2 \mathbf{1} ^{\prime} +_i^2 I \\
+    &= \sigma_{\alpha}^2 \mathbf{1}\mathbf{1}^{\prime} + \sigma^2 I \\
+    \text{beacuse } &\mathbb{V}[\tilde{\alpha}_i|\tilde{x}_i] = \sigma_{\alpha_i}^2 = \sigma_{\alpha}^2 \\
+    &\mathbb{V}[u_{it} | \tilde{x}_i] = \sigma_i^2 = \sigma^2, \forall i.
+\end{align*}
+\begin{align*}
+    \Omega &= \mathbb{E}[v_i v_i^{\prime}  | \tilde{x}_i] \\
+    &= \mathbb{E}[(\alpha_i \mathbf{1} + u_i)(\alpha_i \mathbf{1}  + u_i)^{\prime}  | \tilde{x}_i] \\
+    &= \mathbb{E}[\alpha_i^2] \mathbf{1} \mathbf{1}^{\prime} + \mathbb{E}[u_i u_i^{\prime}  | \tilde{x}_i]
+\end{align*}
+
+
+
+\section{Fixed Effects}
+We transform equation to get rid of $\alpha_i$: $y_{it} = \alpha_i + x_{it}^{\prime} \beta + u_{it}.$
+
+Within $\overline{y}_i = \alpha_i + \overline{x}_i^{\prime} \beta +\overline{u}_i$, $\overline{y}_i = \frac{1}{T} \sum_t y_t.$
+Then, 
+\begin{align*}
+    (y_{it} - \overline{y}_i) &= (x_{it} - \overline{x}_i)^{\prime} \beta + (u_{it} -\overline{u}_i) \\
+    \ddot{y}_{it} &= \ddot{x}_{it}^{\prime} \beta + \ddot{u}_{it}
+\end{align*}
+
+The first difference estimation method:
+\begin{align*}
+    y_{it} - y_{i, t-1} &= (x_{it} - x_{i, t-1})^{\prime} \beta + (u_{it} - u_{i, t-1}) \\
+    \Delta y_{it} &= \Delta x_{it}^{\prime} \beta + \Delta u_{it}, i=1 \cdots n, t=2 \cdots T.
+\end{align*}
+
+Denote the time-averages method by $\hat{\beta}_{FE-W}$, the fixed effect estimator is consistent and asymptotically normal.
+
+\begin{align*}
+    \hat{\beta}_{FE-W} &= \left(\sum_i \sum_t \ddot{x}_{it} \ddot{x}_{it}^{\prime} \right)^{-1} \sum_i \sum_t \ddot{x}_{it} \ddot{y}_{it} \\
+    &= \beta + \left(\sum_i \sum_t \ddot{x}_{it} \ddot{x}_{it}^{\prime} \right)^{-1} \sum_i \sum_t \ddot{x}_{it} \ddot{u}_{it} \\
+    &\overset{p}{\rightarrow} \beta + \mathbb{E}\left[\sum_t \ddot{x}_{it} \ddot{x}_{it}^{\prime} \right]^{-1} \mathbb{E}\left[\sum_t \ddot{x}_{it} \ddot{u}_{it} \right] \\
+    \text{where } \mathbb{E}\left[\sum_t \ddot{x}_{it} \ddot{u}_{it}\right] &= \sum_t \mathbb{E}\left[\ddot{x}_{it} \ddot{u}_{it} \right]\\
+    \mathbb{E}\left[\ddot{x}_{it} \ddot{u}_{it} \right] &= \mathbb{E}\left[\left(x_{it} - \frac{1}{T}\sum_t x_{it} \right) \left(u_{it} - \frac{1}{T}\sum_t u_{it} \right)^{\prime} \right] \\
+    &= 0 \quad \text{if } u_{it} \perp\!\!\!\perp x_{is}, \forall t, s = 1, \cdots, T.
+\end{align*}
+
+Denote the first difference method by $\hat{\beta}_{FE-FD}$, the fixed effect estimator is consistent and asymptotically normal.
+
+\begin{align*}
+    \hat{\beta}_{FE-FD} &= \left(\sum_i \sum_t \Delta x_{it} \Delta x_{it}^{\prime} \right)^{-1} \sum_i \sum_t \Delta x_{it} \Delta y_{it} \\
+    &= \beta + \left(\frac{1}{n} \sum_i \sum_t \Delta x_{it} \Delta x_{it}^{\prime} \right)^{-1} \frac{1}{n} \sum_i \sum_t \Delta x_{it} \Delta u_{it} \\
+    &\overset{p}{\rightarrow} \beta + \mathbb{E}\left[\sum_t \Delta x_{it} \Delta x_{it}^{\prime} \right]^{-1} \mathbb{E}\left[\sum_t \Delta x_{it} \Delta u_{it} \right] \\
+    \text{where } \mathbb{E}\left[\sum_t \Delta x_{it} \Delta u_{it}\right] &= \sum_t \mathbb{E}\left[\Delta x_{it} \Delta u_{it} \right]\\
+    \mathbb{E}\left[\Delta x_{it} \Delta u_{it} \right] &= \mathbb{E}\left[\left(x_{it} - x_{i, t-1} \right) \left(u_{it} - u_{i, t-1} \right)^{\prime} \right] \\
+    &= 0 \quad \text{if } x_{it} \perp\!\!\!\perp (u_{it}, u_{i, t-1}), \forall t.
+\end{align*}
+
+\begin{note}
+    \
+
+    The FD method is not as strong as the within method, because it only requires that the variable is
+    uncorrelated with the error term in the same period and the previous period.
+
+    If there is a correlation between the error term in current period and two periods ago, there is a problem of feedback loop,
+    which we will imply the correlated random effect model.
+\end{note}
+
+\section{Correlated Random Effects}
