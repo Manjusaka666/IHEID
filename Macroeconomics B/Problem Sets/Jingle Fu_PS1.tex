@@ -466,7 +466,7 @@ n\,(1-\gamma)\,C_0 = A_{N,0}\,\bigl[n(1-\gamma)\bigr]^{1-\alpha}.
 \]
 Solve for $C_0$:
 \[
-C_0 = A_{N,0}\, \bigl[n(1-\gamma)\bigr]^{-\alpha}.
+C_0^N = A_{N,0}\, \bigl[n(1-\gamma)\bigr]^{-\alpha}.
 \]
 We then derive from the traded goods clearing condition:
 \begin{align*}
@@ -478,20 +478,16 @@ We then derive from the traded goods clearing condition:
     \Rightarrow & \quad n\gamma\,C_0 + \frac{\gamma}{1-\gamma} A_{T,0} \Bigl(\frac{1-n}{n}\Bigr)^{\alpha} \Bigl(\frac{1-\gamma}{\gamma}\Bigr)^{\alpha} (1-n)^{1-\alpha} (1-\gamma)^{1-\alpha} = A_{T,0}\,(n\gamma)^{1-\alpha} + \\
     & A_{T,0} \Bigl(\frac{1-n}{n}\Bigr)^{\alpha} \Bigl[(1-n)\gamma\Bigr]^{1-\alpha} \\
     \Rightarrow & \quad n\gamma\,C_0 + A_{T,0}(1-n) n^{-\alpha} \gamma^{1-\alpha} = A_{T,0}\,(n\gamma)^{1-\alpha} + A_{T,0} (1-n) n^{-\alpha} \gamma^{1-\alpha} \\
-    \Rightarrow & \quad C_0 = A_{T,0}\,(n\gamma)^{-\alpha}.
+    \Rightarrow & \quad C_0^T = A_{T,0}\,(n\gamma)^{-\alpha}.
 \end{align*}
 We take a weighted geometric mean with weights $\gamma$ and $1-\gamma$. That is,
 \[
-C_0 = (C_{0})^{1-\gamma} \cdot (C_{0})^{\gamma},
+C_0 = (C_{0}^N)^{1-\gamma} \cdot (C_{0}^T)^{\gamma},
 \]
 so that
 \[
 C_0 = \left[A_{N,0}\, n^{-\alpha}(1-\gamma)^{-\alpha}\right]^{1-\gamma}
 \left[A_{T,0}\, n^{-\alpha}\,\gamma^{-\alpha}\right]^{\gamma}.
-\]
-Combine exponents:
-\[
-C_0 = (A_{T,0})^{\gamma}(A_{N,0})^{1-\gamma}\, n^{-\alpha(\gamma+1-\gamma)}\,\gamma^{-\alpha\gamma}\,(1-\gamma)^{-\alpha(1-\gamma)}.
 \]
 We obtain:
 \[
@@ -509,7 +505,7 @@ Because of the calibration (and the fact that the relative productivities satisf
 \[
 \frac{A_{N,0}}{A_{T,0}} = \left(\frac{1-\gamma}{\gamma}\right)^{\alpha} \quad \text{and} \quad \frac{A^*_{N,0}}{A^*_{T,0}} = \left(\frac{1-n}{n}\right)^{\alpha}\left(\frac{1-\gamma}{\gamma}\right)^{\alpha}),
 \]
-one can check that indeed
+we can check that indeed
 \[
 \frac{C_0}{C^*_0}=1.
 \]
