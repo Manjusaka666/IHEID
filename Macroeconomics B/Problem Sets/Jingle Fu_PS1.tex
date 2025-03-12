@@ -138,7 +138,7 @@ The Graduate Institute, Spring 2025, Cedric Tille\\
 \subsection*{Problem Setup}
 The Home agent's consumption basket is given by
 \[
-C_t = \left(\frac{C_{T,t}}{\gamma } \right)^{\gamma}\,\left(\frac{C_{N,t}}{1 - \gamma} \right)^{\,1-\gamma},
+C_t = \left(\frac{C_{T,t}}{\gamma } \right)^{\gamma} \left(\frac{C_{N,t}}{1 - \gamma} \right)^{ 1-\gamma},
 \]
 where:
 \begin{itemize}
@@ -149,42 +149,42 @@ where:
 
 The consumer minimizes total expenditure subject to attaining a given consumption level $C_t$. The problem is
 \begin{align*}
-    \min_{C_{T,t},\,C_{N,t}} & P_t C_t = C_{T,t} + P_{N,t}\,C_{N,t} \\
-    \text{s.t.} \quad &C_t = \left(\frac{C_{T,t}}{\gamma } \right)^{\gamma}\,\left(\frac{C_{N,t}}{1 - \gamma} \right)^{\,1-\gamma}.
+    \min_{C_{T,t}, C_{N,t}} & P_t C_t = C_{T,t} + P_{N,t} C_{N,t} \\
+    \text{s.t.} \quad &C_t = \left(\frac{C_{T,t}}{\gamma } \right)^{\gamma} \left(\frac{C_{N,t}}{1 - \gamma} \right)^{ 1-\gamma}.
 \end{align*}
 Define the Lagrangian function:
 \[
-\mathcal{L} = C_{T,t} + P_{N,t}\,C_{N,t} + \lambda \Bigl(C_t - \Bigl(\frac{C_{T,t}}{\gamma } \Bigr)^{\gamma}\,\Bigl(\frac{C_{N,t}}{1 - \gamma} \Bigr)^{\,1-\gamma}\Bigr).
+\mathcal{L} = C_{T,t} + P_{N,t} C_{N,t} + \lambda \Bigl(C_t - \Bigl(\frac{C_{T,t}}{\gamma } \Bigr)^{\gamma} \Bigl(\frac{C_{N,t}}{1 - \gamma} \Bigr)^{ 1-\gamma}\Bigr).
 \]
 The FOCs with respect to $C_{T,t}$ and $C_{N,t}$ are:
 \begin{align*}
-    \mathcal{L}_{C_{T,t}} & = 1 - \lambda\,\gamma\,\Bigl(\frac{C_{T,t}}{\gamma } \Bigr)^{\gamma-1}\,\frac{1}{\gamma}\,\Bigl(\frac{C_{N,t}}{1 - \gamma} \Bigr)^{\,1-\gamma} = 0, \\
-    \mathcal{L}_{C_{N,t}} & = P_{N,t} - \lambda\,(1-\gamma)\,\Bigl(\frac{C_{T,t}}{\gamma } \Bigr)^{\gamma}\,\frac{1}{1-\gamma}\,\Bigl(\frac{C_{N,t}}{1 - \gamma} \Bigr)^{\,-\gamma} = 0 \\
-    \Rightarrow \quad \frac{1}{P_{N,t}} & = \frac{\gamma}{1-\gamma}\,\frac{C_{N,t}}{C_{T,t}}.
+    \mathcal{L}_{C_{T,t}} & = 1 - \lambda \gamma \Bigl(\frac{C_{T,t}}{\gamma } \Bigr)^{\gamma-1} \frac{1}{\gamma} \Bigl(\frac{C_{N,t}}{1 - \gamma} \Bigr)^{ 1-\gamma} = 0, \\
+    \mathcal{L}_{C_{N,t}} & = P_{N,t} - \lambda (1-\gamma) \Bigl(\frac{C_{T,t}}{\gamma } \Bigr)^{\gamma} \frac{1}{1-\gamma} \Bigl(\frac{C_{N,t}}{1 - \gamma} \Bigr)^{ -\gamma} = 0 \\
+    \Rightarrow \quad \frac{1}{P_{N,t}} & = \frac{\gamma}{1-\gamma} \frac{C_{N,t}}{C_{T,t}}.
 \end{align*}
 
 The dual (expenditure) minimization problem yields the unit cost function (composite price index) for the consumption bundle:
 \[
-P_t\,C_t = \min \left\{ C_{T,t} + P_{N,t}\,C_{N,t} : \; C_t = \left(\frac{C_{T,t}}{\gamma } \right)^{\gamma}\,\left(\frac{C_{N,t}}{1 - \gamma} \right)^{\,1-\gamma} \right\}.
+P_t C_t = \min \left\{ C_{T,t} + P_{N,t} C_{N,t} : \; C_t = \left(\frac{C_{T,t}}{\gamma } \right)^{\gamma} \left(\frac{C_{N,t}}{1 - \gamma} \right)^{ 1-\gamma} \right\}.
 \]
 So, we have:
 \begin{align*}
-    P_t C_T & = C_{T,t} + P_{N,t}\,C_{N,t} \\
+    P_t C_T & = C_{T,t} + P_{N,t} C_{N,t} \\
     &= C_{T,t} + \frac{1-\gamma}{\gamma} C_{T,t} \\
-    \Rightarrow C_{T,t} &= \gamma\,P_t\,C_t \\
+    \Rightarrow C_{T,t} &= \gamma P_t C_t \\
     \Rightarrow C_{N,t} &= \frac{1-\gamma}{\gamma} \frac{C_{T,t}}{P_{N,t}}\\
-    &= (1-\gamma)\,P_t\,C_t.
+    &= (1-\gamma) P_t C_t.
 \end{align*}
 As $P_t$ is the minimum expenditure required to attain the given consumption level $C_t=1$, we have:
 \begin{align*}
-    & \left(\frac{C_{T,t}}{\gamma } \right)^{\gamma}\,\left(\frac{C_{N,t}}{1 - \gamma} \right)^{\,1-\gamma} = 1 \\
-    \Rightarrow \quad & (P_t C_t)^{\gamma}\,\left(\frac{P_t C_t}{P_N,t}\right)^{1-\gamma} = 1 \\
+    & \left(\frac{C_{T,t}}{\gamma } \right)^{\gamma} \left(\frac{C_{N,t}}{1 - \gamma} \right)^{ 1-\gamma} = 1 \\
+    \Rightarrow \quad & (P_t C_t)^{\gamma} \left(\frac{P_t C_t}{P_N,t}\right)^{1-\gamma} = 1 \\
     \Rightarrow \quad & P_t = (P_{N,t})^{1-\gamma}. 
 \end{align*}
 Analogously, for the Foreign agent, we have 
 \begin{align*}
-    C^*_{T,t} &= \gamma\,P^*_t\,C^*_t \\
-    C^*_{N,t} &= (1-\gamma)\,P^*_t\,C^*_t \\
+    C^*_{T,t} &= \gamma P^*_t C^*_t \\
+    C^*_{N,t} &= (1-\gamma) P^*_t C^*_t \\
     P^*_t &= (P^*_{N,t})^{1-\gamma}.
 \end{align*}
 
@@ -201,25 +201,25 @@ Under market clearing, the quantities of traded and non-traded goods produced mu
 \subsection*{Non-Traded Goods Market}
 For Home, market clearing in non-traded goods is:
 \[
-n\,C_{N,t} = A_{N,t}\,(L_{N,t})^{\,1-\alpha}.
+n C_{N,t} = A_{N,t} (L_{N,t})^{ 1-\alpha}.
 \]
 Substituting $ C_{N,t} = (1-\gamma)\frac{P_t C_t}{P_{N,t}}$ with $ P_t = (P_{N,t})^{1-\gamma} $, we obtain:
 \[
-\boxed{n(1-\gamma)\,(P_{N,t})^{-\gamma}\,C_t = A_{N,t}\,(L_{N,t})^{\,1-\alpha}.}
+\boxed{n(1-\gamma) (P_{N,t})^{-\gamma} C_t = A_{N,t} (L_{N,t})^{ 1-\alpha}.}
 \]
 For Foreign, the market clearing condition is: $(1-n)C_{N,t}^* = A_{N,t}^*(L_{N,t}^*)^{(1-\alpha)}$
 \[
-\boxed{(1-n)(1-\gamma)\,(P^*_{N,t})^{-\gamma}\,C^*_t = A^*_{N,t}\,(L^*_{N,t})^{\,1-\alpha}.}
+\boxed{(1-n)(1-\gamma) (P^*_{N,t})^{-\gamma} C^*_t = A^*_{N,t} (L^*_{N,t})^{ 1-\alpha}.}
 \]
 
 \subsection*{Traded Goods Market}
 Global market clearing for traded goods is:
 \[
-n\,C_{T,t} + (1-n)\,C^*_{T,t} = A_{T,t}\,(n-L_{N,t})^{\,1-\alpha} + A^*_{T,t}\,\big((1-n)-L^*_{N,t}\big)^{\,1-\alpha}.
+n C_{T,t} + (1-n) C^*_{T,t} = A_{T,t} (n-L_{N,t})^{ 1-\alpha} + A^*_{T,t} \big((1-n)-L^*_{N,t}\big)^{ 1-\alpha}.
 \]
-Substituting $ C_{T,t}=\gamma\,P_t\,C_t $ with $ P_t=(P_{N,t})^{1-\gamma} $ (and similarly for Foreign), we have:
+Substituting $ C_{T,t}=\gamma P_t C_t $ with $ P_t=(P_{N,t})^{1-\gamma} $ (and similarly for Foreign), we have:
 \[
-\boxed{n\gamma\,(P_{N,t})^{1-\gamma}\,C_t + (1-n)\gamma\,(P^*_{N,t})^{1-\gamma}\,C^*_t = A_{T,t}\,(n-L_{N,t})^{\,1-\alpha} + A^*_{T,t}\,\big((1-n)-L^*_{N,t}\big)^{\,1-\alpha}.}
+\boxed{n\gamma (P_{N,t})^{1-\gamma} C_t + (1-n)\gamma (P^*_{N,t})^{1-\gamma} C^*_t = A_{T,t} (n-L_{N,t})^{ 1-\alpha} + A^*_{T,t} \big((1-n)-L^*_{N,t}\big)^{ 1-\alpha}.}
 \]
 \textbf{Intuition:} Non-traded goods are produced and consumed domestically, while traded goods are balanced across countries.
 
@@ -232,21 +232,21 @@ U_t = \sum_{s=0}^{\infty} (\beta_{H,t+s})^s \ln C_{t+s},
 \]
 subject to the period-$ t $ budget constraint:
 \[
-n\,P_t\,C_t + n\,B_{t+1} = A_{T,t}\,(n-L_{N,t})^{\,1-\alpha} + P_{N,t}\,A_{N,t}\,(L_{N,t})^{\,1-\alpha} + n(1+r_t)B_t.
+n P_t C_t + n B_{t+1} = A_{T,t} (n-L_{N,t})^{ 1-\alpha} + P_{N,t} A_{N,t} (L_{N,t})^{ 1-\alpha} + n(1+r_t)B_t.
 \]
 Focusing on a single period (the infinite-horizon structure is standard), we write:
 \[
-\mathcal{L} = \ln C_t + \beta_{H,t+1}\ln C_{t+1} - \lambda_t \Bigl[A_{T,t}(n-L_{N,t})^{1-\alpha} + P_{N,t}A_{N,t}(L_{N,t})^{1-\alpha} + n(1+r_t)B_t - n\,P_t\,C_t - n\,B_{t+1}\Bigr].
+\mathcal{L} = \ln C_t + \beta_{H,t+1}\ln C_{t+1} - \lambda_t \Bigl[A_{T,t}(n-L_{N,t})^{1-\alpha} + P_{N,t}A_{N,t}(L_{N,t})^{1-\alpha} + n(1+r_t)B_t - n P_t C_t - n B_{t+1}\Bigr].
 \]
 Take the FOCs:
 \begin{align*}
-    \frac{\partial \mathcal{L}}{\partial C_t} &= \frac{1}{C_t} - \lambda_t nP_t = 0 \quad \Rightarrow \quad \lambda_t = \frac{1}{nP_t\,C_t} \\
-    \frac{\partial \mathcal{L}}{\partial B_{t+1}} &= -\lambda_t + \beta_{H,t+1}(1+r_{t+1})\,\lambda_{t+1} = 0.
+    \frac{\partial \mathcal{L}}{\partial C_t} &= \frac{1}{C_t} - \lambda_t nP_t = 0 \quad \Rightarrow \quad \lambda_t = \frac{1}{nP_t C_t} \\
+    \frac{\partial \mathcal{L}}{\partial B_{t+1}} &= -\lambda_t + \beta_{H,t+1}(1+r_{t+1}) \lambda_{t+1} = 0.
 \end{align*}
 
 Substitute the expressions for \(\lambda_t\) and \(\lambda_{t+1}\):
 \[
-\frac{1}{nP_t\,C_t} = \beta_{H,t+1}(1+r_{t+1})\frac{1}{nP_{t+1}\,C_{t+1}}.
+\frac{1}{nP_t C_t} = \beta_{H,t+1}(1+r_{t+1})\frac{1}{nP_{t+1} C_{t+1}}.
 \]
 Cancel \(n\) and rearrange:
 \[
@@ -258,7 +258,7 @@ Set:
 \]
 so the Euler equation becomes:
 \[
-\boxed{C_{t+1} = \beta_{H,t+1}(1+r_{t+1}^C)\, C_t.}
+\boxed{C_{t+1} = \beta_{H,t+1}(1+r_{t+1}^C)  C_t.}
 \]
 From Question (1), we know that $P_t = (P_{N,t})^{(1-\gamma)}$,
 so, we have:
@@ -267,11 +267,11 @@ so, we have:
 \]
 Since
 \[
-C_{T,t} = \gamma\,P_t\,C_t,
+C_{T,t} = \gamma P_t C_t,
 \]
 it follows that
 \[
-C_{T,t+1} = \gamma\,P_{t+1}\,C_{t+1} = \gamma\,P_{t+1}\,\beta_{H,t+1}(1+r_{t+1}^C)\,C_t.
+C_{T,t+1} = \gamma P_{t+1} C_{t+1} = \gamma P_{t+1} \beta_{H,t+1}(1+r_{t+1}^C) C_t.
 \]
 As we note that
 \[
@@ -279,14 +279,14 @@ As we note that
 \]
 so simplifying, we obtain:
 \[
-\boxed{C_{T,t+1} = \beta_{H,t+1}(1+r_{t+1})\, C_{T,t}.}
+\boxed{C_{T,t+1} = \beta_{H,t+1}(1+r_{t+1})  C_{T,t}.}
 \]
 
 \paragraph{Remark.}  
 The Foreign agent's optimization yields analogous Euler equations:
 \[
-C^*_{t+1} = \beta_{F,t+1}(1+r^*_{C,t+1})\, C^*_t,\quad
-C^*_{T,t+1} = \beta_{F,t+1}(1+r_{t+1})\, C^*_{T,t},
+C^*_{t+1} = \beta_{F,t+1}(1+r^*_{C,t+1})  C^*_t,\quad
+C^*_{T,t+1} = \beta_{F,t+1}(1+r_{t+1})  C^*_{T,t},
 \]
 with
 \[
@@ -295,11 +295,11 @@ with
 \subsection*{Foreign Optimization}
 Similarly, for the Foreign country:
 \[
-\boxed{C^*_{t+1} = \beta_{F,t+1}\,(1+r^*_{C,t+1})\,C^*_t, \qquad C^*_{T,t+1} = \beta_{F,t+1}\,(1+r_{t+1})\,C^*_{T,t},}
+\boxed{C^*_{t+1} = \beta_{F,t+1} (1+r^*_{C,t+1}) C^*_t, \qquad C^*_{T,t+1} = \beta_{F,t+1} (1+r_{t+1}) C^*_{T,t},}
 \]
 with
 \[
-1+r_{t+1}^{*C} = (1+r_{t+1})\,\left(\frac{P^*_{N,t}}{P^*_{N,t+1}}\right)^{1-\gamma}.
+1+r_{t+1}^{*C} = (1+r_{t+1}) \left(\frac{P^*_{N,t}}{P^*_{N,t+1}}\right)^{1-\gamma}.
 \]
 \textbf{Intuition:} Households equate the marginal utility cost of consuming today versus tomorrow, with intertemporal decisions affected by relative price changes.
 
@@ -318,15 +318,15 @@ Compute the marginal product of labor in each sector:
 \]
 The Home agent allocates labor so that the marginal value product in the traded sector equals the marginal value product (adjusted by the non-traded price) in the non-traded sector:
 \[
-(1-\alpha)A_{T,t}(n-L_{N,t})^{-\alpha} = P_{N,t}\,(1-\alpha)A_{N,t}(L_{N,t})^{-\alpha}.
+(1-\alpha)A_{T,t}(n-L_{N,t})^{-\alpha} = P_{N,t} (1-\alpha)A_{N,t}(L_{N,t})^{-\alpha}.
 \]
 Cancel the common factor \(1-\alpha\) and rearrange:
 \[
-\boxed{A_{T,t}(n-L_{N,t})^{-\alpha} = P_{N,t}\,A_{N,t}(L_{N,t})^{-\alpha}.}
+\boxed{A_{T,t}(n-L_{N,t})^{-\alpha} = P_{N,t} A_{N,t}(L_{N,t})^{-\alpha}.}
 \]
 The analogous condition for the Foreign country is:
 \[
-\boxed{A^*_{T,t}\big((1-n)-L^*_{N,t}\big)^{-\alpha} = P^*_{N,t}\,A^*_{N,t}(L^*_{N,t})^{-\alpha}.}
+\boxed{A^*_{T,t}\big((1-n)-L^*_{N,t}\big)^{-\alpha} = P^*_{N,t} A^*_{N,t}(L^*_{N,t})^{-\alpha}.}
 \]
 
 \section{Resource Constraints and the Real Exchange Rate}
@@ -334,11 +334,11 @@ The analogous condition for the Foreign country is:
 \subsection*{Resource Constraints}
 Recall the Home budget constraint:
 \[
-n\,P_t\,C_t + n\,B_{t+1} = A_{T,t}(n-L_{N,t})^{1-\alpha} + P_{N,t}A_{N,t}(L_{N,t})^{1-\alpha} + n(1+r_t)B_t.
+n P_t C_t + n B_{t+1} = A_{T,t}(n-L_{N,t})^{1-\alpha} + P_{N,t}A_{N,t}(L_{N,t})^{1-\alpha} + n(1+r_t)B_t.
 \]
 From Question 1, we have:
 \[
-C_{N,t} = (1-\gamma)\,\frac{P_t}{P_{N,t}}\,C_t.
+C_{N,t} = (1-\gamma) \frac{P_t}{P_{N,t}} C_t.
 \]
 Since \(P_t=(P_{N,t})^{1-\gamma}\), then:
 \[
@@ -346,15 +346,15 @@ C_{N,t} = (1-\gamma)(P_{N,t})^{-\gamma}C_t.
 \]
 Given that non-traded goods are produced solely for domestic consumption, we also have the production identity (from Question 2):
 \[
-n\,(1-\gamma)(P_{N,t})^{-\gamma}C_t = A_{N,t}(L_{N,t})^{1-\alpha}.
+n (1-\gamma)(P_{N,t})^{-\gamma}C_t = A_{N,t}(L_{N,t})^{1-\alpha}.
 \]
 Thus, the expenditure on traded goods (which uses the consumption price index) plus net asset accumulation must equal traded output plus bond returns:
 \[
-\boxed{n\gamma\,(P_{N,t})^{1-\gamma}C_t + n\,B_{t+1} = A_{T,t}(n-L_{N,t})^{1-\alpha} + n(1+r_t)B_t.}
+\boxed{n\gamma (P_{N,t})^{1-\gamma}C_t + n B_{t+1} = A_{T,t}(n-L_{N,t})^{1-\alpha} + n(1+r_t)B_t.}
 \]
 Similarly, for Foreign we obtain:
 \[
-\boxed{(1-n)\gamma\,(P^*_{N,t})^{1-\gamma}C^*_t - n\,B_{t+1} = A^*_{T,t}\big((1-n)-L^*_{N,t}\big)^{1-\alpha} - n(1+r_t)B_t.}
+\boxed{(1-n)\gamma (P^*_{N,t})^{1-\gamma}C^*_t - n B_{t+1} = A^*_{T,t}\big((1-n)-L^*_{N,t}\big)^{1-\alpha} - n(1+r_t)B_t.}
 \]
 Then, we define the real exchange rate as the ratio of Foreign to Home consumption price indices:
 \[
@@ -373,7 +373,7 @@ we have:
 
 In steady state, consumption is constant so that $C_{t+1}=C_t$. The Euler equation for the Home agent is
 \[
-C_{t+1} = \beta_0(1+r_{t+1}^C)\,C_t.
+C_{t+1} = \beta_0(1+r_{t+1}^C) C_t.
 \]
 But by definition the real return in consumption units is
 \[
@@ -401,11 +401,11 @@ P_0=(P_{N,0})^{1-\gamma}=1,\quad P^*_0=1.
 \subsection*{Step 3. Labor Allocation in the Home Country}
 The Home intratemporal labor allocation condition is:
 \[
-A_{T,0}\,(n-L_{N,0})^{-\alpha} = P_{N,0}\,A_{N,0}\,(L_{N,0})^{-\alpha}.
+A_{T,0} (n-L_{N,0})^{-\alpha} = P_{N,0} A_{N,0} (L_{N,0})^{-\alpha}.
 \]
 Since $P_{N,0}=1$, this simplifies to:
 \[
-A_{T,0}\,(n-L_{N,0})^{-\alpha} = A_{N,0}\,(L_{N,0})^{-\alpha}.
+A_{T,0} (n-L_{N,0})^{-\alpha} = A_{N,0} (L_{N,0})^{-\alpha}.
 \]
 Rearrange by dividing both sides by $A_{T,0}$ and by $(L_{N,0})^{-\alpha}$:
 \[
@@ -433,7 +433,7 @@ Thus,
 \]
 By symmetry, the corresponding condition for Foreign is:
 \[
-A^*_{T,0}\Bigl((1-n)-L^*_{N,0}\Bigr)^{-\alpha} = P^*_{N,0}\,A^*_{N,0}\,(L^*_{N,0})^{-\alpha}.
+A^*_{T,0}\Bigl((1-n)-L^*_{N,0}\Bigr)^{-\alpha} = P^*_{N,0} A^*_{N,0} (L^*_{N,0})^{-\alpha}.
 \]
 Since $P^*_{N,0}=1$, the same steps lead to:
 \[
@@ -446,39 +446,39 @@ so that
 We derive the steady-state consumption from the market clearing conditions for non-traded and traded goods.
 The non-traded goods clearing condition is
 \[
-n\,C_{N,0} = A_{N,0}\,(L_{N,0})^{1-\alpha}.
+n C_{N,0} = A_{N,0} (L_{N,0})^{1-\alpha}.
 \]
 From Question 1 we have
 \[
-C_{N,0} = (1-\gamma)\,\frac{P_0}{P_{N,0}}\,C_0.
+C_{N,0} = (1-\gamma) \frac{P_0}{P_{N,0}} C_0.
 \]
 Since $P_0=1$ and $P_{N,0}=1$, it follows that
 \[
-C_{N,0} = (1-\gamma)\,C_0.
+C_{N,0} = (1-\gamma) C_0.
 \]
 Substitute into the clearing condition:
 \[
-n\,(1-\gamma)\,C_0 = A_{N,0}\,(L_{N,0})^{1-\alpha}.
+n (1-\gamma) C_0 = A_{N,0} (L_{N,0})^{1-\alpha}.
 \]
 Recall that $L_{N,0} = n(1-\gamma)$, so
 \[
-n\,(1-\gamma)\,C_0 = A_{N,0}\,\bigl[n(1-\gamma)\bigr]^{1-\alpha}.
+n (1-\gamma) C_0 = A_{N,0} \bigl[n(1-\gamma)\bigr]^{1-\alpha}.
 \]
 Solve for $C_0$:
 \[
-C_0^N = A_{N,0}\, \bigl[n(1-\gamma)\bigr]^{-\alpha}.
+C_0^N = A_{N,0}  \bigl[n(1-\gamma)\bigr]^{-\alpha}.
 \]
 We then derive from the traded goods clearing condition:
 \begin{align*}
-    & n\gamma\,(P_{N,t})^{1-\gamma}\,C_t + (1-n)\gamma\,(P^*_{N,t})^{1-\gamma}\,C^*_t = A_{T,t}\,(n-L_{N,t})^{\,1-\alpha} + A^*_{T,t}\,\big((1-n)-L^*_{N,t}\big)^{\,1-\alpha} \\
-    \Rightarrow & \quad n\gamma\,C_0 + \frac{\gamma}{1-\gamma} A_{N,0}^*(L_{N,0}^*)^{1-\alpha} = A_{T,0}\,(n - L_{N,0})^{1-\alpha} + A^*_{T,0}\,(1-n - L_{N,0}^*)^{1-\alpha} \\
-    \Rightarrow & \quad n\gamma\,C_0 + \frac{\gamma}{1-\gamma} A_{N,0}^*(1-n)^{1-\alpha} (1-\gamma)^{1-\alpha} = A_{T,0}\,(n - n(1-\gamma))^{1-\alpha} + \\
-    & A^*_{T,0}\,(1-n - (1-n)(1-\gamma))^{1-\alpha} \\
-    \Rightarrow & \quad n\gamma\,C_0 + \frac{\gamma}{1-\gamma} A_{N,0}^*(1-n)^{1-\alpha} (1-\gamma)^{1-\alpha} = A_{T,0}\,(n\gamma)^{1-\alpha} + A^*_{T,0}\,\Bigl[(1-n)\gamma\Bigr]^{1-\alpha} \\
-    \Rightarrow & \quad n\gamma\,C_0 + \frac{\gamma}{1-\gamma} A_{T,0} \Bigl(\frac{1-n}{n}\Bigr)^{\alpha} \Bigl(\frac{1-\gamma}{\gamma}\Bigr)^{\alpha} (1-n)^{1-\alpha} (1-\gamma)^{1-\alpha} = A_{T,0}\,(n\gamma)^{1-\alpha} + \\
+    & n\gamma (P_{N,t})^{1-\gamma} C_t + (1-n)\gamma (P^*_{N,t})^{1-\gamma} C^*_t = A_{T,t} (n-L_{N,t})^{ 1-\alpha} + A^*_{T,t} \big((1-n)-L^*_{N,t}\big)^{ 1-\alpha} \\
+    \Rightarrow & \quad n\gamma C_0 + \frac{\gamma}{1-\gamma} A_{N,0}^*(L_{N,0}^*)^{1-\alpha} = A_{T,0} (n - L_{N,0})^{1-\alpha} + A^*_{T,0} (1-n - L_{N,0}^*)^{1-\alpha} \\
+    \Rightarrow & \quad n\gamma C_0 + \frac{\gamma}{1-\gamma} A_{N,0}^*(1-n)^{1-\alpha} (1-\gamma)^{1-\alpha} = A_{T,0} (n - n(1-\gamma))^{1-\alpha} + \\
+    & A^*_{T,0} (1-n - (1-n)(1-\gamma))^{1-\alpha} \\
+    \Rightarrow & \quad n\gamma C_0 + \frac{\gamma}{1-\gamma} A_{N,0}^*(1-n)^{1-\alpha} (1-\gamma)^{1-\alpha} = A_{T,0} (n\gamma)^{1-\alpha} + A^*_{T,0} \Bigl[(1-n)\gamma\Bigr]^{1-\alpha} \\
+    \Rightarrow & \quad n\gamma C_0 + \frac{\gamma}{1-\gamma} A_{T,0} \Bigl(\frac{1-n}{n}\Bigr)^{\alpha} \Bigl(\frac{1-\gamma}{\gamma}\Bigr)^{\alpha} (1-n)^{1-\alpha} (1-\gamma)^{1-\alpha} = A_{T,0} (n\gamma)^{1-\alpha} + \\
     & A_{T,0} \Bigl(\frac{1-n}{n}\Bigr)^{\alpha} \Bigl[(1-n)\gamma\Bigr]^{1-\alpha} \\
-    \Rightarrow & \quad n\gamma\,C_0 + A_{T,0}(1-n) n^{-\alpha} \gamma^{1-\alpha} = A_{T,0}\,(n\gamma)^{1-\alpha} + A_{T,0} (1-n) n^{-\alpha} \gamma^{1-\alpha} \\
-    \Rightarrow & \quad C_0^T = A_{T,0}\,(n\gamma)^{-\alpha}.
+    \Rightarrow & \quad n\gamma C_0 + A_{T,0}(1-n) n^{-\alpha} \gamma^{1-\alpha} = A_{T,0} (n\gamma)^{1-\alpha} + A_{T,0} (1-n) n^{-\alpha} \gamma^{1-\alpha} \\
+    \Rightarrow & \quad C_0^T = A_{T,0} (n\gamma)^{-\alpha}.
 \end{align*}
 We take a weighted geometric mean with weights $\gamma$ and $1-\gamma$. That is,
 \[
@@ -486,19 +486,19 @@ C_0 = (C_{0}^N)^{1-\gamma} \cdot (C_{0}^T)^{\gamma},
 \]
 so that
 \[
-C_0 = \left[A_{N,0}\, n^{-\alpha}(1-\gamma)^{-\alpha}\right]^{1-\gamma}
-\left[A_{T,0}\, n^{-\alpha}\,\gamma^{-\alpha}\right]^{\gamma}.
+C_0 = \left[A_{N,0}  n^{-\alpha}(1-\gamma)^{-\alpha}\right]^{1-\gamma}
+\left[A_{T,0}  n^{-\alpha} \gamma^{-\alpha}\right]^{\gamma}.
 \]
 We obtain:
 \[
 \boxed{
-C_0 = (A_{T,0})^{\gamma}(A_{N,0})^{1-\gamma}\, \left[n \gamma^{\gamma}(1-\gamma)^{1-\gamma}\right]^{-\alpha}.
+C_0 = (A_{T,0})^{\gamma}(A_{N,0})^{1-\gamma}  \left[n \gamma^{\gamma}(1-\gamma)^{1-\gamma}\right]^{-\alpha}.
 }
 \]
 A similar derivation for Foreign (noting that the population is $1-n$) gives:
 \[
 \boxed{
-C^*_0 = (A^*_{T,0})^{\gamma}(A^*_{N,0})^{1-\gamma}\,\left[(1-n)\gamma^{\gamma}(1-\gamma)^{1-\gamma}\right]^{-\alpha}.
+C^*_0 = (A^*_{T,0})^{\gamma}(A^*_{N,0})^{1-\gamma} \left[(1-n)\gamma^{\gamma}(1-\gamma)^{1-\gamma}\right]^{-\alpha}.
 }
 \]
 Because of the calibration (and the fact that the relative productivities satisfy
@@ -527,57 +527,47 @@ Taking logarithms, we have
 \]
 Linearizing around the steady state (and noting that constants vanish in the difference), we obtain:
 \[
--\gamma\,\hat{P}_{N,t} + \hat{C}_t = \hat{A}_{N,t} + (1-\alpha)\,\hat{L}_{N,t}.
+\boxed{-\gamma  \widehat{P_{N,t}} + \widehat{C_t} =  \widehat{A_{N,t}} + (1-\alpha)  \widehat{L_{N,t}}. \tag{7a}}
 \]
 
 \subsection*{B. Resource Constraint}
 The Home resource constraint is:
 \[
-n\gamma\,(P_{N,t})^{1-\gamma}C_t + nB_{t+1} = A_{T,t}(n-L_{N,t})^{1-\alpha}+ n(1+r_t)B_t.
+n\gamma (P_{N,t})^{1-\gamma}C_t + nB_{t+1} = A_{T,t}(n-L_{N,t})^{1-\alpha}+ n(1+r_t)B_t.
 \]
 Taking logs and linearizing (and assuming that in steady state $B_t=0$, so only percentage deviations matter), we have:
 \[
-(1-\gamma)\,\hat{P}_{N,t} + \hat{C}_t + \hat{B}_{t+1} = \hat{A}_{T,t} - \frac{(1-\alpha)(n-L_{N,0})}{n-L_{N,0}}\,\hat{L}_{N,t} + \frac{1}{\beta_0}\,\hat{B}_t.
+(1-\gamma)  \widehat{P_{N,t}} + \widehat{C_t} + \widehat{B_{t+1}} = \widehat{A_{T,t}} - \frac{(1-\alpha)(n-L_{N,0})}{n-L_{N,0}}  \widehat{L_{N,t}} + \frac{1}{\beta_0} \widehat{B_t}.
 \]
-Since in steady state $n-L_{N,0}= n\gamma$, the coefficient on $\hat{L}_{N,t}$ becomes $(1-\alpha)$. Thus,
+Since in steady state $n-L_{N,0}= n\gamma$, the coefficient on $ \widehat{L_{N,t}}$ becomes $(1-\alpha)$. Thus,
 \[
-\boxed{(1-\gamma)\,\hat{P}_{N,t} + \hat{C}_t + \hat{B}_{t+1} = \hat{A}_{T,t} - (1-\alpha)\,\hat{L}_{N,t} + \frac{1}{\beta_0}\,\hat{B}_t. \tag{7b}}
+\boxed{(1-\gamma)  \widehat{P_{N,t}} + \widehat{C_t} + \widehat{B_{t+1}} = \widehat{A_{T,t}} - (1-\alpha)  \widehat{L_{N,t}} + \frac{1}{\beta_0} \widehat{B_t}. \tag{7c}}
 \]
 
 \subsection*{C. Euler Equation}
-The Home Euler equation is:
+Recall that:
 \[
-C_{t+1} = \beta_0(1+r_{t+1}^C)\,C_t.
+C_{t+1} = C_t \beta_{H, t+1}(1+r_{t+1})\Bigl(\frac{P_{N,t}}{P_{N,t+1}}\Bigr)^{1-\gamma}
 \]
-Taking logs,
+Taking logs and linearizing, we have:
 \[
-\ln C_{t+1} - \ln C_t = \ln \beta_0 + \ln(1+r_{t+1}^C).
+\widehat{C_{t+1}} = \widehat{C_t} + \widehat{\beta_{H,t+1}} + \frac{r_{t+1}-r_0}{1+r_0} - (1-\gamma)( \widehat{P_{N,t}}- \widehat{P_{N,t+1}}).
 \]
-Linearizing (and noting $\ln\beta_0$ is constant), we have
+As $\beta_0(1+r_0) = 1$,
+\begin{align*}
+    \widehat{r_t} &= r_t - \frac{1-\beta_0}{\beta_0} \\
+    &= r_t - \frac{1-\frac{1}{1+r_0}}{\frac{1}{1+r_0}} \\
+    &= r_t - r_0
+\end{align*}
+So, the Euler equation becomes:
 \[
-\hat{C}_{t+1}-\hat{C}_t = \hat{\beta}_{H,t+1} + \beta_0\,\hat{r}_{C,t+1}.
-\]
-Recall that the real rate in consumption terms is related to the non-traded price by
-\[
-1+r_{t+1}^C = (1+r_{t+1})\left(\frac{P_{N,t}}{P_{N,t+1}}\right)^{1-\gamma}.
-\]
-Taking logs and linearizing,
-\[
-\ln(1+r_{t+1}^C) \approx \ln(1+r_{t+1}) + (1-\gamma)(\ln P_{N,t}-\ln P_{N,t+1}),
-\]
-so that
-\[
-\hat{r}_{C,t+1} \approx \hat{r}_{t+1} + (1-\gamma)(\hat{P}_{N,t}-\hat{P}_{N,t+1}).
-\]
-Thus, we can write the Euler equation as:
-\[
-\boxed{\hat{C}_{t+1}-\hat{C}_t = (1-\gamma)(\hat{P}_{N,t}-\hat{P}_{N,t+1}) + \hat{\beta}_{H,t+1} + \beta_0\,\hat{r}_{t+1}. \tag{7c}}
+\boxed{\widehat{C_{t+1}} = \widehat{C_t} + \widehat{\beta_{H,t+1}} + \beta_0  \widehat{r_{t+1}} - (1-\gamma)( \widehat{P_{N,t}}- \widehat{P_{N,t+1}}). \tag{7e}}
 \]
 
 \subsection*{D. Labor Allocation}
 The intratemporal condition is:
 \[
-A_{T,t}(n-L_{N,t})^{-\alpha} = P_{N,t}\,A_{N,t}(L_{N,t})^{-\alpha}.
+A_{T,t}(n-L_{N,t})^{-\alpha} = P_{N,t} A_{N,t}(L_{N,t})^{-\alpha}.
 \]
 Taking logarithms:
 \[
@@ -585,49 +575,85 @@ Taking logarithms:
 \]
 Linearize around steady state:
 \[
-\hat{A}_{T,t} - \alpha\,\frac{n-L_{N,t}}{n-L_{N,0}}\hat{(n-L_{N,t})} = \hat{P}_{N,t} + \hat{A}_{N,t} - \alpha\,\hat{L}_{N,t}.
+\widehat{A_{T,t}} - \alpha \frac{L_{N,t} - L_{N,0}}{n-L_{N,0}} =  \widehat{P_{N,t}} +  \widehat{A_{N,t}} - \alpha  \widehat{L_{N,t}}.
 \]
-Using the fact that in steady state $n-L_{N,0}=n\gamma$, a careful linearization (which involves the derivative of $\ln (n-L_{N,t})$) yields:
+Using the fact that in steady state $n-L_{N,0}=n\gamma$:
 \[
-\boxed{\hat{A}_{T,t} + \frac{\alpha}{\gamma}\,\hat{L}_{N,t} = \hat{P}_{N,t} + \hat{A}_{N,t}. \tag{7d}}
+\widehat{A_{T,t}} - \alpha \frac{ \widehat{L_{N,t}} n(1-\gamma)}{n \gamma} =  \widehat{P_{N,t}} +  \widehat{A_{N,t}} - \alpha  \widehat{L_{N,t}}.
+\]
+\[
+\boxed{\widehat{A_{T,t}} + \frac{\alpha}{\gamma}  \widehat{L_{N,t}} =  \widehat{P_{N,t}} +  \widehat{A_{N,t}}. \tag{7g}}
 \]
 
 \subsection*{E. Real Exchange Rate}
-Since
+As we know:
 \[
-P_t=(P_{N,t})^{1-\gamma}, \quad P^*_t=(P^*_{N,t})^{1-\gamma},
+1+r_{t+1}^{C} = (1+r_{t+1}) \Bigl(\frac{P_{N,t}}{P_{N,t+1}}\Bigr)^{1-\gamma},
 \]
-taking logs gives
+take logs and linearize both sides, we have:
 \[
-\hat{P}_t=(1-\gamma)\,\hat{P}_{N,t},\quad \hat{P}^*_t=(1-\gamma)\,\hat{P}^*_{N,t}.
+\frac{r_{t+1}^C - r_0^C }{1+r_0^C} = \frac{r_{t+1} - r_0}{1+r_0} + (1-\gamma)( \widehat{P_{N,t}} -  \widehat{P_{N,t+1}}).
 \]
-Thus, the log deviation of the real exchange rate defined by
 \[
-Q_t = \frac{P^*_t}{P_t}
+\Rightarrow \beta_0  \widehat{r_{t+1}}^C = \beta_0  \widehat{r_{t+1}} + (1-\gamma)( \widehat{P_{N,t}} -  \widehat{P_{N,t+1}}).
 \]
-is
 \[
-\hat{Q}_t = \hat{P}^*_t-\hat{P}_t = (1-\gamma)(\hat{P}^*_{N,t}-\hat{P}_{N,t}).
+\boxed{ \widehat{r_{t+1}^C} =  \widehat{r_{t+1}} + (1-\gamma) \frac{1}{\beta_0} ( \widehat{P_{N,t}} -  \widehat{P_{N,t+1}}). \tag{7i}}
 \]
+
 
 \section{Worldwide Equilibrium}
 
-Define world aggregates as population-weighted averages (e.g., $ \hat{C}^W_t = n\,\hat{C}_t + (1-n)\,\hat{C}^*_t $). Then, from the above log-linearized equations one can show:
+Define world aggregates as population-weighted averages (e.g., $  \widehat{C_t^W} = n \widehat{C_t} + (1-n) \widehat{C_t^*}$).
+Then, from the above log-linearized equations one can show:
 \begin{itemize}
-    \item $\hat{L}^W_{N,t} = 0$, i.e., aggregate non-traded labor remains fixed.
-    \item The world non-traded price satisfies
-    \[
-    \hat{P}^W_{N,t} = \hat{A}^W_{T,t} - \hat{A}^W_{N,t}.
-    \]
-    \item World consumption is given by
-    \[
-    \hat{C}^W_t = \gamma\,\hat{A}^W_{T,t} + (1-\gamma)\,\hat{A}^W_{N,t}.
-    \]
-    \item The world Euler equation becomes
-    \[
-    \beta_0\,\hat{r}_{t+1} = -\hat{\beta}^W_{t+1} + \left(\hat{A}^W_{T,t+1}-\hat{A}^W_{T,t}\right).
-    \]
+    \item \textbf{Non-Traded Goods Market:}
+    \begin{align*}
+        n \times (7a) + (1-n) \times (7b) &\Rightarrow -\gamma  \widehat{P_{N,t}^W} +  \widehat{C_t^W} =  \widehat{A_{N,t}^W} + (1-\alpha)  \widehat{L_{N,t}^W} \tag{8a}.
+    \end{align*}
+    \item \textbf{Resource Constraint:}
+    \begin{align*}
+        n \times (7c) + (1-n) \times (7d) &\Rightarrow (1-\gamma)  \widehat{P_{N,t}^W} +  \widehat{C_t^W} =  \widehat{A_{T,t}^W} - (1-\alpha) \frac{1-\gamma}{\gamma}  \widehat{L_{N,t}^W} \tag{8b}.
+    \end{align*}
+    \item \textbf{Euler Equation:}
+    \begin{align*}
+        n \times (7e) + (1-n) \times (7f) &\Rightarrow  \widehat{C_{t+1}^W} =  \widehat{C_t^W} + (1-\gamma) ( \widehat{P_{N,t}^W} -  \widehat{P_{N,t+1}^W}) +  \widehat{\beta_{H,t+1}^W} + \beta_0 \widehat{r_{t+1}} \tag{8c}.
+    \end{align*}
+    \item \textbf{Labor Allocation:}
+    \begin{align*}
+        n \times (7g) + (1-n) \times (7h) &\Rightarrow  \widehat{A_{T,t}^W} + \frac{\alpha}{\gamma}  \widehat{L_{N,t}^W} =  \widehat{P_{N,t}^W} +  \widehat{A_{N,t}^W} \tag{8d}.
+    \end{align*}
+    \item \textbf{Real Exchange Rate:}
+    \begin{align*}
+        n \times (7i) + (1-n) \times (7j) &\Rightarrow \beta_0  \widehat{r_{t+1}}^{C W} = (1-\gamma) ( \widehat{P_{N,t}^W} -  \widehat{P_{N,t+1}^W}) + \beta_0  \widehat{r_{t+1}} \tag{8e}.
+    \end{align*}
 \end{itemize}
+Let (8a)-(8d), we get:
+\[
+(1-\gamma)  \widehat{P_{N,t}^W} +  \widehat{C_t^W} =  \widehat{A_{T,t}^W} - (1-\alpha + \frac{\alpha}{\gamma})  \widehat{L_{N,t}^W}.
+\]
+Combine with (8b), we have:
+\begin{align*}
+    (1 - \alpha + \frac{\alpha}{\gamma})  \widehat{L_{N,t}^W} &= -(1-\alpha) \frac{1-\gamma}{\gamma}  \widehat{L_{N,t}^W} \\
+    &= (1-\alpha)  \widehat{L_{N,t}^W} - \frac{1-\alpha}{\gamma}  \widehat{L_{N,t}^W} \\
+    \Rightarrow \frac{1}{\gamma}  \widehat{L_{N,t}^W} &= 0.
+\end{align*}
+Let (8b)-(8a), we have:
+\begin{align*}
+     \widehat{P_{N,t}^W} &=  \widehat{A_{T,t}^W} -  \widehat{A_{N,t}^W} - (1-\alpha)\Bigl(\frac{1-\gamma}{\gamma} + 1\Bigr)  \widehat{L_{N,t}^W} \\
+    &=  \widehat{A_{T,t}^W} -  \widehat{A_{N,t}^W}.
+\end{align*}
+Take $(1-\gamma) \times \text{(8a)} + \gamma \text{(8b)}$, we have:
+\[
+(1-\gamma)  \widehat{C_t^W} + \gamma  \widehat{C_t^W} =  \widehat{C_t^W} = (1-\gamma)  \widehat{A_{N,t}^W} + \gamma  \widehat{A_{T,t}^W}.
+\]
+Finally, from (8c), we know that:
+\begin{align*}
+    \beta_0  \widehat{r_{t+1}} + \widehat{\beta_{H, t+1}^W} &=  \widehat{C_{t+1}^W} -  \widehat{C_t^W} - (1-\gamma)\Bigl( \widehat{P_{N,t}^W} - \hat{P}_{N, t+1}^W\Bigr) \\
+    &= \gamma \hat{A}_{t+1}^W + (1-\gamma)  \widehat{A_{N,t+1}^W} - \gamma  \widehat{A_{T,t+1}^W} - (1-\gamma)  \widehat{A_{N,t+1}^W} \\
+    \quad \quad &- (1-\gamma)\Bigl( \widehat{A_{T,t}^W} -  \widehat{A_{N,t}^W}\Bigr) + (1-\gamma) \Bigl( \widehat{A_{T,t+1}^W} - \hat{A}_{N, t+1}^W \Bigr) \\
+    &= \widehat{A_{T, t+1}^W} -  \widehat{A_{T,t}^W}.
+\end{align*}
 
 \textbf{Intuition:} World aggregates respond only to symmetric shocks, with the real interest rate driven by global productivity changes and aggregate patience.
 
@@ -637,65 +663,65 @@ Define differences as (Home minus Foreign) for a variable $ x $ by $ \tilde{x}_t
 
 \textbf{Non-Traded Goods Market (Difference):}
 \[
-\frac{\gamma}{1-\gamma}\,\hat{Q}_t + \tilde{C}_t = \tilde{A}_{N,t} + (1-\alpha)\,\tilde{L}_{N,t}. \tag{9a}
+\frac{\gamma}{1-\gamma} \hat{Q}_t + \tilde{C}_t = \tilde{A}_{N,t} + (1-\alpha) \tilde{L}_{N,t}. \tag{9a}
 \]
 
 \textbf{Resource Constraints (Difference):}
 \[
--\,\hat{Q}_t + \tilde{C}_t + \frac{\hat{B}_{t+1}}{1-n} = \tilde{A}_{T,t} - \frac{(1-\alpha)(1-\gamma)}{\gamma}\,\tilde{L}_{N,t}. \tag{9b}
+- \hat{Q}_t + \tilde{C}_t + \frac{\widehat{B_{t+1}}}{1-n} = \tilde{A}_{T,t} - \frac{(1-\alpha)(1-\gamma)}{\gamma} \tilde{L}_{N,t}. \tag{9b}
 \]
 
 \textbf{Euler Equation (Difference):}
 \[
-\tilde{C}_{t+1}-\tilde{C}_t = (1-\gamma)\Big[(\hat{P}_{N,t}-\hat{P}^*_{N,t}) - (\hat{P}_{N,t+1}-\hat{P}^*_{N,t+1})\Big] + (\hat{\beta}_{H,t+1}-\hat{\beta}_{F,t+1}) + \beta_0\Big(\hat{r}_{C,t+1}-\hat{r}^*_{C,t+1}\Big). \tag{9c}
+\tilde{C}_{t+1}-\tilde{C}_t = (1-\gamma)\Big[( \widehat{P_{N,t}}-\hat{P}^*_{N,t}) - ( \widehat{P_{N,t+1}}-\hat{P}^*_{N,t+1})\Big] + (\widehat{\beta_{H,t+1}}-\hat{\beta}_{F,t+1}) + \beta_0\Big(\hat{r}_{C,t+1}-\hat{r}^*_{C,t+1}\Big). \tag{9c}
 \]
 
 \textbf{Labor Allocation (Difference):}
 \[
-\frac{\alpha}{\gamma}\,\tilde{L}_{N,t} = -\frac{1}{1-\gamma}\,\hat{Q}_t - \tilde{A}_{N,t}. \tag{9d}
+\frac{\alpha}{\gamma} \tilde{L}_{N,t} = -\frac{1}{1-\gamma} \hat{Q}_t - \tilde{A}_{N,t}. \tag{9d}
 \]
 
 \textbf{Intuition:} These equations link cross-country differences in consumption, labor, and the real exchange rate to differences in productivity and intertemporal preferences.
 
 \section{Long-Run Allocation (Period $t+1$)}
 
-Assume that from $ t+1 $ onward the economy reaches a new steady state with no further discount factor shocks ($ \hat{\beta}_{H,t+2} = \hat{\beta}_{F,t+2} = 0 $). Taking the cross-country asset position $ \hat{B}_{t+1} $ as given, one can show:
+Assume that from $ t+1 $ onward the economy reaches a new steady state with no further discount factor shocks ($ \hat{\beta}_{H,t+2} = \hat{\beta}_{F,t+2} = 0 $). Taking the cross-country asset position $ \widehat{B_{t+1}} $ as given, one can show:
 \[
-\hat{Q}_{t+1} = - (1-\gamma)\left[(\hat{A}_{T,t+1}-\hat{A}^*_{T,t+1}) - (\hat{A}_{N,t+1}-\hat{A}^*_{N,t+1})\right] - \frac{\alpha(1-\gamma)}{1-\beta_0}\frac{1}{\beta_0}\frac{\hat{B}_{t+1}}{1-n},
+\hat{Q}_{t+1} = - (1-\gamma)\left[(\hat{A}_{T,t+1}-\hat{A}^*_{T,t+1}) - ( \widehat{A_{N,t+1}}-\hat{A}^*_{N,t+1})\right] - \frac{\alpha(1-\gamma)}{1-\beta_0}\frac{1}{\beta_0}\frac{\widehat{B_{t+1}}}{1-n},
 \]
 \[
-\tilde{L}_{N,t+1} = \frac{\gamma}{1-\beta_0}\frac{1}{\beta_0}\frac{\hat{B}_{t+1}}{1-n},
+\tilde{L}_{N,t+1} = \frac{\gamma}{1-\beta_0}\frac{1}{\beta_0}\frac{\widehat{B_{t+1}}}{1-n},
 \]
 \[
-\tilde{C}_{t+1} = \gamma\big(\hat{A}_{T,t+1}-\hat{A}^*_{T,t+1}\big) + (1-\gamma)\big(\hat{A}_{N,t+1}-\hat{A}^*_{N,t+1}\big) + \frac{\gamma}{1-\beta_0}\frac{1}{\beta_0}\frac{\hat{B}_{t+1}}{1-n}.
+\tilde{C}_{t+1} = \gamma\big(\hat{A}_{T,t+1}-\hat{A}^*_{T,t+1}\big) + (1-\gamma)\big( \widehat{A_{N,t+1}}-\hat{A}^*_{N,t+1}\big) + \frac{\gamma}{1-\beta_0}\frac{1}{\beta_0}\frac{\widehat{B_{t+1}}}{1-n}.
 \]
 \textbf{Interpretation:}
 \begin{itemize}
-    \item A positive $ \hat{B}_{t+1} $ (Home wealthier) implies higher relative consumption and a lower $ Q_{t+1} $ (Home’s goods become relatively more expensive).
+    \item A positive $ \widehat{B_{t+1}} $ (Home wealthier) implies higher relative consumption and a lower $ Q_{t+1} $ (Home’s goods become relatively more expensive).
     \item Permanent productivity differences affect steady state consumption and prices directly.
 \end{itemize}
 
 \section{Short-Run Allocation (Period $t$)}
 
-Assume initially $ \hat{B}_t=0 $. Solving the system (starting with the labor and non-traded market conditions, then using the resource constraint and Euler equations) yields:
+Assume initially $ \widehat{B_t}=0 $. Solving the system (starting with the labor and non-traded market conditions, then using the resource constraint and Euler equations) yields:
 \[
-\frac{\hat{B}_{t+1}}{1-n} = \frac{\beta_0}{\gamma + \alpha(1-\gamma)}\Big[(\hat{\beta}_{H,t+1}-\hat{\beta}_{F,t+1}) - (\hat{A}_{T,t+1}-\hat{A}^*_{T,t+1}) + (\hat{A}_{T,t}-\hat{A}^*_{T,t})\Big], \tag{11a}
+\frac{\widehat{B_{t+1}}}{1-n} = \frac{\beta_0}{\gamma + \alpha(1-\gamma)}\Big[(\widehat{\beta_{H,t+1}}-\hat{\beta}_{F,t+1}) - (\hat{A}_{T,t+1}-\hat{A}^*_{T,t+1}) + (\widehat{A_{T,t}}-\hat{A}^*_{T,t})\Big], \tag{11a}
 \]
 \[
-\tilde{C}_t = \gamma(\hat{A}_{T,t}-\hat{A}^*_{T,t}) + (1-\gamma)(\hat{A}_{N,t}-\hat{A}^*_{N,t}) - \frac{\gamma\,\beta_0}{\gamma + \alpha(1-\gamma)}\Big[(\hat{\beta}_{H,t+1}-\hat{\beta}_{F,t+1}) - (\hat{A}_{T,t+1}-\hat{A}^*_{T,t+1}) + (\hat{A}_{T,t}-\hat{A}^*_{T,t})\Big], \tag{11b}
+\tilde{C}_t = \gamma(\widehat{A_{T,t}}-\hat{A}^*_{T,t}) + (1-\gamma)( \widehat{A_{N,t}}-\hat{A}^*_{N,t}) - \frac{\gamma \beta_0}{\gamma + \alpha(1-\gamma)}\Big[(\widehat{\beta_{H,t+1}}-\hat{\beta}_{F,t+1}) - (\hat{A}_{T,t+1}-\hat{A}^*_{T,t+1}) + (\widehat{A_{T,t}}-\hat{A}^*_{T,t})\Big], \tag{11b}
 \]
 \[
-\hat{Q}_t = - (1-\gamma)(\hat{A}_{T,t}-\hat{A}^*_{T,t}) + (1-\gamma)(\hat{A}_{N,t}-\hat{A}^*_{N,t}) + \frac{(1-\gamma)\,\alpha\,\beta_0}{\gamma + \alpha(1-\gamma)}\Big[(\hat{\beta}_{H,t+1}-\hat{\beta}_{F,t+1}) - (\hat{A}_{T,t+1}-\hat{A}^*_{T,t+1}) + (\hat{A}_{T,t}-\hat{A}^*_{T,t})\Big], \tag{11c}
+\hat{Q}_t = - (1-\gamma)(\widehat{A_{T,t}}-\hat{A}^*_{T,t}) + (1-\gamma)( \widehat{A_{N,t}}-\hat{A}^*_{N,t}) + \frac{(1-\gamma) \alpha \beta_0}{\gamma + \alpha(1-\gamma)}\Big[(\widehat{\beta_{H,t+1}}-\hat{\beta}_{F,t+1}) - (\hat{A}_{T,t+1}-\hat{A}^*_{T,t+1}) + (\widehat{A_{T,t}}-\hat{A}^*_{T,t})\Big], \tag{11c}
 \]
 \[
-\tilde{L}_{N,t} = -\frac{\gamma\,\beta_0}{\gamma + \alpha(1-\gamma)}\Big[(\hat{\beta}_{H,t+1}-\hat{\beta}_{F,t+1}) - (\hat{A}_{T,t+1}-\hat{A}^*_{T,t+1}) + (\hat{A}_{T,t}-\hat{A}^*_{T,t})\Big]. \tag{11d}
+\tilde{L}_{N,t} = -\frac{\gamma \beta_0}{\gamma + \alpha(1-\gamma)}\Big[(\widehat{\beta_{H,t+1}}-\hat{\beta}_{F,t+1}) - (\hat{A}_{T,t+1}-\hat{A}^*_{T,t+1}) + (\widehat{A_{T,t}}-\hat{A}^*_{T,t})\Big]. \tag{11d}
 \]
 
 \textbf{Interpretation:}
 \begin{itemize}
-    \item A temporary increase in Home patience (i.e. $ \hat{\beta}_{H,t+1}-\hat{\beta}_{F,t+1} > 0 $) leads to $ \hat{B}_{t+1}>0 $ (Home runs a current account surplus), lower relative consumption, and a real exchange rate movement consistent with a trade surplus.
+    \item A temporary increase in Home patience (i.e. $ \widehat{\beta_{H,t+1}}-\hat{\beta}_{F,t+1} > 0 $) leads to $ \widehat{B_{t+1}}>0 $ (Home runs a current account surplus), lower relative consumption, and a real exchange rate movement consistent with a trade surplus.
     \item Temporary traded or non-traded productivity shocks affect the current account and labor allocation differently.
-    \item For permanent shocks ($ \hat{A}_{T,t}=\hat{A}_{T,t+1} $), intertemporal balance is restored with $ \hat{B}_{t+1}=0 $ and immediate adjustment to the new steady state.
+    \item For permanent shocks ($ \widehat{A_{T,t}}=\hat{A}_{T,t+1} $), intertemporal balance is restored with $ \widehat{B_{t+1}}=0 $ and immediate adjustment to the new steady state.
 \end{itemize}
 
 \section{Summary of Key Economic Insights}
