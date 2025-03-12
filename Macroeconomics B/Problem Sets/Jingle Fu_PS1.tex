@@ -595,7 +595,7 @@ take logs and linearize both sides, we have:
 \frac{r_{t+1}^C - r_0^C }{1+r_0^C} = \frac{r_{t+1} - r_0}{1+r_0} + (1-\gamma)( \widehat{P_{N,t}} -  \widehat{P_{N,t+1}}).
 \]
 \[
-\Rightarrow \beta_0  \widehat{r_{t+1}}^C = \beta_0  \widehat{r_{t+1}} + (1-\gamma)( \widehat{P_{N,t}} -  \widehat{P_{N,t+1}}).
+\Rightarrow \beta_0  \widehat{r_{t+1}^C} = \beta_0  \widehat{r_{t+1}} + (1-\gamma)( \widehat{P_{N,t}} -  \widehat{P_{N,t+1}}).
 \]
 \[
 \boxed{ \widehat{r_{t+1}^C} =  \widehat{r_{t+1}} + (1-\gamma) \frac{1}{\beta_0} ( \widehat{P_{N,t}} -  \widehat{P_{N,t+1}}). \tag{7i}}
@@ -625,7 +625,7 @@ Then, from the above log-linearized equations one can show:
     \end{align*}
     \item \textbf{Real Exchange Rate:}
     \begin{align*}
-        n \times (7i) + (1-n) \times (7j) &\Rightarrow \beta_0  \widehat{r_{t+1}}^{C W} = (1-\gamma) ( \widehat{P_{N,t}^W} -  \widehat{P_{N,t+1}^W}) + \beta_0  \widehat{r_{t+1}} \tag{8e}.
+        n \times (7i) + (1-n) \times (7j) &\Rightarrow \beta_0  \widehat{r_{t+1}^{C W}} = (1-\gamma) ( \widehat{P_{N,t}^W} -  \widehat{P_{N,t+1}^W}) + \beta_0  \widehat{r_{t+1}} \tag{8e}.
     \end{align*}
 \end{itemize}
 Let (8a)-(8d), we get:
@@ -649,37 +649,19 @@ Take $(1-\gamma) \times \text{(8a)} + \gamma \text{(8b)}$, we have:
 \]
 Finally, from (8c), we know that:
 \begin{align*}
-    \beta_0  \widehat{r_{t+1}} + \widehat{\beta_{H, t+1}^W} &=  \widehat{C_{t+1}^W} -  \widehat{C_t^W} - (1-\gamma)\Bigl( \widehat{P_{N,t}^W} - \hat{P}_{N, t+1}^W\Bigr) \\
+    \beta_0  \widehat{r_{t+1}} + \widehat{\beta_{H, t+1}^W} &=  \widehat{C_{t+1}^W} -  \widehat{C_t^W} - (1-\gamma)\Bigl( \widehat{P_{N,t}^W} - \widehat{P_{N, t+1}^W}\Bigr) \\
     &= \gamma \hat{A}_{t+1}^W + (1-\gamma)  \widehat{A_{N,t+1}^W} - \gamma  \widehat{A_{T,t+1}^W} - (1-\gamma)  \widehat{A_{N,t+1}^W} \\
-    \quad \quad &- (1-\gamma)\Bigl( \widehat{A_{T,t}^W} -  \widehat{A_{N,t}^W}\Bigr) + (1-\gamma) \Bigl( \widehat{A_{T,t+1}^W} - \hat{A}_{N, t+1}^W \Bigr) \\
+    \quad \quad &- (1-\gamma)\Bigl( \widehat{A_{T,t}^W} -  \widehat{A_{N,t}^W}\Bigr) + (1-\gamma) \Bigl( \widehat{A_{T,t+1}^W} - \widehat{A_{N, t+1}^W} \Bigr) \\
     &= \widehat{A_{T, t+1}^W} -  \widehat{A_{T,t}^W}.
 \end{align*}
 
 \textbf{Intuition:} World aggregates respond only to symmetric shocks, with the real interest rate driven by global productivity changes and aggregate patience.
 
 \section{Cross-Country Differences}
+As we know that $Q_t = \Bigl(\frac{P_{N,t}^*}{P_{N,t}}\Bigr)^{1-\gamma}$, log-linearize the equation, we have:
+\[\widehat{Q_t} = (1-\gamma)(\widehat{P_{N,t}^*}) - \widehat{P_{N,t}}.\]
 
-Define differences as (Home minus Foreign) for a variable $ x $ by $ \tilde{x}_t = \hat{x}_t - \hat{x}^*_t $. Then:
 
-\textbf{Non-Traded Goods Market (Difference):}
-\[
-\frac{\gamma}{1-\gamma} \hat{Q}_t + \tilde{C}_t = \tilde{A}_{N,t} + (1-\alpha) \tilde{L}_{N,t}. \tag{9a}
-\]
-
-\textbf{Resource Constraints (Difference):}
-\[
-- \hat{Q}_t + \tilde{C}_t + \frac{\widehat{B_{t+1}}}{1-n} = \tilde{A}_{T,t} - \frac{(1-\alpha)(1-\gamma)}{\gamma} \tilde{L}_{N,t}. \tag{9b}
-\]
-
-\textbf{Euler Equation (Difference):}
-\[
-\tilde{C}_{t+1}-\tilde{C}_t = (1-\gamma)\Big[( \widehat{P_{N,t}}-\hat{P}^*_{N,t}) - ( \widehat{P_{N,t+1}}-\hat{P}^*_{N,t+1})\Big] + (\widehat{\beta_{H,t+1}}-\hat{\beta}_{F,t+1}) + \beta_0\Big(\hat{r}_{C,t+1}-\hat{r}^*_{C,t+1}\Big). \tag{9c}
-\]
-
-\textbf{Labor Allocation (Difference):}
-\[
-\frac{\alpha}{\gamma} \tilde{L}_{N,t} = -\frac{1}{1-\gamma} \hat{Q}_t - \tilde{A}_{N,t}. \tag{9d}
-\]
 
 \textbf{Intuition:} These equations link cross-country differences in consumption, labor, and the real exchange rate to differences in productivity and intertemporal preferences.
 
