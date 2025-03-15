@@ -535,14 +535,20 @@ The Home resource constraint is:
 \[
 n\gamma (P_{N,t})^{1-\gamma}C_t + nB_{t+1} = A_{T,t}(n-L_{N,t})^{1-\alpha}+ n(1+r_t)B_t.
 \]
-Taking logs and linearizing (and assuming that in steady state $B_t=0$, so only percentage deviations matter), we have:
+Divide both sides by $n \gamma C_0$, we get:
 \[
-(1-\gamma)  \widehat{P_{N,t}} + \widehat{C_t} + \widehat{B_{t+1}} = \widehat{A_{T,t}} - \frac{(1-\alpha)(n-L_{N,0})}{n-L_{N,0}}  \widehat{L_{N,t}} + \frac{1}{\beta_0} \widehat{B_t}.
+\frac{(P_{N,t})^{1-\gamma}C_t}{C_0} + \widehat{B_{t+1}} = \frac{A_{T,t}(n-L_{N,t})^{1-\alpha}}{n\gamma C_0} + (1+r_t)\widehat{B_t}.
 \]
-Since in steady state $n-L_{N,0}= n\gamma$, the coefficient on $ \widehat{L_{N,t}}$ becomes $(1-\alpha)$. Thus,
+
+Taking logs and linearizing, we have:
 \[
-\boxed{(1-\gamma)  \widehat{P_{N,t}} + \widehat{C_t} + \widehat{B_{t+1}} = \widehat{A_{T,t}} - (1-\alpha)  \widehat{L_{N,t}} + \frac{1}{\beta_0} \widehat{B_t}. \tag{7c}}
+(1-\gamma)  \widehat{P_{N,t}} + \widehat{C_t} + \widehat{B_{t+1}} = \widehat{A_{T,t}} - \frac{(1-\alpha)(L_{N,t} - L_{N,0})}{n-L_{N,0}}  \widehat{L_{N,t}} + \frac{1}{\beta_0} \widehat{B_t}.
 \]
+Since in steady state $n-L_{N,0}= n\gamma$, and that $\widehat{L_{N,t}} = L_{N,t} - L_{N,0}$. Thus,
+\[
+\boxed{(1-\gamma)  \widehat{P_{N,t}} + \widehat{C_t} + \widehat{B_{t+1}} = \widehat{A_{T,t}} - (1-\alpha) \frac{1 - \gamma}{\gamma} \widehat{L_{N,t}} + \frac{1}{\beta_0} \widehat{B_t}. \tag{7c}}
+\]
+
 
 \subsection*{C. Euler Equation}
 Recall that:
@@ -660,23 +666,79 @@ Finally, from (8c), we know that:
 \section{Cross-Country Differences}
 As we know that $Q_t = \Bigl(\frac{P_{N,t}^*}{P_{N,t}}\Bigr)^{1-\gamma}$, log-linearize the equation, we have:
 \[\widehat{Q_t} = (1-\gamma)(\widehat{P_{N,t}^*}) - \widehat{P_{N,t}}.\]
-
+Use (7a) - (7b), we get:
+\begin{align*}
+    \widehat{C_t} - \widehat{C_t^*} - \gamma(\widehat{P_{N,t}} - \widehat{P_{N,t}^*}) &= (\widehat{A_{N,t}} - \widehat{A_{N,t}^*}) + (1-\alpha)(\widehat{L_{N,t}} - \widehat{L_{N,t}^*}) \\
+    \Rightarrow \widehat{C_t} - \widehat{C_t^*} + \frac{\gamma}{1-\gamma}\widehat{Q_t} &= (\widehat{A_{N,t}} - \widehat{A_{N,t}^*}) + (1-\alpha)(\widehat{L_{N,t}} - \widehat{L_{N,t}^*}) \tag{9a}.
+\end{align*}
+Use (7c) - (7d), we get:
+\begin{align*}
+    \text{LHS} &= (1-\gamma)(\widehat{P_{N,t}} - \widehat{P_{N,t}^*}) + \widehat{C_t} - \widehat{C_t^*} + \frac{\widehat{B_{t+1}}}{1-n} \\
+    \text{RHS} &= (\widehat{A_{T,t}} - \widehat{A_{T,t}^*}) - (1-\alpha)\frac{1-\gamma}{\gamma}(\widehat{L_{N,t}} - \widehat{L_{N,t}^*}) + \frac{1}{\beta_0} \frac{\widehat{B_t}}{1-n} \\
+    \text{As } \widehat{Q_t} &= (1-\gamma)(\widehat{P_{N,t}^*} - \widehat{P_{N,t}}), \text{ we have} \\ 
+    \text{LHS} &= - \widehat{Q_t} + (\widehat{C_t} - \widehat{C_t^*}) + \frac{\widehat{B_{t+1}}}{1-n} = \text{RHS} \tag{9b}
+\end{align*}
+Use (7e) - (7f), we get:
+\begin{align*}
+    (\widehat{C_{t+1}} - \widehat{C_{t+1}^*}) &= (\widehat{C_t} - \widehat{C_t^*}) + (1-\gamma)(\widehat{P_{N,t}} - \widehat{P_{N,t}^*}) + (1-\gamma)(\widehat{P_{N,t+1}^*} - \widehat{P_{N,t+1}}) + (\widehat{\beta_{H, t+1}} - \widehat{\beta_{F, t+1}}) \\
+    &= (\widehat{C_t} - \widehat{C_t^*}) - \widehat{Q_t} + \widehat{Q_{t+1}} + \widehat{\beta_{H, t+1}} - \widehat{\beta_{F, t+1}} \tag{9c}.
+\end{align*}
+Use (7g) - (7h), we get:
+\begin{align*}
+    (\widehat{A_{T,t}} - \widehat{A_{T,t}^*}) + \frac{\alpha}{\gamma}(\widehat{L_{N,t}} - \widehat{L_{N,t}^*}) &= (\widehat{P_{N,t}} - \widehat{P_{N,t}^*}) + (\widehat{A_{N,t}} - \widehat{A_{N,t}^*}) \\
+    &= - \frac{1}{1-\gamma} \widehat{Q_t} + (\widehat{A_{N,t}} - \widehat{A_{N,t}^*}) \tag{9d}.
+\end{align*}
+Use (7i) - (7j), we get:
+\begin{align*}
+    \beta_0(\widehat{r_{t+1}^C} - \widehat{r_{t+1}^{C*}}) &= (1-\gamma)(\widehat{P_{N,t}} - \widehat{P_{N,t}^*}) + (1-\gamma)(\widehat{P_{N,t}^*} - \widehat{P_{N,t}}) \\
+    &= \widehat{Q_{t+1}} - \widehat{Q_t} \tag{9e}.
+\end{align*}
 
 
 \textbf{Intuition:} These equations link cross-country differences in consumption, labor, and the real exchange rate to differences in productivity and intertemporal preferences.
 
 \section{Long-Run Allocation (Period $t+1$)}
 
-Assume that from $ t+1 $ onward the economy reaches a new steady state with no further discount factor shocks ($ \hat{\beta}_{H,t+2} = \hat{\beta}_{F,t+2} = 0 $). Taking the cross-country asset position $ \widehat{B_{t+1}} $ as given, one can show:
+Assume that from $ t+1 $ onward the economy reaches a new steady state with no further discount factor shocks ($ \widehat{\beta_{H,t+2}} = \widehat{\beta_{F,t+2}} = 0 $).
+In the steady state, the consumption growth rate is zero, the asset position is fixed and the real exchange rate is stable. 
+
+Using the labor allocation equation at $ t+1 $, we have:
 \[
-\hat{Q}_{t+1} = - (1-\gamma)\left[(\hat{A}_{T,t+1}-\hat{A}^*_{T,t+1}) - ( \widehat{A_{N,t+1}}-\hat{A}^*_{N,t+1})\right] - \frac{\alpha(1-\gamma)}{1-\beta_0}\frac{1}{\beta_0}\frac{\widehat{B_{t+1}}}{1-n},
+\frac{\alpha}{\gamma} (\widehat{L_{N,t}} - \widehat{L_{N,t}^*}) = -\frac{1}{1-\gamma} \widehat{Q_{t+1}} + \Bigl[ (\widehat{A_{N,t}} - \widehat{A_{N,t}^*}) - (\widehat{A_{T,t}} - \widehat{A_{T,t}^*}) \Bigr] \tag{10.1}.
 \]
-\[
-\tilde{L}_{N,t+1} = \frac{\gamma}{1-\beta_0}\frac{1}{\beta_0}\frac{\widehat{B_{t+1}}}{1-n},
-\]
-\[
-\tilde{C}_{t+1} = \gamma\big(\hat{A}_{T,t+1}-\hat{A}^*_{T,t+1}\big) + (1-\gamma)\big( \widehat{A_{N,t+1}}-\hat{A}^*_{N,t+1}\big) + \frac{\gamma}{1-\beta_0}\frac{1}{\beta_0}\frac{\widehat{B_{t+1}}}{1-n}.
-\]
+Then, we use the market clearing condition for non-traded goods and the resource allocation constraints at $ t+1 $:
+\begin{align*}
+    \frac{\gamma}{1-\gamma} \widehat{Q_{t+1}} + (\widehat{C_{t+1}} - \widehat{C_{t+1}^*}) &= (\widehat{A_{N,t+1}} - \widehat{A_{N,t+1}^*}) + (1-\alpha )(\widehat{L_{N,t+1}} - \widehat{L_{N,t+1}^*}) \tag{10.2} \\
+    -\widehat{Q_{t+1}} + (\widehat{C_{t+1}} - \widehat{C_{t+1}}^*) + \frac{\widehat{B_{t+2}}}{1-n} &= (\widehat{A_{T,t+1}} - \widehat{A_{T,t+1}^*}) - (1-\alpha) \frac{1-\gamma}{\gamma} (\widehat{L_{N,t+1}} - \widehat{L_{N,t+1}^*}) + \frac{1}{\beta_0} \frac{\widehat{B_{t+1}}}{1-n}. \tag{10.3}
+\end{align*}
+As $\widehat{B_{t+2}} = \widehat{B_{t+1}}$, using (10.2)-(10.3), we get:
+\begin{align*}
+    & \quad \Bigl(\frac{1-\gamma}{\gamma} + 1 \Bigr) \widehat{Q_{t+1}} = \Bigl[ (\widehat{A_{N,t+1}} - \widehat{A_{N,t+1}^*}) - (\widehat{A_{T,t+1}} - \widehat{A_{T,t+1}^*}) \Bigr] \\
+    &\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad + (1-\alpha) \Bigl(1 + \frac{1-\gamma}{\gamma}\Bigr) (\widehat{L_{N,t+1}} - \widehat{L_{N,t+1}^*}) - \frac{1-\beta_0}{\beta_0} \frac{\widehat{B_{t+1}}}{1-n} \\
+    \Rightarrow & \quad \widehat{Q_{t+1}} = (1-\gamma)\Bigl[ (\widehat{A_{N,t+1}} - \widehat{A_{N,t+1}^*}) - (\widehat{A_{T,t+1}} - \widehat{A_{T,t+1}^*}) \Bigr] + (1-\alpha) \frac{1-\gamma}{\gamma} (\widehat{L_{N,t+1}} - \widehat{L_{N,t+1}^*}) \\ 
+    &\quad\quad\quad\quad- (1-\gamma) \frac{1-\beta_0}{\beta_0} \frac{\widehat{B_{t+1}}}{1-n} \tag{10.4}.
+\end{align*}
+Replacing $\widehat{L_{N,t+1}} - \widehat{L_{N,t+1}^*}$ using (10.1), we get:
+\begin{align*}
+    & \quad \widehat{Q_{t+1}} = (1-\gamma) \Bigl[ (\widehat{A_{N,t+1}} - \widehat{A_{N,t+1}^*}) - (\widehat{A_{T,t+1}} - \widehat{A_{T,t+1}^*}) \Bigr] - \frac{1-\alpha}{\alpha} \widehat{Q_{t+1}} \\
+    &\quad\quad\quad\quad+ \frac{1-\alpha}{\alpha} (1-\gamma) \Bigl[ (\widehat{A_{N,t+1}} - \widehat{A_{N,t+1}^*}) - (\widehat{A_{T,t+1}} - \widehat{A_{T,t+1}^*}) \Bigr] - (1-\gamma) \frac{1-\beta_0}{\beta_0} \frac{\widehat{B_{t+1}}}{1-n} \\
+    \Rightarrow & \quad \Bigl( 1 + \frac{1-\alpha}{\alpha} \Bigr) \widehat{Q_{t+1}} = (1-\gamma) \Bigl(1 + \frac{1-\alpha}{\alpha} \Bigr) \Bigl[ (\widehat{A_{N,t+1}} - \widehat{A_{N,t+1}^*}) - (\widehat{A_{T,t+1}} - \widehat{A_{T,t+1}^*}) \Bigr] \\
+    &\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad - (1-\gamma) \frac{1-\beta_0}{\beta_0} \frac{\widehat{B_{t+1}}}{1-n} \\
+    \Rightarrow & \quad \widehat{Q_{t+1}} = -(1-\gamma) \Bigl[ (\widehat{A_{T,t+1}} - \widehat{A_{T,t+1}^*}) - (\widehat{A_{N,t+1}} - \widehat{A_{N,t+1}^*}) \Bigr] - \alpha (1-\gamma) \frac{1-\beta_0}{\beta_0} \frac{\widehat{B_{t+1}}}{1-n} \tag{10a}.
+\end{align*}
+Comparing (10.4) and (10a), we have:
+\begin{align*}
+    & \quad (1-\alpha) \frac{1-\gamma}{\gamma} (\widehat{L_{N,t+1}} - \widehat{L_{N,t+1}^*}) - (1-\gamma) \frac{1-\beta_0}{\beta_0} \frac{\widehat{B_{t+1}}}{1-n} = -\alpha (1-\gamma) \frac{1-\beta_0}{\beta_0} \frac{\widehat{B_{t+1}}}{1-n} \\
+    \Rightarrow & \quad \widehat{L_{N,t+1}} - \widehat{L_{N,t+1}^*} = \gamma \frac{1-\beta_0}{\beta_0} \frac{\widehat{B_{t+1}}}{1-n} \tag{10b}.
+\end{align*}
+Implementing (10a) and (10b) back into (10.2), we get: 
+\begin{align*}
+    \widehat{C_{t+1}} - \widehat{C_{t+1}^*} &= \widehat{Q_{t+1}} + (\widehat{A_{T,t+1}} - \widehat{A_{T,t+1}^*}) - \frac{(1-\alpha)(1-\gamma)}{\gamma} \frac{1-\beta_0}{\beta_0} \frac{\widehat{B_{t+1}}}{1-n} + \frac{1-\beta_0}{\beta_0} \frac{\widehat{B_{t+1}}}{1-n} \\
+    &= -(1-\gamma) (\widehat{A_{T,t+1}} - \widehat{A_{T,t+1}^*}) + (1-\gamma) (\widehat{A_{N,t+1}} - \widehat{A_{N,t+1}^*}) + (\widehat{A_{T,t+1}} - \widehat{A_{T,t+1}^*}) \\
+    & \quad - \alpha (1-\gamma) \frac{1-\beta_0}{\beta_0} \frac{\widehat{B_{t+1}}}{1-n} - (1-\alpha) (1-\gamma) \frac{1-\beta_0}{\beta_0} \frac{\widehat{B_{t+1}}}{1-n} + \frac{1-\beta_0}{\beta_0} \frac{\widehat{B_{t+1}}}{1-n} \\
+    &= \gamma(\widehat{A_{T,t+1}} - \widehat{A_{T,t+1}^*}) + (1-\gamma) (\widehat{A_{N,t+1}} - \widehat{A_{N,t+1}^*}) + \gamma \frac{1-\beta_0}{\beta_0} \frac{\widehat{B_{t+1}}}{1-n} \tag{10c}
+\end{align*}
+
 \textbf{Interpretation:}
 \begin{itemize}
     \item A positive $ \widehat{B_{t+1}} $ (Home wealthier) implies higher relative consumption and a lower $ Q_{t+1} $ (Home’s goods become relatively more expensive).
