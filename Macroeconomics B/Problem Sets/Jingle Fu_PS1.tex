@@ -191,7 +191,7 @@ Analogously, for the Foreign agent, we have
 \begin{itemize}
     \item The parameter $\gamma$ reflects the expenditure share on the traded good.
     \item Since the traded good is the num\'eraire (price normalized to 1), its cost enters directly, while the cost of the non-traded good is weighted by its price $P_{N,t}$.
-    \item The composite price index $P_t$ is a weighted geometric mean of the individual prices. With the traded good’s price equal to 1, we have $P_t = (P_{N,t})^{1-\gamma}$.
+    \item The composite price index $P_t$ is a weighted geometric mean of the individual prices. With the traded good's price equal to 1, we have $P_t = (P_{N,t})^{1-\gamma}$.
     \item The optimal consumption choices allocate expenditure in a way that equates the marginal rate of substitution to the ratio of prices.
 \end{itemize}
 
@@ -654,7 +654,66 @@ Finally, from (8c), we know that:
     &= \widehat{A_{T, t+1}^W} -  \widehat{A_{T,t}^W}.
 \end{align*}
 
-\textbf{Intuition:} World aggregates respond only to symmetric shocks, with the real interest rate driven by global productivity changes and aggregate patience.
+\textbf{Relative Price of Goods:}\\
+The relative price of goods in our model is captured by the real exchange rate
+\[
+Q_t = \left(\frac{P_{N,t^*}}{P_{N,t}}\right)^{1-\gamma}.
+\]
+Its log-deviation is
+\[
+\widehat{Q_t} = (1-\gamma)(\widehat{P_{N,t}^*}-\widehat{P_{N,t}}).
+\]
+This relative price is driven by:
+\begin{itemize}
+    \item \textbf{Productivity Differences:} Differences in sector-specific productivity. An increase in Home's traded productivity (a higher \( \widehat{A_{T,t}} \)) relative to non-traded productivity (or relative to Foreign's productivity) lowers the relative cost of producing tradables. In our derivations, the term \( \widehat{A}_{T,t} - \widehat{A}^*_{T,t} \) appears with a negative sign in \( \widehat{Q}_t \), indicating that higher Home traded productivity tends to lower Home's non-tradable price relative to Foreign's.
+    \item \textbf{Relative Demand Effects:} Shocks that affect consumption (e.g. through changes in discount factors) alter demand for non-traded goods, hence influencing \( P_{N,t} \).
+\end{itemize}
+
+\textbf{Consumption:} \\
+Aggregate consumption in each country is determined by both traded and non-traded output. In log-linear terms, world consumption is given by
+\[
+\widehat{C_t^W} = \gamma\,\widehat{A_{T,t}^W} + (1-\gamma)\,\widehat{A_{N,t}^W},
+\]
+where \( \widehat{A_{T,t}^W} \) and \( \widehat{A_{N,t}^W} \) are the population-weighted productivity shocks in the traded and non-traded sectors. Thus, consumption is driven by overall improvements in productivity—improvements in traded productivity increase income (and hence consumption) by \( \gamma \) while improvements in non-traded productivity raise consumption by \( 1-\gamma \).
+
+\textbf{Real Interest Rate:}  \\
+The consumption-based real interest rate is determined by the Euler equation
+\[
+1 = \beta_0 (1+r_0),
+\]
+and its log-linear deviations are influenced by both the intertemporal preference parameter \( \beta \) and by the relative price changes in non-tradables (through \( \widehat{P}_{N,t} \)). Specifically, we have
+\[
+\widehat{r_{t+1}^C} = \widehat{r_{t+1}} + \frac{1-\gamma}{\beta_0}\left(\widehat{P_{N,t}} - \widehat{P_{N,t+1}}\right).
+\]
+Thus, the real interest rate responds to:
+\begin{itemize}
+    \item \textbf{Household Patience:} A higher \( \beta_0 \) (or a more favorable \( \widehat{\beta_{H,t}} \)) implies lower required returns to equate current and future consumption.
+    \item \textbf{Expected Price Changes:} Changes in \( \widehat{P_{N,t}} \) affect the real return by altering the consumption price index.
+\end{itemize}
+
+\underline{What Drives Relative Price:} \\
+This relative price is driven by the productivity gap between the traded and non-traded sectors. 
+When traded-goods productivity rises relative to non-traded-goods productivity, 
+the price of non-traded goods increases (since traded goods become relatively cheaper to produce). 
+Conversely, higher productivity in the non-traded sector (relative to traded) makes non-traded goods relatively cheaper, 
+lowering their relative price.
+
+\underline{What Drives Consumption:} \\
+Aggregate consumption is driven by productivity improvements in both sectors, 
+weighted by their share in consumption. 
+In particular, higher productivity in the traded sector raises consumption (through more output/income of tradables), 
+and higher productivity in the non-traded sector also raises consumption (more domestic goods), 
+each in proportion to their expenditure share ($\gamma$ for traded, $1-\gamma$ for non-traded).
+
+\underline{What Drives the Real Exchange Rate:} \\
+The real interest rate is determined by households' patience and expected productivity growth. 
+An increase in the Home discount factor (greater patience) lowers the real interest rate, 
+since more patient consumers save more (reducing the return needed to equilibrate)
+In addition, if future traded-sector productivity is expected to grow faster than present 
+(a positive productivity growth outlook), 
+the real interest rate tends to rise (reflecting higher expected returns to saving/investing when future output is higher). 
+In summary, a shock that makes consumers more patient drives down the consumption-based real interest rate, 
+while faster productivity growth prospects push it up.
 
 \section{Cross-Country Differences}
 As we know that $Q_t = \Bigl(\frac{P_{N,t}^*}{P_{N,t}}\Bigr)^{1-\gamma}$, log-linearize the equation, we have:
@@ -732,11 +791,46 @@ Implementing (10a) and (10b) back into (10.2), we get:
     &= \gamma(\widehat{A_{T,t+1}} - \widehat{A_{T,t+1}^*}) + (1-\gamma) (\widehat{A_{N,t+1}} - \widehat{A_{N,t+1}^*}) + \gamma \frac{1-\beta_0}{\beta_0} \frac{\widehat{B_{t+1}}}{1-n} \tag{10c}
 \end{align*}
 
-\textbf{Interpretation:}
+\textbf{(1) Impact of Home Being Wealthier (\( \widehat{B}_{t+1} > 0 \)):}\\
+When \( \widehat{B}_{t+1} > 0 \), Home has accumulated net foreign assets. In the long run, this wealth effect leads to:
 \begin{itemize}
-    \item A positive $ \widehat{B_{t+1}} $ (Home wealthier) implies higher relative consumption and a lower $ Q_{t+1} $ (Home’s goods become relatively more expensive).
-    \item Permanent productivity differences affect steady state consumption and prices directly.
+    \item A higher steady-state consumption level in Home relative to Foreign, since net asset income augments Home's overall resources.
+    \item An upward pressure on domestic (Home) demand, which, via the resource constraints, increases the domestic price of non-tradables. This results in a real appreciation of Home's currency (i.e. a lower \( Q_{t+1} \), 
+    meaning Home's goods become relatively more expensive).
 \end{itemize}
+Thus, being wealthier (with \( \widehat{B}_{t+1} > 0 \)) directly boosts Home's consumption while causing a real appreciation.
+
+\textbf{(2) Long-Run Impact of Productivity (Excluding the Asset Channel):}\\
+\begin{itemize}
+    \item An increase in Home's traded productivity (\( \widehat{A}_{T,t} > 0 \)) raises the output in the traded sector. This increases Home's income and consumption by the factor \( \gamma \) and, via the Balassa--Samuelson mechanism, raises wages and non-traded prices, leading to a real appreciation.
+    \item Conversely, an increase in Home's non-traded productivity (\( \widehat{A}_{N,t} > 0 \)) improves domestic output in non-tradables, boosting consumption by the factor \( 1-\gamma \) and reducing the relative price of non-tradables, which tends to depreciate Home's currency.
+\end{itemize}
+In either case, productivity improvements raise long-run consumption directly, and the real exchange rate adjusts according to the sector in which the productivity shock occurs.
+
+\underline{Impact of home country wealthier}: \\
+If Home has a positive net foreign asset position (Home is wealthier), 
+it can afford higher consumption relative to Foreign. 
+Home's steady-state consumption will be higher than Foreign's, 
+and this higher demand for Home goods makes Home's goods relatively more expensive. 
+In other words, a wealthier Home leads to a real appreciation of Home's goods (a lower $Q_{t+1}$, 
+meaning Foreign goods become cheap relative to Home goods). 
+Home runs a trade balance surplus (earning income from its assets), 
+which supports its higher consumption.
+
+\underline{Longrun impact of productivity:} \\
+Permanent productivity differences translate directly into differences in consumption and relative prices in steady state. 
+A country with higher productivity (Home, in this case) 
+will enjoy higher long-run consumption levels and a stronger relative price for its goods independent of net foreign assets.
+In effect, Home's higher productivity raises its real income and consumption, 
+and causes a direct real exchange rate adjustment: 
+for example, higher traded-sector productivity in Home leads to higher Home wages and non-traded prices 
+(Balassa-Samuelson effect), 
+appreciating Home's real exchange rate; 
+higher non-traded productivity would raise Home consumption and lower Home's non-traded prices, 
+depreciating the real exchange rate. 
+In all cases, the more productive economy has a higher standard of living 
+(consumption) and its price levels adjust accordingly in the long run, 
+aside from any asset accumulation.
 
 \section{Short-Run Allocation (Period $t$)}
 To simplify notation, we denote $ \widehat{A_{N,t}} - \widehat{A_{N,t}^*}  = \widetilde{A_{N,t}}$, $ \widehat{A_{T,t}} - \widehat{A_{T,t}^*}  = \widetilde{A_{T,t}}$, $ \widehat{L_{N,t}} - \widehat{L_{N,t}^*}  = \widetilde{L_{N,t}}$. 
@@ -807,23 +901,38 @@ Bring (11a) back to the equation, we get:
     & \quad - \frac{\alpha (1-\gamma)}{\gamma + \alpha(1-\gamma)} \Bigl[ \widehat{\beta_{H,t+1}} - \widehat{\beta_{F,t+1}} - (\widehat{A_{T,t+1}} - \widehat{A_{T,t+1}^*}) + (\widehat{A_{T,t}} - \widehat{A_{T,t}^*}) \Bigr] \tag{11e}
 \end{align*}
 
-\textbf{Interpretation:}
+\textbf{(1) Impact of a Temporary Increase in Home Patience (\( \widehat{\beta}_{H,t+1} - \widehat{\beta}_{F,t+1} > 0 \)):}\\[1mm]
+A temporary increase in Home's patience means that \( \widehat{\beta}_{H,t+1} > \widehat{\beta}_{F,t+1} \). The consequences are:
 \begin{itemize}
-    \item A temporary increase in Home patience (i.e. $ \widehat{\beta_{H,t+1}}-\hat{\beta}_{F,t+1} > 0 $) leads to $ \widehat{B_{t+1}}>0 $ (Home runs a current account surplus), lower relative consumption, and a real exchange rate movement consistent with a trade surplus.
-    \item Temporary traded or non-traded productivity shocks affect the current account and labor allocation differently.
-    \item For permanent shocks ($ \widehat{A_{T,t}}=\hat{A}_{T,t+1} $), intertemporal balance is restored with $ \widehat{B_{t+1}}=0 $ and immediate adjustment to the new steady state.
+    \item Home households postpone current consumption and save more, leading to a positive net asset accumulation, i.e., \( \widehat{B}_{t+1} > 0 \).
+    \item The current account surplus (positive \( \widehat{B}_{t+1} \)) reduces Home's current consumption relative to Foreign, so that the cross-country consumption gap \( \widetilde{C}_t \) becomes negative.
+    \item As Home saves more, there is a reallocation of labor away from the non-traded sector (since non-tradables are largely consumed domestically) and the real exchange rate adjusts accordingly. Typically, increased saving puts downward pressure on domestic non-tradable prices, leading to a real depreciation, which helps balance the external sector.
 \end{itemize}
 
-\section{Summary of Key Economic Insights}
+\textbf{(2) Impact of a Temporary Shock in Home Traded Productivity (\( \widehat{A}_{T,t} > 0 \)) versus Non-Traded Productivity (\( \widehat{A}_{N,t} > 0 \)):}\\[1mm]
+\textbf{Temporary Traded Productivity Shock (\( \widehat{A}_{T,t} > 0 \)):}
 \begin{itemize}
-    \item \textbf{Consumption and Prices:} The structure of the consumption basket implies that a rise in the non‐traded good price $ P_{N,t} $ increases the overall consumption price $ P_t $ and shifts the consumption mix.
-    \item \textbf{Market Clearing:} Non-traded goods are produced and consumed domestically, whereas traded goods are allocated internationally, linking domestic production choices to the real exchange rate.
-    \item \textbf{Intertemporal Choices:} The Euler equations show that higher patience or higher real returns lead to deferred consumption. Cross-country differences in patience drive current account imbalances.
-    \item \textbf{Labor Allocation:} Labor is reallocated across sectors until the marginal value products are equalized; productivity shifts affect both output composition and relative prices.
-    \item \textbf{Steady State and Log-Linearization:} In a symmetric steady state, relative prices and allocations are balanced. Log-linearization permits analysis of small shocks and their propagation.
-    \item \textbf{Short-Run vs. Long-Run Dynamics:} Temporary shocks generate current account imbalances and short-run reallocation, while permanent shocks adjust consumption and prices directly with no asset accumulation.
-    \item \textbf{Wealth Effects:} A positive net asset position (Home wealthier) implies higher steady-state consumption and a relatively stronger (appreciated) currency.
+    \item A positive temporary shock in \( \widehat{A}_{T,t} \) increases Home's output of tradable goods.
+    \item Because tradables are internationally traded, Home can export the surplus. However, households do not instantaneously increase their consumption by the full amount of the productivity gain; instead, some of the extra income is saved.
+    \item As a result, Home runs a current account surplus (\( \widehat{B}_{t+1} > 0 \)) and, by the mechanism of reallocation, its non-traded goods sector experiences higher demand—leading to higher domestic prices and a real appreciation of Home's currency.
 \end{itemize}
+
+\textbf{Temporary Non-Traded Productivity Shock (\( \widehat{A}_{N,t} > 0 \)):}
+\begin{itemize}
+    \item A temporary shock in \( \widehat{A}_{N,t} \) boosts the production of non-tradable goods, which are consumed domestically.
+    \item Since non-tradables are not exported, the entire output effect is absorbed by domestic consumption, raising Home's real consumption without significantly altering external trade.
+    \item The increased supply of non-tradables tends to lower their relative price, so the domestic consumption price index falls. This produces a real depreciation of Home's currency.
+    \item Additionally, with most of the income effect confined to domestic consumption, there is little pressure for a current account surplus or deficit.
+\end{itemize}
+
+\textbf{(3) Impact of Permanent Productivity Shocks:}\\[1mm]
+For permanent shocks (i.e. when \( \widehat{A}_{T,t+1} = \widehat{A}_{T,t} \) or \( \widehat{A}_{N,t+1} = \widehat{A}_{N,t} \)), the following occurs:
+\begin{itemize}
+    \item The economy adjusts immediately to the new steady state, and by the intertemporal Euler condition no net asset accumulation is required (\( \widehat{B}_{t+1} = 0 \)).
+    \item Home's consumption jumps to a higher level that reflects the permanent increase in productivity.
+    \item The relative price adjustments occur immediately so that the real exchange rate settles at its new steady-state value.
+\end{itemize}
+In essence, permanent productivity shocks affect the long-run levels of consumption and relative prices without generating a temporary current account imbalance.
 
 \end{document}
 
