@@ -1,6 +1,6 @@
 \documentclass[a4paper,12pt]{article} % This defines the style of your paper
 
-\usepackage[top = 2.5cm, bottom = 2.5cm, left = 2.5cm, right = 2.5cm]{geometry} 
+\usepackage[top = 2.5cm, bottom = 2.5cm, left = 1.5cm, right = 1.5cm]{geometry} 
 
 % Unfortunately, LaTeX has a hard time interpreting German Umlaute. The following two lines and packages should help. If it doesn't work for you please let me know.
 \usepackage[T1]{fontenc}
@@ -131,7 +131,7 @@ The Graduate Institute, Spring 2025, Cedric Tille\\
 \end{center}  
 
 \vspace{0.4cm}
-\setstretch{1.2}
+\setstretch{1.1}
 
 \section{Consumption Allocation}
 
@@ -169,16 +169,15 @@ P_t C_t = \min \left\{ C_{T,t} + P_{N,t} C_{N,t} : \; C_t = \left(\frac{C_{T,t}}
 \]
 So, we have:
 \begin{align*}
-    P_t C_T & = C_{T,t} + P_{N,t} C_{N,t} \\
+    P_t C_t & = C_{T,t} + P_{N,t} C_{N,t} \\
     &= C_{T,t} + \frac{1-\gamma}{\gamma} C_{T,t} \\
     \Rightarrow C_{T,t} &= \gamma P_t C_t \\
     \Rightarrow C_{N,t} &= \frac{1-\gamma}{\gamma} \frac{C_{T,t}}{P_{N,t}}\\
     &= (1-\gamma) P_t C_t.
 \end{align*}
-As $P_t$ is the minimum expenditure required to attain the given consumption level $C_t=1$, we have:
 \begin{align*}
-    & \left(\frac{C_{T,t}}{\gamma } \right)^{\gamma} \left(\frac{C_{N,t}}{1 - \gamma} \right)^{ 1-\gamma} = 1 \\
-    \Rightarrow \quad & (P_t C_t)^{\gamma} \left(\frac{P_t C_t}{P_N,t}\right)^{1-\gamma} = 1 \\
+    & \left(\frac{C_{T,t}}{\gamma } \right)^{\gamma} \left(\frac{C_{N,t}}{1 - \gamma} \right)^{ 1-\gamma} = C_t \\
+    \Rightarrow \quad & (P_t C_t)^{\gamma} \left(\frac{P_t C_t}{P_N,t}\right)^{1-\gamma} = C_t \\
     \Rightarrow \quad & P_t = (P_{N,t})^{1-\gamma}. 
 \end{align*}
 Analogously, for the Foreign agent, we have 
@@ -236,12 +235,12 @@ n P_t C_t + n B_{t+1} = A_{T,t} (n-L_{N,t})^{ 1-\alpha} + P_{N,t} A_{N,t} (L_{N,
 \]
 Focusing on a single period (the infinite-horizon structure is standard), we write:
 \[
-\mathcal{L} = \ln C_t + \beta_{H,t+1}\ln C_{t+1} - \lambda_t \Bigl[A_{T,t}(n-L_{N,t})^{1-\alpha} + P_{N,t}A_{N,t}(L_{N,t})^{1-\alpha} + n(1+r_t)B_t - n P_t C_t - n B_{t+1}\Bigr].
+\mathcal{L}_t = \ln C_t + \beta_{H,t+1}\ln C_{t+1} - \lambda_t \Bigl[A_{T,t}(n-L_{N,t})^{1-\alpha} + P_{N,t}A_{N,t}(L_{N,t})^{1-\alpha} + n(1+r_t)B_t - n P_t C_t - n B_{t+1}\Bigr].
 \]
 Take the FOCs:
 \begin{align*}
-    \frac{\partial \mathcal{L}}{\partial C_t} &= \frac{1}{C_t} - \lambda_t nP_t = 0 \quad \Rightarrow \quad \lambda_t = \frac{1}{nP_t C_t} \\
-    \frac{\partial \mathcal{L}}{\partial B_{t+1}} &= -\lambda_t + \beta_{H,t+1}(1+r_{t+1}) \lambda_{t+1} = 0.
+    \frac{\partial \mathcal{L}_t}{\partial C_t} &= \frac{1}{C_t} - \lambda_t nP_t = 0 \quad \Rightarrow \quad \lambda_t = \frac{1}{nP_t C_t} \\
+    \frac{\partial \mathcal{L}_t}{\partial B_{t+1}} &= -\lambda_t + \beta_{H,t+1}(1+r_{t+1}) \lambda_{t+1} = 0.
 \end{align*}
 
 Substitute the expressions for \(\lambda_t\) and \(\lambda_{t+1}\):
@@ -373,7 +372,7 @@ we have:
 
 In steady state, consumption is constant so that $C_{t+1}=C_t$. The Euler equation for the Home agent is
 \[
-C_{t+1} = \beta_0(1+r_{t+1}^C) C_t.
+C_{t+1} = \beta_{H,t+1}(1+r_{t+1}^C) C_t.
 \]
 But by definition the real return in consumption units is
 \[
@@ -381,9 +380,9 @@ But by definition the real return in consumption units is
 \]
 In steady state prices do not change ($P_t=P_{t+1}$) so that
 \[
-1+r_{t+1}^C = 1+r_{t+1}\quad\Rightarrow\quad C_t = \beta_0(1+r_0)C_t.
+1+r_{t+1}^C = 1+r_{t+1}\quad\Rightarrow\quad C_t = \beta_t(1+r_t)C_t.
 \]
-Dividing by $C_t>0$ yields:
+Dividing by $C_t>0$ and take $t=0$, yields:
 \[
 1=\beta_0(1+r_0).
 \]
@@ -510,12 +509,6 @@ we can check that indeed
 \frac{C_0}{C^*_0}=1.
 \]
 \section{Log-Linear Approximation}
-We linearize the equilibrium conditions around the steady state. Denote for any variable $x_t$ its deviation from steady state by
-\[
-\hat{x}_t = \frac{x_t-x_0}{x_0}.
-\]
-We also define cross-country differences later but for now we linearize the Home equations.
-
 \subsection*{A. Non-Traded Goods Market}
 The Home non-traded goods market clearing condition is:
 \[
@@ -746,20 +739,73 @@ Implementing (10a) and (10b) back into (10.2), we get:
 \end{itemize}
 
 \section{Short-Run Allocation (Period $t$)}
+To simplify notation, we denote $ \widehat{A_{N,t}} - \widehat{A_{N,t}^*}  = \widetilde{A_{N,t}}$, $ \widehat{A_{T,t}} - \widehat{A_{T,t}^*}  = \widetilde{A_{T,t}}$, $ \widehat{L_{N,t}} - \widehat{L_{N,t}^*}  = \widetilde{L_{N,t}}$. 
 
-Assume initially $ \widehat{B_t}=0 $. Solving the system (starting with the labor and non-traded market conditions, then using the resource constraint and Euler equations) yields:
-\[
-\frac{\widehat{B_{t+1}}}{1-n} = \frac{\beta_0}{\gamma + \alpha(1-\gamma)}\Big[(\widehat{\beta_{H,t+1}}-\hat{\beta}_{F,t+1}) - (\hat{A}_{T,t+1}-\hat{A}^*_{T,t+1}) + (\widehat{A_{T,t}}-\hat{A}^*_{T,t})\Big], \tag{11a}
-\]
-\[
-\tilde{C}_t = \gamma(\widehat{A_{T,t}}-\hat{A}^*_{T,t}) + (1-\gamma)( \widehat{A_{N,t}}-\hat{A}^*_{N,t}) - \frac{\gamma \beta_0}{\gamma + \alpha(1-\gamma)}\Big[(\widehat{\beta_{H,t+1}}-\hat{\beta}_{F,t+1}) - (\hat{A}_{T,t+1}-\hat{A}^*_{T,t+1}) + (\widehat{A_{T,t}}-\hat{A}^*_{T,t})\Big], \tag{11b}
-\]
-\[
-\hat{Q}_t = - (1-\gamma)(\widehat{A_{T,t}}-\hat{A}^*_{T,t}) + (1-\gamma)( \widehat{A_{N,t}}-\hat{A}^*_{N,t}) + \frac{(1-\gamma) \alpha \beta_0}{\gamma + \alpha(1-\gamma)}\Big[(\widehat{\beta_{H,t+1}}-\hat{\beta}_{F,t+1}) - (\hat{A}_{T,t+1}-\hat{A}^*_{T,t+1}) + (\widehat{A_{T,t}}-\hat{A}^*_{T,t})\Big], \tag{11c}
-\]
-\[
-\tilde{L}_{N,t} = -\frac{\gamma \beta_0}{\gamma + \alpha(1-\gamma)}\Big[(\widehat{\beta_{H,t+1}}-\hat{\beta}_{F,t+1}) - (\hat{A}_{T,t+1}-\hat{A}^*_{T,t+1}) + (\widehat{A_{T,t}}-\hat{A}^*_{T,t})\Big]. \tag{11d}
-\]
+Combining (9a) and (9d), we can get:
+\begin{gather*}
+    \widetilde{C_t} + \frac{\gamma}{1-\gamma} \widehat{Q_t} - \gamma \widetilde{A_{T,t}} - \alpha \widetilde{L_{N,t}} = \widetilde{A_{N,t}}(1-\gamma) + (1-\alpha)\widetilde{L_{N,t}} + \frac{\gamma}{1-\gamma}\widehat{Q_t} \\
+    \Rightarrow \widetilde{L_{N,t}} = \widetilde{C_t} - \gamma\widetilde{A_{T,t}} - (1-\gamma) \widetilde{A_{N,t}} \tag{11.1}
+\end{gather*}
+and that
+\begin{gather*}
+    (1-\alpha) \gamma \widetilde{A_{T,t}} + \alpha (1-\alpha) \widetilde{L_{N,t}} + \frac{\alpha \gamma}{1-\gamma} \widehat{Q_t} + \alpha \widetilde{C_t} = -\frac{\gamma(1-\alpha)}{1-\gamma}\widehat{Q_t} + (1-\alpha) \gamma \widetilde{A_{N,t}} + \alpha \widetilde{A_{N,t}} + \alpha(1-\alpha)\widetilde{L_{N,t}} \\
+    \Rightarrow \widehat{Q_t} = \Bigl(\frac{1-\gamma}{\gamma}\Bigr) [(1-\alpha)\gamma + \alpha] \widetilde{A_{N,t}} - (1-\alpha)(1-\gamma)\widetilde{A_{T,t}} - \frac{\alpha(1-\gamma)}{\gamma} \widetilde{C_t} \tag{11.2}
+\end{gather*}
+Implementing (11.1) and (11.2) back into (9b), we get:
+\begin{gather*}
+    - \Bigl(\frac{1-\gamma}{\gamma}\Bigr) [(1-\alpha)\gamma + \alpha] \widetilde{A_{N,t}} + (1-\alpha)(1-\gamma)\widetilde{A_{T,t}} + \frac{\alpha(1-\gamma)}{\gamma} \widetilde{C_t} + \widetilde{C_t} + \frac{\widehat{B_{t+1}}}{1-n} \\
+        = \widehat{A_{T,t}} - \frac{(1-\alpha)(1-\gamma)}{\gamma} \widetilde{C_t} + (1-\alpha)(1-\gamma)\widetilde{A_{T,t}} + \frac{(1-\alpha)(1-\gamma)^2}{\gamma} \widetilde{ A_{N,t}} \\
+        \Rightarrow \frac{\widehat{B_{t+1}}}{1-n} = \widetilde{A_{T,t}} + \frac{1-\gamma}{\gamma} \widetilde{A_{N,t}} - \frac{1}{\gamma} \widetilde{C_t}\\
+        \Rightarrow \widetilde{C_t} = \gamma \widetilde{A_{T,t}} + (1-\gamma) \widetilde{A_{N,t}} - \gamma \frac{\widehat{B_{t+1}}}{1-n} \tag{11.3}
+\end{gather*}
+Bring (11.3) back to (11.2), we get:
+\begin{gather*}
+    \widehat{Q_t} = (1-\gamma) (\widetilde{A_{N,t}} - \widetilde{A_{T,t}}) + \gamma \frac{\widehat{B_{t+1}}}{1-n} \tag{11.4}
+\end{gather*}
+Subtracting (11.4) from (10a), we get:
+\begin{gather*}
+    \widehat{Q_{t+1}} - \widehat{Q_t} = (1-\gamma) (\widetilde{A_{N,t+1}} - \widetilde{A_{N,t}}) - (1-\gamma) (\widetilde{A_{T,t+1}} - \widetilde{A_{T,t}}) - \alpha (1-\gamma) \frac{1}{\beta_0} \frac{\widehat{B_{t+1}}}{1-n} \tag{11.5}
+\end{gather*}
+Subtracting (11.3) from (10c), we get:
+\begin{gather*}
+    \widetilde{C_{t+1}} - \widetilde{C_t} = \gamma(\widetilde{A_{T,t+1}} - \widetilde{A_{T,t}}) + (1-\gamma) (\widetilde{A_{N,t+1}} - \widetilde{A_{N,t}}) + \frac{\gamma}{\beta_0} \frac{\widehat{B_{t+1}}}{1-n} \tag{11.6}
+\end{gather*} 
+Bring (11.5) and (11.6) back to (9c), we get:
+\begin{gather*}
+    \gamma (\widetilde{A_{T,t+1}} - \widetilde{A_{T,t}}) + (1-\gamma) (\widetilde{A_{N,t+1}} - \widetilde{A_{N,t}}) + \frac{\gamma}{\beta_0} \frac{\widehat{B_{t+1}}}{1-n} \\
+    = (1-\gamma) (\widetilde{A_{N,t+1}} - \widetilde{A_{N,t}}) - (1-\gamma) (\widetilde{A_{T,t+1}} - \widetilde{A_{T,t}}) - \alpha(1-\gamma) \frac{1}{\beta_0} \frac{\widehat{B_{t+1}}}{1-n} + \widehat{\beta_{H,t+1}} - \widehat{\beta_{F,t+1}} \\
+    \Rightarrow \Bigl[\gamma + \alpha(1-\gamma)\Bigr] \frac{1}{\beta_0} \frac{\widehat{B_{t+1}}}{1-n} = \widehat{\beta_{H,t+1}} - \widehat{\beta_{F,t+1}} - (\widetilde{A_{T,t+1}} - \widetilde{A_{T,t}}) \\
+    \Rightarrow \frac{\widehat{B_{t+1}}}{1-n} = \frac{\beta_0}{\gamma + \alpha(1-\gamma)} \Bigl[ \widehat{\beta_{H,t+1}} - \widehat{\beta_{F,t+1}} - (\widehat{A_{T,t+1}} - \widehat{A_{T,t+1}^*}) + (\widehat{A_{T,t}} - \widehat{A_{T,t}^*}) \Bigr] \tag{11a}
+\end{gather*}
+Bring (11a) back to (11.3), we get:
+\begin{align*}
+    \widehat{C_{t+1}} - \widehat{C_t} &= \gamma (\widehat{A_{T,t}} - \widehat{A_{T,t}^*}) + (1-\gamma) (\widehat{A_{N,t}} - \widehat{A_{N,t}^*}) \\
+    &- \frac{\gamma \beta_0}{\gamma + \alpha(1-\gamma)} \Bigl[ \widehat{\beta_{H,t+1}} - \widehat{\beta_{F,t+1}} - (\widehat{A_{T,t+1}} - \widehat{A_{T,t+1}^*}) + (\widehat{A_{T,t}} - \widehat{A_{T,t}^*}) \Bigr] \tag{11b}
+\end{align*}
+Bring (11a) back to (11.4), we get:
+\begin{align*}
+    \widehat{Q_t} &= -(1-\gamma) (\widehat{A_{T,t}} - \widehat{A_{T,t}^*}) + (1-\gamma) (\widehat{A_{N,t}} - \widehat{A_{N,t}^*}) \\
+    &+ \frac{\alpha (1-\gamma) \beta_0}{\gamma + \alpha(1-\gamma)} \Bigl[ \widehat{\beta_{H,t+1}} - \widehat{\beta_{F,t+1}} - (\widehat{A_{T,t+1}} - \widehat{A_{T,t+1}^*}) + (\widehat{A_{T,t}} - \widehat{A_{T,t}^*}) \Bigr] \tag{11c}
+\end{align*}
+Bring (11b) and (11c) back to (11.1), we get:
+\begin{gather*}
+    \widehat{L_{N,t}} - \widehat{L_{N,t}^*} = - \frac{\gamma \beta_0}{\gamma + \alpha(1-\gamma)} \Bigl[ \widehat{\beta_{H,t+1}} - \widehat{\beta_{F,t+1}} - (\widehat{A_{T,t+1}} - \widehat{A_{T,t+1}^*}) + (\widehat{A_{T,t}} - \widehat{A_{T,t}^*}) \Bigr] \tag{11d}
+\end{gather*}
+By (9c), we know that:
+\begin{gather*}
+    \beta_0 (\widehat{r_{t+1}^C} - \widehat{r_{t+1}^{C*}}) = \widehat{Q_{t+1}} - \widehat{Q_t}
+\end{gather*}
+Implementing (10.4) and (11c) back to the equation, we get:
+\begin{align*}
+    \beta_0 (\widehat{r_{t+1}^C} - \widehat{r_{t+1}^{C*}}) &= -(1-\gamma) \Bigl[ (\widehat{A_{T,t+1}} - \widehat{A_{T,t+1}^*}) - (\widehat{A_{N,t+1}} - \widehat{A_{N,t+1}^*}) \Bigr] - \alpha (1-\gamma) \frac{1-\beta_0}{\beta_0} \frac{\widehat{B_{t+1}}}{1-n} \\
+    & \quad - \bigl\{ -(1-\gamma) (\widehat{A_{T,t}} - \widehat{A_{T,t}^*}) + (1-\gamma) (\widehat{A_{N,t}} - \widehat{A_{N,t}^*}) + \alpha (1-\gamma) \frac{\widehat{B_{t+1}}}{1-n} \bigr\}
+\end{align*}
+Bring (11a) back to the equation, we get:
+\begin{align*}
+    \beta_0 (\widehat{r_{t+1}^C} - \widehat{r_{t+1}^{C*}}) &= -(1-\gamma) \Bigl[ (\widehat{A_{T,t+1}} - \widehat{A_{T,t+1}^*}) - (\widehat{A_{N,t+1}} - \widehat{A_{N,t+1}^*}) \Bigr] - \alpha (1-\gamma) \frac{1-\beta_0}{\beta_0} \frac{\widehat{B_{t+1}}}{1-n} \\
+    & \quad + (1-\gamma) \Bigl[(\widehat{A_{T,t}} - \widehat{A_{T,t}^*}) - (\widehat{A_{N,t}} - \widehat{A_{N,t}^*}) \Bigr] \\
+    & \quad - \frac{\alpha (1-\gamma)}{\gamma + \alpha(1-\gamma)} \Bigl[ \widehat{\beta_{H,t+1}} - \widehat{\beta_{F,t+1}} - (\widehat{A_{T,t+1}} - \widehat{A_{T,t+1}^*}) + (\widehat{A_{T,t}} - \widehat{A_{T,t}^*}) \Bigr] \tag{11e}
+\end{align*}
 
 \textbf{Interpretation:}
 \begin{itemize}
