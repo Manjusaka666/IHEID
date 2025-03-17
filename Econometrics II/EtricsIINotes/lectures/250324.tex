@@ -1,0 +1,32 @@
+\section{Univariate Time Series}
+
+We have a sample $\{w_i\}_{i=1}^n$, with $w_i = (y_i, x_i^{\prime})^{\prime}$, 
+
+$\{w_{it}\}_{i=1:n, t=1:T}$.
+
+Now, we look at $\{w_t\}_{i=1}^T$, usually written as $y_t$, is univariate time series data.
+
+In the cross-sectional context, we average over $i$ to get 
+\[\mathbb{E}[u_i] = \int u_i f_u(u_i) d u_i.\]
+
+Under tiem series data, we also think $y_t$ as a RV. without i.i.d. assumption,
+we generallt have $T$ realizations of different and mutually dependent variables.
+
+\begin{gather*}
+    \mathbb{E}[y_t] = \int y_t f_{y_t}(y_t) d y_t = \mu_t, \\
+    \mathbb{V}[y_t] = \mathbb{E}\Bigl[(y_t - \mu_t)^2 \Bigr] = \gamma_{0,t}, \\
+    \operatorname{Cov}(y_t, y_{t-h}) = \mathbb{E}\Bigl[ (y_t - \mu_t)(y_{t-h} - \mu_{t-h}  ) \Bigr] = \gamma_{h,t}.
+\end{gather*}
+
+\begin{definition}[Weak Stationarity]\label{def:weak-stationarity}
+    \
+
+    $y_t$ is a weakly stationary process if
+    \begin{enumerate}
+        \item $\mu_t = \mu$ for all $t$,
+        \item $\gamma_{h,t} = \gamma_h$ for all $t$.
+    \end{enumerate}
+    autocovariance function (ACF): $\{\gamma_0, \gamma_1, \cdots\}$
+    autocorrelation function: $\{\rho_0, \rho_1, \cdots \}$, where $\rho_h = \frac{\gamma_h}{\gamma_0}$.
+\end{definition}
+
