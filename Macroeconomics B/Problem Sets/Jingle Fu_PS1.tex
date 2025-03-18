@@ -467,14 +467,14 @@ C_0^N = A_{N,0}  \bigl[n(1-\gamma)\bigr]^{-\alpha}.
 We then derive from the traded goods clearing condition:
 \begin{align*}
     & n\gamma (P_{N,t})^{1-\gamma} C_t + (1-n)\gamma (P^*_{N,t})^{1-\gamma} C^*_t = A_{T,t} (n-L_{N,t})^{ 1-\alpha} + A^*_{T,t} \big((1-n)-L^*_{N,t}\big)^{ 1-\alpha} \\
-    \Rightarrow & \quad n\gamma C_0 + \frac{\gamma}{1-\gamma} A_{N,0}^*(L_{N,0}^*)^{1-\alpha} = A_{T,0} (n - L_{N,0})^{1-\alpha} + A^*_{T,0} (1-n - L_{N,0}^*)^{1-\alpha} \\
-    \Rightarrow & \quad n\gamma C_0 + \frac{\gamma}{1-\gamma} A_{N,0}^*(1-n)^{1-\alpha} (1-\gamma)^{1-\alpha} = A_{T,0} (n - n(1-\gamma))^{1-\alpha} + \\
-    & A^*_{T,0} (1-n - (1-n)(1-\gamma))^{1-\alpha} \\
-    \Rightarrow & \quad n\gamma C_0 + \frac{\gamma}{1-\gamma} A_{N,0}^*(1-n)^{1-\alpha} (1-\gamma)^{1-\alpha} = A_{T,0} (n\gamma)^{1-\alpha} + A^*_{T,0} \Bigl[(1-n)\gamma\Bigr]^{1-\alpha} \\
-    \Rightarrow & \quad n\gamma C_0 + \frac{\gamma}{1-\gamma} A_{T,0} \Bigl(\frac{1-n}{n}\Bigr)^{\alpha} \Bigl(\frac{1-\gamma}{\gamma}\Bigr)^{\alpha} (1-n)^{1-\alpha} (1-\gamma)^{1-\alpha} = A_{T,0} (n\gamma)^{1-\alpha} + \\
+    \Rightarrow & n\gamma C_0 + \frac{\gamma}{1-\gamma} A_{N,0}^*(L_{N,0}^*)^{1-\alpha} = A_{T,0} (n - L_{N,0})^{1-\alpha} + A^*_{T,0} (1-n - L_{N,0}^*)^{1-\alpha} \\
+    \Rightarrow & n\gamma C_0 + \frac{\gamma}{1-\gamma} A_{N,0}^*(1-n)^{1-\alpha} (1-\gamma)^{1-\alpha} = A_{T,0} (n - n(1-\gamma))^{1-\alpha} \\
+    &\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad\quad + A^*_{T,0} (1-n - (1-n)(1-\gamma))^{1-\alpha} \\
+    \Rightarrow & n\gamma C_0 + \frac{\gamma}{1-\gamma} A_{N,0}^*(1-n)^{1-\alpha} (1-\gamma)^{1-\alpha} = A_{T,0} (n\gamma)^{1-\alpha} + A^*_{T,0} \Bigl[(1-n)\gamma\Bigr]^{1-\alpha} \\
+    \Rightarrow & n\gamma C_0 + \frac{\gamma}{1-\gamma} A_{T,0} \Bigl(\frac{1-n}{n}\Bigr)^{\alpha} \Bigl(\frac{1-\gamma}{\gamma}\Bigr)^{\alpha} (1-n)^{1-\alpha} (1-\gamma)^{1-\alpha} = A_{T,0} (n\gamma)^{1-\alpha} + \\
     & A_{T,0} \Bigl(\frac{1-n}{n}\Bigr)^{\alpha} \Bigl[(1-n)\gamma\Bigr]^{1-\alpha} \\
-    \Rightarrow & \quad n\gamma C_0 + A_{T,0}(1-n) n^{-\alpha} \gamma^{1-\alpha} = A_{T,0} (n\gamma)^{1-\alpha} + A_{T,0} (1-n) n^{-\alpha} \gamma^{1-\alpha} \\
-    \Rightarrow & \quad C_0^T = A_{T,0} (n\gamma)^{-\alpha}.
+    \Rightarrow & n\gamma C_0 + A_{T,0}(1-n) n^{-\alpha} \gamma^{1-\alpha} = A_{T,0} (n\gamma)^{1-\alpha} + A_{T,0} (1-n) n^{-\alpha} \gamma^{1-\alpha} \\
+    \Rightarrow & C_0^T = A_{T,0} (n\gamma)^{-\alpha}.
 \end{align*}
 We take a weighted geometric mean with weights $\gamma$ and $1-\gamma$. That is,
 \[
@@ -653,7 +653,7 @@ Then, from the above log-linearized equations one can show:
 \end{itemize}
 Let (8a)-(8d), we get:
 \[
-(1-\gamma)  \widehat{P_{N,t}^W} +  \widehat{C_t^W} =  \widehat{A_{T,t}^W} - \Bigl(1-\alpha + \frac{\alpha}{\gamma} \Bigr)  \widehat{L_{N,t}^W}.
+(1-\gamma)  \widehat{P_{N,t}^W} +  \widehat{C_t^W} =  \widehat{A_{T,t}^W} + \Bigl(1-\alpha + \frac{\alpha}{\gamma} \Bigr)  \widehat{L_{N,t}^W}.
 \]
 Combine with (8b), we have:
 \begin{align*}
@@ -689,7 +689,7 @@ Its log-deviation is
 \]
 This relative price is driven by:
 \begin{itemize}
-    \item \textbf{Productivity Differences:} Differences in sector-specific productivity. An increase in Home's traded productivity (a higher \( \widehat{A_{T,t}} \)) relative to non-traded productivity (or relative to Foreign's productivity) lowers the relative cost of producing tradables. In our derivations, the term \( \widehat{A}_{T,t} - \widehat{A}^*_{T,t} \) appears with a negative sign in \( \widehat{Q}_t \), indicating that higher Home traded productivity tends to lower Home's non-tradable price relative to Foreign's.
+    \item \textbf{Productivity Differences:} Differences in sector-specific productivity. An increase in Home's traded productivity (a higher \( \widehat{A_{T,t}} \)) relative to non-traded productivity (or relative to Foreign's productivity) lowers the relative cost of producing tradables. In our derivations, the term \( \widehat{A_{T,t}} - \widehat{A_{T,t}^*} \) appears with a negative sign in \( \widehat{Q_t} \), indicating that higher Home traded productivity tends to lower Home's non-tradable price relative to Foreign's.
     \item \textbf{Relative Demand Effects:} Shocks that affect consumption (e.g. through changes in discount factors) alter demand for non-traded goods, hence influencing \( P_{N,t} \).
 \end{itemize}
 
@@ -815,19 +815,19 @@ Implementing (10a) and (10b) back into (10.2), we get:
     &= \gamma(\widehat{A_{T,t+1}} - \widehat{A_{T,t+1}^*}) + (1-\gamma) (\widehat{A_{N,t+1}} - \widehat{A_{N,t+1}^*}) + \gamma \frac{1-\beta_0}{\beta_0} \frac{\widehat{B_{t+1}}}{1-n} \tag{10c}
 \end{align*}
 
-\textbf{(1) Impact of Home Being Wealthier (\( \widehat{B}_{t+1} > 0 \)):}\\
-When \( \widehat{B}_{t+1} > 0 \), Home has accumulated net foreign assets. In the long run, this wealth effect leads to:
+\textbf{(1) Impact of Home Being Wealthier (\( \widehat{B_{t+1}} > 0 \))}\\
+When \( \widehat{B} > 0 \), Home has accumulated net foreign assets. In the long run, this wealth effect leads to:
 \begin{itemize}
     \item A higher steady-state consumption level in Home relative to Foreign, since net asset income augments Home's overall resources.
     \item An upward pressure on domestic (Home) demand, which, via the resource constraints, increases the domestic price of non-tradables. This results in a real appreciation of Home's currency (i.e. a lower \( Q_{t+1} \), 
     meaning Home's goods become relatively more expensive).
 \end{itemize}
-Thus, being wealthier (with \( \widehat{B}_{t+1} > 0 \)) directly boosts Home's consumption while causing a real appreciation.
+Thus, being wealthier (with \( \widehat{B_{t+1}} > 0 \)) directly boosts Home's consumption while causing a real appreciation.
 
-\textbf{(2) Long-Run Impact of Productivity (Excluding the Asset Channel):}\\
+\textbf{(2) Long-Run Impact of Productivity (Excluding the Asset Channel)}
 \begin{itemize}
-    \item An increase in Home's traded productivity (\( \widehat{A}_{T,t} > 0 \)) raises the output in the traded sector. This increases Home's income and consumption by the factor \( \gamma \) and, via the Balassa--Samuelson mechanism, raises wages and non-traded prices, leading to a real appreciation.
-    \item Conversely, an increase in Home's non-traded productivity (\( \widehat{A}_{N,t} > 0 \)) improves domestic output in non-tradables, boosting consumption by the factor \( 1-\gamma \) and reducing the relative price of non-tradables, which tends to depreciate Home's currency.
+    \item An increase in Home's traded productivity (\( \widehat{A_{T,t}} > 0 \)) raises the output in the traded sector. This increases Home's income and consumption by the factor \( \gamma \) and, via the Balassa--Samuelson mechanism, raises wages and non-traded prices, leading to a real appreciation.
+    \item Conversely, an increase in Home's non-traded productivity (\( \widehat{A_{N,t}} > 0 \)) improves domestic output in non-tradables, boosting consumption by the factor \( 1-\gamma \) and reducing the relative price of non-tradables, which tends to depreciate Home's currency.
 \end{itemize}
 In either case, productivity improvements raise long-run consumption directly, and the real exchange rate adjusts according to the sector in which the productivity shock occurs.
 
@@ -925,34 +925,34 @@ Bring (11a) back to the equation, we get:
     & \quad - \frac{\alpha (1-\gamma)}{\gamma + \alpha(1-\gamma)} \Bigl[ \widehat{\beta_{H,t+1}} - \widehat{\beta_{F,t+1}} - (\widehat{A_{T,t+1}} - \widehat{A_{T,t+1}^*}) + (\widehat{A_{T,t}} - \widehat{A_{T,t}^*}) \Bigr] \tag{11e}
 \end{align*}
 
-\textbf{(1) Impact of a Temporary Increase in Home Patience (\( \widehat{\beta}_{H,t+1} - \widehat{\beta}_{F,t+1} > 0 \)):}\\[1mm]
-A temporary increase in Home's patience means that \( \widehat{\beta}_{H,t+1} > \widehat{\beta}_{F,t+1} \). The consequences are:
+\textbf{(1) Impact of a Temporary Increase in Home Patience (\( \widehat{\beta_{H,t+1}} - \widehat{\beta_{F,t+1}} > 0 \))}
 \begin{itemize}
-    \item Home households postpone current consumption and save more, leading to a positive net asset accumulation, i.e., \( \widehat{B}_{t+1} > 0 \).
-    \item The current account surplus (positive \( \widehat{B}_{t+1} \)) reduces Home's current consumption relative to Foreign, so that the cross-country consumption gap \( \widetilde{C}_t \) becomes negative.
+    \item Home households postpone current consumption and save more, leading to a positive net asset accumulation, i.e., \( \widehat{B_{t+1}} > 0 \).
+    \item The current account surplus (positive \( \widehat{B_{t+1}} \)) reduces Home's current consumption relative to Foreign, so that the cross-country consumption gap \( \widetilde{C}_t \) decreasaes.
     \item As Home saves more, there is a reallocation of labor away from the non-traded sector (since non-tradables are largely consumed domestically) and the real exchange rate adjusts accordingly. Typically, increased saving puts downward pressure on domestic non-tradable prices, leading to a real depreciation, which helps balance the external sector.
 \end{itemize}
 
-\textbf{(2) Impact of a Temporary Shock in Home Traded Productivity (\( \widehat{A}_{T,t} > 0 \)) versus Non-Traded Productivity (\( \widehat{A}_{N,t} > 0 \)):}\\[1mm]
-\textbf{Temporary Traded Productivity Shock (\( \widehat{A}_{T,t} > 0 \)):}
+\textbf{(2) Impact of a Temporary Shock in Home Traded Productivity (\( \widehat{A_{T,t}} > 0 \)) versus Non-Traded Productivity (\( \widehat{A_{N,t}} > 0 \))}
+
+\textbf{Temporary Traded Productivity Shock (\( \widehat{A_{T,t}} > 0 \)):}
 \begin{itemize}
-    \item A positive temporary shock in \( \widehat{A}_{T,t} \) increases Home's output of tradable goods.
+    \item A positive temporary shock in \( \widehat{A_{T,t}} \) increases Home's output of tradable goods.
     \item Because tradables are internationally traded, Home can export the surplus. However, households do not instantaneously increase their consumption by the full amount of the productivity gain; instead, some of the extra income is saved.
-    \item As a result, Home runs a current account surplus (\( \widehat{B}_{t+1} > 0 \)) and, by the mechanism of reallocation, its non-traded goods sector experiences higher demand—leading to higher domestic prices and a real appreciation of Home's currency.
+    \item As a result, Home runs a current account surplus (\( \widehat{B_{t+1}} > 0 \)) and, by the mechanism of reallocation, its non-traded goods sector experiences higher demand—leading to higher domestic prices and a real appreciation of Home's currency.
 \end{itemize}
 
-\textbf{Temporary Non-Traded Productivity Shock (\( \widehat{A}_{N,t} > 0 \)):}
+\textbf{Temporary Non-Traded Productivity Shock (\( \widehat{A_{N,t}} > 0 \)):}
 \begin{itemize}
-    \item A temporary shock in \( \widehat{A}_{N,t} \) boosts the production of non-tradable goods, which are consumed domestically.
+    \item A temporary shock in \( \widehat{A_{N,t}} \) boosts the production of non-tradable goods, which are consumed domestically.
     \item Since non-tradables are not exported, the entire output effect is absorbed by domestic consumption, raising Home's real consumption without significantly altering external trade.
     \item The increased supply of non-tradables tends to lower their relative price, so the domestic consumption price index falls. This produces a real depreciation of Home's currency.
     \item Additionally, with most of the income effect confined to domestic consumption, there is little pressure for a current account surplus or deficit.
 \end{itemize}
 
 \textbf{(3) Impact of Permanent Productivity Shocks:}\\[1mm]
-For permanent shocks (i.e. when \( \widehat{A}_{T,t+1} = \widehat{A}_{T,t} \) or \( \widehat{A}_{N,t+1} = \widehat{A}_{N,t} \)), the following occurs:
+For permanent shocks (i.e. when \( \widehat{A_{T,t+1}} = \widehat{A_{T,t}} \) or \( \widehat{A_{N,t+1}} = \widehat{A_{N,t}} \)), the following occurs:
 \begin{itemize}
-    \item The economy adjusts immediately to the new steady state, and by the intertemporal Euler condition no net asset accumulation is required (\( \widehat{B}_{t+1} = 0 \)).
+    \item The economy adjusts immediately to the new steady state, and by the intertemporal Euler condition no net asset accumulation is required (\( \widehat{B_{t+1}} = 0 \)).
     \item Home's consumption jumps to a higher level that reflects the permanent increase in productivity.
     \item The relative price adjustments occur immediately so that the real exchange rate settles at its new steady-state value.
 \end{itemize}
