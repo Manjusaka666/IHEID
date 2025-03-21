@@ -170,7 +170,7 @@ program define fe_est2, rclass
     restore
 end
 
-bootstrap r(b1) r(b2), reps(1000) cluster(index) seed(2025) nodots: fe_est2
+bootstrap r(b1) r(b2), reps(1000) cluster(index) seed(22)nodots: fe_est2
 eststo fe_bootstrap_unbalanced
 
 * 输出结果到 question_j.tex
