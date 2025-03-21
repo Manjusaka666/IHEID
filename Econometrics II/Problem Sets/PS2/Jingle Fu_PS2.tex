@@ -1,0 +1,771 @@
+\documentclass[a4paper,12pt]{article} % This defines the style of your paper
+
+\usepackage[top = 2.5cm, bottom = 2.5cm, left = 2.5cm, right = 2.5cm]{geometry} 
+
+% Unfortunately, LaTeX has a hard time interpreting German Umlaute. The following two lines and packages should help. If it doesn't work for you please let me know.
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{pifont}
+% \usepackage{ctex}
+\usepackage{amsthm, amsmath, amssymb, mathrsfs,mathtools}
+\input{lst-stata.tex}
+
+% Defining a new theorem style without italics
+\newtheoremstyle{nonitalic}% name
+  {\topsep}% Space above
+  {\topsep}% Space below
+  {\upshape}% Body font
+  {}% Indent amount
+  {\bfseries}% Theorem head font
+  {.}% Punctuation after theorem head
+  {.5em}% Space after theorem head
+  {}% Theorem head spec (can be left empty, meaning ‘normal`)
+  
+\theoremstyle{nonitalic}
+% Define new 'solution' environment
+\newtheorem{innercustomsol}{Solution}
+\newenvironment{solution}[1]
+  {\renewcommand\theinnercustomsol{#1}\innercustomsol}
+  {\endinnercustomsol}
+
+% Custom counter for the solutions
+\newcounter{solutionctr}
+\renewcommand{\thesolutionctr}{(\alph{solutionctr})}
+
+% Environment for auto-numbering with custom format
+\newenvironment{autosolution}
+  {\stepcounter{solutionctr}\begin{solution}{\thesolutionctr}}
+  {\end{solution}}
+
+
+\newtheorem{problem}{Problem}
+\usepackage{color}
+
+% The following two packages - multirow and booktabs - are needed to create nice looking tables.
+\usepackage{multirow} % Multirow is for tables with multiple rows within one cell.
+\usepackage{booktabs} % For even nicer tables.
+
+% As we usually want to include some plots (.pdf files) we need a package for that.
+\usepackage{graphicx} 
+\usepackage{subfigure}
+
+
+% The default setting of LaTeX is to indent new paragraphs. This is useful for articles. But not really nice for homework problem sets. The following command sets the indent to 0.
+\usepackage{setspace}
+\setlength{\parindent}{0in}
+\usepackage{longtable}
+
+% Package to place figures where you want them.
+\usepackage{float}
+
+% The fancyhdr package let's us create nice headers.
+\usepackage{fancyhdr}
+
+\usepackage{fancyvrb}
+
+%Code environment 
+\usepackage{listings} % Required for insertion of code
+\usepackage{xcolor} % Required for custom colors
+
+% Define colors for code listing
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+
+% Code listing style named "mystyle"
+\lstdefinestyle{mystyle}{
+    backgroundcolor=\color{backcolour},   
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{magenta},
+    numberstyle=\tiny\color{codegray},
+    stringstyle=\color{codepurple},
+    basicstyle=\ttfamily\footnotesize, % Change to serif font
+    breakatwhitespace=false,         
+    breaklines=true,                 
+    captionpos=b,                    
+    keepspaces=true,                 
+    numbers=left,                    
+    numbersep=5pt,                  
+    showspaces=false,                
+    showstringspaces=false,
+    showtabs=false,                  
+    tabsize=2
+}
+
+\lstset{style=mystyle}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 3. Header (and Footer)
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% To make our document nice we want a header and number the pages in the footer.
+
+\pagestyle{fancy} % With this command we can customize the header style.
+
+\fancyhf{} % This makes sure we do not have other information in our header or footer.
+
+\lhead{\footnotesize EI035 Econometrics II}% \lhead puts text in the top left corner. \footnotesize sets our font to a smaller size.
+
+%\rhead works just like \lhead (you can also use \chead)
+\rhead{\footnotesize Jingle Fu} %<---- Fill in your lastnames.
+
+% Similar commands work for the footer (\lfoot, \cfoot and \rfoot).
+% We want to put our page number in the center.
+\cfoot{\footnotesize \thepage}
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\begin{document}
+
+
+\thispagestyle{empty} % This command disables the header on the first page. 
+
+\begin{tabular}{p{15.5cm}} % This is a simple tabular environment to align your text nicely 
+{\large \bf EI035 Econometrics II} \\
+The Graduate Institute, Spring 2025, Marko Mlikota\\
+\hline % \hline produces horizontal lines.
+\\
+\end{tabular} % Our tabular environment ends here.
+
+\vspace*{0.3cm} % Now we want to add some vertical space in between the line and our title.
+
+\begin{center} % Everything within the center environment is centered.
+	{\Large \bf PS2 Solutions} % <---- Don't forget to put in the right number
+	\vspace{2mm}
+	
+        % YOUR NAMES GO HERE
+	{\bf Jingle Fu} % <---- Fill in your names here!
+		
+\end{center}  
+
+\vspace{0.4cm}
+\setstretch{1.2}
+
+\begin{autosolution}
+\ 
+
+\begin{itemize}
+    \item The dataset (GMdata.dta) contains firm-level panel data for the years 1973, 1978, 1983, and 1988.
+    \item Key variables include \texttt{ldsal}, \texttt{lemp}, and \texttt{ldnpt} among others.
+    \item After loading the data, initial inspection confirms there are 2,971 firm-year observations.
+\end{itemize}
+\begin{lstlisting}[language=stata] 
+use GMdata.dta, clear
+    
+// Compute summary statistics by year for ldsal, lemp, and ldnpt
+tabstat ldsal lemp ldnpt, statistics(mean median sd min max p5 p95) by(yr)
+    
+// Box plot for ldsal (log of deflated sales)
+graph box ldsal, over(yr) title("Boxplot of ldsal by Year")
+graph export "boxplot_ldsal.png", replace
+    
+// Box plot for lemp (log of employment)
+graph box lemp, over(yr) title("Boxplot of lemp by Year")
+graph export "boxplot_lemp.png", replace
+    
+// Box plot for ldnpt (log of deflated capital)
+graph box ldnpt, over(yr) title("Boxplot of ldnpt by Year")
+graph export "boxplot_ldnpt.png", replace
+\end{lstlisting}
+\end{autosolution}
+
+\begin{autosolution}
+\ 
+    
+\begin{itemize}
+    \item \textbf{Summary Statistics by Year:} For each year, detailed summaries (mean, median, standard deviation, minimum, maximum, 5th percentile, and 95th percentile) are computed for \texttt{ldsal}, \texttt{lemp}, and \texttt{ldnpt}.
+    \item \textbf{Findings:}
+    \begin{itemize}
+        \item \emph{1973:} Average log-sales around 6.00, with a median of 5.91; labor and capital show relatively high values.
+        \item \emph{1978:} A slight dip is observed in log-sales, and both labor and capital statistics indicate a reduction.
+        \item \emph{1983:} Similar levels to 1978 with very low values at the 5th percentile for capital.
+        \item \emph{1988:} A modest rebound in log-sales is observed along with a continuation of the decline in typical labor and capital values, although high outliers emerge.
+    \end{itemize}
+    \item \textbf{Box Plots:} Side-by-side box plots for each variable across the years reveal:
+    \begin{itemize}
+        \item For \texttt{ldsal}: Median sales dip in the late 1970s and early 1980s then rise by 1988, with an increasing number of high-value outliers.
+        \item For \texttt{lemp}: A downward trend in median employment, indicating that the typical firm employs fewer workers in later years.
+        \item For \texttt{ldnpt}: A similar downward drift in capital, with consistent high-capital outliers.
+    \end{itemize}
+    \item \textbf{Conclusion:} There is no clear monotonic trend in output; however, the distributions of labor and capital suggest a shift towards smaller firms in later years, while a few firms experienced very high sales by 1988.
+\end{itemize}
+
+\begin{lstlisting}[language=stata]
+egen tag = tag(index)
+count if tag == 1
+local total_firms = r(N)
+display "Total number of firms in the unbalanced panel: " `total_firms'
+    
+// Step 2: For each firm, count the number of observations (years) available.
+bysort index: egen n_obs = count(yr)
+    
+// Optional: List firms with fewer than 4 observations
+list index n_obs if n_obs < 4, sepby(index)
+    
+// Step 3: Create a balanced panel by keeping only firms with observations in all four years.
+keep if n_obs == 4
+    
+// Step 4: Count the number of unique firms in the balanced panel.
+egen tag_bal = tag(index)
+count if tag_bal == 1
+local balanced_firms = r(N)
+display "Number of firms in the balanced panel: " `balanced_firms'
+    
+// Step 5: Calculate and display the number of firms dropped.
+local lost_firms = `total_firms' - `balanced_firms'
+display "Number of firms dropped when creating a balanced panel: " `lost_firms' 
+\end{lstlisting}
+
+\end{autosolution}
+
+\begin{autosolution}
+\
+
+Consider the panel data model
+\[
+\text{ldsal}_{it} = \alpha_i + \beta_1\,\text{lemp}_{it} + \beta_2\,\text{ldnpt}_{it} + u_{it}, \quad i=1,\dots, N,\; t=1,\dots, T,
+\]
+where $\alpha_i$ is an unobserved firm-specific effect and $u_{it}$ is an idiosyncratic error term. In the random effects (RE) framework, $\alpha_i$ is treated as a random variable that is uncorrelated with the regressors $\text{lemp}_{it}$ and $\text{ldnpt}_{it}$.
+
+\underline{1. Model Reformulation}
+
+Define the composite error term as
+\[
+\varepsilon_{it} = \alpha_i + u_{it} - \beta_0.
+\]
+Thus, the model can be rewritten as
+\[
+\text{ldsal}_{it} = \beta_0 + \beta_1\,\text{lemp}_{it} + \beta_2\,\text{ldnpt}_{it} + \varepsilon_{it},
+\]
+with $\beta_0$ being an overall intercept (if included).
+
+\underline{2. Error Structure}
+
+Under RE, the variance of the composite error is:
+\[
+\operatorname{Var}(\varepsilon_{it}) = \sigma^2_\alpha + \sigma^2_u,
+\]
+and for two different time periods $t \neq s$ for the same firm, the covariance is:
+\[
+\operatorname{Cov}(\varepsilon_{it}, \varepsilon_{is}) = \sigma^2_\alpha.
+\]
+This intra-firm correlation suggests the use of Generalized Least Squares (GLS).
+
+\underline{3. Quasi-Demeaning Transformation}
+
+To account for the correlation in the error structure, a quasi-demeaning transformation is applied. For each firm $i$, define the time averages:
+\[
+\bar{y}_i = \frac{1}{T}\sum_{t=1}^{T} \text{ldsal}_{it}, \quad \bar{x}_i = \frac{1}{T}\sum_{t=1}^{T} x_{it},
+\]
+where $x_{it}$ represents each regressor (i.e., $\text{lemp}_{it}$ and $\text{ldnpt}_{it}$).
+
+The transformed variables are:
+\[
+y^*_{it} = \text{ldsal}_{it} - \theta\,\bar{y}_i, \quad x^*_{it} = x_{it} - \theta\,\bar{x}_i,
+\]
+with the transformation parameter $\theta$ defined as:
+\[
+\theta = 1 - \sqrt{\frac{\sigma^2_u}{\sigma^2_u + T\sigma^2_\alpha}}.
+\]
+After this transformation, the model becomes:
+\[
+y^*_{it} = \beta_0(1-\theta) + \beta_1\,\text{lemp}^*_{it} + \beta_2\,\text{ldnpt}^*_{it} + \varepsilon^*_{it}.
+\]
+Applying ordinary least squares (OLS) to the transformed model yields the RE estimator:
+\[
+\hat{\beta}_{RE} = \left(\sum_{i=1}^{N}\sum_{t=1}^{T} x^*_{it}x^{*\prime}_{it}\right)^{-1}\left(\sum_{i=1}^{N}\sum_{t=1}^{T} x^*_{it}y^*_{it}\right).
+\]
+
+\underline{4. Assumptions for Consistency}
+
+For the RE estimator to be consistent, the following assumptions must hold:
+\begin{enumerate}
+    \item \textbf{Exogeneity:} 
+    \[
+    E\left[u_{it} \mid \text{lemp}_{i1}, \text{ldnpt}_{i1}, \dots, \text{lemp}_{iT}, \text{ldnpt}_{iT}, \alpha_i\right] = 0.
+    \]
+    Equivalently, the regressors are uncorrelated with both the idiosyncratic error $u_{it}$ and the individual effect $\alpha_i$.
+    
+    \item \textbf{Independence of Individual Effects and Regressors:}
+    \[
+    E\left[\alpha_i \mid \text{lemp}_{it}, \text{ldnpt}_{it}\right] = 0 \quad \text{for all } t.
+    \]
+    
+    \item \textbf{Homoskedasticity and No Serial Correlation:}  
+    The idiosyncratic errors $u_{it}$ are assumed to be homoskedastic and serially uncorrelated (conditional on $\alpha_i$).
+    
+    \item \textbf{Correct Specification:}  
+    The model is correctly specified with no omitted variables that are correlated with the regressors.
+\end{enumerate}
+
+\underline{5. Discussion}
+
+In many empirical applications such as in production function estimation (e.g., Griliches and Mairesse, 1995), the assumption that $\alpha_i$ is uncorrelated with the inputs might be unrealistic. If there exists correlation between $\alpha_i$ and the regressors, the RE estimator will be inconsistent, and alternative methods like the Fixed Effects estimator should be considered.
+
+\begin{itemize}
+    \item The RE estimator is obtained by running a pooled OLS regression where the firm-specific effect $\alpha_i$ is absorbed into the error term.
+    \item \textbf{Results (balanced panel):}
+    \input{question_c.tex}
+    \begin{itemize}
+        \item Intercept: approximately 2.724.
+        \item $\beta_1$ (Labor elasticity): about 0.509.
+        \item $\beta_2$ (Capital elasticity): about 0.484.
+    \end{itemize}
+    \item \textbf{Interpretation:} A 1\% increase in labor is associated with a $0.5087\%$ increase in sales, and a 1\% increase in capital with a $0.4839\%$ increase in sales. The sum (approximately 0.989) is close to constant returns.
+    \item \textbf{Assumptions:} Consistency requires that the unobserved firm effect $\alpha_i$ is uncorrelated with both \texttt{lemp} and \texttt{ldnpt}. This is likely violated since more productive firms may choose different input levels.
+\end{itemize}
+
+\begin{lstlisting}[language=Stata]
+// Declare the panel structure: firm id 'index' and time variable 'yr'
+xtset index yr
+
+// Compute the Random Effects estimator for ldsal on lemp and ldnpt
+xtreg ldsal lemp ldnpt, re
+
+// Optionally, display robust standard errors
+xtreg ldsal lemp ldnpt, re vce(robust)
+\end{lstlisting}
+
+\end{autosolution}
+
+\begin{autosolution}
+\    
+
+To eliminate the unobserved firm-specific effect \(\alpha_i\), we apply the within (time-demeaning) transformation. Define the time averages for each firm \(i\) as:
+\[
+\bar{y}_i = \frac{1}{T}\sum_{t=1}^{T}\text{ldsal}_{it}, \quad \bar{x}_{i1} = \frac{1}{T}\sum_{t=1}^{T}\text{lemp}_{it}, \quad \bar{x}_{i2} = \frac{1}{T}\sum_{t=1}^{T}\text{ldnpt}_{it},
+\]
+and
+\[
+\bar{u}_i = \frac{1}{T}\sum_{t=1}^{T}u_{it}.
+\]
+
+Subtracting these averages from the original model gives:
+\[
+\text{ldsal}_{it} - \bar{y}_i = \beta_1\Bigl(\text{lemp}_{it} - \bar{x}_{i1}\Bigr) + \beta_2\Bigl(\text{ldnpt}_{it} - \bar{x}_{i2}\Bigr) + \Bigl(u_{it} - \bar{u}_i\Bigr).
+\]
+Let the demeaned variables be:
+\[
+\tilde{y}_{it} = \text{ldsal}_{it} - \bar{y}_i, \quad \tilde{\text{lemp}}_{it} = \text{lemp}_{it} - \bar{x}_{i1}, \quad \tilde{\text{ldnpt}}_{it} = \text{ldnpt}_{it} - \bar{x}_{i2},
+\]
+and
+\[
+\tilde{u}_{it} = u_{it} - \bar{u}_i.
+\]
+
+Thus, the transformed model is:
+\[
+\tilde{y}_{it} = \beta_1\,\tilde{\text{lemp}}_{it} + \beta_2\,\tilde{\text{ldnpt}}_{it} + \tilde{u}_{it}.
+\]
+
+The FE within estimator is obtained by applying Ordinary Least Squares (OLS) to the demeaned model:
+\[
+\hat{\beta}_{FE} = \left( \sum_{i=1}^{N}\sum_{t=1}^{T} \tilde{x}_{it}\tilde{x}_{it}' \right)^{-1}\left( \sum_{i=1}^{N}\sum_{t=1}^{T} \tilde{x}_{it}\tilde{y}_{it} \right),
+\]
+where \(\tilde{x}_{it} = \begin{pmatrix}\tilde{\text{lemp}}_{it} \\ \tilde{\text{ldnpt}}_{it}\end{pmatrix}\).
+
+\underline{Assumptions for Consistency}
+
+For the FE estimator to be consistent, the following assumptions must hold:
+\begin{enumerate}
+    \item \textbf{Strict Exogeneity:} 
+    \[
+    E\Bigl(u_{it}\mid \text{lemp}_{i1}, \text{ldnpt}_{i1}, \dots, \text{lemp}_{iT}, \text{ldnpt}_{iT}, \alpha_i\Bigr)=0 \quad \text{for all } t.
+    \]
+    \item \textbf{No Perfect Collinearity:} The demeaned regressors \(\tilde{\text{lemp}}_{it}\) and \(\tilde{\text{ldnpt}}_{it}\) are not perfectly collinear.
+    \item \textbf{Large Number of Cross-Sections:} Consistency is achieved as \(N \to \infty\) while \(T\) remains fixed.
+\end{enumerate}
+
+Under these conditions, the FE estimator is consistent even if the individual effects \(\alpha_i\) are correlated with the regressors in the original model.
+
+\begin{itemize}
+    \item The FE-W estimator is computed by demeaning the data to remove the firm-specific effect $\alpha_i$.
+    \item \textbf{Results (balanced panel):}
+    \input{question_d.tex}
+    \begin{itemize}
+        \item $\beta_1$: approximately 0.765.
+        \item $\beta_2$: approximately 0.408.
+    \end{itemize}
+    \item \textbf{Interpretation:} Within a firm, a 1\% increase in labor results in about a 0.765\% increase in sales, and a 1\% increase in capital results in about a 0.408\% increase in sales. The sum (approximately 1.17) suggests increasing returns to scale in the within-firm variation.
+    \item \textbf{Assumptions:} Requires strict exogeneity of the error term (i.e., no feedback from shocks to future inputs) after controlling for $\alpha_i$. Although more realistic than RE, this condition may still be violated in practice.
+\end{itemize}
+
+\begin{lstlisting}[language=Stata]
+xtreg ldsal lemp ldnpt, fe
+
+// Optionally, use robust standard errors
+xtreg ldsal lemp ldnpt, fe vce(robust)
+
+\end{lstlisting}
+
+\end{autosolution}
+
+\begin{autosolution}
+\
+
+To eliminate the unobserved firm-specific effect \(\alpha_i\), we take first differences. For \(t \geq 2\), define the first-differenced variables as:
+\[
+\Delta \text{ldsal}_{it} = \text{ldsal}_{it} - \text{ldsal}_{i,t-1},
+\]
+\[
+\Delta \text{lemp}_{it} = \text{lemp}_{it} - \text{lemp}_{i,t-1}, \quad \Delta \text{ldnpt}_{it} = \text{ldnpt}_{it} - \text{ldnpt}_{i,t-1},
+\]
+\[
+\Delta u_{it} = u_{it} - u_{i,t-1}.
+\]
+Then, the differenced model is given by:
+\[
+\Delta \text{ldsal}_{it} = \beta_1\,\Delta \text{lemp}_{it} + \beta_2\,\Delta \text{ldnpt}_{it} + \Delta u_{it}.
+\]
+Denote \(\Delta y_{it} = \Delta \text{ldsal}_{it}\) and
+\[
+\Delta x_{it} = \begin{pmatrix} \Delta \text{lemp}_{it} \\ \Delta \text{ldnpt}_{it} \end{pmatrix}.
+\]
+The FE First Difference estimator is then:
+\[
+\hat{\beta}_{FD} = \left( \sum_{i=1}^{N}\sum_{t=2}^{T} \Delta x_{it}\,\Delta x_{it}' \right)^{-1}\left( \sum_{i=1}^{N}\sum_{t=2}^{T} \Delta x_{it}\,\Delta y_{it} \right).
+\]
+
+For \(\hat{\beta}_{FD}\) to be consistent, the following assumptions are required:
+\begin{enumerate}
+    \item \textbf{Strict Exogeneity in Differences:}  
+    \[
+    E\left(\Delta u_{it} \mid \Delta x_{i1}, \Delta x_{i2}, \dots, \Delta x_{iT}\right) = 0 \quad \text{for all } t.
+    \]
+    \item \textbf{No Perfect Collinearity:} The differenced regressors must not be perfectly collinear.
+    \item \textbf{Large Number of Cross-Sections:} The estimator is consistent as \(N \to \infty\) while \(T\) remains fixed.
+\end{enumerate}
+
+
+\begin{itemize}
+    \item The FE-FD estimator is obtained by differencing consecutive observations, eliminating $\alpha_i$.
+    \item \textbf{Results (balanced panel):}
+    \begin{itemize}
+        \item $\beta_1$: approximately 0.858.
+        \item $\beta_2$: approximately 0.184.
+    \end{itemize}
+    \item \textbf{Interpretation:} Year-to-year changes indicate that a 1\% increase in labor is associated with about a 0.86\% increase in sales, while a 1\% increase in capital is associated with only a 0.18\% increase. The large difference in capital elasticity compared to the FE-W estimator may suggest that capital adjustments have a slower or more complex dynamic in the short-run.
+    \item \textbf{Assumptions:} Consistency depends on the absence of serial correlation in the errors and that changes in inputs are not influenced by past shocks.
+\end{itemize}
+\end{autosolution}
+
+
+\begin{autosolution}   
+\
+
+Define the time-demeaned variables as:
+\[
+\tilde{y}_{it} = y_{it} - \bar{y}_i,\quad \tilde{x}_{it} = x_{it} - \bar{x}_i,
+\]
+with
+\[
+\bar{y}_i = \frac{1}{T}\sum_{t=1}^{T} y_{it},\quad \bar{x}_i = \frac{1}{T}\sum_{t=1}^{T} x_{it}.
+\]
+Then the transformed model becomes:
+\[
+\tilde{y}_{it} = \tilde{x}_{it}'\beta + \tilde{u}_{it}, \quad \text{where}\quad \tilde{u}_{it} = u_{it} - \bar{u}_i.
+\]
+
+The Fixed Effects (FE) estimator is given by:
+\[
+\hat{\beta}_{FE} = \left(\sum_{i=1}^{N}\sum_{t=1}^{T}\tilde{x}_{it}\tilde{x}_{it}'\right)^{-1}\left(\sum_{i=1}^{N}\sum_{t=1}^{T}\tilde{x}_{it}\tilde{y}_{it}\right).
+\]
+Since \(\tilde{y}_{it} = \tilde{x}_{it}'\beta + \tilde{u}_{it}\), we have:
+\[
+\hat{\beta}_{FE} - \beta = \left(\sum_{i=1}^{N}\sum_{t=1}^{T}\tilde{x}_{it}\tilde{x}_{it}'\right)^{-1}\left(\sum_{i=1}^{N}\sum_{t=1}^{T}\tilde{x}_{it}\tilde{u}_{it}\right).
+\]
+
+Under standard regularity conditions, and with \(T\) fixed and \(N \to \infty\), it holds that:
+\[
+\frac{1}{NT}\sum_{i=1}^{N}\sum_{t=1}^{T}\tilde{x}_{it}\tilde{x}_{it}' \stackrel{p}{\to} Q,
+\]
+and
+\[
+\frac{1}{\sqrt{N}} \sum_{i=1}^{N}\sum_{t=1}^{T}\tilde{x}_{it}\tilde{u}_{it} \stackrel{d}{\to} N(0, \Sigma),
+\]
+where
+\[
+Q = E\left[\frac{1}{T}\sum_{t=1}^{T}\tilde{x}_{it}\tilde{x}_{it}'\right],
+\]
+and
+\[
+\Sigma = \operatorname{Var}\left(\frac{1}{\sqrt{T}}\sum_{t=1}^{T}\tilde{x}_{it}\tilde{u}_{it}\right).
+\]
+
+Hence, by Slutsky's theorem,
+\[
+\sqrt{N}(\hat{\beta}_{FE} - \beta) = \left(\frac{1}{NT}\sum_{i=1}^{N}\sum_{t=1}^{T}\tilde{x}_{it}\tilde{x}_{it}'\right)^{-1} \left(\frac{1}{\sqrt{N}} \sum_{i=1}^{N}\sum_{t=1}^{T}\tilde{x}_{it}\tilde{u}_{it}\right)
+\]
+converges in distribution to:
+\[
+\sqrt{N}(\hat{\beta}_{FE} - \beta) \stackrel{d}{\to} N\Bigl(0,\, Q^{-1}\Sigma Q^{-1}\Bigr).
+\]
+\end{autosolution}
+
+\begin{autosolution}   
+\
+
+Recall from the asymptotic distribution of the FE estimator that
+\[
+\sqrt{N}(\hat{\beta}_{FE} - \beta) \xrightarrow{d} N\Bigl(0,\, Q^{-1}\Sigma Q^{-1}\Bigr),
+\]
+where
+\[
+Q = \lim_{N\to\infty}\frac{1}{NT}\sum_{i=1}^{N}\sum_{t=1}^{T}\tilde{x}_{it}\tilde{x}_{it}', \quad
+\Sigma = \lim_{N\to\infty}\operatorname{Var}\left(\frac{1}{\sqrt{N}}\sum_{i=1}^{N}\sum_{t=1}^{T}\tilde{x}_{it}\tilde{u}_{it}\right).
+\]
+An estimator for the asymptotic variance of \(\hat{\beta}_{FE}\) is given by:
+\[
+\widehat{\operatorname{Var}}(\hat{\beta}_{FE}) = \left(\sum_{i=1}^{N}\sum_{t=1}^{T}\tilde{x}_{it}\tilde{x}_{it}'\right)^{-1}\left(\sum_{i=1}^{N}\sum_{t=1}^{T}\tilde{x}_{it}\tilde{x}_{it}'\hat{u}_{it}^2\right)
+\left(\sum_{i=1}^{N}\sum_{t=1}^{T}\tilde{x}_{it}\tilde{x}_{it}'\right)^{-1},
+\]
+where \(\hat{u}_{it}\) are the residuals from the FE regression. Consequently, the standard error for the \(j\)th coefficient is given by:
+\[
+\text{se}(\hat{\beta}_{j}) = \sqrt{\left[\widehat{\operatorname{Var}}(\hat{\beta}_{FE})\right]_{jj}}.
+\]
+This robust variance estimator is used in empirical software to report standard errors that are consistent even under heteroscedasticity and autocorrelation of the error term.
+
+\begin{itemize}
+    \item The robust (clustered) standard errors are computed using the formula
+    \[
+    \hat{V} = \widehat{Q}^{-1} \widehat{\Sigma}\, \widehat{Q}^{-1},
+    \]
+    where \(\widehat{\Sigma} = \frac{1}{N}\sum_{i=1}^{N} X_i^{*\prime}\hat{u}_i \hat{u}_i' X_i^*\).
+    \item With the balanced panel, the estimated standard errors are approximately:
+    \begin{itemize}
+        \item SE\((\hat{\beta}_1) \approx 0.0789\),
+        \item SE\((\hat{\beta}_2) \approx 0.0597\).
+    \end{itemize}
+    \input{question_g.tex}
+    \item These values indicate high statistical significance of the estimated coefficients.
+\end{itemize}
+
+\begin{lstlisting}[language=stata]
+xtreg ldsal lemp ldnpt, fe robust
+
+\end{lstlisting}
+
+\end{autosolution}
+
+\begin{autosolution}
+\
+
+Consider a balanced panel with \(N\) firms and \(T\) time periods per firm. The Fixed Effects (FE) estimator is obtained by first demeaning the data:
+\[
+\tilde{y}_{it} = y_{it} - \bar{y}_i,\quad \tilde{x}_{it} = x_{it} - \bar{x}_i,
+\]
+where
+\[
+\bar{y}_i = \frac{1}{T}\sum_{t=1}^{T}y_{it}, \quad \bar{x}_i = \frac{1}{T}\sum_{t=1}^{T}x_{it}.
+\]
+The FE estimator is then given by
+\[
+\hat{\beta} = \left(\sum_{i=1}^{N}\sum_{t=1}^{T}\tilde{x}_{it}\tilde{x}_{it}'\right)^{-1}\left(\sum_{i=1}^{N}\sum_{t=1}^{T}\tilde{x}_{it}\tilde{y}_{it}\right).
+\]
+
+To account for within-firm correlation and obtain robust standard error estimates, we employ a clustered bootstrap procedure as follows:
+
+\begin{enumerate}
+    \item \textbf{Resampling:} For \(b=1,\dots,B\) (with \(B=1000\)), draw a bootstrap sample by resampling \(N\) firms with replacement from the original sample. For each selected firm, include all \(T\) observations.
+    
+    \item \textbf{Estimation:} Compute the FE estimator on the bootstrap sample to obtain \(\hat{\beta}^{*(b)}\).
+    
+    \item \textbf{Variance Estimation:} The bootstrap estimator for the variance of \(\hat{\beta}\) is
+    \[
+    \widehat{\operatorname{Var}}_{\text{boot}}(\hat{\beta}) = \frac{1}{B-1}\sum_{b=1}^{B}\left(\hat{\beta}^{*(b)} - \bar{\hat{\beta}}^{*}\right)\left(\hat{\beta}^{*(b)} - \bar{\hat{\beta}}^{*}\right)',
+    \]
+    where
+    \[
+    \bar{\hat{\beta}}^{*} = \frac{1}{B}\sum_{b=1}^{B}\hat{\beta}^{*(b)}.
+    \]
+    
+    \item \textbf{Standard Errors:} The standard error for the \(j\)th coefficient is
+    \[
+    \text{se}(\hat{\beta}_{j}) = \sqrt{\left[\widehat{\operatorname{Var}}_{\text{boot}}(\hat{\beta})\right]_{jj}}.
+    \]
+\end{enumerate}
+
+This clustered bootstrap procedure yields standard error estimates that are robust to within-cluster (firm) correlation.
+
+\begin{itemize}
+    \input{question_h.tex}
+    \item The clustered bootstrap resamples firms (clusters) with replacement, preserving the panel structure.
+    \item With \(B = 1000\) bootstrap replications, the bootstrap standard errors are found to be:
+    \begin{itemize}
+        \item SE\((\hat{\beta}_1) \approx 0.0812\),
+        \item SE\((\hat{\beta}_2) \approx 0.0582\).
+    \end{itemize}
+    \item The bootstrap results confirm the accuracy of the analytical cluster-robust standard errors.
+\end{itemize}
+
+\begin{lstlisting}[language=stata]
+use "GMdata_balanced.dta", clear
+
+program define fe_est, rclass
+    preserve
+    bysort index: egen ymean = mean(ldsal)
+    bysort index: egen x1mean = mean(lemp)
+    bysort index: egen x2mean = mean(ldnpt)
+
+    gen yd = ldsal - ymean
+    gen x1d = lemp - x1mean
+    gen x2d = ldnpt - x2mean
+
+    quietly regress yd x1d x2d, noconstant
+    return scalar b1 = _b[x1d]
+    return scalar b2 = _b[x2d]
+    restore
+end
+
+bootstrap r(b1) r(b2), reps(1000) cluster(index) nodots: fe_est
+    
+\end{lstlisting}
+
+\end{autosolution}
+
+\begin{autosolution}
+\
+
+Consider the panel data model:
+\[
+y_{it} = \alpha_i + x_{it}'\beta + u_{it}, \quad i=1,\dots,N,\; t\in \mathcal{T}_i,
+\]
+where \( \mathcal{T}_i \) denotes the set of time periods for which firm \( i \) is observed and \( T_i = |\mathcal{T}_i| \).
+
+For each firm \( i \), define the time averages based on the available observations:
+\[
+\bar{y}_i = \frac{1}{T_i}\sum_{t\in \mathcal{T}_i} y_{it}, \quad \bar{x}_i = \frac{1}{T_i}\sum_{t\in \mathcal{T}_i} x_{it}.
+\]
+The within (demeaning) transformation yields:
+\[
+\tilde{y}_{it} = y_{it} - \bar{y}_i, \quad \tilde{x}_{it} = x_{it} - \bar{x}_i, \quad t\in \mathcal{T}_i.
+\]
+
+The transformed model is:
+\[
+\tilde{y}_{it} = \tilde{x}_{it}'\beta + \tilde{u}_{it}, \quad \text{with} \quad \tilde{u}_{it} = u_{it} - \bar{u}_i,
+\]
+and
+\[
+\bar{u}_i = \frac{1}{T_i}\sum_{t\in \mathcal{T}_i} u_{it}.
+\]
+
+The Fixed Effects (FE) estimator is then given by:
+\[
+\hat{\beta}_{FE} = \left( \sum_{i=1}^{N}\sum_{t\in \mathcal{T}_i} \tilde{x}_{it}\tilde{x}_{it}' \right)^{-1} \left( \sum_{i=1}^{N}\sum_{t\in \mathcal{T}_i} \tilde{x}_{it}\tilde{y}_{it} \right).
+\]
+Under standard assumptions (strict exogeneity, no perfect collinearity, etc.), \(\hat{\beta}_{FE}\) is consistent for \(\beta\) even when the panel is unbalanced.
+
+\begin{itemize}
+    \item The full dataset (unbalanced panel) is used to re-estimate the FE model.
+    \item \textbf{Results (unbalanced panel):}
+    \input{question_i.tex}
+    \begin{itemize}
+        \item \(\beta_1 \approx 0.753\) with a clustered standard error of about 0.0607.
+        \item \(\beta_2 \approx 0.311\) with a clustered standard error of about 0.0368.
+    \end{itemize}
+    \item \textbf{Interpretation:} Compared to the balanced panel, the labor coefficient is similar, but the capital coefficient is lower. This may reflect sample selection effects; firms with incomplete data (often newer or smaller firms) exhibit lower capital productivity.
+\end{itemize}
+
+\begin{lstlisting}[language=stata]
+use "GMdata.dta", clear
+xtset index yr
+    
+xtreg ldsal lemp ldnpt, fe
+    
+xtreg ldsal lemp ldnpt, fe vce(robust)
+    
+\end{lstlisting}
+\end{autosolution}
+
+\begin{autosolution}
+\    
+
+Let \(\hat{\beta}_{FE}\) be the Fixed Effects (FE) estimator obtained from the original panel data model:
+\[
+y_{it} = \alpha_i + x_{it}'\beta + u_{it}, \quad i=1,\dots,N,\; t\in \mathcal{T}_i.
+\]
+For each firm \(i\), define the time-demeaned variables as:
+\[
+\tilde{y}_{it} = y_{it} - \bar{y}_i,\quad \tilde{x}_{it} = x_{it} - \bar{x}_i,
+\]
+with
+\[
+\bar{y}_i = \frac{1}{T_i}\sum_{t\in \mathcal{T}_i} y_{it}, \quad \bar{x}_i = \frac{1}{T_i}\sum_{t\in \mathcal{T}_i} x_{it}.
+\]
+The FE estimator is then given by:
+\[
+\hat{\beta}_{FE} = \left(\sum_{i=1}^{N}\sum_{t\in \mathcal{T}_i}\tilde{x}_{it}\tilde{x}_{it}'\right)^{-1}\left(\sum_{i=1}^{N}\sum_{t\in \mathcal{T}_i}\tilde{x}_{it}\tilde{y}_{it}\right).
+\]
+
+To account for within-firm correlation, we use a clustered bootstrap procedure:
+\begin{enumerate}
+    \item \textbf{Resampling:} For \(b = 1, \dots, B\) (with \(B = 1000\)), draw a bootstrap sample by sampling \(N\) firms with replacement from the original data. For each selected firm, include all \(T_i\) observations.
+    
+    \item \textbf{Estimation:} Compute the FE estimator on the \(b\)th bootstrap sample to obtain \(\hat{\beta}_{FE}^{*(b)}\).
+    
+    \item \textbf{Bootstrap Variance:} The variance of \(\hat{\beta}_{FE}\) is estimated by
+    \[
+    \widehat{\operatorname{Var}}_{\text{boot}}(\hat{\beta}_{FE}) = \frac{1}{B-1}\sum_{b=1}^{B}\left(\hat{\beta}_{FE}^{*(b)} - \bar{\hat{\beta}}^{*}\right)\left(\hat{\beta}_{FE}^{*(b)} - \bar{\hat{\beta}}^{*}\right)',
+    \]
+    where
+    \[
+    \bar{\hat{\beta}}^{*} = \frac{1}{B}\sum_{b=1}^{B} \hat{\beta}_{FE}^{*(b)}.
+    \]
+    
+    \item \textbf{Standard Errors:} The standard error for the \(j\)th coefficient is given by
+    \[
+    \text{se}(\hat{\beta}_{j}) = \sqrt{\left[\widehat{\operatorname{Var}}_{\text{boot}}(\hat{\beta}_{FE})\right]_{jj}}.
+    \]
+\end{enumerate}
+
+This clustered bootstrap method provides standard error estimates that are robust to intra-cluster (firm-level) correlation.
+
+\begin{itemize}
+    \input{question_j.tex}
+    \item The clustered bootstrap is also applied to the unbalanced panel.
+    \item With \(B=1000\) replications, the bootstrapped standard errors are approximately:
+    \begin{itemize}
+        \item SE\((\hat{\beta}_1) \approx 0.0609\),
+        \item SE\((\hat{\beta}_2) \approx 0.0379\).
+    \end{itemize}
+    \item These values closely match the analytical robust standard errors, reinforcing the robustness of our estimates.
+\end{itemize}
+\end{autosolution}
+
+\begin{lstlisting}[language=stata]
+use "GMdata.dta", clear
+xtset index yr
+    
+program define fe_est2, rclass
+    preserve
+    bysort index: egen ymean2 = mean(ldsal)
+    bysort index: egen x1mean2 = mean(lemp)
+    bysort index: egen x2mean2 = mean(ldnpt)
+
+    gen yd2 = ldsal - ymean2
+    gen x1d2 = lemp - x1mean2
+    gen x2d2 = ldnpt - x2mean2
+
+    quietly regress yd2 x1d2 x2d2, noconstant
+    return scalar b1 = _b[x1d2]
+    return scalar b2 = _b[x2d2]
+    restore
+end
+    
+bootstrap r(b1) r(b2), reps(1000) cluster(index) nodots: fe_est2
+\end{lstlisting}
+
+% \section{Summary of Findings and Economic Interpretations}
+% \begin{itemize}
+%     \item \textbf{Summary Statistics and Visualizations:} Although log sales show only a slight dip and rebound over the years, both labor and capital distributions shift downward, suggesting that later years are characterized by smaller typical firms, even as some firms achieve very high sales.
+%     \item \textbf{Pooled vs. Fixed Effects:} The Random Effects (pooled OLS) estimates yield lower labor and higher capital elasticities relative to the FE estimates, indicating that unobserved firm heterogeneity biases the pooled estimates. Fixed Effects estimation reveals a higher elasticity of output with respect to labor (around 0.75--0.77) and a lower elasticity with respect to capital (around 0.31--0.41).
+%     \item \textbf{FE-FD Differences:} The first-difference estimates emphasize a stronger short-run labor effect (around 0.86) and a much smaller capital effect (around 0.18), which may reflect short-run adjustment dynamics.
+%     \item \textbf{Standard Errors and Inference:} Both analytical cluster-robust and bootstrapped standard errors confirm that the estimates are statistically significant. The high precision suggests the panel has sufficient information, though the unbalanced panel shows a lower capital elasticity possibly due to sample selection effects.
+%     \item \textbf{Economic Implications:} Overall, the production function estimates imply that a 1\% increase in labor raises sales by approximately 0.75\%--0.77\%, while a 1\% increase in capital raises sales by about 0.31\%--0.41\%. These findings suggest that, for the firms in this dataset, output is more sensitive to changes in labor than in capital. The sum of the elasticities being near or slightly above one indicates approximately constant to mildly increasing returns to scale.
+% \end{itemize}
+
+% \section{Conclusion}
+% Our replication exercise demonstrates the importance of properly accounting for unobserved firm heterogeneity in production function estimation. The comparison of pooled, fixed-effects, and first-difference estimators illustrates how failing to control for firm-specific effects (as in the RE model) may lead to misleading coefficient estimates. The robust standard errors obtained both analytically and via bootstrapping lend confidence to the statistical significance of the estimates. Finally, the differences between balanced and unbalanced panel results underscore the role of sample selection in empirical analysis. Overall, these findings are consistent with the literature on production functions and underscore the value of panel data methods in capturing firm-level dynamics.
+
+\end{document}
+
