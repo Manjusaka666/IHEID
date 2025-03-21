@@ -100,8 +100,8 @@ Thus, $\hat{\tilde{\beta}}_{RE-GLS} $ is conditionally unbiased for $\tilde{\bet
 The asymptotic variance of $\hat{\tilde{\beta}}_{RE-GLS}$ is:
 \begin{align*}
     &\sqrt{n} \left( \hat{\tilde{\beta}}_{RE-GLS} - \tilde{\beta} \right) \overset{d}{\rightarrow} \mathcal{N}\left(0, V \right) \\
-    \text{where } V &= \mathbb{E}\left[\tilde{X}_i^{\prime} \Omega \tilde{X}_i \right]^{-1} \mathbb{E}\left[\tilde{X}_i^{\prime} \Omega v_i v_i^{\prime} \Omega \tilde{X}_i \right] \mathbb{E}\left[\tilde{X}_i^{\prime} \Omega \tilde{X}_i \right] \\
-    &= \mathbb{E}\left[\tilde{X}_i^{\prime} \Omega \tilde{X}_i \underset{\equiv \Omega}{\underbrace{\mathbb{E}[v_i v_i^{\prime} | \tilde{X}_i]}}\right] \\
+    \text{where } V &= \mathbb{E}\left[\tilde{X}_i^{\prime} \Omega^{-1} \tilde{X}_i \right]^{-1} \mathbb{E}\left[\tilde{X}_i^{\prime} \Omega^{-1} v_i v_i^{\prime} \Omega^{-1} \tilde{X}_i \right] \mathbb{E}\left[\tilde{X}_i^{\prime} \Omega^{-1} \tilde{X}_i \right] \\
+    &= \mathbb{E}\left[\tilde{X}_i^{\prime} \Omega^{-1} \tilde{X}_i \underset{\equiv \Omega}{\underbrace{\mathbb{E}[v_i v_i^{\prime} | \tilde{X}_i]}}\right] \\
 \end{align*}
 Because we do not know $\Omega$, the RE-GLS estimator is infeasible. 
 
