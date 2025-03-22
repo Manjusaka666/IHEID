@@ -148,29 +148,29 @@ The Graduate Institute, Spring 2025, Marko Mlikota\\
     \item Key variables include \texttt{ldsal}, \texttt{lemp}, and \texttt{ldnpt} among others.
     \item After loading the data, initial inspection confirms there are 2,971 firm-year observations.
 \end{itemize}
+
+\begin{figure}[htbp!]
+    \centering
+    \includegraphics[width=0.8\textwidth]{boxplot_ldsal.png}
+    \includegraphics[width=0.8\textwidth]{boxplot_lemp.png} 
+    \includegraphics[width=0.8\textwidth]{boxplot_ldnpt.png} 
+\end{figure}
+  
+
 \begin{lstlisting}[language=stata] 
 use GMdata.dta, clear
-    
-// Compute summary statistics by year for ldsal, lemp, and ldnpt
 tabstat ldsal lemp ldnpt, statistics(mean median sd min max p5 p95) by(yr)
     
-// Box plot for ldsal (log of deflated sales)
 graph box ldsal, over(yr) title("Boxplot of ldsal by Year")
 graph export "boxplot_ldsal.png", replace
     
-// Box plot for lemp (log of employment)
 graph box lemp, over(yr) title("Boxplot of lemp by Year")
 graph export "boxplot_lemp.png", replace
     
-// Box plot for ldnpt (log of deflated capital)
 graph box ldnpt, over(yr) title("Boxplot of ldnpt by Year")
 graph export "boxplot_ldnpt.png", replace
 \end{lstlisting}
-\end{autosolution}
 
-\begin{autosolution}
-\ 
-    
 \begin{itemize}
     \item \textbf{Summary Statistics by Year:} For each year, detailed summaries (mean, median, standard deviation, minimum, maximum, 5th percentile, and 95th percentile) are computed for \texttt{ldsal}, \texttt{lemp}, and \texttt{ldnpt}.
     \item \textbf{Findings:}
@@ -188,29 +188,29 @@ graph export "boxplot_ldnpt.png", replace
     \end{itemize}
     \item \textbf{Conclusion:} There is no clear monotonic trend in output; however, the distributions of labor and capital suggest a shift towards smaller firms in later years, while a few firms experienced very high sales by 1988.
 \end{itemize}
+\end{autosolution}
 
+\begin{autosolution}
+    \     
+
+    1,186 firms are dropped when constructing a balanced panel.
 \begin{lstlisting}[language=stata]
 egen tag = tag(index)
 count if tag == 1
 local total_firms = r(N)
 display "Total number of firms in the unbalanced panel: " `total_firms'
     
-// Step 2: For each firm, count the number of observations (years) available.
 bysort index: egen n_obs = count(yr)
     
-// Optional: List firms with fewer than 4 observations
 list index n_obs if n_obs < 4, sepby(index)
     
-// Step 3: Create a balanced panel by keeping only firms with observations in all four years.
 keep if n_obs == 4
     
-// Step 4: Count the number of unique firms in the balanced panel.
 egen tag_bal = tag(index)
 count if tag_bal == 1
 local balanced_firms = r(N)
 display "Number of firms in the balanced panel: " `balanced_firms'
     
-// Step 5: Calculate and display the number of firms dropped.
 local lost_firms = `total_firms' - `balanced_firms'
 display "Number of firms dropped when creating a balanced panel: " `lost_firms' 
 \end{lstlisting}
@@ -306,7 +306,7 @@ In many empirical applications such as in production function estimation (e.g., 
     \item \textbf{Results (balanced panel):}
     \input{question_c.tex}
     \begin{itemize}
-        \item Intercept: approximately 2.724.
+        % \item Intercept: approximately 2.724.
         \item $\beta_1$ (Labor elasticity): about 0.509.
         \item $\beta_2$ (Capital elasticity): about 0.484.
     \end{itemize}
@@ -315,13 +315,9 @@ In many empirical applications such as in production function estimation (e.g., 
 \end{itemize}
 
 \begin{lstlisting}[language=Stata]
-// Declare the panel structure: firm id 'index' and time variable 'yr'
 xtset index yr
 
-// Compute the Random Effects estimator for ldsal on lemp and ldnpt
 xtreg ldsal lemp ldnpt, re
-
-// Optionally, display robust standard errors
 xtreg ldsal lemp ldnpt, re vce(robust)
 \end{lstlisting}
 
@@ -391,8 +387,6 @@ Under these conditions, the FE estimator is consistent even if the individual ef
 
 \begin{lstlisting}[language=Stata]
 xtreg ldsal lemp ldnpt, fe
-
-// Optionally, use robust standard errors
 xtreg ldsal lemp ldnpt, fe vce(robust)
 
 \end{lstlisting}
@@ -439,13 +433,33 @@ For \(\hat{\beta}_{FD}\) to be consistent, the following assumptions are require
 \begin{itemize}
     \item The FE-FD estimator is obtained by differencing consecutive observations, eliminating $\alpha_i$.
     \item \textbf{Results (balanced panel):}
+    \input{question_e.tex}
     \begin{itemize}
-        \item $\beta_1$: approximately 0.858.
-        \item $\beta_2$: approximately 0.184.
+        \item $\beta_1$: approximately 0.928.
+        \item $\beta_2$: approximately 0.003.
     \end{itemize}
-    \item \textbf{Interpretation:} Year-to-year changes indicate that a 1\% increase in labor is associated with about a 0.86\% increase in sales, while a 1\% increase in capital is associated with only a 0.18\% increase. The large difference in capital elasticity compared to the FE-W estimator may suggest that capital adjustments have a slower or more complex dynamic in the short-run.
+    \item \textbf{Interpretation:} Year-to-year changes indicate that a 1\% increase in labor is associated with about a 0.928\% increase in sales, while a 1\% increase in capital is associated with only a 0.003\% increase. The large difference in capital elasticity compared to the FE-W estimator may suggest that capital adjustments have a slower or more complex dynamic in the short-run.
     \item \textbf{Assumptions:} Consistency depends on the absence of serial correlation in the errors and that changes in inputs are not influenced by past shocks.
 \end{itemize}
+\begin{lstlisting}[language=stata]
+use "GMdata_balanced.dta", clear
+sort index yr
+    
+by index: gen D_ldsal = ldsal - ldsal[_n-1]
+by index: gen D_lemp = lemp - lemp[_n-1]
+by index: gen D_ldnpt = ldnpt - ldnpt[_n-1]
+    
+by index: drop if _n==1
+
+reg D_ldsal D_lemp D_ldnpt, robust
+eststo fd_robust
+    
+reg D_ldsal D_lemp D_ldnpt, vce(cluster index)
+eststo fd_robust_cluster
+    
+esttab fd_robust fd_robust_cluster using question_e.tex, replace label booktabs title("Question (e): Fixed Effects (FD) Estimator") ///
+    cells("b(fmt(3)) se(fmt(3))") keep(D_lemp D_ldnpt)    
+\end{lstlisting}
 \end{autosolution}
 
 
@@ -532,8 +546,8 @@ This robust variance estimator is used in empirical software to report standard 
     where \(\widehat{\Sigma} = \frac{1}{N}\sum_{i=1}^{N} X_i^{*\prime}\hat{u}_i \hat{u}_i' X_i^*\).
     \item With the balanced panel, the estimated standard errors are approximately:
     \begin{itemize}
-        \item SE\((\hat{\beta}_1) \approx 0.0789\),
-        \item SE\((\hat{\beta}_2) \approx 0.0597\).
+        \item SE\((\hat{\beta}_1) \approx 0.079\),
+        \item SE\((\hat{\beta}_2) \approx 0.060\).
     \end{itemize}
     \input{question_g.tex}
     \item These values indicate high statistical significance of the estimated coefficients.
@@ -541,7 +555,6 @@ This robust variance estimator is used in empirical software to report standard 
 
 \begin{lstlisting}[language=stata]
 xtreg ldsal lemp ldnpt, fe robust
-
 \end{lstlisting}
 
 \end{autosolution}
@@ -591,8 +604,8 @@ This clustered bootstrap procedure yields standard error estimates that are robu
     \item The clustered bootstrap resamples firms (clusters) with replacement, preserving the panel structure.
     \item With \(B = 1000\) bootstrap replications, the bootstrap standard errors are found to be:
     \begin{itemize}
-        \item SE\((\hat{\beta}_1) \approx 0.0812\),
-        \item SE\((\hat{\beta}_2) \approx 0.0582\).
+        \item SE\((\hat{\beta}_1) \approx 0.080\),
+        \item SE\((\hat{\beta}_2) \approx 0.060\).
     \end{itemize}
     \item The bootstrap results confirm the accuracy of the analytical cluster-robust standard errors.
 \end{itemize}
@@ -660,8 +673,8 @@ Under standard assumptions (strict exogeneity, no perfect collinearity, etc.), \
     \item \textbf{Results (unbalanced panel):}
     \input{question_i.tex}
     \begin{itemize}
-        \item \(\beta_1 \approx 0.753\) with a clustered standard error of about 0.0607.
-        \item \(\beta_2 \approx 0.311\) with a clustered standard error of about 0.0368.
+        \item \(\beta_1 \approx 0.753\) with a clustered standard error of about 0.061.
+        \item \(\beta_2 \approx 0.311\) with a clustered standard error of about 0.037.
     \end{itemize}
     \item \textbf{Interpretation:} Compared to the balanced panel, the labor coefficient is similar, but the capital coefficient is lower. This may reflect sample selection effects; firms with incomplete data (often newer or smaller firms) exhibit lower capital productivity.
 \end{itemize}
@@ -725,8 +738,8 @@ This clustered bootstrap method provides standard error estimates that are robus
     \item The clustered bootstrap is also applied to the unbalanced panel.
     \item With \(B=1000\) replications, the bootstrapped standard errors are approximately:
     \begin{itemize}
-        \item SE\((\hat{\beta}_1) \approx 0.0609\),
-        \item SE\((\hat{\beta}_2) \approx 0.0379\).
+        \item SE\((\hat{\beta}_1) \approx 0.058\),
+        \item SE\((\hat{\beta}_2) \approx 0.037\).
     \end{itemize}
     \item These values closely match the analytical robust standard errors, reinforcing the robustness of our estimates.
 \end{itemize}
@@ -754,18 +767,6 @@ end
     
 bootstrap r(b1) r(b2), reps(1000) cluster(index) nodots: fe_est2
 \end{lstlisting}
-
-% \section{Summary of Findings and Economic Interpretations}
-% \begin{itemize}
-%     \item \textbf{Summary Statistics and Visualizations:} Although log sales show only a slight dip and rebound over the years, both labor and capital distributions shift downward, suggesting that later years are characterized by smaller typical firms, even as some firms achieve very high sales.
-%     \item \textbf{Pooled vs. Fixed Effects:} The Random Effects (pooled OLS) estimates yield lower labor and higher capital elasticities relative to the FE estimates, indicating that unobserved firm heterogeneity biases the pooled estimates. Fixed Effects estimation reveals a higher elasticity of output with respect to labor (around 0.75--0.77) and a lower elasticity with respect to capital (around 0.31--0.41).
-%     \item \textbf{FE-FD Differences:} The first-difference estimates emphasize a stronger short-run labor effect (around 0.86) and a much smaller capital effect (around 0.18), which may reflect short-run adjustment dynamics.
-%     \item \textbf{Standard Errors and Inference:} Both analytical cluster-robust and bootstrapped standard errors confirm that the estimates are statistically significant. The high precision suggests the panel has sufficient information, though the unbalanced panel shows a lower capital elasticity possibly due to sample selection effects.
-%     \item \textbf{Economic Implications:} Overall, the production function estimates imply that a 1\% increase in labor raises sales by approximately 0.75\%--0.77\%, while a 1\% increase in capital raises sales by about 0.31\%--0.41\%. These findings suggest that, for the firms in this dataset, output is more sensitive to changes in labor than in capital. The sum of the elasticities being near or slightly above one indicates approximately constant to mildly increasing returns to scale.
-% \end{itemize}
-
-% \section{Conclusion}
-% Our replication exercise demonstrates the importance of properly accounting for unobserved firm heterogeneity in production function estimation. The comparison of pooled, fixed-effects, and first-difference estimators illustrates how failing to control for firm-specific effects (as in the RE model) may lead to misleading coefficient estimates. The robust standard errors obtained both analytically and via bootstrapping lend confidence to the statistical significance of the estimates. Finally, the differences between balanced and unbalanced panel results underscore the role of sample selection in empirical analysis. Overall, these findings are consistent with the literature on production functions and underscore the value of panel data methods in capturing firm-level dynamics.
 
 \end{document}
 

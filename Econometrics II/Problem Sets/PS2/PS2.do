@@ -90,6 +90,27 @@ esttab fe_est fe_robust using question_d.tex, replace label booktabs title("Ques
 ***************************************
 * 同(d)
 
+use "GMdata_balanced.dta", clear
+sort index yr
+
+by index: gen D_ldsal = ldsal - ldsal[_n-1]
+by index: gen D_lemp = lemp - lemp[_n-1]
+by index: gen D_ldnpt = ldnpt - ldnpt[_n-1]
+
+by index: drop if _n==1
+
+* 4. 用回归分析差分后的数据，计算 FE-FD 估计
+reg D_ldsal D_lemp D_ldnpt, robust
+eststo fd_robust
+
+* 如果需要考虑企业内相关性，使用聚类稳健标准误：
+reg D_ldsal D_lemp D_ldnpt, vce(cluster index)
+eststo fd_robust_cluster
+
+esttab fd_robust fd_robust_cluster using question_e.tex, replace label booktabs title("Question (e): Fixed Effects (FD) Estimator") ///
+    cells("b(fmt(3)) se(fmt(3))") keep(D_lemp D_ldnpt)
+
+
 	
 ***************************************
 * (g) FE 回归（robust 标准误，平衡面板）
