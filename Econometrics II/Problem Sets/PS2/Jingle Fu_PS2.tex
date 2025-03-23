@@ -143,20 +143,11 @@ The Graduate Institute, Spring 2025, Marko Mlikota\\
 \begin{autosolution}
 \ 
 
-\begin{itemize}
-    \item The dataset (GMdata.dta) contains firm-level panel data for the years 1973, 1978, 1983, and 1988.
-    \item Key variables include \texttt{ldsal}, \texttt{lemp}, and \texttt{ldnpt} among others.
-    \item After loading the data, initial inspection confirms there are 2,971 firm-year observations.
-\end{itemize}
-
-\begin{figure}[htbp!]
-    \centering
-    \includegraphics[width=0.8\textwidth]{boxplot_ldsal.png}
-    \includegraphics[width=0.8\textwidth]{boxplot_lemp.png} 
-    \includegraphics[width=0.8\textwidth]{boxplot_ldnpt.png} 
-\end{figure}
-  
-
+% \begin{itemize}
+%     \item The dataset (GMdata.dta) contains firm-level panel data for the years 1973, 1978, 1983, and 1988.
+%     \item Key variables include \texttt{ldsal}, \texttt{lemp}, and \texttt{ldnpt} among others.
+%     \item After loading the data, initial inspection confirms there are 2,971 firm-year observations.
+% \end{itemize}
 \begin{lstlisting}[language=stata] 
 use GMdata.dta, clear
 tabstat ldsal lemp ldnpt, statistics(mean median sd min max p5 p95) by(yr)
@@ -173,12 +164,12 @@ graph export "boxplot_ldnpt.png", replace
 
 \begin{itemize}
     \item \textbf{Summary Statistics by Year:} For each year, detailed summaries (mean, median, standard deviation, minimum, maximum, 5th percentile, and 95th percentile) are computed for \texttt{ldsal}, \texttt{lemp}, and \texttt{ldnpt}.
+    \input{summary_stats.tex}
     \item \textbf{Findings:}
     \begin{itemize}
-        \item \emph{1973:} Average log-sales around 6.00, with a median of 5.91; labor and capital show relatively high values.
-        \item \emph{1978:} A slight dip is observed in log-sales, and both labor and capital statistics indicate a reduction.
-        \item \emph{1983:} Similar levels to 1978 with very low values at the 5th percentile for capital.
-        \item \emph{1988:} A modest rebound in log-sales is observed along with a continuation of the decline in typical labor and capital values, although high outliers emerge.
+        \item \textbf{ldnpt:} In 1973 and 1983, the median is around 4.5, while in 1978 it is about 4.0, and in 1988 it is slightly lower at around 3.8--4.0.The mean and median values exhibit a slight downward trend from 1973 to 1988. Although there is a minor rebound in 1983, the overall progression shows a decrease.
+        \item \textbf{ldsal:} This variable shows a relatively stable pattern. Although the mean drops from 6.002 in 1973 to 5.552 in 1978, it then hovers around 5.52-5.69 by 1988. The median values follow a similar pattern. The median values are quite stable across all years, hovering around 5.5, except for a slight decline in 1977 relative to 1973.
+        \item \textbf{lemp:} lemp shows the most pronounced decline. The mean drops steadily from 1.715 in 1973 to 0.964 in 1988, and the median follows suit. The median, 5th percentile, and 95th percentile all show a downward trend over time, with the highest values in 1973 and the lowest in 1988. Moreover, the increasing standard deviation (from 1.559 to 1.867) points to rising dispersion in employment outcomes. 
     \end{itemize}
     \item \textbf{Box Plots:} Side-by-side box plots for each variable across the years reveal:
     \begin{itemize}
@@ -188,12 +179,21 @@ graph export "boxplot_ldnpt.png", replace
     \end{itemize}
     \item \textbf{Conclusion:} There is no clear monotonic trend in output; however, the distributions of labor and capital suggest a shift towards smaller firms in later years, while a few firms experienced very high sales by 1988.
 \end{itemize}
+
+\begin{figure}[htbp!]
+    \centering
+    \includegraphics[width=0.8\textwidth]{boxplot_ldsal.png}
+    \includegraphics[width=0.8\textwidth]{boxplot_lemp.png} 
+    \includegraphics[width=0.8\textwidth]{boxplot_ldnpt.png} 
+\end{figure}
+  
 \end{autosolution}
 
 \begin{autosolution}
     \     
 
-    1,186 firms are dropped when constructing a balanced panel.
+
+    Number of firms dropped when creating a balanced panel: 1186
 \begin{lstlisting}[language=stata]
 egen tag = tag(index)
 count if tag == 1
@@ -292,14 +292,11 @@ For the RE estimator to be consistent, the following assumptions must hold:
     
     \item \textbf{Homoskedasticity and No Serial Correlation:}  
     The idiosyncratic errors $u_{it}$ are assumed to be homoskedastic and serially uncorrelated (conditional on $\alpha_i$).
-    
+    $\mathbb{V}[u_{it} | x_{it}] = \sigma_u^2,$ and $\operatorname{Cov}[u_{it}, u_{is} | lemp_{it}, lemp_{is}] = 0$ for $t \neq s$.
+
     \item \textbf{Correct Specification:}  
     The model is correctly specified with no omitted variables that are correlated with the regressors.
 \end{enumerate}
-
-\underline{5. Discussion}
-
-In many empirical applications such as in production function estimation (e.g., Griliches and Mairesse, 1995), the assumption that $\alpha_i$ is uncorrelated with the inputs might be unrealistic. If there exists correlation between $\alpha_i$ and the regressors, the RE estimator will be inconsistent, and alternative methods like the Fixed Effects estimator should be considered.
 
 \begin{itemize}
     \item The RE estimator is obtained by running a pooled OLS regression where the firm-specific effect $\alpha_i$ is absorbed into the error term.

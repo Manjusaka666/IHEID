@@ -5,6 +5,8 @@ use GMdata.dta, clear
 
 // Compute summary statistics by year for ldsal, lemp, and ldnpt
 tabstat ldsal lemp ldnpt, statistics(mean median sd min max p5 p95) by(yr)
+eststo summary_stats
+esttab summary_stats using summary_stats.tex, replace tex title("Summary Statistics by Year")
 
 // Box plot for ldsal (log of deflated sales)
 graph box ldsal, over(yr) title("Boxplot of ldsal by Year")
