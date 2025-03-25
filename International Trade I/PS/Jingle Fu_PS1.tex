@@ -420,7 +420,116 @@ The Graduate Institute, Spring 2025\\
                 
                 In Germany, capital is in excess, so $R = 0$. Total income is $W \cdot L_G = 600W$.
                 Each hotdog costs $P_{BG} + P_{SG} = 3W$, so each worker can buy $\frac{W}{3W} = \frac{1}{3}$ hotdogs.
-            \end{enumerate} 
+            \end{enumerate}
+        
+            \item[4.]
+                \begin{enumerate}
+                    \item[(a)] 
+                \end{enumerate}
+    \end{enumerate}
+\end{solution}
+
+\begin{solution}[Two-by-Two-by-Two]
+    \
+
+    \begin{enumerate}
+        \item[1.] 
+        \item[2.]
+        \item[3.]
+        \item[4.]
+        \item[5.]
+        \item[6.]
+        \item[7.]    
+    \end{enumerate}
+\end{solution}
+
+\begin{solution}[Gravity with Multilateral Resistance]
+    \
+
+    Let the income of country $j$ denoted by $Y_j$, and the price of a good from country $i$ in country $j$ be $p_{ij}$.
+    For consumers, their UMP is:
+    \begin{align*}
+        \max_{x_{kj}} & \Bigl[ \sum_k \alpha_{kj}^{\frac{1}{\sigma}} x_{kj}^{\frac{\sigma-1}{\sigma}}\Bigr]^{\frac{\sigma}{\sigma-1}} \\
+        \text{s.t. } & \sum_k x_{kj} p_{kj} \leq Y_j
+    \end{align*}
+    Define the Lagrangian:
+    \begin{gather*}
+        \mathcal{L} = \Bigl[ \sum_k \alpha_{kj}^{\frac{1}{\sigma}} x_{kj}^{\frac{\sigma-1}{\sigma}}\Bigr]^{\frac{\sigma}{\sigma-1}} - \lambda \Bigl( \sum_k x_{kj} p_{kj} - Y_j \Bigr)
+    \end{gather*}
+    The FOCs are:
+    \begin{align}
+        \frac{\partial \mathcal{L}}{\partial x_{kj}} &= \Bigl[ \sum_k \alpha_{kj}^{\frac{1}{\sigma}} x_{kj}^{\frac{\sigma-1}{\sigma}}\Bigr]^{\frac{1}{\sigma-1}} \alpha_{kj}^{\frac{1}{\sigma}} x_{kj}^{-\frac{1}{\sigma}} - \lambda p_{kj} = 0 \\
+        \frac{\partial \mathcal{L}}{\partial \lambda} &= \sum_k x_{kj} p_{kj} - Y_j = 0
+    \end{align}
+    From (1), we know that for two countries $k$ and $k^{\prime}$, we have:
+    \[
+    \frac{p_{kj}}{p_{k^{\prime} j}} = \frac{\alpha_{kj}^{\frac{1}{\sigma}} x_{kj}^{-\frac{1}{\sigma}}}{\alpha_{k^{\prime} j}^{\frac{1}{\sigma}} x_{k^{\prime} j}^{-\frac{1}{\sigma}}} \Leftrightarrow \frac{\alpha_{kj}}{\alpha_{k^{\prime} j}} = \frac{p_{kj}^{\sigma}}{p_{k^{\prime} j}^{\sigma}} \frac{x_{kj}}{x_{k^{\prime} j}}
+    \]
+    Rearranging and multiplying both sides by $p_{k^{\prime} j}$ yields:
+    \[
+    x_{k^{\prime} j} p_{k^{\prime} j} = \frac{1}{\alpha_{kj}} x_{kj} p_{kj}^{\sigma} \alpha_{k^{\prime} j} p_{k^{\prime} j}^{1-\sigma}
+    \]
+    Summing for all countries gives:
+    \begin{gather}
+        \sum_{k^{\prime}} x_{k^{\prime} j} p_{k^{\prime} j} = \frac{1}{\alpha_{kj}} x_{kj} p_{kj}^{\sigma} \sum_{k^{\prime}} \alpha_{k^{\prime} j} p_{k^{\prime} j}^{1-\sigma} \Leftrightarrow Y_j = \frac{1}{\alpha_{kj}} x_{kj} p_{kj}^{\sigma} P_j^{1-\sigma} 
+    \end{gather}
+    where $P_j = \Bigl[ \sum_k \alpha_{kj} p_{kj}^{1-\sigma} \Bigr]^{\frac{1}{1-\sigma}}$ is the Dixit-Stiglitz price index.
+
+    Rearrange (3) gives the CES demand function:
+    \begin{gather}
+        x_{kj} = \alpha_{kj} p_{kj}^{-\sigma} Y_j P_j^{\sigma-1}
+    \end{gather}
+    Noting that the value of total trade is simply equal to the price times quantity, which gives $X_{kj} = p_{kj} x_{kj}$, we have:
+    \begin{gather}
+        X_{kj} = \alpha_{kj} p_{kj}^{1-\sigma} Y_j P_j^{\sigma-1}
+    \end{gather}
+
+    As we suppose that the market for each country/good is perfectly competitive, the price of a good is simply the marginal cost.
+    Let $w_i$ be the wage of a worker in country $i$.
+
+    Because we assume that one unit of labor produces one unit of the local output,
+    the wage in country $i$ is simply the price of the good produced in country $i$: $p_i = w_i$.
+
+    So, the price of $j$ consuming 1 unit of country $i$'s good is:
+    \begin{gather}
+        p_{ij} = \tau_{ij} w_i \Rightarrow \tau_{ij} = \frac{p_{ij}}{p_i}.
+    \end{gather}
+    \begin{enumerate}
+        \item[1.] Let $\lambda_{ij}$ be the share of total spending in country $j$ that is devoted to goods imported
+        from country $i$. Implementing (5), (6) and the price index, We have:
+        \begin{align*}
+            \lambda_{ij} &= \frac{X_{ij}}{Y_j} = \alpha_{ij} p_{ij}^{1-\sigma} P_j^{\sigma-1} \\
+            &= \alpha_{ij} \Bigl( \tau_{ij} w_i \Bigr)^{1-\sigma} \Bigl[ \sum_k \alpha_{kj} \Bigl( \tau_{kj} w_k \Bigr)^{1-\sigma} \Bigr]^{\sigma-1} \\
+            &= \frac{\alpha_{ij} \tau_{ij}^{1-\sigma} w_i^{1-\sigma}}{\sum_k \alpha_{kj} \Bigl( \tau_{kj} w_k \Bigr)^{1-\sigma}} \tag{*}
+        \end{align*}
+
+        \item[2.] As market clearing requires income is equal to payments to, the $Y$ we previously defined is the same as the $X_i$(defined as GDP in country $i$).
+        
+        Income in a country is also equal to its total sales:
+        \begin{gather*}
+            X_i = \sum_j X_{ij} = \sum_j \alpha_{ij} \tau_{ij}^{1-\sigma} w_i^{1-\sigma} X_j P_j^{\sigma-1} \\
+            \Rightarrow w_i^{1-\sigma} = X_i / \sum_j \alpha_{ij} \tau_{ij}^{1-\sigma} X_j P_j^{\sigma-1}
+        \end{gather*}
+        Replace this equation back into (5), we have:
+        \begin{align*}
+            X_{ij} &= \alpha_{ij} \tau_{ij}^{1-\sigma} w_i^{1-\sigma} X_j P_j^{\sigma-1} \\
+            &= \alpha_{ij} \tau_{ij}^{1-\sigma} \frac{X_i}{\sum_k \alpha_{ik} \tau_{ik}^{1-\sigma} X_k P_k^{\sigma-1}} X_j P_j^{\sigma-1} \\
+            &= X_i X_j \Bigl( \frac{\tau_{ij}}{P_j} \Bigr)^{1-\sigma} \frac{\alpha_{ij}}{\sum_k \alpha_{ik} \Bigl( \frac{\tau_{ik}}{P_k} \Bigr)^{1-\sigma} X_k} \tag{**}
+        \end{align*}
+        
+        \item[3.] Under CES preferences, utility of the representative agent is the real wage. Thus in our notation, we have: $X_j = U_j P_j$.
+        The per capita welfare $W_i$ can be written as:
+        \begin{gather}
+            W_j = \frac{U_j}{L_j} = \frac{X_j}{P_j L_j} = \frac{w_j L_j}{P_j L_j} = \frac{w_j}{P_j}
+        \end{gather}
+        We assume that $\tau_{jj} = 1$, and by choosing $i=j$, (*) implies:
+        \[
+        \lambda_{jj} = \alpha_{jj} w_j^{1-\sigma} P_j^{\sigma-1} \Rightarrow P_j = \Bigl( \lambda_{jj} \alpha_{jj}^{-1} w_j^{\sigma-1} \Bigr)^{\frac{1}{\sigma-1}} = \lambda_{jj}^{\frac{1}{\sigma-1}} \alpha_{jj}^{-\frac{1}{\sigma-1}} w_j
+        \]
+        Replacing this equation into (7), we have:
+        \[
+        W_j = \frac{w_j}{\lambda_{jj}^{\frac{1}{\sigma-1}} \alpha_{jj}^{-\frac{1}{\sigma-1}} w_j} = \lambda_{jj}^{-\frac{1}{\sigma-1}} \alpha_{jj}^{\frac{1}{\sigma-1}} \tag{***}
+        \]
     \end{enumerate}
 \end{solution}
 
