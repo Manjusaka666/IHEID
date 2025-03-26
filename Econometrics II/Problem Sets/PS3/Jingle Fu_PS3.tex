@@ -1,0 +1,234 @@
+\documentclass[a4paper,12pt]{article} % This defines the style of your paper
+
+\usepackage[top = 2.5cm, bottom = 2.5cm, left = 2.5cm, right = 2.5cm]{geometry} 
+
+% Unfortunately, LaTeX has a hard time interpreting German Umlaute. The following two lines and packages should help. If it doesn't work for you please let me know.
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{pifont}
+% \usepackage{ctex}
+\usepackage{amsthm, amsmath, amssymb, mathrsfs,mathtools}
+\input{lst-stata.tex}
+
+% Defining a new theorem style without italics
+\newtheoremstyle{nonitalic}% name
+  {\topsep}% Space above
+  {\topsep}% Space below
+  {\upshape}% Body font
+  {}% Indent amount
+  {\bfseries}% Theorem head font
+  {.}% Punctuation after theorem head
+  {.5em}% Space after theorem head
+  {}% Theorem head spec (can be left empty, meaning ‘normal`)
+  
+\theoremstyle{nonitalic}
+% Define new 'solution' environment
+\newtheorem{innercustomsol}{Solution}
+\newenvironment{solution}[1]
+  {\renewcommand\theinnercustomsol{#1}\innercustomsol}
+  {\endinnercustomsol}
+
+% Custom counter for the solutions
+\newcounter{solutionctr}
+\renewcommand{\thesolutionctr}{(\alph{solutionctr})}
+
+% Environment for auto-numbering with custom format
+\newenvironment{autosolution}
+  {\stepcounter{solutionctr}\begin{solution}{\thesolutionctr}}
+  {\end{solution}}
+
+
+\newtheorem{problem}{Problem}
+\usepackage{color}
+
+% The following two packages - multirow and booktabs - are needed to create nice looking tables.
+\usepackage{multirow} % Multirow is for tables with multiple rows within one cell.
+\usepackage{booktabs} % For even nicer tables.
+
+% As we usually want to include some plots (.pdf files) we need a package for that.
+\usepackage{graphicx} 
+\usepackage{subfigure}
+
+
+% The default setting of LaTeX is to indent new paragraphs. This is useful for articles. But not really nice for homework problem sets. The following command sets the indent to 0.
+\usepackage{setspace}
+\setlength{\parindent}{0in}
+\usepackage{longtable}
+
+% Package to place figures where you want them.
+\usepackage{float}
+
+% The fancyhdr package let's us create nice headers.
+\usepackage{fancyhdr}
+
+\usepackage{fancyvrb}
+
+%Code environment 
+\usepackage{listings} % Required for insertion of code
+\usepackage{xcolor} % Required for custom colors
+
+% Define colors for code listing
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+
+% Code listing style named "mystyle"
+\lstdefinestyle{mystyle}{
+    backgroundcolor=\color{backcolour},   
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{magenta},
+    numberstyle=\tiny\color{codegray},
+    stringstyle=\color{codepurple},
+    basicstyle=\ttfamily\footnotesize, % Change to serif font
+    breakatwhitespace=false,         
+    breaklines=true,                 
+    captionpos=b,                    
+    keepspaces=true,                 
+    numbers=left,                    
+    numbersep=5pt,                  
+    showspaces=false,                
+    showstringspaces=false,
+    showtabs=false,                  
+    tabsize=2
+}
+
+\lstset{style=mystyle}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 3. Header (and Footer)
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% To make our document nice we want a header and number the pages in the footer.
+
+\pagestyle{fancy} % With this command we can customize the header style.
+
+\fancyhf{} % This makes sure we do not have other information in our header or footer.
+
+\lhead{\footnotesize EI035 Econometrics II}% \lhead puts text in the top left corner. \footnotesize sets our font to a smaller size.
+
+%\rhead works just like \lhead (you can also use \chead)
+\rhead{\footnotesize Jingle Fu} %<---- Fill in your lastnames.
+
+% Similar commands work for the footer (\lfoot, \cfoot and \rfoot).
+% We want to put our page number in the center.
+\cfoot{\footnotesize \thepage}
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\begin{document}
+
+
+\thispagestyle{empty} % This command disables the header on the first page. 
+
+\begin{tabular}{p{15.5cm}} % This is a simple tabular environment to align your text nicely 
+{\large \bf EI035 Econometrics II} \\
+The Graduate Institute, Spring 2025, Marko Mlikota\\
+\hline % \hline produces horizontal lines.
+\\
+\end{tabular} % Our tabular environment ends here.
+
+\vspace*{0.3cm} % Now we want to add some vertical space in between the line and our title.
+
+\begin{center} % Everything within the center environment is centered.
+	{\Large \bf PS3 Solutions} % <---- Don't forget to put in the right number
+	\vspace{2mm}
+	
+        % YOUR NAMES GO HERE
+	{\bf Jingle Fu} % <---- Fill in your names here!
+		
+\end{center}  
+
+\vspace{0.4cm}
+\setstretch{1.2}
+
+\begin{autosolution}
+    \
+
+    \begin{itemize}
+        \item \textbf{Unit (Firm) Fixed Effects:}
+        Each firm $i$ has intercept $\alpha_i$. When the number of firms $N$ is large but the time period $T$ is fixed,
+        we have to estimate almost $N-T$ parameters. Such problem can lead to inconsistency in the estimation of the common parameters,
+        becaus ethe estimation error in $\alpha_i$ doesn't vanish as $N \to \infty$.
+        \item \textbf{Time Fixed Effects:}
+        In contrast, time fixed effects add only $T$ dummies, the number of parameters associated with time dummies is fixed. 
+        Hence, their estimation does not create an incidental parameters problem.
+    \end{itemize}
+    In short, while unit fixed effects can cause IPP when $T$ is relative small to $N$, 
+    the addition of time fixed effects does not because the number of time dummies remains fixed and is asymptotically negligible.
+    \input{a.tex}
+\begin{lstlisting}[language=stata]
+use GMdata.dta, clear
+xtset index yr
+xtreg ldsal lemp ldnpt ldrnd i.yr, fe robust
+\end{lstlisting}
+\end{autosolution}
+
+\begin{autosolution}
+    \
+
+
+    Starting from the original equation for firm $i$ at time $t$:
+    \[
+    \Delta ldsal_{it} = \beta_1 \Delta lemp_{it} + \beta_2 \Delta ldnpt_{it} + \beta_3 \Delta ldrnd_{it} + (f_t - f_{t-1}) + \Delta u_{it}
+    \]
+    Since $\alpha_i$ does not vary over time, it drops out in the differencing.
+
+    The time effects appear as differences $f_t - f_{t-1}$.
+    Thus, in the first-differenced equation the levels of the year dummies disappear, but their differences remain. 
+\end{autosolution}
+
+
+\begin{autosolution}
+    \
+
+    As $d357_{it}$ equals 1 for firms in industry 357 and is constant over time, then its effect is absorbed by the firm fixed effect $\alpha_i$.
+    In the fixed effects (within) estimator, the coefficient on $d357$ is not separately identified.
+    n the first-differenced model, any time-invariant variable will vanish $\Delta d357_{it} = 0 \forall t.$
+
+    Including a time-invariant dummy does not worsen the IPP since it adds only one parameter that is either absorbed (or eliminated in first differences).
+
+
+\end{autosolution}
+
+\begin{autosolution}
+    \
+
+    As we define $\ddot{y}_{it}= y_{it} - \overline{y}_{it}$ and $\ddot{X}_{it} - \overline{X}_{it}$, we have:
+    \[
+    \hat{\beta}_{FE-W} = \Bigl( \sum_{i,t} \ddot{X}_{it}^{\prime} \ddot{X}_{it} \Bigr) \sum_{i,t} \ddot{X}_{it} \ddot{y}_{it}
+    \]
+    \[
+    \hat{\beta}_{RE} = \Bigl( X^{\prime} \Omega^{-1} X \Bigr)^{-1} X^{\prime} \Omega^{-1} y
+    \]
+    \input{d1.tex}
+    \input{d2.tex}
+\begin{lstlisting}[language=stata]
+use "GMdata_balanced.dta", clear
+xtset index yr
+gen d357 = (sic3 == 357)
+
+xtreg ldsal lemp ldnpt ldrnd i.yr##i.d357, fe robust
+eststo fe_w
+esttab fe_w using d1.tex, replace label booktabs title("FE-W Estimator") ///
+    cells("b(fmt(3)) se(fmt(3))")
+
+xtreg ldsal lemp ldnpt ldrnd i.yr##i.d357, re robust
+eststo RE
+esttab RE using d2.tex, replace label booktabs title("RE Estimator") ///
+    cells("b(fmt(3)) se(fmt(3))")
+\end{lstlisting}
+\end{autosolution}
+
+\begin{autosolution}
+    \
+
+    The Hausman test statistics is:
+    \[
+    H = \Bigl( \hat{\beta}_{FE} - \hat{\beta}_{RE} \Bigr)^{\prime} \Bigl[ A\mathbb{V}[\hat{\beta}_{FE}] - A\mathbb{V}[\hat{\beta}_{RE}] \Bigr]^{-1} \Bigl( \hat{\beta}_{FE} - \hat{\beta}_{RE} \Bigr)
+    \]
+\begin{lstlisting}[language=stata]
+hausman fe_w re, sigmamore
+\end{lstlisting}
+\end{autosolution}
+
+\end{document}
+
