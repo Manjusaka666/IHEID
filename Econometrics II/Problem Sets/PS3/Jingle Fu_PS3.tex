@@ -228,6 +228,56 @@ esttab RE using d2.tex, replace label booktabs title("RE Estimator") ///
 \begin{lstlisting}[language=stata]
 hausman fe_w re, sigmamore
 \end{lstlisting}
+\begin{figure}[htbp!]
+    \includegraphics{Hausman.png}
+\end{figure}
+
+Hausman test output yields a chi-square statistic of 67.24 (with p-value$ = 0.0000$).
+
+The null hypothesis is strongly rejected, indicating that the RE estimator is inconsistent and that the FE estimator is preferred.
+\end{autosolution}
+
+\begin{autosolution}
+    \
+
+    Let$\theta = \beta_1 + \beta_2$. Under the null hypothesis, we have
+    \[
+    H_0: \theta = 1.
+    \]
+    An estimator for $\theta$ is
+    \[
+    \hat{\theta} = \hat{\beta}_1 + \hat{\beta}_2.
+    \]
+    Suppose the estimated coefficients $\hat{\beta}_1$ and $\hat{\beta}_2$ have the following variance-covariance matrix:
+    \[
+    V = \begin{pmatrix}
+    \operatorname{Var}(\hat{\beta}_1) & \operatorname{Cov}(\hat{\beta}_1, \hat{\beta}_2) \\
+    \operatorname{Cov}(\hat{\beta}_1, \hat{\beta}_2) & \operatorname{Var}(\hat{\beta}_2)
+    \end{pmatrix}.
+    \]
+    Because $\hat{\theta}$ is a sum of $\hat{\beta}_1$ and $\hat{\beta}_2$, by the properties of variance we have:
+    \[
+    \operatorname{Var}(\hat{\theta}) = \operatorname{Var}(\hat{\beta}_1 + \hat{\beta}_2) = \operatorname{Var}(\hat{\beta}_1) + \operatorname{Var}(\hat{\beta}_2) + 2\,\operatorname{Cov}(\hat{\beta}_1, \hat{\beta}_2).
+    \]
+    Under $\mathcal{H}_0$, the deviation of $\hat{\theta}$ from its hypothesized value is:
+    \[
+    \hat{\theta} - 1 = \hat{\beta}_1 + \hat{\beta}_2 - 1.
+    \]
+    Since, by the Central Limit Theorem, $\hat{\theta}$ is approximately normally distributed in large samples, we can standardize the difference:
+    \[
+    Z = \frac{\hat{\theta} - 1}{\sqrt{\operatorname{Var}(\hat{\theta})}}.
+    \]
+    Under $H_0$, $Z$ is asymptotically standard normal. Squaring this $Z$ statistic gives a chi-square statistic with 1 degree of freedom:
+    \[
+    \chi^2 = \frac{(\hat{\beta}_1 + \hat{\beta}_2 - 1)^2}{\operatorname{Var}(\hat{\beta}_1) + \operatorname{Var}(\hat{\beta}_2) + 2\,\operatorname{Cov}(\hat{\beta}_1, \hat{\beta}_2)}.
+    \]
+    This test statistic is compared to the $\chi^2_1$ distribution.
+    \begin{itemize}
+        \item If $\chi^2$ is large (and the corresponding p-value is small), we reject $H_0$ and conclude that the sum of $\beta_1$ and $\beta_2$ is statistically different from 1.  
+        \item If $\chi^2$ is not large (and the p-value is large), we do not reject $H_0$ and there is no evidence against constant returns to scale.
+    \end{itemize}
+
+    At the conventional 5\% level, the p-value (0.0528) is marginally above 0.05, meaning we do not reject $\mathcal{H}_0$.
 \end{autosolution}
 
 \end{document}

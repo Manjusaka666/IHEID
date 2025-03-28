@@ -75,7 +75,8 @@ esttab fe_w using d1.tex, ///
 	replace booktabs label ///
     title("Fixed Effects Model") ///
     cells(b(star fmt(3)) se(fmt(3) par)) ///
-    star(* 0.10 ** 0.05 *** 0.01) 
+    star(* 0.10 ** 0.05 *** 0.01) ///
+	keep(lemp ldnpt ldrnd)
 	
 * RE Estimator with robust standard errors:
 xtreg ldsal lemp ldnpt ldrnd i.yr##i.d357, re
@@ -84,7 +85,8 @@ esttab RE using d2.tex, ///
 	replace booktabs label ///
     title("Random Effects Model") ///
     cells(b(star fmt(3)) se(fmt(3) par)) ///
-    star(* 0.10 ** 0.05 *** 0.01)
+    star(* 0.10 ** 0.05 *** 0.01) ///
+	keep(lemp ldnpt ldrnd)
 
 ***(e)
 * After storing the FE and RE estimates as above:
