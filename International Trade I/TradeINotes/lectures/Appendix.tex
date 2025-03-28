@@ -1,0 +1,29 @@
+\section*{Fréchet Distribution}
+\label{sec:frechet}
+
+The type II extreme value distribution, also called the Fréchet distribution, is one of three distributions that can arise as the limiting distribution of the maximum of a sequence of independent random variables. The distribution function for the Fréchet distribution is
+\[
+F(x)=\exp\left\{-\left(\frac{x-\mu}{\sigma}\right)^{-\theta}\right\},
+\]
+for $x>\mu$,where $\theta>0$ is a shape parameter, $\sigma>0$ is a scale parameter and $\mu\in\mathbb{R}$ is a
+location parameter. The density of the Fréchet distribution is
+\[
+f(x)=\dfrac{\theta}{\sigma}\left(\dfrac{x-\mu}{\sigma}\right)^{-\theta-1}\exp\left\{-\left(\dfrac{x-\mu}{\sigma}\right)^{-\theta}\right\},
+\]
+for $x>\mu.$ If X is a Fréchet-distributed random variable then
+\begin{align*}
+    E(X)&=\int_{\mu}^{\infty}x\frac{\theta}{\sigma}\left(\frac{x-\mu}{\sigma}\right)^{-\theta-1}\exp\left\{-\left(\frac{x-\mu}{\sigma}\right)^{-\theta}\right\}dx\\
+    &=\sigma\int_0^\infty y^{-\frac1\theta}e^{-y}dy+\mu\int_0^\infty e^{-y}dy\\&=\sigma\Gamma\left(\frac{\theta-1}\theta\right)+\mu,
+\end{align*}
+where $y:=\left(\frac{x-\mu}{\sigma}\right)^{-\theta}$and
+\begin{align*}
+    \Gamma(z)=\int_0^\infty t^{z-1}e^{-t}dt
+\end{align*}
+is the Gamma function. 
+
+Now assume that $\mu=0$,take $T:=\sigma^\theta$ and rewrite the distribution
+function as
+\[
+F(x)=e^{-Ax^{-\theta}},
+\]
+so that the Fréchet distribution is now parameterized by $\theta,A.$

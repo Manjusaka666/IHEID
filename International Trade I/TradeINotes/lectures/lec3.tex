@@ -1,0 +1,343 @@
+\section{Dornbusch, Fischer and Samuelson(1997): Continuum of Goods\cite{dornbusch1977comparative}}
+
+Consider a world economy with only two countries: Home and Foreign.
+Use asterisks to denote foreign variables. 
+\begin{note}
+    \
+
+    Ricardian models diﬀer from other neoclassical trade models in that
+    there is only \textbf{one factor of production} in the model.
+\end{note}
+
+We denote by:
+\begin{itemize}
+    \item $L$ and $L^*$ as the labor endowments in Home and Foreign respectively.
+    \item $w$ and $w^*$ as the wages(in efficiency units) in Home and Foreign respectively.
+\end{itemize}
+
+There's a continuum of goods indexed by $z \in [0,1]$.
+Since there are CRS, we can define the constant unit labot requirements in both countries: $a(z)$ and $a^*(z)$.
+
+Without loss of generaliry, we order goods such that $A(z) \equiv \frac{a^*(z)}{a(z)}$ is decreasing.
+\begin{itemize}
+    \item Hence Home has a comparative advantage in goods with low-z goods.
+    \item For simplicity, we'll assume strict monotonicity.
+\end{itemize}
+
+Previous supply-side assumptions are all we need to make qualitative
+predictions about pattern of trade.
+
+Let $p(z)$ denote the price of good $z$ in Home under free trade.
+
+The profit-maximization condition for a firm producing good $z$ is:
+\begin{align*}
+    p(z) - w\,a(z) &\leq 0, \text{with equality if z produced at home.} \\
+    p(z) - w^*\,a^*(z) &\leq 0, \text{with equality if z produced abroad.}  
+\end{align*}
+\begin{proposition}\label{prop:CA}
+    \
+
+    There exists $\tilde{z} \in [0,1]$, s.t. Home produces all goods with $z < \tilde{z}$ 
+    and Foreign produces all goods with $z > \tilde{z}$.
+\end{proposition}
+\begin{proof}
+    \
+
+    By contradiction. Suppose that there exists $z^{\prime} < z$, s.t. $z$ produced at Home
+    and $z^{\prime} $ is produced abroad. Then:
+    \begin{align*}
+        p(z) - w\,a(z) &= 0, \\
+        p(z^{\prime}) - w\,a(z^{\prime}) &\leq 0, \\
+        p(z^{\prime}) - w^*\,a^*(z^{\prime}) &= 0, \\
+        p(z) - w^*\,a^*(z) &\leq 0.
+    \end{align*}
+    This implies that:
+    \[w\,a(z)w^*\,a^*(z) = p(z)\,p(z^{\prime}) \leq w\,a(z^{\prime})\,w^*\,a^*(z),\]
+    which can be rearranged as:
+    \[\frac{a^*(z^{\prime})}{a(z^{\prime})} \leq \frac{a^*(z)}{a(z)}\]
+    which contradicts that $A(z)$ is strictly decreasing.
+\end{proof}
+
+This proposition(\ref{prop:CA}) simply shows tha tHome should produce and specialize in
+the goods in which it has a CA.
+
+\begin{note}
+    \
+
+    \begin{itemize}
+        \item Proposition(\ref{prop:CA}) doesn't rely on continuum of goods.
+        \item Continuum of goods + continuity of $A(z)$ is important to derive the relative wage:
+        \begin{equation}\label{eq:CA}
+            A(\tilde{z}) = \frac{w}{w^*} \equiv \omega.
+        \end{equation}
+    \end{itemize}
+    Equation(\ref{eq:CA}) is the key result of the Dornbusch, Fischer and Samuelson(1997) model.
+    It gives us that: conditional on wages, goods should be produced in the country where it's cheaper to do so.
+\end{note}
+
+Then, we take a look at the demand side to pin down the relative wage $\omega$.
+\subsection{Demand side}
+
+Assume that consumers have identical Cobb-Douglas preferences around the world.
+
+We denote by $b(z) \in (0,1)$ the share of expenditure spent on good $z$:
+\[b(z) = \frac{p(z) c(z)}{wL} = \frac{p(z)c^*(z)}{w^* L^*}\]
+where $c(z)$ and $c^*(z)$ are the consumption of good $z$ in Home and Foreign respectively.
+
+By definition, share of expenditure satisfies: $\int_{0}^{1} b(z) dz = 1$.
+
+Then, we denote by $\theta(\tilde{z}) = \int_0^{\tilde{z}} b(z) dz$ the fraction of income spent
+on goods produced at Home(spent in both countries).
+
+The trade balance requires: 
+\[\theta(\tilde{z}) w^* L^* = [1-\theta (\tilde{z})]wL\]
+where LHS od the Home exports an d RHE is the Home imports.
+
+WE can then rearrange the equation(\ref{eq:CA}) to get:
+\begin{equation}
+    \omega  = \frac{\theta(\tilde{z})}{1 - \theta(\tilde{z})}\Bigl(\frac{L^*}{L}\Bigr) \equiv B(\tilde{z}).
+\end{equation}
+
+Note that $B^{\prime} > 0$ and: an increase in $\tilde{z}$ leads to a trade surplus at Home,
+which must be compensated by an increase in Home's relative wage $\omega$.
+
+\begin{tikzpicture}[scale=5]
+    % Axes
+    \draw[->] (0,0) -- (1.3,0) node[right] {$z$};
+    \draw[->] (0,0) -- (0,1) node[above] {$\omega$};
+    
+    % Origin and points
+    \node at (0,0) [below left] {$0$};
+    \node at (1.2,0) [below] {$1$};
+    
+    % A(z) curve - decreasing blue curve
+    \draw[blue, thick] (0.1,0.9) .. controls (0.3,0.55) and (0.55,0.4) .. (1.1,0.3) node[right, blue] {$A(z)$};
+    
+    % B(z) curve - increasing green curve
+    \draw[green, thick] (0,0) .. controls (0.3,0.12) and (0.6,0.4) .. (1.1,0.75) node[below, green] {$B(z)$};
+    
+    % Equilibrium point
+    \node at (0.6,0.4) [circle, fill, inner sep=1pt] {};
+    
+    % Equilibrium labels
+    \draw[dashed] (0.6,0) -- (0.6,0.4);
+    \draw[dashed] (0,0.4) -- (0.6,0.4);
+    \node at (0.6,0) [below] {$\bar{z}$};
+    \node at (0,0.4) [left] {$\bar{\omega}$};
+    
+    % H and F labels
+    \draw[<->] (0,-0.1) -- (0.6,-0.1) node[midway, below] {H};
+    \draw[<->] (0.6,-0.1) -- (1.2,-0.1) node[midway, below] {F};
+    
+    % Equation at top right
+    \node at (1.5,0.8) {$\frac{\theta(\bar{z})}{1-\theta(\bar{z})}\left(\frac{L^*}{L}\right) = \bar{\omega} = A(\bar{z})$};
+\end{tikzpicture}
+
+\begin{itemize}
+    \item Efficient international specialization, Equation (3), and trade balance, (4), jointly determine $(\bar{z}, \bar{\omega})$
+\end{itemize}
+
+Since Ricardian model is a neoclassical model, general results derived
+in previous lecture hold. However, we can directly show the existence of gains from trade in this environment.
+
+\begin{itemize}
+    \item Set $w=1$ under autarky and free trade.
+    \item Indirect utility\footnote{The maximum utility under budget constraint.} of Home representative houssehold depends on $p(\cdot).$
+    \item For goods $z$ produced at Home under free trade: no change sompared to autarky.
+    \item For goods $z$ produced Foreign under free trade:
+    \[p(z) = w^* a^*(z) < a(z)\]
+    \item Since all prices go down, indirect utility must go up.
+\end{itemize}
+
+\subsection{Consequences of (Relative) Country Growth}
+
+Suppose that $L^*/L$ increases, then the relative wage $\omega$ must increase and $\tilde{z}$ goes down.
+At initial wages, an increase in $L^*/L$ leads to a trade deficit in Foreign, which must be compensated by an increase in $\omega$.
+
+An increase in $L^*/L$ raises indirect utility, i.e. real wage, of representative household at Home and lowers it in Foreign.
+
+\begin{itemize}
+    \item We set $w=1$ before and after the change in $L^*/L.$
+    \item For goods $z$ whose production remains at Home, there's no change in $p(z)$.
+    \item For goods $z$ whose production remains in Foreign, we have: $w \uparrow \Rightarrow w^* \downarrow \Rightarrow p(z) = w^* a^*(z) \downarrow.$
+    \item For goods $z$ whose production changes from Home to Foreign, we have: $p(z) = w^* a^*(z) \leq a(z) \Rightarrow p(z) \downarrow.$
+    \item So Home gains. Similar logic implies Foreign welfare loss.
+\end{itemize}
+
+\begin{note}
+    \
+    
+    In spite of CRS at the industry level, everything is as if we had DRS at the country-level.
+
+    As foreing's size increases, it specialized in sectors in which it is relatively less productive(compared to home),
+    which worsens it's terms of trade, so lowers real GDP per capita.
+
+    The flatter the A schedule, the smaller this effect.
+\end{note}
+
+If there's an improvement in Home technology, then unit of labor requirement in Home $a(z)$ will be reducing, hence $A(z)$ is increasing - shifting upward. 
+As we have shown in \ref{eq:CA}, this shows \textbf{an increase in home relative wage} i.e. higher income, 
+and \textbf{an increase in home's share of world production and trade.}\footnote{As shown previously, $\omega = \frac{\theta(\tilde{z})}{1-\theta(\tilde{z})} \Bigl(\frac{L^*}{L}\Bigr)$, 
+if $\omega$ increases, and we fix $\frac{L^*}{L}$, then $\theta(\tilde{z})$ increases.} 
+
+\section{The Eaton-Kortum model (2002): Many Countries\cite{eaton2002technology}}
+The model of Dornbusch, Fischer, and Samuelson (1977)\cite{dornbusch1977comparative} is based on the Ricardian model
+where trade and specialization patterns are determined by different productivities.
+
+In the Dornbusch-Fischer-Samuelson model, there were no restrictions on the productivity distributions,
+Eaton and Kortum were able to extent the model to a case with many countries by sacrificing this generality.
+
+The Eaton-Kortum model is based on the following assumptions:
+\begin{itemize}
+    \item Perfect Competition
+    \item $N$ countries, insteat of 2 in DFS
+    \item Continuum of goods $(u \in [0,1])$
+    \item CRS technology: labor only
+    \item CES preferences with elasticity of substitution $\sigma > 0$
+\end{itemize}
+
+\subsection{Model Setup}
+
+\subsubsection{The world}
+
+In this model, there a finite number of countries $i \in S \equiv \{1, \cdots, N\}$; 
+(unlike previous models, there are technical difficulties in extending the model to a continuum of countries).
+There are a continuum of goods $\Omega$.
+
+However, unlike Krugman (1980)\cite{krugman1980scale} and Melitz (2003)\cite{melitz2003impact}, models which follow(in Lecture 4 and 5),
+\textit{every country is able to produce every good.}
+Countries, however, varies(exogeneously) in their productivity of each good $z_i(\omega)$ - varying by country $i$ and good $\omega \in \Omega$.
+
+The Eaton and Kortum (2002)\cite{eaton2002technology} has no concept of a firm. Instead, it is assumed that all
+goods $\omega$ are are produced using the same bundle of inputs with a constant returns to
+scale technology. Let the cost of a bundle of inputs in country $i$ be $c_i$,
+so that the cost of producing one unit of $\omega \in \Omega$ in country $i$ is $\frac{c_i}{z_i(\omega)}$.
+
+Firstly, we introduce the \textbf{trade costs}: transport costs and tariffs. This is not an innovation of Eaton
+and Kortum, the original Dornbush-Fischer-Samuelson model also had trade costs, but for simplification, we left them out.
+    
+Trade costs are modelled as iceberg costs, a popular device invented by Samuelson\cite{samuelson1954transfer}.
+That is, we assume that for delivering one unit of a good from country $i$ to country $j$, 
+it's necessary to ship $d_{ij} \geq 1$ units of good: the rest “melts away” during transit. 
+
+\subsubsection{Supply}
+
+Each good is assumed to be sold in perfectly competitive markets, so that the price a
+consumer in country $j$ would pay for good $\omega$ produced in country $i$ is given by:
+\begin{gather*}
+    p_{ij}(\omega) = \frac{c_i}{z_i(\omega)} d_{ij}. \label{eq:EKprice}
+\end{gather*}
+
+However, consumers in country $j \in S$ are assumed to only purchase good $\omega \in \Omega$
+from the country who can provide it at the lowest price, so the price a consumer in
+$j \in N$ actually pays for good $\omega$ is:
+\begin{gather*}
+    p_j(\omega) = \min_{i \in S} p_{ij}(\omega) = \min _{i \in S} \Bigl\{ \frac{c_i}{z_i(\omega)} d_{ij} \Bigr\} \label{eq:EKprice2}
+\end{gather*}
+
+Here, the basic idea of Eaton and Kortum is already present in equation above:
+a country $j \in S$ is more likely to purchase a good $\omega \in \Omega$ from country $i \in S$ if
+\begin{enumerate}
+    \item[(1)] it has a lower cost $c_i$;
+    \item[(2)] it has a higher good productivity $z_i(\omega)$;
+    \item[(3)] it has a lower trade cost $d_{ij}$. 
+\end{enumerate}
+
+\textbf{The main innovation of Eaton and Kortum}, however, is to assume that the productivities $z_i(\omega)$ are drawn from a Fréchet distribution\footnote{To find more properties of the Fréchet distribution, see the appendix \ref{sec:frechet}.}.
+This means that for each $i \in S$ and $\forall \omega \in \Omega$, the cumulative distribution function $F_i$ is:
+\[
+F_i(z) = \operatorname{Pr}\Bigl\{z_i(\omega) \leq z \Bigr\} = \exp \Bigl\{-T_i z^{-\theta} \Bigr\}
+\]
+where $T_i > 0$ is a measure of the aggregate productivity of country $i$(country $i$'s state of technology)\footnote{A larger value of $T_i$ decreases $F_i$ fro any $z\geq 0$. It increases the probability of larger values
+of $z$ and $\theta>1$, which is assumed to be constant across countries, governs the distribution of productivities across goods within countries. As $\theta$ increases, the heterogeneity of productivity across goods declines.}.
+
+\begin{note}[Why Fréchet?]
+    \
+
+    Why make this particular distributional assumption for productivities?
+
+    Kortum (1997)\cite{kortum1997research} showed that if the technology of producing goods is determined by
+    the best ``idea'' of how to produce, then the limiting distribution is indeed Fréchet, where
+    $T_i$ reflects the country`s stock of ideas. More generally, consider the random variable:
+    \[
+    M_n = \max \{X_1, \cdots, X_n \}
+    \]
+    where $X_n$ are i.i.d.
+
+    The Fisher-Tippett-Gnedenko theorem states that the only (normalized) distribution of
+    $M_n$ as $n \to \infty $ is an extreme value distribution, of which Fréchet is one of three types (Type II).
+    Note that a conditional logit model assumes that the error term is Gumbel (Type I) extreme value distributed.
+
+    If random variable $x$ is Gumbel distributed, then $\ln{x}$ is Fréchet distributed. Hence, loosely speaking,
+    the Fréchet distribution works better for models that are log linear (like the gravity equation), whereas the Gumbel
+    distribution works better for models that are linear.
+\end{note}
+
+\subsubsection{Demand}
+
+As in previous models, consumers have CES preferences so that the representative agent
+in country $j$ has utility:
+\[
+U_j = \Bigl( \int_{\Omega} q_j(\omega)^{\frac{\sigma -1}{\sigma}} d \omega \Bigr)^{\frac{\sigma}{\sigma-1}},
+\]
+where $q_j(\omega)$ is the quantity that country $j$ consumes of good $\omega$.
+
+Note that unlike the Krugman (1980)\cite{krugman1980scale} model, not every good produced in every country will be sold to country $j$.
+
+Indeed, good $\omega \in \Omega$ will be produced by all countries but country $j$ will only purchase
+it from one country. The CES preferences will yield a Dixit-Stiglitz price index:
+\[
+P_j \equiv \Bigl( \int_{\Omega} p_j(\omega)^{1-\sigma} \Bigr)^{\frac{1}{1-\sigma}}.
+\]
+
+\subsection{Equilibrium}
+
+We now consider the equilibrium of the model. Instead of relying on the CES demand
+equation as in the previous models, we use a probabilistic formulation in order to solve
+the model.
+
+\subsubsection{Prices}
+
+In perfect competition only the lowest cost producer of a good will supply that particular
+good. Thus, we want to derive the distribution of the minimum price over a set of prices
+offered by producers in different countries:
+\[
+p_j = \min \{p_{ij}, \cdots, p_{Nj} \}.
+\]
+In order to solve the model, we take advantage of the properties of the Fréchet distribution.
+
+First, we consider the probability that country $i \in S$ is able to offer country $j$ good $\omega$
+for a price less than $p$. Because the technology is i.i.d. across goods, we can define:
+\begin{gather*}
+    G_{ij}(p) \equiv \operatorname{Pr} \Bigl\{ p_{ij}(\omega) \leq p \Bigr\}
+\end{gather*}
+Using the perfect competition price equation(\ref{eq:EKprice}), we can write:
+\begin{align*}
+    G_{ij}(p) &= \operatorname{Pr} \Bigl\{ \frac{c_i}{z_i(\omega)} d_{ij} \leq p \Bigr\} \\
+    &= 1 - \operatorname{Pr} \Bigl\{ z_i(\omega) \geq \frac{c_i d_{ij}}{p} \Bigr\} \\
+    &= 1 - F_i \Bigl( \frac{c_i d_{ij}}{p} \Bigr) \\
+    &= 1 - \exp \Bigl\{ -T_i \Bigl( \frac{c_i d_{ij}}{p} \Bigr)^{-\theta} \Bigr\}
+\end{align*}
+Consider now the probability that country $j$ pays a price less than $p$ for good $\omega $.
+
+Again, because the technology is i.i.d. across goods, the probability will be tha same fo all goods $\omega \in \Omega$.
+Define:
+\begin{gather}
+    G_j(p) \equiv \operatorname{Pr} \Bigl\{ p_j(\omega) \leq p \Bigr\}
+\end{gather}
+Because country $j$ buys from the least cost provider, using equation \ref{eq:EKprice2}, we can write:
+\begin{align*}
+    G_j(p) &= \operatorname{Pr} \Bigl\{ \min_{i \in S} p_{ij}(\omega) \leq p \Bigr\} \\
+    &= 1 - \operatorname{Pr} \Bigl\{ \min_{i \in S} p_{ij}(\omega) \geq p \Bigr\} \\
+    &= 1 - \operatorname{Pr} \Bigl\{ \cap_{i \in S} \Bigl( p_{ij}(\omega) \geq p \Bigr) \Bigr\} \\
+    &= 1 - \prod_{i \in S} \operatorname{Pr} \Bigl\{ p_{ij}(\omega) \geq p \Bigr\} \\
+    &= 1 - \prod_{i \in S} \Bigl( 1 - G_{ij}(p) \Bigr)
+\end{align*}
+Substituting $G_{ij}$ into this equation, we have:
+\begin{align*}
+    G_j(p) &= 1 - \prod_{i \in S} \Bigl( 1 - \Bigl( 1 - \exp \Bigl\{ -T_i \Bigl( \frac{c_i d_{ij}}{p} \Bigr)^{-\theta} \Bigr\} \Bigr) \Bigr) \\
+    &= 1 - \prod_{i \in S} \exp \Bigl\{ -T_i \Bigl( \frac{c_i d_{ij}}{p} \Bigr)^{-\theta} \Bigr\} \\
+    &= 1 - \exp \Bigl\{ -p^{\theta} \sum_{i \in S} T_i \Bigl( c_i d_{ij} \Bigr)^{-\theta} \Bigr\} \\
+    &= 1 - \exp \Bigl\{-p^{\theta} \Phi_j \Bigr\}
+\end{align*}
+where $\Phi_j = \sum_{i \in S} T_i (c_i d_{ij})^{-\theta}$.
