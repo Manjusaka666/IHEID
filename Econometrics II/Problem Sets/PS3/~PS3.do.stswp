@@ -69,7 +69,7 @@ xtset index yr
 gen d357 = (sic3 == 357)
 
 * FE (Within) Estimator with robust standard errors:
-xtreg ldsal lemp ldnpt ldrst i.yr##i.d357, fe
+xtreg ldsal lemp ldnpt ldrst i.yr, fe
 eststo fe_w
 esttab fe_w using d1.tex, ///
 	replace booktabs label ///

@@ -146,10 +146,17 @@ The Graduate Institute, Spring 2025, Marko Mlikota\\
     \begin{itemize}
         \item \textbf{Unit (Firm) Fixed Effects:}
         Each firm $i$ has intercept $\alpha_i$. When the number of firms $N$ is large but the time period $T$ is fixed,
-        we have to estimate almost $N-T$ parameters. Such problem can lead to inconsistency in the estimation of the common parameters,
-        becaus ethe estimation error in $\alpha_i$ doesn't vanish as $N \to \infty$.
+        as $N$ increases, the number of these nuisance parameters increases too. The IPP refers to potential bias in the estimation of the structural parameters
+        when the number of incidental parameters increases with the sample size.
+        Such problem can lead to inconsistency in the estimation of the common parameters,
+        because the estimation error in $\alpha_i$ doesn't vanish as $N \to \infty$.
         \item \textbf{Time Fixed Effects:}
         In contrast, time fixed effects add only $T$ dummies, the number of parameters associated with time dummies is fixed. 
+        If we perform the within transformation as above, the time dummies remain in the model in the form
+        \[\mathbf{1}\{t=\tau\} - \overline{d}_{it} \]
+        and if we use first-differences, for any firm $i$, we have:
+        \[\Delta  f_t = f_t - f_{t-1} \]
+        Thus, the time fixed effects enter the differenced equation as differences, preserving their role in controlling for period-specific shocks.
         Hence, their estimation does not create an incidental parameters problem.
     \end{itemize}
     In short, while unit fixed effects can cause IPP when $T$ is relative small to $N$, 
@@ -166,11 +173,20 @@ xtreg ldsal lemp ldnpt ldrnd i.yr, fe robust
     \
 
 
-    Starting from the original equation for firm $i$ at time $t$:
+    For consecutive time periods $t$ and $t-1$, we take the difference and have:
     \[
     \Delta ldsal_{it} = \beta_1 \Delta lemp_{it} + \beta_2 \Delta ldnpt_{it} + \beta_3 \Delta ldrnd_{it} + (f_t - f_{t-1}) + \Delta u_{it}
     \]
     Since $\alpha_i$ does not vary over time, it drops out in the differencing.
+    For the dummies, we have:
+    \begin{gather*}
+        \mathbf{1}\{t=\tau\} - \mathbf{1}\{t-1=\tau\}=\begin{cases}
+            +1 &\text{if } t=\tau,\\
+            -1 &\text{if } t-1=\tau,\\
+            0 &\text{otherwise.}
+        \end{cases}
+    \end{gather*}
+    
 
     The time effects appear as differences $f_t - f_{t-1}$.
     Thus, in the first-differenced equation the levels of the year dummies disappear, but their differences remain. 
@@ -180,13 +196,26 @@ xtreg ldsal lemp ldnpt ldrnd i.yr, fe robust
 \begin{autosolution}
     \
 
-    As $d357_{it}$ equals 1 for firms in industry 357 and is constant over time, then its effect is absorbed by the firm fixed effect $\alpha_i$.
-    In the fixed effects (within) estimator, the coefficient on $d357$ is not separately identified.
-    n the first-differenced model, any time-invariant variable will vanish $\Delta d357_{it} = 0 \forall t.$
+    Adding a time-invariant dummy variable to the regression $d357_i$, we get:
+    \begin{gather*}
+        ldsal_{it} = \alpha_i + \beta_1 lemp_{it} + \beta_2 ldnpt_{it} + \beta_3 ldrnd_{it} + \delta d357_i + \sum_{\tau =1}^{T} f_t\mathbf{1}\{t=\tau\} + u_{it}
+    \end{gather*}
+    We take the first-differences of the equation:
+    \[\Delta \delta d357_i = 0.\]
+    Thus, in the first-difference model, the term $\delta d357_i$ drops out, and the time dummies are differenced out.
+    The IPP arises from having many firm-specific parameters with a limited number of observations.
+    So,including a time-invariant dummy does not worsen the IPP since it adds only one parameter that is either absorbed (or eliminated in first differences).
 
-    Including a time-invariant dummy does not worsen the IPP since it adds only one parameter that is either absorbed (or eliminated in first differences).
+    If we consider Time-Varying Effects of the industry dummy $\delta_t d357_{it}$:
+    taking the first-difference, we have:
+    \[\Delta(\delta_t d357_{it}) = \delta_t d357_{it} - \delta_{t-1} d357_{i,t-1} = \delta_t - \delta_{t-1}\]
+    as $\delta d357_{it} =1$ for all $t$ if the firm is in the computer industry.
+    For firms not in industry 357, the term remains zero. Thus, in the first-difference equation, 
+    the industry effect appears as the difference $\delta_t - \delta_{t-1}$, which is time-varying.
 
-
+    Although allowing the industry effect to vary over time introduces several parameters,
+    the number of these parameters is tied to the fixed. 
+    And the key issue with IPP is the growth of parameters with $N$, which does not occur here.
 \end{autosolution}
 
 \begin{autosolution}
@@ -232,7 +261,7 @@ hausman fe_w re, sigmamore
     \includegraphics{Hausman.png}
 \end{figure}
 
-Hausman test output yields a chi-square statistic of 67.24 (with p-value$ = 0.0000$).
+Hausman test output yields a chi-square statistic of 85.39 (with p-value$ = 0.0000$).
 
 The null hypothesis is strongly rejected, indicating that the RE estimator is inconsistent and that the FE estimator is preferred.
 \end{autosolution}
@@ -277,7 +306,11 @@ The null hypothesis is strongly rejected, indicating that the RE estimator is in
         \item If $\chi^2$ is not large (and the p-value is large), we do not reject $H_0$ and there is no evidence against constant returns to scale.
     \end{itemize}
 
-    At the conventional 5\% level, the p-value (0.0528) is marginally above 0.05, meaning we do not reject $\mathcal{H}_0$.
+    At the conventional 5\% level, the p-value (0.0008) is much smaller than 0.05, meaning we reject $\mathcal{H}_0$.
+    \begin{figure}[htbp!]
+        \centering
+        \includegraphics[width=0.5\textwidth]{F_test.png}
+    \end{figure}
 \end{autosolution}
 
 \end{document}

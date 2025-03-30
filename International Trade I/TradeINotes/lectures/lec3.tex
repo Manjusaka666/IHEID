@@ -1,4 +1,4 @@
-\section{Dornbusch, Fischer and Samuelson(1997): Continuum of Goods\cite{dornbusch1977comparative}}
+\section{\cite{dornbusch1977comparative}: Continuum of Goods}
 
 Consider a world economy with only two countries: Home and Foreign.
 Use asterisks to denote foreign variables. 
@@ -180,8 +180,8 @@ As we have shown in \ref{eq:CA}, this shows \textbf{an increase in home relative
 and \textbf{an increase in home's share of world production and trade.}\footnote{As shown previously, $\omega = \frac{\theta(\tilde{z})}{1-\theta(\tilde{z})} \Bigl(\frac{L^*}{L}\Bigr)$, 
 if $\omega$ increases, and we fix $\frac{L^*}{L}$, then $\theta(\tilde{z})$ increases.} 
 
-\section{The Eaton-Kortum model (2002): Many Countries\cite{eaton2002technology}}
-The model of Dornbusch, Fischer, and Samuelson (1977)\cite{dornbusch1977comparative} is based on the Ricardian model
+\section{\cite{eaton2002technology}: Many Countries}
+The model of \cite{dornbusch1977comparative} is based on the Ricardian model
 where trade and specialization patterns are determined by different productivities.
 
 In the Dornbusch-Fischer-Samuelson model, there were no restrictions on the productivity distributions,
@@ -204,11 +204,11 @@ In this model, there a finite number of countries $i \in S \equiv \{1, \cdots, N
 (unlike previous models, there are technical difficulties in extending the model to a continuum of countries).
 There are a continuum of goods $\Omega$.
 
-However, unlike Krugman (1980)\cite{krugman1980scale} and Melitz (2003)\cite{melitz2003impact}, models which follow(in Lecture 4 and 5),
+However, unlike \cite{krugman1980scale} and \cite{melitz2003impact}, models which follow(in Lecture 4 and 5),
 \textit{every country is able to produce every good.}
 Countries, however, varies(exogeneously) in their productivity of each good $z_i(\omega)$ - varying by country $i$ and good $\omega \in \Omega$.
 
-The Eaton and Kortum (2002)\cite{eaton2002technology} has no concept of a firm. Instead, it is assumed that all
+The \cite{eaton2002technology} has no concept of a firm. Instead, it is assumed that all
 goods $\omega$ are are produced using the same bundle of inputs with a constant returns to
 scale technology. Let the cost of a bundle of inputs in country $i$ be $c_i$,
 so that the cost of producing one unit of $\omega \in \Omega$ in country $i$ is $\frac{c_i}{z_i(\omega)}$.
@@ -248,15 +248,22 @@ This means that for each $i \in S$ and $\forall \omega \in \Omega$, the cumulati
 \[
 F_i(z) = \operatorname{Pr}\Bigl\{z_i(\omega) \leq z \Bigr\} = \exp \Bigl\{-T_i z^{-\theta} \Bigr\}
 \]
-where $T_i > 0$ is a measure of the aggregate productivity of country $i$(country $i$'s state of technology)\footnote{A larger value of $T_i$ decreases $F_i$ fro any $z\geq 0$. It increases the probability of larger values
+where $T_i > 0$ is a measure of the aggregate productivity of country $i$(country $i$'s state of technology), and $\theta>1$, 
+which measures teh intra-industry heterogrneity, idiosyncratic variation in know-how across goods $\rightarrow$ drive intra-industry trade(comparative advantage).\footnote{A larger value of $T_i$ decreases $F_i$ fro any $z\geq 0$. It increases the probability of larger values
 of $z$ and $\theta>1$, which is assumed to be constant across countries, governs the distribution of productivities across goods within countries. As $\theta$ increases, the heterogeneity of productivity across goods declines.}.
+\begin{itemize}
+    \item High $\theta$ means less variability and less intra-industry trade;
+    \item It's important to assume that $\theta$ is common across industries;
+    \item $\theta$ guides the impact of changes in fundamental productivity on aggregate trade flows.
+\end{itemize}
+
 
 \begin{note}[Why Fréchet?]
     \
 
     Why make this particular distributional assumption for productivities?
 
-    Kortum (1997)\cite{kortum1997research} showed that if the technology of producing goods is determined by
+    \cite{kortum1997research} showed that if the technology of producing goods is determined by
     the best ``idea'' of how to produce, then the limiting distribution is indeed Fréchet, where
     $T_i$ reflects the country`s stock of ideas. More generally, consider the random variable:
     \[
@@ -340,4 +347,228 @@ Substituting $G_{ij}$ into this equation, we have:
     &= 1 - \exp \Bigl\{ -p^{\theta} \sum_{i \in S} T_i \Bigl( c_i d_{ij} \Bigr)^{-\theta} \Bigr\} \\
     &= 1 - \exp \Bigl\{-p^{\theta} \Phi_j \Bigr\}
 \end{align*}
-where $\Phi_j = \sum_{i \in S} T_i (c_i d_{ij})^{-\theta}$.
+where $\Phi_j = \sum_{i \in S} T_i (c_i d_{ij})^{-\theta}$. 
+
+This tells us the distribution of prices across goods in country $j$.
+This will further allow us to calculate the price index $P_j$ for country $j$.
+\begin{align*}
+    P_j &= \Bigl( \int_{\Omega}p_j(\omega)^{1-\sigma} \Bigr)^{\frac{1}{1-\sigma}} \\
+    \Leftrightarrow P_j^{1-\sigma} &= \int_0^{\infty} p^{1-\sigma} d G_j(p)\\
+    &= \int_0^{\infty} p^{1-\sigma} \Phi_j \exp \Bigl\{-p^{\theta} \Phi_j \Bigr\} dp \\
+    &= \theta \Phi_j \int_0^{\infty} p^{\theta - \sigma} \exp \Bigl\{-p^{\theta} \Phi_j \Bigr\} dp.
+\end{align*}
+Define $x = p^{\theta} \Phi_j$, so $dx = \theta \Phi_j p^{\theta-1} dp$,with a change of variable, we have:
+\begin{align*}
+    P_j^{1-\sigma} &= \int_0^{\infty} \Bigl( \frac{x}{\Phi_j} \Bigr)^{\frac{1-\sigma}{\theta}} \exp\{-x\} dx \\
+    &= \Phi_j^{-\frac{1-\sigma}{\theta}} \int_0^{\infty} x^{\frac{1-\sigma}{\theta}} \exp\{-x\} dx \\
+    &= \Phi_j^{-\frac{1-\sigma}{\theta}} \Gamma \Bigl( \frac{1-\sigma}{\theta} + 1 \Bigr) \\
+    \Leftrightarrow P_j &= \Phi_j^{-\frac{1}{\theta}} \Gamma \Bigl( \frac{\theta + 1 - \sigma}{\theta} \Bigr)^{\frac{1}{1-\sigma}}
+\end{align*}
+where $\Gamma(x) = \int_0^{\infty} x^{t-1} e^{-x} dx$ is the gamma function.
+
+Hence, the equilibrium price index for a CES utililty with elasticity of substitution $\sigma < 1+\theta$ in country $j \in N$ can be written as:
+\[
+P_j = \gamma \Bigl( \sum_{i \in S} T_i (c_i d_{ij})^{-\theta} \Bigr)^{-\frac{1}{\theta}} 
+\]
+where $\gamma \equiv \Gamma \Bigl( \frac{\theta + 1 - \sigma}{\theta} \Bigr)^{\frac{1}{1-\sigma}}$ is a constant.
+
+\subsection{Gravity}
+
+What is the probability that a country $i$ actually buys a good $\omega$ from another country $j$?
+
+Because all goods receive i.i.d. draws and there are a continuum of varieties, 
+by the law of large numbers, this probability will be equal to the fraction of goods $i$ sells to $j$.
+
+\begin{align*}
+    \pi_{ij} &= \operatorname{Pr} \Big\{ p_{ij}(\omega) \leq \min_{k \in S \setminus j} p_{kj}(\omega) \Bigr\} \\
+    &= \int_0^{\infty} \operatorname{Pr} \Bigl\{ p \leq \min_{k \in S \setminus j} p_{kj}(\omega) \Bigr\} d G_{ij}(p) \\ 
+    &= \int_0^{\infty} \operatorname{Pr} \Bigl\{\cap_{k \in S \setminus j} (p_{kj}(\omega) \geq p) \Bigr\} d G_{ij}(p) \\
+    &= \int_0^{\infty} \prod_{k \in S \setminus j} \Bigl(1 - G_{kj}(p) \Bigr) d G_{ij}(p)
+\end{align*}
+
+Substituting the distribution of price yields:
+\begin{align*}
+    \pi_{ij} &= \int_0^{\infty} \prod_{k \in S \setminus j} (1 - G_{kj}(p)) \, d G_{ij}(p) \\
+    &= \int_0^{\infty} \prod_{k \in S \setminus j} (1 - \exp\{-p^{\theta} \Phi_k\}) \, d G_{ij}(p) \\
+    &= \int_0^{\infty} \prod_{k \in S \setminus j} \Bigl( \exp\Bigl\{-T_k \Bigl(\frac{c_k d_{kj}}{p}\Bigr)^{-\theta} \Bigr\} \Bigr) \Bigl( \pd{}{p} \Bigl( 1 - \exp \Bigl\{ -T_i \Bigl(\frac{c_i d_{ij}}{p}\Bigr)^{-\theta} \Bigr\} \Bigr) \Bigr) dp \\
+    &= T_i (c_i d_{ij})^{-\theta} \int_0^{\infty} \theta p^{\theta-1} \exp \Bigl\{ \sum_k -T_k \Bigl( \frac{c_k d_{kj}}{p} \Bigr)^{-\theta} \Bigr\} dp \\
+    &= T_i (c_i d_{ij})^{-\theta} \int_0^{\infty} \theta p^{\theta -1} \exp \Bigl\{-p^{\theta \Phi_j} \Bigr\} dp \\
+    &= \frac{T_i (c_i d_{ij})^{-\theta} }{\Phi_j} \int_0^{\infty} \theta p^{\theta-1} \Phi_j \exp \Bigl\{-p^{\theta} \Phi_j \Bigr\} dp \\
+    &= \frac{T_i (c_i d_{ij})^{-\theta} }{\Phi_j} \cdot -\exp \Bigl\{-p^{\theta} \Phi_j \Bigr\} \Bigg| _{p=0}^{\infty} \Bigg. \\
+    &= \frac{T_i (c_i d_{ij})^{-\theta} }{\Phi_j}
+\end{align*}
+Hence, the fraction of goods exported form $i$ to $j$ just depends on $i$'s share on $j$'s $\Phi_j$.
+
+\begin{intuition}
+    \
+
+    Intuitively, $\pi_{ij}$ is increasing in $T_j$: if country $j$ is on average more productive, then country $i$ will import a lot from $j$;
+    but decreasing in $c_i$ and $d_{ij}$: if country $j$ is more expensive in wages or trade costs are higher, then it's a less attractive source of imprts to country $i$.
+\end{intuition}
+
+\begin{note}[More about the Fréchet Distribution]
+    \
+
+    $\pi_{ij}$ is the fraction of goods that $j$ purchases from $i$, it may not be the fraction of $j$'s income that is spent on goods from country $i$.
+    However, it turns out that with Fréchet distribution, \textit{the distribution of prices of goods that country $j$ actually
+    purchases from any country $i \in S$ will be the same.}
+\end{note}
+
+Intuitively, what is happening is that origins with better comparative advantage (lower
+trade costs, better productivity, etc.) in selling to $j$ will exploit its advantage by 
+selling a greater number of goods to $j$ exactly up to the point where the distribution
+of prices it offers to $j$ is the same as $j$'s overall price distribution.
+
+While the result depends heavily on the Fréchet distribution, the distribution of prices offered 
+to an importing country $j$ is independent from the origin, country $j$'s average expenditure per good
+doesn't depend on the source of the good.
+
+As a result, the fraction of goods purchased from a particular origin $i$, denoted by $\pi_{ij}$, 
+is equal to the fraction of $j$'s income spent on goods form $i$:
+\begin{gather}
+    \lambda_{ij} \equiv \frac{X_{ij}}{Y_j} = \frac{T_i (c_i d_{ij})^{-\theta}}{\Phi_j} \label{eq:EKfraction}
+\end{gather}
+This implies that the total expenditure of $j$ on goods from country $i$ is:
+\[X_{ij} = \pi_{ij} E_j \Rightarrow X_{ij} = \frac{T_i (c_i d_{ij})^{-\theta}}{\Phi_j} E_j.\]
+Suppose that $c_i = w_i$ and substitute into the price index, yields:
+\[
+X_{ij} = \gamma^{-\theta} d_{ij}^{-\theta} w_i^{-\theta} T_i E_j P_j^{\theta}.
+\]
+As in previous models, we can also push the gravity equation a little bit further. Note
+that in general equilibrium, the total income of a country will equal the amount it sells to
+all other countries:
+\[
+Y_i = \sum_{j \in S} X_{ij} 
+\]
+Substitute $X_{ij}$ into $Y_i$, yields:
+\begin{align*}
+    Y_i &= \sum_{j \in S} \gamma^{-\theta} d_{ij}^{-\theta} w_i^{-\theta} T_i E_j P_j^{\theta} \\
+    &= \gamma^{-\theta} w_i^{-\theta} T_i \sum_{j \in S} d_{ij}^{-\theta} E_j P_j^{\theta} \\
+    \Leftrightarrow \gamma^{-\theta} w_i^{-\theta} T_i &= \frac{Y_i}{\sum_{j \in S} d_{ij}^{-\theta} E_j P_j^{\theta}}
+\end{align*}
+Thus, we can write the gravity equation in a more general form:
+\begin{align*}
+    X_{ij} &= \gamma^{-\theta} d_{ij}^{-\theta} w_i^{-\theta} T_i E_j P_j^{\theta} \\
+    &= d_{ij}^{-\theta} \times \frac{Y_i}{\Omega^{-\theta}} \times \frac{E_j}{P_j^{-\theta}}
+\end{align*}
+where $\Omega_i \equiv \Bigl( \sum_{k \in S} d_{ik}^{-\theta} \frac{E_k}{P_k^{-\theta}}\Bigr)^{-\frac{1}{\theta}}$.
+We will see soon that if trade costs are symmetric, $\Omega_i = P_i$.
+
+\begin{note}[Notation in Lecture slide]
+    \
+
+    Denote total spending in country $i$ on goods from country $j$ as $X_{ij}$;
+    country $i$`s total spending on all goods as $X_i \equiv \sum_j X_{ij}$.
+
+    We know that $\frac{X_{ij}}{X_i} = \pi_{ij}$, so
+    \[
+    X_{ij} = \frac{T_j (c_j d_{ij})^{-\theta}}{\Phi_i} X_i
+    \]
+    Let $Y_j = \sum_i X_{ij}$ be country $j$'s total sales, then we can write:
+    \[
+    Y_j = \sum_i \frac{T_j (c_j d_{ij})^{-\theta} X_i}{\Phi_i} = T_j c_j^{-\theta} \Omega_j^{-\theta}
+    \]
+    where $\Omega_j = \sum_i d_{ij}^{-\theta} \frac{X_i}{P_i^{-\theta}}$ is the average price index of country $i$.
+
+    Solving $T_j c_j^{-\theta}$ from $Y_j = T_j c_j^{-\theta} \Omega_j^{-\theta}$ and plug into $X_{ij}$,
+    \[
+    X_{ij} = \frac{X_i Y_j d_{ij}^{-\theta} }\Omega_i^{\theta}{\Phi_i}.
+    \]
+    Ug $p_i = \gamma \Phi_i^{\frac{1}{\theta}}$, we get:
+    \[
+    X_{ij} = \gamma^{-\theta} X_i Y_j d_{ij}^{-\theta} (p_i \Omega_j)^{\theta}. \label{eq:EKgravity}
+    \]
+\end{note}
+
+\begin{remark}
+    \
+
+    In this model, changes in trade costs affect the extensive margin, i.e. which goods an origin country trades with a destination country. 
+    As the bilateral trade costs rise, the origin country is the least cost provider in fewer goods;
+    the greater the $\theta$, the less heterogeneity in a country`s productivity across different goods,
+    so there are a greater number of goods for which it is no longer the least cost provider.
+
+    Hence, the \cite{eaton2002technology} model is similar to the \cite{melitz2003impact} model 
+    (which we'll discuss in later chapters) in that the elasticity of trade to trade costs ultimately depends on the density of producers/firms
+    that are indifferent between exporting and not exporting: the greater the heterogeneity in productivity, 
+    the lower the density of these marginal producers.
+\end{remark}
+
+\subsection{Welfare}
+
+From the CES preferences, the welfare of a worker in country $i$ is given by:
+\begin{gather}
+    W_i = \frac{w_i}{P_i} \label{eq:EKwelfare}
+\end{gather}
+Recall from above that $\lambda_{ij} = \frac{X_{ij}}{E_j}$ is the fraction of $j$'s expenditure spent on $i$.
+From the Gravity equation \ref{eq:EKgravity}, we have:
+\[
+\lambda_{ij} = \gamma^{-\theta} d_{ij}^{-\theta} c_i^{-\theta} T_i P_j^{\theta}
+\]
+which, given $d_{ii}=1$, implies:
+\[
+\lambda_{ii} = \gamma^{-\theta} W_i^{-\theta} T_i \Leftrightarrow W_i = C^{-1} \lambda_{ii}^{-1} T_i^{\frac{1}{\theta}}. \label{eq:EKgravity2}
+\]
+Hence, as in the Krugman (1980)\cite{krugman1980scale} model, welfare can be expressed as a function of tech-
+nology and the openness of a country. 
+
+\subsection{Ratio Methods}
+
+Starting with \cite{head1999rationalization}, several researchers have developed so-called
+ratio methods. The idea behind these is to eliminate multilateral resistance terms by taking ratios, so
+that there is no longer a need for fixed effects. 
+
+To illustrate ratio methods, we consider here the approach due to \cite{romalis2007nafta}.
+Consider the Eaton-Kortum gravity equation given by EK gravity equation \ref{eq:EKgravity2}.
+Then for country of origin $i$ and country of destination $j$, we can write:
+\[
+S_{ij} \equiv \frac{X_{ij} / X_i}{X_{jj} / X_j} = \frac{\Phi_j}{\Phi_i} d_{ij}^{-\theta} = \Bigl( \frac{p_j d_{ij}}{p_i} \Bigr)^{-\theta}
+\]
+which shows country $j$`s share in country $i$'s expenditure nromalized by its own share.
+
+This method shows the importance of trade costs and comparative advantage in determining trade volumes.
+If there are no trade barriers, then $S_{ij} =1$.
+
+\subsection{Gains from Trade}
+
+
+What are the gain from trade in the Eaton-Kortum model? That is, what is the difference in consumer
+welfare between a world with trade and a world in which every country exists in autarky?
+
+We know that the share of national income spent on a country's own goods is:
+\begin{gather*}
+    \pi_{ii} = \frac{X_{ii}}{Y_i} = \frac{T_i w_i^{-\theta}}{\Phi_i}.
+\end{gather*}
+We also know that $P_i = \gamma \Phi_i^{-\frac{1}{\theta}}$, so
+\[
+\omega_i = \frac{w_i}{P_i} = \gamma^{-1} T_i^{\frac{1}{\theta}} \pi_{ii}^{-\frac{1}{\theta}}. 
+\]
+Under autarky, we have: $\omega_i^A = \gamma^{-1} T_i^{\frac{1}{\theta}}$, hence the gain from trade is:
+\begin{gather}
+    GT_i = \frac{\omega_i}{\omega_i^A} = \pi_{ii}^{-\frac{1}{\theta}} \label{eq:EKgft}
+\end{gather}
+Trade elasticity $\theta$ and share of expenditure on domestic goods $\pi_{ii} $ are sufficient statistics to compute GT.
+
+\begin{intuition}
+    \
+
+    As $\pi_{ii} \leq 1$, all countries gain from opening up to trade (as long as this leads to them doing some actual trade).
+
+    Note also that if the parameter $\theta$ is very large (meaning productivity dispersion is low, higher heterogeneity), 
+    gains from trade are almost zero.
+
+    Indeed, low productivity dispersion within countries means that a country produces essentially all goods with its average productivity $T_j$.
+    Then, there are no differences in opportunity costs across countries, 
+    hence no comparative advantage and no international specialization.
+\end{intuition}
+
+\section{Weak points of Ricardian Model}
+
+In Ricardian model, we simply assume the labor differences (labor input coefficients), 
+but how do they persist when technology is a recipe that everyone can use?
+
+Some other skills are required in using the recipe. Another possible answer is:
+labor productivity differences are due to differences in other factors, especially capital.
+
+Also, with just one factor mobile across sectors, there is only one wage, giving no diributive conflict.
+But such conflict is an important aspect of reality.
