@@ -165,7 +165,7 @@ The Graduate Institute, Spring 2025, Marko Mlikota\\
 \begin{lstlisting}[language=stata]
 use GMdata.dta, clear
 xtset index yr
-xtreg ldsal lemp ldnpt ldrnd i.yr, fe robust
+xtreg ldsal lemp ldnpt ldrst i.yr, fe robust
 \end{lstlisting}
 \end{autosolution}
 
@@ -175,7 +175,7 @@ xtreg ldsal lemp ldnpt ldrnd i.yr, fe robust
 
     For consecutive time periods $t$ and $t-1$, we take the difference and have:
     \[
-    \Delta ldsal_{it} = \beta_1 \Delta lemp_{it} + \beta_2 \Delta ldnpt_{it} + \beta_3 \Delta ldrnd_{it} + (f_t - f_{t-1}) + \Delta u_{it}
+    \Delta ldsal_{it} = \beta_1 \Delta lemp_{it} + \beta_2 \Delta ldnpt_{it} + \beta_3 \Delta ldrst_{it} + (f_t - f_{t-1}) + \Delta u_{it}
     \]
     Since $\alpha_i$ does not vary over time, it drops out in the differencing.
     For the dummies, we have:
@@ -198,7 +198,7 @@ xtreg ldsal lemp ldnpt ldrnd i.yr, fe robust
 
     Adding a time-invariant dummy variable to the regression $d357_i$, we get:
     \begin{gather*}
-        ldsal_{it} = \alpha_i + \beta_1 lemp_{it} + \beta_2 ldnpt_{it} + \beta_3 ldrnd_{it} + \delta d357_i + \sum_{\tau =1}^{T} f_t\mathbf{1}\{t=\tau\} + u_{it}
+        ldsal_{it} = \alpha_i + \beta_1 lemp_{it} + \beta_2 ldnpt_{it} + \beta_3 ldrst_{it} + \delta d357_i + \sum_{\tau =1}^{T} f_t\mathbf{1}\{t=\tau\} + u_{it}
     \end{gather*}
     We take the first-differences of the equation:
     \[\Delta \delta d357_i = 0.\]
@@ -235,12 +235,12 @@ use "GMdata_balanced.dta", clear
 xtset index yr
 gen d357 = (sic3 == 357)
 
-xtreg ldsal lemp ldnpt ldrnd i.yr##i.d357, fe robust
+xtreg ldsal lemp ldnpt ldrst i.yr##i.d357, fe robust
 eststo fe_w
 esttab fe_w using d1.tex, replace label booktabs title("FE-W Estimator") ///
     cells("b(fmt(3)) se(fmt(3))")
 
-xtreg ldsal lemp ldnpt ldrnd i.yr##i.d357, re robust
+xtreg ldsal lemp ldnpt ldrst i.yr##i.d357, re robust
 eststo RE
 esttab RE using d2.tex, replace label booktabs title("RE Estimator") ///
     cells("b(fmt(3)) se(fmt(3))")
