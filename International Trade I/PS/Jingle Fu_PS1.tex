@@ -161,7 +161,6 @@ The Graduate Institute, Spring 2025\\
     Assuming the consumption bundle of Australia(A) before trading with China is $\mathbf{c_1}$ and after is $\mathbf{c_2}$.
 
     Before China's involvement, according to the Weak Axiom of Revealed Preference, we have $\mathbf{p_1} \mathbf{c_1} \leq \mathbf{p_1} \mathbf{c_2}.$
-
     After China's entering, we have $\mathbf{p_2} \mathbf{c_2} \leq \mathbf{p_2} \mathbf{c_1}.$
 \end{solution}
 
@@ -293,7 +292,17 @@ The Graduate Institute, Spring 2025\\
 
                 Thus the free-trade relative price is $\frac{P_C}{P_F} = \frac{4}{z}$, the wage ratio is:
                 \[\frac{w}{w^*} = \frac{z P_C}{4 P_F} = 1. \]
-                \item[(b)] If $z$ increases, the relative price $P = \frac{4}{z}$ decreases, since the 
+                \item[(b)] If $z$ increases, the relative price $P = \frac{4}{z}$ decreases, clothing gets cheaper relative to food on world markets.
+                To assess welfare, consider that consumers have the utility function \(U(C, F) = C \cdot F\). The price index for such a utility function is given by
+                \[
+                P = 2\sqrt{p_C \, p_F} = 2\sqrt{\frac{4}{z}\cdot 1} = \frac{4}{\sqrt{z}}.
+                \]
+                Thus, the real wage (or real income) in each country is
+                \[
+                \frac{w}{P} = \frac{4}{4/\sqrt{z}} = \sqrt{z}.
+                \]
+                Intuitively, Home exports clothing; so Home workers' real wage measured in units of clothing rises directly with $z$. 
+                Meanwhile Foreign exports food; as clothing becomes cheaper, Foreign's real wage in terms of clothing goes up as well.
             \end{enumerate}
     \end{enumerate}
 \end{solution}
@@ -413,7 +422,55 @@ The Graduate Institute, Spring 2025\\
                             P_{BG} &= W \\
                             P_{SG} &= 2W
                         \end{align*}
-                    These relative prices are in line with our prediction from part (1).
+                    These relative prices are in line with our prediction from part (1). For Austria $\frac{P_{BA}}{P_{SA}} = 3 > \frac{1}{2} = \frac{P_{BG}}{P_{SG}}$,
+                    and it exports sausages, so this is in line with the Heckscher-Ohlin theorem.
+                    \begin{center}
+                        \begin{tikzpicture}[scale=0.8]
+                            % First graph (Country A)
+                            \begin{scope}
+                                \draw[->] (0,0) -- (5.5,0) node[right] {$Q_{BA}$};
+                                \draw[->] (0,0) -- (0,6) node[above] {$Q_{SA}$};
+                                \draw[red, thick] plot[domain=0:5, samples=100] (\x, {5/2 - \x/2});
+                                \draw[blue, thick] plot[domain=0:1.8333, samples=100] (\x, {5.5 - 3*\x});
+                                
+                                \draw[orange, thick, dashed] (0,0) -- (5,5);
+                                
+                                \node[circle, fill, red, inner sep=1.5pt, label={[blue]above right:A(100,160)}] at (1.2,1.9) {};
+                                
+                                \node[below] at (1.8333,0) {$\frac{460}{3}$};
+                                \node[below] at (5,0) {$420$};
+                                
+                                \node[left] at (0,0) {$0$};
+                                \node[left] at (0,2.5) {$210$};
+                                \node[left] at (0,5.5) {$460$};
+                                
+                                % Title for first graph
+                                \node[above] at (2.5,6) {Country A};
+                            \end{scope}
+                            
+                            % Second graph (Country G) - shifted to the right
+                            \begin{scope}[xshift=8cm]
+                                \draw[->] (0,0) -- (5.5,0) node[right] {$Q_{BG}$};
+                                \draw[->] (0,0) -- (0,6) node[above] {$Q_{SG}$};
+                                
+                                \draw[red, thick] plot[domain=0:3.4, samples=100] (\x, {3.4/2 - \x/2});
+                                \draw[blue, thick] plot[domain=0:1.7, samples=100] (\x, {5.1 - 3*\x});
+                                
+                                \draw[orange, thick, dashed] (0,0) -- (5,5);
+                    
+                                \node[circle, fill, red, inner sep=1.5pt, label={[blue]above right:G(240,180)}] at (1.36,1.02) {};
+                                
+                                \node[below] at (1.7,0) {$300$};
+                                \node[below] at (3.4,0) {$600$};
+                                \node[left] at (0,0) {$0$};
+                                \node[left] at (0,1.7) {$300$};
+                                \node[left] at (0,5.1) {$900$};
+                                
+                                % Title for second graph
+                                \node[above] at (2.5,6) {Country G};
+                            \end{scope}
+                        \end{tikzpicture}
+                    \end{center}
 
                 \item[(b)] In Austria, labor is in excess, hence $W=0$.  Total national income is $R\cdot K_A = 460R.$
                 Each hotdog costs $P_{BA} + P_{SA} = 4R$, so each owner of a unit of capital can buy $\frac{R}{4R} = \frac{1}{4}$ hotdogs.
@@ -425,6 +482,57 @@ The Graduate Institute, Spring 2025\\
             \item[4.]
                 \begin{enumerate}
                     \item[(a)] As $P = \frac{P_B}{P_S} = 2 \in [P_G, P_A]$, Germany produces only buns and Austria produces only sausages.
+                    Without loss of generality, we normalize \(P_S=1\) so that \(P_B=2\).
+                    
+                    
+                    \item[(b)] Under perfect competition, the zero-profit condition requires that the price of each good equals its unit cost. Let \(W\) denote the wage rate and \(R\) the rental rate of capital. Then, for each good we have:
+                    \begin{align*}
+                    P_B &= W + 3R, \\
+                    P_S &= 2W + R.
+                    \end{align*}
+                    Substituting the given prices:
+                    \begin{align*}
+                    2 &= W + 3R, \quad (1)\\
+                    1 &= 2W + R. \quad (2)
+                    \end{align*}
+                    Thus we have the free-trade factor prices in monetary units:
+                    \[
+                    W = \frac{1}{5}, \quad R = \frac{3}{5}.
+                    \]
+                    Since a hotdog is a bundle of 1 Bun and 1 Sausage, its price is:
+                    \[
+                    P_H = P_B + P_S = 2 + 1 = 3.
+                    \]
+                    Thus, the real wage (in hotdog units) is:
+                    \[
+                    \tilde{W} = \frac{W}{P_H} = \frac{1/5}{3} = \frac{1}{15},
+                    \]
+                    and the real rental rate is:
+                    \[
+                    \tilde{R} = \frac{R}{P_H} = \frac{3/5}{3} = \frac{1}{5}.
+                    \]
+                    This result confirms that under free trade the factor prices are equalized across countries, 
+                    in line with the \textbf{factor price equalization theorem}.
+
+                    \item[(c)] 
+                    \begin{itemize}
+                        \item In \textbf{Austria}, compared to autarky, workers (the relatively abundant factor) see an increase in their real income while capital owners (the relatively scarce factor) experience a decline in their real returns.
+                        \item In \textbf{Germany}, the opposite occurs: workers (the relatively scarce factor) suffer a decrease in real income, while capital owners (the relatively abundant factor) benefit from higher returns.
+                    \end{itemize} 
+                    This pattern of distribution is in accordance with the Stolper-Samuelson theorem, which states that free trade will benefit the factor that is relatively abundant in a country and hurt the factor that is relatively scarce. 
+                    \begin{itemize}
+                        \item \textbf{Aggregate Effects:} Free trade leads to an efficient reallocation of resources, where each country produces a mix of both goods such that the markets for goods, labor, and capital clear. The unified factor prices under free trade ensure that overall, the economy attains a higher level of output and welfare. Specifically, the gains from trade come from:
+                            \begin{itemize}
+                                \item Enhanced production efficiency by specializing according to comparative advantage.
+                                \item Lower production costs, which result in a lower aggregate price level and higher real incomes.
+                            \end{itemize}
+                        \item \textbf{Distributional Conflict:} Even though the overall welfare of an economy increases under free trade, the adjustment process generates income redistribution within each country. In Austria, where capital is relatively scarce, free trade raises workers' wages and lowers returns to capital, while in Germany, where labor is relatively scarce, free trade lowers workers' wages and increases returns to capital. This divergence in the impact on different groups within a country explains why:
+                            \begin{itemize}
+                                \item Some groups (e.g., capital owners in Austria or workers in Germany) may oppose free trade because their relative income declines.
+                                \item Despite these distributional conflicts, the aggregate gains are positive as both countries experience improved overall resource allocation and increased national welfare.
+                            \end{itemize}
+                    \end{itemize}
+                    Thus, while free trade improves efficiency and increases total welfare (aggregate gains), it also intensifies income disparities between factors of production. These distributional conflicts are a central reason why domestic politics and interest group pressures can lead to divergent attitudes toward free trade policies.
                 \end{enumerate}
     \end{enumerate}
 \end{solution}
@@ -459,7 +567,7 @@ The Graduate Institute, Spring 2025\\
         Each country`s wages and rental rates continue to be determined by its own factor endowment.
 
         \item[4.] Because factor prices in a competitive industry must equal the unit cost of production, the zero-profit conditions now read:
-        In country H, if producing good 1, $p_1 = \frac{w_H}{9}$; if producing good 2, $p_2 = w_F$. As bufore, for good 2 $p_2 = r$ holds in either country.
+        In country H, if producing good 1, $p_1 = \frac{w_H}{9}$; if producing good 2, $p_2 = w_F$. As before, for good 2, $p_2 = r$ holds in either country.
         
         FPE requires identical production technologies (or, more precisely, identical “unit cost functions”) 
         so that the goods-market equilibrium forces the same factor prices everywhere. Here, even if the same world goods prices prevail, 
@@ -476,9 +584,186 @@ The Graduate Institute, Spring 2025\\
                     When producing good 2, $P = r_F$.
             \end{itemize}
             Notice that for good 1 the effective cost in $H$ is: $\frac{w_H}{9} = 1$, and in $F$ is $w_F = 1$.
-            Thus, both countries are “equally efficient” in producing good 1 in terms of cost. 
-        \item[6.]
-        \item[7.]    
+            
+            For country $H$:
+            \[\frac{w_H}{r_H} = \frac{K_H}{L_H} = 3\]
+            so $r_H = 3.$
+
+            For country $F$:
+            \[\frac{w_F}{r_F} = \frac{K_F}{L_F} = \frac{1}{3}\]
+            so $r_F = 3.$
+            Notice that for good 2, the zero-profit conditions gives $r_J = P$, hence we have $P=3$.
+            Assume that in each country the production of goods follows the Cobb--Douglas cost functions derived earlier. For a given country with wage $w$ and rental rate $r$, the unit cost functions are
+            \[
+            c_1(w,r)= w^{\frac{2}{3}}r^{\frac{1}{3}},\quad c_2(w,r)= w^{\frac{1}{3}}r^{\frac{2}{3}}.
+            \]
+            Let us normalize the rental rate to 1 in each country (since only the ratio matters). Then, in country $H$, setting $r^H=1$ and using $\frac{w^H}{1}=3$, we have $w^H=3$. Thus,
+            \[
+            c_{1,H}= 3^{\frac{2}{3}} \quad \text{and} \quad c_{2,H}= 3^{\frac{1}{3}}.
+            \]
+            Similarly, in country $F$, with $r^F=1$ and $w^F=\frac{1}{3}$,
+            \[
+            c_{1,F}= \left(\frac{1}{3}\right)^{\frac{2}{3}} \quad \text{and} \quad c_{2,F}= \left(\frac{1}{3}\right)^{\frac{1}{3}}.
+            \]
+            The opportunity cost of producing one unit of good~1 (measured in units of good~2) in each country is then given by the ratio of the unit costs:
+            \[
+            \text{OC}_1^H = \frac{c_{1,H}}{c_{2,H}} = \frac{3^{\frac{2}{3}}}{3^{\frac{1}{3}}} = 3^{\frac{1}{3}},
+            \]
+            \[
+            \text{OC}_1^F = \frac{c_{1,F}}{c_{2,F}} = \frac{3^{-\frac{2}{3}}}{3^{-\frac{1}{3}}} = 3^{-\frac{1}{3}}.
+            \]
+            Since $3^{\frac{1}{3}} > 3^{-\frac{1}{3}}$, country $H$ has a higher opportunity cost of producing good~1 than country $F$. 
+            As country $H$ is capital abundant, it will mainly produce capital-abundant good 2, and country $F$ will mainly produce labor-abundant good 1.
+
+        \item[6.] As we have the Cobb-Douglas production function, we use its property to have:
+            \[\frac{w L_1}{r K_1} = \frac{1-\alpha}{\alpha} \Rightarrow \frac{L_1}{K_1} = \frac{2r}{w}\]
+            and the same for good 2:
+            \[\frac{L_2}{K_2} = \frac{r}{2w}. \]
+            Substitute $L = \frac{2r}{w}\,K$ into the production constraint:
+            \[
+            A_1\,K^{\frac{1}{3}}\left(\frac{2r}{w}\,K\right)^{\frac{2}{3}} = A_1\,\left(\frac{2r}{w}\right)^{\frac{2}{3}}K = 1,
+            \]
+            so that
+            \[
+            K^* = \frac{1}{A_1 \left(\frac{2r}{w}\right)^{\frac{2}{3}}}.
+            \]
+            Then,
+            \[
+            L^* = \frac{2r}{w}\,K^* = \frac{1}{A_1}\left(\frac{2r}{w}\right)^{\frac{1}{3}}.
+            \]
+            The minimum total cost is
+            \[
+            TC = wL^* + rK^* = w\left[\frac{1}{A_1}\left(\frac{2r}{w}\right)^{\frac{1}{3}}\right] + r\left[\frac{1}{A_1}\left(\frac{2r}{w}\right)^{-\frac{2}{3}}\right].
+            \]
+            Simplify each term:
+            \[
+            w\left(\frac{2r}{w}\right)^{\frac{1}{3}} = 2^{\frac{1}{3}}w^{\frac{2}{3}}r^{\frac{1}{3}},
+            \]
+            \[
+            r\left(\frac{2r}{w}\right)^{-\frac{2}{3}} = \frac{w^{\frac{2}{3}}r^{\frac{1}{3}}}{2^{\frac{2}{3}}}.
+            \]
+            Thus,
+            \[
+            TC = \frac{1}{A_1}\left[2^{\frac{1}{3}} + \frac{1}{2^{\frac{2}{3}}}\right] w^{\frac{2}{3}}r^{\frac{1}{3}}.
+            \]
+            Note that
+            \[
+            2^{\frac{1}{3}} + \frac{1}{2^{\frac{2}{3}}} = \frac{2^{\frac{1}{3}} \cdot 2^{\frac{2}{3}} + 1}{2^{\frac{2}{3}}} = \frac{2 + 1}{2^{\frac{2}{3}}} = \frac{3}{2^{\frac{2}{3}}}.
+            \]
+            Since $A_1=\frac{3}{2^{\frac{2}{3}}}$, we obtain
+            \[
+            TC = \frac{3}{A_1 2^{\frac{2}{3}}}\,w^{\frac{2}{3}}r^{\frac{1}{3}} = w^{\frac{2}{3}}r^{\frac{1}{3}}.
+            \]
+            Thus, the unit cost function is
+            \[
+            c_1(w,r)=w^{\frac{2}{3}}r^{\frac{1}{3}}.
+            \]
+            Similar for good 2, its unit cost function is
+            \[
+            c_2(w,r)=w^{\frac{1}{3}}r^{\frac{2}{3}}.
+            \]
+            Under perfect competition, product prices equal unit costs. Let the price of good 2 be the numeraire:
+            \[
+            p_2 = c_2(w,r) = w^{\frac{1}{3}}r^{\frac{2}{3}} = 1.
+            \]
+            Then, the price of good 1 is
+            \[
+            p_1 = c_1(w,r) = w^{\frac{2}{3}}r^{\frac{1}{3}}.
+            \]
+            The relative price is given by
+            \[
+            P = \frac{p_1}{p_2} = \frac{w^{\frac{2}{3}}r^{\frac{1}{3}}}{w^{\frac{1}{3}}r^{\frac{2}{3}}} = \left(\frac{w}{r}\right)^{\frac{1}{3}}.
+            \]
+            Thus, we have
+            \[
+            \frac{w}{r} = P^3.
+            \]
+            This relationship defines the \emph{FPE set} in the $(w,r)$-space; all factor price pairs satisfying $w=P^3r$ lie on this line.
+            Using the normalization $p_2=1$, the cost condition for Department~2 is:
+            \[
+            w^{\frac{1}{3}}r^{\frac{2}{3}} = 1.
+            \]
+            Raising both sides to the power of 3:
+            \[
+            w\,r^2 = 1 \quad \Rightarrow \quad r = \frac{1}{\sqrt{w}}.
+            \]
+            Substitute into $\frac{w}{r}=P^3$:
+            \[
+            \frac{w}{1/\sqrt{w}} = w^{\frac{3}{2}} = P^3,
+            \]
+            so that
+            \[
+            w^{\frac{3}{2}} = P^3 \quad \Rightarrow \quad w = P^2,
+            \]
+            and consequently,
+            \[
+            r = \frac{1}{P}.
+            \]
+            Thus, the equilibrium factor prices are uniquely determined as:
+            \[
+            w^* = P^2,\quad r^* = \frac{1}{P},
+            \]
+            and the relative product price is
+            \[
+            p_1 = w^{\frac{2}{3}}r^{\frac{1}{3}} = (P^2)^{\frac{2}{3}}\left(\frac{1}{P}\right)^{\frac{1}{3}} = P^{\frac{4}{3}}P^{-\frac{1}{3}} = P.
+            \]
+            In the integrated economy, total resources are allocated between the two sectors:
+            \[
+            K_1 + K_2 = 1,\quad L_1 + L_2 = 1.
+            \]
+            Cost minimization in each sector yields optimal input ratios. For Department~1:
+            \[
+            \frac{L_1}{K_1} = \frac{2r}{w} = \frac{2}{P^3},
+            \]
+            and for good 2:
+            \[
+            \frac{L_2}{K_2} = \frac{r}{2w} = \frac{1}{2 P^3}.
+            \]
+            These determine the internal allocations in each sector and, together with the overall resource constraints, lead to a unique integrated equilibrium.
+            The derived relationship
+            \[
+            \frac{w}{r} = P^3
+            \]
+            defines the FPE set in the $(w, r)$-plane. In a fully integrated economy with complete factor mobility, the competitive equilibrium requires that all sectors share the same factor prices. Thus, the unique equilibrium factor price pair $(w^*,r^*)$ must lie on the FPE set. In our case, the equilibrium
+            \[
+            w^* = P^2,\quad r^* = \frac{1}{P}
+            \]
+            satisfies
+            \[
+            \frac{w^*}{r^*} = P^3.
+            \]
+            Therefore, the integrated equilibrium \emph{does} achieve factor price equalization.
+
+        \item[7.] Although country $H$ is absolutely more productive in producing good~1 (with $1/4$ unit of labor producing $9/4$ units), its labor is very scarce relative to its capital. 
+            Mathematically, while the \emph{absolute productivity} in good~1 is high in $H$, its \emph{relative factor price} is
+            \[
+            \frac{w^H}{r^H} = 3,
+            \]
+            which implies a high cost of labor. Consequently, the \emph{opportunity cost} of producing good~1 (a labor--intensive good) is higher in $H$:
+            \[
+            \text{OC}_1^H = 3^{\frac{1}{3}},
+            \]
+            compared to the opportunity cost in $F$:
+            \[
+            \text{OC}_1^F = 3^{-\frac{1}{3}}.
+            \]
+            Thus, country $F$, which is labor abundant (and has a lower wage–rental ratio of $1/3$), has a comparative advantage in producing good~1. Conversely, country $H$ is relatively capital abundant and, with a lower unit cost in good~2 (since $c_{2,H} = 3^{\frac{1}{3}}$ is lower than $c_{1,H}$), it specializes in producing good~2.
+            \begin{itemize}
+                \item \textbf{Wage-Rental Ratios:} In trade equilibrium, we have
+                \[
+                \frac{w^H}{r^H} = 3 \quad \text{(in country } H\text{)} \quad \text{and} \quad \frac{w^F}{r^F} = \frac{1}{3} \quad \text{(in country } F\text{)}.
+                \]
+                \item \textbf{Opportunity Costs:} The opportunity cost of producing good~1 is
+                \[
+                \text{OC}_1^H = 3^{\frac{1}{3}} \quad \text{in } H,\qquad \text{OC}_1^F = 3^{-\frac{1}{3}} \quad \text{in } F.
+                \]
+                Since $3^{\frac{1}{3}} > 3^{-\frac{1}{3}}$, country $F$ has the lower opportunity cost for good~1.
+                \item \textbf{Pattern of Trade:} Therefore, even though country $H$ has a high absolute productivity in good~1, its high wage–rental ratio makes its opportunity cost for good~1 high. As a result, under free trade:
+                \begin{itemize}
+                    \item Country $F$ specializes in the production of the labor--intensive good~1 and exports it.
+                    \item Country $H$ specializes in the production of the capital--intensive good~2 and exports it.
+                \end{itemize}
+            \end{itemize}            
     \end{enumerate}
 \end{solution}
 
