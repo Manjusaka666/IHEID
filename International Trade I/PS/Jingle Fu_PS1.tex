@@ -158,11 +158,121 @@ The Graduate Institute, Spring 2025\\
 \begin{solution}[Gains from Trade]
     \
 
-    Assuming the consumption bundle of Australia(A) before trading with China is $\mathbf{c_1}$ and after is $\mathbf{c_2}$.
+    \textcolor{blue}{Sorry professor, we are really not sure about our logic and proof of this question, so we put two answers here, and really expect to learn about the proof of this question.}
+    \textbf{Sufficient Condition:} $\mathbf{p}^2 \le \mathbf{p}^1$ (with at Least One Strict Inequality)
+    \begin{itemize}
+        \item \textbf{Definition:} The inequality $\mathbf{p}^2 \le \mathbf{p}^1$ means that each component (price of each good) in $\mathbf{p}^2$ is less than or equal to the corresponding component in $\mathbf{p}^1$, with at least one component being strictly lower.
+        \item \textbf{Welfare Gain:} With the same income, the consumer can purchase at least the original bundle (and likely an improved bundle), thereby strictly increasing (or at least not decreasing) utility.
+    \end{itemize}
+    Thus, $\mathbf{p}^2 \le \mathbf{p}^1$ \textbf{guarantees} that Australia's representative consumer gains.
+    \textbf{The Rationale for Requiring} $\mathbf{p}^2 \le \mathbf{p}^1$
+    \begin{itemize}
+        \item \textbf{Unambiguous Improvement:} Demonstrating that every price relevant to Australia does not increase (with at least one strictly decreasing) leaves no ambiguity: the consumer’s cost of living falls.
+        \item \textbf{Simplification:} Without this uniform price decrease, some goods may become cheaper while others become more expensive, complicating the direct welfare comparison.
+    \end{itemize}
+    \textbf{Sufficient versus Necessary Condition}
+    \begin{itemize}
+        \item \textbf{Sufficient:} The condition $\mathbf{p}^2 \le \mathbf{p}^1$ is sufficient to ensure a welfare gain.
+        \item \textbf{Not Strictly Necessary:} Even if some components of $\mathbf{p}^2$ exceed those of $\mathbf{p}^1$, Australia’s consumer might still be better off if the goods that become cheaper are those that the consumer values most. In such cases, the outcome depends on the specific consumption patterns and preferences.
+    \end{itemize}
+    \textbf{Role of China's Trade Balance}
+    \begin{itemize}
+        \item China's trade deficit with Britain and surplus with Australia reshuffle global supply and demand.
+        \item This adjustment can lower the prices of goods consumed by Australia while potentially raising the prices of other goods.
+        \item If the net effect is that the overall cost of Australia’s consumption basket declines, then the representative consumer benefits.
+    \end{itemize}
+    \textbf{Conclusion}
+    \begin{itemize}
+        \item \textbf{Guaranteed Gain:} To unambiguously show that Australia’s representative consumer is better off after China’s entry, one typically assumes $\mathbf{p}^2 \le \mathbf{p}^1$. Under this assumption, the consumer’s real purchasing power increases.
+        \item \textbf{General Case:} Without this assumption, the outcome depends on which prices rise or fall relative to Australian consumption preferences. Nonetheless, $\mathbf{p}^2 \le \mathbf{p}^1$ remains a sufficient condition for a welfare gain.
+    \end{itemize}
 
-    Before China's involvement, according to the Weak Axiom of Revealed Preference, we have $\mathbf{p_1} \mathbf{c_1} \leq \mathbf{p_1} \mathbf{c_2}.$
-    After China's entering, we have $\mathbf{p_2} \mathbf{c_2} \leq \mathbf{p_2} \mathbf{c_1}.$
+    \subsection*{\underline{Proof 2}}
+    Initially, Australia (A) trades freely with Britain (B). Both are large countries. The vector of equilibrium prices in the initial free-trade equilibrium is $\mathbf{p}_1$. Now it becomes possible for Australia to trade (freely) with China (C). The vector of equilibrium prices in the three-country world is $\mathbf{p}_2$. China runs a trade deficit with Britain balanced by a surplus with Australia.
+    Let us define the following notation:
+    \begin{itemize}
+        \item $e^A(\mathbf{p}, u)$: Australia's expenditure function at price vector $\mathbf{p}$ and utility level $u$
+        \item $r^A(\mathbf{p})$: Australia's revenue (GDP) function at price vector $\mathbf{p}$
+        \item $m^A_1$: Australia's trade balance in the initial two-country equilibrium
+        \item $m^A_2$: Australia's trade balance in the new three-country equilibrium
+        \item $\mathbf{x}^A(\mathbf{p}, u)$: Australia's net export vector at price vector $\mathbf{p}$ and utility level $u$
+    \end{itemize}
+    In the initial equilibrium, Australia's budget constraint is:
+    \begin{equation}
+        e^A(\mathbf{p}_1, u_1) = r^A(\mathbf{p}_1) + m^A_1 \tag{1}
+    \end{equation}
+    After China enters the trading system, Australia's budget constraint becomes:
+    \begin{equation}
+        e^A(\mathbf{p}_2, u_2) = r^A(\mathbf{p}_2) + m^A_2 \tag{2}
+    \end{equation}
+    To determine whether Australia gains, we need to compare $u_2$ with $u_1$.
+    Using a first-order Taylor expansion of the expenditure function around $u_1$:
+    \begin{equation}
+        e^A(\mathbf{p}_2, u_2) \approx e^A(\mathbf{p}_2, u_1) + \frac{\partial e^A(\mathbf{p}_2, u_1)}{\partial u}(u_2 - u_1) \tag{3}
+    \end{equation}
+    where $\frac{\partial e^A(\mathbf{p}_2, u_1)}{\partial u} > 0$ represents the marginal cost of utility.
+    From equations $(2)$ and $(3)$, we get:
+    \begin{equation}
+        \frac{\partial e^A(\mathbf{p}_2, u_1)}{\partial u}(u_2 - u_1) = r^A(\mathbf{p}_2) - e^A(\mathbf{p}_2, u_1) + m^A_2 - (r^A(\mathbf{p}_1) - e^A(\mathbf{p}_1, u_1) + m^A_1) \tag{5}
+    \end{equation}
+    Simplifying:
+    \begin{equation}
+        \frac{\partial e^A(\mathbf{p}_2, u_1)}{\partial u}(u_2 - u_1) = [r^A(\mathbf{p}_2) - r^A(\mathbf{p}_1)] - [e^A(\mathbf{p}_2, u_1) - e^A(\mathbf{p}_1, u_1)] + [m^A_2 - m^A_1] \tag{6}
+    \end{equation}
+    According to Shephard's Lemma:
+    \begin{equation}
+        \nabla_p e^A(\mathbf{p}, u) = \mathbf{c}^A(\mathbf{p}, u) \tag{7}
+    \end{equation}
+    where $\mathbf{c}^A(\mathbf{p}, u)$ is the Hicksian demand function.
+
+    According to Hotelling's Lemma:
+    \begin{equation}
+        \nabla_p r^A(\mathbf{p}) = \mathbf{y}^A(\mathbf{p}) \tag{8}
+    \end{equation}
+    where $\mathbf{y}^A(\mathbf{p})$ is the supply function.
+
+    Using the mean value theorem, we can write:
+    \begin{equation}
+    e^A(\mathbf{p}_2, u_1) - e^A(\mathbf{p}_1, u_1) = \nabla_p e^A(\mathbf{\tilde{p}}, u_1) \cdot (\mathbf{p}_2 - \mathbf{p}_1) = \mathbf{c}^A(\mathbf{\tilde{p}}, u_1) \cdot (\mathbf{p}_2 - \mathbf{p}_1) \tag{9}
+    \end{equation}
+    Similarly:
+    \begin{equation}
+    r^A(\mathbf{p}_2) - r^A(\mathbf{p}_1) = \nabla_p r^A(\mathbf{\hat{p}}) \cdot (\mathbf{p}_2 - \mathbf{p}_1) = \mathbf{y}^A(\mathbf{\hat{p}}) \cdot (\mathbf{p}_2 - \mathbf{p}_1) \tag{10}
+    \end{equation}
+    where $\mathbf{\tilde{p}}$ and $\mathbf{\hat{p}}$ are some intermediate price vectors between $\mathbf{p}_1$ and $\mathbf{p}_2$.
+
+    The net export vector can be expressed as:
+    \begin{equation}
+        \mathbf{x}^A(\mathbf{p}, u) = \mathbf{y}^A(\mathbf{p}) - \mathbf{c}^A(\mathbf{p}, u) \tag{11}
+    \end{equation}
+    Assuming the price changes are relatively close that $\mathbf{\tilde{p}} \approx \mathbf{\hat{p}} = \mathbf{p}^*$ (some intermediate price vector), we can approximately express:
+    \begin{equation}
+        [r^A(\mathbf{p}_2) - r^A(\mathbf{p}_1)] - [e^A(\mathbf{p}_2, u_1) - e^A(\mathbf{p}_1, u_1)] \approx \mathbf{x}^A(\mathbf{p}^*, u_1) \cdot (\mathbf{p}_2 - \mathbf{p}_1) \tag{12}
+    \end{equation}
+    Substituting this result into equation $(6)$:
+    \begin{equation}
+        \frac{\partial e^A(\mathbf{p}_2, u_1)}{\partial u}(u_2 - u_1) \approx \mathbf{x}^A(\mathbf{p}^*, u_1) \cdot (\mathbf{p}_2 - \mathbf{p}_1) + [m^A_2 - m^A_1] \tag{13}
+    \end{equation}
+    Since $\frac{\partial e^A(\mathbf{p}_2, u_1)}{\partial u} > 0$, a sufficient condition for Australia's welfare to improve ($u_2 > u_1$) is:
+    \begin{equation}
+        \mathbf{x}^A(\mathbf{p}^*, u_1) \cdot (\mathbf{p}_2 - \mathbf{p}_1) + [m^A_2 - m^A_1] > 0 \tag{14}
+    \end{equation}
+    Given that China runs a trade surplus with Australia, this implies $m^A_2 < m^A_1$, meaning $[m^A_2 - m^A_1] < 0$.
+
+    Therefore, to ensure welfare improvement, the following must hold:
+    \begin{equation}
+    \mathbf{x}^A(\mathbf{p}^*, u_1) \cdot (\mathbf{p}_2 - \mathbf{p}_1) > [m^A_1 - m^A_2] \tag{15}
+    \end{equation}
+    This condition states that the terms of trade improvement effect due to price changes must exceed the negative impact of trade balance deterioration.
+    Specifically, if:
+    \begin{enumerate}
+        \item The prices of goods that Australia exports to Britain increase
+        \item The prices of goods that Australia imports from China decrease
+        \item The terms of trade improvement effect from these price changes exceeds the impact of trade balance deterioration
+    \end{enumerate}
+    then the representative consumer in Australia will experience a welfare gain.
 \end{solution}
+
 
 \begin{solution}[Ricardian Trade and Technological Progress]
     \
@@ -547,7 +657,7 @@ The Graduate Institute, Spring 2025\\
                 \item \textbf{Good 2:} $x_2 = K_2$, only capital used.
             \end{itemize}
             In any competitive equilibrium, the price of each good equals unit cost: $p_1 = w_J$, $p_2 = r_J$.
-            As the household's utility is an 'equal-exponent' cobb-Douglas function, the expenditure on each good is the same, giving $p_1 c_1 = p_2 c_2$.
+            As the household's utility is an `equal-exponent' cobb-Douglas function, the expenditure on each good is the same, giving $p_1 c_1 = p_2 c_2$.
             Thus $\frac{p_1}{p_2} = \frac{c_2}{c_1}$. In autarky equilibrium, comsumptions equals output, thus
             $c_{1J} = x_{1J} =L_J$ and $c_{2J} = x_{2J} = K_J$. With $Y_J = w_J L_J + r_J K_J$, we know that $w_J L_J = r_J K_J.$
 
