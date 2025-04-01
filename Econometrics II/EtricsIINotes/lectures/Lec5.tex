@@ -1,0 +1,197 @@
+\section{Random Effects}
+By defining $v_{it} = u_{it} + \alpha_i - \beta_0$, we can transform the random effect model to the following:
+\begin{align*}
+    y_{it} &= \alpha_1 + x_{it}^{\prime} \beta + u_{it} \\
+    &= \underset{\tilde{x}_{it}^{\prime}}{\underbrace{\beta_0 + x_{it}^{\prime}\beta}} + \underset{\equiv v_{it}}{\underbrace{u_{it} + \alpha_i - \beta_0}}\\
+\end{align*}
+
+Defining again $\tilde{x}_{it} = (1, x_{it}^{\prime})^{\prime}$, $\tilde{\beta} = (\beta_0, \beta^{\prime})^{\prime}$, we can rewrite the model as:
+\begin{align*}
+    y_{it} &= \tilde{x}_{it}^{\prime} \beta + v_{it} \Leftrightarrow y_i = \tilde{X}_i^{\prime} \tilde{\beta} + v_i \\
+    \rightarrow \hat{\tilde{\beta}} &= \left(\sum_i \tilde{X}_i^{\prime} \tilde{X}_i \right)^{-1} \sum_i \tilde{X}_i^{\prime} y_i
+\end{align*}
+
+With this intercept $beta_0$, $\mathbb{E}[v_i] = 0$ is guaranteed to hold.
+Define $\tilde{\alpha}_i = \alpha_i - \beta_0$ as the mean-zero unit-specific heterogenety so that $v_i = u_i + \tilde{\alpha}_i.$
+
+
+\begin{note}[POLS]
+    \
+
+    Homogenous spec: $y_{it} = \alpha  + x_{it}^{\prime} \beta + u_{it} = \tilde{x}_{it}^{\prime} \tilde{\beta} + u_{it}.$
+    $\hat{\tilde{\beta}}$ is consistent if $\mathbb{E}[v_{it} x_{it}]=0, \forall t.$
+\end{note}
+Using pooled OLS to estimate $\hat{\tilde{\beta}}$,
+\begin{align*}
+    \hat{\tilde{\beta}}_{RE-OLS/POLS} &= \left(\frac{1}{n} \sum_i \tilde{X}_i^{\prime} \tilde{X}_i \right)^{-1} \frac{1}{n} \sum_i \tilde{X}_i^{\prime} y_i \\
+    &= \tilde{\beta} + \left(\frac{1}{n} \sum_i \tilde{X}_i^{\prime} \tilde{X}_i \right)^{-1} \frac{1}{n} \sum_i \tilde{X}_i^{\prime} v_i \\
+    &\overset{p}{\rightarrow} \tilde{\beta} + \mathbb{E}[\tilde{X}_i^{\prime} \tilde{X}_i]^{-1} \mathbb{E}[\tilde{X}_i^{\prime} v_i] \\
+    \text{where} \quad \mathbb{E}[\tilde{X}_i^{\prime} v_i] &= \mathbb{E}\left[\sum_t \tilde{x}_{it}^{\prime} v_{it} \right] \\
+    &= \sum_t \mathbb{E}\left[\tilde{x}_{it}^{\prime} v_{it}  \right] \\
+    &= \sum_t \mathbb{E}\left[\tilde{x}_{it}(u_{it} + \alpha_i - \beta_0)\right]
+\end{align*}
+Here, the error term $v_i$ is not equal to the original error term $u_{it}$.
+\begin{note}
+    \
+
+    Under the random effect, you have to use the heteroskedasticity-robust methods.
+    Because even if we assume $u_{it}$ to be homoskedastic, $v_{it}$ is not,
+    as it includes also the unit-speciﬁc heterogeneity $\alpha_i$.
+\end{note}
+So, to obtain consistency, we need to assume that:
+\begin{itemize}
+    \item $\mathbb{E}[u_{it} | \tilde{x}_{it}, \tilde{\alpha}_i] = 0, \forall t$.
+    \item $\mathbb{E}[\tilde{\alpha_i} | \tilde{x}_{it}] = 0, \forall t$.
+\end{itemize}
+And, we are also obliged to use HAC-robust standard error because:
+\[\Omega \equiv \mathbb{E}[v_i v_i^{\prime} | \tilde{X}_i] = \mathbb{E}[(\alpha_i \mathbf{1}_i + u_i)(\tilde{\alpha}_i \mathbf{1}_i + u_i)^{\prime} | \tilde{X}_i] = \mathbb{E}[\tilde{\alpha}_i^2 \mathbf{1}_i \mathbf{1}_i^{\prime} | \tilde{X}_i] + \mathbb{E}[u_i u_i'| \tilde{X}_i] \]
+is not diagonal.
+
+Given the error structure the natural estimator for $\beta$ is GLS. The GLS eimator for $\beta$ is:
+\begin{align*}
+    \hat{\tilde{\beta}}_{RE-GLS} &= \left( \sum_i \tilde{X}_i^{\prime} \Omega^{-1} \tilde{X}_i \right)^{-1} \sum_i \tilde{X}_i^{\prime} \Omega^{-1} y_i \\
+    \Omega ^{-\frac{1}{2}} y_i &= \Omega ^{-\frac{1}{2}} \tilde{X}_i^{\prime} \tilde{\beta} + \Omega^{-\frac{1}{2}}v_i \\
+    \Omega &= \mathbb{E}[v_i v_i^{\prime} | \tilde{X}_i] = \mathbb{E}\left[ \begin{bmatrix}
+        v_{i1} \\
+        v_{i2} \\
+        \vdots \\
+        v_{iT}
+    \end{bmatrix} \begin{bmatrix}
+        v_{i1} & v_{i2} & \cdots & v_{iT}
+    \end{bmatrix} | \tilde{X}_i \right]\\
+    &= \mathbb{E}\begin{bmatrix}
+        \mathbb{E}[v_{i1}^2 | \tilde{X}_i] & \mathbb{E}[v_{i1}v_{i2} | \tilde{X}_i] & \cdots & \mathbb{E}[v_{i1}v_{iT} | \tilde{X}_i] \\
+        \mathbb{E}[v_{i2}v_{i1} | \tilde{X}_i] & \mathbb{E}[v_{i2}^2 | \tilde{X}_i] & \cdots & \mathbb{E}[v_{i2}v_{iT} | \tilde{X}_i] \\
+        \vdots & \vdots & \ddots & \vdots \\
+        \mathbb{E}[v_{iT}v_{i1} | \tilde{X}_i] & \mathbb{E}[v_{iT}v_{i2} | \tilde{X}_i] & \cdots & \mathbb{E}[v_{iT}^2 | \tilde{X}_i]
+    \end{bmatrix} \\
+    &= \begin{bmatrix}
+        \mathbb{E}\left[\alpha_i^2 | \tilde{X}_i \right] + \mathbb{E}[u_{i1}^2 | \tilde{X}_i] & \mathbb{E}\left[\alpha_i^2 | \tilde{X}_i \right] + \mathbb{E}[u_{i1}u_{i2} | \tilde{X}_i] & \cdots & \mathbb{E}\left[\alpha_i^2 | \tilde{X}_i \right] + \mathbb{E}[u_{i1}u_{iT} | \tilde{X}_i] \\
+        \mathbb{E}\left[\alpha_i^2 | \tilde{X}_i \right] + \mathbb{E}[u_{i2}u_{i1} | \tilde{X}_i] & \mathbb{E}\left[\alpha_i^2 | \tilde{X}_i \right] + \mathbb{E}[u_{i2}^2 | \tilde{X}_i] & \cdots & \mathbb{E}\left[\alpha_i^2 | \tilde{X}_i \right] + \mathbb{E}[u_{i2}u_{iT} | \tilde{X}_i] \\
+        \vdots & \vdots & \ddots & \vdots \\
+        \mathbb{E}\left[\alpha_i^2 | \tilde{X}_i \right] + \mathbb{E}[u_{iT}u_{i1} | \tilde{X}_i] & \mathbb{E}\left[\alpha_i^2 | \tilde{X}_i \right] + \mathbb{E}[u_{iT}u_{i2} | \tilde{X}_i] & \cdots & \mathbb{E}\left[\alpha_i^2 | \tilde{X}_i \right] + \mathbb{E}[u_{iT}^2 | \tilde{X}_i]
+    \end{bmatrix}\\
+    &= \mathbb{E}\left[\mathbb{E}\left[\alpha_i^2 | \tilde{X}_i \right] \mathbf{1} \right] + \mathbb{E}[u_i u_i^{\prime} | \tilde{X}_i] \\
+    &= \mathbb{E}[\alpha_i^2] \mathbf{1}_i \mathbf{1}_i^{\prime} + \begin{bmatrix}
+        \mathbb{E}[u_{i1}^2 | \tilde{X}_i] & 0 & \cdots & 0 \\
+        0 & \mathbb{E}[u_{i2}^2 | \tilde{X}_i] & \cdots & 0 \\
+        \vdots & \vdots & \ddots & \vdots \\
+        0 & 0 & \cdots & \mathbb{E}[u_{iT}^2 | \tilde{X}_i]
+    \end{bmatrix} \\
+    &= \sigma_{\alpha_i}^2 \mathbf{1}_i^{\prime} +_i^2 I \\
+    &= \sigma_{\alpha}^2 \mathbf{1}_i \mathbf{1}_i^{\prime} + \sigma^2 I \\
+    \text{beacuse } &\mathbb{V}[\tilde{\alpha}_i|\tilde{X}_i] = \sigma_{\alpha_i}^2 = \sigma_{\alpha}^2 \\
+    &\mathbb{V}[u_{it} | \tilde{X}_i] = \sigma_i^2 = \sigma^2, \forall i.
+\end{align*}
+Under the assumption $\mathbb{E}[u_{it} x_{it}] = 0$, we now describe some statistical properties of $\hat{\tilde{\beta}}_{RE-GLS}.$
+\begin{align*}
+    \hat{\tilde{\beta}}_{RE-GLS} - \tilde{\beta} &= \Bigl( \sum_i \tilde{X}_i^{\prime} \Omega^{-1} \tilde{X}_i \Bigr)^{-1} \Bigl( \sum_i \tilde{X}_i^{\prime} \Omega^{-1} v_i \Bigr) \\
+    & \rightarrow \mathbb{E}\Bigl[ \sum_i \tilde{X}_i^{\prime} \Omega^{-1} \tilde{X}_i \Bigr] \mathbb{E}\Bigl[ \sum_i \tilde{X}_i^{\prime} \Omega^{-1} v_i \Bigr] \\
+    \text{where } \mathbb{E}\Bigl[ \sum_i \tilde{X}_i^{\prime} \Omega^{-1} v_i \Bigr] &= \sum_i \mathbb{E}\Bigl[ \tilde{X}_i^{\prime} \Omega^{-1} v_i \Bigr] \\
+    &= \sum_i \tilde{X}_i^{\prime} \Omega^{-1} \mathbb{E}[v_i | \tilde{X}_i] \\
+    &= \sum_i \tilde{X}_i^{\prime} \Omega^{-1} \mathbb{E}[u_i + \tilde{\alpha}_i | \tilde{X}_i] \\
+    &=0
+\end{align*}
+Thus, $\hat{\tilde{\beta}}_{RE-GLS} $ is conditionally unbiased for $\tilde{\beta}$.
+% The conditional variance of $\hat{\tilde{\beta}}_{RE-GLS}$ is:
+% \begin{align*}
+%     \mathbb{V}\Bigl[\hat{\tilde{\beta}}_{RE-GLS}\Bigr] = \Bigl( \sum_i \tilde{X}_i^{\prime} \Omega^{-1} \tilde{X}_i \Bigr)^{-1} \sigma_{\epsilon}^2
+% \end{align*}
+The asymptotic variance of $\hat{\tilde{\beta}}_{RE-GLS}$ is:
+\begin{align*}
+    &\sqrt{n} \left( \hat{\tilde{\beta}}_{RE-GLS} - \tilde{\beta} \right) \overset{d}{\rightarrow} \mathcal{N}\left(0, V \right) \\
+    \text{where } V &= \mathbb{E}\left[\tilde{X}_i^{\prime} \Omega^{-1} \tilde{X}_i \right]^{-1} \mathbb{E}\left[\tilde{X}_i^{\prime} \Omega^{-1} v_i v_i^{\prime} \Omega^{-1} \tilde{X}_i \right] \mathbb{E}\left[\tilde{X}_i^{\prime} \Omega^{-1} \tilde{X}_i \right] \\
+    &= \mathbb{E}\left[\tilde{X}_i^{\prime} \Omega^{-1} \tilde{X}_i \underset{\equiv \Omega}{\underbrace{\mathbb{E}[v_i v_i^{\prime} | \tilde{X}_i]}}\right] \\
+\end{align*}
+Because we do not know $\Omega$, the RE-GLS estimator is infeasible. 
+
+If indeed we have:
+\begin{align*}
+    \Omega &= \mathbb{E}[v_i v_i^{\prime}  | \tilde{X}_i] \\
+    &= \mathbb{E}[(\alpha_i \mathbf{1}_i + u_i)(\alpha_i \mathbf{1}_i  + u_i)^{\prime}  | \tilde{X}_i] \\
+    &= \mathbb{E}[\alpha_i^2] \mathbf{1}_i \mathbf{1}_i^{\prime} + \mathbb{E}[u_i u_i^{\prime} | \tilde{X}_i]
+\end{align*}
+which implies homoskedasticity.
+
+A feasible version replaces $\Omega$ with an estimator $\hat{\Omega}_i$.
+Assuming homoskedasticity of the original errors:
+\begin{align*}
+    \mathbb{E}[u_i u_i^{\prime}  | \tilde{X}_i, \tilde{\alpha}_i] &= \sigma_u^2 I_T \\
+    \mathbb{E}[\tilde{\alpha}_i^2 | \tilde{x}_i] &= \sigma_{\alpha}^2
+\end{align*}
+We obtain: $\Omega = \sigma_{\alpha}^2 \mathbf{1}_i \mathbf{1}_i^{\prime} + \sigma_u^2 I_T$.
+
+Hence, the motivation for using GLS is different than under a cross-sectional regression with heteroskedasticity.
+We use GLS because of the autocorrelation in $v_{it}$ induced by the presence of time variant $\alpha_i$.
+
+
+
+\section{Fixed Effects}
+In the econometrics literature if the stochastic structure of $\alpha_i$ is treated as unknown
+and possibly correlated with $x_{it}$, then $\alpha_i$ is called a \textbf{fixed effect}.
+
+Correlation between $\alpha_i$ and $x_{it}$ will cause both pooled and random effect estimators ro be biased.
+
+We transform equation to get rid of $\alpha_i$: $y_{it} = \alpha_i + x_{it}^{\prime} \beta + u_{it}.$
+This is due to the classic problems of omitted variables bias and endogeneity. 
+
+The presence of the unstructured individual effect $\alpha_i$ means that it is not possible to identify $\beta$ under a simple projection assumption such as $\mathbb{E}[u_{it} x_{it}] = 0$.
+It turns out that a sufﬁcient condition for identiﬁcation is the following.
+
+\begin{definition}[Strictly exogenous]\label{def:strictly_exogenous}
+    \
+
+    A regressor $x_{it}$ is said to be strictly exogenous if $\mathbb{E}[x_{it} u_{is}] = 0, \forall t, s = 1, \cdots, T$.
+\end{definition}
+
+\subsection{Within Transformation}
+If we leave the relationship between $\alpha_i$ and $x_{it}$ fully unstructured,
+then the only way to consistently estimate the coefficient $\beta$ is by an estimator
+which is invariant to $\alpha_i$.
+
+Deﬁne the mean of a variable for a given individual as
+\begin{align*}
+    \overline{y}_i &= \frac{1}{T} \sum_t y_{it} \\
+    \overline{x}_i &= \frac{1}{T} \sum_t x_{it} \\
+    \overline{u}_i &= \frac{1}{T} \sum_t u_{it}
+\end{align*}
+Then, 
+\begin{align*}
+    (y_{it} - \overline{y}_i) &= (x_{it} - \overline{x}_i)^{\prime} \beta + (u_{it} -\overline{u}_i) \\
+    \ddot{y}_{it} &= \ddot{x}_{it}^{\prime} \beta + \ddot{u}_{it}
+\end{align*}
+Denote the time-averages method by $\hat{\beta}_{FE-W}$, the fixed effect estimator is consistent and asymptotically normal.
+\begin{align*}
+    \hat{\beta}_{FE-W} &= \left(\sum_i \sum_t \ddot{x}_{it} \ddot{x}_{it}^{\prime} \right)^{-1} \sum_i \sum_t \ddot{x}_{it} \ddot{y}_{it} \\
+    &= \beta + \left(\sum_i \sum_t \ddot{x}_{it} \ddot{x}_{it}^{\prime} \right)^{-1} \sum_i \sum_t \ddot{x}_{it} \ddot{u}_{it} \\
+    &\overset{p}{\rightarrow} \beta + \mathbb{E}\left[\sum_t \ddot{x}_{it} \ddot{x}_{it}^{\prime} \right]^{-1} \mathbb{E}\left[\sum_t \ddot{x}_{it} \ddot{u}_{it} \right] \\
+    \text{where } \mathbb{E}\left[\sum_t \ddot{x}_{it} \ddot{u}_{it}\right] &= \sum_t \mathbb{E}\left[\ddot{x}_{it} \ddot{u}_{it} \right]\\
+    \mathbb{E}\left[\ddot{x}_{it} \ddot{u}_{it} \right] &= \mathbb{E}\left[\left(x_{it} - \frac{1}{T}\sum_t x_{it} \right) \left(u_{it} - \frac{1}{T}\sum_t u_{it} \right)^{\prime} \right] \\
+    &= 0 \quad \text{if } u_{it} \perp\!\!\!\perp x_{is}, \forall t, s = 1, \cdots, T.
+\end{align*}
+
+\subsection{First Difference Transformation}
+\begin{align*}
+    y_{it} - y_{i, t-1} &= (x_{it} - x_{i, t-1})^{\prime} \beta + (u_{it} - u_{i, t-1}) \\
+    \Delta y_{it} &= \Delta x_{it}^{\prime} \beta + \Delta u_{it}, i=1 \cdots n, t=2 \cdots T.
+\end{align*}
+Denote the first difference method by $\hat{\beta}_{FE-FD}$, the fixed effect estimator is consistent and asymptotically normal.
+
+\begin{align*}
+    \hat{\beta}_{FE-FD} &= \left(\sum_i \sum_t \Delta x_{it} \Delta x_{it}^{\prime} \right)^{-1} \sum_i \sum_t \Delta x_{it} \Delta y_{it} \\
+    &= \beta + \left(\frac{1}{n} \sum_i \sum_t \Delta x_{it} \Delta x_{it}^{\prime} \right)^{-1} \frac{1}{n} \sum_i \sum_t \Delta x_{it} \Delta u_{it} \\
+    &\overset{p}{\rightarrow} \beta + \mathbb{E}\left[\sum_t \Delta x_{it} \Delta x_{it}^{\prime} \right]^{-1} \mathbb{E}\left[\sum_t \Delta x_{it} \Delta u_{it} \right] \\
+    \text{where } \mathbb{E}\left[\sum_t \Delta x_{it} \Delta u_{it}\right] &= \sum_t \mathbb{E}\left[\Delta x_{it} \Delta u_{it} \right]\\
+    \mathbb{E}\left[\Delta x_{it} \Delta u_{it} \right] &= \mathbb{E}\left[\left(x_{it} - x_{i, t-1} \right) \left(u_{it} - u_{i, t-1} \right)^{\prime} \right] \\
+    &= 0 \quad \text{if } x_{it} \perp\!\!\!\perp (u_{it}, u_{i, t-1}), \forall t.
+\end{align*}
+
+\begin{note}
+    \
+
+    The FD method is not as strong as the within method, because it only requires that the variable is
+    uncorrelated with the error term in the same period and the previous period.
+
+    If there is a correlation between the error term in current period and two periods ago, there is a problem of feedback loop,
+    which we will imply the correlated random effect model.
+\end{note}

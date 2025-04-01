@@ -1,0 +1,150 @@
+Rubin (1975\cite{rubin1975bayesian}) and Holland (1986\cite{holland1986statistics}) made up the aphorism\cite{ding2023causalinference}:
+\begin{quote}
+  \textit{``No causation without manipulation''}
+\end{quote}
+Not everybody agrees with this point of view.
+
+In our lectuere, we'll define causal effects using the potential outcomes framework
+(Neyman, 1923\cite{neyman1923experiment}; Rubin, 1974\cite{rubin1974estimating}).
+
+
+\section{Potential Outcomes Framework}
+
+In this framework, an experiment, or at least a thought experiment, 
+has a treatment, and we are interested in its effect on an outcome 
+or multiple outcomes. Sometimes, the treatment is also called an
+intervention or a manipulation.
+
+Firstly, we consider an experiment with $n$ units indexed by $i=1, 2, \cdots, n$.
+We focus on a treatment with two levels:
+\begin{gather*}
+  d_i = \left\{\begin{matrix}
+    0 & \text{control}\\
+    1 & \text{treatment}
+  \end{matrix} \right.
+\end{gather*}
+
+We seek to identify the causal effect of treatment $d_i$ on some outcome $y_i$.
+For each $i$, the outcome od interest $y_i$ has two versions:
+\begin{gather*}
+  y_i = \left\{\begin{matrix}
+    y_{0i} & d_i=0\\
+    y_{1i} & d_i=1
+  \end{matrix} \right.
+\end{gather*}
+This notation emphasizes that $y_{di}$ is the realization of the outcome $y_i$ that would materialize if unit $i$
+received treatment $d_i = d$.
+
+Neyman (1923\cite{neyman1923experiment}) first used this notation. It seems intuitive but has some hidden
+assumptions. Rubin (1980\cite{rubin1980comment}) made the following clarifications on the hidden assumptions.
+\begin{assumption}[No interference]\label{assumption:no_interference}
+  \
+
+  Unit $i$'s potential outcomes do not depend on other units' treatments. 
+  This is sometimes called the no-interference assumption.
+\end{assumption}
+\begin{assumption}[Consistency]\label{assumption:consistency}
+  \
+
+  There are no other versions of the treatment. 
+  Equivalently, we require that the treatment levels be well-defined, 
+  or have no ambiguity at least for the outcome of interest. 
+  This is sometimes called the consistency assumption.
+\end{assumption}
+
+The causal effect of the treatment on the $i$-th unit is then defined as:
+\begin{gather*}
+  \Delta_i = y_{1i} - y_{0i} 
+\end{gather*}
+These potential outcomes are constants at the level of unit $i$.
+
+\begin{remark}[Problem of causal inference]
+  \
+
+  The fundamental problem in causal inference is that only one treatment can be assigned to a given individual, 
+  and so only one of $y_{0i}$ and $y_{1i}$ can be observed. Thus $\Delta_i$ can never be observed.
+\end{remark}
+
+\begin{definition}[Stable Unit Treatment Value Assumption (SUTVA)]
+\label{def:sutva}
+  \
+
+  Rubin (1980\cite{rubin1980comment}) called the Assumptions \ref{assumption:no_interference} and \ref{assumption:consistency} above together 
+  the \textit{Stable Unit Treatment Value Assumption (SUTVA).}
+\end{definition}
+In principle, by virtue of being (discrete) RVs, both $d_i$ and $y_i$ each have a distribution function,
+which, together with their possible realizations, defines various moments.
+However, their unconditional probabilities and moments at the level of unit $i$ is not of interest.
+Only the conditional probabilities of $y_i$ given $d_i$ is of interest.
+
+\begin{remark}[Rubin (2005\cite{rubin2005causal})]
+  \
+
+  Under SUTVA, Rubin (2005) called the $n \times 2$ matrix of potential outcomes the Science Table:
+  $$\begin{array}{ccc}
+  \hline
+  i & y_{1i}  & y_{0i}  \\
+  \hline
+  1 & y_{11}  & y_{01}  \\
+  2 & y_{12}  & y_{02}  \\
+  \vdots & \vdots & \vdots \\
+  n & y_{1n}  & y_{0n} \\
+  \hline
+  \end{array}$$
+  Due to the fundamental contributions of Neyman and Rubin to statistical causal inference, the potential outcomes framework is sometimes referred to as the Neyman Model, 
+  the Neyman-Rubin Model, or the Rubin Causal Model.
+  Causal effects are functions of the Science Table. Inferring individual causal effects
+  $$\tau_i = y_{1i}  - y_{0i} , \quad (i=1,\ldots,n)$$
+  is fundamentally challenging because we can only observe either $y_{1i} $ or $y_{0i}$,
+  for each unit $i$, that is, we can observe only half of the Science Table.
+\end{remark}
+
+SUTVA(\ref{def:sutva}) ensures that the individual treatment effect is well defined.
+
+For a population, we know that $\mathbb{E}[d_i], \mathbb{E}[y_i], \mathbb{E}[y_{0i}], \mathbb{E}[y_{1i}]$ exist,
+we can define the treatment conditional expectations:
+\[\mathbb{E}[y_i | d_i=1], \mathbb{E}[y_{0i} | d_i=1 ], \mathbb{E}[y_{1i} | d_i=1 ] = \mathbb{E}[y_i | d_i=1]\]
+that denote the averages of the outcome $y_i$.
+
+Analogously, we can define the control conditional expectations:
+\[\mathbb{E}[y_i | d_i=0], \mathbb{E}[y_{0i} | d_i=0 ] = \mathbb{E}[y_i | d_i=0], \mathbb{E}[y_{1i} | d_i=0 ]\]
+for the non-treated subpopulation.
+
+Then, we candefine the Average Treatment Effect (ATE), the Average Treatment Effect for the Treatment-Group (ATT) and the Average
+Treatment Effect for the Control-Group (ATC) as distinct objects:
+\begin{align*}
+  \text{ATE} &= \mathbb{E}[y_{1i}- y_{0i}]\\
+  \text{ATT} &= \mathbb{E}[y_{1i}- y_{0i} | d_i=1]\\
+  \text{ATC} &= \mathbb{E}[y_{1i}- y_{0i} | d_i=0]
+\end{align*}
+\[\mathbb{E}[z] = \mathbb{E}[z|d=1] \mathbb{P}[d=1] + \mathbb{E}[z|d=0] \mathbb{P}[d=0] = \mathbb{E}[\mathbb{E}[z|d]].\]
+
+For sample, $\{d_i, y_i\}_{i=1}^n = \{d_i, y_{d_{i}, i}\}_{i=1}^n$, because
+$y_i = y_{1i} d_i + y_{0i} (1 - d_i)$.
+
+$N = \{i=1,2,\cdots, n\}$, $N_1 = \{i \in N: d_i = 1\} \leftarrow n_1 = \vert N_1 \vert $, $N_0 = \{i: d_i = 0\} \leftarrow n_0 = \vert N_0 \vert $.
+\begin{align*}
+  \frac{1}{n_1} \sum_{i \in N_1} y_i &= \frac{1}{n_1} \sum_{i \in N_1} y_{1i} \overset{p}{\rightarrow} \mathbb{E}[y_{1i} | d_i=1] = \mathbb{E}[y_i | d_i=1]\\
+  \frac{1}{n_0} \sum_{i \in N_0} y_i &= \frac{1}{n_0} \sum_{i \in N_0} y_{0i} \overset{p}{\rightarrow} \mathbb{E}[y_{0i} | d_i=0] = \mathbb{E}[y_i | d_i=0]
+\end{align*}
+\[\frac{1}{n_1} \sum_{i \in N_1} y_i - \frac{1}{n_0} \sum_{i \in N_0} y_i \overset{p}{\rightarrow} \mathbb{E}[y_{1i} | d_i = 1] - \mathbb{E}[y_{0i} | d_i = 0] = \text{ATE} = \text{ATT} = \text{ATC}.\]
+
+We define teh difference of treated and non-treated as: \textit{Naive Difference}.
+\begin{align*}
+  \text{ND} &= \mathbb{E}[y_{1i} | d_i = 1] - \mathbb{E}[y_{0i} | d_i = 0]\\
+  &= \mathbb{E}[y_{1i} | d_i = 1] - \mathbb{E}[y_{0i} | d_i = 1] + \mathbb{E}[y_{0i} | d_i =1] - \mathbb{E}[y_{0i} | d_i = 0] \\
+  &= ATT + \mathbb{E}[y_{0i} | d_i = 1] - \mathbb{E}[y_{0i} | d_i = 0]
+\end{align*}
+
+For LRM, $y_i = \beta_0 + \beta_1 d_i + u_i$,
+\begin{align*}
+  \text{ND} &= \mathbb{E}[y_i | d_i = 1] - \mathbb{E}[y_i | d_i = 0]\\
+  &= \mathbb{E}[\beta_0 + \beta_1 + u_i | d_i = 1] - \mathbb{E}[\beta_0 + u_i | d_i = 0]\\
+  &= \beta_1 + \mathbb{E}[u_i | d_i = 1] - \mathbb{E}[u_i | d_i = 0]  
+\end{align*}
+
+
+
+\[
+\{Y_d\} \perp\!\!\!\perp D \mid X \implies \{Y_d\} \perp\!\!\!\perp D \mid \pi(X), \quad D \perp\!\!\!\perp X \mid \pi(X)
+\]
