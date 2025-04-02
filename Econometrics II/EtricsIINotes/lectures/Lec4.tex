@@ -1,23 +1,47 @@
+Economists traditionally use the term \textbf{panel data} to refer to data structures consisting of observa-
+tions on individuals for multiple time periods. 
+There are several distinct advantages of panel data relative to cross-section data:
+\begin{enumerate}
+  \item Possibility of controlling for unobserved time-invariant endogeneity without the use of instrumental variables
+  \item Possibility of allowing for broader forms of heterogeneity
+  \item Modeling dynamic relationships and effects
+\end{enumerate} 
+
+It's typical to index observations by both the individual $i$ and the time period, $t$,
+thus $y_{it} $ denotes a variable for indivual $i$ in time $t$, where $n=1, \cdots, N$, $t=1, \cdots, T.$
+
+\begin{definition}[Balanced and Unbalanced Panel Data\cite{hansen2022econometrics}]
+  \
+
+  When observations are available on all individuals for the same time periods we say that the panel is \textbf{balanced}. 
+  In this case there are an equal number $T$ of observations for each individual and the total number of observations is $n = NT$.
+
+  When different time periods are available for the individuals in the sample we say that the panel is \textbf{unbalanced}. 
+  This is the most common type of panel data set. 
+  It does not pose a problem for applications but does make the notation cumbersome and also complicates computer programming.
+\end{definition}
+
 \section{Incidental Parameters Problem}
 
-\subsection{Consistency}
+\subsection{Pooled OLS Estimation}\label{sec:POLS}
+
 Suppose we are estimating the following panel data regression:
 \begin{align*}
   y_{it} &= \alpha +x_{it}^{\prime} \beta +u_{it}, \quad \mathbb{E}[u_{it} x_{it}] = 0, \quad \mathbb{V}[u_{it} | x_{it}] = \sigma^2
 \end{align*}
 
 Omitting the distinction between intercept and slope, we can write the model as:
-\begin{align*}
-  y_{it} &= \tilde{x}_{it}^{\prime} \tilde{\beta} + u_{it} \\
-  \tilde{x}_{it} &= \begin{bmatrix}
+\begin{gather*}
+  y_{it} = \tilde{x}_{it}^{\prime} \tilde{\beta} + u_{it} \\
+  \tilde{x}_{it} = \begin{bmatrix}
     1 \\
     x_{it}
-  \end{bmatrix} \\
-  \tilde{\beta} &= \begin{bmatrix}
+  \end{bmatrix}, \quad
+  \tilde{\beta} = \begin{bmatrix}
     \alpha \\
     \beta
   \end{bmatrix}
-\end{align*}
+\end{gather*}
 where $i=1:n$, $T=1:t$.
 
 Or, we can write the model as: 
@@ -26,41 +50,47 @@ Or, we can write the model as:
 \]
 Using OLS method to estimate $\tilde{\beta}$, we have:
 \[
-\underset{\tilde{\beta}}{\min} \sum_i \sum_t u_{it}^2 = \underset{\beta}{\min} \sum_i u_i^{\prime} u_i = \underset{\beta}{\min} (y_i - \tilde{X}_i \tilde{\beta})^{\prime} (y_i - \tilde{X}_i \tilde{\beta})
+\underset{\tilde{\beta}}{\min} \sum_i \sum_t u_{it}^2 = \underset{\tilde{\beta}}{\min} \sum_i u_i^{\prime} u_i = \underset{\tilde{\beta}}{\min} (y_i - \tilde{X}_i \tilde{\beta})^{\prime} (y_i - \tilde{X}_i \tilde{\beta})
 \]
 The FOC of this equation is:
 \begin{align*}
   \sum_i -\tilde{X}_i^{\prime} (y_i - \tilde{X}_i \tilde{\beta}) &= 0 \\
   \left(\sum_i \tilde{X}_i^{\prime} \tilde{X}_i \right) \tilde{\beta} &= \sum_i \tilde{X}_i^{\prime} y_i \\
-  \hat{\tilde{\beta}} &= \left(\sum_i \tilde{X}_i^{\prime} \tilde{X}_i \right)^{-1} \sum_i \tilde{X}_i^{\prime} y_i \\
+  \hat{\tilde{\beta}}_{POLS} &= \left(\sum_i \tilde{X}_i^{\prime} \tilde{X}_i \right)^{-1} \sum_i \tilde{X}_i^{\prime} y_i \\
   &= \left(\sum_i \sum_t \tilde{x}_{it} \tilde{x}_{it}^{\prime} \right)^{-1} \left( \sum_i \sum_t \tilde{x}_{it} y_{it} \right) \\
   &= \tilde{\beta} + \left(\frac{1}{n} \sum_i \sum_t \tilde{x}_{it} \tilde{x}_{it}^{\prime} \right)^{-1} \left( \sum_i \sum_t \tilde{x}_{it} u_{it} \right) \\
   & \overset{p}{\rightarrow} \tilde{\beta} + \mathbb{E}\left[\sum_t \tilde{x}_{it} \tilde{x}_{it}^{\prime} \right] \mathbb{E}\left[\sum_t \tilde{x}_{it} u_{it} \right] \\
   &= \tilde{\beta}
 \end{align*}
-Hence $\hat{\beta_{OLS}}$ is consistent provided that $x_{it}$ and $u_{it}$ are contemperaneously uncorrelated,
-as $\mathbb{E}[x_{it} u_{it}] = 0.$
+Hence $\hat{\beta}_{OLS}$ is consistent provided that $x_{it}$ and $u_{it}$ are contemperaneously uncorrelated,
+as $\mathbb{E}[x_{it} u_{it}] = 0, \forall t.$
+The regressors are allowed to be correlated with the past, and future $u_{it}$.
+This occurs when there's feedback loop by which $y_{i,t-1}$ affects $x_{it}$.
+
+In this proof, we show that either $N \to \infty $ or $T \to  \infty $ is sufficient for consistency of $\hat{\beta}_{POLS}$.
+However, most panel data applications have a large $n$ and small $T$ dimension, so standrad panel data
+features $T$ fixed and $n \to \infty $.
 
 \subsection{Asymptotic Normality}
 
 From the analysis of consistency, we know that:
 \[ 
-\hat{\tilde{\beta}} = \left(\sum_i \tilde{X}_i^{\prime} \tilde{X}_i \right)^{-1} \sum_i \tilde{X}_i^{\prime} y_i
+\hat{\tilde{\beta}}_{POLS}  = \left(\sum_i \tilde{X}_i^{\prime} \tilde{X}_i \right)^{-1} \sum_i \tilde{X}_i^{\prime} y_i
 \]
 Hence:
 \begin{align*}
-    \sqrt{n} (\hat{\tilde{\beta}} - \tilde{\beta}) &= \left(\frac{1}{n} \sum_i \tilde{X}_i^{\prime} \tilde{X}_i \right)^{-1} \left(\frac{1}{\sqrt{n} } \sum_i \tilde{X}_i^{\prime} u_i \right) \\
+    \sqrt{n} (\hat{\tilde{\beta}}_{POLS}  - \tilde{\beta}) &= \left(\frac{1}{n} \sum_i \tilde{X}_i^{\prime} \tilde{X}_i \right)^{-1} \left(\frac{1}{\sqrt{n} } \sum_i \tilde{X}_i^{\prime} u_i \right) \\
     & \overset{p}{\rightarrow}\mathbb{E}[\tilde{X}_i^{\prime} \tilde{X}_i]^{-1} \overset{d}{\rightarrow} \mathcal{N}\left(0, \mathbb{E}\left[\left(\tilde{X}_i^{\prime} u_i\right) \left(\tilde{X}_i^{\prime} u_i\right)^{\prime} \right] \right)\\
     & \overset{d}{\rightarrow} \mathcal{N} \left(0, \mathbb{E}\left[\tilde{X}_i^{\prime} \tilde{X}_i \right]^{-1} \mathbb{E}\left[\tilde{X}_i^{\prime} u_i u_i^{\prime} \tilde{X}_i \right] \mathbb{E}\left[\tilde{X}_i^{\prime} \tilde{X}_i \right] \right)
 \end{align*}
 
 
-The above model is honmogeneous, which is unattractive, as the data generating process would 
+The above model is homogeneous, which is unattractive, as the data generating process would 
 differ across $i$, with some units having a higher level of the outcome variable $y_{it} $
 than others, regardless of covariates $x_{it}$(with a higher intercept $\alpha$) or a stronger effect
 of some covariates $x_{it, k} $ on $y_{it}$ than others.
 
-At the other extreme, we assume the fulle heterogenous estimation:
+At the other extreme, we assume the fully heterogenous estimation:
 \[y_{it} = \alpha_i + x_{it}^{\prime} \beta + u_{it}, \quad \mathbb{E}[u_{it} x_{it}] = 0, \quad \mathbb{V}[u_{it} | x_{it}] = \sigma_i^2. \]
 
 Under $T=1$, we run $y_i = \beta_0 + x_i^{\prime} \beta + v_i$, 
@@ -133,7 +163,7 @@ This leads to the pooled OLS estimator for $\beta^*$:
 \hat{\beta}^* = \Bigl( \sum_i \sum_t x_{it}^* x_{it}^{*^{\prime}} \Bigr) \sum_i \sum_t x_{it}^* y_{it}. 
 \]
 
-HOwever, the estimator suffers from the so-called \textbf{IPP problem}, 
+However, the estimator suffers from the so-called \textbf{IPP problem}, 
 as the number of parameters increase with $n \rightarrow\infty $, 
 the limit of $\frac{1}{n} \sum_i x_{it}^* x_{it}^{*^{\prime}}$ is not well-defined
 and as a result, we can't establish consistency of $\hat{\beta}_{OLS}.$

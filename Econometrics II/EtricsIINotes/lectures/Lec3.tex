@@ -132,15 +132,33 @@ Treatment Effect for the Control-Group (ATC) as distinct objects:
 \end{align*}
 \[\mathbb{E}[z] = \mathbb{E}[z|d=1] \mathbb{P}[d=1] + \mathbb{E}[z|d=0] \mathbb{P}[d=0] = \mathbb{E}[\mathbb{E}[z|d]].\]
 
-For sample, $\{d_i, y_i\}_{i=1}^n = \{d_i, y_{d_{i}, i}\}_{i=1}^n$, because
-$y_i = y_{1i} d_i + y_{0i} (1 - d_i)$.
+\subsection{Identification of Causal Effects}
+
+Now, suppose we observe treatments and outcomes over a random sample $n$ from the overall population, $\{d_i, y_i\}_{i=1}^n = \{d_i, y_{d_{i}i}\}_{i=1}^n$, 
+as either $y_I = y_{0i} $, or $y_i = y_{1i}$. 
+
+Let $n_{w} = \vert \{ i: d_i = w \} \vert $ be the size of sets of units in our
+sample who received and did not receive treatment, respectively.
+This means that: while we observe a sample of size $n$ of $d_i$ and $y_i$ from the overall population,
+we are observing a sample of size $n_0$ of realizations of $y_{0i}$ from the non-treated subpopulation 
+and a sample of size $n_1$ of realizations of $y_{1i}$ from the treated subpopulation.
 
 $N = \{i=1,2,\cdots, n\}$, $N_1 = \{i \in N: d_i = 1\} \leftarrow n_1 = \vert N_1 \vert $, $N_0 = \{i: d_i = 0\} \leftarrow n_0 = \vert N_0 \vert $.
+
+Based on this data, we can use the analogy principle to consistently estimate 
+the first term in the ATT formula and the second term in the ATC formula:
 \begin{align*}
   \frac{1}{n_1} \sum_{i \in N_1} y_i &= \frac{1}{n_1} \sum_{i \in N_1} y_{1i} \overset{p}{\rightarrow} \mathbb{E}[y_{1i} | d_i=1] = \mathbb{E}[y_i | d_i=1]\\
   \frac{1}{n_0} \sum_{i \in N_0} y_i &= \frac{1}{n_0} \sum_{i \in N_0} y_{0i} \overset{p}{\rightarrow} \mathbb{E}[y_{0i} | d_i=0] = \mathbb{E}[y_i | d_i=0]
 \end{align*}
-\[\frac{1}{n_1} \sum_{i \in N_1} y_i - \frac{1}{n_0} \sum_{i \in N_0} y_i \overset{p}{\rightarrow} \mathbb{E}[y_{1i} | d_i = 1] - \mathbb{E}[y_{0i} | d_i = 0] = \text{ATE} = \text{ATT} = \text{ATC}.\]
+Without further assumptions, we cannot identify the remaining terms. Firstly, we cannot observe $\mathbb{E}[y_{0i} | d_i=1]$ and $\mathbb{E}[y_{1i} | d_i=0 ]$
+because we do not observe $y_{0i}$ for treated units, and we do not observe $y_{1i}$ for non-treated units.
+Secondly, we can not observe $\mathbb{E}[y_{1i}]$ and $\mathbb{E}[y_{0i}]$ because both $N_1$ and $N_0$ are random samples from the overall population.
+As a result, the ATE is in general not identified from our data!
+
+We can define the  the difference-in-means estimator as:
+\[\hat{\tau}_{DM} = \frac{1}{n_1} \sum_{i \in N_1} y_i - \frac{1}{n_0} \sum_{i \in N_0} y_i \overset{p}{\rightarrow} \mathbb{E}[y_{1i} | d_i = 1] - \mathbb{E}[y_{0i} | d_i = 0] = \text{ATE} = \text{ATT} = \text{ATC}.\]
+
 
 We define the difference of treated and non-treated as: \textit{Naive Difference}.
 \begin{align*}

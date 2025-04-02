@@ -28,17 +28,17 @@ their consistency is paid for by an efficiency loss relative to RE estimators.
     \item Contemperaneous exogeneity: $\mathbb{E}[x_{it} u_{it}] = 0, \forall t.$
     \item Strict exogeneity: $\mathbb{E}[x_{it} u_{is}] = 0, \forall t, s.$
     \item Sequential exogeneity: $\mathbb{E}[x_{it} u_{is}] = 0, \forall t, s \geq t.$
-    \begin{definition}[Predetermined variables(Or Sequantial Exogeneity)]
-        \
-
-        Predetermined variables are variables that were determined prior to the current period. 
-        In econometric models this implies that the current period error term is 
-        uncorrelated with current and lagged values of the predetermined variable 
-        but may be correlated with future values. 
-        This is a weaker restriction than strict exogeneity, 
-        which requires the variable to be uncorrelated with past, present, and future shocks.
-    \end{definition}
 \end{enumerate}
+\begin{definition}[Predetermined variables(Or Sequantial Exogeneity)]
+    \
+
+    Predetermined variables are variables that were determined prior to the current period. 
+    In econometric models this implies that the current period error term is 
+    uncorrelated with current and lagged values of the predetermined variable 
+    but may be correlated with future values. 
+    This is a weaker restriction than strict exogeneity, 
+    which requires the variable to be uncorrelated with past, present, and future shocks.
+\end{definition}
 
 Still assume that we have a standard model:
 \begin{align*}
@@ -70,8 +70,6 @@ start from the original specification:
 where correlation between $\alpha_{i}$ an $x_{it}$ is suspected to be due to $y_{i,t-1}$, contained in $x_{it}.$
 
 \begin{definition}[Blundell and Bond(1998)]
-    \
-
     \begin{align*}
         y_{it} &= \alpha _i + \beta_1 y_{i,t-1} + u_{it} \\
         &= \beta_1 y_{i,t-1} + (u_{it} + \alpha_i) 

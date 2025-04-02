@@ -1,10 +1,47 @@
 \section{Random Effects}
+
+As with pooled OLS, a random effects analysis puts $\alpha_i$ into the error term.
+In fact, random effects analysis imposes more assumptions than those needed for pooled OLS:
+\textbf{strict exogeneity} in addition to orthogonality between $\alpha_i$ and $x_{it}$. 
+
+\subsection{Basic Assumptions and POLS}
+
+Stating the assumption in terms of conditional means, we have:
+\begin{assumption}[Random Effect]\label{assumption:RE}
+    \
+
+    \begin{enumerate}
+        \item[(a)] $\mathbb{E}[u_{it} | X_i, \alpha_i] = 0, \forall t.$
+        \item[(b)] $\mathbb{E}[\alpha_i | X_i] = \mathbb{E}[\alpha_i] = 0.$
+    \end{enumerate}
+    where $X_i = (x_{i1}, \cdots, x_{iT})$.
+\end{assumption}
+Assumption \ref{assumption:RE}(a) is the strict exogeneity condition and Assumption \ref{assumption:RE}(b) is is how we will state the orthogonality.
+
+\begin{remark}[Why Strict Ecogeneity?\cite{wooldridge2010econometric}]
+    \
+
+    Why do we maintain Assumption \ref{assumption:RE}(a) when it is more restrictive than needed for
+    a pooled OLS analysis? Because the random e¤ects approach exploits the serial correlation in
+    the composite error, $v_{it} = \alpha_i + u_{it}$, in a generalized least squares (GLS) framework. In
+    order to ensure that feasible GLS is consistent, we need some form of strict exoge-
+    neity between the explanatory variables and the composite error.
+
+    Under this assumption, we can write:
+    \begin{align*}
+        & y_{it} = x_{it}^{\prime} \beta + v_{it} \\
+        & \mathbb{E}[v_{it} | X_i] = 0, t=1, \cdots, T
+    \end{align*}
+    The conditions shows that our model satisfies the GLS assumption, which confirms that
+    we can apply GLS methods that account for the particular error structure $v_{it} = \alpha_i + u_{it}.$
+\end{remark}
+
+
 By defining $v_{it} = u_{it} + \alpha_i - \beta_0$, we can transform the random effect model to the following:
 \begin{align*}
-    y_{it} &= \alpha_1 + x_{it}^{\prime} \beta + u_{it} \\
-    &= \underset{\tilde{x}_{it}^{\prime}}{\underbrace{\beta_0 + x_{it}^{\prime}\beta}} + \underset{\equiv v_{it}}{\underbrace{u_{it} + \alpha_i - \beta_0}}\\
+    y_{it} &= \alpha_i + x_{it}^{\prime} \beta + u_{it} \\
+    &= \underset{\tilde{x}_{it}^{\prime}}{\underbrace{\beta_0 + x_{it}^{\prime}\beta}} + \underset{\equiv v_{it}}{\underbrace{u_{it} + \alpha_i - \beta_0}}
 \end{align*}
-
 Defining again $\tilde{x}_{it} = (1, x_{it}^{\prime})^{\prime}$, $\tilde{\beta} = (\beta_0, \beta^{\prime})^{\prime}$, we can rewrite the model as:
 \begin{align*}
     y_{it} &= \tilde{x}_{it}^{\prime} \beta + v_{it} \Leftrightarrow y_i = \tilde{X}_i^{\prime} \tilde{\beta} + v_i \\
@@ -18,7 +55,7 @@ Define $\tilde{\alpha}_i = \alpha_i - \beta_0$ as the mean-zero unit-specific he
 \begin{note}[POLS]
     \
 
-    Homogenous spec: $y_{it} = \alpha  + x_{it}^{\prime} \beta + u_{it} = \tilde{x}_{it}^{\prime} \tilde{\beta} + u_{it}.$
+    Homogenous spec: $y_{it} = \alpha  + x_{it}^{\prime} \beta + u_{it} = \tilde{x}_{it}^{\prime} \tilde{\beta} + v_{it}.$
     $\hat{\tilde{\beta}}$ is consistent if $\mathbb{E}[v_{it} x_{it}]=0, \forall t.$
 \end{note}
 Using pooled OLS to estimate $\hat{\tilde{\beta}}$,
@@ -38,6 +75,9 @@ Here, the error term $v_i$ is not equal to the original error term $u_{it}$.
     Because even if we assume $u_{it}$ to be homoskedastic, $v_{it}$ is not,
     as it includes also the unit-speciﬁc heterogeneity $\alpha_i$.
 \end{note}
+
+\subsection{From POLS to GLS}
+
 So, to obtain consistency, we need to assume that:
 \begin{itemize}
     \item $\mathbb{E}[u_{it} | \tilde{x}_{it}, \tilde{\alpha}_i] = 0, \forall t$.
@@ -47,10 +87,38 @@ And, we are also obliged to use HAC-robust standard error because:
 \[\Omega \equiv \mathbb{E}[v_i v_i^{\prime} | \tilde{X}_i] = \mathbb{E}[(\alpha_i \mathbf{1}_i + u_i)(\tilde{\alpha}_i \mathbf{1}_i + u_i)^{\prime} | \tilde{X}_i] = \mathbb{E}[\tilde{\alpha}_i^2 \mathbf{1}_i \mathbf{1}_i^{\prime} | \tilde{X}_i] + \mathbb{E}[u_i u_i'| \tilde{X}_i] \]
 is not diagonal.
 
+\begin{assumption}[Random Effect]\label{assumption:RE2}
+    \
+
+    $\rank \mathbb{E}\left[X_i^{\prime} \Omega^{-1} X_i \right] = K$
+\end{assumption}
+We know that both GLS and feasible GLS estimator would be consistent under Asusmption \ref{assumption:RE} and \ref{assumption:RE2}.
+A general FGLS analysis, using an unrestricted variance estimator $\Omega$,
+is consistent and asymptotically normal as $N \to \infty.$
+
+But, we won't exploit the unobserved effects structure $v_{it}.$
+A standard random e¤ects analysis adds assumptions on the idiosyncratic errors that
+give $\Omega$ a special form. The first assumption is that the idiosyncratic errors
+$u_{it}$ have a constant unconditional variance across $t$:
+\begin{assumption}[RE-Homoskedasticity]\label{assumption:RE-homoskedasticity}
+    \
+
+    $\mathbb{E}[u_{it}^2] = \sigma_u^2, \forall t$
+\end{assumption}
+The second assumption is that the idiosyncratic errors are serially uncorrelated:
+\begin{assumption}[RE-Serial Uncorrelated]\label{assumption:RE-serial_uncorrelated}
+    \
+
+    $\mathbb{E}[u_{it} u_{is}] = 0, \forall t \neq s$
+\end{assumption}
+Under these two assumptions, we can derive the variances and covariances of the
+elements of $v_i$.
 Given the error structure the natural estimator for $\beta$ is GLS. The GLS eimator for $\beta$ is:
+\begin{gather*}
+    \hat{\tilde{\beta}}_{RE-GLS} = \left( \sum_i \tilde{X}_i^{\prime} \Omega^{-1} \tilde{X}_i \right)^{-1} \sum_i \tilde{X}_i^{\prime} \Omega^{-1} y_i
+\end{gather*}
+where $\Omega ^{-\frac{1}{2}} y_i = \Omega ^{-\frac{1}{2}} \tilde{X}_i^{\prime} \tilde{\beta} + \Omega^{-\frac{1}{2}}v_i.$
 \begin{align*}
-    \hat{\tilde{\beta}}_{RE-GLS} &= \left( \sum_i \tilde{X}_i^{\prime} \Omega^{-1} \tilde{X}_i \right)^{-1} \sum_i \tilde{X}_i^{\prime} \Omega^{-1} y_i \\
-    \Omega ^{-\frac{1}{2}} y_i &= \Omega ^{-\frac{1}{2}} \tilde{X}_i^{\prime} \tilde{\beta} + \Omega^{-\frac{1}{2}}v_i \\
     \Omega &= \mathbb{E}[v_i v_i^{\prime} | \tilde{X}_i] = \mathbb{E}\left[ \begin{bmatrix}
         v_{i1} \\
         v_{i2} \\
@@ -71,19 +139,18 @@ Given the error structure the natural estimator for $\beta$ is GLS. The GLS eima
         \vdots & \vdots & \ddots & \vdots \\
         \mathbb{E}\left[\alpha_i^2 | \tilde{X}_i \right] + \mathbb{E}[u_{iT}u_{i1} | \tilde{X}_i] & \mathbb{E}\left[\alpha_i^2 | \tilde{X}_i \right] + \mathbb{E}[u_{iT}u_{i2} | \tilde{X}_i] & \cdots & \mathbb{E}\left[\alpha_i^2 | \tilde{X}_i \right] + \mathbb{E}[u_{iT}^2 | \tilde{X}_i]
     \end{bmatrix}\\
-    &= \mathbb{E}\left[\mathbb{E}\left[\alpha_i^2 | \tilde{X}_i \right] \mathbf{1} \right] + \mathbb{E}[u_i u_i^{\prime} | \tilde{X}_i] \\
-    &= \mathbb{E}[\alpha_i^2] \mathbf{1}_i \mathbf{1}_i^{\prime} + \begin{bmatrix}
-        \mathbb{E}[u_{i1}^2 | \tilde{X}_i] & 0 & \cdots & 0 \\
-        0 & \mathbb{E}[u_{i2}^2 | \tilde{X}_i] & \cdots & 0 \\
+    &= \begin{bmatrix}
+        \sigma_u^2 + \sigma_{\alpha}^2 & \sigma_{\alpha}^2 & \cdots & \sigma_{\alpha}^2 \\
+        \sigma_{\alpha}^2 & \sigma_u^2 + \sigma_{\alpha}^2 & \cdots & \sigma_{\alpha}^2 \\
         \vdots & \vdots & \ddots & \vdots \\
-        0 & 0 & \cdots & \mathbb{E}[u_{iT}^2 | \tilde{X}_i]
+        \sigma_{\alpha}^2 & \sigma_{\alpha}^2 & \cdots & \sigma_u^2 + \sigma_{\alpha}^2
     \end{bmatrix} \\
-    &= \sigma_{\alpha_i}^2 \mathbf{1}_i^{\prime} +_i^2 I \\
-    &= \sigma_{\alpha}^2 \mathbf{1}_i \mathbf{1}_i^{\prime} + \sigma^2 I \\
+    &= \sigma_{\alpha}^2 \mathbf{1}_i \mathbf{1}_i^{\prime} + \sigma_u^2 I \\
     \text{beacuse } &\mathbb{V}[\tilde{\alpha}_i|\tilde{X}_i] = \sigma_{\alpha_i}^2 = \sigma_{\alpha}^2 \\
-    &\mathbb{V}[u_{it} | \tilde{X}_i] = \sigma_i^2 = \sigma^2, \forall i.
+    &\mathbb{V}[u_{it} | \tilde{X}_i] = \sigma_u^2, \forall i.
 \end{align*}
-Under the assumption $\mathbb{E}[u_{it} x_{it}] = 0$, we now describe some statistical properties of $\hat{\tilde{\beta}}_{RE-GLS}.$
+where $I$ is an identity matrix of dimention $T_i$.
+Under the assumption $\mathbb{E}[u_{it} x_{is}] = 0$, we now describe some statistical properties of $\hat{\tilde{\beta}}_{RE-GLS}.$
 \begin{align*}
     \hat{\tilde{\beta}}_{RE-GLS} - \tilde{\beta} &= \Bigl( \sum_i \tilde{X}_i^{\prime} \Omega^{-1} \tilde{X}_i \Bigr)^{-1} \Bigl( \sum_i \tilde{X}_i^{\prime} \Omega^{-1} v_i \Bigr) \\
     & \rightarrow \mathbb{E}\Bigl[ \sum_i \tilde{X}_i^{\prime} \Omega^{-1} \tilde{X}_i \Bigr] \mathbb{E}\Bigl[ \sum_i \tilde{X}_i^{\prime} \Omega^{-1} v_i \Bigr] \\
@@ -93,15 +160,15 @@ Under the assumption $\mathbb{E}[u_{it} x_{it}] = 0$, we now describe some stati
     &=0
 \end{align*}
 Thus, $\hat{\tilde{\beta}}_{RE-GLS} $ is conditionally unbiased for $\tilde{\beta}$.
-% The conditional variance of $\hat{\tilde{\beta}}_{RE-GLS}$ is:
-% \begin{align*}
-%     \mathbb{V}\Bigl[\hat{\tilde{\beta}}_{RE-GLS}\Bigr] = \Bigl( \sum_i \tilde{X}_i^{\prime} \Omega^{-1} \tilde{X}_i \Bigr)^{-1} \sigma_{\epsilon}^2
-% \end{align*}
+The conditional variance of $\hat{\tilde{\beta}}_{RE-GLS}$ is:
+\begin{align*}
+    \mathbb{V}\Bigl[\hat{\tilde{\beta}}_{RE-GLS}\Bigr] = \Bigl( \sum_i \tilde{X}_i^{\prime} \Omega^{-1} \tilde{X}_i \Bigr)^{-1} \sigma_{u}^2
+\end{align*}
 The asymptotic variance of $\hat{\tilde{\beta}}_{RE-GLS}$ is:
 \begin{align*}
     &\sqrt{n} \left( \hat{\tilde{\beta}}_{RE-GLS} - \tilde{\beta} \right) \overset{d}{\rightarrow} \mathcal{N}\left(0, V \right) \\
     \text{where } V &= \mathbb{E}\left[\tilde{X}_i^{\prime} \Omega^{-1} \tilde{X}_i \right]^{-1} \mathbb{E}\left[\tilde{X}_i^{\prime} \Omega^{-1} v_i v_i^{\prime} \Omega^{-1} \tilde{X}_i \right] \mathbb{E}\left[\tilde{X}_i^{\prime} \Omega^{-1} \tilde{X}_i \right] \\
-    &= \mathbb{E}\left[\tilde{X}_i^{\prime} \Omega^{-1} \tilde{X}_i \underset{\equiv \Omega}{\underbrace{\mathbb{E}[v_i v_i^{\prime} | \tilde{X}_i]}}\right] \\
+    &= \mathbb{E}\left[\tilde{X}_i^{\prime} \Omega^{-1} \tilde{X}_i \underset{\equiv \Omega}{\underbrace{\mathbb{E}[v_i v_i^{\prime} | \tilde{X}_i]}}\right]
 \end{align*}
 Because we do not know $\Omega$, the RE-GLS estimator is infeasible. 
 
@@ -119,12 +186,16 @@ Assuming homoskedasticity of the original errors:
     \mathbb{E}[u_i u_i^{\prime}  | \tilde{X}_i, \tilde{\alpha}_i] &= \sigma_u^2 I_T \\
     \mathbb{E}[\tilde{\alpha}_i^2 | \tilde{x}_i] &= \sigma_{\alpha}^2
 \end{align*}
-We obtain: $\Omega = \sigma_{\alpha}^2 \mathbf{1}_i \mathbf{1}_i^{\prime} + \sigma_u^2 I_T$.
+We obtain: $\hat{\Omega} = \hat{\sigma}_{\alpha}^2 \mathbf{1}_i \mathbf{1}_i^{\prime} + \hat{\sigma}_u^2 I_T$, 
+a $T \times T$ matrix that we assume to be positive definite.
+In a panel data context, the FGLS estimator that uses this variance matrix is what is known as the \textbf{random effects estimator}.
 
 Hence, the motivation for using GLS is different than under a cross-sectional regression with heteroskedasticity.
 We use GLS because of the autocorrelation in $v_{it}$ induced by the presence of time variant $\alpha_i$.
 
+\subsection{Comparing POLS and GLS}
 
+Now, let's compare the $\hat{\beta}_{RE-GLS}$ with the pooled estimator $\hat{\beta}_{POLS}$.
 
 \section{Fixed Effects}
 In the econometrics literature if the stochastic structure of $\alpha_i$ is treated as unknown
