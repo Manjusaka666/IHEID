@@ -72,6 +72,11 @@ These potential outcomes are constants at the level of unit $i$.
   Rubin (1980\cite{rubin1980comment}) called the Assumptions \ref{assumption:no_interference} and \ref{assumption:consistency} above together 
   the \textit{Stable Unit Treatment Value Assumption (SUTVA).}
 \end{definition}
+The observed outcome of unit $i$ is a function of the potential
+outcomes and the treatment indicator, we can write:
+\begin{gather*}
+  y_i = d_i y_{1i} + (1 - d_i) y_{0i}
+\end{gather*}
 In principle, by virtue of being (discrete) RVs, both $d_i$ and $y_i$ each have a distribution function,
 which, together with their possible realizations, defines various moments.
 However, their unconditional probabilities and moments at the level of unit $i$ is not of interest.
@@ -101,8 +106,17 @@ Only the conditional probabilities of $y_i$ given $d_i$ is of interest.
 
 SUTVA(\ref{def:sutva}) ensures that the individual treatment effect is well defined.
 
-For a population, we know that $\mathbb{E}[d_i], \mathbb{E}[y_i], \mathbb{E}[y_{0i}], \mathbb{E}[y_{1i}]$ exist,
-we can define the treatment conditional expectations:
+Now, although $\Delta_i$ itself is unobservable, we can (perhaps remarkably) 
+use randomized experiments to learn certain properties of it. The expectations
+$\mathbb{E}[y_{0i}]$ and $\mathbb{E}[y_{1i}]$ denote the average potential outcomes across unit $i$ in population.
+
+In particular, large randomized experiments let us recover the \textbf{Average
+Treatment Effect (ATE)}:
+\begin{gather*}
+  \text{ATE} = \mathbb{E}[y_{1i} - y_{0i}] = \mathbb{E}[y_{1i}] - \mathbb{E}[y_{0i}]
+\end{gather*}
+
+For a population, we can define the treatment conditional expectations:
 \[\mathbb{E}[y_i | d_i=1], \mathbb{E}[y_{0i} | d_i=1 ], \mathbb{E}[y_{1i} | d_i=1 ] = \mathbb{E}[y_i | d_i=1]\]
 that denote the averages of the outcome $y_i$.
 
@@ -110,10 +124,9 @@ Analogously, we can define the control conditional expectations:
 \[\mathbb{E}[y_i | d_i=0], \mathbb{E}[y_{0i} | d_i=0 ] = \mathbb{E}[y_i | d_i=0], \mathbb{E}[y_{1i} | d_i=0 ]\]
 for the non-treated subpopulation.
 
-Then, we candefine the Average Treatment Effect (ATE), the Average Treatment Effect for the Treatment-Group (ATT) and the Average
+Similar to ATE, we candefine the Average Treatment Effect for the Treatment-Group (ATT) and the Average
 Treatment Effect for the Control-Group (ATC) as distinct objects:
 \begin{align*}
-  \text{ATE} &= \mathbb{E}[y_{1i}- y_{0i}]\\
   \text{ATT} &= \mathbb{E}[y_{1i}- y_{0i} | d_i=1]\\
   \text{ATC} &= \mathbb{E}[y_{1i}- y_{0i} | d_i=0]
 \end{align*}
