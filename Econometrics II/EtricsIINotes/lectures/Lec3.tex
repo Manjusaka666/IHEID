@@ -2,9 +2,7 @@ Rubin (1975\cite{rubin1975bayesian}) and Holland (1986\cite{holland1986statistic
 \begin{quote}
   \textit{``No causation without manipulation''}
 \end{quote}
-Not everybody agrees with this point of view.
-
-In our lectuere, we'll define causal effects using the potential outcomes framework
+Not everybody agrees with this point of view. In our lectuere, we'll define causal effects using the potential outcomes framework
 (Neyman, 1923\cite{neyman1923experiment}; Rubin, 1974\cite{rubin1974estimating}).
 
 
@@ -128,9 +126,9 @@ Similar to ATE, we candefine the Average Treatment Effect for the Treatment-Grou
 Treatment Effect for the Control-Group (ATC) as distinct objects:
 \begin{align*}
   \text{ATT} &= \mathbb{E}[y_{1i}- y_{0i} | d_i=1]\\
-  \text{ATC} &= \mathbb{E}[y_{1i}- y_{0i} | d_i=0]
+  \text{ATC} &= \mathbb{E}[y_{1i}- y_{0i} | d_i=0] \\
+  \mathbb{E}[z] &= \mathbb{E}[z|d=1] \mathbb{P}[d=1] + \mathbb{E}[z|d=0] \mathbb{P}[d=0] = \mathbb{E}[\mathbb{E}[z|d]]
 \end{align*}
-\[\mathbb{E}[z] = \mathbb{E}[z|d=1] \mathbb{P}[d=1] + \mathbb{E}[z|d=0] \mathbb{P}[d=0] = \mathbb{E}[\mathbb{E}[z|d]].\]
 
 \subsection{Identification of Causal Effects}
 
@@ -157,25 +155,18 @@ Secondly, we can not observe $\mathbb{E}[y_{1i}]$ and $\mathbb{E}[y_{0i}]$ becau
 As a result, the ATE is in general not identified from our data!
 
 We can define the  the difference-in-means estimator as:
-\[\hat{\tau}_{DM} = \frac{1}{n_1} \sum_{i \in N_1} y_i - \frac{1}{n_0} \sum_{i \in N_0} y_i \overset{p}{\rightarrow} \mathbb{E}[y_{1i} | d_i = 1] - \mathbb{E}[y_{0i} | d_i = 0] = \text{ATE} = \text{ATT} = \text{ATC}.\]
-
-
+\[
+\hat{\tau}_{DM} = \frac{1}{n_1} \sum_{i \in N_1} y_i - \frac{1}{n_0} \sum_{i \in N_0} y_i \overset{p}{\rightarrow} \mathbb{E}[y_{1i} | d_i = 1] - \mathbb{E}[y_{0i} | d_i = 0] = \text{ATE} = \text{ATT} = \text{ATC}.
+\]
 We define the difference of treated and non-treated as: \textit{Naive Difference}.
 \begin{align*}
   \text{ND} &= \mathbb{E}[y_{1i} | d_i = 1] - \mathbb{E}[y_{0i} | d_i = 0]\\
   &= \mathbb{E}[y_{1i} | d_i = 1] - \mathbb{E}[y_{0i} | d_i = 1] + \mathbb{E}[y_{0i} | d_i =1] - \mathbb{E}[y_{0i} | d_i = 0] \\
   &= ATT + \mathbb{E}[y_{0i} | d_i = 1] - \mathbb{E}[y_{0i} | d_i = 0]
 \end{align*}
-
 For LRM, $y_i = \beta_0 + \beta_1 d_i + u_i$,
 \begin{align*}
   \text{ND} &= \mathbb{E}[y_i | d_i = 1] - \mathbb{E}[y_i | d_i = 0]\\
   &= \mathbb{E}[\beta_0 + \beta_1 + u_i | d_i = 1] - \mathbb{E}[\beta_0 + u_i | d_i = 0]\\
   &= \beta_1 + \mathbb{E}[u_i | d_i = 1] - \mathbb{E}[u_i | d_i = 0]  
 \end{align*}
-
-
-
-\[
-\{Y_d\} \perp\!\!\!\perp D \mid X \implies \{Y_d\} \perp\!\!\!\perp D \mid \pi(X), \quad D \perp\!\!\!\perp X \mid \pi(X)
-\]
