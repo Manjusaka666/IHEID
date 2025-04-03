@@ -151,6 +151,8 @@ where $\Omega ^{-\frac{1}{2}} y_i = \Omega ^{-\frac{1}{2}} \tilde{X}_i^{\prime} 
 \end{align*}
 where $I$ is an identity matrix of dimention $T_i$.
 Under the assumption $\mathbb{E}[u_{it} x_{is}] = 0$, we now describe some statistical properties of $\hat{\tilde{\beta}}_{RE-GLS}.$
+
+\subsubsection{RE Consistency}
 \begin{align*}
     \hat{\tilde{\beta}}_{RE-GLS} - \tilde{\beta} &= \Bigl( \sum_i \tilde{X}_i^{\prime} \Omega^{-1} \tilde{X}_i \Bigr)^{-1} \Bigl( \sum_i \tilde{X}_i^{\prime} \Omega^{-1} v_i \Bigr) \\
     & \rightarrow \mathbb{E}\Bigl[ \sum_i \tilde{X}_i^{\prime} \Omega^{-1} \tilde{X}_i \Bigr] \mathbb{E}\Bigl[ \sum_i \tilde{X}_i^{\prime} \Omega^{-1} v_i \Bigr] \\
@@ -164,11 +166,13 @@ The conditional variance of $\hat{\tilde{\beta}}_{RE-GLS}$ is:
 \begin{align*}
     \mathbb{V}\Bigl[\hat{\tilde{\beta}}_{RE-GLS}\Bigr] = \Bigl( \sum_i \tilde{X}_i^{\prime} \Omega^{-1} \tilde{X}_i \Bigr)^{-1} \sigma_{u}^2
 \end{align*}
+
+\subsubsection{RE Asymptotic Distribution}
 The asymptotic variance of $\hat{\tilde{\beta}}_{RE-GLS}$ is:
 \begin{align*}
     &\sqrt{n} \left( \hat{\tilde{\beta}}_{RE-GLS} - \tilde{\beta} \right) \overset{d}{\rightarrow} \mathcal{N}\left(0, V \right) \\
-    \text{where } V &= \mathbb{E}\left[\tilde{X}_i^{\prime} \Omega^{-1} \tilde{X}_i \right]^{-1} \mathbb{E}\left[\tilde{X}_i^{\prime} \Omega^{-1} v_i v_i^{\prime} \Omega^{-1} \tilde{X}_i \right] \mathbb{E}\left[\tilde{X}_i^{\prime} \Omega^{-1} \tilde{X}_i \right] \\
-    &= \mathbb{E}\left[\tilde{X}_i^{\prime} \Omega^{-1} \tilde{X}_i \underset{\equiv \Omega}{\underbrace{\mathbb{E}[v_i v_i^{\prime} | \tilde{X}_i]}}\right]
+    \text{where } V_{GLS}  &= \mathbb{E}\left[\tilde{X}_i^{\prime} \Omega^{-1} \tilde{X}_i \right]^{-1} \mathbb{E}\left[\tilde{X}_i^{\prime} \Omega^{-1} v_i v_i^{\prime} \Omega^{-1} \tilde{X}_i \right] \mathbb{E}\left[\tilde{X}_i^{\prime} \Omega^{-1} \tilde{X}_i \right] \\
+    &= \mathbb{E}\left[\tilde{X}_i^{\prime} \Omega^{-1} \tilde{X}_i \right]^{-1} \underset{\equiv \Omega}{\underbrace{\mathbb{E}[v_i v_i^{\prime} | \tilde{X}_i]}}
 \end{align*}
 Because we do not know $\Omega$, the RE-GLS estimator is infeasible. 
 
@@ -197,6 +201,22 @@ We use GLS because of the autocorrelation in $v_{it}$ induced by the presence of
 
 Now, let's compare the $\hat{\beta}_{RE-GLS}$ with the pooled estimator $\hat{\beta}_{POLS}$.
 
+Under the assumptions of the random effects model, POLS estimator is also unbiased for $\beta$ and has conditional variance:
+\begin{gather*}
+    V_{POLS} = \Bigl(\sum_{i} X_i^{\prime} X_i \Bigr)^{-1} \Bigl( X_i^{\prime} \Omega_i X_i \Bigr)^{-1} \Bigl( X_i^{\prime} X_i \Bigr)^{-1} 
+\end{gather*}
+Using the algebra of the Gauss-Markov Theorem we deduce that:
+\[V_{RE-GLS} \leq V_{POLS} \]
+and thus the random effects estimator $\hat{\beta}_{RE-GLS}$ is more efficient than $\hat{\beta}_{POLS} $ under the strict exogeneity assumption \ref{assumption:RE}.
+The two variance matrices are identical when there is no individual-specific effect $\sigma_{\alpha}^2 = 0$ for then $V_{RE-GLS} = V_{POLS} = \left(X^{\prime} X\right)^{-1} \sigma_u^2.$
+
+Under the asusmption that the random effects model is a useful approximation but not literally true, 
+we may use the cluster-robust covariance matrix estimator such as:
+\begin{gather*}
+    \hat{V}_{RE-GLS} = \Bigl(\sum_{i} X_i^{\prime} \Omega_i X_i\Bigr)^{-1} \Bigl( \sum_{i} X_i^{\prime} \Omega_i \hat{v}_i \hat{v}_i^{\prime} \Omega_i^{\prime} X_i \Bigr)^{-1} \Bigl( \sum_{i} X_i^{\prime} \Omega_i X_i \Bigr)^{-1} 
+\end{gather*}
+where $\hat{v}_i = y_i - X_i \hat{\beta}_{RE-GLS}$, This may be re-scaled by a degree of freedom adjustment if desired.
+
 \section{Fixed Effects}
 In the econometrics literature if the stochastic structure of $\alpha_i$ is treated as unknown
 and possibly correlated with $x_{it}$, then $\alpha_i$ is called a \textbf{fixed effect}.
@@ -209,45 +229,178 @@ This is due to the classic problems of omitted variables bias and endogeneity.
 The presence of the unstructured individual effect $\alpha_i$ means that it is not possible to identify $\beta$ under a simple projection assumption such as $\mathbb{E}[u_{it} x_{it}] = 0$.
 It turns out that a sufﬁcient condition for identiﬁcation is the following.
 
-\begin{definition}[Strictly exogenous]\label{def:strictly_exogenous}
+\begin{definition}[Strictly exogeneity]\label{def:strictly_exogeneity}
     \
 
-    A regressor $x_{it}$ is said to be strictly exogenous if $\mathbb{E}[x_{it} u_{is}] = 0, \forall t, s = 1, \cdots, T$.
+    A regressor $x_{it}$ is said to be strictly exogeneity if $\mathbb{E}[x_{it} u_{is}] = 0, \forall t, s = 1, \cdots, T$.
 \end{definition}
+Strict exogeneity is a strong projection condition,  meaning that is a $X_{is}, s \neq t$ is added into the regression model,
+it would have a zero coefficient. Strict exogeneity is a projection analog of the \textbf{strict mean independence}\label{FE:SMI}:
+\[\mathbb{E}[u_{it} | X_i] = 0\] 
+which implies the strict exogeneity but not vice versa.
+
+The strict exogeneity assumption \ref{def:strictly_exogeneity} is sufficient for identification and
+asymptotic theory, we'll also use the strict mean independence assumption for finite sample analysis.
+
+\begin{remark}[About strict exogeneity\cite{hansen2022econometrics}]
+    \
+
+    Strict ecogeneity(assumption \ref{def:strictly_exogeneity}) is typically inappropriate in dynamic models.
+\end{remark}
 
 \subsection{Within Transformation}
+
+In previous steps, we showed that if $x_{it}$ and $\alpha_i$ are correlated, then pooled OLS and RE-GLS estimator would be biased and inconsistent.
 If we leave the relationship between $\alpha_i$ and $x_{it}$ fully unstructured,
 then the only way to consistently estimate the coefficient $\beta$ is by an estimator
 which is invariant to $\alpha_i$.
 
+The first fixed effects (FE) assumption is strict exogeneity of the explanatory variables conditional on $\alpha_i$:
+\begin{assumption}[FE Strict Exogeneity]\label{assumption:FE-strictexogeneity}
+    \
+
+    $\mathbb{E}[u_{it} | X_i, \alpha_i] = 0, \forall t=1,\cdots, T$
+\end{assumption}
+This assumption is identical to the assumption \ref{assumption:RE}(a), we maintain strict exogeneity of $x_{it}, t=1, \cdots, T$
+conditional on the unobserved effect.
+The key difference is that \emph{we do not assume assumption \ref{assumption:RE}(b), which means that,
+for FE analysis, $\mathbb{E}[\alpha_i | X_i]$ can be any function of $X_i$.}
+
+By relaxing assumption \ref{assumption:RE}(b), we can conssitently estimate partial effects in the presence of time-consistent omitted variables
+that can be arbitrarily related to unobserved variables $x_{it}$.
+\emph{Therefore, FE analysis is more robust than RE analysis.}
+
+But this robustness has a cost: we can not include any time-constant variables in $x_{it}$ without further assumptions.
+The reason is simple: if $\alpha_i$ can be arbitrarily correlated with each element of $x_{it}$, 
+then there's no way to distinguish the effect of time-constant observables from the time-constant unobservable $\alpha_i$.
+
+The first transformation is the \textbf{within transformation}.
 Deﬁne the mean of a variable for a given individual as
 \begin{align*}
     \overline{y}_i &= \frac{1}{T} \sum_t y_{it} \\
     \overline{x}_i &= \frac{1}{T} \sum_t x_{it} \\
     \overline{u}_i &= \frac{1}{T} \sum_t u_{it}
 \end{align*}
-Then, 
+We call this the \textbf{individual-specific mean} since it is the mean of a given individual. \footnote{Some
+authors call this the \textbf{time-average} or \textbf{time-mean} since it is the average over the time periods.}
+
+Then, subtracting the individual-specific mean from the variable we obtain the deviations:
 \begin{align*}
-    (y_{it} - \overline{y}_i) &= (x_{it} - \overline{x}_i)^{\prime} \beta + (u_{it} -\overline{u}_i) \\
-    \ddot{y}_{it} &= \ddot{x}_{it}^{\prime} \beta + \ddot{u}_{it}
+    (y_{it} - \overline{y}_i) &= (x_{it} - \overline{x}_i)^{\prime} \beta + (u_{it} -\overline{u}_i) + (\alpha_i - \alpha_i) \\
+    \ddot{y}_{it} &= \ddot{x}_{it}^{\prime} \beta + \ddot{u}_{it} \\
+    \ddot{y}_i &= \ddot{X}_i^{\prime} \beta + \ddot{u}_i
 \end{align*}
-Denote the time-averages method by $\hat{\beta}_{FE-W}$, the fixed effect estimator is consistent and asymptotically normal.
+This is the \textbf{within transformation}. We also refer to $\ddot{y}_{it}$ as the \textbf{demanded values} or \textbf{deviation from individual means}.
+\emph{What is important is that the demeaning has occured at the individual level.}
+
+Denote the time-averages method by $\hat{\beta}_{FE-W}$, in order to ensure that the FE estimator is consistent and 
+well behaved asymptotically, we need a standard rank condition on the matrix of time-demeaned explanatory variables:
+\begin{assumption}[FE full rank]\label{assumption:FE-rank}
+    \
+
+    $\rank \sum_{t} \mathbb{E}[\ddot{x}_{it}^{\prime} \ddot{x}_{it}] = \rank \mathbb{E}[\ddot{X}_i^{\prime} \ddot{X}_i] = K$
+\end{assumption}
+
+\subsubsection{FE Consistency}
 \begin{align*}
-    \hat{\beta}_{FE-W} &= \left(\sum_i \sum_t \ddot{x}_{it} \ddot{x}_{it}^{\prime} \right)^{-1} \sum_i \sum_t \ddot{x}_{it} \ddot{y}_{it} \\
+    \hat{\beta}_{FE-W} &= \left( \sum_{i} \ddot{X}_i^{\prime} \ddot{X}_i \right)^{-1} \left( \ddot{X}_i^{\prime} \ddot{y}_i \right) \\
+    &= \left(\sum_i \sum_t \ddot{x}_{it} \ddot{x}_{it}^{\prime} \right)^{-1} \sum_i \sum_t \ddot{x}_{it} \ddot{y}_{it} \\
     &= \beta + \left(\sum_i \sum_t \ddot{x}_{it} \ddot{x}_{it}^{\prime} \right)^{-1} \sum_i \sum_t \ddot{x}_{it} \ddot{u}_{it} \\
     &\overset{p}{\rightarrow} \beta + \mathbb{E}\left[\sum_t \ddot{x}_{it} \ddot{x}_{it}^{\prime} \right]^{-1} \mathbb{E}\left[\sum_t \ddot{x}_{it} \ddot{u}_{it} \right] \\
     \text{where } \mathbb{E}\left[\sum_t \ddot{x}_{it} \ddot{u}_{it}\right] &= \sum_t \mathbb{E}\left[\ddot{x}_{it} \ddot{u}_{it} \right]\\
     \mathbb{E}\left[\ddot{x}_{it} \ddot{u}_{it} \right] &= \mathbb{E}\left[\left(x_{it} - \frac{1}{T}\sum_t x_{it} \right) \left(u_{it} - \frac{1}{T}\sum_t u_{it} \right)^{\prime} \right] \\
     &= 0 \quad \text{if } u_{it} \perp\!\!\!\perp x_{is}, \forall t, s = 1, \cdots, T.
 \end{align*}
+Then, let $\Sigma_i = \mathbb{E}[u_i u_i^{\prime} | X_i]$ denote the $T_i \times T_i$ covariance matrix of the idiosyncratic errors.
+The variance of $\hat{\beta}_{FE-W}$ is:
+\begin{gather*}
+    V_{FE-W} = \mathbb{V}[\hat{\beta}_{FE-W} | X_i] = \Bigl( \sum_{i} \ddot{X}_i^{\prime} \ddot{X}_i \Bigr)^{-1} \Bigl( \sum_{i} \ddot{X}_i^{\prime} \Sigma_i \ddot{X}_i \Bigr)^{-1} \Bigl( \sum_{i} \ddot{X}_i^{\prime} \ddot{X}_i \Bigr)^{-1} 
+\end{gather*}
+This expression simplifies when the idiosyncratic errors are homoskedastic and serially uncorrelated:
+\begin{assumption}[FE homoskedasticity]\label{FE-homoskedasticity}
+    \
+
+    \begin{enumerate}
+        \item[(a)] $\mathbb{E}[u_{it}^2 | X_i] = \sigma_u^2$ 
+        \item[(b)] $\mathbb{E}[u_{it} u_{is} | X_i] = 0, \forall s \neq t.$
+    \end{enumerate}
+\end{assumption}
+
+\subsubsection{FE Asymptotic Distribution}
+In this case, $\Sigma_i = \sigma_u^2 I_i$ and $V_{FE-W}$ simplifies to:
+\begin{gather*}
+    V_{FE-W}^0 = \sigma_u^2 \Bigl( \sum_{i} \ddot{X}_i^{\prime} \ddot{X}_i \Bigr)^{-1} 
+\end{gather*}
+ We can also write the asymptotic distribution as below
+\begin{align*}
+    \sqrt{n} (\hat{\beta}_{FE-W} - \beta) &= \left( \frac{1}{N} \sum_{i} \ddot{X}_i^{\prime} \ddot{X}_i \right)^{-1}  \left( N^{-\frac{1}{2}} \sum_{i} \ddot{X}_i^{\prime} \ddot{u}_i \right) \\
+    &= \left( \frac{1}{N} \sum_{i} \ddot{X}_i^{\prime} \ddot{X}_i \right)^{-1}  \left( N^{-\frac{1}{2}} \sum_{i} \ddot{X}_i^{\prime} u_i \right) \footnotemark \\
+    &\rightarrow \mathbb{E}[\ddot{X}_i^{\prime} \ddot{X}_i]^{-1} \cdot \mathcal{N} (0, \mathbb{V}[\ddot{X}_i^{\prime} \ddot{u}_i]) \\
+    &\sim \mathcal{N}\left(0, V_{FE-W} \right) \\
+    \text{where } V_{FE-W} &= \sigma_u^2 \mathbb{E}[\ddot{X}_i^{\prime} \ddot{X}_i]^{-1} 
+\end{align*}
+\footnotetext{From the regression model $\ddot{y}_i = \ddot{X}_i \beta + \ddot{u}_i$,
+where $\ddot{y}_i$ is $T \times 1$, $\ddot{X}_i$ is $T \times K$, and $\ddot{u}_i$ is $T \times 1$,
+We can write the individual-specific mean as $\bar{y}_i = (\mathbf{1}_i^{\prime} \mathbf{1}_i)^{-1} \mathbf{1}_i y_i$.
+Then, we can define a \textbf{individual-specific demeaning operator}:
+\[M_i = I_i - \mathbf{1}_i (\mathbf{1}_i^{\prime} \mathbf{1}_i)^{-1} \mathbf{1}_i^{\prime}, \]
+giving that
+\[\ddot{y}_i = y_i - \mathbf{1}_i \bar{y}_i = y_i - \mathbf{1}_i (\mathbf{1}_i^{\prime} \mathbf{1}_i)^{-1} \mathbf{1}_i y_i = M_i y_i.\]
+Notice that $M_i$ is idempotent ($M_i M_i = M_i, N_i^{\prime} = M_i$). Similarly for $\ddot{X}_i$ and $\ddot{u}_i$.
+
+Thus, we have:
+\begin{align*}
+    \ddot{X}_i^{\prime} \ddot{u}_i = X_i^{\prime} M_i M_i u_i = X_i^{\prime} M_i u_i = \ddot{X}_i^{\prime} u_i. 
+\end{align*}
+}
+
+
+\begin{remark}[FE VS. POLS]
+    \
+
+    It is instructive to compare the variances of the fixed-effects and pooled estimators under
+    \begin{align*}
+        \mathbb{E}[u_{it}^2 | X_i] &= \sigma_u^2 \\
+        \mathbb{E}[u_{it} u_{is} | X_i] &= 0, \forall s \neq t.
+    \end{align*}
+    and the assumption that there is no individual-specific effect, $\alpha_i = 0$.
+    In this case, we can see that:
+    \begin{gather*}
+        V_{FE-W}^0 = \sigma_u^2 \Bigl( \sum_{i} \ddot{X}_i^{\prime} \ddot{X}_i \Bigr)^{-1} \geq \sigma_u^2 \Bigl( \sum_{i} X_i^{\prime} X_i \Bigr)^{-1} = V_{POLS}.
+    \end{gather*}
+    The inequality holds since the demeaned variables $\ddot{X}_i$ have reduced variation compared to the original observations $X_i$.
+
+    This shows the cost of using fixed effects relative to pooled estimation. 
+    The estimation variance increases due to reduced variation in the regressors. 
+    This reduction in efficiency is a necessary by-product of the robustness of the estimator to the individual effects $\alpha_i$.
+\end{remark}
 
 \subsection{First Difference Transformation}
+
+Another important transformation which does the same as within transformation is \textbf{first-differencing}.
+\emph{This can be applied to all but the first
+observation (which is essentially lost).}
 \begin{align*}
     y_{it} - y_{i, t-1} &= (x_{it} - x_{i, t-1})^{\prime} \beta + (u_{it} - u_{i, t-1}) \\
-    \Delta y_{it} &= \Delta x_{it}^{\prime} \beta + \Delta u_{it}, i=1 \cdots n, t=2 \cdots T.
+    \Delta y_{it} &= \Delta x_{it}^{\prime} \beta + \Delta u_{it}, i=1 \cdots n, t=2 \cdots T \\
+    \Delta y_i &= \Delta X_i \beta + \Delta u_i 
 \end{align*}
-Denote the first difference method by $\hat{\beta}_{FE-FD}$, the fixed effect estimator is consistent and asymptotically normal.
+We can see that the individual effect $\alpha_i$ has been eliminated.
 
+Denote the first difference method by $\hat{\beta}_{FE-FD}$, 
+the fixed effect estimator is consistent and asymptotically normal based on two asusmptions.
+\begin{assumption}[FD Strict ecogeneity]\label{assumption:FD1}
+    \
+
+    It's the same as FE's assumption \ref{assumption:FE-strictexogeneity}.
+\end{assumption}
+\begin{assumption}[FD Full rank]\label{assumption:FD2}
+    \
+
+    $\rank \sum_{t=2}^{T} \mathbb{E}[\Delta x_{it}^{\prime} \Delta x_{it}] = K$
+\end{assumption}
+
+\subsubsection{FE-FD Consistency}
 \begin{align*}
     \hat{\beta}_{FE-FD} &= \left(\sum_i \sum_t \Delta x_{it} \Delta x_{it}^{\prime} \right)^{-1} \sum_i \sum_t \Delta x_{it} \Delta y_{it} \\
     &= \beta + \left(\frac{1}{n} \sum_i \sum_t \Delta x_{it} \Delta x_{it}^{\prime} \right)^{-1} \frac{1}{n} \sum_i \sum_t \Delta x_{it} \Delta u_{it} \\
@@ -256,8 +409,42 @@ Denote the first difference method by $\hat{\beta}_{FE-FD}$, the fixed effect es
     \mathbb{E}\left[\Delta x_{it} \Delta u_{it} \right] &= \mathbb{E}\left[\left(x_{it} - x_{i, t-1} \right) \left(u_{it} - u_{i, t-1} \right)^{\prime} \right] \\
     &= 0 \quad \text{if } x_{it} \perp\!\!\!\perp (u_{it}, u_{i, t-1}), \forall t.
 \end{align*}
+For $T = 2$, $\hat{\beta}_{FE-FD} = \hat{\beta}_{FE-W}$, equals the fixed effects estimator and they differ however, for $T>2$ (See Hanse, 2022\cite{hansen2022econometrics}).
 
-\begin{note}
+\subsubsection{FE-FD Asymptotic Distribution}
+We just use the standard calcultaion:
+\begin{gather*}
+    \sqrt{n} (\hat{\beta}_{FE-FD} - \beta) \overset{d}{\rightarrow} \mathcal{N} (0, V_{FE-FD})
+\end{gather*}
+where
+\begin{gather*}
+    V_{FE-FD} = \mathbf{E}\Bigl[ \sum_{t=2}^{T} \Delta x_{it} \Delta x_{it}^{\prime} \Bigr]^{-1} \mathbf{E}\Bigl[ \Bigl( \sum_{t=2}^{T} \Delta x_{it} \Delta u_{it} \Bigr) \Bigl( \sum_{s=2}^{T} \Delta x_{is} \Delta u_{is} \Bigr)^{\prime} \Bigr] \mathbf{E}\Bigl[ \sum_{t=2}^{T} \Delta x_{it} \Delta x_{it}^{\prime} \Bigr]^{-1} 
+\end{gather*}
+If we still assume that the first-difference error term $\Delta u_{it}$ is homoskedastic:
+\begin{assumption}[FD homoskedasticity]\label{assumption:FD3}
+    \
+
+    Denote $e_{it} \equiv \Delta u_{it}$, $e_i$ is the stack of $e_{it}$ for $t=2, \cdots, T$. 
+    $\mathbb{E}\left[e_i e_i^{\prime} | X_i, \alpha_i \right] = \sigma_e^2 I$
+\end{assumption}
+then, we can write:
+\begin{gather*}
+    A\mathbb{V}[\hat{\beta}_{FE-FD}] = \hat{\sigma}_e^2 \Bigl(\sum_{i} \Delta X_i^{\prime} \Delta X_i \Bigr)^{-1} 
+\end{gather*}
+where $\hat{\sigma}_e^2$ is a consistent estimator of $\sigma_e^2$, and the simplest estimator is obtained by com-
+puting the OLS residuals:
+\[
+\hat{e}_{it} = \Delta y_{it} - \Delta x_{it} \hat{\beta}_{FE-FD}
+\]
+from the pooled regression.
+
+If the assumption \ref{assumption:FD3} is violated,
+replacing expectations with sample means and $\Delta u_{it}$($e_{it}$) with $\widehat{\Delta u_{it}}$($\hat{e}_{it} $) yields the HAC-robust variance estimator $\hat{V}_{FE-FD}.$
+\begin{gather*}
+    \hat{V}_{FE-FD} = \Bigl( \sum_{i} \Delta X_i^{\prime} \Delta X_i \Bigr)^{-1}  \Bigl( \sum_{i} \Delta X_i^{\prime} \hat{e}_{it} \hat{e}_{it}^{\prime} \Delta X_i \Bigr) \Bigl( \sum_{i} \Delta X_i^{\prime} \Delta X_i \Bigr)^{-1} 
+\end{gather*}
+
+\begin{remark}[About FE-W and FE-FD (Hansen, 2022 \cite{hansen2022econometrics})]
     \
 
     The FD method is not as strong as the within method, because it only requires that the variable is
@@ -265,4 +452,4 @@ Denote the first difference method by $\hat{\beta}_{FE-FD}$, the fixed effect es
 
     If there is a correlation between the error term in current period and two periods ago, there is a problem of feedback loop,
     which we will imply the correlated random effect model.
-\end{note}
+\end{remark}
