@@ -1,28 +1,123 @@
 \section{Basic assumptions}
 \label{sec:basic-assumptions}
 
-As we know, \[
-    \hat{\beta} = (X^{\prime} X)^{-1}X^{\prime} Y \overset{p}{\to} \beta
+Firstly, we recall the basic assumptions of the linear regression model.
+\begin{assumption}[Basic Assumptions]
+    \
+
+    \begin{enumerate}
+        \item[A0.](Correct Specification). Model is correctly specified: $y_i = x_i^{\prime} \beta + u_i$
+
+        \item[A1.](Independent Sampling). Observations $z_i = \{ y_t, x_i \}_{i = 1}^n$ are independent across $i$.
+          
+        \item[A2.](Full rank). The matrix $X'X = \sum x_i x'_i$ is of full rank.
+
+        \item[A3.](Conditional Independence). $\mathbb{E}[u_i | x_i] = 0$.
+          
+        \item[A4.](Homoskedasticity). $\mathbb{V}[u_i | x_i] = \sigma^2$ for all $i$.
+        
+        $\mathbb{V}[y_i] = \mathbb{V}[x'_i \beta + u_i | x_i] = \sigma^2$
+    \end{enumerate}
+\end{assumption}
+
+Under these four basic assumptions, and that $x_i$ is exogenous, giving $\mathbb{E}[x_i u_i] = 0$, then
+\[
+\hat{\beta} = (X^{\prime} X)^{-1}X^{\prime} Y \overset{p}{\to} \beta.
 \]
-if
-\begin{enumerate}
-    \item Model is correctly specified: $y_i = x_i^{\prime} \beta + u_i$
-    \item $X$ is full rank
-    \item $\mathbb{E}[x_i u_i] = 0$: $x_i$ is exogenous.
-    \item Unbiased CIA: $\mathbb{E}[u_i|x_i] = 0$
-\end{enumerate}
 
-\begin{theorem}[Frisch-Waugh-Lovell (FWL) theorem]
-    \label{thm:FWL}
-    \ 
+\section{Frisch-Waugh-Lovell Theorem}\label{sec:FWL}
 
-    Recall: $\hat{Y} = X \hat{\beta} = X(X^{\prime} X)^{-1}X^{\prime} Y = P_X Y$, $Y = \hat{Y} + \hat{U} \rightarrow \hat{U} = (I - P_X)Y = M_X Y$.
+\begin{definition}[Partitioned regression]
+    \
 
-    Take $Y = X_1 \beta_1 + X_2 \beta_2 + U = X \beta ^{\prime} +U$,
-    let $P_1 = X_1 (X_1^{\prime} X_1)^{-1}X_1^{\prime} $, $M_1 = I - P_1$.
+    We consider a normal linear regression model $Y = X \beta + U$.
+    Let $X$ be partitioned as:
+    \[X = \begin{bmatrix}
+        X_1 & X_2
+    \end{bmatrix}\]
+    where $X$ is $n \times K$, $X_1$ is $n \times K_1$ and $X_2$ is $n \times K_2$.
+    And we partition the parameter vector $\beta$ accordingly:
+    \[\beta = \begin{bmatrix}
+        \beta_1 \\
+        \beta_2
+    \end{bmatrix}\]
+    where $\beta_1$ is $K_1 \times 1$ and $\beta_2$ is $K_2 \times 1$.
+    Thus, the model can be written as:
+    \[Y = X_1 \beta_1 + X_2 \beta_2 + U\]
+    where $U$ is the error term.
 
-    And write $M_1 Y = M_1 X_2 b + M_1 U$, then
-    \[\hat{\beta}_{2, OLS} = \hat{b}.\]
+    Also take the following notation:
+    \begin{align*}
+        P_1 = X_1 (X_1^{\prime} X_1)^{-1}X_1^{\prime}, \quad M_1 = I - P_1, \quad \tilde{X}_2 = M_1 X_2, \quad \tilde{U} = M_1 Y
+    \end{align*}
+    thus $\tilde{U}$ is the residual vector from the regression of $Y$ on $X_1$,
+    and the $k$-th column of $\tilde{X}_2$ is the residual vector from the regression of the corresponding $k$-th column of $X_2$ on $X_1$.
+\end{definition}
+
+The OLS estimator $\beta = (\beta_1, \beta_2)$ can be obtained by regression of $Y$ on $X = [X_1, X_2]$, and can be written as:
+\[
+Y = X \hat{\beta} + \hat{U} = X_1 \hat{\beta}_1 + X_2 \hat{\beta}_2 + \hat{U}
+\]
+We are interested in algebraic expressions for $\hat{\beta}_1$ and $\hat{\beta}_2$.
+
+Let's first focus on $\hat{\beta}_1$. The least squares estimator $\hat{\beta}_1$ is found by the joint minimization:
+\[
+(\hat{\beta}_1, \hat{\beta}_2) = \arg\min_{\beta_1, \beta_2} \left( Y - X_1 \beta_1 - X_2 \beta_2 \right)^{\prime} \left( Y - X_1 \beta_1 - X_2 \beta_2 \right)
+\]
+Denote $\left( Y - X_1 \beta_1 - X_2 \beta_2 \right)^{\prime} \left( Y - X_1 \beta_1 - X_2 \beta_2 \right)$ as $\operatorname{SSE}(\beta_1, \beta_2)$.
+
+By nested minimization, we can rewrite the above as:
+\[
+\hat{\beta}_1 = \arg\min_{\beta_1} \left( \min_{\beta_2} \operatorname{SSE}(\beta_1, \beta_2) \right) 
+\]
+For the inner minimization problem: $\min_{\beta_2} \operatorname{SSE}(\beta_1, \beta_2)$,
+this is simply the regression of $Y - X_1 \beta_1$ on $X_2$, with the solution:
+\[
+\arg\min_{\beta_2} \operatorname{SSE}(\beta_1, \beta_2)= (X_2^{\prime} X_2)^{-1} X_2^{\prime} (Y - X_1 \beta_1)
+\]
+with residuals:
+\[
+Y - X_1 \beta_1 - X_2 (X_2^{\prime} X_2)^{-1} X_2^{\prime} (Y - X_1 \beta_1) = (M_2 Y - M_2 X_1 \beta_1) = M_2 (Y - X_1 \beta_1)
+\]
+where $M_2 = I - X_2 (X_2^{\prime} X_2)^{-1} X_2^{\prime}$ is the annihilator matrix for $X_2$.
+
+So the inner minimization problem has minimized value:
+\[
+\min_{\beta_2} \operatorname{SSE}(\beta_1, \beta_2)= (Y - X_1 \beta_1)^{\prime} M_2^{\prime} M_2 (Y - X_1 \beta_1) = (Y - X_1 \beta_1)^{\prime} M_2 (Y - X_1 \beta_1)
+\]
+Substituting this into the outer minimization problem, we have:
+\begin{align*}
+    \hat{\beta}_1 &= \arg \min_{\beta_1} (Y - X_1 \beta_1)^{\prime} M_2 (Y - X_1 \beta_1) \\
+              &= \left( X_1^{\prime} M_2 X_1 \right)^{-1} \left( X_1^{\prime} M_2 Y \right)
+\end{align*}
+By a similar argument we find
+\[
+\hat{\beta}_2 = \left( X_2^{\prime} M_1 X_2 \right)^{-1} \left( X_2^{\prime} M_1 Y \right)
+\]
+By the previous notation and the fact that $M_1$ and $M_2$ are idempotent matrices, we can have:
+\begin{align*}
+    \hat{\beta}_2 &= \left( X_2^{\prime} M_1 X_2 \right)^{-1} \left( X_2^{\prime} M_1 Y \right) \\
+              &= \left( X_2^{\prime} M_1 M_1 X_2 \right)^{-1}  \left( X_2^{\prime} M_1 M_1 Y \right) \\
+              &= \left( \tilde{X}_2^{\prime} \tilde{X}_2 \right)^{-1} \left( \tilde{X}_2 \tilde{U} \right)
+\end{align*}
+Thus the coefficient estimator $\hat{\beta}_2$ is algebraically equivalent to the OLS estimator of the regression of $\tilde{U}$ on $\tilde{X}_2$.
+Notice that these two are $M_1 Y$ and $M_1 X_2$, and we know that pre-multiplication by $M_1$ creates least squares residuals.
+Therefoe, $\tilde{U}$ is simply the least squares residual from a regression of $Y$ on $X_1$,
+and the columns of $\tilde{X}_2$ are the least squares residuals from a regression of the columns of $X_2$ on $X_1$.
+From the above steps, we have proven the following theorem.
+
+\begin{theorem}[Frisch-Waugh-Lovell (FWL) theorem]\label{thm:FWL}
+    \
+
+    In the model $Y = X_1 \beta_1 + X_2 \beta_2 + U$, the OLS estimator of $\beta_2$ and the OLS residuals $\hat{U}$ may be
+    computed via the following two steps:
+    \begin{enumerate}
+        \item Regress $Y$ on $X_1$ and obtain the residuals $\hat{U}_1 = Y - X_1 \hat{\beta}_1$.
+        \item Regress the columns of $X_2$ on $X_1$ and obtain the residuals $\tilde{X}_2 = M_1 X_2$.
+        \item Regress $\hat{U}$ on $\tilde{X}_2$: $\hat{U} = \tilde{X}_2 b + V$ and obtain the OLS estimator $\hat{\beta}_2 = \hat{b}$ and the residual $\hat{U} = \hat{V}$.
+    \end{enumerate}
+    % And write $M_1 Y = M_1 X_2 b + M_1 U$, then
+    % \[\hat{\beta}_{2, OLS} = \hat{b}.\]
 \end{theorem}
 
 \section{Endogeneity}

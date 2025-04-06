@@ -58,17 +58,17 @@ The FOC of this equation is:
   \left(\sum_i \tilde{X}_i^{\prime} \tilde{X}_i \right) \tilde{\beta} &= \sum_i \tilde{X}_i^{\prime} y_i \\
   \hat{\tilde{\beta}}_{POLS} &= \left(\sum_i \tilde{X}_i^{\prime} \tilde{X}_i \right)^{-1} \sum_i \tilde{X}_i^{\prime} y_i \\
   &= \left(\sum_i \sum_t \tilde{x}_{it} \tilde{x}_{it}^{\prime} \right)^{-1} \left( \sum_i \sum_t \tilde{x}_{it} y_{it} \right) \\
-  &= \tilde{\beta} + \left(\frac{1}{n} \sum_i \sum_t \tilde{x}_{it} \tilde{x}_{it}^{\prime} \right)^{-1} \left( \sum_i \sum_t \tilde{x}_{it} u_{it} \right) \\
+  &= \tilde{\beta} + \left(\frac{1}{nT} \sum_i \sum_t \tilde{x}_{it} \tilde{x}_{it}^{\prime} \right)^{-1} \frac{1}{nT} \left( \sum_i \sum_t \tilde{x}_{it} u_{it} \right) \\
   & \overset{p}{\rightarrow} \tilde{\beta} + \mathbb{E}\left[\sum_t \tilde{x}_{it} \tilde{x}_{it}^{\prime} \right] \mathbb{E}\left[\sum_t \tilde{x}_{it} u_{it} \right] \\
   &= \tilde{\beta}
 \end{align*}
-Hence $\hat{\beta}_{OLS}$ is consistent provided that $x_{it}$ and $u_{it}$ are contemperaneously uncorrelated,
+Hence $\hat{\beta}_{OLS}$ is consistent provided that $x_{it}$ and $u_{it}$ are contemporaneously uncorrelated,
 as $\mathbb{E}[x_{it} u_{it}] = 0, \forall t.$
 The regressors are allowed to be correlated with the past, and future $u_{it}$.
 This occurs when there's feedback loop by which $y_{i,t-1}$ affects $x_{it}$.
 
 In this proof, we show that either $N \to \infty $ or $T \to  \infty $ is sufficient for consistency of $\hat{\beta}_{POLS}$.
-However, most panel data applications have a large $n$ and small $T$ dimension, so standrad panel data
+However, most panel data applications have a large $n$ and small $T$ dimension, so standard panel data
 features $T$ fixed and $n \to \infty $.
 
 \subsection{Asymptotic Normality}
@@ -81,7 +81,7 @@ Hence:
 \begin{align*}
     \sqrt{n} (\hat{\tilde{\beta}}_{POLS}  - \tilde{\beta}) &= \left(\frac{1}{n} \sum_i \tilde{X}_i^{\prime} \tilde{X}_i \right)^{-1} \left(\frac{1}{\sqrt{n} } \sum_i \tilde{X}_i^{\prime} u_i \right) \\
     & \overset{p}{\rightarrow}\mathbb{E}[\tilde{X}_i^{\prime} \tilde{X}_i]^{-1} \overset{d}{\rightarrow} \mathcal{N}\left(0, \mathbb{E}\left[\left(\tilde{X}_i^{\prime} u_i\right) \left(\tilde{X}_i^{\prime} u_i\right)^{\prime} \right] \right)\\
-    & \overset{d}{\rightarrow} \mathcal{N} \left(0, \mathbb{E}\left[\tilde{X}_i^{\prime} \tilde{X}_i \right]^{-1} \mathbb{E}\left[\tilde{X}_i^{\prime} u_i u_i^{\prime} \tilde{X}_i \right] \mathbb{E}\left[\tilde{X}_i^{\prime} \tilde{X}_i \right] \right)
+    & \overset{d}{\rightarrow} \mathcal{N} \left(0, \mathbb{E}\left[\tilde{X}_i^{\prime} \tilde{X}_i \right]^{-1} \mathbb{E}\left[\tilde{X}_i^{\prime} u_i u_i^{\prime} \tilde{X}_i \right] \mathbb{E}\left[\tilde{X}_i^{\prime} \tilde{X}_i \right]^{-1} \right)
 \end{align*}
 
 
