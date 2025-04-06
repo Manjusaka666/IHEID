@@ -1,0 +1,801 @@
+% $ biblatex auxiliary file $
+% $ biblatex bbl format version 3.3 $
+% Do not modify the above lines!
+%
+% This is an auxiliary file used by the 'biblatex' package.
+% This file may safely be deleted. It will be recreated by
+% biber as required.
+%
+\begingroup
+\makeatletter
+\@ifundefined{ver@biblatex.sty}
+  {\@latex@error
+     {Missing 'biblatex' package}
+     {The bibliography requires the 'biblatex' package.}
+      \aftergroup\endinput}
+  {}
+\endgroup
+
+
+\refsection{0}
+  \datalist[entry]{none/global//global/global/global}
+    \entry{rubin1975bayesian}{article}{}{}
+      \name{author}{1}{}{%
+        {{hash=49a367b6280de8a239f8bbdd573f996f}{%
+           family={Rubin},
+           familyi={R\bibinitperiod},
+           given={Donald\bibnamedelima B.},
+           giveni={D\bibinitperiod\bibinitdelim B\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {Institute of Mathematical Statistics}%
+      }
+      \strng{namehash}{49a367b6280de8a239f8bbdd573f996f}
+      \strng{fullhash}{49a367b6280de8a239f8bbdd573f996f}
+      \strng{fullhashraw}{49a367b6280de8a239f8bbdd573f996f}
+      \strng{bibnamehash}{49a367b6280de8a239f8bbdd573f996f}
+      \strng{authorbibnamehash}{49a367b6280de8a239f8bbdd573f996f}
+      \strng{authornamehash}{49a367b6280de8a239f8bbdd573f996f}
+      \strng{authorfullhash}{49a367b6280de8a239f8bbdd573f996f}
+      \strng{authorfullhashraw}{49a367b6280de8a239f8bbdd573f996f}
+      \field{extraname}{1}
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{The Annals of Statistics}
+      \field{number}{1}
+      \field{title}{Bayesian Inference for Causality: The Importance of Randomization}
+      \field{volume}{3}
+      \field{year}{1975}
+      \field{pages}{121\bibrangedash 131}
+      \range{pages}{11}
+      \verb{doi}
+      \verb 10.1214/aos/1176343238
+      \endverb
+    \endentry
+    \entry{holland1986statistics}{article}{}{}
+      \name{author}{1}{}{%
+        {{hash=f77d8823946c674172702e2a9422f960}{%
+           family={Holland},
+           familyi={H\bibinitperiod},
+           given={Paul\bibnamedelima W.},
+           giveni={P\bibinitperiod\bibinitdelim W\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {Taylor \& Francis, Ltd. on behalf of the American Statistical Association}%
+      }
+      \strng{namehash}{f77d8823946c674172702e2a9422f960}
+      \strng{fullhash}{f77d8823946c674172702e2a9422f960}
+      \strng{fullhashraw}{f77d8823946c674172702e2a9422f960}
+      \strng{bibnamehash}{f77d8823946c674172702e2a9422f960}
+      \strng{authorbibnamehash}{f77d8823946c674172702e2a9422f960}
+      \strng{authornamehash}{f77d8823946c674172702e2a9422f960}
+      \strng{authorfullhash}{f77d8823946c674172702e2a9422f960}
+      \strng{authorfullhashraw}{f77d8823946c674172702e2a9422f960}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Journal of the American Statistical Association}
+      \field{number}{396}
+      \field{title}{Statistics and Causal Inference(with discussion)}
+      \field{volume}{81}
+      \field{year}{1986}
+      \field{pages}{945\bibrangedash 960}
+      \range{pages}{16}
+      \verb{doi}
+      \verb 10.1080/01621459.1986.10478373
+      \endverb
+    \endentry
+    \entry{ding2023causalinference}{book}{}{}
+      \name{author}{1}{}{%
+        {{hash=284b1660e81956ee8b9e73c17795c851}{%
+           family={Ding},
+           familyi={D\bibinitperiod},
+           given={Peng},
+           giveni={P\bibinitperiod}}}%
+      }
+      \strng{namehash}{284b1660e81956ee8b9e73c17795c851}
+      \strng{fullhash}{284b1660e81956ee8b9e73c17795c851}
+      \strng{fullhashraw}{284b1660e81956ee8b9e73c17795c851}
+      \strng{bibnamehash}{284b1660e81956ee8b9e73c17795c851}
+      \strng{authorbibnamehash}{284b1660e81956ee8b9e73c17795c851}
+      \strng{authornamehash}{284b1660e81956ee8b9e73c17795c851}
+      \strng{authorfullhash}{284b1660e81956ee8b9e73c17795c851}
+      \strng{authorfullhashraw}{284b1660e81956ee8b9e73c17795c851}
+      \field{sortinit}{3}
+      \field{sortinithash}{ad6fe7482ffbd7b9f99c9e8b5dccd3d7}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{eprintclass}{stat.ME}
+      \field{eprinttype}{arXiv}
+      \field{title}{A First Course in Causal Inference}
+      \field{year}{2023}
+      \verb{eprint}
+      \verb 2305.18793
+      \endverb
+      \verb{urlraw}
+      \verb https://arxiv.org/abs/2305.18793
+      \endverb
+      \verb{url}
+      \verb https://arxiv.org/abs/2305.18793
+      \endverb
+    \endentry
+    \entry{neyman1923experiment}{article}{}{}
+      \name{author}{1}{}{%
+        {{hash=2e9a89bf0a1281de5b3c321d52d56b73}{%
+           family={Neyman},
+           familyi={N\bibinitperiod},
+           given={Jerzy},
+           giveni={J\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {Institute of Mathematical Statistics}%
+      }
+      \strng{namehash}{2e9a89bf0a1281de5b3c321d52d56b73}
+      \strng{fullhash}{2e9a89bf0a1281de5b3c321d52d56b73}
+      \strng{fullhashraw}{2e9a89bf0a1281de5b3c321d52d56b73}
+      \strng{bibnamehash}{2e9a89bf0a1281de5b3c321d52d56b73}
+      \strng{authorbibnamehash}{2e9a89bf0a1281de5b3c321d52d56b73}
+      \strng{authornamehash}{2e9a89bf0a1281de5b3c321d52d56b73}
+      \strng{authorfullhash}{2e9a89bf0a1281de5b3c321d52d56b73}
+      \strng{authorfullhashraw}{2e9a89bf0a1281de5b3c321d52d56b73}
+      \field{sortinit}{4}
+      \field{sortinithash}{9381316451d1b9788675a07e972a12a7}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Statistical Science}
+      \field{number}{4}
+      \field{title}{On the Application of Probability Theory to Agricultural Experiments. Essay on Principles. Section 9}
+      \field{volume}{5}
+      \field{year}{1923}
+      \field{pages}{465\bibrangedash 472}
+      \range{pages}{8}
+    \endentry
+    \entry{rubin1974estimating}{article}{}{}
+      \name{author}{1}{}{%
+        {{hash=49a367b6280de8a239f8bbdd573f996f}{%
+           family={Rubin},
+           familyi={R\bibinitperiod},
+           given={Donald\bibnamedelima B.},
+           giveni={D\bibinitperiod\bibinitdelim B\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {American Psychological Association}%
+      }
+      \strng{namehash}{49a367b6280de8a239f8bbdd573f996f}
+      \strng{fullhash}{49a367b6280de8a239f8bbdd573f996f}
+      \strng{fullhashraw}{49a367b6280de8a239f8bbdd573f996f}
+      \strng{bibnamehash}{49a367b6280de8a239f8bbdd573f996f}
+      \strng{authorbibnamehash}{49a367b6280de8a239f8bbdd573f996f}
+      \strng{authornamehash}{49a367b6280de8a239f8bbdd573f996f}
+      \strng{authorfullhash}{49a367b6280de8a239f8bbdd573f996f}
+      \strng{authorfullhashraw}{49a367b6280de8a239f8bbdd573f996f}
+      \field{extraname}{2}
+      \field{sortinit}{5}
+      \field{sortinithash}{20e9b4b0b173788c5dace24730f47d8c}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Journal of Educational Psychology}
+      \field{number}{5}
+      \field{title}{Estimating Causal Effects of Treatments in Randomized and Nonrandomized Studies}
+      \field{volume}{66}
+      \field{year}{1974}
+      \field{pages}{688\bibrangedash 701}
+      \range{pages}{14}
+      \verb{doi}
+      \verb 10.1037/h0037350
+      \endverb
+    \endentry
+    \entry{rubin1980comment}{article}{}{}
+      \name{author}{1}{}{%
+        {{hash=49a367b6280de8a239f8bbdd573f996f}{%
+           family={Rubin},
+           familyi={R\bibinitperiod},
+           given={Donald\bibnamedelima B.},
+           giveni={D\bibinitperiod\bibinitdelim B\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {Taylor \& Francis, Ltd. on behalf of the American Statistical Association}%
+      }
+      \strng{namehash}{49a367b6280de8a239f8bbdd573f996f}
+      \strng{fullhash}{49a367b6280de8a239f8bbdd573f996f}
+      \strng{fullhashraw}{49a367b6280de8a239f8bbdd573f996f}
+      \strng{bibnamehash}{49a367b6280de8a239f8bbdd573f996f}
+      \strng{authorbibnamehash}{49a367b6280de8a239f8bbdd573f996f}
+      \strng{authornamehash}{49a367b6280de8a239f8bbdd573f996f}
+      \strng{authorfullhash}{49a367b6280de8a239f8bbdd573f996f}
+      \strng{authorfullhashraw}{49a367b6280de8a239f8bbdd573f996f}
+      \field{extraname}{3}
+      \field{sortinit}{7}
+      \field{sortinithash}{108d0be1b1bee9773a1173443802c0a3}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Journal of the American Statistical Association}
+      \field{number}{371}
+      \field{title}{Comment on "Randomization Analysis of Experimental Data: The Fisher Randomization Test" by D. Basu}
+      \field{volume}{75}
+      \field{year}{1980}
+      \field{pages}{591\bibrangedash 593}
+      \range{pages}{3}
+      \verb{doi}
+      \verb 10.1080/01621459.1980.10477410
+      \endverb
+    \endentry
+    \entry{rubin2005causal}{article}{}{}
+      \name{author}{1}{}{%
+        {{hash=49a367b6280de8a239f8bbdd573f996f}{%
+           family={Rubin},
+           familyi={R\bibinitperiod},
+           given={Donald\bibnamedelima B.},
+           giveni={D\bibinitperiod\bibinitdelim B\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {Taylor \& Francis, Ltd. on behalf of the American Statistical Association}%
+      }
+      \strng{namehash}{49a367b6280de8a239f8bbdd573f996f}
+      \strng{fullhash}{49a367b6280de8a239f8bbdd573f996f}
+      \strng{fullhashraw}{49a367b6280de8a239f8bbdd573f996f}
+      \strng{bibnamehash}{49a367b6280de8a239f8bbdd573f996f}
+      \strng{authorbibnamehash}{49a367b6280de8a239f8bbdd573f996f}
+      \strng{authornamehash}{49a367b6280de8a239f8bbdd573f996f}
+      \strng{authorfullhash}{49a367b6280de8a239f8bbdd573f996f}
+      \strng{authorfullhashraw}{49a367b6280de8a239f8bbdd573f996f}
+      \field{extraname}{4}
+      \field{sortinit}{9}
+      \field{sortinithash}{0a5ebc79d83c96b6579069544c73c7d4}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Journal of the American Statistical Association}
+      \field{number}{469}
+      \field{title}{Causal Inference Using Potential Outcomes: Design, Modeling, Decisions}
+      \field{volume}{100}
+      \field{year}{2005}
+      \field{pages}{322\bibrangedash 331}
+      \range{pages}{10}
+      \verb{doi}
+      \verb 10.1198/016214504000001880
+      \endverb
+    \endentry
+    \entry{hansen2022econometrics}{book}{}{}
+      \name{author}{1}{}{%
+        {{hash=8ca4db09e38933c7a4bd5629789effa6}{%
+           family={Hansen},
+           familyi={H\bibinitperiod},
+           given={Bruce\bibnamedelima E.},
+           giveni={B\bibinitperiod\bibinitdelim E\bibinitperiod}}}%
+      }
+      \list{location}{1}{%
+        {Princeton, New Jersey}%
+      }
+      \list{publisher}{1}{%
+        {Princeton University Press}%
+      }
+      \strng{namehash}{8ca4db09e38933c7a4bd5629789effa6}
+      \strng{fullhash}{8ca4db09e38933c7a4bd5629789effa6}
+      \strng{fullhashraw}{8ca4db09e38933c7a4bd5629789effa6}
+      \strng{bibnamehash}{8ca4db09e38933c7a4bd5629789effa6}
+      \strng{authorbibnamehash}{8ca4db09e38933c7a4bd5629789effa6}
+      \strng{authornamehash}{8ca4db09e38933c7a4bd5629789effa6}
+      \strng{authorfullhash}{8ca4db09e38933c7a4bd5629789effa6}
+      \strng{authorfullhashraw}{8ca4db09e38933c7a4bd5629789effa6}
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{Econometrics}
+      \field{year}{2022}
+    \endentry
+    \entry{wooldridge2010econometric}{book}{}{}
+      \name{author}{1}{}{%
+        {{hash=c93aeef4998e670d5343b7e632c431dc}{%
+           family={Wooldridge},
+           familyi={W\bibinitperiod},
+           given={Jeffrey\bibnamedelima M.},
+           giveni={J\bibinitperiod\bibinitdelim M\bibinitperiod}}}%
+      }
+      \list{location}{1}{%
+        {Cambridge, Massachusetts}%
+      }
+      \list{publisher}{1}{%
+        {The MIT Press}%
+      }
+      \strng{namehash}{c93aeef4998e670d5343b7e632c431dc}
+      \strng{fullhash}{c93aeef4998e670d5343b7e632c431dc}
+      \strng{fullhashraw}{c93aeef4998e670d5343b7e632c431dc}
+      \strng{bibnamehash}{c93aeef4998e670d5343b7e632c431dc}
+      \strng{authorbibnamehash}{c93aeef4998e670d5343b7e632c431dc}
+      \strng{authornamehash}{c93aeef4998e670d5343b7e632c431dc}
+      \strng{authorfullhash}{c93aeef4998e670d5343b7e632c431dc}
+      \strng{authorfullhashraw}{c93aeef4998e670d5343b7e632c431dc}
+      \field{extraname}{1}
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{edition}{2}
+      \field{title}{Econometric Analysis of Cross Section and Panel Data}
+      \field{year}{2010}
+    \endentry
+    \entry{stock2003introduction}{book}{}{}
+      \name{author}{2}{}{%
+        {{hash=2d01c3b46f4061430cc9eb2a1f6408a4}{%
+           family={Stock},
+           familyi={S\bibinitperiod},
+           given={James\bibnamedelima H.},
+           giveni={J\bibinitperiod\bibinitdelim H\bibinitperiod}}}%
+        {{hash=a4050fd715c1bcb50e38ec0f1c74b6bf}{%
+           family={Watson},
+           familyi={W\bibinitperiod},
+           given={Mark\bibnamedelima W.},
+           giveni={M\bibinitperiod\bibinitdelim W\bibinitperiod}}}%
+      }
+      \list{location}{1}{%
+        {New York}%
+      }
+      \list{publisher}{1}{%
+        {Pearson}%
+      }
+      \strng{namehash}{73bd348d7c311859349e1b99e53d984a}
+      \strng{fullhash}{73bd348d7c311859349e1b99e53d984a}
+      \strng{fullhashraw}{73bd348d7c311859349e1b99e53d984a}
+      \strng{bibnamehash}{73bd348d7c311859349e1b99e53d984a}
+      \strng{authorbibnamehash}{73bd348d7c311859349e1b99e53d984a}
+      \strng{authornamehash}{73bd348d7c311859349e1b99e53d984a}
+      \strng{authorfullhash}{73bd348d7c311859349e1b99e53d984a}
+      \strng{authorfullhashraw}{73bd348d7c311859349e1b99e53d984a}
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{edition}{4}
+      \field{title}{Introduction to Econometrics}
+      \field{year}{2003}
+      \true{nocite}
+    \endentry
+    \entry{wooldridge2020introductory}{book}{}{}
+      \name{author}{1}{}{%
+        {{hash=c93aeef4998e670d5343b7e632c431dc}{%
+           family={Wooldridge},
+           familyi={W\bibinitperiod},
+           given={Jeffrey\bibnamedelima M.},
+           giveni={J\bibinitperiod\bibinitdelim M\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {Cengage Learning}%
+      }
+      \strng{namehash}{c93aeef4998e670d5343b7e632c431dc}
+      \strng{fullhash}{c93aeef4998e670d5343b7e632c431dc}
+      \strng{fullhashraw}{c93aeef4998e670d5343b7e632c431dc}
+      \strng{bibnamehash}{c93aeef4998e670d5343b7e632c431dc}
+      \strng{authorbibnamehash}{c93aeef4998e670d5343b7e632c431dc}
+      \strng{authornamehash}{c93aeef4998e670d5343b7e632c431dc}
+      \strng{authorfullhash}{c93aeef4998e670d5343b7e632c431dc}
+      \strng{authorfullhashraw}{c93aeef4998e670d5343b7e632c431dc}
+      \field{extraname}{2}
+      \field{sortinit}{1}
+      \field{sortinithash}{4f6aaa89bab872aa0999fec09ff8e98a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{edition}{7}
+      \field{title}{Introductory Econometrics: A Modern Approach}
+      \field{year}{2020}
+      \true{nocite}
+    \endentry
+    \entry{hayashi2000econometrics}{book}{}{}
+      \name{author}{1}{}{%
+        {{hash=3e8f39031776366701c90bced3d28cfa}{%
+           family={Hayashi},
+           familyi={H\bibinitperiod},
+           given={Fumio},
+           giveni={F\bibinitperiod}}}%
+      }
+      \list{location}{1}{%
+        {Princeton, New Jersey}%
+      }
+      \list{publisher}{1}{%
+        {Princeton University Press}%
+      }
+      \strng{namehash}{3e8f39031776366701c90bced3d28cfa}
+      \strng{fullhash}{3e8f39031776366701c90bced3d28cfa}
+      \strng{fullhashraw}{3e8f39031776366701c90bced3d28cfa}
+      \strng{bibnamehash}{3e8f39031776366701c90bced3d28cfa}
+      \strng{authorbibnamehash}{3e8f39031776366701c90bced3d28cfa}
+      \strng{authornamehash}{3e8f39031776366701c90bced3d28cfa}
+      \strng{authorfullhash}{3e8f39031776366701c90bced3d28cfa}
+      \strng{authorfullhashraw}{3e8f39031776366701c90bced3d28cfa}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{Econometrics}
+      \field{year}{2000}
+      \true{nocite}
+    \endentry
+    \entry{chan2019bayesian}{book}{}{}
+      \name{author}{4}{}{%
+        {{hash=75bc7e6c2226e7dbe5e4687809859373}{%
+           family={Chan},
+           familyi={C\bibinitperiod},
+           given={Joshua},
+           giveni={J\bibinitperiod}}}%
+        {{hash=d0dcf74a093eaf9aa1d1b58954d78300}{%
+           family={Koop},
+           familyi={K\bibinitperiod},
+           given={Gary},
+           giveni={G\bibinitperiod}}}%
+        {{hash=0952b0a7a860f92f19040847ce339b45}{%
+           family={Poirier},
+           familyi={P\bibinitperiod},
+           given={Dale\bibnamedelima J.},
+           giveni={D\bibinitperiod\bibinitdelim J\bibinitperiod}}}%
+        {{hash=d3445e0cf026198999f9d99920678069}{%
+           family={Tobias},
+           familyi={T\bibinitperiod},
+           given={Justin\bibnamedelima L.},
+           giveni={J\bibinitperiod\bibinitdelim L\bibinitperiod}}}%
+      }
+      \list{location}{1}{%
+        {Cambridge, United Kingdom}%
+      }
+      \list{publisher}{1}{%
+        {Cambridge University Press}%
+      }
+      \strng{namehash}{2758824e96f2e20f2e1e975b0a16fb0b}
+      \strng{fullhash}{f3cda07f5b31e7d5e27c8dcd92a6192c}
+      \strng{fullhashraw}{f3cda07f5b31e7d5e27c8dcd92a6192c}
+      \strng{bibnamehash}{2758824e96f2e20f2e1e975b0a16fb0b}
+      \strng{authorbibnamehash}{2758824e96f2e20f2e1e975b0a16fb0b}
+      \strng{authornamehash}{2758824e96f2e20f2e1e975b0a16fb0b}
+      \strng{authorfullhash}{f3cda07f5b31e7d5e27c8dcd92a6192c}
+      \strng{authorfullhashraw}{f3cda07f5b31e7d5e27c8dcd92a6192c}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{edition}{2}
+      \field{title}{Bayesian Econometric Methods}
+      \field{year}{2019}
+      \true{nocite}
+    \endentry
+    \entry{baltagi2021econometric}{book}{}{}
+      \name{author}{1}{}{%
+        {{hash=1f21d8e74849c2eaf7c9bee7786534b7}{%
+           family={Baltagi},
+           familyi={B\bibinitperiod},
+           given={Badi\bibnamedelima H.},
+           giveni={B\bibinitperiod\bibinitdelim H\bibinitperiod}}}%
+      }
+      \list{location}{1}{%
+        {Cham, Switzerland}%
+      }
+      \list{publisher}{1}{%
+        {Springer}%
+      }
+      \strng{namehash}{1f21d8e74849c2eaf7c9bee7786534b7}
+      \strng{fullhash}{1f21d8e74849c2eaf7c9bee7786534b7}
+      \strng{fullhashraw}{1f21d8e74849c2eaf7c9bee7786534b7}
+      \strng{bibnamehash}{1f21d8e74849c2eaf7c9bee7786534b7}
+      \strng{authorbibnamehash}{1f21d8e74849c2eaf7c9bee7786534b7}
+      \strng{authornamehash}{1f21d8e74849c2eaf7c9bee7786534b7}
+      \strng{authorfullhash}{1f21d8e74849c2eaf7c9bee7786534b7}
+      \strng{authorfullhashraw}{1f21d8e74849c2eaf7c9bee7786534b7}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{edition}{6}
+      \field{title}{Econometric Analysis of Panel Data}
+      \field{year}{2021}
+      \true{nocite}
+    \endentry
+    \entry{hamilton1994time}{book}{}{}
+      \name{author}{1}{}{%
+        {{hash=f1528bc518ebb8f6103311513805ac7d}{%
+           family={Hamilton},
+           familyi={H\bibinitperiod},
+           given={James\bibnamedelima D.},
+           giveni={J\bibinitperiod\bibinitdelim D\bibinitperiod}}}%
+      }
+      \list{location}{1}{%
+        {Princeton, New Jersey}%
+      }
+      \list{publisher}{1}{%
+        {Princeton University Press}%
+      }
+      \strng{namehash}{f1528bc518ebb8f6103311513805ac7d}
+      \strng{fullhash}{f1528bc518ebb8f6103311513805ac7d}
+      \strng{fullhashraw}{f1528bc518ebb8f6103311513805ac7d}
+      \strng{bibnamehash}{f1528bc518ebb8f6103311513805ac7d}
+      \strng{authorbibnamehash}{f1528bc518ebb8f6103311513805ac7d}
+      \strng{authornamehash}{f1528bc518ebb8f6103311513805ac7d}
+      \strng{authorfullhash}{f1528bc518ebb8f6103311513805ac7d}
+      \strng{authorfullhashraw}{f1528bc518ebb8f6103311513805ac7d}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{isbn}{9780691042893}
+      \field{title}{Time Series Analysis}
+      \field{year}{1994}
+      \true{nocite}
+    \endentry
+    \entry{amemiya1985advanced}{book}{}{}
+      \name{author}{1}{}{%
+        {{hash=51e1a3ce6d15ec2678642fc6ded682da}{%
+           family={Amemiya},
+           familyi={A\bibinitperiod},
+           given={Takeshi},
+           giveni={T\bibinitperiod}}}%
+      }
+      \list{location}{1}{%
+        {Cambridge, MA}%
+      }
+      \list{publisher}{1}{%
+        {Harvard University Press}%
+      }
+      \strng{namehash}{51e1a3ce6d15ec2678642fc6ded682da}
+      \strng{fullhash}{51e1a3ce6d15ec2678642fc6ded682da}
+      \strng{fullhashraw}{51e1a3ce6d15ec2678642fc6ded682da}
+      \strng{bibnamehash}{51e1a3ce6d15ec2678642fc6ded682da}
+      \strng{authorbibnamehash}{51e1a3ce6d15ec2678642fc6ded682da}
+      \strng{authornamehash}{51e1a3ce6d15ec2678642fc6ded682da}
+      \strng{authorfullhash}{51e1a3ce6d15ec2678642fc6ded682da}
+      \strng{authorfullhashraw}{51e1a3ce6d15ec2678642fc6ded682da}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{Advanced Econometrics}
+      \field{year}{1985}
+      \true{nocite}
+    \endentry
+    \entry{bowden1973theory}{article}{}{}
+      \name{author}{1}{}{%
+        {{hash=f4fdf8b17b59fc6c5c86d1bc04b453b6}{%
+           family={Bowden},
+           familyi={B\bibinitperiod},
+           given={Roger},
+           giveni={R\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {The Econometric Society}%
+      }
+      \strng{namehash}{f4fdf8b17b59fc6c5c86d1bc04b453b6}
+      \strng{fullhash}{f4fdf8b17b59fc6c5c86d1bc04b453b6}
+      \strng{fullhashraw}{f4fdf8b17b59fc6c5c86d1bc04b453b6}
+      \strng{bibnamehash}{f4fdf8b17b59fc6c5c86d1bc04b453b6}
+      \strng{authorbibnamehash}{f4fdf8b17b59fc6c5c86d1bc04b453b6}
+      \strng{authornamehash}{f4fdf8b17b59fc6c5c86d1bc04b453b6}
+      \strng{authorfullhash}{f4fdf8b17b59fc6c5c86d1bc04b453b6}
+      \strng{authorfullhashraw}{f4fdf8b17b59fc6c5c86d1bc04b453b6}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Econometrica}
+      \field{number}{6}
+      \field{title}{The Theory of Parametric Identification}
+      \field{volume}{41}
+      \field{year}{1973}
+      \true{nocite}
+      \field{pages}{1069\bibrangedash 1074}
+      \range{pages}{6}
+      \verb{doi}
+      \verb 10.2307/1914036
+      \endverb
+    \endentry
+    \entry{jennrich1969asymptotic}{article}{}{}
+      \name{author}{1}{}{%
+        {{hash=cd83e4a1734ff63737e24032a6e30b28}{%
+           family={Jennrich},
+           familyi={J\bibinitperiod},
+           given={Robert\bibnamedelima I.},
+           giveni={R\bibinitperiod\bibinitdelim I\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {Institute of Mathematical Statistics}%
+      }
+      \strng{namehash}{cd83e4a1734ff63737e24032a6e30b28}
+      \strng{fullhash}{cd83e4a1734ff63737e24032a6e30b28}
+      \strng{fullhashraw}{cd83e4a1734ff63737e24032a6e30b28}
+      \strng{bibnamehash}{cd83e4a1734ff63737e24032a6e30b28}
+      \strng{authorbibnamehash}{cd83e4a1734ff63737e24032a6e30b28}
+      \strng{authornamehash}{cd83e4a1734ff63737e24032a6e30b28}
+      \strng{authorfullhash}{cd83e4a1734ff63737e24032a6e30b28}
+      \strng{authorfullhashraw}{cd83e4a1734ff63737e24032a6e30b28}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{The Annals of Mathematical Statistics}
+      \field{number}{2}
+      \field{title}{Asymptotic Properties of Non-linear Least Squares Estimators}
+      \field{volume}{40}
+      \field{year}{1969}
+      \true{nocite}
+      \field{pages}{633\bibrangedash 643}
+      \range{pages}{11}
+      \verb{doi}
+      \verb 10.1214/aoms/1177697731
+      \endverb
+    \endentry
+    \entry{keane1992identification}{article}{}{}
+      \name{author}{1}{}{%
+        {{hash=cc85af386098cb9c11d24d4ca26249ca}{%
+           family={Keane},
+           familyi={K\bibinitperiod},
+           given={Michael\bibnamedelima P.},
+           giveni={M\bibinitperiod\bibinitdelim P\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {Taylor \& Francis, Ltd. on behalf of American Statistical Association}%
+      }
+      \strng{namehash}{cc85af386098cb9c11d24d4ca26249ca}
+      \strng{fullhash}{cc85af386098cb9c11d24d4ca26249ca}
+      \strng{fullhashraw}{cc85af386098cb9c11d24d4ca26249ca}
+      \strng{bibnamehash}{cc85af386098cb9c11d24d4ca26249ca}
+      \strng{authorbibnamehash}{cc85af386098cb9c11d24d4ca26249ca}
+      \strng{authornamehash}{cc85af386098cb9c11d24d4ca26249ca}
+      \strng{authorfullhash}{cc85af386098cb9c11d24d4ca26249ca}
+      \strng{authorfullhashraw}{cc85af386098cb9c11d24d4ca26249ca}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Journal of Business \& Economic Statistics}
+      \field{number}{2}
+      \field{title}{A Note on Identification in the Multinomial Probit Model}
+      \field{volume}{10}
+      \field{year}{1992}
+      \true{nocite}
+      \field{pages}{193\bibrangedash 200}
+      \range{pages}{8}
+      \verb{doi}
+      \verb 10.1080/07350015.1992.10509906
+      \endverb
+    \endentry
+    \entry{rothenberg1971identification}{article}{}{}
+      \name{author}{1}{}{%
+        {{hash=a6f747a47578838fd1d4e3efdd7e5db0}{%
+           family={Rothenberg},
+           familyi={R\bibinitperiod},
+           given={Thomas\bibnamedelima J.},
+           giveni={T\bibinitperiod\bibinitdelim J\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {The Econometric Society}%
+      }
+      \strng{namehash}{a6f747a47578838fd1d4e3efdd7e5db0}
+      \strng{fullhash}{a6f747a47578838fd1d4e3efdd7e5db0}
+      \strng{fullhashraw}{a6f747a47578838fd1d4e3efdd7e5db0}
+      \strng{bibnamehash}{a6f747a47578838fd1d4e3efdd7e5db0}
+      \strng{authorbibnamehash}{a6f747a47578838fd1d4e3efdd7e5db0}
+      \strng{authornamehash}{a6f747a47578838fd1d4e3efdd7e5db0}
+      \strng{authorfullhash}{a6f747a47578838fd1d4e3efdd7e5db0}
+      \strng{authorfullhashraw}{a6f747a47578838fd1d4e3efdd7e5db0}
+      \field{sortinit}{3}
+      \field{sortinithash}{ad6fe7482ffbd7b9f99c9e8b5dccd3d7}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Econometrica}
+      \field{number}{3}
+      \field{title}{Identification in Parametric Models}
+      \field{volume}{39}
+      \field{year}{1971}
+      \true{nocite}
+      \field{pages}{577\bibrangedash 591}
+      \range{pages}{15}
+      \verb{doi}
+      \verb 10.2307/1913267
+      \endverb
+    \endentry
+    \entry{tauchen1985diagnostic}{article}{}{}
+      \name{author}{1}{}{%
+        {{hash=c2837df63f1b22ad96840c3c9f06e05a}{%
+           family={Tauchen},
+           familyi={T\bibinitperiod},
+           given={George},
+           giveni={G\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {North-Holland}%
+      }
+      \strng{namehash}{c2837df63f1b22ad96840c3c9f06e05a}
+      \strng{fullhash}{c2837df63f1b22ad96840c3c9f06e05a}
+      \strng{fullhashraw}{c2837df63f1b22ad96840c3c9f06e05a}
+      \strng{bibnamehash}{c2837df63f1b22ad96840c3c9f06e05a}
+      \strng{authorbibnamehash}{c2837df63f1b22ad96840c3c9f06e05a}
+      \strng{authornamehash}{c2837df63f1b22ad96840c3c9f06e05a}
+      \strng{authorfullhash}{c2837df63f1b22ad96840c3c9f06e05a}
+      \strng{authorfullhashraw}{c2837df63f1b22ad96840c3c9f06e05a}
+      \field{sortinit}{3}
+      \field{sortinithash}{ad6fe7482ffbd7b9f99c9e8b5dccd3d7}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Journal of Econometrics}
+      \field{title}{Diagnostic Testing and Evaluation of Maximum Likelihood Models}
+      \field{volume}{30}
+      \field{year}{1985}
+      \true{nocite}
+      \field{pages}{415\bibrangedash 443}
+      \range{pages}{29}
+      \verb{doi}
+      \verb 10.1016/0304-4076(85)90149-6
+      \endverb
+    \endentry
+    \entry{wald1949note}{article}{}{}
+      \name{author}{1}{}{%
+        {{hash=b032e56ba5a956c54d709f1b0be78be6}{%
+           family={Wald},
+           familyi={W\bibinitperiod},
+           given={Abraham},
+           giveni={A\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {Institute of Mathematical Statistics}%
+      }
+      \strng{namehash}{b032e56ba5a956c54d709f1b0be78be6}
+      \strng{fullhash}{b032e56ba5a956c54d709f1b0be78be6}
+      \strng{fullhashraw}{b032e56ba5a956c54d709f1b0be78be6}
+      \strng{bibnamehash}{b032e56ba5a956c54d709f1b0be78be6}
+      \strng{authorbibnamehash}{b032e56ba5a956c54d709f1b0be78be6}
+      \strng{authornamehash}{b032e56ba5a956c54d709f1b0be78be6}
+      \strng{authorfullhash}{b032e56ba5a956c54d709f1b0be78be6}
+      \strng{authorfullhashraw}{b032e56ba5a956c54d709f1b0be78be6}
+      \field{sortinit}{3}
+      \field{sortinithash}{ad6fe7482ffbd7b9f99c9e8b5dccd3d7}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{The Annals of Mathematical Statistics}
+      \field{number}{4}
+      \field{title}{Note on the Consistency of the Maximum Likelihood Estimate}
+      \field{volume}{20}
+      \field{year}{1949}
+      \true{nocite}
+      \field{pages}{595\bibrangedash 601}
+      \range{pages}{7}
+      \verb{doi}
+      \verb 10.1214/aoms/1177729952
+      \endverb
+    \endentry
+    \entry{white1982maximum}{article}{}{}
+      \name{author}{1}{}{%
+        {{hash=426e452a5ec8e692f7740ce0d3e3655c}{%
+           family={White},
+           familyi={W\bibinitperiod},
+           given={Halbert},
+           giveni={H\bibinitperiod}}}%
+      }
+      \list{publisher}{1}{%
+        {The Econometric Society}%
+      }
+      \strng{namehash}{426e452a5ec8e692f7740ce0d3e3655c}
+      \strng{fullhash}{426e452a5ec8e692f7740ce0d3e3655c}
+      \strng{fullhashraw}{426e452a5ec8e692f7740ce0d3e3655c}
+      \strng{bibnamehash}{426e452a5ec8e692f7740ce0d3e3655c}
+      \strng{authorbibnamehash}{426e452a5ec8e692f7740ce0d3e3655c}
+      \strng{authornamehash}{426e452a5ec8e692f7740ce0d3e3655c}
+      \strng{authorfullhash}{426e452a5ec8e692f7740ce0d3e3655c}
+      \strng{authorfullhashraw}{426e452a5ec8e692f7740ce0d3e3655c}
+      \field{sortinit}{3}
+      \field{sortinithash}{ad6fe7482ffbd7b9f99c9e8b5dccd3d7}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{journaltitle}{Econometrica}
+      \field{number}{1}
+      \field{title}{Maximum Likelihood Estimation of Misspecified Models}
+      \field{volume}{50}
+      \field{year}{1982}
+      \true{nocite}
+      \field{pages}{1\bibrangedash 25}
+      \range{pages}{25}
+      \verb{doi}
+      \verb 10.2307/1912526
+      \endverb
+    \endentry
+  \enddatalist
+\endrefsection
+\endinput
+

@@ -132,9 +132,9 @@ This is a core problem in econometrics and largely differentiates the field from
 Endogeneity implies that the least squares estimator is inconsistent for the structural parameter.
 Indeed, under i.i.d. sampling, least squares is consistent for the projection coefficient.
 \begin{gather*}
-    \hat{\beta} \overset{p}{\rightarrow} \beta + \Bigl(\mathbb{E}[X X^{\prime}] \Bigr)^{-1} \mathbb{E}[X U] \neq \beta 
+    \hat{\beta} \overset{p}{\rightarrow} \beta + \Bigl(\mathbb{E}[X X^{\prime}] \Bigr)^{-1} \mathbb{E}[X u] \neq \beta 
 \end{gather*}
-The inconsistency of least squares is typically referred to as \textbf{endogeneity bias} or\textbf{estimation bias} due to
+The inconsistency of least squares is typically referred to as \textbf{endogeneity bias} or \textbf{estimation bias} due to
 endogeneity.
 
 Commonly, there are three reasons for endogeneity:
@@ -142,7 +142,7 @@ Commonly, there are three reasons for endogeneity:
     \item Measurement error: $x_i$ is measured with error.
         
         Suppose our true Regression is: $y_i = x_i^{* \prime} \beta +\epsilon_i$, $\mathbb{E}[x_i^* \epsilon_i] = 0$, $\beta$ is the structural parameter.
-        But, $x_i^{*^{\prime}}$ is not observed. Instead, we observe: $x_i = x_i^* + v_i$, 
+        But, $x_i^{* \prime}$ is not observed. Instead, we observe: $x_i = x_i^* + v_i$, 
         where $v_i$ is the measurement error, independent of $x_i^*$ and $\epsilon_i$: $\mathbb{E}[x_i^* v_i^{\prime}] = 0$, $\mathbb{E}[v_i \epsilon_i] = 0$
         \footnote{This is an example of a latent variable model, where ``latent'' refers to an unobserved structural variable.}.
 
@@ -163,11 +163,85 @@ Commonly, there are three reasons for endogeneity:
             &= - \mathbb{E}[v_i v_i^{\prime} ]\beta \neq 0
         \end{align*}
         if $\mathbb{E}[v_i v_i^{\prime}] \neq 0$ and $\beta \neq 0$.
-    \item Simultaneity(Reverse causality): $x_i$ is endogenous.
-    
-        $y_i = x_i^{\prime} \beta + u_i = x_{i1}^* \beta_1 + x_{i2} \beta_2  + u_i$, $x_i = z_i^{\prime} \gamma + y_i \delta+ v_i$.\\
 
-    \item Omitted variables: The most prominent cause of endogeneity are omitted variables(OVs).
+        \begin{remark}[Measurement Error Bias]
+            \
+
+            Let's rewrite in matrix form: $Y = X^{* \prime} \beta + \epsilon $, $X = X^* + v$, $\mathbb{E}[X^* v] = 0$, $\mathbb{E}[\epsilon v] = 0$,
+            $v$ is a $k \times 1$ error. We can write $Y = (X - v)^{\prime} \beta + \epsilon = X^{\prime} \beta + u$,
+            where $u = \epsilon - v^{\prime} \beta.$ And we have: $\mathbb{E}[X u] = \mathbb{E}[(X^* + v)(\epsilon - v^{\prime} \beta)] = -\mathbb{E}[v v^{\prime}]\beta \neq 0$
+            if $\beta \neq 0$ and $\mathbb{E}[v v^{\prime}] \neq 0.$
+
+            We can calculate the form of the projection coefficient (which is consistently estimated by least squares).
+            For simplicity suppose that $k=1$, we find:
+            \[\beta^* = \beta + \frac{\mathbb{E}[X u]}{\mathbb{E}[X^2]} = \beta \left( 1 - \frac{\mathbb{E}[v^2]}{\mathbb{E}[X^2]} \right) \] 
+            Since $\frac{\mathbb{E}[v^2]}{\mathbb{E}[X^2]} < 1$, the projection coefficient shrinks the structural parameter $\beta$ towards zero.
+            This is called \textbf{measurement error bias} or \textbf{attenuation bias}.
+        \end{remark}
+    \item Simultaneity (Reverse causality): Simultaneity arises when at least one of the explanatory variables is determined simultaneously along with $y$.
+        If, say, $x_i$ is determined partly by $y$, and $x_i$ and $u_i$ are generally correlated.
+        \[y_i = x_i^{\prime} \beta + u_i = x_{i1}^* \beta_1 + x_{i2} \beta_2  + u_i, \quad x_i = z_i^{\prime} \gamma + y_i \delta + v_i.\]
+
+        \begin{eg}[Supply and Demand]
+            \
+            
+            The variables $Q$ and $P$ (quantity and price) are determined jointly by the demand equation:
+            \[Q = -\beta_1 P + u_1\]
+            and supply function:
+            \[Q = \beta_2 P + u_2\]
+            where $u_1$ and $u_2$ are the demand and supply shocks, respectively.
+            Assume that $u = (u_1, u_2)$ satisfy that $\mathbb{E}[u] = 0$ and $\mathbb{E}[u u^{\prime}] = I_2$ (for simplicity).
+            The question is: If we regress $Q$ on $P$, what will happen?
+            Let's solve $P$ and $Q$ in error terms:
+            \begin{align*}
+                & \begin{bmatrix}
+                    1 & \beta_1 \\
+                    1 & -\beta_2
+                \end{bmatrix}
+                \begin{bmatrix}
+                    Q \\
+                    P
+                \end{bmatrix}
+                = \begin{bmatrix}
+                    u_1 \\
+                    u_2
+                \end{bmatrix} \\
+                \begin{bmatrix}
+                    Q \\
+                    P
+                \end{bmatrix}
+                &= \begin{bmatrix}
+                    1 & \beta_1 \\
+                    1 & -\beta_2
+                \end{bmatrix}^{-1}
+                \begin{bmatrix}
+                    u_1 \\
+                    u_2
+                \end{bmatrix} \\
+                &= \frac{1}{\beta_1 + \beta_2}
+                \begin{bmatrix}
+                    \beta_2 & \beta_1 \\
+                    1 & -1
+                \end{bmatrix}
+                \begin{bmatrix}
+                    u_1 \\
+                    u_2
+                \end{bmatrix} \\
+                &= \begin{bmatrix}
+                    \frac{\beta_2 u_1 + \beta_1 u_2}{\beta_1 + \beta_2} \\
+                    \frac{u_1 - u_2}{\beta_1 + \beta_2}
+                \end{bmatrix}
+            \end{align*}
+            The projection of $Q$ on $P$ yields $Q = \beta^* P + u^*$, where $\mathbb{E}[P u^*]=0$ and the projection coefficient is
+            \[\beta^* = \frac{\mathbb{E}[PQ]}{\mathbb{E}[P^2]} = \frac{\beta_2 - \beta_1}{2}.\]
+            The OLS estimator satisfies $\hat{\beta} \underset{p}{\rightarrow} \beta^*$ and the limit does not equal either $\beta_1$ or $\beta_2$.
+            This is called \textbf{simultaneity bias} or \textbf{simultaneous equation bias}.
+
+            This occurs generally when Y and X are jointly determined, as in a market equilibrium.
+            Generally, when both the dependent variable and a regressor are simultaneously determined then the regressor should be treated as endogenous.
+        \end{eg}
+
+    \item Omitted variables: The most prominent cause of endogeneity are omitted variables (OVs).
 
         Suppose the true regression is: $y_i = x_i^{\prime} \beta + w_i^{\prime} \delta +\epsilon_i$, 
         where exogeneity holds: $\mathbb{E}[x_i \epsilon_i] = 0$, $\mathbb{E}[w_i \epsilon_i] = 0$.

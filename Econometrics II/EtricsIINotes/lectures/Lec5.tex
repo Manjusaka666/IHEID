@@ -171,8 +171,8 @@ The conditional variance of $\hat{\tilde{\beta}}_{RE-GLS}$ is:
 The asymptotic variance of $\hat{\tilde{\beta}}_{RE-GLS}$ is:
 \begin{align*}
     &\sqrt{n} \left( \hat{\tilde{\beta}}_{RE-GLS} - \tilde{\beta} \right) \overset{d}{\rightarrow} \mathcal{N}\left(0, V \right) \\
-    \text{where } V_{GLS}  &= \mathbb{E}\left[\tilde{X}_i^{\prime} \Omega^{-1} \tilde{X}_i \right]^{-1} \mathbb{E}\left[\tilde{X}_i^{\prime} \Omega^{-1} v_i v_i^{\prime} \Omega^{-1} \tilde{X}_i \right] \mathbb{E}\left[\tilde{X}_i^{\prime} \Omega^{-1} \tilde{X}_i \right] \\
-    &= \mathbb{E}\left[\tilde{X}_i^{\prime} \Omega^{-1} \tilde{X}_i \right]^{-1} \underset{\equiv \Omega}{\underbrace{\mathbb{E}[v_i v_i^{\prime} | \tilde{X}_i]}}
+    \text{where } V_{GLS}  &= \mathbb{E}\left[\tilde{X}_i^{\prime} \Omega^{-1} \tilde{X}_i \right]^{-1} \mathbb{E}\left[\tilde{X}_i^{\prime} \Omega^{-1} v_i v_i^{\prime} \Omega^{-1} \tilde{X}_i \right] \mathbb{E}\left[\tilde{X}_i^{\prime} \Omega^{-1} \tilde{X}_i \right]^{-1} \\
+    &= \mathbb{E}\left[\tilde{X}_i^{\prime} \Omega^{-1} \tilde{X}_i \right]^{-1} \underset{\equiv \Omega}{\underbrace{\mathbb{E}[v_i v_i^{\prime} | \tilde{X}_i]}}^{-1}
 \end{align*}
 Because we do not know $\Omega$, the RE-GLS estimator is infeasible. 
 
@@ -203,7 +203,7 @@ Now, let's compare the $\hat{\beta}_{RE-GLS}$ with the pooled estimator $\hat{\b
 
 Under the assumptions of the random effects model, POLS estimator is also unbiased for $\beta$ and has conditional variance:
 \begin{gather*}
-    V_{POLS} = \Bigl(\sum_{i} X_i^{\prime} X_i \Bigr)^{-1} \Bigl( X_i^{\prime} \Omega_i X_i \Bigr)^{-1} \Bigl( X_i^{\prime} X_i \Bigr)^{-1} 
+    V_{POLS} = \Bigl(\sum_{i} X_i^{\prime} X_i \Bigr)^{-1} \Bigl( \sum_{i}  X_i^{\prime} \Omega_i X_i \Bigr)^{-1} \Bigl( \sum_{i}  X_i^{\prime} X_i \Bigr)^{-1} 
 \end{gather*}
 Using the algebra of the Gauss-Markov Theorem we deduce that:
 \[V_{RE-GLS} \leq V_{POLS} \]
@@ -213,7 +213,7 @@ The two variance matrices are identical when there is no individual-specific eff
 Under the asusmption that the random effects model is a useful approximation but not literally true, 
 we may use the cluster-robust covariance matrix estimator such as:
 \begin{gather*}
-    \hat{V}_{RE-GLS} = \Bigl(\sum_{i} X_i^{\prime} \Omega_i X_i\Bigr)^{-1} \Bigl( \sum_{i} X_i^{\prime} \Omega_i \hat{v}_i \hat{v}_i^{\prime} \Omega_i^{\prime} X_i \Bigr)^{-1} \Bigl( \sum_{i} X_i^{\prime} \Omega_i X_i \Bigr)^{-1} 
+    \hat{V}_{RE-GLS} = \Bigl(\sum_{i} X_i^{\prime} \Omega_i^{-1} X_i\Bigr)^{-1} \Bigl( \sum_{i} X_i^{\prime} \Omega_i^{-1} \hat{v}_i \hat{v}_i^{\prime} \Omega_i^{-1} X_i \Bigr)^{-1} \Bigl( \sum_{i} X_i^{\prime} \Omega_i^{-1} X_i \Bigr)^{-1} 
 \end{gather*}
 where $\hat{v}_i = y_i - X_i \hat{\beta}_{RE-GLS}$, This may be re-scaled by a degree of freedom adjustment if desired.
 
@@ -317,7 +317,7 @@ The variance of $\hat{\beta}_{FE-W}$ is:
     V_{FE-W} = \mathbb{V}[\hat{\beta}_{FE-W} | X_i] = \Bigl( \sum_{i} \ddot{X}_i^{\prime} \ddot{X}_i \Bigr)^{-1} \Bigl( \sum_{i} \ddot{X}_i^{\prime} \Sigma_i \ddot{X}_i \Bigr)^{-1} \Bigl( \sum_{i} \ddot{X}_i^{\prime} \ddot{X}_i \Bigr)^{-1} 
 \end{gather*}
 This expression simplifies when the idiosyncratic errors are homoskedastic and serially uncorrelated:
-\begin{assumption}[FE homoskedasticity]\label{FE-homoskedasticity}
+\begin{assumption}[FE homoskedasticity and Serial Uncorrelation]\label{FE-homoskedasticity}
     \
 
     \begin{enumerate}
