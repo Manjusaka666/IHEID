@@ -203,17 +203,17 @@ Now, let's compare the $\hat{\beta}_{RE-GLS}$ with the pooled estimator $\hat{\b
 
 Under the assumptions of the random effects model, POLS estimator is also unbiased for $\beta$ and has conditional variance:
 \begin{gather*}
-    V_{POLS} = \Bigl(\sum_{i} X_i^{\prime} X_i \Bigr)^{-1} \Bigl( \sum_{i}  X_i^{\prime} \Omega_i X_i \Bigr)^{-1} \Bigl( \sum_{i}  X_i^{\prime} X_i \Bigr)^{-1} 
+    V_{POLS} = \Bigl(\sum_{i} X_i^{\prime} X_i \Bigr)^{-1} \Bigl( \sum_{i}  X_i^{\prime} \Omega_i X_i \Bigr) \Bigl( \sum_{i}  X_i^{\prime} X_i \Bigr)^{-1} 
 \end{gather*}
 Using the algebra of the Gauss-Markov Theorem we deduce that:
 \[V_{RE-GLS} \leq V_{POLS} \]
 and thus the random effects estimator $\hat{\beta}_{RE-GLS}$ is more efficient than $\hat{\beta}_{POLS} $ under the strict exogeneity assumption \ref{assumption:RE}.
 The two variance matrices are identical when there is no individual-specific effect $\sigma_{\alpha}^2 = 0$ for then $V_{RE-GLS} = V_{POLS} = \left(X^{\prime} X\right)^{-1} \sigma_u^2.$
 
-Under the asusmption that the random effects model is a useful approximation but not literally true, 
+Under the assumption that the random effects model is a useful approximation but not literally true, 
 we may use the cluster-robust covariance matrix estimator such as:
 \begin{gather*}
-    \hat{V}_{RE-GLS} = \Bigl(\sum_{i} X_i^{\prime} \Omega_i^{-1} X_i\Bigr)^{-1} \Bigl( \sum_{i} X_i^{\prime} \Omega_i^{-1} \hat{v}_i \hat{v}_i^{\prime} \Omega_i^{-1} X_i \Bigr)^{-1} \Bigl( \sum_{i} X_i^{\prime} \Omega_i^{-1} X_i \Bigr)^{-1} 
+    \hat{V}_{RE-GLS} = \Bigl(\sum_{i} X_i^{\prime} \Omega_i^{-1} X_i\Bigr)^{-1} \Bigl( \sum_{i} X_i^{\prime} \Omega_i^{-1} \hat{v}_i \hat{v}_i^{\prime} \Omega_i^{-1} X_i \Bigr) \Bigl( \sum_{i} X_i^{\prime} \Omega_i^{-1} X_i \Bigr)^{-1} 
 \end{gather*}
 where $\hat{v}_i = y_i - X_i \hat{\beta}_{RE-GLS}$, This may be re-scaled by a degree of freedom adjustment if desired.
 
