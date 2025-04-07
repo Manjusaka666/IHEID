@@ -11,10 +11,10 @@ Stating the assumption in terms of conditional means, we have:
     \
 
     \begin{enumerate}
-        \item[(a)] $\mathbb{E}[u_{it} | X_i, \alpha_i] = 0, \forall t.$
-        \item[(b)] $\mathbb{E}[\alpha_i | X_i] = \mathbb{E}[\alpha_i] = 0.$
+        \item[(a)] $\mathbb{E}[u_{it} | \tilde{X}_i, \tilde{\alpha}_i] = 0, \forall t.$
+        \item[(b)] $\mathbb{E}[\tilde{\alpha}_i | \tilde{X}_i] = \mathbb{E}[\tilde{\alpha}_i] = 0.$
     \end{enumerate}
-    where $X_i = (x_{i1}, \cdots, x_{iT})$.
+    where $\tilde{X}_i = (x_{i1}, \cdots, x_{iT})$.
 \end{assumption}
 Assumption \ref{assumption:RE}(a) is the strict exogeneity condition and Assumption \ref{assumption:RE}(b) is is how we will state the orthogonality.
 
@@ -22,10 +22,9 @@ Assumption \ref{assumption:RE}(a) is the strict exogeneity condition and Assumpt
     \
 
     Why do we maintain Assumption \ref{assumption:RE}(a) when it is more restrictive than needed for
-    a pooled OLS analysis? Because the random e¤ects approach exploits the serial correlation in
+    a pooled OLS analysis? Because the random effects approach exploits the serial correlation in
     the composite error, $v_{it} = \alpha_i + u_{it}$, in a generalized least squares (GLS) framework. In
-    order to ensure that feasible GLS is consistent, we need some form of strict exoge-
-    neity between the explanatory variables and the composite error.
+    order to ensure that feasible GLS is consistent, we need some form of strict exogeneity between the explanatory variables and the composite error.
 
     Under this assumption, we can write:
     \begin{align*}
@@ -40,16 +39,16 @@ Assumption \ref{assumption:RE}(a) is the strict exogeneity condition and Assumpt
 By defining $v_{it} = u_{it} + \alpha_i - \beta_0$, we can transform the random effect model to the following:
 \begin{align*}
     y_{it} &= \alpha_i + x_{it}^{\prime} \beta + u_{it} \\
-    &= \underset{\tilde{x}_{it}^{\prime}}{\underbrace{\beta_0 + x_{it}^{\prime}\beta}} + \underset{\equiv v_{it}}{\underbrace{u_{it} + \alpha_i - \beta_0}}
+    &= \underset{\tilde{x}_{it}^{\prime} \tilde{\beta}}{\underbrace{\beta_0 + x_{it}^{\prime}\beta}} + \underset{\equiv v_{it}}{\underbrace{u_{it} + \alpha_i - \beta_0}}
 \end{align*}
 Defining again $\tilde{x}_{it} = (1, x_{it}^{\prime})^{\prime}$, $\tilde{\beta} = (\beta_0, \beta^{\prime})^{\prime}$, we can rewrite the model as:
 \begin{align*}
-    y_{it} &= \tilde{x}_{it}^{\prime} \beta + v_{it} \Leftrightarrow y_i = \tilde{X}_i^{\prime} \tilde{\beta} + v_i \\
+    y_{it} &= \tilde{x}_{it}^{\prime} \tilde{\beta} + v_{it} \Leftrightarrow y_i = \tilde{X}_i^{\prime} \tilde{\beta} + v_i \\
     \rightarrow \hat{\tilde{\beta}} &= \left(\sum_i \tilde{X}_i^{\prime} \tilde{X}_i \right)^{-1} \sum_i \tilde{X}_i^{\prime} y_i
 \end{align*}
 
-With this intercept $beta_0$, $\mathbb{E}[v_i] = 0$ is guaranteed to hold.
-Define $\tilde{\alpha}_i = \alpha_i - \beta_0$ as the mean-zero unit-specific heterogenety so that $v_i = u_i + \tilde{\alpha}_i.$
+With this intercept $\beta_0$, $\mathbb{E}[v_i] = 0$ is guaranteed to hold.
+Define $\tilde{\alpha}_i = \alpha_i - \beta_0$ as the mean-zero unit-specific heterogeneity so that $v_i = u_i + \tilde{\alpha}_i.$
 
 
 \begin{note}[POLS]
@@ -79,25 +78,28 @@ Here, the error term $v_i$ is not equal to the original error term $u_{it}$.
 \subsection{From POLS to GLS}
 
 So, to obtain consistency, we need to assume that:
-\begin{itemize}
-    \item $\mathbb{E}[u_{it} | \tilde{x}_{it}, \tilde{\alpha}_i] = 0, \forall t$.
-    \item $\mathbb{E}[\tilde{\alpha_i} | \tilde{x}_{it}] = 0, \forall t$.
-\end{itemize}
+\begin{assumption}[Random Effect Independence]\label{assumption:RE1}
+    \begin{enumerate}
+        \item[(a)] $\mathbb{E}[u_{it} | \tilde{x}_{it}, \tilde{\alpha}_i] = 0, \forall t$.
+        \item[(b)] $\mathbb{E}[\tilde{\alpha_i} | \tilde{x}_{it}] = 0, \forall t$.
+    \end{enumerate}
+\end{assumption}
+
 And, we are also obliged to use HAC-robust standard error because:
 \[\Omega \equiv \mathbb{E}[v_i v_i^{\prime} | \tilde{X}_i] = \mathbb{E}[(\alpha_i \mathbf{1}_i + u_i)(\tilde{\alpha}_i \mathbf{1}_i + u_i)^{\prime} | \tilde{X}_i] = \mathbb{E}[\tilde{\alpha}_i^2 \mathbf{1}_i \mathbf{1}_i^{\prime} | \tilde{X}_i] + \mathbb{E}[u_i u_i'| \tilde{X}_i] \]
 is not diagonal.
 
-\begin{assumption}[Random Effect]\label{assumption:RE2}
+\begin{assumption}[Random Effect Rank]\label{assumption:RE2}
     \
 
     $\rank \mathbb{E}\left[X_i^{\prime} \Omega^{-1} X_i \right] = K$
 \end{assumption}
-We know that both GLS and feasible GLS estimator would be consistent under Asusmption \ref{assumption:RE} and \ref{assumption:RE2}.
+We know that both GLS and feasible GLS estimator would be consistent under Assumption \ref{assumption:RE} and \ref{assumption:RE2}.
 A general FGLS analysis, using an unrestricted variance estimator $\Omega$,
 is consistent and asymptotically normal as $N \to \infty.$
 
 But, we won't exploit the unobserved effects structure $v_{it}.$
-A standard random e¤ects analysis adds assumptions on the idiosyncratic errors that
+A standard random effects analysis adds assumptions on the idiosyncratic errors that
 give $\Omega$ a special form. The first assumption is that the idiosyncratic errors
 $u_{it}$ have a constant unconditional variance across $t$:
 \begin{assumption}[RE-Homoskedasticity]\label{assumption:RE-homoskedasticity}
@@ -176,23 +178,44 @@ The asymptotic variance of $\hat{\tilde{\beta}}_{RE-GLS}$ is:
 \end{align*}
 Because we do not know $\Omega$, the RE-GLS estimator is infeasible. 
 
-If indeed we have:
-\begin{align*}
-    \Omega &= \mathbb{E}[v_i v_i^{\prime}  | \tilde{X}_i] \\
-    &= \mathbb{E}[(\alpha_i \mathbf{1}_i + u_i)(\alpha_i \mathbf{1}_i  + u_i)^{\prime}  | \tilde{X}_i] \\
-    &= \mathbb{E}[\alpha_i^2] \mathbf{1}_i \mathbf{1}_i^{\prime} + \mathbb{E}[u_i u_i^{\prime} | \tilde{X}_i]
-\end{align*}
-which implies homoskedasticity.
+% If indeed we have:
+% \begin{align*}
+%     \Omega &= \mathbb{E}[v_i v_i^{\prime}  | \tilde{X}_i] \\
+%     &= \mathbb{E}[(\alpha_i \mathbf{1}_i + u_i)(\alpha_i \mathbf{1}_i  + u_i)^{\prime}  | \tilde{X}_i] \\
+%     &= \mathbb{E}[\alpha_i^2] \mathbf{1}_i \mathbf{1}_i^{\prime} + \mathbb{E}[u_i u_i^{\prime} | \tilde{X}_i]
+% \end{align*}
+% which implies homoskedasticity.
 
-A feasible version replaces $\Omega$ with an estimator $\hat{\Omega}_i$.
-Assuming homoskedasticity of the original errors:
-\begin{align*}
-    \mathbb{E}[u_i u_i^{\prime}  | \tilde{X}_i, \tilde{\alpha}_i] &= \sigma_u^2 I_T \\
-    \mathbb{E}[\tilde{\alpha}_i^2 | \tilde{x}_i] &= \sigma_{\alpha}^2
-\end{align*}
-We obtain: $\hat{\Omega} = \hat{\sigma}_{\alpha}^2 \mathbf{1}_i \mathbf{1}_i^{\prime} + \hat{\sigma}_u^2 I_T$, 
+The previous assumptions \ref{assumption:RE-homoskedasticity} and \ref{assumption:RE-serial_uncorrelated} are special to random e¤ects.
+For efficiency of feasible GLS, we assume that the variance matrix of $v_i$ conditional on $\tilde{X}_i$ is constant:
+\[\mathbb{E}[v_i v_i^{\prime} | \tilde{X}_i] = \mathbb{E}[v_i v_i^{\prime} ].\]
+The two conditions are also implied by the following stronger version of assumption:
+\begin{assumption}[RE General Homoskedasticity and Serial Uncorrelation]\label{assumption:RE3}
+    \
+    \begin{enumerate}
+        \item[(a)] $\mathbb{E}[u_i u_i^{\prime} | \tilde{X}_i, \tilde{\alpha}_i] = 0$
+        \item[(b)] $\mathbb{E}[\tilde{\alpha}_i^2 | \tilde{X}_i] = \sigma_{\alpha}^2 $  
+    \end{enumerate}
+\end{assumption}
+Under assumption \ref{assumption:RE3}(a), $\mathbb{E}[u_{it}^2 | \tilde{X}_i, \tilde{\alpha}_i] = \sigma_u^2$,
+which implies assumption \ref{assumption:RE-homoskedasticity}, and $\mathbb{E}[u_{it} u_{is} | \tilde{X}_i, \tilde{\alpha}_i] = 0$
+which implies assumption \ref{assumption:RE-serial_uncorrelated}. 
+But this new assumption is stronger because it implies that the conditional variances are constant and the conditional covariances are zero.
+
+Together with assumption \ref{assumption:RE1}(b), assumption \ref{assumption:RE3}(b) is the same as: $\mathbb{V}[\tilde{\alpha}_i | \tilde{X}_i] = \mathbb{V}[\tilde{\alpha}_i]$,
+which is a homoskedasticity assumption for the unobserved effects $\tilde{\alpha}_i$.
+
+A feasible version replaces $\Omega$ with an estimator $\hat{\Omega}$. To implement an FGLS procedure, define:
+\[\sigma_v^2 = \sigma_u^2 + \sigma_{\alpha}^2 \]
+then we can obtain: $\hat{\Omega} = \hat{\sigma}_{\alpha}^2 \mathbf{1}_i \mathbf{1}_i^{\prime} + \hat{\sigma}_u^2 I_T$, 
 a $T \times T$ matrix that we assume to be positive definite.
 In a panel data context, the FGLS estimator that uses this variance matrix is what is known as the \textbf{random effects estimator}.
+\[\hat{\beta}_{RE} = \Bigl( \sum_{i} \tilde{X}_i^{\prime} \hat{\Omega}^{-1} \tilde{X}_i \Bigr)^{-1} \sum_{i} \tilde{X}_i^{\prime} \hat{\Omega}^{-1} y_i \]
+% Assuming homoskedasticity of the original errors:
+% \begin{align*}
+%     \mathbb{E}[u_i u_i^{\prime}  | \tilde{X}_i, \tilde{\alpha}_i] &= \sigma_u^2 I_T \\
+%     \mathbb{E}[\tilde{\alpha}_i^2 | \tilde{X}_i] &= \sigma_{\alpha}^2
+% \end{align*}
 
 Hence, the motivation for using GLS is different than under a cross-sectional regression with heteroskedasticity.
 We use GLS because of the autocorrelation in $v_{it}$ induced by the presence of time variant $\alpha_i$.
@@ -203,7 +226,7 @@ Now, let's compare the $\hat{\beta}_{RE-GLS}$ with the pooled estimator $\hat{\b
 
 Under the assumptions of the random effects model, POLS estimator is also unbiased for $\beta$ and has conditional variance:
 \begin{gather*}
-    V_{POLS} = \Bigl(\sum_{i} X_i^{\prime} X_i \Bigr)^{-1} \Bigl( \sum_{i}  X_i^{\prime} \Omega_i X_i \Bigr) \Bigl( \sum_{i}  X_i^{\prime} X_i \Bigr)^{-1} 
+    V_{POLS} = \Bigl(\sum_{i} X_i^{\prime} X_i \Bigr)^{-1} \Bigl( \sum_{i}  X_i^{\prime} \Omega X_i \Bigr) \Bigl( \sum_{i}  X_i^{\prime} X_i \Bigr)^{-1} 
 \end{gather*}
 Using the algebra of the Gauss-Markov Theorem we deduce that:
 \[V_{RE-GLS} \leq V_{POLS} \]
@@ -213,7 +236,7 @@ The two variance matrices are identical when there is no individual-specific eff
 Under the assumption that the random effects model is a useful approximation but not literally true, 
 we may use the cluster-robust covariance matrix estimator such as:
 \begin{gather*}
-    \hat{V}_{RE-GLS} = \Bigl(\sum_{i} X_i^{\prime} \Omega_i^{-1} X_i\Bigr)^{-1} \Bigl( \sum_{i} X_i^{\prime} \Omega_i^{-1} \hat{v}_i \hat{v}_i^{\prime} \Omega_i^{-1} X_i \Bigr) \Bigl( \sum_{i} X_i^{\prime} \Omega_i^{-1} X_i \Bigr)^{-1} 
+    \hat{V}_{RE-GLS} = \Bigl(\sum_{i} X_i^{\prime} \Omega^{-1} X_i\Bigr)^{-1} \Bigl( \sum_{i} X_i^{\prime} \Omega^{-1} \hat{v}_i \hat{v}_i^{\prime} \Omega^{-1} X_i \Bigr) \Bigl( \sum_{i} X_i^{\prime} \Omega^{-1} X_i \Bigr)^{-1} 
 \end{gather*}
 where $\hat{v}_i = y_i - X_i \hat{\beta}_{RE-GLS}$, This may be re-scaled by a degree of freedom adjustment if desired.
 
@@ -221,10 +244,8 @@ where $\hat{v}_i = y_i - X_i \hat{\beta}_{RE-GLS}$, This may be re-scaled by a d
 In the econometrics literature if the stochastic structure of $\alpha_i$ is treated as unknown
 and possibly correlated with $x_{it}$, then $\alpha_i$ is called a \textbf{fixed effect}.
 
-Correlation between $\alpha_i$ and $x_{it}$ will cause both pooled and random effect estimators ro be biased.
-
-We transform equation to get rid of $\alpha_i$: $y_{it} = \alpha_i + x_{it}^{\prime} \beta + u_{it}.$
-This is due to the classic problems of omitted variables bias and endogeneity. 
+Correlation between $\alpha_i$ and $x_{it}$ will cause both pooled and random effect estimators to be biased.
+This is due to the classic problems of omitted variables bias and endogeneity.
 
 The presence of the unstructured individual effect $\alpha_i$ means that it is not possible to identify $\beta$ under a simple projection assumption such as $\mathbb{E}[u_{it} x_{it}] = 0$.
 It turns out that a sufﬁcient condition for identiﬁcation is the following.
@@ -274,6 +295,7 @@ But this robustness has a cost: we can not include any time-constant variables i
 The reason is simple: if $\alpha_i$ can be arbitrarily correlated with each element of $x_{it}$, 
 then there's no way to distinguish the effect of time-constant observables from the time-constant unobservable $\alpha_i$.
 
+We transform the equation to get rid of $\alpha_i$: $y_{it} = \alpha_i + x_{it}^{\prime} \beta + u_{it}.$
 The first transformation is the \textbf{within transformation}.
 Deﬁne the mean of a variable for a given individual as
 \begin{align*}
@@ -285,11 +307,10 @@ We call this the \textbf{individual-specific mean} since it is the mean of a giv
 authors call this the \textbf{time-average} or \textbf{time-mean} since it is the average over the time periods.}
 
 Then, subtracting the individual-specific mean from the variable we obtain the deviations:
-\begin{align*}
-    (y_{it} - \overline{y}_i) &= (x_{it} - \overline{x}_i)^{\prime} \beta + (u_{it} -\overline{u}_i) + (\alpha_i - \alpha_i) \\
-    \ddot{y}_{it} &= \ddot{x}_{it}^{\prime} \beta + \ddot{u}_{it} \\
-    \ddot{y}_i &= \ddot{X}_i^{\prime} \beta + \ddot{u}_i
-\end{align*}
+\begin{gather*}
+    (y_{it} - \overline{y}_i) = (x_{it} - \overline{x}_i)^{\prime} \beta + (u_{it} -\overline{u}_i) + (\alpha_i - \alpha_i) \\
+    \ddot{y}_{it} = \ddot{x}_{it}^{\prime} \beta + \ddot{u}_{it} \text{ or at individual level: } \ddot{y}_i = \ddot{X}_i^{\prime} \beta + \ddot{u}_i
+\end{gather*}
 This is the \textbf{within transformation}. We also refer to $\ddot{y}_{it}$ as the \textbf{demanded values} or \textbf{deviation from individual means}.
 \emph{What is important is that the demeaning has occured at the individual level.}
 
@@ -303,7 +324,7 @@ well behaved asymptotically, we need a standard rank condition on the matrix of 
 
 \subsubsection{FE Consistency}
 \begin{align*}
-    \hat{\beta}_{FE-W} &= \left( \sum_{i} \ddot{X}_i^{\prime} \ddot{X}_i \right)^{-1} \left( \ddot{X}_i^{\prime} \ddot{y}_i \right) \\
+    \hat{\beta}_{FE-W} &= \left( \sum_{i} \ddot{X}_i^{\prime} \ddot{X}_i \right)^{-1} \left( \sum_{i} \ddot{X}_i^{\prime} \ddot{y}_i \right) \\
     &= \left(\sum_i \sum_t \ddot{x}_{it} \ddot{x}_{it}^{\prime} \right)^{-1} \sum_i \sum_t \ddot{x}_{it} \ddot{y}_{it} \\
     &= \beta + \left(\sum_i \sum_t \ddot{x}_{it} \ddot{x}_{it}^{\prime} \right)^{-1} \sum_i \sum_t \ddot{x}_{it} \ddot{u}_{it} \\
     &\overset{p}{\rightarrow} \beta + \mathbb{E}\left[\sum_t \ddot{x}_{it} \ddot{x}_{it}^{\prime} \right]^{-1} \mathbb{E}\left[\sum_t \ddot{x}_{it} \ddot{u}_{it} \right] \\
@@ -314,7 +335,7 @@ well behaved asymptotically, we need a standard rank condition on the matrix of 
 Then, let $\Sigma_i = \mathbb{E}[u_i u_i^{\prime} | X_i]$ denote the $T_i \times T_i$ covariance matrix of the idiosyncratic errors.
 The variance of $\hat{\beta}_{FE-W}$ is:
 \begin{gather*}
-    V_{FE-W} = \mathbb{V}[\hat{\beta}_{FE-W} | X_i] = \Bigl( \sum_{i} \ddot{X}_i^{\prime} \ddot{X}_i \Bigr)^{-1} \Bigl( \sum_{i} \ddot{X}_i^{\prime} \Sigma_i \ddot{X}_i \Bigr)^{-1} \Bigl( \sum_{i} \ddot{X}_i^{\prime} \ddot{X}_i \Bigr)^{-1} 
+    V_{FE-W} = \mathbb{V}[\hat{\beta}_{FE-W} | X_i] = \Bigl( \sum_{i} \ddot{X}_i^{\prime} \ddot{X}_i \Bigr)^{-1} \Bigl( \sum_{i} \ddot{X}_i^{\prime} \Sigma_i \ddot{X}_i \Bigr) \Bigl( \sum_{i} \ddot{X}_i^{\prime} \ddot{X}_i \Bigr)^{-1} 
 \end{gather*}
 This expression simplifies when the idiosyncratic errors are homoskedastic and serially uncorrelated:
 \begin{assumption}[FE homoskedasticity and Serial Uncorrelation]\label{FE-homoskedasticity}
@@ -333,11 +354,11 @@ In this case, $\Sigma_i = \sigma_u^2 I_i$ and $V_{FE-W}$ simplifies to:
 \end{gather*}
  We can also write the asymptotic distribution as below
 \begin{align*}
-    \sqrt{n} (\hat{\beta}_{FE-W} - \beta) &= \left( \frac{1}{N} \sum_{i} \ddot{X}_i^{\prime} \ddot{X}_i \right)^{-1}  \left( N^{-\frac{1}{2}} \sum_{i} \ddot{X}_i^{\prime} \ddot{u}_i \right) \\
-    &= \left( \frac{1}{N} \sum_{i} \ddot{X}_i^{\prime} \ddot{X}_i \right)^{-1}  \left( N^{-\frac{1}{2}} \sum_{i} \ddot{X}_i^{\prime} u_i \right) \footnotemark \\
-    &\rightarrow \mathbb{E}[\ddot{X}_i^{\prime} \ddot{X}_i]^{-1} \cdot \mathcal{N} (0, \mathbb{V}[\ddot{X}_i^{\prime} \ddot{u}_i]) \\
+    \sqrt{n} (\hat{\beta}_{FE-W} - \beta) &= \left( \frac{1}{N} \sum_{i} \ddot{X}_i^{\prime} \ddot{X}_i \right)^{-1}  \left( \frac{1}{\sqrt{N}} \sum_{i} \ddot{X}_i^{\prime} \ddot{u}_i \right) \\
+    &= \left( \frac{1}{N} \sum_{i} \ddot{X}_i^{\prime} \ddot{X}_i \right)^{-1}  \left( \frac{1}{\sqrt{N}} \sum_{i} \ddot{X}_i^{\prime} u_i \right) \footnotemark \\
+    &\rightarrow \mathbb{E}[\ddot{X}_i^{\prime} \ddot{X}_i]^{-1} \cdot \mathcal{N} (0, \mathbb{V}[\ddot{X}_i^{\prime} u_i]) \\
     &\sim \mathcal{N}\left(0, V_{FE-W} \right) \\
-    \text{where } V_{FE-W} &= \sigma_u^2 \mathbb{E}[\ddot{X}_i^{\prime} \ddot{X}_i]^{-1} 
+    \text{where } V_{FE-W} &= \sigma_u^2 \left( \sum_{i} \ddot{X}_i^{\prime} \ddot{X}_i \right)^{-1} 
 \end{align*}
 \footnotetext{From the regression model $\ddot{y}_i = \ddot{X}_i \beta + \ddot{u}_i$,
 where $\ddot{y}_i$ is $T \times 1$, $\ddot{X}_i$ is $T \times K$, and $\ddot{u}_i$ is $T \times 1$,
@@ -346,14 +367,40 @@ Then, we can define a \textbf{individual-specific demeaning operator}:
 \[M_i = I_i - \mathbf{1}_i (\mathbf{1}_i^{\prime} \mathbf{1}_i)^{-1} \mathbf{1}_i^{\prime}, \]
 giving that
 \[\ddot{y}_i = y_i - \mathbf{1}_i \bar{y}_i = y_i - \mathbf{1}_i (\mathbf{1}_i^{\prime} \mathbf{1}_i)^{-1} \mathbf{1}_i y_i = M_i y_i.\]
-Notice that $M_i$ is idempotent ($M_i M_i = M_i, N_i^{\prime} = M_i$). Similarly for $\ddot{X}_i$ and $\ddot{u}_i$.
-
+Notice that $M_i$ is idempotent ($M_i M_i = M_i, M_i^{\prime} = M_i$). Similarly for $\ddot{X}_i$ and $\ddot{u}_i$.
 Thus, we have:
 \begin{align*}
     \ddot{X}_i^{\prime} \ddot{u}_i = X_i^{\prime} M_i M_i u_i = X_i^{\prime} M_i u_i = \ddot{X}_i^{\prime} u_i. 
 \end{align*}
 }
+\begin{remark}[About FE Asymptotic Distribution]
+    \
 
+    Actually, the asymptotic distribution of $\hat{\beta}_{FE-W}$ is not as obvious as it seems.
+    We have to restress a few assumptions to guarantee its validity:
+    \[
+    \frac{1}{\sqrt{N}} \sum_{i} \ddot{X}_i^{\prime} u_i \overset{d}{\rightarrow} \mathcal{N}(0, \mathbb{V}[\ddot{X}_i^{\prime} u_i]).
+    \]
+    \begin{assumption}\label{FE Asymptotic Distribution}
+        \
+
+        \begin{enumerate}
+            \item[(1)] Variables $(u_i, X_i), i=1, \cdots, N$ are independent and identically dis-
+            tributed.
+            \item[(2)] $\mathbb{E}[X_{it} u_{is}] = 0, \forall t=1, \cdots, T.$
+            \item[(3)] $Q_T = \mathbb{E}[\ddot{X}_i^{\prime} \ddot{X}_i] > 0.$
+            \item[(4)] $\mathbb{E}[u_{it}^4] < \infty.$
+            \item[(5)] $\mathbb{E} \vert | X_{it} | \vert^4 < \infty.$
+        \end{enumerate} 
+    \end{assumption}
+    Assumption \ref{FE Asymptotic Distribution}(2) implies that:
+    \begin{gather*}
+        \mathbb{E}[\ddot{X}_i u_i] = \sum_{t} \mathbb{E}[\ddot{X}_{it} u_{it}] = \sum_{t} \mathbb{E}[X_{it} u_{it}] - \sum_{t} \sum_{s=1}^T \mathbb{E}[X_{is} u_{it}] = 0
+    \end{gather*}
+    so they are mean zero.
+    Assumption \ref{FE Asymptotic Distribution}(4) and (5) imply that $\ddot{X}_i u_i$ has a finite covariance matrix $\Omega.$
+    The assumptions for the CLT hold, thus we have the result.
+\end{remark}
 
 \begin{remark}[FE VS. POLS]
     \
@@ -380,16 +427,15 @@ Thus, we have:
 Another important transformation which does the same as within transformation is \textbf{first-differencing}.
 \emph{This can be applied to all but the first
 observation (which is essentially lost).}
-\begin{align*}
-    y_{it} - y_{i, t-1} &= (x_{it} - x_{i, t-1})^{\prime} \beta + (u_{it} - u_{i, t-1}) \\
-    \Delta y_{it} &= \Delta x_{it}^{\prime} \beta + \Delta u_{it}, i=1 \cdots n, t=2 \cdots T \\
-    \Delta y_i &= \Delta X_i \beta + \Delta u_i 
-\end{align*}
+\begin{gather*}
+    y_{it} - y_{i, t-1} = (x_{it} - x_{i, t-1})^{\prime} \beta + (u_{it} - u_{i, t-1}) \\
+    \Delta y_{it} = \Delta x_{it}^{\prime} \beta + \Delta u_{it} \text{ or at individual level } \Delta y_i = \Delta X_i \beta + \Delta u_i, \quad i=1 \cdots N, t=2 \cdots T
+\end{gather*}
 We can see that the individual effect $\alpha_i$ has been eliminated.
 
 Denote the first difference method by $\hat{\beta}_{FE-FD}$, 
-the fixed effect estimator is consistent and asymptotically normal based on two asusmptions.
-\begin{assumption}[FD Strict ecogeneity]\label{assumption:FD1}
+the fixed effect estimator is consistent and asymptotically normal based on two assumptions.
+\begin{assumption}[FD Strict exogeneity]\label{assumption:FD1}
     \
 
     It's the same as FE's assumption \ref{assumption:FE-strictexogeneity}.
@@ -403,7 +449,7 @@ the fixed effect estimator is consistent and asymptotically normal based on two 
 \subsubsection{FE-FD Consistency}
 \begin{align*}
     \hat{\beta}_{FE-FD} &= \left(\sum_i \sum_t \Delta x_{it} \Delta x_{it}^{\prime} \right)^{-1} \sum_i \sum_t \Delta x_{it} \Delta y_{it} \\
-    &= \beta + \left(\frac{1}{n} \sum_i \sum_t \Delta x_{it} \Delta x_{it}^{\prime} \right)^{-1} \frac{1}{n} \sum_i \sum_t \Delta x_{it} \Delta u_{it} \\
+    &= \beta + \left(\frac{1}{NT} \sum_i \sum_t \Delta x_{it} \Delta x_{it}^{\prime} \right)^{-1} \frac{1}{NT} \sum_i \sum_t \Delta x_{it} \Delta u_{it} \\
     &\overset{p}{\rightarrow} \beta + \mathbb{E}\left[\sum_t \Delta x_{it} \Delta x_{it}^{\prime} \right]^{-1} \mathbb{E}\left[\sum_t \Delta x_{it} \Delta u_{it} \right] \\
     \text{where } \mathbb{E}\left[\sum_t \Delta x_{it} \Delta u_{it}\right] &= \sum_t \mathbb{E}\left[\Delta x_{it} \Delta u_{it} \right]\\
     \mathbb{E}\left[\Delta x_{it} \Delta u_{it} \right] &= \mathbb{E}\left[\left(x_{it} - x_{i, t-1} \right) \left(u_{it} - u_{i, t-1} \right)^{\prime} \right] \\
@@ -412,20 +458,20 @@ the fixed effect estimator is consistent and asymptotically normal based on two 
 For $T = 2$, $\hat{\beta}_{FE-FD} = \hat{\beta}_{FE-W}$, equals the fixed effects estimator and they differ however, for $T>2$ (See Hanse, 2022\cite{hansen2022econometrics}).
 
 \subsubsection{FE-FD Asymptotic Distribution}
-We just use the standard calcultaion:
+We just use the standard calculation:
 \begin{gather*}
     \sqrt{n} (\hat{\beta}_{FE-FD} - \beta) \overset{d}{\rightarrow} \mathcal{N} (0, V_{FE-FD})
 \end{gather*}
 where
 \begin{gather*}
-    V_{FE-FD} = \mathbf{E}\Bigl[ \sum_{t=2}^{T} \Delta x_{it} \Delta x_{it}^{\prime} \Bigr]^{-1} \mathbf{E}\Bigl[ \Bigl( \sum_{t=2}^{T} \Delta x_{it} \Delta u_{it} \Bigr) \Bigl( \sum_{s=2}^{T} \Delta x_{is} \Delta u_{is} \Bigr)^{\prime} \Bigr] \mathbf{E}\Bigl[ \sum_{t=2}^{T} \Delta x_{it} \Delta x_{it}^{\prime} \Bigr]^{-1} 
+    V_{FE-FD} = \mathbb{E}\Bigl[ \sum_{t=2}^{T} \Delta x_{it} \Delta x_{it}^{\prime} \Bigr]^{-1} \mathbb{E}\Bigl[ \Bigl( \sum_{t=2}^{T} \Delta x_{it} \Delta u_{it} \Bigr) \Bigl( \sum_{s=2}^{T} \Delta x_{is} \Delta u_{is} \Bigr)^{\prime} \Bigr] \mathbb{E}\Bigl[ \sum_{t=2}^{T} \Delta x_{it} \Delta x_{it}^{\prime} \Bigr]^{-1} 
 \end{gather*}
 If we still assume that the first-difference error term $\Delta u_{it}$ is homoskedastic:
 \begin{assumption}[FD homoskedasticity]\label{assumption:FD3}
     \
 
     Denote $e_{it} \equiv \Delta u_{it}$, $e_i$ is the stack of $e_{it}$ for $t=2, \cdots, T$. 
-    $\mathbb{E}\left[e_i e_i^{\prime} | X_i, \alpha_i \right] = \sigma_e^2 I$
+    $\mathbb{E}\left[e_i e_i^{\prime} | X_i, \alpha_i \right] = \sigma_e^2 I.$
 \end{assumption}
 then, we can write:
 \begin{gather*}
@@ -453,3 +499,63 @@ replacing expectations with sample means and $\Delta u_{it}$($e_{it}$) with $\wi
     If there is a correlation between the error term in current period and two periods ago, there is a problem of feedback loop,
     which we will imply the correlated random effect model.
 \end{remark}
+
+\subsection*{Matrix Notation for FE-FD}
+The first-differencing transformation is $\Delta Y_{it} = Y_{it} - Y_{i,t-1}.$
+This can be applied to all but the first observation (which is essentially lost).
+At the level of the individual this can be written as:
+\[\Delta Y_i = D_i Y_i\]
+where $D_i$ is the $(T_{i-1}) \times T_i$ difference matrix differencing operator:
+\begin{gather*}
+    D_i = \begin{bmatrix}
+        -1 & 1 & 0 & \cdots & 0 & 0\\
+        0 & -1 & 1 & \cdots & 0 & 0\\
+        \vdots & \vdots & \vdots & \ddots & \vdots & \vdots\\
+        0 & 0 & 0 & \cdots & -1 & 1
+    \end{bmatrix}
+\end{gather*}
+Applying the transformation $\Delta$ to $Y_{it} = \alpha_i + X_{it} \beta + u_{it}$ or
+\begin{gather*}
+    \Delta Y_i = \Delta X_i \beta + \Delta u_i 
+\end{gather*}
+We can see that the individual effect $u_i$ has been eliminated.
+
+Least squares applied to the differenced equation gives:
+\begin{align*}
+    \hat{\beta}_{\Delta} &= \Bigl( \sum_{i} \sum_{t=2}^{T} \Delta X_{it}^{\prime} \Delta X_{it}  \Bigr)^{-1} \Bigl( \sum_{i} \sum_{t=2}^{T} \Delta X_{it}^{\prime} \Delta Y_{it} \Bigr) \\
+                &= \Bigl( \sum_{i} \Delta X_i^{\prime} \Delta X_i \Bigr)^{-1} \Bigl( \sum_{i} \Delta X_i^{\prime} \Delta Y_i \Bigr) \\
+                &= \Bigl( \sum_{i} X_i^{\prime} D_i^{\prime} D_i X_i \Bigr)^{-1} \Bigl( \sum_{i} X_i^{\prime} D_i^{\prime} D_i Y_i \Bigr)
+\end{align*}
+is called the differenced estimator.
+
+When the errors $u_{it}$ are serially uncorrelated and homoskedastic, then the error $\Delta u_i = D_i u_i$ has the covariance matrix $H \sigma_u^2$,
+where
+\begin{gather*}
+    H = D_i D_i^{\prime} = \begin{bmatrix}
+        2 & -1 & 0 & 0 \\
+        -1 & 2 & \ddots & 0 \\
+        0 & \ddots & \ddots & -1 \\
+        0 & 0 & -1 & 2
+    \end{bmatrix}
+\end{gather*}
+We can reduce estimation variance by using GLS.
+When errors are i.i.d. (serially uncorrelated and homoskedastic),
+this is:
+\begin{align*}
+    \tilde{\beta}_{\Delta} &= \Bigl( \sum_{i} \Delta X_i^{\prime} H^{-1} \Delta X_i \Bigr)^{-1} \Bigl( \sum_{i} \Delta X_i^{\prime} H^{-1} \Delta Y_i \Bigr) \\
+                  &= \Bigl( \sum_{i} X_i^{\prime} D_i^{\prime} (D_i D_i^{\prime}) D_i X_i \Bigr)^{-1} \Bigl( \sum_{i} X_i^{\prime} D_i^{\prime} (D_i D_i^{\prime}) D_i Y_i \Bigr) \\
+                  &= \Bigl( \sum_{i} X_i^{\prime} M_i X_i \Bigr)^{-1} \Bigl( \sum_{i} X_i^{\prime} M_i Y_i \Bigr)
+\end{align*}
+where $M_i = D_i^{\prime} (D_i D_i^{\prime})^{-1} D_i$.
+Recall that $D_i$ is $(T_i - 1) \times T_i$ with rank $T_i - 1$ and is orthogonal to the
+vector of ones $\mathbf{1}_i$. This means that $M_i$ projects orthogonally to $\mathbf{1}_i$ 
+and thus equals the within transformation matrix.
+Hence $\tilde{\beta}_{\Delta} = \hat{\beta}_{FE-W}.$
+
+What we have shown is that under i.i.d. errors, 
+GLS applied to the first-differenced equation precisely
+equals the fixed effects estimator.
+
+Since the Gauss-Markov theorem shows that GLS has lower variance than least squares,
+this means that the fixed effects estimator is more efficient than first differencing
+under the assumption that $u_{it}$ is i.i.d.

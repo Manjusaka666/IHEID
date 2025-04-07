@@ -1,5 +1,5 @@
-Economists traditionally use the term \textbf{panel data} to refer to data structures consisting of observa-
-tions on individuals for multiple time periods. 
+Economists traditionally use the term \textbf{panel data} to refer to data structures consisting of observations on individuals 
+for multiple time periods. 
 There are several distinct advantages of panel data relative to cross-section data:
 \begin{enumerate}
   \item Possibility of controlling for unobserved time-invariant endogeneity without the use of instrumental variables
@@ -8,7 +8,7 @@ There are several distinct advantages of panel data relative to cross-section da
 \end{enumerate} 
 
 It's typical to index observations by both the individual $i$ and the time period, $t$,
-thus $y_{it} $ denotes a variable for indivual $i$ in time $t$, where $n=1, \cdots, N$, $t=1, \cdots, T.$
+thus $y_{it} $ denotes a variable for individual $i$ in time $t$, where $n=1, \cdots, N$, $t=1, \cdots, T.$
 
 \begin{definition}[Balanced and Unbalanced Panel Data\cite{hansen2022econometrics}]
   \
@@ -42,7 +42,7 @@ Omitting the distinction between intercept and slope, we can write the model as:
     \beta
   \end{bmatrix}
 \end{gather*}
-where $i=1:n$, $T=1:t$.
+where $i=1:_{N} $, $T=1:t$.
 
 Or, we can write the model as: 
 \[ 
@@ -58,7 +58,7 @@ The FOC of this equation is:
   \left(\sum_i \tilde{X}_i^{\prime} \tilde{X}_i \right) \tilde{\beta} &= \sum_i \tilde{X}_i^{\prime} y_i \\
   \hat{\tilde{\beta}}_{POLS} &= \left(\sum_i \tilde{X}_i^{\prime} \tilde{X}_i \right)^{-1} \sum_i \tilde{X}_i^{\prime} y_i \\
   &= \left(\sum_i \sum_t \tilde{x}_{it} \tilde{x}_{it}^{\prime} \right)^{-1} \left( \sum_i \sum_t \tilde{x}_{it} y_{it} \right) \\
-  &= \tilde{\beta} + \left(\frac{1}{nT} \sum_i \sum_t \tilde{x}_{it} \tilde{x}_{it}^{\prime} \right)^{-1} \frac{1}{nT} \left( \sum_i \sum_t \tilde{x}_{it} u_{it} \right) \\
+  &= \tilde{\beta} + \left(\frac{1}{NT} \sum_i \sum_t \tilde{x}_{it} \tilde{x}_{it}^{\prime} \right)^{-1} \frac{1}{NT} \left( \sum_i \sum_t \tilde{x}_{it} u_{it} \right) \\
   & \overset{p}{\rightarrow} \tilde{\beta} + \mathbb{E}\left[\sum_t \tilde{x}_{it} \tilde{x}_{it}^{\prime} \right] \mathbb{E}\left[\sum_t \tilde{x}_{it} u_{it} \right] \\
   &= \tilde{\beta}
 \end{align*}
@@ -68,7 +68,7 @@ The regressors are allowed to be correlated with the past, and future $u_{it}$.
 This occurs when there's feedback loop by which $y_{i,t-1}$ affects $x_{it}$.
 
 In this proof, we show that either $N \to \infty $ or $T \to  \infty $ is sufficient for consistency of $\hat{\beta}_{POLS}$.
-However, most panel data applications have a large $n$ and small $T$ dimension, so standard panel data
+However, most panel data applications have a large $N$ and small $T$ dimension, so standard panel data
 features $T$ fixed and $n \to \infty $.
 
 \subsection{Asymptotic Normality}
@@ -143,9 +143,9 @@ where $\alpha_i$ is an individual-speciﬁc effect, and $u_{it}$ are idiosyncrat
 In any case, the equation above makes clear that $\alpha_i $ contains all factors that affect $y_{it}$, that are
 not included in $x_{it}$ and that are ﬁxed over time (the time-varying factors are in $u_{it}$).
 
-Suppose hte model is correctly specified, and we have a cross-sectional detaset available, i.e. $T=1$.
+Suppose the model is correctly specified, and we have a cross-sectional dataset available, i.e. $T=1$.
 Then, we would estimate:
-\[y_{it} = \beta_0 + x_{it}^{\prime} + v_i, \text{ for} t=1,\]
+\[y_{it} = \beta_0 + x_{it}^{\prime} \beta + v_i, \text{ for } t=1,\]
 where $v_i = \alpha_i + u_{it} -\beta_0.$
 
 If the unobserved heterogeneity $\alpha_i$ is correlated with the covariate $x_{it} $,
@@ -153,10 +153,10 @@ our standard OLS estimator is biased and inconsistent.
 
 If we have a panel dataset, i.e. $T>1$, we can write the above model into a regression of $k+n$ regressors:
 \[
-y_{it} = x_{it}^{\prime} \beta + \sum_{j=1}^{n}\mathbf{1}\{i=j\} \alpha_j + u_{it} = x_{it}^{*^{\prime}} \beta^* + u_{it},
+y_{it} = x_{it}^{\prime} \beta + \sum_{j=1}^{N}\mathbf{1}\{i=j\} \alpha_j + u_{it} = x_{it}^{*^{\prime}} \beta^* + u_{it},
 \]
-where $x_{it}^* = \Bigl( x_{it}^{\prime}, \mathbf{1}\{i=1\}, \cdots, \mathbf{1}\{i=n\} \Bigr)^{\prime} $,
-and $\beta^* = \Bigl( \beta^{\prime}, \alpha_1, \cdots, \alpha_n \Bigr)^{\prime}.$
+where $x_{it}^* = \Bigl( x_{it}^{\prime}, \mathbf{1}\{i=1\}, \cdots, \mathbf{1}\{i=N\} \Bigr)^{\prime} $,
+and $\beta^* = \Bigl( \beta^{\prime}, \alpha_1, \cdots, \alpha_N \Bigr)^{\prime}.$
 
 This leads to the pooled OLS estimator for $\beta^*$:
 \[
@@ -164,6 +164,6 @@ This leads to the pooled OLS estimator for $\beta^*$:
 \]
 
 However, the estimator suffers from the so-called \textbf{IPP problem}, 
-as the number of parameters increase with $n \rightarrow\infty $, 
-the limit of $\frac{1}{n} \sum_i x_{it}^* x_{it}^{*^{\prime}}$ is not well-defined
+as the number of parameters increase with $N \rightarrow\infty $, 
+the limit of $\frac{1}{N} \sum_i x_{it}^* x_{it}^{*^{\prime}}$ is not well-defined
 and as a result, we can't establish consistency of $\hat{\beta}_{OLS}.$

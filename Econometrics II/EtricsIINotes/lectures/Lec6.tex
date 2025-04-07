@@ -28,16 +28,16 @@ we prefer the RE-estimators. If instead it is violated, we of course prefer the 
     If the test rejects this is evidence that the individual effect ui is correlated with the regressors so the random effects model is not appropriate.
 \end{theorem}
 
-\begin{note}
-    \
+% \begin{note}
+%     \
 
-    To sum up, the FE estimators work under arbitrary correlation between the unobserved
-heterogeneity $\alpha_i$ and covariates $X_i$ , but they cannot deal with time-constant regressors and
-their consistency is paid for by an efficiency loss relative to RE estimators.
+%     To sum up, the FE estimators work under arbitrary correlation between the unobserved
+% heterogeneity $\alpha_i$ and covariates $X_i$ , but they cannot deal with time-constant regressors and
+% their consistency is paid for by an efficiency loss relative to RE estimators.
 
-    Most importantly, their consistency requires strict exogeneity, 
-    a much stronger assumption than contemporaneous exogeneity of covariates and error terms.
-\end{note}
+%     Most importantly, their consistency requires strict exogeneity, 
+%     a much stronger assumption than contemporaneous exogeneity of covariates and error terms.
+% \end{note}
 
 \begin{remark}[Random Effects or Fixed Effects?(Hansen, 2022\cite{hansen2022econometrics})]
     \
@@ -45,11 +45,11 @@ their consistency is paid for by an efficiency loss relative to RE estimators.
     We have presented the random effects and fixed effects estimators of the regression coefficients.
 Which should be used in practice? How should we view the difference?
 
-    The basic distinction is that the random effects estimator requires the individual error $\alpha_i$ 
-    to satisfy the conditional mean assumption $\mathbb{E}[\alpha_i | X_i] = 0$.
+    The basic distinction is that the random effects estimator requires the individual error $\tilde{\alpha}_i$ 
+    to satisfy the conditional mean assumption $\mathbb{E}[\tilde{\alpha}_i | \tilde{X}_i] = 0$.
     The fixed effects estimator does not require this condition, and is robust to its violation. 
     
-    In particular, the individual effect $\alpha_i$ can be arbitrarily correlated to the regressors.
+    In particular, the individual effect $\tilde{\alpha}_i$ can be arbitrarily correlated to the regressors.
     On the other hand the random effects estimator is efficient under random effects.
 
     Current econometric practice is to prefer robustness over efficiency. 
