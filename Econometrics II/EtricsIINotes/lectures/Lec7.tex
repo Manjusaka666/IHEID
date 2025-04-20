@@ -24,9 +24,25 @@ we generallt have $T$ realizations of different and mutually dependent variables
     $y_t$ is a weakly stationary process if
     \begin{enumerate}
         \item $\mu_t = \mu$ for all $t$,
+        \item $\gamma_{0,t} = \gamma_0$ for all $t$,
         \item $\gamma_{h,t} = \gamma_h$ for all $t$.
     \end{enumerate}
     autocovariance function (ACF): $\{\gamma_0, \gamma_1, \cdots\}$
     autocorrelation function: $\{\rho_0, \rho_1, \cdots \}$, where $\rho_h = \frac{\gamma_h}{\gamma_0}$.
 \end{definition}
 
+
+\begin{definition}[Strong Stationarity]\label{def:strong-stationarity}
+    \
+
+    $y_t$ is a strongly stationary process if the joint distribution of $(y_{t_1}, y_{t_2}, \cdots, y_{t_k})$
+    is the same as that of $(y_{t_1+h}, y_{t_2+h}, \cdots, y_{t_k+h})$ for all $h$ and $k$.
+\end{definition}
+
+\begin{definition}[Ergododicity]\label{def:ergodicity}
+    
+    A process is said to be ergodic if time averages converge to ensemble averages.
+    \begin{gather*}
+        \lim_{n \to \infty} \vert \mathbb{E}[f(y_{t_1}, \cdots, y_{t_k}) g(y_{t_{1+n}}, \cdots, y_{t_{k+n}})] \vert - \vert \mathbb{E}[f(y_{t_1}, \cdots, y_{t_k})] \vert \vert \mathbb{E}[g(y_{t_1}, \cdots, y_{t_k})] \vert = 0, \forall t_1, \cdots, t_k, \text{ taking } k>l \text{w.l.o.g}.
+    \end{gather*}
+\end{definition}
