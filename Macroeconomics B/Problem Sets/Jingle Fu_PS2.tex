@@ -269,5 +269,150 @@ Thus the budget constraint is reduced to:
     \Rightarrow T &= \frac{1}{r} \ln \left( \frac{m_{T-} - m_T}{h_0} \right)
 \end{align*}
 
+
+
+\section{Choice of policy regime}
+
+\subsection{Constant money}
+
+Based on the rational expectation and constant money supply assumption, we have:
+\begin{gather*}
+    \mathbb{E}_t[e_{t+1}] = m_t = \bar{m}
+\end{gather*}
+SO, we have $i_{t+1} = \bar{m} - e_t$, and we implement the total output function, we can get:
+\begin{align*}
+    \overline{m} - p_t &= -\eta (\overline{m} - e_t) + \phi y_t + v_t \\
+                       &= -\eta \overline{m} + \eta e_t + \phi \left[\delta (e_t - p_t) + \varepsilon_t\right] + v_t \\
+                       &= -\eta \overline{m} + \eta e_t + \phi \delta (e_t - p_t) + \phi \varepsilon_t + v_t \\
+    \Rightarrow  (\phi \delta - 1)p_t &= (\eta + \phi \delta )e_t + \phi \varepsilon_t + v_t - (1 + \eta)\overline{m} \tag{2.1.1}
+\end{align*}
+We bring this back to the total supply function, with $\mathbb{E}_{t-1}[p_t] = \overline{m}$(expectation price is equal to the long-term equilibrium),
+we have:
+\begin{align*}
+    y_t &= \theta (p_t - \overline{m}) \Rightarrow p_t = \frac{y_t}{\theta} + \overline{m} \\
+    \Rightarrow y_t &= \delta \left( e_t - \overline{m} - \frac{y_t}{\theta} \right) + \varepsilon_t \\
+    \Rightarrow y_t &= \frac{\theta\left[\delta (e_t - \overline{m}) + \varepsilon_t \right]}{\theta + \delta} \\
+    \Rightarrow p_t &= \overline{m} + \frac{\delta (e_t - \overline{m}) + \varepsilon_t}{\theta + \delta}  \\
+\end{align*}
+Bring this back to equation 2.1.1, we have:
+\begin{gather*}
+    (\phi \delta - 1) \left[ \overline{m} + \frac{\delta (e_t - \overline{m}) + \varepsilon_t}{\theta + \delta} \right] = (\eta + \phi \delta )e_t + \phi \varepsilon_t + v_t - (1 + \eta)\overline{m} \\
+    \Rightarrow (\phi \delta + \eta) \overline{m} + \frac{\phi \delta - 1}{\theta + \delta} \left[ \delta (e_t - \overline{m}) + \varepsilon_t \right] = (\eta + \phi \delta )e_t + \phi \varepsilon_t + v_t \\
+    \Rightarrow \left[ \phi \delta + \eta - \frac{(\phi \delta - 1) \delta}{\theta + \delta} \right] \overline{m} + \left[ \frac{\phi \delta - 1}{\theta + \delta} - \phi \right]\varepsilon_t = \left[ \eta + \phi \delta - \frac{(\phi \delta - 1) \delta}{\theta + \delta} \right]e_t + v_t \\
+    \Rightarrow \frac{\phi \delta \theta + \eta (\theta + \delta) + \delta}{\theta + \delta} \overline{m} - \frac{1 + \phi \theta}{\theta + \delta} \varepsilon_t = \frac{\phi \delta \theta + \eta (\theta + \delta) + \delta }{\theta + \delta} e_t + v_t \\
+    \Rightarrow \left[ (\phi \theta + 1)\delta + \eta (\theta + \delta) \right] \overline{m} - (1 + \phi \theta) \varepsilon_t = \left[ (\phi \theta + 1)\delta + \eta (\theta + \delta) \right] e_t + v_t \\
+    \Rightarrow e_t = \overline{m} - \frac{(1 + \phi \theta)\varepsilon_t + (\theta + \delta)v_t}{(\phi \theta + 1)\delta + \eta (\theta + \delta)} \tag{2.1.2}
+\end{gather*}
+We bring this result back to $p_t$, we have:
+\begin{align*}
+    p_t &= \overline{m} + \frac{\delta (e_t - \overline{m}) + \varepsilon_t}{\theta + \delta} \\
+        &= \overline{m} + \frac{ \varepsilon_t - \frac{\delta (1 + \phi \theta) \varepsilon_t + \delta(\theta + \delta)v_t}{(\phi \theta + 1)\delta + \eta (\theta + \delta)} }{\theta + \delta} \\
+        &= \overline{m} + \frac{\eta (\theta + \delta)\varepsilon_t - \delta (\theta + \delta)}{(\theta + \delta) \left[ (\phi \theta + 1)\delta + \eta (\theta + \delta) \right]} \\
+        &= \overline{m} + \frac{\eta \varepsilon_t - \delta v_t}{(1 + \phi \theta)\delta + \eta (\theta + \delta)} \tag{2.1.3}
+\end{align*}
+and that
+\begin{align*}
+    y_t &= \frac{\theta \left[\delta (e_t - \overline{m}) + \varepsilon_t \right]}{\theta + \delta} \\
+        &= \frac{\eta \theta \varepsilon_t - \delta \theta v_t}{(\phi \theta + 1)\delta + \eta (\theta + \delta)} \tag{2.1.4}
+\end{align*}
+
+Then, the variance of output should be:
+\begin{gather*}
+    \mathbb{E}_{t-1}[y_t^2] = \left( \frac{\eta \theta}{(\phi \theta + 1)\delta + \eta (\theta + \delta)}\right)^2 \sigma_{\varepsilon}^2 + \left( \frac{\delta \theta}{(\phi \theta + 1)\delta + \eta (\theta + \delta)} \right)^2 \sigma_v^2
+\end{gather*}
+denote $A = (\phi \theta + 1)\delta + \eta (\theta + \delta)$, we have:
+\begin{gather*}
+    \mathbb{E}_{t-1}[y_t^2] = \frac{\theta^2 \eta^2 \sigma_{\varepsilon}^2 + \theta^2 \delta^2 \sigma_v^2}{A^2}.
+\end{gather*}
+
+\subsection{Exchange rate peg}
+
+Under a fixed exchange rate, $e_t = \overline{e} = \overline{m} $.
+
+From the total demand function, we have:
+\begin{gather*}
+    y_t = \delta (e_t - p_t) + \varepsilon_t = \delta (\overline{m} - p_t) + \varepsilon_t
+\end{gather*}
+From the total supply function, we have:
+\begin{gather*}
+    y_t = \theta (p_t - \mathbb{E}_{t-1}[p_t]) = \theta (p_t - \overline{m}) 
+\end{gather*}
+Combining these two equations, we have:
+\begin{align*}
+    \theta (p_t - \overline{m}) &= \delta (\overline{m} - p_t) + \varepsilon_t \\
+    \Rightarrow p_t &= \overline{m} + \frac{\varepsilon_t}{\theta + \delta}   
+\end{align*}
+Bring $p_t$ back to the total supply function, we have:
+\begin{gather*}
+    y_t = \theta (p_t - \overline{m}) = \theta \frac{\varepsilon_t}{\theta + \delta} = \frac{\theta}{\theta + \delta} \varepsilon_t 
+\end{gather*}
+As the exchange rate is pegged, $i_{t+1} = \mathbb{E}_t[e_{t+1}] - e_t = 0$.
+From the money demand function, we could get:
+\begin{align*}
+    m_t - p_t &= \phi y_t + v_t = \phi \frac{\theta}{\theta + \delta} \varepsilon_t + v_t \\
+    \Rightarrow m_t &= p_t + \phi \frac{\theta}{\theta + \delta} \varepsilon_t + v_t \\
+    \Rightarrow m_t &= \overline{m} + \frac{\varepsilon_t}{\theta + \delta} + \phi \frac{\theta}{\theta + \delta} \varepsilon_t + v_t \\
+    &= \overline{m} + \frac{(1 + \phi \theta) \varepsilon_t}{\theta + \delta} + v_t
+\end{align*}
+For the variance:
+\begin{gather*}
+    \mathbb{E}_{t-1}[y_t^2] = \left( \frac{\theta}{\theta + \delta} \right)^2 \sigma_{\varepsilon}^2
+\end{gather*}
+
+\subsection{Regime choice}
+
+The relative volatility is given by the ratio of variance under two policies, given by:
+\begin{gather*}
+    \frac{\mathbb{V}[y_t]_{peg}}{\mathbb{V}[y_t]_{money}} = \frac{\left[ \eta (\theta + \delta) + \delta (1 + \phi \theta) \right]^2}{(\theta + \delta)^2} \frac{\sigma_{\varepsilon}^2}{\eta^2 \sigma_{\varepsilon}^2 + \delta^2 \sigma_v^2}
+\end{gather*}
+So, if $\sigma_{\varepsilon}^2 / \sigma_v^2 \to 0$, the relative volativity is determined by $\sigma_v^2 / \sigma_{\varepsilon}^2 \to  \infty $, thus the ratio is close to 0,
+thus a peg policy is less volatile than a fixed money supply.
+
+When the main source of volatility is a money demand shock ($v_t$) rather than a real economy shock ($\varepsilon_t$),
+a fixed exchange rate regime stabilizes output by allowing the money supply to adjust automatically to offset money demand shocks.
+In contrast, a fixed money supply regime is unable to adjust in the face of money demand shocks,
+leading to higher output volatility.
+
+\subsection{Optimal rule}
+
+Consider the Taylor rule, we can rewrite the money demand equation as:
+\begin{gather*}
+    \overline{m} - p_t = -(\eta + \Phi) (e - e_t) + \phi y_t + v_t 
+\end{gather*}
+Compare with section 2.1, we can see that the only difference is the $\Phi$ term, which is the Taylor rule coefficient.
+
+THus we only need to replace the $\eta$ with $(\eta + \Phi)$ in the previous equations, we can get:
+\begin{align*}
+    p_t &= \overline{m} + \frac{(\eta + \Phi ) \varepsilon_t - \delta v_t}{(1 + \phi \theta)\delta + (\eta + \Phi) (\theta + \delta)} \\
+    y_t &= \frac{\theta (\eta + \Phi) \varepsilon_t - \theta \delta v_t}{\left[ (\phi \theta + 1)\delta + (\eta + \Phi) (\theta + \delta) \right]^2} \\
+    e_t &= \overline{m} - \frac{(1 + \phi \theta)\varepsilon_t + (\theta + \delta)v_t}{(\phi \theta + 1)\delta + (\eta + \Phi) (\theta + \delta)}
+\end{align*}
+
+Then, the variance of output should be:
+\begin{gather*}
+    \mathbb{E}_{t-1} [y_t^2] = \frac{\theta^2 (\eta + \Phi)^2 \sigma_{\varepsilon}^2 + \theta^2 \delta^2 v_t^2}{\left[ (\phi \theta + 1)\delta + (\eta + \Phi) (\theta + \delta) \right]^2}
+\end{gather*}
+Take the FOCs, we have:
+
+
+When $\sigma_\varepsilon^2/\sigma_v^2 \to 0$, $\Phi \to \infty$, 
+this implies that the central bank should fix the exchange rate completely. 
+This is consistent with our conclusion in 2.3.
+
+When $\sigma_v^2/\sigma_\varepsilon^2 \to 0$, $\Phi \to -\eta$. 
+This implies that the central bank should implement a fully floating exchange rate regime 
+because at this point $\Phi + \eta \approx 0$, which is equivalent to not reacting to exchange rate fluctuations.
+
+When money demand shocks dominate, 
+it is better to fix the exchange rate to offset these shocks; 
+when real economy shocks dominate, it is better to let the exchange rate float freely to absorb these shocks.
+
+
+\section{Taxation of debt}
+
+\subsection{Decentralized and centralized choice}
+
+
+
 \end{document}
 
