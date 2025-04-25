@@ -392,8 +392,24 @@ Then, the variance of output should be:
 \begin{gather*}
     \mathbb{E}_{t-1} [y_t^2] = \frac{\theta^2 (\eta + \Phi)^2 \sigma_{\varepsilon}^2 + \theta^2 \delta^2 v_t^2}{\left[ (\phi \theta + 1)\delta + (\eta + \Phi) (\theta + \delta) \right]^2}
 \end{gather*}
-Take the FOCs, we have:
 
+To solve the optimal value of $\Phi$, we aim to minimizes tha variance of output.
+First we denote $A = \eta + \Phi$ and $D = A(\theta +\delta) + \delta (1 + \phi \theta)$,
+then we know that $\frac{d A}{d \Phi} = 1$ and $\frac{d D}{d \Phi} = \theta + \delta$.
+Take the FOC of $\mathbb{E}_{t-1}[y_t^2]$, we have:
+\begin{gather*}
+    \frac{\partial \mathbb{E}_{t-1}[y_t^2]}{\partial \Phi} = \theta^2 \frac{2A \sigma_{\varepsilon}^2 D^2 - \left[A^2 \sigma_{\varepsilon}^2 + \delta^2 \sigma_v^2\right] 2D D^{\prime}}{D^4}  = 0
+\end{gather*}
+THen, we have:
+\begin{align*}
+    & A \sigma_{\varepsilon}^2 D = \left( A^2 \sigma_{\varepsilon}^2 + \delta^2 \sigma_v^2 \right)(\theta + \delta) \\
+    \Rightarrow & \left[ A^2(\theta + \delta) + A \delta (1 + \phi \theta) \right] \sigma_{\varepsilon}^2 = A^2 (\theta + \delta) \sigma_{\varepsilon}^2 + (\theta + \delta) \delta ^2 \sigma _v^2 \\
+    \Rightarrow & A = \frac{(\theta + \delta) \delta \sigma_v^2}{(1 + \phi \theta) \sigma_{\varepsilon}^2}
+\end{align*}
+So, we have:
+\begin{gather*}
+    \Phi^* = \frac{(\theta + \delta) \delta \sigma_v^2}{(1 + \phi \theta) \sigma_{\varepsilon}^2} - \eta.
+\end{gather*}
 
 When $\sigma_\varepsilon^2/\sigma_v^2 \to 0$, $\Phi \to \infty$, 
 this implies that the central bank should fix the exchange rate completely. 
