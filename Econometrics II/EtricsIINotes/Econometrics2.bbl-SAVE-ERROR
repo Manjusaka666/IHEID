@@ -551,6 +551,36 @@
       \field{year}{1985}
       \true{nocite}
     \endentry
+    \entry{Walters1982}{book}{}{}
+      \name{author}{1}{}{%
+        {{hash=0907ad0d3729c2b8f5aef4b43552f27c}{%
+           family={Walters},
+           familyi={W\bibinitperiod},
+           given={David},
+           giveni={D\bibinitperiod}}}%
+      }
+      \list{location}{1}{%
+        {New York}%
+      }
+      \list{publisher}{1}{%
+        {Dover Publications}%
+      }
+      \strng{namehash}{0907ad0d3729c2b8f5aef4b43552f27c}
+      \strng{fullhash}{0907ad0d3729c2b8f5aef4b43552f27c}
+      \strng{fullhashraw}{0907ad0d3729c2b8f5aef4b43552f27c}
+      \strng{bibnamehash}{0907ad0d3729c2b8f5aef4b43552f27c}
+      \strng{authorbibnamehash}{0907ad0d3729c2b8f5aef4b43552f27c}
+      \strng{authornamehash}{0907ad0d3729c2b8f5aef4b43552f27c}
+      \strng{authorfullhash}{0907ad0d3729c2b8f5aef4b43552f27c}
+      \strng{authorfullhashraw}{0907ad0d3729c2b8f5aef4b43552f27c}
+      \field{sortinit}{2}
+      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{labelnamesource}{author}
+      \field{labeltitlesource}{title}
+      \field{title}{An Introduction to Stochastic Processes and Their Applications}
+      \field{year}{1982}
+      \true{nocite}
+    \endentry
     \entry{bowden1973theory}{article}{}{}
       \name{author}{1}{}{%
         {{hash=f4fdf8b17b59fc6c5c86d1bc04b453b6}{%
@@ -640,8 +670,8 @@
       \strng{authornamehash}{cc85af386098cb9c11d24d4ca26249ca}
       \strng{authorfullhash}{cc85af386098cb9c11d24d4ca26249ca}
       \strng{authorfullhashraw}{cc85af386098cb9c11d24d4ca26249ca}
-      \field{sortinit}{2}
-      \field{sortinithash}{8b555b3791beccb63322c22f3320aa9a}
+      \field{sortinit}{3}
+      \field{sortinithash}{ad6fe7482ffbd7b9f99c9e8b5dccd3d7}
       \field{labelnamesource}{author}
       \field{labeltitlesource}{title}
       \field{journaltitle}{Journal of Business \& Economic Statistics}
