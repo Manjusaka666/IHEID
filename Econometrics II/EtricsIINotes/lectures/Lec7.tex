@@ -137,18 +137,120 @@ the first and second moments of the stationary time series.
     The time series $\{y_t, t \in \mathbb{Z}\}$ is said to be strictly stationary if the joint distribution of $(y_{t_1}, y_{t_2}, \cdots, y_{t_k})$
     and $(y_{t_1+h}, y_{t_2+h}, \cdots, y_{t_k+h})$ are the same for all $h$ and $k$ and $t_1, \cdots, t_k$.
 \end{definition}
-trict stationarity means intuitively that the graphs over two equal-length
-time intervals of a realization of the time series should exhibit similar statistical
-characteristics. For example, the proportion of ordinates not exceeding a
-given level $x$ should be roughly the same for both intervals.
+% Strict stationarity means intuitively that the graphs over two equal-length
+% time intervals of a realization of the time series should exhibit similar statistical
+% characteristics. For example, the proportion of ordinates not exceeding a
+% given level $y$ should be roughly the same for both intervals.
+This is the natural generalization of the cross-section definition of identical distributions.
+Strict stationarity implies that the (marginal) distribution of $y_t$ doesn't vary over time.
+It also implies that the bivariate distributions of $(y_t, y_{t+1})$ and multivariate distributions of $(y_t, \cdots, y_{t+l})$
+are stable over time.
 
 \subsection*{The Relation Between Stationarity and Strict Stationarity}
 
-\begin{definition}[Ergodicity]\label{def:ergodicity}
+If $\{y_t\}$ is strict stationary, it immediately follows, on taking $k=1$ in Definition \ref{def:strict-stationarity}, 
+that $y_t$ has the same distribution for all $t$. If $\mathbb{E}[\vert y_t \vert ^2] < \infty $,
+this implies in particular that $\mathbb{E}[y_t]$ and $\mathbb{V}[y_t]$ are constant.
+Moreover, taking $k=2$, we find that $y_{t+h}$ and $y_t$ have the same joint distribution,
+and hence the same covariance for all $h$. 
+Thus a strictly stationary process with finite second moments is stationary.
+
+The converse of the previous statement is not true. For example if $\{y_t\}$ is a sequence
+of independent RVs s.t. $y_t$ is exponentially distributed with mean 1 when $t$ is odd
+and normally distributed with mean 1 and variance 1 when $t$ is even, then $\{y_t\}$ is stationary
+with $\gamma_y(0)=1$ and $\gamma_y(h) = 0$ for $h \neq 0$. However since $y_1$ and $y_2$ have different distributions,
+$\{y_t\}$ cannot be strictly stationary.
+
+\begin{note}
+    \
+
+    There is one important case however in which stationarity does imply strict stationarity.
+\end{note}
+
+\begin{definition}[Gaussian Time Series]\label{def:gaussian-time-series}
+    \
+
+    The process $\{y_t\}$ is a Gaussian time series if and only if the distribution functions of $\{y_t\}$ are all multivariate normal.
+\end{definition}
+If $\{y_t\}$ is a stationary Gaussian time series, then for all $k \in \{1, 2, \cdots\}$ and for all $h, t_1, t_2, \cdots$,
+the random vectors $(y_{t_1}, \cdots, y_{t_k})^{\prime}$ and $(y_{t_1 + h}, \cdots, y_{t_k + h})^{\prime} $
+have the same mean and covariance matrix, and hence the same distribution. $\{y_t\}$ is strictly stationary.
+
+A straightforward but essential relationship is that an i.i.d. process is strictly stationary.
+\begin{theorem}[IID Strict Stationary]\label{thm:iid-stationary}
+    \
+
+    If $\{y_t\}$ is an i.i.d. process, then $\{y_t\}$ is strictly stationary.
+\end{theorem}
+
+\subsection{Transformations of Stationary Processes}
+One of the important properties of strict stationarity is that it is preserved by transformation. That is,
+transformations of strictly stationary processes are also strictly stationary. This includes transformations
+which include the full history of $y_t$.
+\begin{theorem}[transformation Invariance]\label{thm:transformation-invariance}
+    \
+
+    If $\{y_t\}$ is strict stationary, and $X_t = \phi (y_t, y_{t-1}, \cdots) \in \mathbb{R}^q$ is a random vector
+    then $X_t$ is also strict stationary.   
+\end{theorem}
+
+A transformation which includes the full past history is an infinite-order moving average.
+For scalar $y$ and coefficients $a_j$ define the vector process
+\begin{gather*}
+    X_t = \sum_{j=0}^{\infty} a_j y_{t-j}.
+\end{gather*}
+Many time-series models involve representations and transformations of this form.
+
+This infinite series exists if ti is convergent, meaning that the sequence $\sum_{j=0}^{N}a_j y_{t-j}$
+has a finite limit as $N \to \infty$.  Since the inputs $y_t$ are random we define this as a probability limit.
+
+\begin{definition}[Convergence]\label{def:convergence}
+    \
+
+    The infinite series $\{X_t\}$ converges almost surely if $\sum_{j=0}^{N} a_j y_{t-j}$
+    has a finite limit as $N \to \infty$ with probability 1.
+    In this case we describe $X_t$ as convergent.
     
+\end{definition}
+\begin{theorem}[Convergence-Stationary]\label{thm:convergence-stationary}
+    \
+
+    If $\{y_t\}$ is a strict stationary process, $\mathbb{E}[y] < \infty$ 
+    and $\sum_{j=0}^{\infty} \vert a_j \vert < \infty$,
+    then $X_t$ converges almost surely,
+    and the process $\{X_t\}$ is strict stationary.  
+\end{theorem}
+
+\subsection{Ergodicity}
+\label{sec:ergodicity}
+
+Stationarity alone is not sufficient for the weak law of large numbers as there are strictly stationary
+processes with no time series variation.
+
+\begin{eg}
+    \
+    
+    If the stationary process is $y_t = Z$ for some RV $Z$.
+    This is random but constant over all time. 
+    An implication is that the sample mean of $y_t = Z$ will be inconsistent for the population expectation.
+\end{eg}
+
+What is a minimal assumption beyond stationarity so that the law of large numbers applies? This
+topic is called \textbf{ergodicity}.
+It is sufficiently important that it is treated as a separate area of study. We
+mention only a few highlights here. For a rigorous treatment see a standard textbook such as Walters
+(1982).
+
+A useful intuition is that if $y_t$ is ergodic then its sample paths will pass through all parts of the sample
+space never getting ``stuck'' in a subregion. 
+Or, in a more plain language, it ensures that observations become independent when we consider large enough displacements.
+
+\begin{definition}[Ergodicity]\label{def:ergodicity}
+    \
+
     A process is said to be ergodic if time averages converge to ensemble averages.
     \begin{gather*}
-        \lim_{n \to \infty} \vert \mathbb{E}[f(y_{t_1}, \cdots, y_{t_k}) g(y_{t_{1+n}}, \cdots, y_{t_{k+n}})] \vert - \vert \mathbb{E}[f(y_{t_1}, \cdots, y_{t_k})] \vert \vert \mathbb{E}[g(y_{t_1}, \cdots, y_{t_k})] \vert = 0, \\
-        \forall t_1, \cdots, t_k, \text{ taking } k>l \text{w.l.o.g}.
+        \lim_{n \to \infty} \left| \mathbb{E}[f(y_{t_1}, \cdots, y_{t_k}) g(y_{t_1 + n}, \cdots, y_{t_k + n})] \right| - \left| \mathbb{E}[f(y_{t_1}, \cdots, y_{t_k})] \right| \left| \mathbb{E}[g(y_{t_1}, \cdots, y_{t_k})] \right| = 0, \\
+        \forall t_1, \cdots, t_k, \text{ taking } k>l \text{ w.l.o.g}. 
     \end{gather*}
 \end{definition}
