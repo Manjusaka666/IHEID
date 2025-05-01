@@ -1,48 +1,154 @@
-\section{Univariate Time Series}
+\section{Fundamentals of Time Series Analysis}
+\label{sec:fundamentals-of-time-series-analysis}
 
-We have a sample $\{w_i\}_{i=1}^n$, with $w_i = (y_i, x_i^{\prime})^{\prime}$, 
+A \textbf{time series} $Y_t \in \mathbb{R}^m$ is a process which is sequentially ordered over time.
+The time series is univariate if $m = 1$ and multivariate if $m > 1$.
 
-$\{w_{it}\}_{i=1:n, t=1:T}$.
+Most economic time series are recorded at discrete intervals such as annual, quarterly, monthly,
+weekly, or daily. The number of observed periods $s$ per year is called the \textbf{frequency}.
+In most cases we will denote the observed sample by the periods $t = 1, \cdots, n$. 
 
-Now, we look at $\{w_t\}_{i=1}^T$, usually written as $y_t$, is univariate time series data.
+% Suppose we have a sample $\{w_i\}_{i=1}^n$, with $w_i = (y_i, x_i^{\prime})^{\prime}$, $\{w_{it}\}_{i=1:n, t=1:T}$.
 
-In the cross-sectional context, we average over $i$ to get 
-\[\mathbb{E}[u_i] = \int u_i f_u(u_i) d u_i.\]
+% Now, we look at $\{w_t\}_{i=1}^T$, usually written as $y_t$, is univariate time series data.
+Recall that cross-sectional observations are conventionally treated as random draws from an under-
+lying population. This is not an appropriate model for time series processes due to serial dependence.
+Instead, we treat the observed sample $\{y_1, \cdots, y_n\}$ as a realization of a dependent stochastic process. It is
+often useful to view $\{y_1, \cdots, y_n\}$ as a subset of an underlying doubly-infinite sequence $\{\cdots, y_{t-1}, y_t, y_{t+1}, \cdots \}$.
 
-Under tiem series data, we also think $y_t$ as a RV. without i.i.d. assumption,
-we generallt have $T$ realizations of different and mutually dependent variables.
+A random vector $Y_t$ can be characterized by its distribution. A set such as $\{y_t, y_{t+1}, \cdots, y_{t+l} \}$ can be
+characterized by its joint distribution. Important features of these distributions are their \textbf{means, vari-
+ances, and covariances}.
 
-\begin{gather*}
-    \mathbb{E}[y_t] = \int y_t f_{y_t}(y_t) d y_t = \mu_t, \\
-    \mathbb{V}[y_t] = \mathbb{E}\Bigl[(y_t - \mu_t)^2 \Bigr] = \gamma_{0,t}, \\
-    \operatorname{Cov}(y_t, y_{t-h}) = \mathbb{E}\Bigl[ (y_t - \mu_t)(y_{t-h} - \mu_{t-h}  ) \Bigr] = \gamma_{h,t}.
-\end{gather*}
-
-\begin{definition}[Weak Stationarity]\label{def:weak-stationarity}
+\begin{remark}
     \
 
-    $y_t$ is a weakly stationary process if
+    Time series theory is a mixture of probabilistic and statistical concepts. 
+    The probabilistic part is to study and characterize probability distributions 
+    of sets of variables $y_t$ that will typically be dependent.
+    The statistical problem is to determine the probability distribution of the time series
+    given observations $y_1, \cdots, y_n$ at times $1,2, \cdots, n.$
+    The resulting stochastic model can be used in two ways:
+    \begin{itemize}
+        \item understanding the stochastic system;
+        \item predicting the ``future'', i.e. $y_{n+1}, y_{n+2}, \cdots$
+    \end{itemize}
+\end{remark}
+% In the cross-sectional context, we average over $i$ to get 
+% \[\mathbb{E}[y_i] = \int y_i f_y(y_i) d y_i.\]
+
+
+As mentioned above, under time series data, we care about the joint distribution of random variable $y_t$.
+
+We give the following definitions of the mean, variance, and covariance of a random variable $y_t$.
+\begin{definition}[Mean function]\label{def:mean-function}
+    \
+
+    The mean function of a random variable $y_t$ is defined as
+    \begin{gather*}
+        \mu_t = \mathbb{E}[y_t] = \int y_t f_{t}(y_t) d y_t,
+    \end{gather*}
+    where $f_{t}(y_t)$ is the probability density function (PDF) of $y_t$.
+\end{definition}
+
+\begin{definition}[Autocovariance function]\label{def:autocovariance-function}
+    \
+
+    The autocovariance function of a random variable $y_t$ is defined as
+    \begin{gather*}
+        \gamma_{y}(r,s) = \operatorname{Cov}(y_r, y_s) = \mathbb{E}\Bigl[ (y_r - \mu_r)(y_s - \mu_s) \Bigr].
+    \end{gather*}    
+\end{definition}
+
+\begin{definition}[Autocorrelation function]\label{def:autocorrelation-function}
+    \
+
+    The autocorrelation function (ACF) of a random variable $y_t$ is defined as
+    \begin{gather*}
+        \rho_{y}(r,s) = \frac{\operatorname{Cov}(y_r, y_s)}{\sqrt{\operatorname{Var}(y_r) \operatorname{Var}(y_s)}} = \frac{\gamma_{y}(r,s)}{\sqrt{\gamma_{y}(r,r) \gamma_{y}(s,s)}}.
+    \end{gather*}
+    
+\end{definition}
+
+\subsection{Stationarity and Strict Stationarity}
+
+\begin{definition}[Stationarity]\label{def:weak-stationarity}
+    \
+
+    The time serie $\{y_t, t \in \mathbb{Z}\}$, is said to be stationary if:
     \begin{enumerate}
-        \item $\mu_t = \mu$ for all $t$,
-        \item $\gamma_{0,t} = \gamma_0$ for all $t$,
-        \item $\gamma_{h,t} = \gamma_h$ for all $t$.
+        \item[(i)] $\mathbb{E}[\vert y_t \vert ^2] < \infty$, for all $t$,
+        \item[(ii)] $\mathbb{E}[y_t] = \mu $, for all $t$,
+        \item[(iii)] $\gamma_y(r,s) = \gamma_y(r+t, s+t)$, for all $r,s,t \in \mathbb{Z}$. 
     \end{enumerate}
-    autocovariance function (ACF): $\{\gamma_0, \gamma_1, \cdots\}$
-    autocorrelation function: $\{\rho_0, \rho_1, \cdots \}$, where $\rho_h = \frac{\gamma_h}{\gamma_0}$.
 \end{definition}
 
+\begin{remark}[About Stationarity]
+    \
+    
+    Stationarity as just defined is frequently referred to in the literature as weak stationarity,
+    covariance stationarity, stationarity in the wide sense or second-order stationarity.
+    For us however the term stationarity, without further qualification, 
+    will always refer to the properties specified by Definition \ref{def:weak-stationarity},
+    that is, when we say stationary, we mean weak stationary.
+\end{remark}
 
-\begin{definition}[Strong Stationarity]\label{def:strong-stationarity}
+If $\{y_t, t \in \mathbb{Z}\}$ is \textbf{stationary}, then $\gamma_y(r,s) = \gamma_y(r-s, 0)$ for all $r,s \in \mathbb{Z}$.
+It is therefore convenient to redefine the autocovariance function of a stationary
+process as the function of just one variable,
+\begin{gather*}
+    \gamma_y(h) \equiv \gamma_y(h, 0) = \operatorname{Cov}(y_{t+h}, y_t), \quad \forall t, h \in \mathbb{Z}.
+\end{gather*}
+The function $\gamma_y(\cdot)$ will be referred to as the autocovariance function of $\{y_t\}$
+and $\gamma_y(h)$ as its value at lag $h$. The autocorrelation function (ACF) of $\{y_t\}$
+is defined analogously as the function whose value at lag $h$ is given by
+\begin{gather*}
+    \rho_y(h) = \frac{\gamma_y(t+h, t)}{\sqrt{\gamma_y(t+h, t) \gamma_y(t,t)} } = \frac{\gamma_y(h)}{\gamma_y(0)} = \operatorname{Corr}(y_{t+h}, y_t).
+\end{gather*}
+The auto-covariance and auto-correlation are functions $\gamma_y: \mathbb{Z} \to \mathbb{R}$ and $\rho_y: \mathbb{Z} \to [-1,1].$
+Together with the mean $\mu = \mathbb{E}[y_t]$, they determine
+the first and second moments of the stationary time series. 
+
+% We also think of $y_t$ as a random variable (RV). Without the i.i.d. assumption,
+% we generally have $T$ realizations of different and mutually dependent variables.
+% \begin{gather*}
+%     \mathbb{E}[y_t] = \int y_t f_{t}(y_t) d y_t = \mu_t, \\
+%     \mathbb{V}[y_t] = \mathbb{E}\Bigl[(y_t - \mu_t)^2 \Bigr] = \gamma_{0,t}, \\
+%     \operatorname{Cov}(y_t, y_{t-h}) = \mathbb{E}\Bigl[ (y_t - \mu_t)(y_{t-h} - \mu_{t-h}  ) \Bigr] = \gamma_{h,t}.
+% \end{gather*}
+
+% \begin{definition}[Weak Stationarity]\label{def:weak-stationarity}
+%     \
+
+%     $y_t$ is a weakly stationary process if
+%     \begin{enumerate}
+%         \item $\mu_t = \mu$ for all $t$,
+%         \item $\gamma_{0,t} = \gamma_0$ for all $t$,
+%         \item $\gamma_{h,t} = \gamma_h$ for all $t$.
+%     \end{enumerate}
+%     autocovariance function (ACF): $\{\gamma_0, \gamma_1, \cdots\}$
+%     autocorrelation function: $\{\rho_0, \rho_1, \cdots \}$, where $\rho_h = \frac{\gamma_h}{\gamma_0}$.
+% \end{definition}
+
+
+\begin{definition}[Strict Stationarity]\label{def:strict-stationarity}
     \
 
-    $y_t$ is a strongly stationary process if the joint distribution of $(y_{t_1}, y_{t_2}, \cdots, y_{t_k})$
-    is the same as that of $(y_{t_1+h}, y_{t_2+h}, \cdots, y_{t_k+h})$ for all $h$ and $k$.
+    The time series $\{y_t, t \in \mathbb{Z}\}$ is said to be strictly stationary if the joint distribution of $(y_{t_1}, y_{t_2}, \cdots, y_{t_k})$
+    and $(y_{t_1+h}, y_{t_2+h}, \cdots, y_{t_k+h})$ are the same for all $h$ and $k$ and $t_1, \cdots, t_k$.
 \end{definition}
+trict stationarity means intuitively that the graphs over two equal-length
+time intervals of a realization of the time series should exhibit similar statistical
+characteristics. For example, the proportion of ordinates not exceeding a
+given level $x$ should be roughly the same for both intervals.
 
-\begin{definition}[Ergododicity]\label{def:ergodicity}
+\subsection*{The Relation Between Stationarity and Strict Stationarity}
+
+\begin{definition}[Ergodicity]\label{def:ergodicity}
     
     A process is said to be ergodic if time averages converge to ensemble averages.
     \begin{gather*}
-        \lim_{n \to \infty} \vert \mathbb{E}[f(y_{t_1}, \cdots, y_{t_k}) g(y_{t_{1+n}}, \cdots, y_{t_{k+n}})] \vert - \vert \mathbb{E}[f(y_{t_1}, \cdots, y_{t_k})] \vert \vert \mathbb{E}[g(y_{t_1}, \cdots, y_{t_k})] \vert = 0, \forall t_1, \cdots, t_k, \text{ taking } k>l \text{w.l.o.g}.
+        \lim_{n \to \infty} \vert \mathbb{E}[f(y_{t_1}, \cdots, y_{t_k}) g(y_{t_{1+n}}, \cdots, y_{t_{k+n}})] \vert - \vert \mathbb{E}[f(y_{t_1}, \cdots, y_{t_k})] \vert \vert \mathbb{E}[g(y_{t_1}, \cdots, y_{t_k})] \vert = 0, \\
+        \forall t_1, \cdots, t_k, \text{ taking } k>l \text{w.l.o.g}.
     \end{gather*}
 \end{definition}
