@@ -235,22 +235,117 @@ processes with no time series variation.
     An implication is that the sample mean of $y_t = Z$ will be inconsistent for the population expectation.
 \end{eg}
 
-What is a minimal assumption beyond stationarity so that the law of large numbers applies? This
-topic is called \textbf{ergodicity}.
-It is sufficiently important that it is treated as a separate area of study. We
-mention only a few highlights here. For a rigorous treatment see a standard textbook such as Walters
-(1982).
+We now motivate the concept of ergodicity. Conceptionally, this is more difficult to understand
+than the mean and variance. But it is a very helpful tool when analysing estimators. It allows one
+to simply replace the sample mean by its expectation without the need to evaluating a variance,
+which is extremely useful in some situations.
+
+It can be difficult to evaluate the mean and variance of an estimator. Therefore, we may want
+an alternative form of convergence (instead of the mean squared error). To see whether this is
+possible we recall that for i.i.d random variables we have the very useful law of large numbers
+\begin{gather*}
+    \frac{1}{n} \sum_{t=1}^{n} y_t \xrightarrow{a.s.} \mathbb{E}[y_t] = \mu.
+\end{gather*}
+and in general $\frac{1}{n} \sum_{t=1}^{n} g(y_t) \xrightarrow{a.s.} \mathbb{E}[g(y)]$ if $\mathbb{E}[g(y)] < \infty$.
+Does such a result exists in time series? 
+It does, but we require the slightly stronger condition that a time series is ergodic 
+(which is a slightly stronger condition than the strictly stationary).
+
+% What is a minimal assumption beyond stationarity so that the law of large numbers applies? This
+% topic is called \textbf{ergodicity}.
+% It is sufficiently important that it is treated as a separate area of study. We
+% mention only a few highlights here. For a rigorous treatment see a standard textbook such as Walters
+% (1982).
 
 A useful intuition is that if $y_t$ is ergodic then its sample paths will pass through all parts of the sample
 space never getting ``stuck'' in a subregion. 
-Or, in a more plain language, it ensures that observations become independent when we consider large enough displacements.
+% Or, in a more plain language, it ensures that observations become independent when we consider large enough displacements.
 
-\begin{definition}[Ergodicity]\label{def:ergodicity}
+% \begin{definition}[Ergodicity]\label{def:ergodicity}
+%     \
+
+%     A process is said to be ergodic if time averages converge to ensemble averages.
+%     \begin{gather*}
+%         \lim_{n \to \infty} \left| \mathbb{E}[f(y_{t_1}, \cdots, y_{t_k}) g(y_{t_1 + n}, \cdots, y_{t_k + n})] \right| - \left| \mathbb{E}[f(y_{t_1}, \cdots, y_{t_k})] \right| \left| \mathbb{E}[g(y_{t_1}, \cdots, y_{t_k})] \right| = 0, \\
+%         \forall t_1, \cdots, t_k, \text{ taking } k>l \text{ w.l.o.g}. 
+%     \end{gather*}
+% \end{definition}
+
+\begin{definition}[Ergodicity: Formal Definition*]\label{def:ergodicity}
     \
 
-    A process is said to be ergodic if time averages converge to ensemble averages.
+    Let $(\Omega, \mathcal{F}, P)$ be a probability space.
+    A transformation $T: \Omega \to \Omega$ is said to be a measure preserving
+    if for every set $A \in \mathcal{F}$, $P(T^{-1}(A)) = P(A)$.
+    Moreover, it is said to be an ergodic transformation if $T^{-1} A = A$ implies $P(A)=0$ or $1$.
+
+    It is not obvious what this has to do with stochastic processes, but we attempt to make a link.
+    Let us suppose that $y = \{y_t\}$ is a strictly stationary process defined on the probability space $(\Omega, \mathcal{F}, P)$.
+    By strict stationarity the transformation (shifting a sequence by one)
     \begin{gather*}
-        \lim_{n \to \infty} \left| \mathbb{E}[f(y_{t_1}, \cdots, y_{t_k}) g(y_{t_1 + n}, \cdots, y_{t_k + n})] \right| - \left| \mathbb{E}[f(y_{t_1}, \cdots, y_{t_k})] \right| \left| \mathbb{E}[g(y_{t_1}, \cdots, y_{t_k})] \right| = 0, \\
-        \forall t_1, \cdots, t_k, \text{ taking } k>l \text{ w.l.o.g}. 
+        T(y_1, y_2, \cdots) = (y_2, y_3, \cdots)
+    \end{gather*}
+    is a measure preserving transformation. 
+    To understand ergodicity we define the set $A$, where
+    \begin{gather*}
+        A = \{\omega: \left( y_1(\omega), y_0(\omega), \cdots \right) \in H \} = \{ \omega: \left( y_{-1}(\omega), y_{-2}(\omega), \cdots \right) \in H \}.
+    \end{gather*}
+    The stochastic process is said to be ergodic, 
+    if the only sets which satisfies the above are such that $P(A) = 0$ or $1$.
+    Roughly, this means there cannot be too many outcomes $\omega$ which generate sequences which `repeat' itself (are periodic in some sense).
+
+    An equivalent definition is given later. From this definition it can be seen why `repeats' are a bad idea. 
+    If a sequence repeats, the time average is unlikely to converge to the mean.
+\end{definition}
+
+The definition of ergodicity, given above, is quite complex and is rarely used in time series analysis.
+However, one consequence of ergodicity is the ergodic theorem, which is extremely useful in time
+series.
+
+\begin{theorem}[Ergodic Theorem]\label{thm:ergodic-theorem}
+    \
+
+    If $\{y_t\}$ is a strict stationary process, and $\mathbb{E}[y] = \mu < \infty$, then as $n \to \infty$:
+    \begin{gather*}
+        \mathbb{E}\left[ \frac{1}{n} \sum_{t=1}^{n} y_t - \mu \right] \to 0
+    \end{gather*}
+    and
+    \begin{gather*}
+        \frac{1}{n} \sum_{t=1}^{n} y_t \xrightarrow{a.s.} \mu.
+    \end{gather*} 
+\end{theorem}
+
+\begin{proposition}[CLT for SS \& Ergodic Processes]\label{prop:clt-ss-ergodic}
+    \
+    
+    If the process $\{y_t\}$ is strict stationary and ergodic, and $\mathbb{E}[y] = \mu < \infty$,
+    $\mathbb{V}[y_t] = \sigma^2 < \infty$, and $\bar{\sigma}_T^2 = \mathbb{V}[\frac{1}{\sqrt{T}}\sum_{t=1}^{T} y_t] \xrightarrow{p} \bar{\sigma}^2 < \infty$,
+    then
+    \begin{gather*}
+        \frac{1}{\sqrt{T}} \sum_{t=1}^{T} y_t \xrightarrow{d} \mathcal{N}(\mu, \bar{\sigma}^2).
+    \end{gather*}
+\end{proposition}
+
+\begin{definition}[Ergodicity: Plain Definition]\label{def:ergodicity-plain}
+    \
+
+    In general, for any shift $\tau_1, \cdots, \tau_k$, and function $g: \mathbb{R}^{k+1} \to \mathbb{R}$,
+    we have:
+    \begin{gather*}
+        \frac{1}{n} \sum_{t=1}^{n} g(y_t, y_{t+\tau_1}, \cdots, y_{t+\tau_k}) \xrightarrow{a.s.} \mathbb{E}[g(y, y_{t+\tau_1}, \cdots, y_{t+\tau_k})].
     \end{gather*}
 \end{definition}
+This is mostly used as the definition of ergodicity,
+as it is an iff with the ergodic definition.
+This result generalises the strong law of large numbers
+(which shows almost sure convergence for i.i.d. random variables)
+to dependent random variables.
+
+Definition \ref{def:ergodicity-plain} also gives us an idea of what constitutes an ergodic process.
+Suppose that $\{\epsilon_t\}$ is an ergodic process (a classical example are i.i.d. random variables).
+Then any reasonable (meaning measurable) function of $\{y_t\}$ is also ergodic
+if $y_t$ is defined as:
+\begin{gather*}
+    y_t = h(\cdots, \epsilon_t, \epsilon_{t-1}, \cdots)
+\end{gather*}
+where $\{\epsilon_t\}$ are i.i.d. RVs and $h$ is a measurable function.
