@@ -277,9 +277,9 @@ Thus the budget constraint is reduced to:
 
 Based on the rational expectation and constant money supply assumption, we have:
 \begin{gather*}
-    \mathbb{E}_t[e_{t+1}] = m_t = \bar{m}
+    \mathbb{E}_t[e_{t+1}] = m_t = \overline{m}
 \end{gather*}
-SO, we have $i_{t+1} = \bar{m} - e_t$, and we implement the total output function, we can get:
+SO, we have $i_{t+1} = \overline{m} - e_t$, and we implement the total output function, we can get:
 \begin{align*}
     \overline{m} - p_t &= -\eta (\overline{m} - e_t) + \phi y_t + v_t \\
                        &= -\eta \overline{m} + \eta e_t + \phi \left[\delta (e_t - p_t) + \varepsilon_t\right] + v_t \\
@@ -374,13 +374,21 @@ In contrast, a fixed money supply regime is unable to adjust in the face of mone
 leading to higher output volatility.
 
 \subsection{Optimal rule}
-
-Consider the Taylor rule, we can rewrite the money demand equation as:
+At steady state, we have:
 \begin{gather*}
-    \overline{m} - p_t = -(\eta + \Phi) (e - e_t) + \phi y_t + v_t 
+    i = \mathbb{E}_t \overline{e} - \overline{e} = 0 \\
+    \overline{y} = \theta(\overline{p} - \overline{p}) = 0 \\
+    \overline{y} = \delta(\overline{e} - \overline{p}) + 0 = 0 \implies \overline{e} = \overline{p} \\
+    \overline{m} - \overline{p} = -\eta i + \phi \overline{y} + 0 \implies \overline{m} = \overline{p}
 \end{gather*}
-Compare with section 2.1, we can see that the only difference is the $\Phi$ term, which is the Taylor rule coefficient.
+which means $\overline{e} = \overline{p} = \overline{m}$ and $i_{t+1} = \mathbb{E}_t e_{t+1} - e_t = \overline{e} - e_t = \overline{m} - e_t$. Therefore:
+\begin{gather*}
+    m_t - p_t = -\eta i_{t+1} + \phi y_t + v_t \\
+    \overline{m} + \Phi(\overline{e} - e_t) - p_t = -\eta (\overline{e} - e_t) + \phi y_t + v_t \\
+    \overline{m} - p_t = -(\eta + \Phi)(\overline{e} - e_t) + \phi y_t + v_t
+\end{gather*}
 
+Compare with section 2.1, we can see that the only difference is the $\Phi$ term, which is the Taylor rule coefficient.
 Thus we only need to replace the $\eta$ with $(\eta + \Phi)$ in the previous equations, we can get:
 \begin{align*}
     p_t &= \overline{m} + \frac{(\eta + \Phi ) \varepsilon_t - \delta v_t}{(1 + \phi \theta)\delta + (\eta + \Phi) (\theta + \delta)} \\
@@ -472,19 +480,19 @@ Under the first tax regime, the interest rate with tax is:
 \end{gather*}
 So, the household's utility maximization is:
 \begin{gather*}
-    \max_{D_1} U(D_1) = \max_{D_1} \left\{ D_1 + \frac{1}{1 + \delta} \left[ Y_2 - (1 + r_s + \gamma D_1)D_1 \right] \right\} 
+    \max_{D_1} U(D_1) = \max_{D_1} \left\{ D_1 + \frac{1}{1 + \delta} \left[ Y_2 - (1 + r_s + \tau^{variable})D_1 \right] \right\} 
 \end{gather*}
 where $r_s$ is still regarded as a constant.
 Take the first order derivative w.r.t. $D_1$ and set it to 0, we have:
 \begin{align*}
-    & 1 - \frac{1 + r_s + 2 \gamma D_1}{1+\delta} = 0 \\
-    \Rightarrow & \delta = r_s + 2 \gamma D_1 
+    & 1 - \frac{1 + r_s + 2 \tau^{variable} D_1}{1+\delta} = 0 \\
+    \Rightarrow & \delta = r_s + \gamma D_1 
 \end{align*}
 If we want the household to choose $D_1^{centralized}$, we bring this back to the tax rate:
 \begin{align*}
-    \delta &= r + \frac{\delta - r}{2} + 2 \gamma \frac{\delta - r}{2 \alpha} \\
-    \Rightarrow \gamma &= \frac{\alpha}{2} \\
-    \Rightarrow \tau^{variable} &= \frac{\alpha}{2} D_1
+    \delta &= r + \frac{\delta - r}{2} +  \gamma \frac{\delta - r}{2 \alpha} \\
+    \Rightarrow \gamma &= \alpha \\
+    \Rightarrow \tau^{variable} &= \alpha D_1
 \end{align*}
 
 Under a flat tax rate, we have the household's utility maximization problem as:
@@ -504,7 +512,7 @@ As we still require $D_1 = D_1^{centralized}$, we bring it back:
 \end{align*}
 From a feasibility point of view, there are advantages and disadvantages to each of these two tax systems: 
 
-Variable tax rate ($\tau_{variable} = \gamma D_1$ where $\gamma = \frac{\alpha}{2}$):
+Variable tax rate ($\tau_{variable} = \gamma D_1$ where $\gamma = \alpha$):
 
 Advantages: adjusts with debt level, more accurate treatment of externalities 
 Disadvantages: governments need to accurately estimate the $\alpha$ parameter, which can be challenging in practice
