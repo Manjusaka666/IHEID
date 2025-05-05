@@ -1,0 +1,143 @@
+\section{Inference of Univariate Time Series Models}
+\label{sec:inference-univariate-time-series-models}
+
+\begin{gather*}
+    y_t \sim \text{WS} \Leftrightarrow y_t \sim I(0) \\
+    \Delta y_t \sim \text{WS} \Leftrightarrow y_t \sim I(1) \\
+    \underset{\Delta^2 y_t}{\underbrace{\Delta y_t - \Delta y_{t-1}}} \sim \text{WS} \Leftrightarrow y_t \sim I(2)
+\end{gather*}
+
+\subsection{Estimation of $AR(p)$ Models}
+
+Let's consider the following AR(1) model:
+\begin{gather*}
+    y_t = \alpha + \beta y_{t-1} + u_t = x_t^{\prime} \phi + u_t\\
+    x_t = \begin{bmatrix} 1 \\ y_{t-1} \end{bmatrix}, \phi = \begin{bmatrix} \phi_0 \\ \phi_1 \end{bmatrix} \\
+    \quad \text{where } u_t \text{ is a white noise process}
+\end{gather*}
+As $u_t$ is the white noise, $\mathbb{E}[x_t u_t] = 0$, and that $x_t$ is a function of $u_{t-1}, u_{t-2}, \cdots$.
+If $u_t$ is strict white noise, e.g. $u_t \sim i.i.d. N(0, \sigma^2)$, then $\mathbb{E}[u_t | x_t] = \mathbb{E}[u_t] = 0$.
+
+\subsubsection{OLS estimator}
+\begin{gather*}
+    \hat{\phi} = \argmin_{\phi} \sum_{t=1}^{T} u_t^2 \\
+    U^{\prime} U = (Y - X\phi)^{\prime} (Y - X\phi) \\
+    \Rightarrow \hat{\phi} = (X^{\prime} X)^{-1} X^{\prime} Y
+\end{gather*}
+Fot the true model, we then analyze the consistency and asymptotic normality of the OLS estimator.
+\begin{align*}
+    \hat{\phi} &= (X^{\prime} X)^{-1} X^{\prime} Y \\
+    &= (X^{\prime} X)^{-1} X^{\prime} (X\phi + U) \\
+    &= \phi + (X^{\prime} X)^{-1} X^{\prime} U \\
+    &= \phi + \left( \frac{1}{T} \sum_{t} x_t x_t^{\prime} \right)^{-1} \frac{1}{T} \sum_{t=1}^{T} x_t u_t \\
+    \overset{p}{\rightarrow} \phi + \mathbb{E}[x_t x_t^{\prime}] \mathbb{E}[x_t u_t] \\
+    &= \phi \text{ for SS+E, TS}
+\end{align*}
+So, $\hat{\phi}$ is consistent.
+\begin{align*}
+    \sqrt{T}(\hat{\phi} - \phi) &= \sqrt{T} \left( \frac{1}{T} \sum_{t=1}^{T} x_t u_t \right)^{\prime} \left( \frac{1}{T} \sum_{t=1}^{T} x_t x_t^{\prime} \right)^{-1} \\
+    & \overset{d}{\rightarrow} \mathbb{E}[x_t x_t^{\prime}]^{-1} \mathcal{N} \left(0, \mathbb{V}\left[\frac{1}{\sqrt{T}} \sum_{t} x_t u_t \right]\right)
+\end{align*}
+where
+\begin{align*}
+    \frac{1}{T} \mathbb{V}\left[\sum_{t=1}^{T} x_t u_t\right] &= \frac{1}{T} \sum_{t} \mathbb{V}[x_t u_t] + \frac{1}{T} \sum_{t} \sum_{\tau \neq t} \operatorname{Cov}(x_t u_t, x_\tau u_\tau) \\
+    &= \mathbb{E}[u_{t}^2 x_t x_t^{\prime}] + \frac{1}{T} \sum_{t} \sum_{\tau \neq t} \mathbb{E}[u_t u_{\tau}] x_t x_{\tau}^{\prime} \\
+    \text{Assume that } u_t \sim \mathcal{N}(0, \sigma^2)
+    &= \mathbb{E}[u_t^2] \mathbb{E}[x_t x_t^{\prime}] + \frac{1}{T} \sum_{t} \sum_{\tau} \mathbb{E}[u_t] \mathbb{E}[u_{\tau}] \mathbb{E}[x_t x_{\tau}^{\prime}] \\
+    &= \sigma^2 \mathbb{E}[x_t x_t^{\prime}] \\
+    \Rightarrow \sqrt{T}(\hat{\phi} - \phi) &\overset{d}{\rightarrow} \mathcal{N}\left(0, \underset{V}{\underbrace{\sigma^2 \mathbb{E}[x_t x_t^{\prime}]^{-1}}} \mathbb{E}[x_t x_t^{\prime}] \mathbb{E}[x_t x_t^{\prime}]^{-1} \right)
+\end{align*}
+For the estimators:
+\begin{gather*}
+    \hat{V} = \hat{\sigma}^2 \left( \frac{1}{T} \sum_{t=1}^{T} x_t x_t^{\prime} \right)^{-1} \\
+    \hat{\sigma}^2 = \frac{1}{T} \sum_{t=1}^{T} \hat{u}_t^2
+\end{gather*}
+like with cross sectional data.
+
+In addition,
+\begin{gather*}
+    \mathbb{E}[x_t x_t^{\prime}] = \mathbb{E}\left[ \begin{bmatrix}
+        1 \\
+        y_{t-1}
+    \end{bmatrix} \begin{bmatrix}
+        1 & y_{t-1} 
+    \end{bmatrix} \right] = \mathbb{E} \begin{bmatrix}
+        1 & y_{t-1} \\
+        y_{t-1} & y_{t-1}^2
+    \end{bmatrix} = \begin{bmatrix}
+        1 & \frac{\phi_0}{1 - \phi_1} \\
+        \frac{\phi_0}{1 - \phi_1} & \mathbb{E}[y_t^2]
+    \end{bmatrix} \\
+    \text{where } \mathbb{E}[y_t] = \frac{\phi_0}{1 - \phi_1} , \mathbb{V}[y_t] = \frac{\sigma^2}{1 - \phi_1^2}, \mathbb{E}[y_t^2] = \mathbb{V}[y_t] + \mathbb{E}[y_t]^2 = \frac{\sigma^2}{1 - \phi_1^2} + \frac{\phi_0^2}{(1 - \phi_1)^2}
+\end{gather*}
+For the estimator, 
+\begin{gather*}
+    \hat{\mathbb{E}}[x_t x_t^{\prime}] = \begin{bmatrix}
+        1 & \frac{\hat{\phi}_0^2}{1 - \hat{\phi}_1} \\
+        \frac{\hat{\phi}_0^2}{1 - \hat{\phi}_1} & \frac{\hat{\sigma}^2}{1 - \hat{\phi}_1^2} + \frac{\hat{\phi}_0^2}{(1 - \hat{\phi}_1)^2}
+    \end{bmatrix}
+\end{gather*}
+
+\subsubsection{MLE estimator}
+\begin{align*}
+    \hat{\phi}_{ML} &= \argmax_{\phi} p\left( y_T | y_1, \cdots, y_{T-1}, \phi \right) p\left( y_{T-1}, y_{T-2}, \cdots, y_1 | \phi, y_0 \right) \\
+    &= \prod_{t=1}^{T} p(y_t | y_{1:t-1}, \phi)
+\end{align*}
+Under $AR(1)$, only the first lag is important for the distribution of $y_t$.
+\begin{gather*}
+    p(y_t | y_{1:t-1}, \phi) = p(y_t | \phi, y_{t-1})
+\end{gather*}
+We further assume $u_t \sim \mathcal{N} (0, \sigma^2)$, then we get: $y_t | y_{t-1} \sim \mathcal{N} (\phi y_{t-1}, \sigma^2)$, thus
+\begin{align*}
+    p(y_{1:T} | \phi, y_0) &= \prod_{t=1}^{T}(2 \pi \sigma^2)^{-1/2} \exp\left\{-\frac{1}{2 \sigma^2} (y_t - \phi y_{t-1})^2\right\} \\
+    &= (2 \pi \sigma^2)^{-T/2} \exp\left\{-\frac{1}{2 \sigma^2} \sum_{t=1}^{T} (y_t - \phi y_{t-1})^2\right\} \\
+    &= (2 \pi \sigma^2)^{-T/2} \exp\left\{-\frac{1}{2 \sigma^2} (Y - X \phi)^{\prime} (Y - X \phi) \right\}
+\end{align*}
+
+\subsubsection{Unit-Root}
+
+Consider the $AR(1)$ process under the presence of a unit-root:
+\begin{gather*}
+    y_t = \phi_0 + \phi_1 y_{t-1} + u_t, \phi_1 = 1
+\end{gather*}
+In this case, the process is not WS, thus not SS and E.
+If $\phi_0 = 0$, then 
+\begin{gather*}
+    \hat{\phi}_1 = \frac{\mathbb{E}[V_{t-2} y_t]}{\mathbb{E}[y_{t-1}^2]} \\
+    \sqrt{T}(\hat{\phi}_1 - \phi_1) \overset{d}{\rightarrow} \mathcal{N}\left(0, \frac{\sigma^2}{\mathbb{V}[y_t]}\right) 
+\end{gather*}
+Then, we have a special distribution:
+\begin{gather*}
+    T(\hat{\phi}_1 - \phi_1) \overset{d}{\rightarrow}  \text{ Dicky-Fuller distribution}
+\end{gather*}
+
+\subsection{Estimating Regressions with Autocorrelated Errors}
+
+Suppose we want to estimate $y_t = x_t^{\prime} \beta + u_t$, with $\mathbb{E}[x_t u_t] = 0$ and $\mathbb{E}[u_t u_{\tau}] \neq 0$.
+\begin{align*}
+    \hat{\beta} &= (X^{\prime} X)^{-1} X^{\prime} Y \\
+    &= (X^{\prime} X)^{-1} X^{\prime} (X \beta + U) \\
+    &= \beta + (X^{\prime} X)^{-1} X^{\prime} U \\
+    &= \beta + \left( \frac{1}{T} \sum_{t=1}^{T} x_t x_t^{\prime} \right)^{-1} \frac{1}{T} \sum_{t=1}^{T} x_t u_t \\
+    & \rightarrow \beta + \mathbb{E}[x_t x_t^{\prime}]^{-1} \mathbb{E}[x_t u_t] \\
+    &= \beta \text{ for SS+E, TS}
+\end{align*}
+and that
+\begin{align*}
+    \sqrt{T}(\hat{\beta} - \beta) &= \sqrt{T} \left( \frac{1}{T} \sum_{t=1}^{T} x_t u_t \right)^{\prime} \left( \frac{1}{T} \sum_{t=1}^{T} x_t x_t^{\prime} \right)^{-1} \\
+    &\overset{d}{\rightarrow} \mathcal{N}\left(0, V\right) \\
+    V &= \mathbb{E}[x_t x_t^{\prime}]^{-1} \mathbb{V}\left[\frac{1}{\sqrt{T}} \sum_{t=1}^{T} x_t u_t\right] \mathbb{E}[x_t x_t^{\prime}]^{-1} \\
+    &= \mathbb{E}[u_t^2 x_t x_t^{\prime}] + \frac{1}{T} \sum_{t} \sum_{\tau \neq t} \mathbb{E}[u_t u_{\tau} x_t x_{\tau}^{\prime}]
+\end{align*}
+\begin{enumerate}
+    \item $x_t u_t$ is not correlated, then
+        \begin{enumerate}
+            \item[(a)] if $\mathbb{E}[u_t^2] = \sigma^2$ (homoskedasticity), then $\mathbb{E}[u_t^2 x_t x_t^{\prime}] = \sigma^2 \mathbb{E}[x_t x_t^{\prime}].$
+            \item[(b)] if $\mathbb{E}[u_t^2] = f(x_t)$ (heteroskedasticity), then we just leave it as it is: $\frac{1}{T} \sum_{t} \hat{u}_t^2 x_t x_t^{\prime} $
+        \end{enumerate}
+    \item $x_t u_t$ is autocorrelated, then we can write $V$ as:
+        \begin{gather*}
+            \mathbb{E}[u_t^2 x_t x_t^{\prime}] + \frac{1}{T} \sum_{t} \sum_{h=1}^{T-1} \mathbb{E}[u_t u_{t-h} x_t x_{t-h}] \\
+            = \frac{1}{T} \sum_{t} \hat{u}_t^2 x_t x_t^{\prime} + \frac{1}{T} \sum_{t} \sum_{h=1}^{T-1} 2 \hat{u}_t \hat{u}_{t-h} x_t x_{t-h}  
+        \end{gather*}
+\end{enumerate}
