@@ -122,7 +122,7 @@ The Graduate Institute, Spring 2025, Cedric Tille\\
 \vspace*{0.3cm} % Now we want to add some vertical space in between the line and our title.
 
 \begin{center} % Everything within the center environment is centered.
-	{\Large \bf PS1 Solutions} % <---- Don't forget to put in the right number
+	{\Large \bf PS2 Solutions} % <---- Don't forget to put in the right number
 	\vspace{2mm}
 	
         % YOUR NAMES GO HERE
@@ -159,19 +159,25 @@ Thus we have:
 
 \subsection{Unsustainable peg}\label{sec:1.2}
 
-As we know that the government spending is over a threshold:
-\begin{gather*}
-    g > r h_0 + \frac{\alpha_0 r + y}{1 + \theta + \alpha r}
-\end{gather*}
 From Question 1.1, we know that the consumption is a constant $\tilde{c} = \frac{\alpha_0 r + y}{1 + \theta + \alpha r}$,
 thus the government tax income would be $\theta \tilde{c} = \frac{\theta (\alpha_0 r + y)}{1 + \theta + \alpha r} $.
+
+If the peg holds forever, then $\epsilon_t = 0$, $i = r$, $m_t = \alpha \tilde{c}$:
+\begin{align*}
+    \frac{g}{r} &= h_0+\int_0^\infty e^{-rt}\left[\theta c_t+\dot{m}_t+\varepsilon_tm_t\right]dt+e^{-rT}(m_T-m_{T-}) \\
+    &= h_0+\theta\tilde{c}\int_0^\infty e^{-rt}dt \\
+    &= h_0+\frac{\theta\tilde{c}}{r} \\
+    \Rightarrow g &= r h_0 + \frac{\theta (\alpha_0 r + y)}{1 + \theta + \alpha r}
+\end{align*}
+
+If government spending $g$ exceeds the threshold, we will have:
 
 The government tax revenue is:
 \begin{gather*}
     s^p = \theta \tilde{c} - g = \frac{\theta (\alpha_0 r + y)}{1 + \theta + \alpha r} - g < -r h_0 < 0
 \end{gather*}
 Under a fixed exchange rate, $\varepsilon_t = 0$ and at the steady state, the real balance is constant, $\dot{m}_t = 0$,
-we know that the foreign reserves cahnge is:
+we know that the foreign reserves change is:
 \begin{gather*}
     \dot{h}_t = r h_t + s_t^p < r h_t - r h_0
 \end{gather*}
