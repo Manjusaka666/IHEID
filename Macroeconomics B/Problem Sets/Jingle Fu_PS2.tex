@@ -222,10 +222,28 @@ since $c_1 = \frac{g}{\theta}$.
 
 Evaluated at $t=0$, we have:
 \begin{gather*}
-    \dot{h}_0 = r h_ 0, \quad \dot{a}_0 + \dot{h}_0 = r (a_0 + h_0) + y - \frac{g (1 + \theta + \alpha r)}{\theta}
+    \dot{h}_0 = r h_ 0 \\
+    \dot{a}_0 + \dot{h}_0 = r (a_0 + h_0) + y - \frac{g (1 + \theta + \alpha r)}{\theta}
 \end{gather*}
-which is exactly the current-account balance. Observing $\dot{a} + \dot{h} < 0$ ex-ante would signal an impending crisis.
+which is exactly the current-account balance. 
 
+If $g$ exceeds the threshold, we will have:
+\begin{align*}
+    CA_0 & \equiv \dot{a}_0 + \dot{h}_0 \\
+    &< r(a_0 + h_0) + y -  \left[ r h_0 + \frac{\theta (r a_0 + y)}{1 + \theta + \alpha r} \right] \frac{(1 + \theta + \alpha r)}{\theta} \\
+    &= r h_0 \left(1 - \frac{1 + \theta + \alpha r}{\theta}\right) \\
+    &< 0
+\end{align*}
+This is a classic Krugman-style ``first-generation'' crisis: persistent fiscal deficits erode reserves,
+and the peg becomes internally inconsistent with solvency.
+
+Looking at the dynamics, we know tha tthe the reserves keeps growing, but the deterioration of the currrent account
+indicates a deterioration of the net foreign asset position.
+
+Once that inequality holds, the model guarantees that net foreign assets will start declining,
+reserves will be gradually depleted (after private assets fall), and the peg will become unsustainable.
+So a persistent current account deficit—uncovered by reserve gains—would be a clear,
+quantitative early-warning of the pending crisis.
 
 \subsection{Timing of break}\label{sec:1.5}
 Recall that the intertemporal budget constraint is:
@@ -275,11 +293,20 @@ Thus the budget constraint is reduced to:
 
 \subsection{Constant money}
 
-Based on the rational expectation and constant money supply assumption, we have:
+The shocks $\epsilon_t$ and $v_t$ have zero expected value, $\mathbb{E}_{t-1}[\varepsilon_t] = \mathbb{E}_{t-1}[v_t] = 0$.
+Taking hte expectation of uncovered interest parity, aggregate supply, aggregate demand, and money demand at time $t-1$, we have:
+\begin{align*}
+    \mathbb{E}_{t-1}[i_{t+1}] &= \mathbb{E}_{t-1}[\mathbb{E}_t[e_{t+1}]] - \mathbb{E}_{t-1}[e_t] = \mathbb{E}_{t-1}[e_{t+1}] - \mathbb{E}_{t-1}[e_t] \\
+    \mathbb{E}_{t-1}[y_t] &= \theta \left( \mathbb{E}_{t-1}[p_t] - \mathbb{E}_{t-1}[p_t] \right) = 0 \\
+    \mathbb{E}_{t-1}[y_t] &= \delta (\mathbb{E}_{t-1} [e_t] - \mathbb{E}_{t-1}[p_t]) \\
+    \overline{m} - \mathbb{E}_{t-1}[p_t] &= -\eta \mathbb{E}_{t-1}[i_{t+1}] + \phi \mathbb{E}_{t-1}[y_t]    
+\end{align*}
+Solve the four equations, we have
 \begin{gather*}
-    \mathbb{E}_t[e_{t+1}] = m_t = \overline{m}
+    \mathbb{E}_{t-1}[e_t] = \mathbb{E}_{t-1}[p_t] = \overline{m}
 \end{gather*}
-SO, we have $i_{t+1} = \overline{m} - e_t$, and we implement the total output function, we can get:
+Similarly, we take the expectations of the four equations at time $t$, we can obtain: $\mathbb{E}_t[e_{t+1}] = \overline{m}$.
+So, we have $i_{t+1} = \overline{m} - e_t$, and we implement the total output function, we can get:
 \begin{align*}
     \overline{m} - p_t &= -\eta (\overline{m} - e_t) + \phi y_t + v_t \\
                        &= -\eta \overline{m} + \eta e_t + \phi \left[\delta (e_t - p_t) + \varepsilon_t\right] + v_t \\
@@ -370,6 +397,8 @@ thus a peg policy is less volatile than a fixed money supply.
 
 When the main source of volatility is a money demand shock ($v_t$) rather than a real economy shock ($\varepsilon_t$),
 a fixed exchange rate regime stabilizes output by allowing the money supply to adjust automatically to offset money demand shocks.
+Therefore, the output equation only relies on the real shock $\epsilon_t$.
+
 In contrast, a fixed money supply regime is unable to adjust in the face of money demand shocks,
 leading to higher output volatility.
 
@@ -513,27 +542,31 @@ As we still require $D_1 = D_1^{centralized}$, we bring it back:
 From a feasibility point of view, there are advantages and disadvantages to each of these two tax systems: 
 
 Variable tax rate ($\tau_{variable} = \gamma D_1$ where $\gamma = \alpha$):
-
-Advantages: adjusts with debt level, more accurate treatment of externalities 
-Disadvantages: governments need to accurately estimate the $\alpha$ parameter, which can be challenging in practice
+\begin{itemize}
+    \item Advantages: adjusts with debt level, more accurate treatment of externalities
+    \item Disadvantages: governments need to accurately estimate the $\alpha$ parameter, which can be challenging in practice
+\end{itemize}
 
 Fixed tax rate ($\tau^{flat} = \frac{\delta - r}{2}$):
 
-Advantages: simple to implement, no need to monitor each household's debt level 
+\begin{itemize}
+    \item Advantages: simple to implement, no need to monitor each household's debt level 
+    \item Disadvantages: government needs to accurately estimate $\delta, r$ parameters
+\end{itemize}
 
-Disadvantages: government needs to accurately estimate $\delta, r$ parameters
-
-A fixed tax rate may be easier to implement because 
+A flat tax rate may be easier to implement because 
 it does not require constant monitoring of debt levels 
 and adjusting the tax rate accordingly. 
+The risk-free interest rate $r$ can be directly observed in financial markets.
 However, it relies on an accurate estimate of the time preference rate $\delta$, 
-which can be challenging in heterogeneous household settings.
+which depends on the model used and can be challenging in heterogeneous household settings.
 
-A variable tax rate may be more precise in theory, 
+A debt-dependent tax rate may be more precise in theory, 
 but is more difficult to implement because it requires the government to understand 
-the precise nature of the debt-interest rate relationship (i.e., the $\alpha$ parameter).
+the precise nature of the debt-interest rate relationship
+and would need frequent recalculation as debt levels change.
 
-Overall, fixed tax rates may be more feasible in practical policy settings, 
+Overall, flat tax rates may be more feasible in practical policy settings, 
 especially when governments face information constraints and administrative costs.
 
 \end{document}
