@@ -1,0 +1,317 @@
+\documentclass[a4paper,12pt]{article} % This defines the style of your paper
+
+\usepackage[top = 2.5cm, bottom = 2.5cm, left = 2.5cm, right = 2.5cm]{geometry} 
+
+% Unfortunately, LaTeX has a hard time interpreting German Umlaute. The following two lines and packages should help. If it doesn't work for you please let me know.
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{pifont}
+% \usepackage{ctex}
+\usepackage{amsthm, amsmath, amssymb, mathrsfs,mathtools}
+\input{lst-stata.tex}
+
+% Defining a new theorem style without italics
+\newtheoremstyle{nonitalic}% name
+  {\topsep}% Space above
+  {\topsep}% Space below
+  {\upshape}% Body font
+  {}% Indent amount
+  {\bfseries}% Theorem head font
+  {.}% Punctuation after theorem head
+  {.5em}% Space after theorem head
+  {}% Theorem head spec (can be left empty, meaning ‘normal`)
+  
+\theoremstyle{nonitalic}
+% Define new 'solution' environment
+\newtheorem{innercustomsol}{Solution}
+\newenvironment{solution}[1]
+  {\renewcommand\theinnercustomsol{#1}\innercustomsol}
+  {\endinnercustomsol}
+
+% Custom counter for the solutions
+\newcounter{solutionctr}
+\renewcommand{\thesolutionctr}{(\alph{solutionctr})}
+
+% Environment for auto-numbering with custom format
+\newenvironment{autosolution}
+  {\stepcounter{solutionctr}\begin{solution}{\thesolutionctr}}
+  {\end{solution}}
+
+
+\newtheorem{problem}{Problem}
+\usepackage{color}
+
+% The following two packages - multirow and booktabs - are needed to create nice looking tables.
+\usepackage{multirow} % Multirow is for tables with multiple rows within one cell.
+\usepackage{booktabs} % For even nicer tables.
+
+% As we usually want to include some plots (.pdf files) we need a package for that.
+\usepackage{graphicx} 
+\usepackage{subfigure}
+
+
+% The default setting of LaTeX is to indent new paragraphs. This is useful for articles. But not really nice for homework problem sets. The following command sets the indent to 0.
+\usepackage{setspace}
+\setlength{\parindent}{0in}
+\usepackage{longtable}
+
+% Package to place figures where you want them.
+\usepackage{float}
+
+% The fancyhdr package let's us create nice headers.
+\usepackage{fancyhdr}
+
+\usepackage{fancyvrb}
+
+%Code environment 
+\usepackage{listings} % Required for insertion of code
+\usepackage{xcolor} % Required for custom colors
+
+% Define colors for code listing
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+
+% Code listing style named "mystyle"
+\lstdefinestyle{mystyle}{
+    backgroundcolor=\color{backcolour},   
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{magenta},
+    numberstyle=\tiny\color{codegray},
+    stringstyle=\color{codepurple},
+    basicstyle=\ttfamily\footnotesize, % Change to serif font
+    breakatwhitespace=false,         
+    breaklines=true,                 
+    captionpos=b,                    
+    keepspaces=true,                 
+    numbers=left,                    
+    numbersep=5pt,                  
+    showspaces=false,                
+    showstringspaces=false,
+    showtabs=false,                  
+    tabsize=2
+}
+
+\lstset{style=mystyle}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 3. Header (and Footer)
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% To make our document nice we want a header and number the pages in the footer.
+
+\pagestyle{fancy} % With this command we can customize the header style.
+
+\fancyhf{} % This makes sure we do not have other information in our header or footer.
+
+\lhead{\footnotesize EI035 Econometrics II}% \lhead puts text in the top left corner. \footnotesize sets our font to a smaller size.
+
+%\rhead works just like \lhead (you can also use \chead)
+\rhead{\footnotesize Jingle Fu} %<---- Fill in your lastnames.
+
+% Similar commands work for the footer (\lfoot, \cfoot and \rfoot).
+% We want to put our page number in the center.
+\cfoot{\footnotesize \thepage}
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\begin{document}
+
+
+\thispagestyle{empty} % This command disables the header on the first page. 
+
+\begin{tabular}{p{15.5cm}} % This is a simple tabular environment to align your text nicely 
+{\large \bf EI035 Econometrics II} \\
+The Graduate Institute, Spring 2025, Marko Mlikota\\
+\hline % \hline produces horizontal lines.
+\\
+\end{tabular} % Our tabular environment ends here.
+
+\vspace*{0.3cm} % Now we want to add some vertical space in between the line and our title.
+
+\begin{center} % Everything within the center environment is centered.
+	{\Large \bf PS3 Solutions} % <---- Don't forget to put in the right number
+	\vspace{2mm}
+	
+        % YOUR NAMES GO HERE
+	{\bf Jingle Fu} % <---- Fill in your names here!
+		
+\end{center}  
+
+\vspace{0.4cm}
+\setstretch{1.2}
+
+\begin{autosolution}
+    \
+
+    \begin{itemize}
+        \item \textbf{Unit (Firm) Fixed Effects:}
+        Each firm $i$ has intercept $\alpha_i$. When the number of firms $N$ is large but the time period $T$ is fixed,
+        as $N$ increases, the number of these nuisance parameters increases too. The IPP refers to potential bias in the estimation of the structural parameters
+        when the number of incidental parameters increases with the sample size.
+        Such problem can lead to inconsistency in the estimation of the common parameters,
+        because the estimation error in $\alpha_i$ doesn't vanish as $N \to \infty$.
+        \item \textbf{Time Fixed Effects:}
+        In contrast, time fixed effects add only $T$ dummies, the number of parameters associated with time dummies is fixed. 
+        If we perform the within transformation as above, the time dummies remain in the model in the form
+        \[\mathbf{1}\{t=\tau\} - \overline{d}_{it} \]
+        and if we use first-differences, for any firm $i$, we have:
+        \[\Delta  f_t = f_t - f_{t-1} \]
+        Thus, the time fixed effects enter the differenced equation as differences, preserving their role in controlling for period-specific shocks.
+        Hence, their estimation does not create an incidental parameters problem.
+    \end{itemize}
+    In short, while unit fixed effects can cause IPP when $T$ is relative small to $N$, 
+    the addition of time fixed effects does not because the number of time dummies remains fixed and is asymptotically negligible.
+    \input{a.tex}
+\begin{lstlisting}[language=stata]
+use GMdata.dta, clear
+xtset index yr
+xtreg ldsal lemp ldnpt ldrst i.yr, fe robust
+\end{lstlisting}
+\end{autosolution}
+
+\begin{autosolution}
+    \
+
+
+    For consecutive time periods $t$ and $t-1$, we take the difference and have:
+    \[
+    \Delta ldsal_{it} = \beta_1 \Delta lemp_{it} + \beta_2 \Delta ldnpt_{it} + \beta_3 \Delta ldrst_{it} + (f_t - f_{t-1}) + \Delta u_{it}
+    \]
+    Since $\alpha_i$ does not vary over time, it drops out in the differencing.
+    For the dummies, we have:
+    \begin{gather*}
+        \mathbf{1}\{t=\tau\} - \mathbf{1}\{t-1=\tau\}=\begin{cases}
+            +1 &\text{if } t=\tau,\\
+            -1 &\text{if } t-1=\tau,\\
+            0 &\text{otherwise.}
+        \end{cases}
+    \end{gather*}
+    
+
+    The time effects appear as differences $f_t - f_{t-1}$.
+    Thus, in the first-differenced equation the levels of the year dummies disappear, but their differences remain. 
+\end{autosolution}
+
+
+\begin{autosolution}
+    \
+
+    Adding a time-invariant dummy variable to the regression $d357_i$, we get:
+    \begin{gather*}
+        ldsal_{it} = \alpha_i + \beta_1 lemp_{it} + \beta_2 ldnpt_{it} + \beta_3 ldrst_{it} + \delta d357_i + \sum_{\tau =1}^{T} f_t\mathbf{1}\{t=\tau\} + u_{it}
+    \end{gather*}
+    We take the first-differences of the equation:
+    \[\Delta \delta d357_i = 0.\]
+    Thus, in the first-difference model, the term $\delta d357_i$ drops out, and the time dummies are differenced out.
+    The IPP arises from having many firm-specific parameters with a limited number of observations.
+    So,including a time-invariant dummy does not worsen the IPP since it adds only one parameter that is either absorbed (or eliminated in first differences).
+
+    If we consider Time-Varying Effects of the industry dummy $\delta_t d357_{it}$:
+    taking the first-difference, we have:
+    \[\Delta(\delta_t d357_{it}) = \delta_t d357_{it} - \delta_{t-1} d357_{i,t-1} = \delta_t - \delta_{t-1}\]
+    as $\delta d357_{it} =1$ for all $t$ if the firm is in the computer industry.
+    For firms not in industry 357, the term remains zero. Thus, in the first-difference equation, 
+    the industry effect appears as the difference $\delta_t - \delta_{t-1}$, which is time-varying.
+
+    Although allowing the industry effect to vary over time introduces several parameters,
+    the number of these parameters is tied to the fixed. 
+    And the key issue with IPP is the growth of parameters with $N$, which does not occur here.
+\end{autosolution}
+
+\begin{autosolution}
+    \
+
+    As we define $\ddot{y}_{it}= y_{it} - \overline{y}_{it}$ and $\ddot{X}_{it} - \overline{X}_{it}$, we have:
+    \[
+    \hat{\beta}_{FE-W} = \Bigl( \sum_{i,t} \ddot{X}_{it}^{\prime} \ddot{X}_{it} \Bigr) \sum_{i,t} \ddot{X}_{it} \ddot{y}_{it}
+    \]
+    \[
+    \hat{\beta}_{RE} = \Bigl( X^{\prime} \Omega^{-1} X \Bigr)^{-1} X^{\prime} \Omega^{-1} y
+    \]
+    \input{d1.tex}
+    \input{d2.tex}
+\begin{lstlisting}[language=stata]
+use "GMdata_balanced.dta", clear
+xtset index yr
+gen d357 = (sic3 == 357)
+
+xtreg ldsal lemp ldnpt ldrst i.yr##i.d357, fe robust
+eststo fe_w
+esttab fe_w using d1.tex, replace label booktabs title("FE-W Estimator") ///
+    cells("b(fmt(3)) se(fmt(3))")
+
+xtreg ldsal lemp ldnpt ldrst i.yr##i.d357, re robust
+eststo RE
+esttab RE using d2.tex, replace label booktabs title("RE Estimator") ///
+    cells("b(fmt(3)) se(fmt(3))")
+\end{lstlisting}
+\end{autosolution}
+
+\begin{autosolution}
+    \
+
+    The Hausman test statistics is:
+    \[
+    H = \Bigl( \hat{\beta}_{FE} - \hat{\beta}_{RE} \Bigr)^{\prime} \Bigl[ A\mathbb{V}[\hat{\beta}_{FE}] - A\mathbb{V}[\hat{\beta}_{RE}] \Bigr]^{-1} \Bigl( \hat{\beta}_{FE} - \hat{\beta}_{RE} \Bigr)
+    \]
+\begin{lstlisting}[language=stata]
+hausman fe_w re, sigmamore
+\end{lstlisting}
+\begin{figure}[htbp!]
+    \includegraphics{Hausman.png}
+\end{figure}
+
+Hausman test output yields a chi-square statistic of 61.64 (with p-value$ = 0.0000$).
+
+The null hypothesis is strongly rejected, indicating that the RE estimator is inconsistent and that the FE estimator is preferred.
+\end{autosolution}
+
+\begin{autosolution}
+    \
+
+    Let$\theta = \beta_1 + \beta_2$. Under the null hypothesis, we have
+    \[
+    H_0: \theta = 1.
+    \]
+    An estimator for $\theta$ is
+    \[
+    \hat{\theta} = \hat{\beta}_1 + \hat{\beta}_2.
+    \]
+    Suppose the estimated coefficients $\hat{\beta}_1$ and $\hat{\beta}_2$ have the following variance-covariance matrix:
+    \[
+    V = \begin{pmatrix}
+    \operatorname{Var}(\hat{\beta}_1) & \operatorname{Cov}(\hat{\beta}_1, \hat{\beta}_2) \\
+    \operatorname{Cov}(\hat{\beta}_1, \hat{\beta}_2) & \operatorname{Var}(\hat{\beta}_2)
+    \end{pmatrix}.
+    \]
+    Because $\hat{\theta}$ is a sum of $\hat{\beta}_1$ and $\hat{\beta}_2$, by the properties of variance we have:
+    \[
+    \operatorname{Var}(\hat{\theta}) = \operatorname{Var}(\hat{\beta}_1 + \hat{\beta}_2) = \operatorname{Var}(\hat{\beta}_1) + \operatorname{Var}(\hat{\beta}_2) + 2\,\operatorname{Cov}(\hat{\beta}_1, \hat{\beta}_2).
+    \]
+    Under $\mathcal{H}_0$, the deviation of $\hat{\theta}$ from its hypothesized value is:
+    \[
+    \hat{\theta} - 1 = \hat{\beta}_1 + \hat{\beta}_2 - 1.
+    \]
+    Since, by the Central Limit Theorem, $\hat{\theta}$ is approximately normally distributed in large samples, we can standardize the difference:
+    \[
+    Z = \frac{\hat{\theta} - 1}{\sqrt{\operatorname{Var}(\hat{\theta})}}.
+    \]
+    Under $H_0$, $Z$ is asymptotically standard normal. Squaring this $Z$ statistic gives a chi-square statistic with 1 degree of freedom:
+    \[
+    \chi^2 = \frac{(\hat{\beta}_1 + \hat{\beta}_2 - 1)^2}{\operatorname{Var}(\hat{\beta}_1) + \operatorname{Var}(\hat{\beta}_2) + 2\,\operatorname{Cov}(\hat{\beta}_1, \hat{\beta}_2)}.
+    \]
+    This test statistic is compared to the $\chi^2_1$ distribution.
+    \begin{itemize}
+        \item If $\chi^2$ is large (and the corresponding p-value is small), we reject $H_0$ and conclude that the sum of $\beta_1$ and $\beta_2$ is statistically different from 1.  
+        \item If $\chi^2$ is not large (and the p-value is large), we do not reject $H_0$ and there is no evidence against constant returns to scale.
+    \end{itemize}
+
+    At the conventional 5\% level, the p-value (0.0000) is much smaller than 0.05, meaning we reject $\mathcal{H}_0$.
+    \begin{figure}[htbp!]
+        \centering
+        \includegraphics[width=0.5\textwidth]{F_test.png}
+    \end{figure}
+\end{autosolution}
+
+\end{document}
+

@@ -170,7 +170,8 @@ If the peg holds forever, then $\epsilon_t = 0$, $i = r$, $m_t = \alpha \tilde{c
     \Rightarrow g &= r h_0 + \frac{\theta (\alpha_0 r + y)}{1 + \theta + \alpha r}
 \end{align*}
 
-If government spending $g$ exceeds the threshold, we will have:
+If government spending $g$ exceeds the threshold as given, these two results contradicts.
+The exchange rate peg cannot hold forever.
 
 The government tax revenue is:
 \begin{gather*}
@@ -195,10 +196,12 @@ and after the abandon, we have:
     c_2^{-\frac{1}{\sigma}} = \lambda (1 + \theta + \alpha (r+\varepsilon)).
 \end{gather*}
 So,
-\begin{gather*}
-    \left(\frac{c_1}{c_2}\right)^{\frac{1}{\sigma}} = \frac{1+\theta + \alpha (r+\varepsilon)}{1 + \theta + \alpha r} > 1
-\end{gather*}
-as $\varepsilon > 0$, giving that after the abando of the peg, the consumption decrceases.
+\begin{align*}
+    \left(\frac{c_1}{c_2}\right)^{\frac{1}{\sigma}} &= \frac{1+\theta + \alpha (r+\varepsilon)}{1 + \theta + \alpha r} \\
+    &= 1 + \frac{\alpha \epsilon}{1 + \theta  + \alpha r}
+\end{align*}
+
+% as $\varepsilon > 0$, giving that after the abandon of the peg, the consumption decreases.
 
 Now we use that budget constraint and the cash in advance constraint, we have:
 
@@ -210,7 +213,32 @@ since $\theta c_1 = g$, and we can solve:
 \begin{gather*}
     \varepsilon  = \frac{\theta}{\alpha} \left( \frac{c_1}{c_2} - 1 \right)
 \end{gather*}
-At the equilibrium values, $\frac{c_1}{c_2} > 1$ and thus $\varepsilon > 0$.
+Denote $c =  \frac{c_1}{c_2}$ and $D = 1 + \theta + \alpha r$, we have:
+\begin{gather*}
+    c^{\frac{1}{\sigma}} = 1 + \frac{\alpha \varepsilon}{D} = 1 + \frac{\alpha }{D} \frac{\theta}{\alpha}(c-1) = 1 + \frac{\theta}{D} (c-1)
+\end{gather*}
+Define $f(c) = c^{\frac{1}{\sigma}} - 1 - \frac{\theta}{D}(c-1)$,
+we have:
+\begin{gather*}
+    f(1) = 0 \\
+    f^{\prime} (c) = \frac{1}{\sigma} c^{\frac{1}{\sigma}-1} - \frac{\theta}{D} \\
+    f^{\prime \prime} (c) = \frac{1}{\sigma} \left( \frac{1}{\sigma}-1 \right) c^{\frac{1}{\sigma}-2} < 0
+\end{gather*}
+Thus $f$ is strictly concave, and we only need to show that $f^{\prime}(1) > 0$.
+
+If $f^{\prime} (1) \leq 0$, then by concavity, the only solution to $f(c) = 0$ is $c=1$,
+$c_1 = c_2$ and $m_1 = m_2$. In this case, the abandon of peg would generate no depreciation,
+thus $g = \theta c_2$.
+
+As in question 1.2, we have:
+\begin{gather*}
+    g > r h_0 + \frac{\theta (\alpha_0 r + y)}{1 + \theta + \alpha r} = r h_0 + \theta c_1 = r h_0 + \theta c_2 > \theta c_2
+\end{gather*}
+This contradicts our assumption that $g =  \theta c_2.$
+Hence $f^{\prime} (1) > 0$.
+
+By concavity, we know that at the equilibrium $c > 1$, which is $\frac{c_1}{c_2} > 1$,
+and thus $\varepsilon = \frac{\theta}{\alpha}\left(\frac{c_1}{c_2} - 1\right) > 0$.
 
 
 \subsection{Dynamics of reserves and assets}\label{sec:1.4}
