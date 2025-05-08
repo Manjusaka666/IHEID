@@ -99,11 +99,6 @@ display "GPDI 2007-22 annualized % = " _b[t]*4*100
 *-------------------------------------------*
 
 corrgram uhat_GDP_65_06 if inrange(tq, tq(1965q1), tq(2006q4)), lags(8)
-
-di as text "=== ACF of uhat_GDP_65_06 (1965Q1–2006Q4) ==="
-ac uhat_GDP_65_06 if inrange(tq, tq(1965q1), tq(2006q4)), lags(8)
-
-
 corrgram uhat_PCE_65_06, if inrange(tq, tq(1965q1), tq(2006q4)), lags(8)
 corrgram uhat_GPDI_65_06, if inrange(tq, tq(1965q1), tq(2006q4)), lags(8)
 
