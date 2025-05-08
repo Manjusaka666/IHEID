@@ -24,18 +24,23 @@
 \theoremstyle{nonitalic}
 % Define new 'solution' environment
 \newtheorem{innercustomsol}{Solution}
+
+% the outer wrapper that takes an argument
 \newenvironment{solution}[1]
-  {\renewcommand\theinnercustomsol{#1}\innercustomsol}
+  {\renewcommand\theinnercustomsol{#1}%
+   \innercustomsol}
   {\endinnercustomsol}
 
-% Custom counter for the solutions
-\newcounter{solutionctr}
+% now solutionctr will reset whenever section increments
+\newcounter{solutionctr}[section]
 \renewcommand{\thesolutionctr}{(\alph{solutionctr})}
 
-% Environment for auto-numbering with custom format
+% and the autosolution environment steps that counter
 \newenvironment{autosolution}
-  {\stepcounter{solutionctr}\begin{solution}{\thesolutionctr}}
+  {\refstepcounter{solutionctr}%
+   \begin{solution}{\thesolutionctr}}
   {\end{solution}}
+\makeatother
 
 
 \newtheorem{problem}{Problem}
@@ -129,7 +134,7 @@ The Graduate Institute, Spring 2025, Marko Mlikota\\
 \vspace*{0.3cm} % Now we want to add some vertical space in between the line and our title.
 
 \begin{center} % Everything within the center environment is centered.
-	{\Large \bf PS3 Solutions} % <---- Don't forget to put in the right number
+	{\Large \bf PS4 Solutions} % <---- Don't forget to put in the right number
 	\vspace{2mm}
 	
         % YOUR NAMES GO HERE
@@ -140,177 +145,369 @@ The Graduate Institute, Spring 2025, Marko Mlikota\\
 \vspace{0.4cm}
 \setstretch{1.2}
 
-\begin{autosolution}
-    \
-
-    \begin{itemize}
-        \item \textbf{Unit (Firm) Fixed Effects:}
-        Each firm $i$ has intercept $\alpha_i$. When the number of firms $N$ is large but the time period $T$ is fixed,
-        as $N$ increases, the number of these nuisance parameters increases too. The IPP refers to potential bias in the estimation of the structural parameters
-        when the number of incidental parameters increases with the sample size.
-        Such problem can lead to inconsistency in the estimation of the common parameters,
-        because the estimation error in $\alpha_i$ doesn't vanish as $N \to \infty$.
-        \item \textbf{Time Fixed Effects:}
-        In contrast, time fixed effects add only $T$ dummies, the number of parameters associated with time dummies is fixed. 
-        If we perform the within transformation as above, the time dummies remain in the model in the form
-        \[\mathbf{1}\{t=\tau\} - \overline{d}_{it} \]
-        and if we use first-differences, for any firm $i$, we have:
-        \[\Delta  f_t = f_t - f_{t-1} \]
-        Thus, the time fixed effects enter the differenced equation as differences, preserving their role in controlling for period-specific shocks.
-        Hence, their estimation does not create an incidental parameters problem.
-    \end{itemize}
-    In short, while unit fixed effects can cause IPP when $T$ is relative small to $N$, 
-    the addition of time fixed effects does not because the number of time dummies remains fixed and is asymptotically negligible.
-    \input{a.tex}
-\begin{lstlisting}[language=stata]
-use GMdata.dta, clear
-xtset index yr
-xtreg ldsal lemp ldnpt ldrst i.yr, fe robust
-\end{lstlisting}
-\end{autosolution}
+\section{Problem 1}
 
 \begin{autosolution}
     \
 
-
-    For consecutive time periods $t$ and $t-1$, we take the difference and have:
-    \[
-    \Delta ldsal_{it} = \beta_1 \Delta lemp_{it} + \beta_2 \Delta ldnpt_{it} + \beta_3 \Delta ldrst_{it} + (f_t - f_{t-1}) + \Delta u_{it}
-    \]
-    Since $\alpha_i$ does not vary over time, it drops out in the differencing.
-    For the dummies, we have:
-    \begin{gather*}
-        \mathbf{1}\{t=\tau\} - \mathbf{1}\{t-1=\tau\}=\begin{cases}
-            +1 &\text{if } t=\tau,\\
-            -1 &\text{if } t-1=\tau,\\
-            0 &\text{otherwise.}
-        \end{cases}
-    \end{gather*}
-    
-
-    The time effects appear as differences $f_t - f_{t-1}$.
-    Thus, in the first-differenced equation the levels of the year dummies disappear, but their differences remain. 
-\end{autosolution}
-
-
-\begin{autosolution}
-    \
-
-    Adding a time-invariant dummy variable to the regression $d357_i$, we get:
-    \begin{gather*}
-        ldsal_{it} = \alpha_i + \beta_1 lemp_{it} + \beta_2 ldnpt_{it} + \beta_3 ldrst_{it} + \delta d357_i + \sum_{\tau =1}^{T} f_t\mathbf{1}\{t=\tau\} + u_{it}
-    \end{gather*}
-    We take the first-differences of the equation:
-    \[\Delta \delta d357_i = 0.\]
-    Thus, in the first-difference model, the term $\delta d357_i$ drops out, and the time dummies are differenced out.
-    The IPP arises from having many firm-specific parameters with a limited number of observations.
-    So,including a time-invariant dummy does not worsen the IPP since it adds only one parameter that is either absorbed (or eliminated in first differences).
-
-    If we consider Time-Varying Effects of the industry dummy $\delta_t d357_{it}$:
-    taking the first-difference, we have:
-    \[\Delta(\delta_t d357_{it}) = \delta_t d357_{it} - \delta_{t-1} d357_{i,t-1} = \delta_t - \delta_{t-1}\]
-    as $\delta d357_{it} =1$ for all $t$ if the firm is in the computer industry.
-    For firms not in industry 357, the term remains zero. Thus, in the first-difference equation, 
-    the industry effect appears as the difference $\delta_t - \delta_{t-1}$, which is time-varying.
-
-    Although allowing the industry effect to vary over time introduces several parameters,
-    the number of these parameters is tied to the fixed. 
-    And the key issue with IPP is the growth of parameters with $N$, which does not occur here.
-\end{autosolution}
-
-\begin{autosolution}
-    \
-
-    As we define $\ddot{y}_{it}= y_{it} - \overline{y}_{it}$ and $\ddot{X}_{it} - \overline{X}_{it}$, we have:
-    \[
-    \hat{\beta}_{FE-W} = \Bigl( \sum_{i,t} \ddot{X}_{it}^{\prime} \ddot{X}_{it} \Bigr) \sum_{i,t} \ddot{X}_{it} \ddot{y}_{it}
-    \]
-    \[
-    \hat{\beta}_{RE} = \Bigl( X^{\prime} \Omega^{-1} X \Bigr)^{-1} X^{\prime} \Omega^{-1} y
-    \]
-    \input{d1.tex}
-    \input{d2.tex}
-\begin{lstlisting}[language=stata]
-use "GMdata_balanced.dta", clear
-xtset index yr
-gen d357 = (sic3 == 357)
-
-xtreg ldsal lemp ldnpt ldrst i.yr##i.d357, fe robust
-eststo fe_w
-esttab fe_w using d1.tex, replace label booktabs title("FE-W Estimator") ///
-    cells("b(fmt(3)) se(fmt(3))")
-
-xtreg ldsal lemp ldnpt ldrst i.yr##i.d357, re robust
-eststo RE
-esttab RE using d2.tex, replace label booktabs title("RE Estimator") ///
-    cells("b(fmt(3)) se(fmt(3))")
-\end{lstlisting}
-\end{autosolution}
-
-\begin{autosolution}
-    \
-
-    The Hausman test statistics is:
-    \[
-    H = \Bigl( \hat{\beta}_{FE} - \hat{\beta}_{RE} \Bigr)^{\prime} \Bigl[ A\mathbb{V}[\hat{\beta}_{FE}] - A\mathbb{V}[\hat{\beta}_{RE}] \Bigr]^{-1} \Bigl( \hat{\beta}_{FE} - \hat{\beta}_{RE} \Bigr)
-    \]
-\begin{lstlisting}[language=stata]
-hausman fe_w re, sigmamore
-\end{lstlisting}
-\begin{figure}[htbp!]
-    \includegraphics{Hausman.png}
-\end{figure}
-
-Hausman test output yields a chi-square statistic of 61.64 (with p-value$ = 0.0000$).
-
-The null hypothesis is strongly rejected, indicating that the RE estimator is inconsistent and that the FE estimator is preferred.
-\end{autosolution}
-
-\begin{autosolution}
-    \
-
-    Let$\theta = \beta_1 + \beta_2$. Under the null hypothesis, we have
-    \[
-    H_0: \theta = 1.
-    \]
-    An estimator for $\theta$ is
-    \[
-    \hat{\theta} = \hat{\beta}_1 + \hat{\beta}_2.
-    \]
-    Suppose the estimated coefficients $\hat{\beta}_1$ and $\hat{\beta}_2$ have the following variance-covariance matrix:
-    \[
-    V = \begin{pmatrix}
-    \operatorname{Var}(\hat{\beta}_1) & \operatorname{Cov}(\hat{\beta}_1, \hat{\beta}_2) \\
-    \operatorname{Cov}(\hat{\beta}_1, \hat{\beta}_2) & \operatorname{Var}(\hat{\beta}_2)
-    \end{pmatrix}.
-    \]
-    Because $\hat{\theta}$ is a sum of $\hat{\beta}_1$ and $\hat{\beta}_2$, by the properties of variance we have:
-    \[
-    \operatorname{Var}(\hat{\theta}) = \operatorname{Var}(\hat{\beta}_1 + \hat{\beta}_2) = \operatorname{Var}(\hat{\beta}_1) + \operatorname{Var}(\hat{\beta}_2) + 2\,\operatorname{Cov}(\hat{\beta}_1, \hat{\beta}_2).
-    \]
-    Under $\mathcal{H}_0$, the deviation of $\hat{\theta}$ from its hypothesized value is:
-    \[
-    \hat{\theta} - 1 = \hat{\beta}_1 + \hat{\beta}_2 - 1.
-    \]
-    Since, by the Central Limit Theorem, $\hat{\theta}$ is approximately normally distributed in large samples, we can standardize the difference:
-    \[
-    Z = \frac{\hat{\theta} - 1}{\sqrt{\operatorname{Var}(\hat{\theta})}}.
-    \]
-    Under $H_0$, $Z$ is asymptotically standard normal. Squaring this $Z$ statistic gives a chi-square statistic with 1 degree of freedom:
-    \[
-    \chi^2 = \frac{(\hat{\beta}_1 + \hat{\beta}_2 - 1)^2}{\operatorname{Var}(\hat{\beta}_1) + \operatorname{Var}(\hat{\beta}_2) + 2\,\operatorname{Cov}(\hat{\beta}_1, \hat{\beta}_2)}.
-    \]
-    This test statistic is compared to the $\chi^2_1$ distribution.
-    \begin{itemize}
-        \item If $\chi^2$ is large (and the corresponding p-value is small), we reject $H_0$ and conclude that the sum of $\beta_1$ and $\beta_2$ is statistically different from 1.  
-        \item If $\chi^2$ is not large (and the p-value is large), we do not reject $H_0$ and there is no evidence against constant returns to scale.
-    \end{itemize}
-
-    At the conventional 5\% level, the p-value (0.0000) is much smaller than 0.05, meaning we reject $\mathcal{H}_0$.
     \begin{figure}[htbp!]
         \centering
-        \includegraphics[width=0.5\textwidth]{F_test.png}
+        \includegraphics[width=0.8\textwidth]{a.png}
     \end{figure}
+\end{autosolution}
+
+\begin{autosolution}
+    \
+
+    % The OLS estimators are
+    % \begin{align}
+    %     \hat\beta_2
+    %     &= \frac{\sum_{t}(t-\bar t)\,(y_t-\bar y)}{\sum_{t}(t-\bar t)^2}, 
+    %     \quad
+    %     \hat\beta_1 = \bar y - \hat\beta_2\,\bar t,
+    % \end{align}
+    % where
+    % $\bar t = \frac1N\sum_t t$, $\bar y = \frac1N\sum_t y_t$, $N$ is the number of quarters, $y_t$ is the log of three variables.
+    Let $\mathbf{X}=(\mathbf{1},\,\mathbf{t})$ be the $N\times2$ design matrix, with rows $(1,t)$, and $\mathbf{y}=(y_1,\dots,y_N)'$.  Then the OLS estimator is
+    \[
+    \begin{pmatrix}\hat\beta_1\\[0.2em]\hat\beta_2\end{pmatrix}
+    = (\mathbf{X}'\mathbf{X})^{-1}\mathbf{X}'\mathbf{y}
+    =\frac{1}{S_{tt}}
+    \begin{pmatrix}
+    \sum_t t^2 & -\sum_t t \\[0.4em]
+    -\sum_t t & \sum_t 1
+    \end{pmatrix}
+    \begin{pmatrix}
+    \sum_t y_t \\[0.2em]
+    \sum_t t\,y_t
+    \end{pmatrix},
+    \]
+    where
+    \[
+    \bar t = \frac1N\sum_{t=1}^N t,\quad
+    \bar y = \frac1N\sum_{t=1}^N y_t,\quad
+    S_{tt} = \sum_{t=1}^N(t-\bar t)^2.
+    \]
+    Equivalently,
+    \[
+    \hat\beta_2
+    = \frac{\sum_{t=1}^N (t-\bar t)(\,y_t-\bar y)}{\sum_{t=1}^N (t-\bar t)^2},
+    \quad
+    \hat\beta_1 = \bar y - \hat\beta_2\,\bar t.
+    \]
+    The fitted values and residuals are
+    \[
+    \hat y_t = \hat\beta_1 + \hat\beta_2\,t,\qquad
+    \hat u_t = y_t - \hat y_t.
+    \]
+    $y_t$ is the log of three variables: GDP, PCE, and GPDI.
+    The estimated models are as below:
+    \begin{table}[h!]
+    \centering
+        \begin{tabular}{lcccc}
+        \toprule
+        Window & Series & $\hat\beta_1$ & $\hat\beta_2$ (per qtr) & Annualized Growth (\%) \\
+        \midrule
+        1965\,Q1--2006\,Q4 & $\ln\mathrm{GDP}$  & $7.8509$  & $0.0077707$ & $3.11$ \\
+                        & $\ln\mathrm{PCE}$  & $7.3017$  & $0.0083520$ & $3.34$ \\
+                        & $\ln\mathrm{GPDI}$ & $5.4989$  & $0.0100216$ & $4.01$ \\[6pt]
+        2007\,Q1--2019\,Q4 & $\ln\mathrm{GDP}$  & $8.4997$  & $0.0048888$ & $1.96$ \\
+                        & $\ln\mathrm{PCE}$  & $8.0947$  & $0.0049259$ & $1.97$ \\
+                        & $\ln\mathrm{GPDI}$ & $5.2006$  & $0.0104206$ & $4.17$ \\[6pt]
+        2007\,Q1--2022\,Q2 & $\ln\mathrm{GDP}$  & $8.4867$  & $0.0049376$ & $1.98$ \\
+                        & $\ln\mathrm{PCE}$  & $8.0394$  & $0.0051370$ & $2.05$ \\
+                        & $\ln\mathrm{GPDI}$ & $5.3432$  & $0.0098678$ & $3.95$ \\
+        \bottomrule
+        \end{tabular}
+        \caption{Trend regression estimates and annualized growth rates}
+    \end{table}
+
+
+\end{autosolution}
+
+\begin{autosolution}    
+    \
+
+    $\hat\beta_2$ measures the \emph{average quarterly} change in $\ln y_t$.  
+
+    The \emph{approximate quarterly growth rate} is $\hat\beta_2\times100\%$. 
+
+    The \emph{exact annualized growth rate} is 
+    \[
+    \bigl(e^{4\,\hat\beta_2}-1\bigr)\times100\% \approx 4 \hat\beta_2 \times 100\%,
+    \]
+    \begin{itemize}
+        \item \textbf{1965--2006:}  
+        GDP grows at about $0.78\%$ per quarter $\Rightarrow$ $3.11\%$ per year;  
+        Consumption: $0.84\%$ qtr $\Rightarrow$ $3.34\%$ yr;  
+        Investment: $1.00\%$ qtr $\Rightarrow$ $4.01\%$ yr.  
+
+        \item \textbf{2007--2019:}  
+        GDP/Consumption trend roughly halves to ≈$0.49\%$ qtr $\Rightarrow$ ≈$1.96\%$ yr.  
+        Investment trend remains high, ≈$1.04\%$ qtr $\Rightarrow$ $4.17\%$ yr.
+
+        \item \textbf{2007--2022:}  
+        GDP/Consumption trend stays near $2.05\%$ annualized; Investment trend slightly eases to $3.95\%$.
+
+        % \item \textbf{$R^2$ values (not shown)} confirm near‐perfect fit in the long sample ($R^2>0.99$),  
+        % while in the shorter windows investment’s $R^2$ falls (to ~0.72), reflecting larger cyclical deviations from the linear trend.
+    \end{itemize}
+    GDP and PCE grow at a similar rate, but investment grow faster, at about twice the rate of GDP and PCE.
+\end{autosolution}
+
+\begin{autosolution}
+    \
+
+    The ($k$th) sample autocorrelation of $\{\hat u_t\}$ is
+    \[
+    \hat\rho(k)
+    = \frac{\displaystyle\sum_{t=k+1}^N \hat u_t\,\hat u_{t-k}}
+        {\displaystyle\sum_{t=1}^N \hat u_t^2},
+    \qquad k=0,1,2,\dots.
+    \]
+    We compute $\hat\rho(k)$ for $k=1,\dots,K$ (here $K=8$) in each subsample to assess the persistence of residual cycles.
+
+\end{autosolution}
+
+
+\begin{autosolution}
+    \
+
+    \begin{figure}[ht]
+        \centering
+        \includegraphics[width=0.8\textwidth]{e.png}
+    \end{figure}    
+\end{autosolution}
+
+
+\begin{autosolution}
+    \
+
+    For each series $g_t\in\{\Delta y_t,\Delta c_t,\Delta i_t\}$ in a given subsample of length $M$, we compute
+    \[
+    \bar g = \frac{1}{M}\sum_{t=1}^M g_t,
+    \qquad
+    s_g = \sqrt{\frac{1}{M-1}\sum_{t=1}^M\bigl(g_t-\bar g\bigr)^2}.
+    \]
+    These compare the \emph{average realized growth} $\bar g$ with the \emph{trend-based} quarterly slope $\hat\beta_2$, and measure cyclical volatility via $s_g$.
+    \begin{table}[ht]
+        \centering
+        \begin{tabular}{llrrrrr}
+        \toprule
+        Window & Series & Obs & Mean of $\Delta\ln y$ & Std. of $\Delta\ln y$ & $\hat\beta_2$ (per qtr) \\
+        \midrule
+        1965\,Q2--2006\,Q4
+        & GDP    & 167 & 0.0079889 & 0.0082641 & 0.0077707 \\
+        & PCE    & 167 & 0.0086664 & 0.0067471 & 0.0083520 \\
+        & GPDI   & 167 & 0.0100079 & 0.0391054 & 0.0100216 \\
+        \addlinespace
+        2007\,Q2--2019\,Q4
+        & GDP    &  51 & 0.0045828 & 0.0061137 & 0.0048888 \\
+        & PCE    &  51 & 0.0045793 & 0.0043225 & 0.0049259 \\
+        & GPDI   &  51 & 0.0058344 & 0.0346509 & 0.0104206 \\
+        \addlinespace
+        2007\,Q2--2022\,Q2
+        & GDP    &  61 & 0.0045452 & 0.0159656 & 0.0049376 \\
+        & PCE    &  61 & 0.0050521 & 0.0175900 & 0.0051370 \\
+        & GPDI   &  61 & 0.0064772 & 0.0444316 & 0.0098678 \\
+        \bottomrule
+        \end{tabular}
+    \end{table}
+
+    \textbf{Comparison to part (b):}
+    \begin{itemize}
+        \item \emph{1965 Q2-2006 Q4:} The sample means of $\Delta\ln y$ for GDP (0.00799), PCE (0.00867) and GPDI (0.01001) are almost identical to the estimated quarterly trend slopes $\hat\beta_2$ (0.0077707, 0.0083520, 0.0100216). 
+        This confirms that, over the long sample, the linear-trend regression accurately captures the average growth rate.
+        \item \emph{2007 Q2-2019 Q4:} GDP and PCE mean growth rates ($\approx$0.00458) lie slightly below their $\hat\beta_2$ ($\approx$0.00489 and 0.00493), reflecting that downturns (2008-09 crisis) pull the sample average below the fitted trend. 
+        For GPDI, the mean (0.00583) is markedly below its trend slope (0.01042), since investment experienced large negative shocks that the OLS trend, minimizing squared errors, spreads more evenly across the sample.
+        \item \emph{2007 Q2-2022 Q2:} Including the COVID-19 shock further widens the gap: GDP and PCE means (0.00455, 0.00505) remain below their slopes (0.00494, 0.00514), and investment's mean (0.00648) stays well under its slope (0.00987). 
+        This again shows that severe cyclical downturns pull down the simple average growth below the fitted linear trend.
+    \end{itemize}
+\end{autosolution}
+
+\begin{autosolution}
+    \
+
+    \begin{table}[ht]
+        \centering
+        \begin{tabular}{llrr}
+        \toprule
+        Window               & Series & Mean of $\Delta\ln y$ & Std.\ dev.\ of $\Delta\ln y$ \\
+        \midrule
+        1965\,Q2--1983\,Q4   & GDP    & 0.0078863              & 0.0109888                    \\
+                             & PCE    & 0.0086857              & 0.0085560                    \\
+                             & GPDI   & 0.0091587              & 0.0504674                    \\
+        \addlinespace
+        1984\,Q1--2006\,Q4   & GDP    & 0.0080725              & 0.0051354                    \\
+                             & PCE    & 0.0086507              & 0.0048490                    \\
+                             & GPDI   & 0.0107001              & 0.0267834                    \\
+        \bottomrule
+        \end{tabular}
+    \end{table}
+
+    \begin{itemize}
+        \item \emph{Mean growth rates:}  
+            GDP’s average growth rises slightly from 0.7886\% to 0.8073\%;  
+            PCE falls marginally from 0.8686\% to 0.8651\%;  
+            GPDI increases from 0.9159\% to 1.0700\%.  
+            Overall, the mean growth rates remain essentially unchanged in magnitude.
+        \item \emph{Volatility:}  
+            All three series exhibit a dramatic reduction in standard deviation.  
+            \begin{itemize}
+                \item GDP's $\sigma$ falls from 1.10\% to 0.51\%.  
+                \item PCE's $\sigma$ falls from 0.86\% to 0.48\%.  
+                \item GPDI's $\sigma$ falls from 5.05\% to 2.68\%.  
+            \end{itemize}
+        This confirms the \emph{Great Moderation}—after 1984, while average growth remained stable, business-cycle volatility was substantially dampened.
+    \end{itemize}  
+\end{autosolution}
+
+
+
+\section{Problem 2}
+
+\begin{autosolution}
+    \
+
+    \subsection*{Weak Stationarity}
+
+    A process $\{y_t\}$ is weakly stationary if
+    \[
+    \mathbb{E}[y_t]=\mu\quad \forall t,
+    \quad 
+    \operatorname{Cov}(y_t,y_{t-k})=\gamma_k \text{ depends only on }k.
+    \]
+    Here
+    \[
+    \mathbb{E}[y_t]
+    =\sum_{j=0}^3\psi_j\,\mathbb{E}[u_{t-j}]
+    =0,
+    \]
+    so the mean is constant.  Next,
+    \[
+    \operatorname{Cov}(y_t,y_{t-k})
+    =\mathbb{E}\bigl[y_t\,y_{t-k}\bigr]
+    =\sum_{j=0}^3\sum_{i=0}^3\psi_j\psi_i\,
+    \mathbb{E}\bigl[u_{t-j}u_{t-k-i}\bigr].
+    \]
+    Since $\mathbb{E}[u_su_r]=0$ for $s\neq r$, only terms with
+    $t-j = t-k-i$ survive, so $\operatorname{Cov}(y_t,y_{t-k})$ depends on $k$ alone.  
+    Hence $\{y_t\}$ is weakly stationary.
+
+    \subsection*{Strict Stationarity}
+
+    If $\{u_t\}$ is strictly stationary (e.g.\ i.i.d.), then any finite-order linear filter
+    $\sum_{j=0}^3\psi_j\,u_{t-j}$
+    yields a strictly stationary $\{y_t\}$.  Thus under i.i.d.\ innovations, $y_t$ is strictly stationary.
+\end{autosolution}
+
+\begin{autosolution}
+    \
+
+    Define $\gamma_k = \operatorname{Cov}(y_t,y_{t-k})$.  With $\psi_j$ as above,
+    \[
+    \gamma_k
+    =\sum_{j=0}^3\sum_{i=0}^3\psi_j\psi_i\,
+    E[u_{t-j}u_{t-k-i}]
+    =\sum_{j=0}^3 \psi_j\,\psi_{j-k},
+    \]
+    interpreting $\psi_{m}=0$ for $m<0$ or $m>3$.
+
+    Thus:
+    \begin{align*}
+    \gamma_0
+    &=\sum_{j=0}^3\psi_j^2
+    =1^2 + (-2.4)^2 + 0.8^2 + (-0.4)^2
+    =7.56,\\
+    \gamma_1
+    &=\psi_0\psi_1 + \psi_1\psi_2 + \psi_2\psi_3
+    =1\cdot(-2.4) + (-2.4)\cdot0.8 + 0.8\cdot(-0.4)
+    =-4.64,\\
+    \gamma_2
+    &=\psi_0\psi_2 + \psi_1\psi_3
+    =1\cdot0.8 + (-2.4)\cdot(-0.4)
+    =1.76,\\
+    \gamma_3
+    &=\psi_0\psi_3
+    =1\cdot(-0.4)
+    =-0.4,\\
+    \gamma_k&=0\quad\text{for }|k|\ge4.
+    \end{align*}
+    The autocorrelation is $\rho_k=\gamma_k/\gamma_0$.
+\end{autosolution}
+
+
+\begin{autosolution}
+    \
+
+    Consider
+    \[
+    S_T = \sum_{t=1}^T y_t,
+    \qquad
+    V_T = \mathbb{V}[S_T]
+    =\sum_{i=1}^T\sum_{j=1}^T\gamma_{i-j}.
+    \]
+    Re-index $h=j-i$:
+    \[
+    V_T = \sum_{h=-(T-1)}^{T-1} (T-|h|)\,\gamma_h.
+    \]
+    Hence
+    \[
+    \mathbb{V}\left[\tfrac1{\sqrt T}S_T\right]
+    =\frac{V_T}{T}
+    =\gamma_0 + 2\sum_{h=1}^{T-1}\Bigl(1-\tfrac{h}{T}\Bigr)\gamma_h.
+    \]
+    As $T\to\infty$, $\frac{h}{T}\to0$ for fixed $h$, and $\gamma_h=0$ for $h\ge4$, so
+    \[
+    \lim_{T\to\infty}
+    \mathbb{V}\left[\tfrac1{\sqrt T}S_T\right]
+    =\gamma_0 + 2(\gamma_1+\gamma_2+\gamma_3)
+    =7.56 + 2(-4.64 + 1.76 - 0.4)
+    =1.
+    \]
+\end{autosolution}
+
+\begin{autosolution}
+    \
+
+    Assume $\{u_t\}$ is i.i.d.\ with $\mathbb{E}[u_t]=0$, $\mathbb{V}[u_t]=\sigma^2$.
+    \subsection*{Strict Stationarity}
+
+    $x_t=f(u_t,u_{t-4})$ depends on two i.i.d.\ draws; hence its joint distributions do not change with shifts in $t$.  So $\{x_t\}$ is strictly stationary.
+
+    \subsection*{Ergodicity}
+
+    An i.i.d.\ sequence is ergodic and any measurable function of it remains ergodic.  Thus $\{x_t\}$ is ergodic.
+
+    \subsection*{White-Noise Properties}
+    \begin{itemize}
+    \item $\mathbb{E}[x_t] = \mathbb{E}[u_t]\mathbb{E}[u_{t-4}] = 0.$
+    \item For $k\neq0$,
+    \[
+        \operatorname{Cov}(x_t,x_{t-k})
+        =\mathbb{E}[u_t u_{t-4} u_{t-k} u_{t-k-4}]
+        =0,
+    \]
+    since among the four factors at least one is independent with zero mean.
+    \end{itemize}
+    Hence $\{x_t\}$ is zero-mean uncorrelated white noise, but not i.i.d.\ (since $x_t$ and $x_{t+4}$ share $u_t$).
+\end{autosolution}
+
+\begin{autosolution}
+    \
+
+    We have:
+    \[
+    \mathbb{E}\left[\tfrac1T \sum_{t=1}^T x_t\right]
+    =\tfrac1T\sum_{t=1}^T \mathbb{E}[x_t]
+    =0,
+    \]
+    and since $\operatorname{Cov}(x_i,x_j)=0$ for $i\neq j$,
+    \[
+    \mathbb{V}\left[\tfrac1{\sqrt T}\sum_{t=1}^T x_t\right]
+    =\frac{1}{T}\sum_{t=1}^T \mathbb{V}[x_t]
+    =\sigma^4.
+    \]
 \end{autosolution}
 
 \end{document}
