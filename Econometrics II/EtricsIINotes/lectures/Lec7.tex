@@ -56,7 +56,7 @@ We give the following definitions of the mean, variance, and covariance of a ran
 
     The autocovariance function of a random variable $y_t$ is defined as
     \begin{gather*}
-        \gamma_{y}(r,s) = \operatorname{Cov}(y_r, y_s) = \mathbb{E}\Bigl[ (y_r - \mu_r)(y_s - \mu_s) \Bigr].
+        \gamma_{y}(r,s) = \Cov(y_r, y_s) = \mathbb{E}\Bigl[ (y_r - \mu_r)(y_s - \mu_s) \Bigr].
     \end{gather*}    
 \end{definition}
 
@@ -65,7 +65,7 @@ We give the following definitions of the mean, variance, and covariance of a ran
 
     The autocorrelation function (ACF) of a random variable $y_t$ is defined as
     \begin{gather*}
-        \rho_{y}(r,s) = \frac{\operatorname{Cov}(y_r, y_s)}{\sqrt{\operatorname{Var}(y_r) \operatorname{Var}(y_s)}} = \frac{\gamma_{y}(r,s)}{\sqrt{\gamma_{y}(r,r) \gamma_{y}(s,s)}}.
+        \rho_{y}(r,s) = \frac{\Cov(y_r, y_s)}{\sqrt{\operatorname{Var}(y_r) \operatorname{Var}(y_s)}} = \frac{\gamma_{y}(r,s)}{\sqrt{\gamma_{y}(r,r) \gamma_{y}(s,s)}}.
     \end{gather*}
     
 \end{definition}
@@ -97,7 +97,7 @@ If $\{y_t, t \in \mathbb{Z}\}$ is \textbf{stationary}, then $\gamma_y(r,s) = \ga
 It is therefore convenient to redefine the autocovariance function of a stationary
 process as the function of just one variable,
 \begin{gather*}
-    \gamma_y(h) \equiv \gamma_y(h, 0) = \operatorname{Cov}(y_{t+h}, y_t), \quad \forall t, h \in \mathbb{Z}.
+    \gamma_y(h) \equiv \gamma_y(h, 0) = \Cov(y_{t+h}, y_t), \quad \forall t, h \in \mathbb{Z}.
 \end{gather*}
 The function $\gamma_y(\cdot)$ will be referred to as the autocovariance function of $\{y_t\}$
 and $\gamma_y(h)$ as its value at lag $h$. The autocorrelation function (ACF) of $\{y_t\}$
@@ -114,7 +114,7 @@ the first and second moments of the stationary time series.
 % \begin{gather*}
 %     \mathbb{E}[y_t] = \int y_t f_{t}(y_t) d y_t = \mu_t, \\
 %     \mathbb{V}[y_t] = \mathbb{E}\Bigl[(y_t - \mu_t)^2 \Bigr] = \gamma_{0,t}, \\
-%     \operatorname{Cov}(y_t, y_{t-h}) = \mathbb{E}\Bigl[ (y_t - \mu_t)(y_{t-h} - \mu_{t-h}  ) \Bigr] = \gamma_{h,t}.
+%     \Cov(y_t, y_{t-h}) = \mathbb{E}\Bigl[ (y_t - \mu_t)(y_{t-h} - \mu_{t-h}  ) \Bigr] = \gamma_{h,t}.
 % \end{gather*}
 
 % \begin{definition}[Weak Stationarity]\label{def:weak-stationarity}
@@ -403,7 +403,7 @@ We now present a useful property. It is that the Cesàro sum of the autocovarian
     If $\{y_t\} \in \mathbb{R}$ is strict stationary and ergodic, and $\mathbb{E}[y^2] < \infty$,
     then the Cesàro sum of the autocovariances converges to zero:
     \begin{gather*}
-        \lim_{n \to \infty} \frac{1}{n} \sum_{l=1}^{n} \operatorname{Cov}(y_t, y_{t+l}) = 0.
+        \lim_{n \to \infty} \frac{1}{n} \sum_{l=1}^{n} \Cov(y_t, y_{t+l}) = 0.
     \end{gather*}    
 \end{theorem}
 
@@ -473,6 +473,82 @@ The only requirement is that $y_t$ is adapted to $\mathcal{F}_t$, meaning that $
     \end{gather*}
 \end{definition}
 
+In words, a MDS $y_t$ is unforecastable in the mean. If we apply the iterated expectations, $\mathbb{E}[y_t] = \mathbb{E}\left[ \mathbb{E}[y_t | \mathcal{F}_{t-1}] \right] = 0$,
+thus a MDS is mean zero.
+
+\begin{note}
+   \
+   
+   The term ``martingale difference sequence'' refers to the fact that the summed process $S_t = \sum_{j=1}^{t} y_j $, is a martingale and $y_t$ is its first-difference. 
+   \begin{definition}[Martingale]\label{def:martingale}
+       \
+
+       A process $\{S_t, \mathcal{F}_t\}$ is a martingale if $S_t$ is adapted to $\mathcal{F}_t$, $\mathbb{E}[S_t] < \infty$:
+       \begin{gather*}
+           \mathbb{E}[S_t | \mathcal{F}_{t-1}] = S_{t-1}, \quad \forall t.
+       \end{gather*}
+   \end{definition}
+\end{note}
+
+\begin{proposition}[I.I.D. and MDS]\label{prop:mds-property-1}
+    \
+
+    If $y_t$ is i.i.d. and mean zero, it is a MDS but the reverse is not the case. 
+\end{proposition}
+\begin{proof}
+    \
+
+    Suppose that $y_t$ is i.i.d. and mean zero. It is then independent from $\mathcal{F}_{t-1} = \sigma(y_{t-1}, y_{t-2}, \cdots)$,
+    so $\mathbb{E}[y_t | \mathcal{F}_{t-1}] = \mathbb{E}[y_t] = 0$.
+    Thus an i.i.d. shock is a MDS as claimed.
+
+    For the reverse, we let $u_t \sim \mathcal{N} (0,1)$ is i.i.d. and set $y_t = u_t u_{t-1}.$
+    By the conditioning theorem,
+    \begin{gather*}
+        \mathbb{E}[y_t | \mathcal{F}_{t-1}] = \mathbb{E}[u_t u_{t-1} | \mathcal{F}_{t-1}] = u_{t-1} \mathbb{E}[u_t | \mathcal{F}_{t-1}] = 0.
+    \end{gather*}
+    So $y_t$ is a MDS. However, $y_t$ is not i.i.d., which can be shown by calculating the first autocovariance of $y_t^2$:
+    \begin{align*}
+        \Cov[y_t^2, y_{t-1}^2] &= \mathbb{E}[y_t^2 y_{t-1}^2] - \mathbb{E}[y_t^2] \mathbb{E}[y_{t-1}^2] \\
+        &= \mathbb{E}[u_t^2]\mathbb{E}[u_{t-1}^4]\mathbb{E}[u_{t-2}^2] - 1 \\
+        &= 2 \neq 0.
+    \end{align*}
+    Since the covariance is non-zero, $y_t$ is not an independent sequence.
+    Thus $y_t$ is a MDS but not i.i.d.
+\end{proof}
+
+\begin{theorem}[Serial Uncorrelation and MDS]\label{thm:mds-serial-uncorrelated}
+    \
+
+    If $\{y_t, \mathcal{F}_t\}$ is a MDS, and $\mathbb{E}[y_t^2] < \infty$, then
+    $y_t$ is serially uncorrelated.
+\end{theorem}
+\begin{proof}
+    \
+
+    Take the process $y_t = u_t + u_{t-1} u_{t-2}$ with $u_t \sim \mathcal{N}(0,1)$, i.i.d.
+    The process is not MDS because $\mathbb{E}[y_t | \mathcal{F}_{t-1}] = u_{t-1} u_{t-2} \neq 0$,
+    however,
+    \begin{align*}
+        \Cov[y_t, y_{t-1}] &= \mathbb{E}[y_t y_{t-1}] \\
+        &= \mathbb{E}\left[ (u_t + u_{t-1} u_{t-2}) (u_{t-1} + u_{t-2} u_{t-3}) \right] \\
+        &= \mathbb{E}\left[ u_t u_{t-1} + u_t u_{t-2} u_{t-3} + u_{t-1}^2 u_{t-2} + u_{t-1} u_{t-2}^2 u_{t-3} \right] \\
+        &= \mathbb{E}[u_t] \mathbb{E}[u_{t-1}] + \mathbb{E}[u_t] \mathbb{E}[u_{t-2}] \mathbb{E}[u_{t-3}] + \mathbb{E}[u_{t-1}^2] \mathbb{E}[u_{t-2}] + \mathbb{E}[u_{t-1}] \mathbb{E}[u_{t-2}^2] \mathbb{E}[u_{t-3}] \\
+        &= 0
+    \end{align*}
+    Similarly, $\Cov[y_t, y_{t+k}] = 0$ for all $k \neq 0$. Thus the process is serially uncorrelated.
+\end{proof}
+
+\begin{definition}[Homoskedastic Martingale Difference Sequence]\label{homoskedastic-mds}
+    \
+
+    A MDS $\{y_t, \mathcal{F}_t\}$ is said to be homoskedastic if
+    \begin{gather*}
+        \mathbb{E}[y_t^2 | \mathcal{F}_{t-1}] = \sigma^2 < \infty, \quad \forall t.
+    \end{gather*}
+    where $\sigma^2$ is a constant.
+\end{definition}
+
 \begin{theorem}[MDS CLT]\label{thm:mds-clt}
     \
 
@@ -481,5 +557,4 @@ The only requirement is that $y_t$ is adapted to $\mathcal{F}_t$, meaning that $
     \begin{gather*}
         \frac{1}{\sqrt{T}} \sum_{t=1}^{T} y_t \xrightarrow{d} \mathcal{N}(0, \bar{\sigma}^2).
     \end{gather*}
-    
 \end{theorem}
