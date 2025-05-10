@@ -154,6 +154,51 @@ The Graduate Institute, Spring 2025, Marko Mlikota\\
         \centering
         \includegraphics[width=0.8\textwidth]{a.png}
     \end{figure}
+    \begin{lstlisting}[language=Stata]
+import delimited using "GDP.csv", varnames(1) clear
+gen date = date(observation_date, "YMD") 
+format date %td                      
+gen tq = qofd(date)               
+format tq %tq   
+rename gdpc1 GDP
+keep tq GDP
+save gdp_temp, replace
+
+import delimited using "RPCE.csv", varnames(1) clear
+gen date = date(observation_date, "YMD")   
+format date %td                  
+gen tq = qofd(date)     
+format tq %tq   
+rename pcecc96 PCE
+keep tq PCE
+save pce_temp, replace
+
+import delimited using "GPDI.csv", varnames(1) clear
+gen date = date(observation_date, "YMD") 
+format date %td 
+gen tq = qofd(date)                        
+format tq %tq   
+rename gpdic1 GPDI
+keep tq GPDI
+
+merge m:1 tq using gdp_temp
+drop _merge
+merge m:1 tq using pce_temp
+drop _merge
+
+tsset tq, quarterly
+gen lnGDP  = ln(GDP)
+gen lnPCE  = ln(PCE)
+gen lnGPDI = ln(GPDI)
+
+set scheme s2color
+
+tsline lnGDP lnPCE lnGPDI, ///
+    legend(order(1 "Log GDP" 2 "Log Consumption" 3 "Log Investment")) ///
+    title("Quarterly log-levels of GDP, Consumption, Investment") 
+
+graph export "a.png", as(png) replace
+    \end{lstlisting}
 \end{autosolution}
 
 \begin{autosolution}
@@ -221,7 +266,46 @@ The Graduate Institute, Spring 2025, Marko Mlikota\\
         \end{tabular}
         \caption{Trend regression estimates and annualized growth rates}
     \end{table}
+    \begin{lstlisting}[language=Stata]
+gen t = _n
 
+* 1) 1965Q1-2006Q4
+reg lnGDP t if inrange(tq, tq(1965q1), tq(2006q4))
+predict uhat_GDP_65_06, resid
+display "GDP 1965-06 annualized % = " _b[t]*4*100
+reg lnPCE t if inrange(tq, tq(1965q1), tq(2006q4))
+predict uhat_PCE_65_06, resid
+display "PCE 1965-06 annualized % = " _b[t]*4*100
+reg lnGPDI t if inrange(tq, tq(1965q1), tq(2006q4))
+predict uhat_GPDI_65_06, resid
+display "GPDI 1965-06 annualized % = " _b[t]*4*100
+
+* 2) 2007Q1-2019Q4
+reg lnGDP t if inrange(tq, tq(2007q1), tq(2019q4))
+predict uhat_GDP_07_19, resid
+display "GDP 2007-19 annualized % = " _b[t]*4*100
+
+reg lnPCE t if inrange(tq, tq(2007q1), tq(2019q4))
+predict uhat_PCE_07_19, resid
+display "PCE 2007-19 annualized % = " _b[t]*4*100
+
+reg lnGPDI t if inrange(tq, tq(2007q1), tq(2019q4))
+predict uhat_GPDI_07_19, resid
+display "GPDI 2007-19 annualized % = " _b[t]*4*100
+
+* 3) 2007Q1-2022Q2
+reg lnGDP t if inrange(tq, tq(2007q1), tq(2022q2))
+predict uhat_GDP_07_22, resid
+display "GDP 2007-22 annualized % = " _b[t]*4*100
+
+reg lnPCE t if inrange(tq, tq(2007q1), tq(2022q2))
+predict uhat_PCE_07_22, resid
+display "PCE 2007-22 annualized % = " _b[t]*4*100
+
+reg lnGPDI t if inrange(tq, tq(2007q1), tq(2022q2))
+predict uhat_GPDI_07_22, resid
+display "GPDI 2007-22 annualized % = " _b[t]*4*100
+    \end{lstlisting}
 
 \end{autosolution}
 
@@ -266,7 +350,44 @@ The Graduate Institute, Spring 2025, Marko Mlikota\\
     \qquad k=0,1,2,\dots.
     \]
     We compute $\hat\rho(k)$ for $k=1,\dots,K$ (here $K=8$) in each subsample to assess the persistence of residual cycles.
+    \begin{table}[ht]
+        \centering
+        \caption{Sample autocorrelations (AC) of detrended residuals by lag}
+        \label{tab:acf_detrended}
+        \begin{tabular}{llrrrrrrrr}
+        \toprule
+        Window & Series & Lag 1 & Lag 2 & Lag 3 & Lag 4 & Lag 5 & Lag 6 & Lag 7 & Lag 8 \\
+        \midrule
+        \multirow{3}{*}{1965\,Q1--2006\,Q4}
+        & GDP  & 0.9207 & 0.8038 & 0.6640 & 0.5231 & 0.3799 & 0.2457 & 0.1218 & 0.0211 \\
+        & PCE  & 0.9463 & 0.8724 & 0.7853 & 0.6864 & 0.5883 & 0.4880 & 0.3892 & 0.2972 \\
+        & GPDI & 0.9143 & 0.8018 & 0.6805 & 0.5437 & 0.4146 & 0.3171 & 0.2192 & 0.1401 \\
+        \midrule
+        \multirow{3}{*}{2007\,Q1--2019\,Q4}
+        & GDP  & 0.8952 & 0.7492 & 0.5887 & 0.4183 & 0.2782 & 0.1379 & 0.0236 & -0.0304 \\
+        & PCE  & 0.9183 & 0.8167 & 0.6955 & 0.5650 & 0.4382 & 0.3085 & 0.2057 &  0.1304 \\
+        & GPDI & 0.8844 & 0.7045 & 0.4978 & 0.2961 & 0.1250 & -0.0311 & -0.1723 & -0.2628 \\
+        \midrule
+        \multirow{3}{*}{2007\,Q1--2022\,Q2}
+        & GDP  & 0.6975 & 0.5012 & 0.3325 & 0.1832 & 0.0808 & -0.0320 & -0.0779 & -0.0736 \\
+        & PCE  & 0.7061 & 0.5167 & 0.3387 & 0.1636 & 0.0639 & -0.0153 & -0.0416 & -0.0518 \\
+        & GPDI & 0.8437 & 0.6556 & 0.4650 & 0.2928 & 0.1289 & -0.0343 & -0.1699 & -0.2362 \\
+        \bottomrule
+        \end{tabular}
+    \end{table}
+    \begin{lstlisting}[language=Stata]
+corrgram uhat_GDP_65_06 if inrange(tq, tq(1965q1), tq(2006q4)), lags(8)
+corrgram uhat_PCE_65_06 if inrange(tq, tq(1965q1), tq(2006q4)), lags(8)
+corrgram uhat_GPDI_65_06 if inrange(tq, tq(1965q1), tq(2006q4)), lags(8)
 
+corrgram uhat_GDP_07_19 if inrange(tq, tq(2007q1), tq(2019q4)), lags(8)
+corrgram uhat_PCE_07_19 if inrange(tq, tq(2007q1), tq(2019q4)), lags(8)
+corrgram uhat_GPDI_07_19 if inrange(tq, tq(2007q1), tq(2019q4)), lags(8)
+
+corrgram uhat_GDP_07_22 if inrange(tq, tq(2007q1), tq(2022q2)), lags(8)
+corrgram uhat_PCE_07_22 if inrange(tq, tq(2007q1), tq(2022q2)), lags(8)
+corrgram uhat_GPDI_07_22 if inrange(tq, tq(2007q1), tq(2022q2)), lags(8)
+    \end{lstlisting}
 \end{autosolution}
 
 
@@ -276,7 +397,18 @@ The Graduate Institute, Spring 2025, Marko Mlikota\\
     \begin{figure}[ht]
         \centering
         \includegraphics[width=0.8\textwidth]{e.png}
-    \end{figure}    
+    \end{figure}
+    \begin{lstlisting}[language=Stata]
+gen dgdp  = D.lnGDP
+gen dpce  = D.lnPCE
+gen dgpdi = D.lnGPDI
+
+tsline dgdp dpce dgpdi, ///
+    legend(order(1 "GDP growth" 2 "Cons growth" 3 "Inv growth")) ///
+    title("Quarter-on-quarter log-growth rates")
+
+graph export "e.png", as(png) replace
+    \end{lstlisting}
 \end{autosolution}
 
 
@@ -297,9 +429,9 @@ The Graduate Institute, Spring 2025, Marko Mlikota\\
         Window & Series & Obs & Mean of $\Delta\ln y$ & Std. of $\Delta\ln y$ & $\hat\beta_2$ (per qtr) \\
         \midrule
         1965\,Q2--2006\,Q4
-        & GDP    & 167 & 0.0079889 & 0.0082641 & 0.0077707 \\
-        & PCE    & 167 & 0.0086664 & 0.0067471 & 0.0083520 \\
-        & GPDI   & 167 & 0.0100079 & 0.0391054 & 0.0100216 \\
+        & GDP    & 167 & 0.0080837 & 0.0083304 & 0.0077707 \\
+        & PCE    & 167 & 0.0087461 & 0.0068057 & 0.0083520 \\
+        & GPDI   & 167 & 0.0104904 & 0.0394865 & 0.0100216 \\
         \addlinespace
         2007\,Q2--2019\,Q4
         & GDP    &  51 & 0.0045828 & 0.0061137 & 0.0048888 \\
@@ -323,6 +455,16 @@ The Graduate Institute, Spring 2025, Marko Mlikota\\
         \item \emph{2007 Q2-2022 Q2:} Including the COVID-19 shock further widens the gap: GDP and PCE means (0.00455, 0.00505) remain below their slopes (0.00494, 0.00514), and investment's mean (0.00648) stays well under its slope (0.00987). 
         This again shows that severe cyclical downturns pull down the simple average growth below the fitted linear trend.
     \end{itemize}
+    \begin{lstlisting}[language=Stata]
+* 1965Q2-2006Q4
+sum dgdp dpce dgpdi if inrange(tq, tq(1965q2), tq(2006q4))
+
+* 2007Q2-2019Q4
+sum dgdp dpce dgpdi if inrange(tq, tq(2007q2), tq(2019q4))
+
+* 2007Q2-2022Q2
+sum dgdp dpce dgpdi if inrange(tq, tq(2007q2), tq(2022q2))
+    \end{lstlisting}
 \end{autosolution}
 
 \begin{autosolution}
@@ -334,9 +476,9 @@ The Graduate Institute, Spring 2025, Marko Mlikota\\
         \toprule
         Window               & Series & Mean of $\Delta\ln y$ & Std.\ dev.\ of $\Delta\ln y$ \\
         \midrule
-        1965\,Q2--1983\,Q4   & GDP    & 0.0078863              & 0.0109888                    \\
-                             & PCE    & 0.0086857              & 0.0085560                    \\
-                             & GPDI   & 0.0091587              & 0.0504674                    \\
+        1965\,Q1--1983\,Q4   & GDP    & 0.0087338              & 0.0117128                    \\
+                             & PCE    & 0.0089202              & 0.0100335                    \\
+                             & GPDI   & 0.0104315              & 0.0602435                    \\
         \addlinespace
         1984\,Q1--2006\,Q4   & GDP    & 0.0080725              & 0.0051354                    \\
                              & PCE    & 0.0086507              & 0.0048490                    \\
@@ -359,7 +501,14 @@ The Graduate Institute, Spring 2025, Marko Mlikota\\
                 \item GPDI's $\sigma$ falls from 5.05\% to 2.68\%.  
             \end{itemize}
         This confirms the \emph{Great Moderation}—after 1984, while average growth remained stable, business-cycle volatility was substantially dampened.
-    \end{itemize}  
+    \end{itemize}
+    \begin{lstlisting}[language=Stata]
+* 1965Q2-1983Q4
+sum dgdp dpce dgpdi if inrange(tq, tq(1947q2), tq(1983q4))
+
+* 1984Q1-2006Q4
+sum dgdp dpce dgpdi if inrange(tq, tq(1984q1), tq(2006q4))
+    \end{lstlisting}
 \end{autosolution}
 
 
@@ -369,6 +518,10 @@ The Graduate Institute, Spring 2025, Marko Mlikota\\
 \begin{autosolution}
     \
 
+    Weak Stationarity: A stochastic process $\{y_{t}\}$ is weakly stationary if (i) its mean is the same at every time period, $\mu_{t}=\mu\quad\forall t$; and (ii) every autocovariance $\gamma_{h,t}=\mathrm{Cov}(y_{t},y_{t-h})$ depends only on the displacement $h$, not on the time period $t$, or equivalently, $\gamma_{h,t}=\gamma_{h},\quad\forall t$
+    
+    Strict Stationarity: A process is strictly stationary if for any values $h_{1},\ldots,h_{k}$, the joint distribution of $(y_{t},y_{t-h_{1}},\ldots,y_{t-h_{k}})$ depends only on the intervals separating the dates (displacements) $h_{1},\ldots,h_{k}$ and not on the date $t$ itself, i.e.
+$$f_{Y_{t},Y_{t-h_{1}},\ldots,Y_{t-h_{k}}} = f_{Y_{\tau},Y_{\tau-h_{1}},\ldots,Y_{\tau-h_{k}}}\quad\forall\tau.$$
     \subsection*{Weak Stationarity}
 
     A process $\{y_t\}$ is weakly stationary if
@@ -411,29 +564,32 @@ The Graduate Institute, Spring 2025, Marko Mlikota\\
     E[u_{t-j}u_{t-k-i}]
     =\sum_{j=0}^3 \psi_j\,\psi_{j-k},
     \]
-    interpreting $\psi_{m}=0$ for $m<0$ or $m>3$.
-
+    interpreting $\psi_{m}=0$ for $m>3$.
+    From the question, we know that:
+    \begin{gather*}
+        \sigma^2 = \mathbb{V}[u_t] = \mathbb{E}[u_t^2] - \mathbb{E}[u_t]^2 = \mathbb{E}[u_t^2] = 1
+    \end{gather*}
     Thus:
     \begin{align*}
     \gamma_0
-    &=\sum_{j=0}^3\psi_j^2
+    &= \sum_{j=0}^3\psi_j^2
     =1^2 + (-2.4)^2 + 0.8^2 + (-0.4)^2
     =7.56,\\
     \gamma_1
-    &=\psi_0\psi_1 + \psi_1\psi_2 + \psi_2\psi_3
-    =1\cdot(-2.4) + (-2.4)\cdot0.8 + 0.8\cdot(-0.4)
+    &=  \psi_0\psi_1 + \psi_1\psi_2 + \psi_2\psi_3
+    =(1\cdot(-2.4) + (-2.4)\cdot0.8 + 0.8\cdot(-0.4))
     =-4.64,\\
     \gamma_2
-    &=\psi_0\psi_2 + \psi_1\psi_3
-    =1\cdot0.8 + (-2.4)\cdot(-0.4)
+    &= \psi_0\psi_2 + \psi_1\psi_3
+    =(1\cdot0.8 + (-2.4)\cdot(-0.4))
     =1.76,\\
     \gamma_3
-    &=\psi_0\psi_3
-    =1\cdot(-0.4)
+    &= \psi_0\psi_3
+    =(1\cdot(-0.4))
     =-0.4,\\
     \gamma_k&=0\quad\text{for }|k|\ge4.
     \end{align*}
-    The autocorrelation is $\rho_k=\gamma_k/\gamma_0$.
+    % The autocorrelation is $\rho_k=\gamma_k/\gamma_0$.
 \end{autosolution}
 
 
@@ -502,13 +658,18 @@ The Graduate Institute, Spring 2025, Marko Mlikota\\
     =\tfrac1T\sum_{t=1}^T \mathbb{E}[x_t]
     =0,
     \]
-    and since $\operatorname{Cov}(x_i,x_j)=0$ for $i\neq j$,
+    and 
     \[
-    \mathbb{V}\left[\tfrac1{\sqrt T}\sum_{t=1}^T x_t\right]
-    =\frac{1}{T}\sum_{t=1}^T \mathbb{V}[x_t]
-    =\sigma^4.
+    \mathbb{V}\left[\tfrac1{\sqrt T} \sum_{t=1}^{T}x_t \right] = \sum_{h=-(T-1)}^{T-1} (T - \vert h \vert ) \gamma(h)
     \]
+    where $\gamma(h) = \operatorname{Cov}(x_t,x_{t-h})$.
+    We know that $\gamma(h) = 0$ for $h \neq 0$ and $\gamma(0) = \mathbb{E}[u_t^2 u_{t-4}^2] = \sigma^4$.
+    Thus:
+    \begin{gather*}
+    \mathbb{V}\left[\tfrac1{\sqrt T}S_T\right] = \frac{1}{T} T \gamma(0) = \sigma^4.
+    \end{gather*}
 \end{autosolution}
 
-\end{document}
 
+
+\end{document}

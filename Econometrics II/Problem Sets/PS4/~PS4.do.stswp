@@ -139,6 +139,7 @@ sum dgdp dpce dgpdi if inrange(tq, tq(2007q2), tq(2019q4))
 sum dgdp dpce dgpdi if inrange(tq, tq(2007q2), tq(2022q2))
 
 
+
 *---------------------------------------------*
 * 1(g)  "Great Moderation" 前后比较           *
 *---------------------------------------------*
