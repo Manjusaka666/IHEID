@@ -154,6 +154,19 @@ The Graduate Institute, Spring 2025, Marko Mlikota\\
         \centering
         \includegraphics[width=0.8\textwidth]{a.png}
     \end{figure}
+    All three series exhibit a strong, almost linear upward trajectory in log-levels, indicating persistent positive growth over the entire sample.
+    \(\ln I_t\) (investment) has the steepest slope, \(\ln Y_t\) (GDP) is intermediate, and \(\ln C_t\) (consumption) has the gentlest slope.
+    This ordering implies
+    \[
+      \text{Avg.\ growth:}\quad I > Y > C.
+    \]
+    The amplitude of deviations appears somewhat smaller after the mid-1980s (the “Great Moderation”), especially for GDP and consumption.  
+    Investment's trend also smooths after 1984 but remains markedly more volatile than the other two.
+    \begin{itemize}
+      \item \emph{Investment} shows the largest cyclical swings around its trend (notice the deeper troughs in the early 1980s, the 2008-09 crisis, and the 2020 COVID collapse).  
+      \item \emph{GDP} displays moderate deviations, with visible slowdowns at known recessions (1974-75, 1980-82, 2008-09, 2020 Q2).  
+      \item \emph{Consumption} is the smoothest, with only mild dips in severe downturns (2008-09, 2020 COVID collapse).
+    \end{itemize}
     \begin{lstlisting}[language=Stata]
 import delimited using "GDP.csv", varnames(1) clear
 gen date = date(observation_date, "YMD") 
@@ -313,30 +326,24 @@ display "GPDI 2007-22 annualized % = " _b[t]*4*100
     \
 
     $\hat\beta_2$ measures the \emph{average quarterly} change in $\ln y_t$.  
-
     The \emph{approximate quarterly growth rate} is $\hat\beta_2\times100\%$. 
-
     The \emph{exact annualized growth rate} is 
     \[
     \bigl(e^{4\,\hat\beta_2}-1\bigr)\times100\% \approx 4 \hat\beta_2 \times 100\%,
     \]
+
     \begin{itemize}
-        \item \textbf{1965--2006:}  
-        GDP grows at about $0.78\%$ per quarter $\Rightarrow$ $3.11\%$ per year;  
-        Consumption: $0.84\%$ qtr $\Rightarrow$ $3.34\%$ yr;  
-        Investment: $1.00\%$ qtr $\Rightarrow$ $4.01\%$ yr.  
-
-        \item \textbf{2007--2019:}  
-        GDP/Consumption trend roughly halves to ≈$0.49\%$ qtr $\Rightarrow$ ≈$1.96\%$ yr.  
-        Investment trend remains high, ≈$1.04\%$ qtr $\Rightarrow$ $4.17\%$ yr.
-
-        \item \textbf{2007--2022:}  
-        GDP/Consumption trend stays near $2.05\%$ annualized; Investment trend slightly eases to $3.95\%$.
-
-        % \item \textbf{$R^2$ values (not shown)} confirm near‐perfect fit in the long sample ($R^2>0.99$),  
-        % while in the shorter windows investment’s $R^2$ falls (to ~0.72), reflecting larger cyclical deviations from the linear trend.
+        \item \textbf{1965-2006 period:}  
+            GDP grew at approximately $3.11\%$ per year, PCE at $3.34\%$, and GPDI at $4.01\%$.  
+            Investment trend outpaced both output and consumption over this long sample.
+        \item \textbf{2007-2019 period:}  
+            After the financial crisis, GDP and consumption trend growth fell sharply to about $1.96\%$-$1.97\%$ annually, nearly halving.  
+            In contrast, investment trend remained robust at $4.17\%$ per year, possibly reflecting policy support or structural shifts.
+        \item \textbf{2007-2022 period:}  
+            Including the COVID-19 shock, GDP and PCE annualized growth rates stabilized around $2\%$ (1.98\% and 2.05\%),  
+            while investment eased slightly to $3.95\%$ but still outperformed output and consumption.  
+            This suggests that even amid extreme cyclical volatility, the long-run investment trend remained comparatively strong.
     \end{itemize}
-    GDP and PCE grow at a similar rate, but investment grow faster, at about twice the rate of GDP and PCE.
 \end{autosolution}
 
 \begin{autosolution}
@@ -398,6 +405,19 @@ corrgram uhat_GPDI_07_22 if inrange(tq, tq(2007q1), tq(2022q2)), lags(8)
         \centering
         \includegraphics[width=0.8\textwidth]{e.png}
     \end{figure}
+    \begin{itemize}
+        \item \textbf{Volatility patterns:}  
+            Investment (green) shows the largest fluctuations, frequently exceeding $\pm0.10$ (i.e.\ $\pm10\%$ annualized).  
+             Real GDP (blue) is smoother yet more volatile than Real Consumption (red), which remains within $\pm0.01$ per quarter.
+        \item \textbf{Business-cycle troughs and peaks:}  
+            All three series co-move, with pronounced downturns in 2008 Q4 (Financial Crisis) and especially 2020 Q2 (COVID shock), where Investment plunges below $-0.15$.
+        \item \textbf{Great Moderation vs.\ COVID era:}  
+            From the mid-1980s to 2007, the amplitudes of Real GDP and Real Consumption narrowed (“Great Moderation”).  
+            Post-2007 and dramatically in 2020, their volatility increases again, whereas investment retains structurally high cyclicality throughout.
+        \item \textbf{Economic interpretation:}  
+            The stability of consumption reflects strong automatic stabilizers and consumption smoothing.  
+            Investment's high cyclicality underscores its role as the accelerator in business cycles, amplifying both recessions and recoveries.
+    \end{itemize}
     \begin{lstlisting}[language=Stata]
 gen dgdp  = D.lnGDP
 gen dpce  = D.lnPCE
@@ -453,7 +473,7 @@ graph export "e.png", as(png) replace
         \item \emph{2007 Q2-2019 Q4:} GDP and PCE mean growth rates ($\approx$0.00458) lie slightly below their $\hat\beta_2$ ($\approx$0.00489 and 0.00493), reflecting that downturns (2008-09 crisis) pull the sample average below the fitted trend. 
         For GPDI, the mean (0.00583) is markedly below its trend slope (0.01042), since investment experienced large negative shocks that the OLS trend, minimizing squared errors, spreads more evenly across the sample.
         \item \emph{2007 Q2-2022 Q2:} Including the COVID-19 shock further widens the gap: GDP and PCE means (0.00455, 0.00505) remain below their slopes (0.00494, 0.00514), and investment's mean (0.00648) stays well under its slope (0.00987). 
-        This again shows that severe cyclical downturns pull down the simple average growth below the fitted linear trend.
+        This again shows that severe downturns pull down the simple average growth below the fitted linear trend.
     \end{itemize}
     \begin{lstlisting}[language=Stata]
 * 1965Q2-2006Q4
@@ -489,18 +509,18 @@ sum dgdp dpce dgpdi if inrange(tq, tq(2007q2), tq(2022q2))
 
     \begin{itemize}
         \item \emph{Mean growth rates:}  
-            GDP’s average growth rises slightly from 0.7886\% to 0.8073\%;  
-            PCE falls marginally from 0.8686\% to 0.8651\%;  
-            GPDI increases from 0.9159\% to 1.0700\%.  
+            GDP's average growth rises slightly from 0.8733\% to 0.8073\%;  
+            PCE falls marginally from 0.8920\% to 0.8651\%;  
+            GPDI increases from 1.043\% to 1.0700\%.  
             Overall, the mean growth rates remain essentially unchanged in magnitude.
         \item \emph{Volatility:}  
             All three series exhibit a dramatic reduction in standard deviation.  
             \begin{itemize}
-                \item GDP's $\sigma$ falls from 1.10\% to 0.51\%.  
-                \item PCE's $\sigma$ falls from 0.86\% to 0.48\%.  
-                \item GPDI's $\sigma$ falls from 5.05\% to 2.68\%.  
+                \item GDP's $\sigma$ falls from 1.17\% to 0.51\%.  
+                \item PCE's $\sigma$ falls from 1.00\% to 0.48\%.  
+                \item GPDI's $\sigma$ falls from 6.02\% to 2.68\%.  
             \end{itemize}
-        This confirms the \emph{Great Moderation}—after 1984, while average growth remained stable, business-cycle volatility was substantially dampened.
+        This confirms the \emph{Great Moderation} after 1984, while average growth remained stable, business-cycle volatility was substantially dampened.
     \end{itemize}
     \begin{lstlisting}[language=Stata]
 * 1965Q2-1983Q4
@@ -518,8 +538,11 @@ sum dgdp dpce dgpdi if inrange(tq, tq(1984q1), tq(2006q4))
 \begin{autosolution}
     \
 
-    Weak Stationarity: A stochastic process $\{y_{t}\}$ is weakly stationary if (i) its mean is the same at every time period, $\mu_{t}=\mu\quad\forall t$; and (ii) every autocovariance $\gamma_{h,t}=\mathrm{Cov}(y_{t},y_{t-h})$ depends only on the displacement $h$, not on the time period $t$, or equivalently, $\gamma_{h,t}=\gamma_{h},\quad\forall t$
-    
+    Weak Stationarity: A stochastic process $\{y_{t}\}$ is weakly stationary if 
+    \begin{itemize}
+        \item its mean is the same at every time period, $\mu_{t}=\mu\quad\forall t$;
+        \item every autocovariance $\gamma_{h,t}=\mathrm{Cov}(y_{t},y_{t-h})$ depends only on the displacement $h$, not on the time period $t$, or equivalently, $\gamma_{h,t}=\gamma_{h},\quad\forall t$
+    \end{itemize} 
     Strict Stationarity: A process is strictly stationary if for any values $h_{1},\ldots,h_{k}$, the joint distribution of $(y_{t},y_{t-h_{1}},\ldots,y_{t-h_{k}})$ depends only on the intervals separating the dates (displacements) $h_{1},\ldots,h_{k}$ and not on the date $t$ itself, i.e.
 $$f_{Y_{t},Y_{t-h_{1}},\ldots,Y_{t-h_{k}}} = f_{Y_{\tau},Y_{\tau-h_{1}},\ldots,Y_{\tau-h_{k}}}\quad\forall\tau.$$
     \subsection*{Weak Stationarity}
@@ -645,8 +668,13 @@ $$f_{Y_{t},Y_{t-h_{1}},\ldots,Y_{t-h_{k}}} = f_{Y_{\tau},Y_{\tau-h_{1}},\ldots,Y
         =0,
     \]
     since among the four factors at least one is independent with zero mean.
+    \item For $k = 0$,
+    \[
+    \mathbb{V}[x_t] = \mathbb{E}[u_t^2 u_{t-4}^2] = \sigma^4,
+    \]
+    which is constant in $t$.
     \end{itemize}
-    Hence $\{x_t\}$ is zero-mean uncorrelated white noise, but not i.i.d.\ (since $x_t$ and $x_{t+4}$ share $u_t$).
+    Hence $\{x_t\}$ is zero-mean uncorrelated white noise, but not strong white noise, since $x_t$ and $x_{t+4}$ share $u_t$.
 \end{autosolution}
 
 \begin{autosolution}
