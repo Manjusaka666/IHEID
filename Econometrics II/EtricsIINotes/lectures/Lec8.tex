@@ -51,7 +51,7 @@ Note that the Normal WN process is SS and ergodic as it consists of i.i.d. RVs a
 \begin{theorem}[Wold Decomposition]\label{thm:wolddecomp}
     \
 
-    Suppose that $\{y_t\}$ is \textit{weak stationary}, with a finite variance (\textit{(we shall assume that it has mean zero, though this is not necessary)}).
+    Suppose that $\{y_t\}$ is \textit{weak stationary}, with a finite variance (\textit{we shall assume that it has mean zero, though this is not necessary}).
     Then $y_t$ can be uniquely expressed as
     \begin{gather*}
         y_t = \sum_{j=0}^{\infty} \phi_j u_{t-j} + V_t 
@@ -107,13 +107,13 @@ where $B$ is defined by:
 \end{gather*}
 The polynomials $\phi(B)$ and $\theta(B)$ will be referred to as the \textbf{autoregressive} and \textbf{moving average} polynomials, respectively.
 
-\subsection{Autoregressive Models}\label{sec:AR}
+\subsection{Autoregressive Models (AR\texorpdfstring{$(p)$}{(p)})}\label{sec:AR}
 
 Autoregressive models are based on the idea that the current value of the series,
 $y_t$, can be explained as a function of $p$ past values: $y_{t-1}, \cdots, y_{t-p},$
 where $p$ determines the number of steps into the past needed to forecast the current value.
 
-If $\theta(B) \equiv 0$ in ARMA$(p,q)$ \ref{eq:ARMApq}, then we have the \textbf{autoregressive} model of order $p$ (AR$(p)$):
+If $\theta(B) \equiv 1$ in ARMA$(p,q)$ \ref{eq:ARMApq}, then we have the \textbf{autoregressive} model of order $p$ (AR$(p)$):
 \begin{definition}[AR$(p)$ Process]\label{def:ARp}
     \
     
@@ -235,4 +235,117 @@ Under $\vert \phi \vert \geq 1$, the process is non-stationary and the ACF diver
         \alpha + u_t \\
         0
     \end{bmatrix}$.
+    The VAR(1) process is strictly stationary and ergodic if the innovations satisfy $\mathbb{E}[\tilde{u}_t] < \infty$ and all the eigenvalues $\lambda$ of $\mathbf{A}$ are less than 1 in absolute value.
+    The eigenvalues of $\mathbf{A}$ are the roots of the characteristic polynomial:
+    \begin{gather*}
+        \lambda^2 - \phi_1 \lambda - \phi_2 = \lambda^2 \phi\left(\frac{1}{\lambda}\right) = 0
+    \end{gather*}
+    and $\phi(z) = 1 - \phi_1 z - \phi_2 z^2$ is the autoregressive polynomial of the AR(2) model.
+    By factoring this polynomial as $\phi (z) = (1 - \lambda_1 z)(1 - \lambda_2 z)$, we can find the roots $\lambda_1$ and $\lambda_2$.
+    The quadratic formula shows that these equal
+    \begin{gather}\label{eq:lambdadef}
+        \lambda_j = \frac{\phi_1 \pm \sqrt{\phi_1^2 + 4\phi_2}}{2}.
+    \end{gather}
+    These eigenvalues are real if $\phi_1^2 + 4\phi_2 \geq 0$ and are complex conjugates otherwise.
+    The AR(2) process is stationary if the solutions $\vert \lambda_j \vert < 1$ for $j = 1, 2$.
+    % \begin{figure}[ht!]
+    %     \centering
+    %     \includegraphics[width=0.8\textwidth]{figures/AR(2).jpg}
+    %     \caption{Stationarity Region for AR(2) processes}
+    %     \label{fig:AR2}
+    % \end{figure}
+
+    \begin{theorem}[AR(2) Stationarity]\label{thm:AR2stationarity}
+        \
+
+        If $\mathbb{E}\vert e_t \vert < \infty,$ and $\vert \lambda_j \vert < 1$ for $\lambda_j$ defined in \eqref{eq:lambdadef}, then the AR(2) process is stationary,
+        or equivalenetly, the following inequalities hold:
+        \begin{gather}
+            \phi_1 + \phi_2 < 1 \\
+            \phi_2 - \phi_1 < 1 \\
+            \phi_2 > -1
+        \end{gather}
+        then, the AR(2) process \eqref{eq:AR2} is absolutely convergent, strictly stationary, and ergodic.
+    \end{theorem}
 \end{eg}
+
+\subsection{Moving Average Models (MA\texorpdfstring{$(q)$}{(q)})}\label{sec:MA}
+
+As an alternative to the autoregressive representation in which the $y_t$ on the left-hand
+side of the equation are assumed to be combined linearly, the moving average model
+of order q, abbreviated as MA$(q)$, assumes the white noise $u_t$ on the right-hand side
+of the defining equation are combined linearly to form the observed data.
+
+If $\phi(B) \equiv 1$ in ARMA$(p,q)$ \ref{eq:ARMApq}, then we have the \textbf{moving average} model of order $q$ (MA$(q)$):
+\begin{definition}[MA$(q)$ Process]\label{def:MAq}
+    \
+    
+    The process $\{ y_t, t=0, \pm1, \pm2, \cdots\}$ is said to be an MA$(q)$ process if $y_t$ is stationary and for every $t$,
+    \begin{gather}\label{eq:MAq}
+        y_t = \alpha + u_t + \theta_1 u_{t-1} + \cdots + \theta_q u_{t-q}
+    \end{gather}
+    where $u_t \sim WN(0,\sigma^2)$, $\alpha = \mu$, $\mathbb{E}[y_t] = \mu$, and $\theta_q \neq 0.$
+    This can be written symbolically in the more compact form:
+    \begin{gather*}
+        y_t = \alpha + \theta(B) u_t, t = 0, \pm1, \pm2, \cdots
+    \end{gather*}
+    where $\theta (B) = 1 + \theta_1 B + \cdots + \theta_q B^q$.
+\end{definition}
+It's quite easy to see that the `\textbf{linear process}' we defined in \ref{thm:wolddecomp} is $MA(\infty)$ and the white noise process is $MA(0)$.
+We can obtain $\mathbb{E}[y_t] = \alpha$ and:
+\begin{align*}
+    \gamma(h) &= \Cov[y_{t+h}, y_t] = \Cov[u_{t+h} + \theta_1 u_{t+h-1} + \cdots + \theta_q u_{t+h-q}, u_t + \theta_1 u_{t-1} + \cdots + \theta_q u_{t-q}]\\
+    &= \mathbb{E}\left[(u_t + \theta_1 u_{t-1} + \cdots)(u_{t+h} + \theta_1 u_{t+h-1} + \cdots)\right]\\
+    &= \begin{dcases}
+        \sigma^2 \sum_{j=0}^{q-\vert h\vert}\theta_j \theta_{j + \vert h \vert} , & \vert h \vert < q;\\
+        0, & \vert h \vert > q.
+    \end{dcases}
+\end{align*}
+
+
+\begin{eg}[MA(1) Process]\label{eg:MA1}
+    \
+    
+    The MA(1) process is given by
+    \begin{gather}\label{eq:MA1}
+        y_t = \alpha + u_t + \theta u_{t-1}, \quad u_t \sim WN(0, \sigma^2).
+    \end{gather}
+    The model is called a ``moving average'' because $y_t$ is a weighted average of the shocks $u_t$ and $u_{t-1}$.
+    We can obtain that $\mathbb{E}[y_t] = \alpha$ and:
+    \begin{align*}
+        \gamma(h) &= \Cov[y_{t+h}, y_t] = \Cov[u_{t+h} + \theta u_{t+h-1}, u_t + \theta u_{t-1}]\\
+        &= \mathbb{E}\left[(u_t + \theta u_{t-1})(u_{t+h} + \theta u_{t+h-1})\right]\\
+        &= \begin{dcases}
+            (1+\theta^2) \sigma^2, &\text{ if } h = 0;\\
+            \theta \sigma^2, &\text{ if } h = \pm1;\\
+            0, &\text{ otherwise} .
+        \end{dcases}
+    \end{align*}
+    Thus $y_s$ and $y_t$ are uncorrelated whenever $s$ and $t$ are two or more times instants apart.
+    Therefore, the MA(1) process is weak stationary regardless of the value of $\theta$.
+    We speak of \textit{short range dependence} and say that the time series has \textit{short memory}.
+\end{eg}
+
+
+\subsection{Trend and Seasonality}\label{sec:trendseasonality}
+In reality, raw data is seldom stationary. It often displays a trend as well as some regular, fluctuating
+pattern, referred to as ``seasonality''.
+One possible treatment of data is to assume that the data set is a realization of the stochastic
+process $X_t$ can be split into:
+\begin{gather*}
+    X_t = m_t + s_t + y_t
+\end{gather*}
+where $m: \mathbb{Z} \to \mathbb{R}$ is a slowly changing function called the \textit{trend component};
+$s: \mathbb{Z} \to \mathbb{R}$ is a function with known period $d$ called the \textit{seasonal component}, i.e. $s_{t+d} = s_t$ and $\sum_{j=0}^{d} s_j = 0$;
+and $y_t$ is a stationary process with mean zero and finite variance.
+
+\begin{note}
+    \
+
+    Once the trend and seasonality are subtracted, we would be left with yt, which is typically WS
+and can be modeled as an ARMA process. (Alternatively, if it displays some instability that
+(potentially) prevents it from being WS, we can model its dynamics using more advanced
+models that display, for example, conditional heteroskedasticity, stochastic volatility or time-
+varying parameters.)
+\end{note}
+
