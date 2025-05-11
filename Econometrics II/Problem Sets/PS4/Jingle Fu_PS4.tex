@@ -653,10 +653,51 @@ $$f_{Y_{t},Y_{t-h_{1}},\ldots,Y_{t-h_{k}}} = f_{Y_{\tau},Y_{\tau-h_{1}},\ldots,Y
     \subsection*{Strict Stationarity}
 
     $x_t=f(u_t,u_{t-4})$ depends on two i.i.d.\ draws; hence its joint distributions do not change with shifts in $t$.  So $\{x_t\}$ is strictly stationary.
+    We use the measure thoery to give the strict proof.
+
+    Let $(\Omega,\mathcal F,\mathbb P)$ be the product probability space
+    $\Omega=\mathbb R^{\mathbb Z}$ carrying an \emph{i.i.d.} sequence
+    $U=(u_t)_{t\in\mathbb Z}$ with $\mathbb E[u_t]=0$ and 
+    $\operatorname{Var}(u_t)=\sigma^{2}<\infty$.
+    Define the left--shift
+    \[
+    S:\Omega\to\Omega,\quad
+    S\bigl((x_t)_{t\in\mathbb Z}\bigr) = (x_{t+1})_{t\in\mathbb Z}.
+    \]
+    Because the coordinates are independent and identically distributed, 
+    $S$ is \emph{measure preserving} with respect to $\mathbb P$.
+
+    Set
+    \[
+    g(\omega)=u_0(\omega)\,u_{-4}(\omega),\quad
+    x_t(\omega)=g\!\bigl(S^{\,t}\omega\bigr)
+                =u_t(\omega)\,u_{t-4}(\omega),\quad t\in\mathbb Z.
+    \]
+
+    For any $k\in\mathbb N$, integers $t_1,\dots,t_k$ and $h$,
+    \[
+    \bigl(x_{t_1},\dots,x_{t_k}\bigr)
+        =(g\circ S^{t_1},\dots,g\circ S^{t_k}),
+    \quad
+    \bigl(x_{t_1+h},\dots,x_{t_k+h}\bigr)
+        =(g\circ S^{t_1+h},\dots,g\circ S^{t_k+h}).
+    \]
+    Since $S$ is measure preserving, the two vectors have identical
+    joint distributions.  Hence $(x_t)$ is \emph{strictly stationary}.
 
     \subsection*{Ergodicity}
 
-    An i.i.d.\ sequence is ergodic and any measurable function of it remains ergodic.  Thus $\{x_t\}$ is ergodic.
+    For ergodicity, we cannot directly use the property of i.i.d.\  as $\{x_t\}$ is not independent.
+    We still give a strict proof by measure theory.
+
+    The system $(\Omega,\mathcal F,\mathbb P,S)$ is ergodic.
+    Because $g\in L^{1}(\Omega,\mathbb P)$, the Birkhoff--Khinchin Theorem yields
+    \[
+    \frac1T\sum_{t=1}^{T}x_t(\omega)
+    \;\xrightarrow[T\to\infty]{\text{a.s.}}\;
+    \mathbb E[g]=\mathbb E[u_0u_{-4}]=0 .
+    \]
+    Hence $(x_t)$ is \emph{ergodic}.
 
     \subsection*{White-Noise Properties}
     \begin{itemize}
