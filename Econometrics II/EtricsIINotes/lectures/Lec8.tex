@@ -327,25 +327,25 @@ We can obtain $\mathbb{E}[y_t] = \alpha$ and:
 \end{eg}
 
 
-\subsection{Trend and Seasonality}\label{sec:trendseasonality}
-In reality, raw data is seldom stationary. It often displays a trend as well as some regular, fluctuating
-pattern, referred to as ``seasonality''.
-One possible treatment of data is to assume that the data set is a realization of the stochastic
-process $X_t$ can be split into:
-\begin{gather*}
-    X_t = m_t + s_t + y_t
-\end{gather*}
-where $m: \mathbb{Z} \to \mathbb{R}$ is a slowly changing function called the \textit{trend component};
-$s: \mathbb{Z} \to \mathbb{R}$ is a function with known period $d$ called the \textit{seasonal component}, i.e. $s_{t+d} = s_t$ and $\sum_{j=0}^{d} s_j = 0$;
-and $y_t$ is a stationary process with mean zero and finite variance.
+% \subsection{Trend and Seasonality}\label{sec:trendseasonality}
+% In reality, raw data is seldom stationary. It often displays a trend as well as some regular, fluctuating
+% pattern, referred to as ``seasonality''.
+% One possible treatment of data is to assume that the data set is a realization of the stochastic
+% process $X_t$ can be split into:
+% \begin{gather*}
+%     X_t = m_t + s_t + y_t
+% \end{gather*}
+% where $m: \mathbb{Z} \to \mathbb{R}$ is a slowly changing function called the \textit{trend component};
+% $s: \mathbb{Z} \to \mathbb{R}$ is a function with known period $d$ called the \textit{seasonal component}, i.e. $s_{t+d} = s_t$ and $\sum_{j=0}^{d} s_j = 0$;
+% and $y_t$ is a stationary process with mean zero and finite variance.
 
-\begin{note}
-    \
+% \begin{note}
+%     \
 
-    Once the trend and seasonality are subtracted, we would be left with yt, which is typically WS
-and can be modeled as an ARMA process. (Alternatively, if it displays some instability that
-(potentially) prevents it from being WS, we can model its dynamics using more advanced
-models that display, for example, conditional heteroskedasticity, stochastic volatility or time-
-varying parameters.)
-\end{note}
+%     Once the trend and seasonality are subtracted, we would be left with yt, which is typically WS
+% and can be modeled as an ARMA process. (Alternatively, if it displays some instability that
+% (potentially) prevents it from being WS, we can model its dynamics using more advanced
+% models that display, for example, conditional heteroskedasticity, stochastic volatility or time-
+% varying parameters.)
+% \end{note}
 

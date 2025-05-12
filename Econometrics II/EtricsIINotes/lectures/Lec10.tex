@@ -1,0 +1,145 @@
+Multi GLP:
+\begin{gather*}
+    y_t = B(L) u_t = \sum_{l=0}^{\infty} B_l u_{t-l}, \quad u_t \sim WN(0, \Sigma)
+\end{gather*}
+where $B_0 = I$ and $\sum_{l=0}^{\infty} \lVert B_l \rVert^2 < \infty.$
+
+\section{Vector Autoregressions (VARs)}\label{sec:var}
+
+As in the previous lecture, we have built a VAR(1) model for solving the AR(2) process.
+\begin{gather*}
+    y_t = \Phi_0 + \Phi_1 y_{t-1} + u_t, \quad u_t \sim WN(0, \Sigma)
+\end{gather*}
+e.g. $n=2$:
+\begin{gather*}
+    \begin{bmatrix}
+        y_{1t} \\
+        y_{2t}
+    \end{bmatrix} = \begin{bmatrix}
+         \Phi_{0,1} \\
+         \Phi_{0,2} \\
+    \end{bmatrix} + \begin{bmatrix}
+        \Phi_{1,11} & \Phi_{1,12}  \\
+        \Phi_{1,21} & \Phi_{1,22}  \\
+    \end{bmatrix}
+    \begin{bmatrix}
+        y_{1,t-1} \\
+        y_{2,t-1}
+    \end{bmatrix} + \begin{bmatrix}
+         u_{1t} \\
+         u_{2t} \\
+    \end{bmatrix}, \quad u_t \sim WN(0, \Sigma)
+\end{gather*}
+where $u_t \sim  WN\left( \begin{bmatrix}
+     0 \\
+     0 \\
+\end{bmatrix}, \begin{bmatrix}
+    \sigma_{11} & \sigma_{12} \\
+    \sigma_{21} & \sigma_{22} \\
+\end{bmatrix} \right)$.
+
+\begin{definition}[VAR$(p)$]
+    \
+
+    A VAR(p) model is a system of $n$ equations of the form:
+    \begin{gather*}
+        y_t = \Phi_0 + \sum_{i=1}^{p} \Phi_i y_{t-i} + u_t, \quad u_t \sim WN(0, \Sigma)
+    \end{gather*}
+    where $y_t$ is an $n$-dimensional vector, $\Phi_0$ is an $n$-dimensional vector of constants, $\Phi_i$ are $n \times n$ matrices of coefficients, and $u_t$ is an $n$-dimensional vector of white noise errors.
+\end{definition}
+
+\subsection{Stationarity of VAR$(p)$}\label{sec:stationarity-var}
+\begin{eg}
+    \
+
+    Consider the VAR(2) model:
+    \begin{gather*}
+        y_t = \Phi_0 + \Phi_1 y_{t-1} + \Phi_2 y_{t-2} + u_t
+    \end{gather*}
+    or we write in companion form:
+    \begin{gather*}
+        \begin{bmatrix}
+            y_t \\
+            y_{t-1}
+        \end{bmatrix} = \begin{bmatrix}
+            \Phi_0 \\
+            0
+        \end{bmatrix} + \begin{bmatrix}
+            \Phi_1 & \Phi_2 \\
+            I & 0
+        \end{bmatrix} 
+        \begin{bmatrix}
+            y_{t-1} \\
+            y_{t-2}
+        \end{bmatrix} + \begin{bmatrix}
+             u_t \\
+             0 \\
+        \end{bmatrix}
+    \end{gather*}
+    we can simply write:
+    \begin{gather*}
+        X_t = F_0 + F_1 X_{t-1} + v_t
+    \end{gather*}
+    We take mean on both sides,
+    \begin{gather*}
+        \mathbb{E}[y_t] = \Phi_0 + \Phi_1 \mathbb{E}[y_{t-1}] + \Phi_2 \mathbb{E}[y_{t-2}] + 0
+    \end{gather*}
+    as $\mathbb{E}[y_t] = \mathbb{E}[y_{t-1}] = \mathbb{E}[y_{t-2}] = \mu$,
+    we know that $\mu = \left(1 - \Phi_1 - \Phi_2\right)^{-1} \Phi_0.$
+\end{eg}
+
+\subsection{Moments \& GLP-Representation}
+Consider first for a VAR(1). Repeatedly inserting for lags $y_{t-1}$, we get:
+\begin{align*}
+    y_t &= \Phi_0 + \Phi_1 y_{t-1} + u_t \\
+    &= \Phi_0 + \Phi_1 (\Phi_0 + \Phi_1 y_{t-2} + u_{t-1}) + u_t \\
+    &= \Phi_0 + \Phi_1 \Phi_0 + \Phi_1^2 y_{t-2} + \Phi_1 u_{t-1} + u_t \\
+    &= \cdots \\
+    &= \sum_{l=0}^{\infty} \Phi_1^l \Phi_0 + \sum_{l=0}^{\infty} \Phi_1^l u_{t-l} + \lim_{k \to \infty} \Phi_1^k y_{t-k} \\
+    &= \frac{\Phi_0}{1 - \Phi_1} + \sum_{l=0}^{\infty} \Phi_1^l u_{t-l}
+\end{align*}
+if $\Phi_1$ jas all eigenvalues in the unit circle, then $\lim_{k \to \infty} \Phi_1^k y_{t-k} = 0$.
+Based on this expresison, we can get the ACF:
+\begin{align*}
+    \Gamma_h = \Cov[y_t, y_{t-h}] &= \mathbb{E}\left[ \left(\sum_{t=0}^{\infty}\Phi_1^l u_{t-l} \right) \left( \sum_{k=0}^{\infty}\Phi_1^k u_{t-h-k} \right)^{\prime} \right] \\
+    &= \sum_{k=0}^{\infty} \mathbb{E}\left[ \left(\Phi_1^k u_{t-h-k} \right) \left(\Phi_1^k u_{t-h-k} \right)^{\prime} \right] \\
+    &= \sum_{k=0}^{\infty} \Phi_1^{h+k}  \mathbb{E}\left[ u_{t-h-k} u_{t-h-k}^{\prime} \right] \Phi_1^{k^{\prime}} \\
+    &= \sum_{k=0}^{\infty} \Phi_1^{h+k} \Sigma \Phi_1^{k^{\prime}}
+\end{align*}
+As we generalize this to VAR(p) ($X_t = F_0 + F_1 X_{t-1} + v_t$), we can get:
+\begin{gather*}
+    \Gamma_h^X = \sum_{k=0}^{\infty} F_1^{h+k} \Sigma^v F_1^{k^{\prime}}
+\end{gather*}
+where $\mathbb{V}[u_t] = \Sigma^v = \begin{bmatrix}
+    \Sigma^v & 0 \\
+    0 & 0 \\
+\end{bmatrix}$.
+And we can have the ACF for the original $y_t$:
+\begin{align*}
+    \Gamma_h^y = \Cov[y_t, y_{t-h}] &= \Cov[MX_t, MX_{t-h}] \\
+    &= M \Cov[X_t, X_{t-h}] M^{\prime} \\
+    &= \sum_{k=0}^{\infty} M F_1^{h+k} \Sigma^v F_1^{k^{\prime}} M^{\prime} \\
+    &= \sum_{k=0}^{\infty} \left(F_1^{k+h} \right)_{11} \Sigma \left( F_1^k \right)_{11}^{\prime}
+\end{align*}
+
+\subsection{Reduced-Form vs. Structural Representation}
+The above expressions for the VAR model are called reduced-form representation and the $u_t$ that appear in it are called reduced-form errors.
+They are the forecasting errors obtained when predicting $y_t$ one step ahead:
+\begin{align*}
+    y_t &= \Phi_0 + \Phi_1 y_{t-1} + u_t \\
+    \Rightarrow \mathbb{E}_{t-1} [y_t] &= \Phi_0 + \Phi_1 y_{t-1} + \mathbb{E}_{t-1} [u_t]\\
+    \Rightarrow u_t &= y_t - \mathbb{E}_{t-1} [y_t]
+\end{align*}
+
+To make causal statements in VAR, we need to decompose the reduced-form errors into underlying, independent driving forces of $y_t$, referred to as shocks.
+We can write:
+\begin{gather*}
+    u_t = \Phi_{\varepsilon} \varepsilon_t, \quad \varepsilon_t \sim WN(0, I)
+\end{gather*}
+where $\varepsilon_t$ is the vector of shocks.
+
+\begin{gather*}
+    \text{Reduced-form: } y_t = \Phi_0 + \Phi_1 y_{t-1} + u_t, \quad u_t \sim WN(0, \Sigma) \\
+    \text{Structural: } y_t = \Phi_0 + \Phi_1 y_{t-1} + \Phi_{\varepsilon} \varepsilon_t, \quad \varepsilon_t \sim WN(0, I) \\
+    \Leftrightarrow A y_t = B_0 + B_1 y_{t-1} + \varepsilon_t, A = \Phi_{\varepsilon}^{-1} , B_0 = \Phi_{\varepsilon}^{-1} \Phi_0, B_1 = \Phi_{\varepsilon}^{-1} \Phi_1
+\end{gather*}
