@@ -48,7 +48,7 @@ where $u_t \sim  WN\left( \begin{bmatrix}
     where $y_t$ is an $n$-dimensional vector, $\Phi_0$ is an $n$-dimensional vector of constants, $\Phi_i$ are $n \times n$ matrices of coefficients, and $u_t$ is an $n$-dimensional vector of white noise errors.
 \end{definition}
 
-\subsection{Stationarity of VAR$(p)$}\label{sec:stationarity-var}
+\subsection{Stationarity of VAR\texorpdfstring{$(p)$}{(p)}}\label{sec:stationarity-var}
 \begin{eg}
     \
 
@@ -143,3 +143,116 @@ where $\varepsilon_t$ is the vector of shocks.
     \text{Structural: } y_t = \Phi_0 + \Phi_1 y_{t-1} + \Phi_{\varepsilon} \varepsilon_t, \quad \varepsilon_t \sim WN(0, I) \\
     \Leftrightarrow A y_t = B_0 + B_1 y_{t-1} + \varepsilon_t, A = \Phi_{\varepsilon}^{-1} , B_0 = \Phi_{\varepsilon}^{-1} \Phi_0, B_1 = \Phi_{\varepsilon}^{-1} \Phi_1
 \end{gather*}
+
+
+For the structural representation, we can write:
+\begin{gather*}
+    y_t = \left(I - \Phi_1\right)^{-1} \Phi_0 + \sum_{l=0}^{\infty} \Phi_1^l \Phi_{\varepsilon} \varepsilon_{t-l}  \\
+    \Gamma_0 = \sum_{l=0}^{\infty} \Phi_1^l \Sigma^v \Phi_1^{l^\prime}, \quad \Sigma_v = \Phi_{\varepsilon} \Phi_{\varepsilon}^{\prime}
+\end{gather*}
+
+We can define the impulse response function (IRF) as:
+\begin{gather}\label{eq:IRF}
+    \pd{y_{1, t+h}}{\varepsilon_{2, t}} = \left[ \pd{y_{t+h}}{\varepsilon_t} \right]_{12} = \left[\Phi_1^h \Phi_{\varepsilon}\right]_{12}
+\end{gather}
+
+A variance decomposition of $y_t$ determines the contribution of each shock to the variance of $y_t$.
+\begin{gather*}
+    \Gamma_0 = \mathbb{V}[y_t] = \sum_{l=0}^{\infty} \Phi_1^l \Phi_\varepsilon I \Phi_\varepsilon^{\prime} \Phi_1^{l^\prime}.
+\end{gather*}
+Let $I^{(j)}$ be the identity matrix with all but the $j$-th diagonal element equal to zero. Then
+\begin{gather*}
+    \Gamma_0^{(j)} = \sum_{l=0}^{\infty} \Phi_1^l \Phi_\varepsilon I^{(j)} \Phi_\varepsilon^{\prime} \Phi_1^{l^\prime}
+\end{gather*}
+We have that $\Gamma_0 = \sum_{j=1}^{n} \Gamma_0^{(j)}$, as a result,
+the fraction of the variance of a particular series $y_{it}$, $\mathbb{V}[y_{it}] = \left[\Gamma_0\right]_{ij}$ is explained by $\varepsilon_{jt}$ given by:
+\begin{gather*}
+    \left[\Gamma_0^{(j)}\right]_{ij} / \left[\Gamma_0\right]_{ij}.
+\end{gather*}
+
+\section{Estimation of Reduced-Form VARs}
+\label{sec:estimation-var}
+
+Consider the general VAR(p) model:
+\begin{gather}\label{eq:varest}
+    y_t = \Phi_0 + \Phi_1 y_{t-1} + \cdots + \Phi_p y_{t-p} + u_t, \quad u_t \sim WN(0, \Sigma)
+\end{gather}
+and we write it into a simple regression form:
+\begin{gather*}
+    y_t^{\prime} = x_t^{\prime} \Phi + u_t^{\prime}, \quad x_t = \begin{bmatrix}
+         y_{t-1} \\
+         y_{t-2} \\
+         \vdots \\
+         1 \\
+    \end{bmatrix}, \Phi = \begin{bmatrix}
+         \Phi_1^{\prime} \\
+         \Phi_2^{\prime} \\
+         \vdots \\
+         \Phi_0^{\prime} \\
+    \end{bmatrix}
+\end{gather*}
+in matrix form:
+\begin{gather*}
+    Y = X \Phi + U, Y = \begin{bmatrix}
+         y_1^{\prime} \\
+         y_2^{\prime} \\
+         \vdots \\
+         y_T^{\prime} \\
+    \end{bmatrix}.
+\end{gather*}
+To simplify, we only analyze for the OLS estimator:
+\begin{align*}
+    \min_{\Phi} \sum_{t} \sum_{i} u_{it}^2 &= \min_{\Phi} \sum_{t} u_t^{\prime} u_t \\
+    % &= \min_{\Phi} (Y - X\Phi)^{\prime} (Y - X\Phi) \\
+    &= \min_{\Phi} \tr\left[ (Y - X\Phi)^{\prime} (Y - X\Phi) \right] \\
+    \Rightarrow \hat{\Phi} &= (X^{\prime} X)^{-1} X^{\prime} Y \\
+    \Sigma = \mathbb{V}[u_t] &= \begin{bmatrix}
+        \mathbb{V}[u_{1t}] & \Cov[u_{1t}, u_{2t}] \\
+        \cdot &  \mathbb{V}[u_{2t}] \\
+    \end{bmatrix} \leftarrow \begin{bmatrix}
+        \frac{1}{T} \sum_{t} \hat{u}_{it}^2 & \frac{1}{T} \sum_{t} \hat{u}_{1t} \hat{u}_{2t} \\
+        \cdot & \frac{1}{T} \hat{u}_{2t} \\
+    \end{bmatrix} = \hat{\Sigma} \\
+    \hat{\Sigma} &= \frac{1}{T} \sum_{t=1}^{T} \hat{u}_t \hat{u}_t^{\prime} = \frac{1}{T} \hat{U}^{\prime} \hat{U} = \frac{1}{T} \left(Y - X \hat{\Phi} \right)^{\prime} \left(Y - X \hat{\Phi} \right)
+\end{align*}
+
+
+\section{Estimation of Structural VARs}
+\label{sec:estimation-structural-var}
+
+We  consider the structural VAR(1) model in the form:
+\begin{gather*}
+    y_t = \Phi_0 + \Phi_1 y_{t-1} + \Phi_{\varepsilon} \varepsilon_t, \quad \varepsilon_t \sim WN(0, I)
+\end{gather*}
+We cannot identify $\Phi_\varepsilon$ from the data, as for a given $\Sigma$, there is infinite number of $\Phi_\varepsilon$ that can generate the same $\Sigma$.
+
+We can further analyze the structural VAR model by decomposing:
+\begin{gather*}
+    \Phi_{\varepsilon} = \Sigma_{\tr} \Omega
+\end{gather*}
+where $\Sigma_{\tr}$ is the Cholesky decomposition of $\Sigma$, $\Sigma_{\tr} \Sigma_{\tr}^{\prime} = \Sigma$,
+and $\Omega$ is any orthogonal matrix with $\Omega \Omega^{\prime} = I.$
+
+\section{Point Restrictions}
+\label{sec:point-restrictions}
+
+\begin{eg}
+    \
+
+    Consider the following example:
+    \begin{gather*}
+        y_t = \begin{bmatrix}
+             GDP_t \\
+             IFL_t \\
+             i_t \\
+        \end{bmatrix}, \varepsilon_t = \begin{bmatrix}
+             S_t \\
+             d_t \\
+             m_t \\
+        \end{bmatrix}
+    \end{gather*}
+    so that
+    \begin{gather*}
+        \pd{GDP_t}{m_t} = \left[ \pd{y_{1t}}{\varepsilon_{3t}} \right] = \left[\Phi_1^h \Phi_\varepsilon \right]_{13} = 0
+    \end{gather*}
+\end{eg}
