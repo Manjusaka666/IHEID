@@ -33,7 +33,7 @@
 \usepackage{emptypage}
 \usepackage{subcaption}
 \usepackage{multicol}
-\usepackage[usenames,dvipsnames]{xcolor}
+\usepackage[dvipsnames]{xcolor}
 
 % \usepackage{cmbright}
 
@@ -511,11 +511,6 @@
 \newcommand{\incfig}[2]{%
     \def\svgwidth{#1\columnwidth}
     \import{./figures/}{#2.pdf_tex}
-}
-\newcommand{\incsvg}[2]{%
-    \def\svgwidth{#1\columnwidth}
-    \graphicspath{{#1}}
-    \import{./images/}{#2.pdf_tex}
 }
 \graphicspath{{./figures/}}
 %% http://tex.stackexchange.com/questions/76273/multiple-pdfs-with-page-group-included-in-a-single-page-warning
