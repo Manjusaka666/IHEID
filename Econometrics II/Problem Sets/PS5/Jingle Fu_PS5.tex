@@ -259,10 +259,27 @@ b_{21} & b_{22}
     % $k(k-1)/2 = 1$ 
     only 1 restriction for $2 \times 2$ matrix, this is exactly enough for identification (up to sign normalizations).
     With $b_{21} = 0$, $\Phi_{\varepsilon}$ becomes upper triangular:
-    \[ \Phi_{\varepsilon} = \begin{bmatrix} b_{11} & b_{12} \\ 0 & b_{22} \end{bmatrix} \]
-    Then $\Sigma_u = \Phi_{\varepsilon} \Phi_{\varepsilon}' = \begin{bmatrix} b_{11} & b_{12} \\ 0 & b_{22} \end{bmatrix} \begin{bmatrix} b_{11} & 0 \\ b_{12} & b_{22} \end{bmatrix} = \begin{bmatrix} b_{11}^2 + b_{12}^2 & b_{12}b_{22} \\ b_{12}b_{22} & b_{22}^2 \end{bmatrix}$.
+    \[ \Phi_{\varepsilon} = \begin{bmatrix}
+        b_{11} & b_{12} \\
+        0 & b_{22}
+    \end{bmatrix} \]
+    Then $\Sigma_u = \Phi_{\varepsilon} \Phi_{\varepsilon}' = \begin{bmatrix}
+        b_{11} & b_{12} \\
+        0 & b_{22}
+    \end{bmatrix}
+    \begin{bmatrix}
+        b_{11} & 0 \\
+        b_{12} & b_{22}
+    \end{bmatrix}
+    = \begin{bmatrix}
+        b_{11}^2 + b_{12}^2 & b_{12}b_{22}
+        \\ b_{12}b_{22} & b_{22}^2
+    \end{bmatrix}$.
     
-    Let $\Sigma_u = \begin{bmatrix} \sigma_{11} & \sigma_{12} \\ \sigma_{21} & \sigma_{22} \end{bmatrix}$ (where $\sigma_{12}=\sigma_{21}$).
+    Let $\Sigma_u = \begin{bmatrix}
+        \sigma_{11} & \sigma_{12} \\
+        \sigma_{21} & \sigma_{22}
+    \end{bmatrix}$ (where $\sigma_{12}=\sigma_{21}$).
     \begin{enumerate}
         \item From $\sigma_{22} = b_{22}^2$, we get $b_{22} = \sqrt{\sigma_{22}}$ (by convention, positive).
         \item From $\sigma_{12} = b_{12}b_{22}$, we get $b_{12} = \sigma_{12} / b_{22}$ (assuming $b_{22} \neq 0$).
@@ -291,8 +308,15 @@ b_{21} & b_{22}
     Let $\Phi_{\varepsilon,0}$ be any matrix such that $\Phi_{\varepsilon,0} \Phi_{\varepsilon,0}' = \Sigma_u$ (e.g., from a Cholesky decomposition of $\Sigma_u$).
     Then any other valid matrix is $\Phi_{\varepsilon} = \Phi_{\varepsilon,0} P$, where $P$ is an orthogonal matrix.
     
-    For $k=2$, $P$ can be a rotation matrix $P(\theta) = \begin{bmatrix} \cos(\theta) & -\sin(\theta) \\ \sin(\theta) & \cos(\theta) \end{bmatrix}$
-    (or $P(\theta) = \begin{bmatrix} \cos(\theta) & \sin(\theta) \\ -\sin(\theta) & \cos(\theta) \end{bmatrix}$, depending on convention).
+    For $k=2$, $P$ can be a rotation matrix 
+    $P(\theta) = \begin{bmatrix}
+        \cos\theta & -\sin\theta \\
+        \sin\theta & \cos\theta
+    \end{bmatrix}$
+    (or $\begin{bmatrix}
+        \cos\theta & \sin\theta \\
+        -\sin\theta & \cos\theta
+    \end{bmatrix}$, depending on convention).
     The sign restrictions define a set of admissible rotation angles $\theta$.
     If this set is not a singleton (or two points corresponding to $P$ and $-P$ after sign normalizations),
     then $\Phi_{\varepsilon}$ is not uniquely identified. Generally, sign restrictions lead to set identification,
@@ -317,24 +341,51 @@ b_{21} & b_{22}
 \begin{autosolution}
     \
 
-    The assumption is: "Labor demand is only affected by the technology shock ($\varepsilon_{a,t}$), not the preference shock ($\varepsilon_{b,t}$), whereas labor supply is affected by both shocks."
-    This is a restriction on the underlying structural economic model. Consider a linear structural model for the innovations:
-    \begin{align*}
-        \text{Demand:} \quad & a_{11} u_{w,t} + a_{12} u_{h,t} = \gamma_{1a} \varepsilon_{a,t} \quad (\text{no } \varepsilon_{b,t} \text{ term, so } \gamma_{1b}=0) \\
-        \text{Supply:} \quad & a_{21} u_{w,t} + a_{22} u_{h,t} = \gamma_{2a} \varepsilon_{a,t} + \gamma_{2b} \varepsilon_{b,t}
-    \end{align*}
-    In matrix form, $A_0 u_t = \Gamma \varepsilon_t$, where $A_0 = \begin{bmatrix} a_{11} & a_{12} \\ a_{21} & a_{22} \end{bmatrix}$ and $\Gamma = \begin{bmatrix} \gamma_{1a} & 0 \\ \gamma_{2a} & \gamma_{2b} \end{bmatrix}$.
-    The reduced form innovations are $u_t = A_0^{-1} \Gamma \varepsilon_t$. So $\Phi_{\varepsilon} = A_0^{-1} \Gamma$.
-    Let $A_0^{-1} = B = \begin{bmatrix} b_{11} & b_{12} \\ b_{21} & b_{22} \end{bmatrix}$.
-    Then $\Phi_{\varepsilon} = \begin{bmatrix} b_{11} & b_{12} \\ b_{21} & b_{22} \end{bmatrix} \begin{bmatrix} \gamma_{1a} & 0 \\ \gamma_{2a} & \gamma_{2b} \end{bmatrix} = \begin{bmatrix} b_{11}\gamma_{1a} + b_{12}\gamma_{2a} & b_{12}\gamma_{2b} \\ b_{21}\gamma_{1a} + b_{22}\gamma_{2a} & b_{22}\gamma_{2b} \end{bmatrix}$.
-    So, $b_{12} = b_{12}\gamma_{2b}$ and $b_{22} = b_{22}\gamma_{2b}$.
-    This implies $b_{12} / b_{22} = b_{12} / b_{22}$ (if $\gamma_{2b} \neq 0$ and $b_{22} \neq 0$).
-    The ratio $b_{12} / b_{22}$ depends on the elements of $A_0$, which are structural parameters (related to slopes of demand/supply curves). For instance, if the demand equation (Equation 1) is $u_{w,t} + \alpha_D u_{h,t} = \dots$ (so $a_{11}=1, a_{12}=\alpha_D$) and the supply equation is $u_{w,t} + \alpha_S u_{h,t} = \dots$ (so $a_{21}=1, a_{22}=\alpha_S$), then $A_0 = \begin{bmatrix} 1 & \alpha_D \\ 1 & \alpha_S \end{bmatrix}$.
-    Then $A_0^{-1} = \frac{1}{\alpha_S-\alpha_D} \begin{bmatrix} \alpha_S & -\alpha_D \\ -1 & 1 \end{bmatrix}$. So $b_{12} = \frac{-\alpha_D}{\alpha_S-\alpha_D}$ and $b_{22} = \frac{1}{\alpha_S-\alpha_D}$.
-    Thus $b_{12}/b_{22} = -\alpha_D$.
-    The restriction becomes $b_{12} = (-\alpha_D) b_{22}$. This is one restriction on the elements of $\Phi_{\varepsilon}$, but it involves an unknown structural parameter $\alpha_D$. Without knowing $\alpha_D$, this restriction is not sufficient to identify $\Phi_{\varepsilon}$ from $\Sigma_u$. Thus, this is not enough to uniquely identify $\Phi_{\varepsilon}$.
-    The hint "remember that demand must equal supply at all times" is implicitly used by solving for equilibrium $w_t, h_t$ which give rise to $u_t$ and thus $\Phi_\varepsilon$.
+    % The assumption is: "Labor demand is only affected by the technology shock ($\varepsilon_{a,t}$), not the preference shock ($\varepsilon_{b,t}$), whereas labor supply is affected by both shocks."
+    % This is a restriction on the underlying structural economic model. Consider a linear structural model for the innovations:
+    % \begin{align*}
+    %     \text{Demand:} \quad & a_{11} u_{w,t} + a_{12} u_{h,t} = \gamma_{1a} \varepsilon_{a,t} \quad (\text{no } \varepsilon_{b,t} \text{ term, so } \gamma_{1b}=0) \\
+    %     \text{Supply:} \quad & a_{21} u_{w,t} + a_{22} u_{h,t} = \gamma_{2a} \varepsilon_{a,t} + \gamma_{2b} \varepsilon_{b,t}
+    % \end{align*}
+    % In matrix form, $A_0 u_t = \Gamma \varepsilon_t$, where $A_0 = \begin{bmatrix} a_{11} & a_{12} \\ a_{21} & a_{22} \end{bmatrix}$ and $\Gamma = \begin{bmatrix} \gamma_{1a} & 0 \\ \gamma_{2a} & \gamma_{2b} \end{bmatrix}$.
+    % The reduced form innovations are $u_t = A_0^{-1} \Gamma \varepsilon_t$. So $\Phi_{\varepsilon} = A_0^{-1} \Gamma$.
+    % Let $A_0^{-1} = B = \begin{bmatrix} b_{11} & b_{12} \\ b_{21} & b_{22} \end{bmatrix}$.
+    % Then $\Phi_{\varepsilon} = \begin{bmatrix} b_{11} & b_{12} \\ b_{21} & b_{22} \end{bmatrix} \begin{bmatrix} \gamma_{1a} & 0 \\ \gamma_{2a} & \gamma_{2b} \end{bmatrix} = \begin{bmatrix} b_{11}\gamma_{1a} + b_{12}\gamma_{2a} & b_{12}\gamma_{2b} \\ b_{21}\gamma_{1a} + b_{22}\gamma_{2a} & b_{22}\gamma_{2b} \end{bmatrix}$.
+    % So, $b_{12} = b_{12}\gamma_{2b}$ and $b_{22} = b_{22}\gamma_{2b}$.
+    % This implies $b_{12} / b_{22} = b_{12} / b_{22}$ (if $\gamma_{2b} \neq 0$ and $b_{22} \neq 0$).
+    % The ratio $b_{12} / b_{22}$ depends on the elements of $A_0$, which are structural parameters (related to slopes of demand/supply curves). For instance, if the demand equation (Equation 1) is $u_{w,t} + \alpha_D u_{h,t} = \dots$ (so $a_{11}=1, a_{12}=\alpha_D$) and the supply equation is $u_{w,t} + \alpha_S u_{h,t} = \dots$ (so $a_{21}=1, a_{22}=\alpha_S$), then $A_0 = \begin{bmatrix} 1 & \alpha_D \\ 1 & \alpha_S \end{bmatrix}$.
+    % Then $A_0^{-1} = \frac{1}{\alpha_S-\alpha_D} \begin{bmatrix} \alpha_S & -\alpha_D \\ -1 & 1 \end{bmatrix}$. So $b_{12} = \frac{-\alpha_D}{\alpha_S-\alpha_D}$ and $b_{22} = \frac{1}{\alpha_S-\alpha_D}$.
+    % Thus $b_{12}/b_{22} = -\alpha_D$.
+    % The restriction becomes $b_{12} = (-\alpha_D) b_{22}$. This is one restriction on the elements of $\Phi_{\varepsilon}$, but it involves an unknown structural parameter $\alpha_D$. Without knowing $\alpha_D$, this restriction is not sufficient to identify $\Phi_{\varepsilon}$ from $\Sigma_u$. Thus, this is not enough to uniquely identify $\Phi_{\varepsilon}$.
+    % The hint "remember that demand must equal supply at all times" is implicitly used by solving for equilibrium $w_t, h_t$ which give rise to $u_t$ and thus $\Phi_\varepsilon$.
+    From the structural model, $\frac{\partial y_t}{\partial \varepsilon_t} = \Phi_{\varepsilon}$.
+    This gives us:
+    \begin{gather*}
+        \frac{\partial w_t}{\partial \varepsilon_{a,t}} = b_{11}, \quad
+        \frac{\partial w_t}{\partial \varepsilon_{b,t}} = b_{12} \\
+        \frac{\partial h_t}{\partial \varepsilon_{a,t}} = b_{21}, \quad
+        \frac{\partial h_t}{\partial \varepsilon_{b,t}} = b_{22}
+    \end{gather*}
+    The assumption that labor demand depends only on technology shocks means: $\frac{\partial \varphi^D}{\partial \varepsilon_{b,t}} = 0$.
+    However, this doesn't mean that hours don't respond to preference shocks at all.
+    Since hours are determined in equilibrium where demand equals supply, a preference shock will affect wages,
+    which will then affect labor demand.
 
+    To formalize this, we can use the total derivative of the labor demand function with respect to the preference shock:
+    \begin{gather*}
+        \frac{\partial h_t}{\partial \varepsilon_{b,t}} = \frac{\partial \varphi^D}{\partial \varepsilon_{b,t}} + \frac{\partial \varphi^D}{\partial w_t} \frac{\partial w_t}{\partial \varepsilon_{b,t}}
+    \end{gather*}
+    Since $\frac{\partial \varphi^D}{\partial \varepsilon_{b,t}} = 0$, we have:
+    \begin{gather*}
+        \frac{\partial h_t}{\partial \varepsilon_{b,t}} = \frac{\partial \varphi^D}{\partial w_t} \frac{\partial w_t}{\partial \varepsilon_{b,t}}
+        \Rightarrow b_{22} = \frac{\partial \varphi^D}{\partial w_t} b_{12}
+    \end{gather*}
+    From $\Sigma_u = \Phi_{\varepsilon} \Phi_{\varepsilon}'$, we have three restrictions,
+    and our labor market restriction gives us a relationship between $b_{12}$ and $b_{22}$,
+    but with an unknown parameter $\frac{\partial \varphi^D}{\partial w_t}$.
+
+    Therefore, the given restriction alone is not sufficient to uniquely identify $\Phi_{\varepsilon}$.
+    This is why in the following question, we give a certain $\alpha$ as this parameter to help identify $\Phi_{\varepsilon}$.
 \end{autosolution}
 
 \begin{autosolution}
@@ -367,17 +418,38 @@ b_{21} & b_{22}
     % Back-substitution gives $b_{21},b_{11}$ and hence a \emph{point-identified} $\Phi_{\varepsilon}$ 
     % (again up to a simultaneous sign flip of an entire column).
     Let $L$ be the lower Cholesky factor of $\Sigma_u$, such that $L L' = \Sigma_u$.
-    $L = \begin{bmatrix} l_{11} & 0 \\ l_{21} & l_{22} \end{bmatrix}$, where $l_{11}=\sqrt{\sigma_{11}}$, $l_{21}=\sigma_{12}/l_{11}$ (if $l_{11} \neq 0$), $l_{22}=\sqrt{\sigma_{22}-l_{21}^2}$.
-    Any $\Phi_{\varepsilon}$ such that $\Phi_{\varepsilon} \Phi_{\varepsilon}' = \Sigma_u$ can be written as $\Phi_{\varepsilon} = L P(\theta)$ for some orthogonal matrix $P(\theta)$. For $k=2$, a common rotation matrix is $P(\theta) = \begin{bmatrix} \cos(\theta) & -\sin(\theta) \\ \sin(\theta) & \cos(\theta) \end{bmatrix}$.
-    \[ \Phi_{\varepsilon} = \begin{bmatrix} l_{11} & 0 \\ l_{21} & l_{22} \end{bmatrix} \begin{bmatrix} \cos(\theta) & -\sin(\theta) \\ \sin(\theta) & \cos(\theta) \end{bmatrix} = \begin{bmatrix} l_{11}\cos(\theta) & -l_{11}\sin(\theta) \\ l_{21}\cos(\theta)+l_{22}\sin(\theta) & -l_{21}\sin(\theta)+l_{22}\cos(\theta) \end{bmatrix} \]
-    So, $b_{12} = -l_{11}\sin(\theta)$ and $b_{22} = -l_{21}\sin(\theta)+l_{22}\cos(\theta)$.
+    $L = \begin{bmatrix}
+        l_{11} & 0 \\
+        l_{21} & l_{22}
+    \end{bmatrix}$, where 
+    \begin{gather*}
+        \sigma_{11} = l_{11}^2, \quad
+        \sigma_{12} = l_{11} l_{21}, \quad
+        \sigma_{22} = l_{21}^2 + l_{22}^2
+    \end{gather*}
+    Any $\Phi_{\varepsilon}$ such that $\Phi_{\varepsilon} \Phi_{\varepsilon}' = \Sigma_u$ can be written as $\Phi_{\varepsilon} = L P(\theta)$ for some orthogonal matrix $P(\theta)$.
+    For $k=2$, a common rotation matrix is $P(\theta) = \begin{bmatrix} \cos\theta & -\sin\theta \\ \sin\theta & \cos\theta \end{bmatrix}$.
+    \[ \Phi_{\varepsilon} = \begin{bmatrix}
+        l_{11} & 0 \\
+        l_{21} & l_{22}
+    \end{bmatrix}
+    \begin{bmatrix}
+        \cos\theta & -\sin\theta \\
+        \sin\theta & \cos\theta
+    \end{bmatrix}
+    = \begin{bmatrix}
+        l_{11}\cos\theta & -l_{11}\sin\theta \\
+        l_{21}\cos\theta+l_{22}\sin\theta & -l_{21}\sin\theta+l_{22}\cos\theta
+    \end{bmatrix} \]
+    So, $b_{12} = -l_{11}\sin\theta$ and $b_{22} = -l_{21}\sin\theta+l_{22}\cos\theta$.
+    
     The restriction $b_{12} = (\alpha-1)b_{22}$ becomes:
-    \[ -l_{11}\sin(\theta) = (\alpha-1)[-l_{21}\sin(\theta)+l_{22}\cos(\theta)] \]
-    \[ [(\alpha-1)l_{21} - l_{11}]\sin(\theta) = (\alpha-1)l_{22}\cos(\theta) \]
-    If $(\alpha-1)l_{22} \neq 0$ and the coefficient of $\sin(\theta)$ is not zero (and $\cos(\theta) \neq 0$ to avoid division by zero for $\tan(\theta)$):
-    \[ \tan(\theta) = \frac{(\alpha-1)l_{22}}{(\alpha-1)l_{21} - l_{11}} \]
+    \[ -l_{11}\sin\theta = (\alpha-1)[-l_{21}\sin\theta+l_{22}\cos\theta] \]
+    \[ [(\alpha-1)l_{21} - l_{11}]\sin\theta = (\alpha-1)l_{22}\cos\theta \]
+    If $(\alpha-1)l_{22} \neq 0$ and the coefficient of $\sin\theta$ is not zero (and $\cos\theta \neq 0$ to avoid division by zero for $\tan\theta$):
+    \[ \tan\theta = \frac{(\alpha-1)l_{22}}{(\alpha-1)l_{21} - l_{11}} \]
     As Cholesky decomposition is unique (up to sign normalizations), $l_{11}, l_{21}, l_{22}$ are uniquely determined,
-    hence $\tan(\theta)$ is uniquely determined.
+    hence $\tan\theta$ is uniquely determined.
     Hence this equation determines $\theta$ up to a multiple of $\pi$.
     For example, if $\theta_0$ is a solution, then $\theta_0+\pi$ is also a solution.
     Adding $\pi$ to $\theta$ changes $P(\theta)$ to $-P(\theta)$, which flips the sign of all elements in $\Phi_{\varepsilon}$.
@@ -387,8 +459,8 @@ b_{21} & b_{22}
     % would then typically fix $\theta$ (and thus $\Phi_{\varepsilon}$) uniquely.
     % For instance, one might choose $\theta$ in $(-\pi/2, \pi/2]$ or $[0, \pi)$ and then adjust signs of columns of $\Phi_{\varepsilon}$ if necessary.
 
-    Final answer for (i): Yes, if $\alpha$ is given, it is possible to uniquely identify the elements of $\Phi_{\varepsilon}$ (up to conventional sign normalizations).
-    The steps above show how $\Phi_{\varepsilon}$ can be solved for based on $\alpha$ and the elements of $\Sigma_u$ (which are estimated from the reduced-form VAR).
+    % Final answer for (i): Yes, if $\alpha$ is given, it is possible to uniquely identify the elements of $\Phi_{\varepsilon}$ (up to conventional sign normalizations).
+    % The steps above show how $\Phi_{\varepsilon}$ can be solved for based on $\alpha$ and the elements of $\Sigma_u$ (which are estimated from the reduced-form VAR).
 \end{autosolution}
 
 % \section{Gemini Solution}
@@ -440,7 +512,7 @@ b_{21} & b_{22}
 %     So, $b_{11} \cdot b_{21} > 0$.
 % \end{enumerate}
 % These are inequality restrictions. They do not typically lead to point identification.
-% Let $\Phi_{\varepsilon,0}$ be any matrix such that $\Phi_{\varepsilon,0} \Phi_{\varepsilon,0}' = \Sigma_u$ (e.g., from a Cholesky decomposition of $\Sigma_u$). Then any other valid matrix is $\Phi_{\varepsilon} = \Phi_{\varepsilon,0} P$, where $P$ is an orthogonal matrix. For $k=2$, $P$ can be a rotation matrix $P(\theta) = \begin{bmatrix} \cos(\theta) & -\sin(\theta) \\ \sin(\theta) & \cos(\theta) \end{bmatrix}$ (or $P(\theta) = \begin{bmatrix} \cos(\theta) & \sin(\theta) \\ -\sin(\theta) & \cos(\theta) \end{bmatrix}$, depending on convention).
+% Let $\Phi_{\varepsilon,0}$ be any matrix such that $\Phi_{\varepsilon,0} \Phi_{\varepsilon,0}' = \Sigma_u$ (e.g., from a Cholesky decomposition of $\Sigma_u$). Then any other valid matrix is $\Phi_{\varepsilon} = \Phi_{\varepsilon,0} P$, where $P$ is an orthogonal matrix. For $k=2$, $P$ can be a rotation matrix $P(\theta) = \begin{bmatrix} \cos\theta & -\sin\theta \\ \sin\theta & \cos\theta \end{bmatrix}$ (or $P(\theta) = \begin{bmatrix} \cos\theta & \sin\theta \\ -\sin\theta & \cos\theta \end{bmatrix}$, depending on convention).
 % The sign restrictions define a set of admissible rotation angles $\theta$. If this set is not a singleton (or two points corresponding to $P$ and $-P$ after sign normalizations), then $\Phi_{\varepsilon}$ is not uniquely identified. Generally, sign restrictions lead to set identification, meaning there is a range of $\theta$ values (and thus a set of $\Phi_{\varepsilon}$ matrices) consistent with the restrictions. So, this is not enough to uniquely identify $\Phi_{\varepsilon}$.
 
 % \section*{(h) Restrictions on structural demand/supply functions}
@@ -512,14 +584,14 @@ b_{21} & b_{22}
 % \textbf{Alternative method using rotation:}
 % Let $L$ be the lower Cholesky factor of $\Sigma_u$, such that $L L' = \Sigma_u$.
 % $L = \begin{bmatrix} l_{11} & 0 \\ l_{21} & l_{22} \end{bmatrix}$, where $l_{11}=\sqrt{\sigma_{11}}$, $l_{21}=\sigma_{12}/l_{11}$ (if $l_{11} \neq 0$), $l_{22}=\sqrt{\sigma_{22}-l_{21}^2}$.
-% Any $\Phi_{\varepsilon}$ such that $\Phi_{\varepsilon} \Phi_{\varepsilon}' = \Sigma_u$ can be written as $\Phi_{\varepsilon} = L P(\theta)$ for some orthogonal matrix $P(\theta)$. For $k=2$, a common rotation matrix is $P(\theta) = \begin{bmatrix} \cos(\theta) & -\sin(\theta) \\ \sin(\theta) & \cos(\theta) \end{bmatrix}$.
-% \[ \Phi_{\varepsilon} = \begin{bmatrix} l_{11} & 0 \\ l_{21} & l_{22} \end{bmatrix} \begin{bmatrix} \cos(\theta) & -\sin(\theta) \\ \sin(\theta) & \cos(\theta) \end{bmatrix} = \begin{bmatrix} l_{11}\cos(\theta) & -l_{11}\sin(\theta) \\ l_{21}\cos(\theta)+l_{22}\sin(\theta) & -l_{21}\sin(\theta)+l_{22}\cos(\theta) \end{bmatrix} \]
-% So, $b_{12} = -l_{11}\sin(\theta)$ and $b_{22} = -l_{21}\sin(\theta)+l_{22}\cos(\theta)$.
+% Any $\Phi_{\varepsilon}$ such that $\Phi_{\varepsilon} \Phi_{\varepsilon}' = \Sigma_u$ can be written as $\Phi_{\varepsilon} = L P(\theta)$ for some orthogonal matrix $P(\theta)$. For $k=2$, a common rotation matrix is $P(\theta) = \begin{bmatrix} \cos\theta & -\sin\theta \\ \sin\theta & \cos\theta \end{bmatrix}$.
+% \[ \Phi_{\varepsilon} = \begin{bmatrix} l_{11} & 0 \\ l_{21} & l_{22} \end{bmatrix} \begin{bmatrix} \cos\theta & -\sin\theta \\ \sin\theta & \cos\theta \end{bmatrix} = \begin{bmatrix} l_{11}\cos\theta & -l_{11}\sin\theta \\ l_{21}\cos\theta+l_{22}\sin\theta & -l_{21}\sin\theta+l_{22}\cos\theta \end{bmatrix} \]
+% So, $b_{12} = -l_{11}\sin\theta$ and $b_{22} = -l_{21}\sin\theta+l_{22}\cos\theta$.
 % The restriction $b_{12} = (\alpha-1)b_{22}$ becomes:
-% \[ -l_{11}\sin(\theta) = (\alpha-1)[-l_{21}\sin(\theta)+l_{22}\cos(\theta)] \]
-% \[ [(\alpha-1)l_{21} - l_{11}]\sin(\theta) = (\alpha-1)l_{22}\cos(\theta) \]
-% If $(\alpha-1)l_{22} \neq 0$ and the coefficient of $\sin(\theta)$ is not zero (and $\cos(\theta) \neq 0$ to avoid division by zero for $\tan(\theta)$):
-% \[ \tan(\theta) = \frac{(\alpha-1)l_{22}}{(\alpha-1)l_{21} - l_{11}} \]
+% \[ -l_{11}\sin\theta = (\alpha-1)[-l_{21}\sin\theta+l_{22}\cos\theta] \]
+% \[ [(\alpha-1)l_{21} - l_{11}]\sin\theta = (\alpha-1)l_{22}\cos\theta \]
+% If $(\alpha-1)l_{22} \neq 0$ and the coefficient of $\sin\theta$ is not zero (and $\cos\theta \neq 0$ to avoid division by zero for $\tan\theta$):
+% \[ \tan\theta = \frac{(\alpha-1)l_{22}}{(\alpha-1)l_{21} - l_{11}} \]
 % This equation determines $\theta$ up to a multiple of $\pi$. For example, if $\theta_0$ is a solution, then $\theta_0+\pi$ is also a solution. Adding $\pi$ to $\theta$ changes $P(\theta)$ to $-P(\theta)$, which flips the sign of all elements in $\Phi_{\varepsilon}$. This means $\Phi_{\varepsilon}$ is identified up to an overall sign change. Specific column sign normalizations (e.g., requiring diagonal elements of $\Phi_{\varepsilon}$ to be positive) would then typically fix $\theta$ (and thus $\Phi_{\varepsilon}$) uniquely. For instance, one might choose $\theta$ in $(-\pi/2, \pi/2]$ or $[0, \pi)$ and then adjust signs of columns of $\Phi_{\varepsilon}$ if necessary.
 
 % Final answer for (i): Yes, if $\alpha$ is given, it is possible to uniquely identify the elements of $\Phi_{\varepsilon}$ (up to conventional sign normalizations). The steps above show how $\Phi_{\varepsilon}$ can be solved for based on $\alpha$ and the elements of $\Sigma_u$ (which are estimated from the reduced-form VAR).
