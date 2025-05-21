@@ -9,31 +9,144 @@
 
 \subsection{Estimation of AR(p) Models}
 
-Let's consider the following AR(1) model:
-\begin{gather*}
-    y_t = \alpha + \beta y_{t-1} + u_t = x_t^{\prime} \phi + u_t\\
-    x_t = \begin{bmatrix} 1 \\ y_{t-1} \end{bmatrix}, \phi = \begin{bmatrix} \phi_0 \\ \phi_1 \end{bmatrix} \\
-    \quad \text{where } u_t \text{ is a white noise process}
-\end{gather*}
-As $u_t$ is the white noise, $\mathbb{E}[x_t u_t] = 0$, and that $x_t$ is a function of $u_{t-1}, u_{t-2}, \cdots$.
-If $u_t$ is strict white noise, e.g. $u_t \sim i.i.d. N(0, \sigma^2)$, then $\mathbb{E}[u_t | x_t] = \mathbb{E}[u_t] = 0$.
+\begin{eg}
+    \
 
-\subsubsection{OLS estimator}
+    Let's consider the following AR(1) model:
+    \begin{gather*}
+        y_t = \alpha + \beta y_{t-1} + u_t = x_t^{\prime} \phi + u_t\\
+        x_t = \begin{bmatrix} 1 \\ y_{t-1} \end{bmatrix}, \phi = \begin{bmatrix} \phi_0 \\ \phi_1 \end{bmatrix} \\
+        \quad \text{where } u_t \text{ is a white noise process}
+    \end{gather*}
+    As $u_t$ is the white noise, $\mathbb{E}[x_t u_t] = 0$, and that $x_t$ is a function of $u_{t-1}, u_{t-2}, \cdots$.
+    If $u_t$ is strict white noise, e.g. $u_t \sim i.i.d. \mathcal{N}(0, \sigma^2)$, then $\mathbb{E}[u_t | x_t] = \mathbb{E}[u_t] = 0$.
+\end{eg}
+
+% \subsubsection{OLS estimator}
+
+We consider estimation of an AR(p) model for stationary, ergodic, and non-deterministic $y_t$.
+The model is where $x_t = [1, y_{t-1}, \cdots, y_{t-p}]^{\prime} $, $\phi = [\phi_0, \phi_1, \cdots, \phi_p]^{\prime} $
+and $u_t \sim WN(0, \sigma^2)$.
+
+\subsubsection{OLS estimator}\label{AR-OLS}
+
+The OLS estimator is given by:
 \begin{gather*}
     \hat{\phi} = \argmin_{\phi} \sum_{t=1}^{T} u_t^2 \\
     U^{\prime} U = (Y - X\phi)^{\prime} (Y - X\phi) \\
-    \Rightarrow \hat{\phi} = (X^{\prime} X)^{-1} X^{\prime} Y
+    \Rightarrow \hat{\phi} = (X^{\prime} X)^{-1} X^{\prime} Y = \left( \sum_{t=1}^{n} x_t x_t^{\prime} \right)^{-1} \left( \sum_{t=1}^{n} x_t y_t \right).
 \end{gather*}
-Fot the true model, we then analyze the consistency and asymptotic normality of the OLS estimator.
+This notation presumes that there are $n+p$ total observations on $y_t$ from which the first $p$ are used as initial conditions so that
+$x_1 = \left( 1, y_0, y_{-1}, \cdots, y_{p+1} \right)$ is defined.
+
+\subsubsection{Consistency of OLS Estimator}\label{sec:consistency-AR-OLS}
+
+The OLS residuals are $\hat{u}_t = y_t - x_t^{\prime} \hat{\phi}$.
+The error variaance can be estimated by $\hat{\sigma}^2 = \frac{1}{n} \sum_{t=1}^{n} \hat{u}_t^2$
+or $s^2 = \frac{1}{n-p-1} \sum_{t=1}^{n} \hat{u}_t^2.$
+Fot the true model, if $y_t$ is strictly stationary (SS), and ergodic (E), then so are $x_t x_t^{\prime} $ and $x_t y_t$.
+They have finite means $\mathbb{E}[y_t^2] < \infty.$
+Under these assumptions the Ergodic Theorem implies that
+\begin{gather*}
+    \frac{1}{n} \sum_{t=1}^{n} x_t x_t^{\prime} \overset{p}{\rightarrow} \mathbb{E}[x_t x_t^{\prime}] = Q \\
+    \frac{1}{n} \sum_{t=1}^{n} x_t y_t \overset{p}{\rightarrow} \mathbb{E}[x_t y_t]
+\end{gather*}
+and we know that OLS is consistent for $\phi$ if $x_t$ is uncorrelated with $u_t$.
 \begin{align*}
     \hat{\phi} &= (X^{\prime} X)^{-1} X^{\prime} Y \\
     &= (X^{\prime} X)^{-1} X^{\prime} (X\phi + U) \\
     &= \phi + (X^{\prime} X)^{-1} X^{\prime} U \\
     &= \phi + \left( \frac{1}{T} \sum_{t} x_t x_t^{\prime} \right)^{-1} \frac{1}{T} \sum_{t=1}^{T} x_t u_t \\
     & \overset{p}{\rightarrow} \phi + \mathbb{E}[x_t x_t^{\prime}] \mathbb{E}[x_t u_t] \\
-    &= \phi \text{ for SS+E, TS}
+    &= \phi
 \end{align*}
-So, $\hat{\phi}$ is consistent.
+It is straightforward to show that $\hat{\sigma}^2$ is consistent as well.
+\begin{theorem}[AR(p) OLS Consistency]
+    \
+
+    If $y_t$ is strictly stationary, ergodic, not purely deterministic, and $\mathbb{E}[y_t^2] < \infty$,
+    then the OLS estimator $\hat{\phi}$ is consistent for $\phi$, and $\hat{\sigma}^2 \overset{p}{\rightarrow} \sigma^2$ as $n \to \infty.$
+\end{theorem}
+
+\begin{note}
+    \
+
+    This shows that under very mild conditions the coefficients of an AR(p) model can be consistently estimated by least squares.
+    Once again, this does not require that the series $y_t$ is actually an AR(p) process.
+    It holds for any stationary process with the coefficient defined by projection.
+\end{note}
+% So, $\hat{\phi}$ is consistent.
+
+\subsubsection{Asymptotic Normality of OLS Estimator}\label{sec:asymptotic-AR-OLS}
+
+The asymptotic distribution of the least squares estimator $\hat{\phi}$ depends on the stochastic assumptions.
+Specifically, we assume that the error $u_t$ is a MDS (definition \ref{def:martingale-difference-sequence}).
+An important implication is taht since $x_t = \left( 1, y_{t-1}, \cdots, y_{t-p} \right)^{\prime} $ is part of the information set $\mathcal{F}_{t-1}$, by the conditioning theorem,
+\begin{gather*}
+    \mathbb{E}[x_t u_t | \mathcal{F}_{t-1}] = x_t \mathbb{E}[u_t | \mathcal{F}_{t-1}] = 0.
+\end{gather*}
+Thus $x_t u_t$ is a MDS. It has a finite variance if $u_t$ jas a finite fourth moment.
+We know that $y_t$ can be written in MA$(\infty)$ form:
+\begin{gather*}
+    y_t = \mu + \sum_{j=0}^{\infty} \phi_j u_{t-j} 
+\end{gather*}
+with $\sum_{j=0}^{\infty} \vert \phi_j \vert < \infty$.
+Using Minkowski's Inequality,
+\begin{gather*}
+    \left( \mathbb{E} \vert y_t \vert^4 \right)^\frac{1}{4} \leq \sum_{j=0}^{\infty} \vert \phi_j \vert \left( \mathbb{E} \vert u_{t-j} \vert^4 \right)^\frac{1}{4} < \infty.
+\end{gather*}
+Thus $\mathbb{E}[y_t^4] < \infty $. The Cauchy-Schwarz inequality then shows that $\mathbb{E} \lVert x_t u_t \rVert^2 < \infty.$
+We can then apply the MDS CLT \ref{thm:mds-clt} to show that:
+\begin{gather*}
+    \frac{1}{\sqrt{n}} \sum_{t=1}^{n} x_t u_t \overset{d}{\rightarrow} \mathcal{N}(0, \Sigma)
+\end{gather*}
+where $\Sigma = \mathbb{E}[x_t x_t^{\prime} u_t^2].$
+\begin{theorem}[MDS AR(p) Asymptotic Normality]\label{thm:mds-ar-asymptotic-normality}
+    \
+    
+    If $y_t$ follows the $AR(p)$ model, all roots of $\phi(z)$ lie outside the unit circle,
+    (all eigenvalues have absolute value smaller than 1), $\mathbb{E}[u_t | \mathcal{F}_{t-1}] = 0$, $\mathbb{E}[u_t^4] < \infty$,
+    and $\mathbb{E}[u_t^2] > 0$, then as $n \to \infty$, the OLS estimator $\hat{\phi}$ is asymptotically normal:
+    \begin{gather*}
+        \sqrt{n}\left( \hat{\phi} - \phi \right) \overset{d}{\rightarrow} \mathcal{N}(0, V)
+    \end{gather*}
+    where $V = Q^{-1} \Sigma Q^{-1}.$ ($Q = \mathbb{E}[x_t x_t^{\prime}].$)
+\end{theorem}
+This is identical in form to the asymptotic distribution of least squares in cross-section regression.
+The implication is that asymptotic inference is the same. In particular, the asymptotic covariance matrix
+is estimated just as in the cross-section case.
+\begin{theorem}[MDS AR(p) Asymptotic Normality(continue)]\label{thm:mds-ar-asymptotic-normality-2}
+    \
+    
+    If we further assume that $\mathbb{E}[u_t^2 | \mathcal{F}_{t-1}] = \sigma^2$, then as $n \to \infty$,
+    \begin{gather*}
+        \sqrt{n}\left( \hat{\phi} - \phi \right) \overset{d}{\rightarrow} \mathcal{N}(0, V)
+    \end{gather*}
+    where $V = \sigma^2 Q^{-1}.$   
+\end{theorem}
+These results show that under correct specification (a MDS error) the format of the asymptotic distribution of the least squares estimator exactly parallels the cross-section case.
+
+If the $AR(p)$ model holds WN errors, as we originally assumed ($u_t \sim WN(0, \sigma^2)$), the MDS CLT doesn't hold\footnote{As we have previously shown under the definition \ref{def:whitenoise}, there exist white noises that are not strictly stationary, hence not MDS.}.
+Instead, if $y_t$ is strong mixing, we can use the central limit theorem for mixing proceses.
+\begin{theorem}[Mixing AR Asymptotic Normality]\label{thm:mixing-ar-asymptotic-normality}
+    \
+    
+    Assume $y_t$ is strictly stationary, ergodic, and for some $r>4$, $\mathbb{E}\vert y_t \vert^r < \infty$
+    and the mixing coefficients $\sum_{l=1}^{\infty} \phi(l)^{1-\frac{r}{4}} < \infty$.
+    Let $\phi $ be defined as the best linear projection coefficients, $\phi = \left(\mathbb{E}[x_t x_t^{\prime} ]\right)^{-1} \mathbb{E}[x_t y_t]$
+    from an AR(p) model, with projection errors $u_t$. Let $\hat{\phi}$ be the OLS estimator of $\phi$.
+    \begin{gather*}
+        \Omega = \sum_{l=-\infty}^{\infty} \mathbb{E} \left[ x_{t-l} x_t^{\prime} u_t u_{t-l} \right]
+    \end{gather*}
+    is convergent and
+    \begin{gather*}
+        \sqrt{n} (\hat{\phi} - \phi) \overset{d}{\rightarrow} \mathcal{N}(0, V)
+    \end{gather*}
+    where $V = Q^{-1} \Omega Q^{-1}.$
+\end{theorem}
+
+To simplify our case, we can assume that our model is with strict WN $u_t \sim \mathcal{N}(0, \sigma^2)$.
+We can thus have the following result using theorem \ref{thm:mixing-ar-asymptotic-normality}:
 \begin{align*}
     \sqrt{T}(\hat{\phi} - \phi) &= \sqrt{T} \left( \frac{1}{T} \sum_{t=1}^{T} x_t u_t \right)^{\prime} \left( \frac{1}{T} \sum_{t=1}^{T} x_t x_t^{\prime} \right)^{-1} \\
     & \overset{d}{\rightarrow} \mathbb{E}[x_t x_t^{\prime}]^{-1} \mathcal{N} \left(0, \mathbb{V}\left[\frac{1}{\sqrt{T}} \sum_{t} x_t u_t \right]\right)
@@ -45,7 +158,7 @@ where
     \text{Assume that } u_t \sim \mathcal{N}(0, \sigma^2)
     &= \mathbb{E}[u_t^2] \mathbb{E}[x_t x_t^{\prime}] + \frac{1}{T} \sum_{t} \sum_{\tau} \mathbb{E}[u_t] \mathbb{E}[u_{\tau}] \mathbb{E}[x_t x_{\tau}^{\prime}] \\
     &= \sigma^2 \mathbb{E}[x_t x_t^{\prime}] \\
-    \Rightarrow \sqrt{T}(\hat{\phi} - \phi) &\overset{d}{\rightarrow} \mathcal{N}\left(0, \underset{V}{\underbrace{\sigma^2 \mathbb{E}[x_t x_t^{\prime}]^{-1}}} \mathbb{E}[x_t x_t^{\prime}] \mathbb{E}[x_t x_t^{\prime}]^{-1} \right)
+    \Rightarrow \sqrt{T}(\hat{\phi} - \phi) &\overset{d}{\rightarrow} \mathcal{N} \left(0, Q^{-1} \sigma^2 Q Q^{-1} \right) = \mathcal{N}\left(0, \underset{V}{\underbrace{\sigma^2 \mathbb{E}[x_t x_t^{\prime}]^{-1}}} \right)
 \end{align*}
 For the estimators:
 \begin{gather*}
@@ -54,7 +167,9 @@ For the estimators:
 \end{gather*}
 like with cross sectional data.
 
-In addition,
+Unlike the cross-sectional case, $x_t$ consists of lagged values of $y_t$,
+we can also use the moments implied by our supposed model to estimate $\mathbb{E}[x_t x_t^{\prime}].$
+In addition, if we consider $AR(1)$ model, where we have $x_t = [1, y_{t-1}]^{\prime}$:
 \begin{gather*}
     \mathbb{E}[x_t x_t^{\prime}] = \mathbb{E}\left[ \begin{bmatrix}
         1 \\
@@ -98,22 +213,42 @@ We further assume $u_t \sim \mathcal{N} (0, \sigma^2)$, then we get: $y_t | y_{t
 
 Consider the $AR(1)$ process under the presence of a unit-root:
 \begin{gather*}
-    y_t = \phi_0 + \phi_1 y_{t-1} + u_t, \phi_1 = 1
+    y_t = \phi_0 + \phi_1 y_{t-1} + u_t, \quad \phi_1 = 1
 \end{gather*}
-In this case, the process is not WS, thus not SS and E.
+In this case, the process is not WS, thus not Strictly stationary and Ergodic.
+
 If $\phi_0 = 0$, then 
 \begin{gather*}
-    \hat{\phi}_1 = \frac{\mathbb{E}[V_{t-2} y_t]}{\mathbb{E}[y_{t-1}^2]} \\
+    % \hat{\phi}_1 = \frac{\mathbb{E}[V_{t-2} y_t]}{\mathbb{E}[y_{t-1}^2]} \\
     \sqrt{T}(\hat{\phi}_1 - \phi_1) \overset{d}{\rightarrow} \mathcal{N}\left(0, \frac{\sigma^2}{\mathbb{V}[y_t]}\right) 
 \end{gather*}
-Then, we have a special distribution:
+If we further assume that $y_0=0$, the process $y_t$ can be represented as 
 \begin{gather*}
-    T(\hat{\phi}_1 - \phi_1) \overset{d}{\rightarrow}  \text{ Dicky-Fuller distribution}
+    y_t = \sum_{\tau=1}^{t} u_{\tau}
+\end{gather*}
+The central limit theorem for i.i.d. random variables implies that:
+\begin{gather*}
+    \frac{y_T}{\sqrt{T}} = \frac{1}{\sqrt{T}} \sum_{\tau=1}^{T} u_{\tau} \overset{d}{\rightarrow} \mathcal{N}(0, \sigma^2)
+\end{gather*}
+which suggests that 
+\begin{gather*}
+    \frac{1}{T} \sum_{t=1}^{T} y_t = \frac{1}{\sqrt{T}} \sum_{t=1}^{T}\left[ \sqrt{\frac{t}{T}} \frac{1}{\sqrt{t}} \sum_{\tau =1}^{t} u_{\tau} \right]
+\end{gather*}
+will not converge to a constant in probability but instead to a random variable.
+
+Thus, we have a special distribution derived by Dickey and Fuller:
+\begin{gather*}
+    T(\hat{\phi}_1 - \phi_1) \overset{d}{\rightarrow}  \text{ Dickey-Fuller distribution}
 \end{gather*}
 
 \subsection{Estimating Regressions with Autocorrelated Errors}
+Suppose we want to estimate $y_t = x_t^{\prime} \beta + u_t$,
+where $x_t$ contains $k$ variables measuredover time (and potentially a constant).
+In such time series, the error $u_t$ is likely autocorrelated, $\mathbb{E}[u_t u_{\tau} ] \neq 0$ for $t \neq \tau$.
+This leads to different standard errors for the OLS estimator $\hat{\beta}$ under the i.i.d. (cross-sectional) case.
 
-Suppose we want to estimate $y_t = x_t^{\prime} \beta + u_t$, with $\mathbb{E}[x_t u_t] = 0$ and $\mathbb{E}[u_t u_{\tau}] \neq 0$.
+Assumiong that $\mathbb{E}[x_t u_t] = 0$, and that both $u_t$ and $x_t$ are strictly stationary and ergodic,
+we can apply the LLN for such processes.
 \begin{align*}
     \hat{\beta} &= (X^{\prime} X)^{-1} X^{\prime} Y \\
     &= (X^{\prime} X)^{-1} X^{\prime} (X \beta + U) \\
@@ -125,15 +260,26 @@ Suppose we want to estimate $y_t = x_t^{\prime} \beta + u_t$, with $\mathbb{E}[x
 and that
 \begin{align*}
     \sqrt{T}(\hat{\beta} - \beta) &= \sqrt{T} \left( \frac{1}{T} \sum_{t=1}^{T} x_t u_t \right)^{\prime} \left( \frac{1}{T} \sum_{t=1}^{T} x_t x_t^{\prime} \right)^{-1} \\
-    &\overset{d}{\rightarrow} \mathcal{N}\left(0, V\right) \\
-    V &= \mathbb{E}[x_t x_t^{\prime}]^{-1} \mathbb{V}\left[\frac{1}{\sqrt{T}} \sum_{t=1}^{T} x_t u_t\right] \mathbb{E}[x_t x_t^{\prime}]^{-1} \\
-    &= \mathbb{E}[u_t^2 x_t x_t^{\prime}] + \frac{1}{T} \sum_{t} \sum_{\tau \neq t} \mathbb{E}[u_t u_{\tau} x_t x_{\tau}^{\prime}]
+    &\overset{d}{\rightarrow} \mathcal{N}\left(0, V\right)
+\end{align*}
+where
+\[
+V = \mathbb{E}[x_t x_t^{\prime}]^{-1} \mathbb{V}\left[\frac{1}{\sqrt{T}} \sum_{t=1}^{T} x_t u_t\right] \mathbb{E}[x_t x_t^{\prime}]^{-1}.
+\]
+The term in the middle can be written as:
+\begin{align*}
+    \mathbb{V}\left[\frac{1}{\sqrt{T}} \sum_{t=1}^{T} x_t u_t\right] &= \frac{1}{T} \sum_{t=1}^{T} \mathbb{V}\left[x_t u_t\right] + \frac{1}{T} \sum_{t=1}^{T} \sum_{\tau \neq t} \Cov[x_t u_t ,x_{\tau} u_{\tau}] \\
+    &= \frac{1}{T} \sum_{t=1}^{T} \mathbb{E}[u_t^2 x_t x_t^{\prime}] + \frac{1}{T} \sum_{t} \sum_{\tau \neq t} \mathbb{E}[x_t x_{\tau}^{\prime} u_t u_{\tau}] \\
+    &= \mathbb{E}[x_t x_t^{\prime} u_t^2] + \sum_{h=1}^{T-1} \mathbb{E}\left[u_t u_{t-h} \left(x_t x_{t-h}^{\prime} + x_{t-h} x_t^{\prime} \right)\right].
 \end{align*}
 \begin{enumerate}
-    \item $x_t u_t$ is not correlated, then
+    \item $x_t u_t$ is not autocorrelated, then the second term is zero.
         \begin{enumerate}
-            \item[(a)] if $\mathbb{E}[u_t^2] = \sigma^2$ (homoskedasticity), then $\mathbb{E}[u_t^2 x_t x_t^{\prime}] = \sigma^2 \mathbb{E}[x_t x_t^{\prime}].$
-            \item[(b)] if $\mathbb{E}[u_t^2] = f(x_t)$ (heteroskedasticity), then we just leave it as it is: $\frac{1}{T} \sum_{t} \hat{u}_t^2 x_t x_t^{\prime} $
+            \item[(a)] if $\mathbb{E}[u_t^2] = \sigma^2$ (homoskedasticity), then $\mathbb{E}[u_t^2 x_t x_t^{\prime}] = \sigma^2 \mathbb{E}[x_t x_t^{\prime}]$,
+            the same expression as obtained under a homoskedastic linear regression model for cross-sectional data.
+            \item[(b)] if $\mathbb{E}[u_t^2] = f(x_t)$ (heteroskedasticity), the first term does not simplify,
+            and we construct the heteroskedasticity-robust variance $\mathbb{E}[x_t x_t^{\prime}]^{-1} \mathbb{E}[x_t x_t^{\prime} u_t^2] \mathbb{E}[x_t x_t^{\prime}]^{-1}$.
+            We just eimate it by replacing the expectation operators with time averages and $\hat{u}_t$: $\frac{1}{T} \sum_{t} \hat{u}_t^2 x_t x_t^{\prime}.$
         \end{enumerate}
     \item $x_t u_t$ is autocorrelated, then we can write $V$ as:
         \begin{gather*}
@@ -141,3 +287,18 @@ and that
             = \frac{1}{T} \sum_{t} \hat{u}_t^2 x_t x_t^{\prime} + \frac{1}{T} \sum_{t} \sum_{h=1}^{T-1} 2 \hat{u}_t \hat{u}_{t-h} x_t x_{t-h}  
         \end{gather*}
 \end{enumerate}
+
+\begin{remark}
+    \
+
+    For the second case, we recall the original version of variance:
+    \begin{gather*}
+        \mathbb{V}\left[\frac{1}{T} \sum_{t=1}^{T} x_t u_t\right] = \frac{1}{T} \sum_{t=1}^{T} \sum_{\tau=1}^{T} \Cov[u_t, u_{\tau}] x_t x_{\tau}^{\prime}  
+    \end{gather*}
+    We assume that $\vert \Cov[u_t, u_{\tau}] \vert \leq \vert t-\tau \vert^{\kappa} $ where $\kappa>1$.
+    Since $u_t u_{\tau}$ can be treated as a ``preestimator'' of $\Cov[u_t, u_{\tau}]$,
+    we can replace teh covariance with $u_t u_{\tau}$ and weight it with $\lambda(t-\tau)$ to yield the Newey-West/HAC estimator:
+    \begin{gather*}
+        \hat{\sigma}^2 = \frac{1}{T} \sum_{t=1}^{T} \sum_{\tau=1}^{T} \lambda_m(t-\tau) u_t u_{\tau} x_t x_{\tau}^{\prime}.
+    \end{gather*}
+\end{remark}
