@@ -75,7 +75,7 @@ A multivariate White Noise (WN) process and the multivariate General Linear Proc
     written $u_t \sim WN(0, \Sigma)$,
     if and only if $u_t$ is weakly stationary with mean vector $\mathbf{0}$ and covariance matrix function:
     \begin{gather*}
-        \Gamma(h) = \Cov[u_t, u_{t-h}] = \mathbb{E}[u_t u_{t-h}^{\prime}]\begin{cases}
+        \Gamma(h) = \Cov[u_t, u_{t-h}] = \mathbb{E}[u_t u_{t-h}^{\prime}] = \begin{cases}
             \Sigma, & h=0 \\
             0, & h \neq 0
         \end{cases}
@@ -90,7 +90,7 @@ The multivariate GLP is defined as:
 where $B_0 = I$ and $\sum_{l=0}^{\infty} \lVert B_l \rVert^2 < \infty.$
 
 \section{Vector Autoregressions (VARs)}\label{sec:VAR}
-A VAR is a common way to approximate the multivariate GLP
+A VAR is a common way to approximate the multivariate GLP.
 As in the previous lecture, we have built a VAR(1) model for solving the AR(2) process.
 \begin{gather*}
     y_t = \Phi_0 + \Phi_1 y_{t-1} + u_t, \quad u_t \sim WN(0, \Sigma)
@@ -336,10 +336,10 @@ And we can have the ACF for the original $y_t$:
     \Gamma_y(h) = \Cov[y_t, y_{t-h}] &= \Cov[MY_t, MY_{t-h}] \\
     &= M \Cov[Y_t, Y_{t-h}] M^{\prime} \\
     &= \sum_{k=0}^{\infty} M F^{h+k} \Sigma^v F^{k^{\prime}} M^{\prime} \\
-    &= \sum_{k=0}^{\infty} \left(F^{k+h} \right)_{11} \Sigma \left( F^k \right)_{11}^{\prime}
+    &= \sum_{k=0}^{\infty} \left(F^{k+h} \right)_{11} \Sigma^v \left( F^k \right)_{11}^{\prime}
 \end{align*}
 where $(F^k)_{11}$ denotes the upper-left $(n \times n)$ block of the $(np \times np)$ matrix $F^k$.
-\subsection*{Computation of Autocovariances and Autocorrelations of VAR Processes}
+\subsection{Computation of Autocovariances and Autocorrelations of VAR Processes*}
 In order to illustrate the computation of the autocovariances when the process
 coefficients are given, suppose that $y_t$ is strictly stationary and ergodic VAR$(1)$ process:
 \begin{gather*}
@@ -402,8 +402,8 @@ They are the forecasting errors obtained when predicting $y_t$ one step ahead:
 This is why $u_t$ is also referred to as the innovation to the process $y_t$ at time $t$;
 it contains everything that affects $y_t$ and is not known to the researcher at time $t-1$.
 
-Generally, in impulse response analysis the emphasis has shifted from specify-
-ing the relations between the observable variables directly to interpreting the
+Generally, in impulse response analysis the emphasis has shifted from specifying the relations
+between the observable variables directly to interpreting the
 unexpected part of their changes or the shocks. 
 To make causal statements in VAR, we need to decompose the reduced-form errors into underlying, independent driving forces of $y_t$, referred to as shocks (structural innovations).
 One way to do so is to think of the forecast errors as linear functions of the structural innovations.
@@ -472,7 +472,7 @@ Let $I^{(j)}$ be the identity matrix with all but the $j$-th diagonal element eq
 We have that $\Gamma_0 = \sum_{j=1}^{n} \Gamma_0^{(j)}$, as a result,
 the fraction of the variance of a particular series $y_{it}$, $\mathbb{V}[y_{it}] = \left[\Gamma_0\right]_{ij}$ is explained by $\varepsilon_{jt}$ given by:
 \begin{gather*}
-    \left[\Gamma_0^{(j)}\right]_{ij} / \left[\Gamma_0\right]_{ij}.
+    \left[\Gamma_0^{(j)}\right]_{ii} / \left[\Gamma_0\right]_{ii}.
 \end{gather*}
 
 \section{Estimation of Reduced-Form VARs}

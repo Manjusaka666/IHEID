@@ -297,7 +297,7 @@ The term in the middle can be written as:
     \end{gather*}
     We assume that $\vert \Cov[u_t, u_{\tau}] \vert \leq \vert t-\tau \vert^{\kappa} $ where $\kappa>1$.
     Since $u_t u_{\tau}$ can be treated as a ``preestimator'' of $\Cov[u_t, u_{\tau}]$,
-    we can replace teh covariance with $u_t u_{\tau}$ and weight it with $\lambda(t-\tau)$ to yield the Newey-West/HAC estimator:
+    we can replace the covariance with $u_t u_{\tau}$ and weight it with $\lambda(t-\tau)$ to yield the Newey-West/HAC estimator:
     \begin{gather*}
         \hat{\sigma}^2 = \frac{1}{T} \sum_{t=1}^{T} \sum_{\tau=1}^{T} \lambda_m(t-\tau) u_t u_{\tau} x_t x_{\tau}^{\prime}.
     \end{gather*}

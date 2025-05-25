@@ -103,7 +103,7 @@ The function $\gamma_y(\cdot)$ will be referred to as the autocovariance functio
 and $\gamma_y(h)$ as its value at lag $h$. The autocorrelation function (ACF) of $\{y_t\}$
 is defined analogously as the function whose value at lag $h$ is given by
 \begin{gather*}
-    \rho_y(h) = \frac{\gamma_y(t+h, t)}{\sqrt{\gamma_y(t+h, t) \gamma_y(t,t)} } = \frac{\gamma_y(h)}{\gamma_y(0)} = \operatorname{Corr}(y_{t+h}, y_t).
+    \rho_y(h) = \frac{\gamma_y(t+h, t)}{\sqrt{\gamma_y(t+h, t+h) \gamma_y(t,t)} } = \frac{\gamma_y(h)}{\gamma_y(0)} = \operatorname{Corr}(y_{t+h}, y_t).
 \end{gather*}
 The auto-covariance and auto-correlation are functions $\gamma_y: \mathbb{Z} \to \mathbb{R}$ and $\rho_y: \mathbb{Z} \to [-1,1].$
 Together with the mean $\mu = \mathbb{E}[y_t]$, they determine
@@ -187,7 +187,7 @@ A straightforward but essential relationship is that an i.i.d. process is strict
 One of the important properties of strict stationarity is that it is preserved by transformation. That is,
 transformations of strictly stationary processes are also strictly stationary. This includes transformations
 which include the full history of $y_t$.
-\begin{theorem}[transformation Invariance]\label{thm:transformation-invariance}
+\begin{theorem}[Transformation Invariance]\label{thm:transformation-invariance}
     \
 
     If $\{y_t\}$ is strict stationary, and $X_t = \phi (y_t, y_{t-1}, \cdots) \in \mathbb{R}^q$ is a random vector
@@ -201,7 +201,7 @@ For scalar $y$ and coefficients $a_j$ define the vector process
 \end{gather*}
 Many time-series models involve representations and transformations of this form.
 
-This infinite series exists if ti is convergent, meaning that the sequence $\sum_{j=0}^{N}a_j y_{t-j}$
+This infinite series exists if it is convergent, meaning that the sequence $\sum_{j=0}^{N}a_j y_{t-j}$
 has a finite limit as $N \to \infty$.  Since the inputs $y_t$ are random we define this as a probability limit.
 
 \begin{definition}[Convergence]\label{def:convergence}
