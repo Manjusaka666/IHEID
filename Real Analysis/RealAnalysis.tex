@@ -1,0 +1,52 @@
+\documentclass[a4paper]{report}
+
+\input{setup/preamble}
+\input{setup/macros}
+\input{setup/letterfonts}
+\usepackage{placeins} % Package to handle floating elements
+
+\addbibresource{gr.bib} 
+
+\course{Real Analysis}
+\professor[https://genealogy.math.ndsu.nodak.edu/id.php?id=23987]{So-Chin Chen}
+\me[jingle.fu@graduateinstitute.ch]{}
+\institute{Graduate Institute of International and Development Studies, Geneva}
+\class{International Economics}
+\session{Semester II, 2024}
+\date{Based on lectures by \profloc{}
+% \\ Notes created by Mubtasim Fuad 
+\\~\\ Draft updated on \today}
+
+\begin{document}
+
+\renewcommand\thepage{Title}
+\maketitle
+\renewcommand\thepage{Preface} 
+% \chapter*{Preface}  % to show preface on toc
+\input{preface}
+% \addcontentsline{toc}{chapter}{\protect\numberline{}Preface} % to show preface on toc
+\pagenumbering{gobble}
+% \pagenumbering{roman}   % to show preface on toc
+\newpage
+\pagestyle{plain}
+\pagenumbering{roman}
+\pdfbookmark{\contentsname}{toc}              
+\setcounter{tocdepth}{3}
+\tableofcontents
+\newpage
+\pagestyle{head}
+\pagenumbering{arabic}
+
+% start lectures
+\chapter{I}
+\input{lectures/Lec1}
+
+
+\chapter{Appendix}
+\input{lectures/Appendix}
+\nocite{*} % Add this line to include all entries in the bibliography
+% end lectures
+
+\input{endpage}
+
+\end{document}
