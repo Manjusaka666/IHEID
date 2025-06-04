@@ -1,0 +1,54 @@
+\section{Outer Measure}
+Outer measure can be defined on every set.
+\begin{definition}[Outer Measure]
+    \label{def:outer_measure}
+    \
+
+    $E \subseteq \mathbb{R}^n$ is a set,
+    $I$ is a closed interval: $I = \{ x = (x_1, x_2, \cdots, x_n) \in \mathbb{R}^n | a_i \leq x_i \leq b_i, i=1, \cdots, n\}$,
+    and $v(I)$ is the volume of the interval $I$, 
+    \begin{gather*}
+        v(I) = \begin{cases}
+            \prod_{i=1}^n (b_i - a_i), &\text{ if } a_i \leq b_i ;\\
+            0, &\text{ otherwise} .
+        \end{cases}
+    \end{gather*}
+    For set $E$, consider a \textit{countable} collection of open, nounded intervals that cover $E$,
+    $S = \{I_i\}_{i=1}^{\infty}$, in the sense that $E \subseteq \bigcup_{i=1}^{\infty} I_i$.
+    For each such collection, consider the sum of the volumes of the intervals in the collection. 
+    We define
+    \begin{gather}
+        \sigma(S) = \sum_{i=1}^{\infty} v(I_i)
+    \end{gather}
+    The outer measure of $E$, denoted by $m^{*}(E)$, is
+    \begin{gather}
+        m^{*}(E) = \inf \sigma(S)
+    \end{gather}
+    the infimum is taken over all countable collections of closed intervals $S$.
+\end{definition}
+
+\begin{lemma}\label{lem1}
+    \
+
+    If $I$ is a closed interval, then $m^{*}(I) = v(I).$
+\end{lemma}
+\begin{proof}[Proof of Lemma \ref{lem2}]
+    \
+
+    By definition, $I$ covers itself, so $m^{*}(I) \leq v(I)$.
+    Given any $\epsilon > 0$,
+    $\exists S = \{I_i\}_{i=1}^{\infty}$, a closed interval cover,
+    such that $\sigma(S) \leq m^{*}(I) + \epsilon$.
+    We need to show that $v(I) \leq \sum_{i=1}^{\infty} v(I_i) = \sigma(S).$
+    For each $i$, choose a bigger $I_i^*$,
+    such that $I \subseteq int(I_i^*)$ and $v(I_i^*) \leq v(I_i)(1 + \epsilon)$.
+    Then we have $I \subseteq \bigcup_{i=1}^{\infty} int(I_i^*)$.
+    By compactness of $I$, (The Heine-Borel theorem),
+    we can find an integer $N$ such that $I \subseteq \bigcup_{i=1}^{N} int(I_i^*)$,
+    hence
+    \begin{gather*}
+        v(I) \leq \sum_{i=1}^{N} v(I_i^*) \leq (1 + \epsilon) \sum_{i=1}^{N} v(I_i) \leq (1 + \epsilon) \sigma(S).
+    \end{gather*}
+    So $v(I) \leq \sigma(S)$, if we take infimum over all $S$,
+    we have $v(I) \leq m^{*}(I)$.
+\end{proof}
