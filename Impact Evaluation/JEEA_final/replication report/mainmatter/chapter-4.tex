@@ -1,0 +1,511 @@
+\chapter{Code replication}
+\label{chapter:codemodel}
+
+\section{War Period}
+
+\subsection{Define War Samples \& Counterfactuals}
+\begin{itemize}
+    \item Defaulters: 18 countries, Austria, Belgium, Czechoslovakia, Estonia, France, Greece, Yugoslavia, Hungary, Italy, Latvia, Lithuania, Poland, Romania, UK, Germany, Australia, Portugal, New Zealand.
+    \item No credit event: Finland, Norway, Sweden, Switzerland, Denmark, Ireland, Spain
+	\item Extension: Russia, Japan, China, Bulgaria, Turkey, Thailand; Argentina, Uruguay, Chile, Brazil, Colombia, Mexico, Peru, Venezuela
+\end{itemize}
+
+Final data samples are set as below:
+\begin{itemize}
+    \item WarSmallSample: defaulters and no defaulters from Europe;
+    \item WarLatAmSample: defaulters and no defaulters from Europe and Latin America;
+    \item WarNonLatAmSample: defaulters and no defaulters from Europe and non-Latin America;
+    \item WarAllSample: defaulters and no defaulters from all countries.
+    \item WarCounterfactual: no defaulters from Europe, Latin America and Non Latin America.
+\end{itemize}
+
+
+\subsection{Time Windows}
+1931 Hoover Moratorium and 1934 Default as the baseline $T$, $T-5, T+5$ as the time window.
+Normalize Debt index and GDP index with respect to both baselines.
+\begin{itemize}
+    \item Debt index: -5 to 5;
+    \item FDP index: real GDP divided by baseline real GDP;
+    \item Rating index: moody's rating divided by baseline moody's rating, in numerical form, from 1 to 9, by checking the data of Switzerland, we believe 9 represents AAA.
+\end{itemize}
+
+\begin{figure}[ht!]
+    \centering
+    \begin{subfigure}[b]{0.48\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{figures/Figure3_GDP_Comparison.png}
+        \caption{Real per capita GDP around debt relief events (exit from default) in middle- to high-
+income emerging markets (1978-2010) and advanced economies (1934).}
+        \label{fig:3}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.48\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{figures/Figure4_Rating_Comparison.png}
+        \caption{Total external debt to GDP (in \%) around debt relief events (exit from default) in
+        middle- to high-income emerging markets (1978-2010) and advanced economies (1934).}
+        \label{fig:4}
+    \end{subfigure}
+\end{figure}
+
+\begin{figure}[ht!]
+    \centering
+    \begin{subfigure}[b]{0.48\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{figures/Figure5_DebtService_Comparison.png}
+        \caption{Total debt service to GDP (in \%) around debt relief events (exit from default) in
+        middle- to high-income emerging markets (1978-2010) and advanced economies (1934).}
+        \label{fig:5}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.48\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{figures/Figure6_DebtStock_Comparison.png}
+        \caption{Debt to GDP (in \%) around debt relief events (exit from default) in middle- to high-
+income emerging markets (1978-2010) and advanced economies (1934).}
+        \label{fig:6}
+    \end{subfigure}
+\end{figure}
+
+\subsection{Parallel trend test}
+We found out that the author only used the data to make descriptive analysis, but did not
+use the data to make a parallel trend test. So, we work on the parallel trend test ourselves, and the results are as below.
+
+To see the results more easily, we write into a matrix:
+\input{mainmatter/parallel_trend.tex}
+
+From this table, we could see that main results are available, most variables pass the test,
+only two variables failed, which we need to interpret with caution:
+\begin{itemize}
+    \item Credit rating results for 1934
+    \item Debt/GDP ratio and external debt/GDP ratio results for 1931
+\end{itemize}
+
+\begin{figure}[ht!]
+    \centering
+    \begin{subfigure}[b]{0.48\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{figures/PT_Debt_1931_Small.png}
+        \caption{Parallel Trend Test 1}
+        \label{fig:pt1}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.48\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{figures/PT_Debt_1934_Small.png}
+        \caption{Parallel Trend Test 2}
+        \label{fig:pt2}
+    \end{subfigure}
+    \\[1em]
+    \begin{subfigure}[b]{0.48\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{figures/PT_DebtServ_1931_Small.png}
+        \caption{Parallel Trend Test 3}
+        \label{fig:pt3}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.48\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{figures/PT_DebtServ_1934_Small.png}
+        \caption{Parallel Trend Test 4}
+        \label{fig:pt4}
+    \end{subfigure}
+    \\[1em]
+    \begin{subfigure}[b]{0.48\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{figures/PT_ExtDebt_1931.png}
+        \caption{Parallel Trend Test 5}
+        \label{fig:pt5}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.48\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{figures/PT_ExtDebt_1934.png}
+        \caption{Parallel Trend Test 6}
+        \label{fig:pt6}
+    \end{subfigure}
+    \\[1em]
+    \begin{subfigure}[b]{0.48\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{figures/PT_GDP_1931_Large.png}
+        \caption{Parallel Trend Test 7}
+        \label{fig:pt7}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.48\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{figures/PT_GDP_1931_Small.png}
+        \caption{Parallel Trend Test 8}
+        \label{fig:pt8}
+    \end{subfigure}
+    \caption{Parallel trend test results for different country samples and variables}
+    \label{fig:parallel_trends}
+\end{figure}
+
+\begin{figure}[ht!]
+    \centering
+    \begin{subfigure}[b]{0.48\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{figures/PT_GDP_1934_Large.png}
+        \caption{Parallel Trend Test 9}
+        \label{fig:pt9}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.48\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{figures/PT_GDP_1934_Small.png}
+        \caption{Parallel Trend Test 10}
+        \label{fig:pt10}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.48\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{figures/PT_Ratings_1931.png}
+        \caption{Parallel Trend Test 11}
+        \label{fig:pt11}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.48\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{figures/PT_Ratings_1934.png}
+        \caption{Parallel Trend Test 12}
+        \label{fig:pt12}
+    \end{subfigure}
+    \caption{Parallel trend test results for different country samples and variables}
+    \label{fig:parallel_trends2}
+\end{figure}
+
+\subsection{DID Analysis}
+
+The Brady target group includes all middle-income
+EMs with a Brady deal, namely Argentina, Brazil, Bulgaria, Costa Rica, Dominican
+Republic, Ecuador, Jordan, Mexico, Panama, Peru, Poland, Uruguay, and Venezuela.
+The Baker country sample is the same, plus Chile, which was a target country in the
+mid-1980s, but were not part of the “Brady bunch”.
+
+The baseline counterfactual includes all middle- and high-income countries(regions)
+that did not default nor received debt relief in this period and for which we have data,
+namely China, Colombia, Czech Republic, Egypt, Hungary, India, Israel, Malaysia,
+Mauritius, Singapore, South Korea, Taiwan, Thailand, and Turkey.
+
+We start with the Hoover Moratorium of 1931 and take a preliminary view of the
+data.
+
+\begin{figure}[ht!]
+    \centering
+    \includegraphics[width=0.95\textwidth]{figures/Figure8_GDP_trends_1931_1934.png}
+    \caption{GDP trends around 1931 and 1934}
+    \label{fig:8}
+\end{figure}
+
+\begin{figure}[ht!]
+    \centering
+    \begin{subfigure}[b]{0.48\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{figures/figc5_a.png}
+        \caption{Residual GDP Growth}
+        \label{fig:c5a}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.48\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{figures/figc5_b.png}
+        \caption{Credit Ratings}
+        \label{fig:c5b}
+    \end{subfigure}
+    \\[1em]
+    \begin{subfigure}[b]{0.48\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{figures/figc5_c.png}
+        \caption{Debt Service to Revenue}
+        \label{fig:c5c}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.48\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{figures/figc5_d.png}
+        \caption{Debt to GDP}
+        \label{fig:c5d}
+    \end{subfigure}
+    \caption{Economic indicators comparison between treatment and control groups}
+    \label{fig:c5}
+\end{figure}
+
+The figures compare the development of our main economic indicators for treatment and control groups,
+where the control groups is our baseline sample of European non-defaulters.
+Figure 8 (left panel) shows that the growth performance of the treatment group is significantly worse
+than that of the counterfactual around 1931. 
+
+Panel B: country
+heterogeneity by showing residuals from a regression of annual real p.c. growth on a
+constant and country-specific dummies. Residual growth declines markedly for both
+groups prior to 1931 and recovers strongly afterwards, but there is no evidence that
+treatment countries perform better than the counterfactual.
+
+Panel C: The picture is similarly
+bleak with regard to Moody's credit ratings, which decline across the board after 1931,
+with no notable difference between the two groups. 
+
+Panel D: Similarly, the debt/GDP
+level does not decline significantly more for the target countries. Only the
+debt servicing burden improves, as payments to revenue drop relatively more than
+those countries not receiving relief.
+
+\subsection{Results of DID}
+The results are more notable for the 1934 debt relief spell. Table 4 indicates that
+real per capita growth is 4.7 percentage points higher for treated countries in the post-
+1934 period, with a highly significant coefficient (column (1)). Moreover, the debt
+levels decrease significantly (columns (6) and (8)), compared to the counterfactual on
+European non-defaulters. We find no significant coefficient for debt servicing (column
+(4)) and a highly significant negative coefficient for ratings. These results, however,
+are rather sensitive to the choice of counterfactual, as can be seen in columns (2),
+(5), and (7), which use the “World” counterfactual including European, Asian, and
+South American countries. The treatment coefficient for debt servicing becomes highly
+significant and large, while the coefficient for debt/GDP turns insignificant. Notably,
+however, the growth coefficient remains large and significant across all counterfactuals
+chosen, albeit sometimes only at the 10\% level.
+
+\input{mainmatter/Table3.tex}
+
+When we are working on Table3, we found out a bug:
+the data of column (3), (4), (5) might be in the wrong order, the correct order of data should be (5), (3), (4).
+
+Also, the post-intervention dummy (after 1931) is very different from authors' result, we also tried to drop the year fixed effect, but the result is still different.
+(We tried to run authors' original code, and the results are the same as what we get, not what's in the table of this paper.)
+
+According to the authors based on their result, `The only $\beta_2$ coefficients that are marginally significant are those of GDP and of credit ratings',
+but as we could see from our table, only credit ratings and debt service to revenue in treated countries are insignificant.
+
+\begin{figure}[ht!]
+    \centering
+    \includegraphics[width=0.95\textwidth]{figures/table3_original.png}
+    \caption{Table 3 Original}
+    \label{fig:table3_original}
+\end{figure}
+
+\begin{figure}[ht!]
+    \centering
+    \includegraphics[width=0.95\textwidth]{figures/col3_tab3_stata.png}
+    \caption{Table 3 Col 3}
+    \label{fig:table3_col3}
+\end{figure}
+
+\begin{figure}[ht!]
+    \centering
+    \includegraphics[width=0.95\textwidth]{figures/col4_tab3_stata.png}
+    \caption{Table 3 Col 4}
+    \label{fig:table3_col4}
+\end{figure}
+
+\input{mainmatter/Table4_DiD.tex}
+
+
+
+\section{Emerging Markets}
+
+We now study the economic performance before and after the Baker and Brady
+initiatives.
+
+\subsection{Parallel Trend Test}
+
+We conduct teh parallel trend test based on the data, and results are as below.
+We found out that the author only used the data to make descriptive analysis, but did not
+use the data to make a parallel trend test. So, we work on the parallel trend test ourselves, and the results are as below.
+
+To see the results more easily, we write into a matrix:
+\input{mainmatter/parallel_trend_eme.tex}
+From the marrix we could tell that the main results are also available,
+as most variables pass the test. But for the Baker policy, the credit rating and
+debt/GDP ratio results failed the test, which we need to interpret with caution.
+
+\begin{figure}[ht!]
+    \centering
+    \begin{subfigure}[b]{0.48\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{figures/PT_Baker_Debt.png}
+        \caption{Parallel Trend Test 1}
+        \label{fig:pt1_eme}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.48\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{figures/PT_Baker_DebtServ.png}
+        \caption{Parallel Trend Test 2}
+        \label{fig:pt2_eme}
+    \end{subfigure}
+    \\[1em]
+    \begin{subfigure}[b]{0.48\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{figures/PT_Baker_ExtDebt.png}
+        \caption{Parallel Trend Test 3}
+        \label{fig:pt3_eme}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.48\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{figures/PT_Baker_GDP.png}
+        \caption{Parallel Trend Test 4}
+        \label{fig:pt4_eme}
+    \end{subfigure}
+    \\[1em]
+    \begin{subfigure}[b]{0.48\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{figures/PT_Brady_Debt.png}
+        \caption{Parallel Trend Test 5}
+        \label{fig:pt5_eme}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.48\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{figures/PT_Brady_DebtServ.png}
+        \caption{Parallel Trend Test 6}
+        \label{fig:pt6_eme}
+    \end{subfigure}
+    \\[1em]
+    \begin{subfigure}[b]{0.48\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{figures/PT_Brady_ExtDebt.png}
+        \caption{Parallel Trend Test 7}
+        \label{fig:pt7_eme}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.48\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{figures/PT_Brady_GDP.png}
+        \caption{Parallel Trend Test 8}
+        \label{fig:pt8_eme}
+    \end{subfigure}
+    \caption{Parallel trend test results for EME case}
+    \label{fig:parallel_trends3}
+\end{figure}
+
+\begin{figure}[ht!]
+    \centering
+    \begin{subfigure}[b]{0.48\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{figures/PT_Baker_Ratings.png}
+        \caption{Parallel Trend Test 9}
+        \label{fig:pt9_eme}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.48\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{figures/PT_Brady_Ratings.png}
+        \caption{Parallel Trend Test 10}
+        \label{fig:pt10_eme}
+    \end{subfigure}
+    \caption{Parallel trend test results for EME case}
+    \label{fig:parallel_trends4}
+\end{figure}
+
+In Table 5,
+the treatment coefficient for output growth is negative and insignificant for the Baker
+episode. Also, debt/GDP continues to grow post-treatment. On the positive side, we
+find evidence that the credit ratings of the Baker countries increase significantly more
+than the counterfactual (also because the time window includes the 1990/1991 Brady
+years). Moreover, the treatment coefficient for debt servicing is negative and marginally
+significant, indicating that the Baker plan indeed brought cash flow relief.
+
+\input{mainmatter/Table5.tex}
+
+\input{mainmatter/Table6.tex}
+
+The most notable change between the Baker and Brady regression results (Tables 5
+and 6) is in column (1). The treatment coefficient for real per capita GDP growth turns
+positive and highly significant, indicating that the Brady debt relief operation translated
+into 3 percentage point higher growth, compared to the counterfactual of non-crisis
+emerging markets. This is a sizable coefficient, which resembles that of the 1934
+episode (Table 4). Also, the credit ratings of Brady countries see a large improvement
+relative to the counterfactual (of 7 IIR index points, on average), while government
+debt levels drop significantly more (by 15 percentage points). Surprisingly, however,
+we find no significant effect on debt servicing or for total external debt/GDP, possibly
+because the actual Brady restructurings took place with a lag in many countries, as
+discussed previously.
+
+
+
+\section{Staggered DiD Analysis}
+According to the author, the Brady Plan was actually implemented in a staggered
+fashion, with some countries starting in 1989 and others following until 1995.
+
+To account for this, we use the Callaway-Sant'Anna (2021) staggered difference-in-differences
+(CSDID) estimator, which allows for heterogeneous treatment effects and
+dynamic treatment effects over time.
+
+\begin{figure}[ht!]
+    \centering
+    \begin{subfigure}[b]{0.48\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{figures/CS_Brady_Growth_EventStudy.png}
+        \caption{Staggered DiD Result 1}
+        \label{fig:stag1}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.48\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{figures/CS_Brady_Ratings_EventStudy.png}
+        \caption{Staggered DiD Result 2}
+        \label{fig:stag2}
+    \end{subfigure}
+    \\[1em]
+    \begin{subfigure}[b]{0.48\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{figures/CS_Brady_Debt_EventStudy.png}
+        \caption{Staggered DiD Result 3}
+        \label{fig:stag3}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.48\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{figures/CS_Brady_DebtService_EventStudy.png}
+        \caption{Staggered DiD Result 4}
+        \label{fig:stag4}
+    \end{subfigure}
+    \\[1em]
+    \begin{subfigure}[b]{0.48\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{figures/CS_Brady_ExtDebt_EventStudy.png}
+        \caption{Staggered DiD Result 5}
+        \label{fig:stag5}
+    \end{subfigure}
+    \caption{Staggered Difference-in-Differences Analysis Results}
+    \label{fig:staggered_did}
+\end{figure}
+
+To see it in a more clear way, we also write the results into a table:
+
+\input{mainmatter/Table_Brady_CSDID_Simple.tex}
+
+\begin{enumerate}[label=(\arabic*),leftmargin=1.25cm]
+    \item \textbf{Real per-capita GDP growth}.  
+    The point estimate of \(\text{ATT}=1.005\) (s.e.\;1.923) is economically small and statistically insignificant.\footnote{All hypothesis tests use two-sided $t$-statistics with 39 degrees of freedom.}  
+    Hence, short-run output gains attributable solely to the Brady restructuring appear limited.
+
+    \item \textbf{Credit-rating upgrades}.  
+    The estimated improvement of \(2.331\) notches (s.e.\;2.494) is likewise imprecisely measured, suggesting that sovereign creditworthiness did not accelerate immediately after restructuring.
+
+    \item \textbf{Debt-service pressure}.  
+    The debt-service-to-exports ratio rises by \(5.047\) percentage points (s.e.\;3.299) but remains insignificant.  
+    A mechanical uptick is plausible because coupon payments on the new Brady bonds were front-loaded, even though principal obligations were reduced.
+
+    \item \textbf{Public-debt burden}.  
+    A statistically significant fall of \(-22.587^{**}\) percentage points of GDP (s.e.\;9.722) confirms that the Brady exchanges achieved their primary aim: \emph{a sizable reduction in public debt stocks}.
+
+    \item \textbf{External indebtedness}.  
+    External debt drops by \(-20.799^{**}\) percentage points of GNI (s.e.\;9.550).  
+    The comparable magnitude across the two debt ratios underscores that the relief was broad-based, not merely an accounting reshuffle between domestic and foreign holders.
+\end{enumerate}
+
+\paragraph{Methodological strengths.}
+The staggered estimator weights cohort-specific counterfactuals, eliminating negative-weight bias inherent in traditional two-way fixed effects when treatment timing is staggered.  
+Doubly robust inverse-probability weighting (DRIPW) further guards against misspecification in both the propensity-score and outcome equations, enhancing credibility.
+
+\paragraph{Economic implications.}
+\begin{itemize}[leftmargin=0.9cm]
+    \item \emph{Debt relief first, growth later.}  The significant contraction in debt ratios signals successful balance-sheet repair.  However, growth dividends are not immediate; structural reforms and a longer horizon may be required for debt relief to translate into higher output.
+    \item \emph{Market sentiment lags policy action.}  Credit-rating agencies reacted cautiously, consistent with historical evidence that ratings improve only after sustained fiscal consolidation.
+    \item \emph{Policy design.}  Future restructurings should pair liability management with complementary reforms (e.g.\ trade liberalisation, financial-sector deepening) to accelerate real-sector recovery.
+\end{itemize}
+
+\paragraph{Limitations.}
+The evaluation window (1989-1995) captures only the first six years after each country's exchange.  If growth effects materialise with longer lags, the present estimates are lower bounds.  Moreover, macro-shocks in the early 1990s (e.g.\ the Tequila crisis) may attenuate observed treatment effects despite the DiD controls.

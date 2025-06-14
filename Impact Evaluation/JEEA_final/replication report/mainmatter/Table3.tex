@@ -1,0 +1,24 @@
+\begin{sidewaystable}[ht!]\centering
+\def\sym#1{\ifmmode^{#1}\else\(^{#1}\)\fi}
+\caption{Table 3: 1931 Hoover Moratorium - Difference-in-Difference Analysis}
+\renewcommand{\arraystretch}{1.2} % 增加行距
+\begin{tabular*}{\textwidth}{@{\hskip\tabcolsep\extracolsep\fill}p{3.75cm}*{8}{>{\centering\arraybackslash}p{2.25cm}}}
+\hline\hline
+            &(1)&(2)&(3)&(4)&(5)&(6)&(7)&(8)\\
+            &\parbox{2.25cm}{\centering Growth, real p.c.\\Small (Europe)}&\parbox{2.25cm}{\centering Growth, real p.c.\\Large (World)}&\parbox{2.25cm}{\centering Credit Ratings (change)\\Small (Europe)}&\parbox{2.25cm}{\centering Debt Service to Revenue\\Small (Europe)}&\parbox{2.25cm}{\centering Debt Service to Revenue\\Large (World)}&\parbox{2.25cm}{\centering Total Public Debt/GDP\\Small (Europe)}&\parbox{2.25cm}{\centering Total Public Debt/GDP\\Large (World)}&\parbox{2.25cm}{\centering External Debt/GDP\\Small (Europe)}\\
+\hline
+\parbox{3cm}{\raggedright Post-intervention dummy (after 1931)}&  $4.922^{**}$  &  $8.329^{***}$  &  $3.752$  &  $-1.064$  &  $-3.882^{**}$&  $-10.011^{*}$  &  $-7.900^{*}$ &  $-9.086^{**}$  \\
+            &  $(2.335)$  &  $(1.724)$ & $(3.377)$   &  $(1.880)$   &  $(1.854)$  &  $(4.854)$  &  $(4.240)$  & $(3.687)$   \\
+[0.5em]
+\parbox{3cm}{\raggedright Treatment (war debt moratorium) $\times$ post-intervention dummy}&  $2.598^{*}$&  $0.862$  &  $-5.655$&  $-4.310^{*}$  &  $-3.390$   &  $7.312$ &  $3.822$   &  $-0.508$ \\
+            &  $(1.360)$   &  $(1.333)$   &  $(4.202)$   &  $(2.392)$   &  $(2.335)$   &  $(6.936)$   &  $(6.899)$   &  $(5.610)$   \\
+[0.5em]
+Constant    &  $-4.072^{***}$&  $-4.489^{***}$&  $0.906$   &  $24.360^{***}$&  $23.973^{***}$&  $69.849^{***}$&  $61.471^{***}$&  $32.183^{***}$\\
+            &  $(0.839)$   &  $(1.160)$   &  $(2.058)$   &  $(1.215)$   &  $(0.990)$   &  $(1.872)$   &  $(1.695)$   &  $(2.174)$   \\
+\hline
+Observations&         237   &         373   &         230   &         223   &         326   &         172   &         248   &         167   \\
+Adjusted R² &       0.237   &       0.206   &       0.185   &       0.043   &       0.062   &       0.166   &       0.199   &       0.007   \\
+\hline\hline
+\multicolumn{9}{p{0.95\textwidth}}{\footnotesize \textbf{Notes:} This table reports difference-in-difference estimates of the effect of the 1931 Hoover Moratorium on various economic outcomes. Treatment group consists of 18 countries that received war debt relief. Small counterfactual includes European non-defaulters; Large counterfactual adds Latin American and other countries. All regressions include country and year fixed effects. Standard errors clustered at country level in parentheses. $^*$ p<0.10, $^{**}$ p<0.05, $^{***}$ p<0.01}\\
+\end{tabular*}
+\end{sidewaystable}

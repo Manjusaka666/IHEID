@@ -1,0 +1,142 @@
+\chapter{Introduction}
+\label{chapter:introduction}
+
+\section{Key question}
+
+Should countries with a heavy debt burden and little prospect of repayment receive debt forgiveness?
+
+The literature has mostly focused on the occurrence of debt crises, but not on their resolution.
+
+\underline{\textbf{Contribution of this paper:}}
+filling this gap by studying two 20th century instances of debt relief
+that encompassed a substantial number of countries.
+
+\begin{enumerate}
+    \item Quantifying the scale of debt relief: Sovereign debt relief was quantified for two important historical periods:
+        \begin{itemize}
+            \item The default on official debts by advanced economies after World War I (1920-1939).
+            \item The debt crises faced by emerging markets in recent decades with private external creditors (1978-2010).
+        \end{itemize}
+        % 一个是第一次世界大战后发达经济体对官方债务的违约（1920-1939）
+        % 另一个是近几十年来新兴市场对私人外部债权人的债务危机（1978-2010）
+    \item Document the process and magnitude of debt relief achieved through default and restructuring of external sovereign debt in 48 crisis spells.
+        During World War I, it was dominated by official external sovereign debt (i.e., debts owed to government creditors). \\
+        \emph{Reminds the situation in periphery Europe today, where much of the debts are now also in the hands of official creditors. 
+        Moreover, it is notable that the episode ended with a full cancellation of the war debt.}
+    \item Analyzing the economic consequences of debt relief: Special attention is paid to the impact of debt relief operations (especially debt write-offs)
+    on a country's macroeconomic performance (GDP per capita growth, sovereign credit ratings, debt servicing costs, debt levels).
+    % 分析债务减免的经济后果: 特别关注债务减免操作（尤其是债务注销）对国家宏观经济表现
+    % （人均GDP增长、主权信用评级、偿债成本、债务水平）的影响。
+    % \item 方法论: 采用双重差分（DiD）方法，利用历史上几次同步的、由外部力量（如美国政府）协调的债务减免事件作为自然实验，
+    % 以减轻内生性问题。
+\end{enumerate}
+
+\section{Key Challenges}
+
+\begin{enumerate}
+    \item Timing of debt relief may be endogenous.
+        \emph{Solution:} focus on episodes of debt reduction that were synchronously applied across debtor countries,
+        regardless of individual economic circumstances
+        \begin{itemize}
+            \item 1931 Hoover Moratorium: cash flow relief (debt service moratorium).
+            \item 1934 General Default on War Debts: debt stock relief (debt write-off).
+            \item 1986 Baker Plan: reducing interest rates and lengthening maturities.
+            \item 1990 Brady Initiative: face value debt reduction.
+        \end{itemize}
+    \item Omitted variables and other factors.
+        \emph{Solution:} Add time and country fixed effects.
+        And use robustness checks: adding controls for inflation, banking crises, currency crises, wars and conflicts, and major political shocks
+\end{enumerate}
+
+% \section{作者研究思路、逻辑、模型选择与意图分析}
+
+\begin{itemize}
+    \item \textbf{Logic and Motivation}:  
+    First, the authors must demonstrate that the debt-relief episodes under study were historically \emph{important} and \emph{large enough} to warrant close scrutiny.  
+    They do so by conducting an extensive survey of the historical literature and by building a new two-period database on debt relief.
+
+    \item \textbf{1920-1939: Official Debt of Advanced Economies}%
+        \begin{itemize}
+            \item \textbf{Data collection}: 18 advanced debtor countries vis-à-vis the two main creditor nations after World War~I—the United States and the United Kingdom\footnote{For details on official lending and debt-relief events in the dense network of war-related loans, see the online appendix.}.
+            % Data sources: U.S.\ Treasury Annual Reports, Moody’s Foreign Government Bond Manuals, various League of Nations publications, etc.
+            \item \textbf{Quantifying relief}: Focus on the widespread default and cancellation of war debts owed to the U.S.\ and the U.K.\ in 1934.
+                \begin{itemize}
+                    \item \emph{Preferred measure}: face value of outstanding war debts as a share of GDP, because these debts were eventually written off in full.
+                    \item \emph{Alternative measure}: present-value relief calculated under the 1920s restructuring terms, using the 5\% discount-rate approach of Moulton and Pasvolsky (1932), which delivers a conservative lower bound.
+                \end{itemize}
+            \item \textbf{Model-selection rationale}: When a debt is completely cancelled, face value equals the amount relieved. Present-value calculations facilitate comparison with the ``haircut'' concept in emerging markets and show that the magnitude remains large even under cautious assumptions.
+        \end{itemize}
+
+    \item \textbf{1978-2010: Private Creditors—Foreign Banks and Bondholders (Emerging-Market Debt)}%
+        \begin{itemize}
+            \item \textbf{Data collection}: relies on earlier estimates of haircuts in middle-income emerging markets between 1978 and 2010.\footnote{The pioneering study computes several measures of debt relief for a representative set of crises and countries, and documents the crisis-resolution process in detail.}
+            \item \textbf{Data source}: the Cruces and Trebesch (2013) database, which builds on the haircut methodology of Sturzenegger and Zettelmeyer (2006, 2007, 2008).
+            \item \textbf{Quantifying relief}: cumulative \emph{effective haircut} over the entire default spell, taking account of multiple sequential restructurings.
+                \begin{itemize}
+                    \item \emph{Model-selection rationale}: Emerging-market restructurings typically exchange old bonds for new ones and combine nominal write-downs, maturity extensions, or coupon reductions.  The haircut provides a standardised metric of investor losses; its cumulative version captures the \emph{total} debt relief achieved during crisis resolution.
+                \end{itemize}
+            \item \textbf{Debt relief-to-GDP ratio}: multiply the cumulative haircut by the face value of affected debt, then divide by nominal GDP.
+        \end{itemize}
+\end{itemize}
+
+
+% \subsection{阶段一：历史背景与债务减免的量化 (Historical Context and Quantification of Debt Relief)}
+% \begin{itemize}
+%     \item 逻辑与意图: 首先，作者需要证明所研究的债务减免事件在历史上是重要的，
+%     并且其规模是可观的，值得深入研究。他们通过详细的历史文献回顾和数据收集，构建了两个时期的债务减免数据库。
+%     \item 1920-1939: Official debt of advanced economies %发达经济体官方债务:
+%         \begin{itemize}
+%             \item Data colloction: 18 advanced debtor countries to the two main creditor countries during World War I and the 1920s: the US and the UK\footnote{details on official lending and debt relief events in a large network of war-related loans}.
+%             % \item 数据来源: 美国财政部年度报告、穆迪外国政府证券手册、联合国出版物等。
+%             \item 减免量化: 主要关注1934年各国对美国和英国的战争债务的普遍违约和注销。
+%                 \begin{itemize}
+%                     \item 首选方法: 将未偿战争债务的面值（face value）占GDP的比例作为减免规模的度量，因为这些债务最终被完全注销。
+%                     \item 备选方法: 计算这些债务在1920年代重组条款下的现值（present value）减免，使用Moulton and Pasvolsky (1932)的5\%贴现率方法作为下限估计。
+%                 \end{itemize}
+%             \item 模型选择逻辑: 对于完全注销的债务，面值即为减免额。现值计算是为了与新兴市场的“haircut”概念进行某种程度的对比，并展示即使在保守估计下减免规模依然巨大。
+%         \end{itemize}
+%     \item 1978-2010: Private creditors, notably foreign banks and bondholders (新兴市场私人债务):
+%         \begin{itemize}
+%             \item Data collection: rely on earlier estimates of haircuts in middle-income emerging markets between 1978 and 2010. \footnote{The first to compute various measures of debt relief for a representative group of crises and countries. The paper also documents the process of crisis resolution in detail.}
+%             \item 数据来源: Cruces and Trebesch (2013) 数据库，该数据库基于Sturzenegger and Zettelmeyer (2006, 2007, 2008) 的方法估计债权人损失（haircuts）。
+%             \item 减免量化: 计算整个违约期间的累积有效haircut（cumulative effective haircut）。这考虑了多次重组的情况。
+%                 \begin{itemize}
+%                     \item 模型选择逻辑: 新兴市场债务重组通常涉及用新债券替换旧债券，并伴随名义本金削减、展期或降息。Haircut是衡量投资者损失的标准化指标，累积haircut则能反映整个危机解决过程中的总减免程度。
+%                 \end{itemize}
+%             \item 债务减免占GDP比例: 将累积haircut乘以受影响债务额，再除以名义GDP。
+%         \end{itemize}
+% \end{itemize}
+
+% \subsection{阶段二：债务减免的经济后果 (Economic Consequences of Debt Relief)}
+% \begin{itemize}
+%     \item 逻辑与意图: 在量化了“处理”（即债务减免）的强度后，作者接下来描述“处理”发生前后，受助国的经济指标如何演变。这是为后续更严格的因果推断做铺垫。
+%     \item 指标: 人均实际GDP水平和增长率、主权信用评级（穆迪评级和机构投资者评级IIR）、偿债负担（占GDP或财政收入的比例）、政府债务水平（外部和总体债务占GDP的比例）。
+%     \item 方法: 围绕“决定性”债务减免事件（即标志国家退出违约状态的最终重组）绘制事件研究图（event study graphs），通常是T-5到T+5年的窗口。
+%     \item 模型选择逻辑: 事件研究图直观地展示了平均趋势，但不能建立因果关系，因为可能存在其他混淆因素或选择偏误。
+% \end{itemize}
+
+% \subsection{阶段三：债务减免后果的因果推断 (Causal Inference on the Aftermath)}
+% \begin{itemize}
+%     \item 逻辑与意图: 解决债务减免时机可能内生于国家经济状况的问题（例如，国家可能在经济开始复苏后才进行债务重组）。作者旨在识别债务减免的净效应。
+%     \item 核心策略: 利用历史上四次由主要债权国（美国）发起或协调、在多个债务国之间同步实施的债务减免行动作为“准自然实验”。这些事件的同步性在一定程度上保证了处理时机的外生性。
+%         \begin{enumerate}
+%             \item 1931年胡佛暂停偿债令 (Hoover Moratorium): 现金流减免（cash flow relief），主要是延期支付。
+%             \item 1934年战争债务普遍违约/注销: 债务存量减免（debt stock relief），主要是面值削减。
+%             \item 1986年贝克计划 (Baker Plan): 现金流减免，鼓励新贷款和改革。
+%             \item 1990年布雷迪计划 (Brady Plan): 债务存量减免，涉及较深的面值削减。
+%         \end{enumerate}
+%     \item 模型选择: 经典双重差分 (Difference-in-Differences, DiD) 模型。
+%         \begin{itemize}
+%             \item $Y_{it} = \beta_0 + \beta_1 \text{after}_t + \beta_2 (\text{treat}_i \times \text{after}_t) + \delta_i + \gamma_t + \varepsilon_{it}.$
+%             \item $\beta_2$估计的是债务减免对受助国（处理组 $\text{treat}_i=1$）在减免发生后（$\text{after}_t=1$）相对于控制组的平均处理效应。
+%             国家固定效应$\delta_i$控制不随时间变化的国家层面异质性。时间固定效应$\gamma_t$控制共同的时间趋势（如全球经济周期、主要债权国经济状况）。
+%         \end{itemize}
+%     \item 控制组选择:
+%         \begin{itemize}
+%             \item 1930年代: 基线控制组是同期未违约或未获得债务减免且有GDP数据的欧洲国家。稳健性检验中加入了亚洲和南美国家。
+%             \item 1980/90年代: 基线控制组是同期未违约或未获得债务减免且有数据的中高收入国家。稳健性检验中使用了Arslanalp and Henry (2005)的控制组。
+%         \end{itemize}
+%     \item 关键假设: 平行趋势假设 (Parallel Trends Assumption)，即在没有债务减免的情况下，处理组和控制组的结果变量会沿着平行路径演变。
+%     作者通过图形（图8，图C.5-C.8）和描述性统计进行初步检验。
+% \end{itemize}
+

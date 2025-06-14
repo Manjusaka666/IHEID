@@ -1,0 +1,24 @@
+\begin{sidewaystable}[ht!]\centering
+\def\sym#1{\ifmmode^{#1}\else\(^{#1}\)\fi}
+\caption{Table 4: 1934 Summer Defaults - Difference-in-Difference Analysis}
+\renewcommand{\arraystretch}{1.2} % 增加行距
+\begin{tabular*}{\textwidth}{@{\hskip\tabcolsep\extracolsep\fill}p{3.75cm}*{8}{>{\centering\arraybackslash}p{2.25cm}}}
+\hline\hline
+            &(1)&(2)&(3)&(4)&(5)&(6)&(7)&(8)\\
+            &\parbox{2.25cm}{\centering Growth, real p.c.\\Small (Europe)}&\parbox{2.25cm}{\centering Growth, real p.c.\\Large (World)}&\parbox{2.25cm}{\centering Credit Ratings (change)\\Small (Europe)}&\parbox{2.25cm}{\centering Debt Service to Revenue\\Small (Europe)}&\parbox{2.25cm}{\centering Debt Service to Revenue\\Large (World)}&\parbox{2.25cm}{\centering Total Public Debt/GDP\\Small (Europe)}&\parbox{2.25cm}{\centering Total Public Debt/GDP\\Large (World)}&\parbox{2.25cm}{\centering External Debt/GDP\\Small (Europe)}\\
+\hline
+\parbox{3cm}{\raggedright Post-intervention dummy (after 1934)}&  $-1.905$  &  $-0.772$  &  $4.527^*$  &  $-4.284$  &  $-5.094^{***}$&  $-9.030$  &  $-9.602^{**}$ &  $-3.487$  \\
+            &  $(1.320)$  &  $(1.398)$ & $(2.601)$   &  $(2.789)$   &  $(1.837)$  &  $(5.566)$  &  $(4.246)$  & $(3.260)$   \\
+[0.5em]
+\parbox{3cm}{\raggedright Treatment (debt relief) $\times$ post-intervention dummy}&  $4.658^{***}$&  $2.208^*$  &  $-8.182^{***}$&  $-6.025^*$  &  $-2.744$   &  $-12.206^{**}$ &  $-7.932$   &  $-9.512^{**}$ \\
+            &  $(1.437)$   &  $(1.245)$   &  $(2.664)$   &  $(2.989)$   &  $(2.926)$   &  $(5.666)$   &  $(6.180)$   &  $(3.835)$   \\
+[0.5em]
+Constant    &  $2.399^{***}$&  $3.148^{***}$&  $0.247$   &  $23.094^{***}$&  $21.260^{***}$&  $69.716^{***}$&  $59.571^{***}$&  $25.866^{***}$\\
+            &  $(0.643)$   &  $(1.056)$   &  $(2.176)$   &  $(0.950)$   &  $(0.786)$   &  $(3.166)$   &  $(2.382)$   &  $(1.746)$   \\
+\hline
+Observations&         237   &         378   &         249   &         216   &         324   &         175   &         258   &         162   \\
+Adjusted R² &       0.270   &       0.226   &       0.199   &       0.167   &       0.153   &       0.283   &       0.243   &       0.342   \\
+\hline\hline
+\multicolumn{9}{p{0.95\textwidth}}{\footnotesize \textbf{Notes:} This table reports difference-in-difference estimates of the effect of the 1934 summer debt defaults on various economic outcomes. Treatment group consists of 18 countries that defaulted on war debt. Small counterfactual includes European non-defaulters; Large counterfactual adds Latin American and other countries. All regressions include country and year fixed effects. Standard errors clustered at country level in parentheses. $^*$ p<0.10, $^{**}$ p<0.05, $^{***}$ p<0.01}\\
+\end{tabular*}
+\end{sidewaystable}

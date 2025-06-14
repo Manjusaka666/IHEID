@@ -1,0 +1,302 @@
+\chapter{Key Mathematical Model Replication and Derivations}
+\label{chapter:mathmodel}
+
+\section{Haircut Calculations for Emerging Markets}
+% 新兴市场债务减免的量化
+
+
+\cite{borusyak2021revisiting}
+\cite{callaway2021difference}
+\cite{cruces2013sovereign}
+\cite{goodman-bacon2021difference}
+\cite{reinhart2016sovereign}
+\cite{sun2021estimating}
+\cite{sturzenegger2006debt}
+The main identification challenge is as discussed before, the time of the debt relief event might be endogenous to the economic situation of the country. 
+The authors use four major debt relief events as quasi-natural experiments, which are all coordinated by the government and involve multiple debtor countries.
+Thus, these events are principally exogenous to the economic situation of the countries involved.
+Whatsmore, these events are not related to debt negotiations or other events that could be endogenous: Hoover Moratorium begins after 15 debtor countries had not paid their debts for 2 years, and all 18 countries default in 1934.
+(According to Appendix B, Cruces and Trebesch, 2013)
+
+\subsection{Heterogeneous Haircuts}
+Hoover and Baker operations implied debt flow relief via rescheduling and delayed
+repayments, the 1934 and Brady operations implied debt stock relief and reduced
+the nominal value of outstanding debt.
+
+This allows us to compare effect of debt relief within the same countries over time and, hence, to shed light on
+the aftermath of intermediate versus decisive debt relief.
+
+\section{Difference-in-Differences}
+As the author exploit the cross-sectional variation between target and non-
+target countries and use the same intervention year in each of these episodes,
+we choose the standard DID model.
+% 模型选择: 经典双重差分 (Difference-in-Differences, DiD) 模型。
+\begin{gather*}
+    Y_{it} = \beta_0 + \beta_1 \text{after}_t + \beta_2 (\text{treat}_i \times \text{after}_t) + \delta_i + \gamma_t + \varepsilon_{it}.
+\end{gather*}
+\begin{itemize}
+    \item $\text{treat}_i$: 1 if country i is part of the treatment group (received debt relief), 0 otherwise;
+    \item $\text{after}_t$: 1 for years after the debt relief initiative was implemented (post-treatment period), 0 for years before (pre-treatment period);
+    \item $ \text{treat}_i \times \text{after}_t $: Interaction term, coefficient $\beta_2$ captures the DiD effect;
+    \item $\delta_i$: Country fixed effects, controls for time-invariant country-specific factors;
+    \item $\gamma_t$: Time fixed effects, controls for common shocks and trends affecting all countries;
+    \item $\varepsilon_{it}$: Error term.
+\end{itemize}
+% \begin{itemize}
+%     \item $\beta_2$估计的是债务减免对受助国（处理组 $\text{treat}_i=1$）在减免发生后（$\text{after}_t=1$）相对于控制组的平均处理效应。
+%     国家固定效应$\delta_i$控制不随时间变化的国家层面异质性。时间固定效应$\gamma_t$控制共同的时间趋势（如全球经济周期、主要债权国经济状况）。
+% \end{itemize}
+\subsection{Derivation of $\beta_2$ (Average Treatment Effect)}
+    % \item \textbf{$\delta_i$ (国家固定效应) 和 $\gamma_t$ (时间固定效应) 的作用}:
+    % $\delta_i$ 控制了那些不随时间变化的国家特有因素。$\gamma_t$ 控制了所有国家共同经历的时间趋势和冲击。通过引入这两个固定效应，$\text{after}_t$ 的系数 $\beta_1$ 捕捉的是控制组在处理期前后的平均变化，而 $\text{treat}_i$ 变量本身由于与 $\delta_i$ 共线而被吸收。
+We care about the change in outcomes for the treatment group after treatment relative to their counterfactual outcomes had they not received treatment.
+    % 我们关注的是处理组在处理发生后的结果变化，与它们若未接受处理时的反事实结果变化之差。控制组的变化被用作处理组反事实变化的代理。
+\begin{enumerate}[label=(\alph*)]
+    \item Treatment Group, after ($treat_i=1, after_t=1$):
+    \begin{gather*}
+        \mathbb{E}[Y_{it} | \text{treat}_i=1, \text{after}_t=1, \delta_i, \gamma_t] = \beta_0 + \beta_1 + \beta_2 + \delta_i + \gamma_t
+    \end{gather*}
+    \item Treatment Group, before ($treat_i=1, after_t=0$):
+    \begin{gather*}
+        \mathbb{E}[Y_{it} | \text{treat}_i=1, \text{after}_t=0, \delta_i, \gamma_t'] = \beta_0 + \delta_i + \gamma_t'
+    \end{gather*}
+    \item Control Group, after ($treat_i=0, after_t=1$):
+    \begin{gather*}
+        \mathbb{E}[Y_{it} | \text{treat}_i=0, \text{after}_t=1, \delta_i', \gamma_t] = \beta_0 + \beta_1 + \delta_i' + \gamma_t
+    \end{gather*}
+    \item Control Group, before ($treat_i=0, after_t=0$):
+    \begin{gather*}
+        \mathbb{E}[Y_{it} | \text{treat}_i=0, \text{after}_t=0, \delta_i', \gamma_t'] = \beta_0 + \delta_i' + \gamma_t'
+    \end{gather*}
+\end{enumerate}
+Differences within treatment groups (post-treatment - pre-treatment) were simplified using the mean fixed effect expression.
+\begin{align*}
+    \Delta Y_{\text{treat}} &= \mathbb{E}[Y_{it} | \text{treat}_i=1, \text{after}_t=1] - \mathbb{E}[Y_{it} | \text{treat}_i=1, \text{after}_t=0] \\
+    &= (\beta_0 + \beta_1 + \beta_2 + \bar{\delta}_{\text{treat}} + \bar{\gamma}_{\text{post}}) - (\beta_0 + \bar{\delta}_{\text{treat}} + \bar{\gamma}_{\text{pre}}) \\
+    &= \beta_1 + \beta_2 + (\bar{\gamma}_{\text{post}} - \bar{\gamma}_{\text{pre}})
+\end{align*}
+Difference within control group (post-treatment - pre-treatment).
+\begin{align*}
+    \Delta Y_{\text{control}} &= \mathbb{E}[Y_{it} | \text{treat}_i=0, \text{after}_t=1] - \mathbb{E}[Y_{it} | \text{treat}_i=0, \text{after}_t=0] \\
+    &= (\beta_0 + \beta_1 + \bar{\delta}_{\text{control}} + \bar{\gamma}_{\text{post}}) - (\beta_0 + \bar{\delta}_{\text{control}} + \bar{\gamma}_{\text{pre}}) \\
+    &= \beta_1 + (\bar{\gamma}_{\text{post}} - \bar{\gamma}_{\text{pre}})
+\end{align*}
+DID Estimator:
+\begin{align*}
+    DiD &= \Delta Y_{\text{treat}} - \Delta Y_{\text{control}} \\
+    &= (\beta_1 + \beta_2 + (\bar{\gamma}_{\text{post}} - \bar{\gamma}_{\text{pre}})) - (\beta_1 + (\bar{\gamma}_{\text{post}} - \bar{\gamma}_{\text{pre}})) \\
+    &= \beta_2
+\end{align*}
+Thus, $\beta_2$ measures the average effect of treatments, relying on the parallel trend assumption.
+    % \item \textbf{作者后续分析的内容}:
+    % 作者通过估计不同债务减免事件的$\beta_2$系数，来判断这些事件对经济指标的净影响。他们发现，只有涉及面值削减的事件的$\beta_2$在促进增长和改善评级方面显著为正或改善债务状况。
+
+\begin{itemize}
+    \item \textbf{Wealth Conservation Ratio, WCR of a Single Restructuring Event}:
+    % \item 单个重组事件j的财富保全率
+    \begin{equation} \label{eq:wcr}
+        WCR_{i,j} = \frac{\text{Debt Affected}_{i,j}}{\text{Total Debt}_{t-1}} (1 - H_{i,j}) + \left(1 - \frac{\text{Debt Affected}_{i,j}}{\text{Total Debt}_{t-1}}\right)
+    \end{equation}
+    where:
+    \begin{itemize}
+        \item $i$: country, or the entire default episode.
+        % 指示国家（或整个违约序列）。
+        \item $j$: the $j$-th restructuring in the sequence of defaults.
+        % 指示该序列中的第 $j$ 次重组。
+        \item $\text{Debt Affected}_{i,j}$: the face value of debt affected by the $j$-th restructuring.
+        % 是第 $j$ 次重组中受影响的债务面值。
+        \item $\text{Total Debt}_{t-1}$: the total debt stock before the $j$-th restructuring (at time $t-1$).
+        % 是第 $j$ 次重组前（t-1期）的总债务存量。
+        \item $H_{i,j}$: the nominal haircut rate of the $j$-th restructuring (the proportion of debt investors lose).
+        % 是第 $j$ 次重组的名义haircut率（投资者损失比例）。
+    \end{itemize}
+    So, the meaning of this formula is that the affected part of the wealth becomes $(1 - H_{i,j})$ times the original, while the unaffected part remains unchanged.
+    % 这个公式的含义是：受影响部分的财富变为原先的 $(1 - H_{i,j})$ 倍，未受影响部分的财富不变。
+    We can also write is as:
+    \begin{equation}
+        WCR_{i,j} = 1 - \left(\frac{\text{Debt Affected}_{i,j}}{\text{Total Debt}_{t-1}} \times H_{i,j}\right) = 1 - \text{Effective } H_{i,j}
+    \end{equation}
+    where $\text{Effective } H_{i,j}$ is the effective haircut of the $j$-th restructuring on the total debt stock.
+    % 其中 $\text{Effective } H_{i,j}$ 是该次重组对总债务存量的有效haircut。
+
+    \item \textbf{Cumulative Effective Haircut for the Entire Default Episode}:
+    If a country goes through $J_i$ restructurings before finally exiting default, its cumulative wealth conservation ratio (WCR) is the product of the WCRs of each restructuring:
+    % 如果一个国家经历了 $J_i$ 次重组才最终退出违约，那么其累积财富保全率是各次重组财富保全率的连乘：
+    \begin{equation}
+        \text{Cumulative WCR}_i = \prod_{j=1}^{J_i} WCR_{i,j}
+    \end{equation}
+    Thus the cumulative effective haircut for the entire default episode $i$ is:
+    % 因此，累积有效Haircut为：
+    \begin{equation} \label{eq:cum_haircut}
+        \text{Cumulative Effective } H_i = 1 - \text{Cumulative WCR}_i = 1 - \prod_{j=1}^{J_i} WCR_{i,j}
+    \end{equation}
+
+    \item \textbf{Debt Relief to GDP}:
+    The author mentioned two methods to calculate the Debt Relief (DR) to GDP ratio, which is a measure of the economic impact of debt relief on a country's economy.
+    % 作者在文中和附录中提到了两种计算方法：
+    \begin{itemize}
+        \item \textbf{More common Method (mostly used in researches)}:
+        \begin{equation}
+            DR_{i, \text{METHOD 1}} = \text{Cumulative Effective } H_i \times \frac{\text{Debt Affected}_{i,J_i}}{\text{Nominal GDP}_i}
+        \end{equation}
+        where $\text{Debt Affected}_{i,J_i}$ is the debt affected in the last restructuring, and $\text{Nominal GDP}_i$ is the nominal GDP in the year of the \textit{last} restructuring.
+        % 这里 $\text{Debt Affected}_{i,J_i}$ 是 \textit{最后一次} 重组中受影响的债务，$\text{Nominal GDP}_i$ 是 \textit{最后一次} 重组发生当年的名义GDP。
+        \item \textbf{More Robust Method (Considering dynamic change of GDP)}:
+        \begin{equation}
+            DR_{i, \text{METHOD 2}} = \text{Cumulative Effective } H_i \times \sum_{j=1}^{J_i} \frac{\text{Debt Affected}_{i,j}}{\text{Nominal GDP}_j}
+        \end{equation}
+        where $\text{Nominal GDP}_j$ is the nominal GDP in the year of the $j$-th restructuring.
+        % 这里 $\text{Nominal GDP}_j$ 是第 $j$ 次重组发生当年的名义GDP。
+    \end{itemize}
+    % \textit{注：论文中图2的EM平均值似乎是基于每个国家最终算出的 $DR_{i, \text{METHOD 1}}$ (或类似方法) 进行平均。}
+\end{itemize}
+
+%------------------------------------------------
+\section{Extended Discussion: Staggered DID}
+
+\subsection{When Do Staggered DiD Designs Arise?}
+Classic two--period DiD frameworks assume that \emph{all} treated units begin treatment simultaneously.  
+In many empirical settings---including the Brady Plan, where individual debtor countries restructured at different calendar years between 1989 and 1995---units adopt at \emph{different} times.  
+Such ``staggered adoption'' gives rise to a \emph{staggered DiD} (also called ``event--study'' or ``multiple--period DiD'') design.
+
+\subsection{Why Traditional Two--Way Fixed Effects (TWFE) Fail in Staggered Settings}
+The canonical TWFE regression
+\[
+  Y_{it} = \alpha_i + \lambda_t + \beta\;D_{it} + \varepsilon_{it},
+\]
+where $D_{it}=1$ once unit $i$ is treated, implicitly averages a set of $2\times 2$ DiD comparisons across cohorts and calendar time.  
+If treatment effects are time--varying or heterogeneous across cohorts, the implicit TWFE weights can be \emph{negative}.  
+Consequently, $\widehat{\beta}$ may lack a causal interpretation, or even take the opposite sign of all underlying cohort--specific effects; see
+\cite{goodman-bacon2021difference},
+\cite{callaway2021difference},
+\cite{sun2021estimating},
+and \cite{borusyak2021revisiting} for formal proofs.
+
+\subsection{Modern Estimators for Staggered DiD}
+Several estimators circumvent the negative--weight pathology by contrasting each newly treated cohort only with not--yet--treated (or never--treated) units:
+
+\begin{itemize}
+  \item \textbf{Callaway \& Sant'Anna (2021) [CS]}: computes cohort-- and period--specific average treatment effects $ATT(g,t)$ and then aggregates them using user--chosen weights.
+  \item \textbf{Sun \& Abraham (2021) [SA]}: provides bias--corrected event--study coefficients that are cohort--specific.
+  \item \textbf{Borusyak, Jaravel \& Spiess (2021) [BJS]}: imputes untreated potential outcomes and collapses to a simple difference.
+  \item \textbf{Gardner (2022) and Roth et al.\ (2022)}: develop robust methods to \emph{test} pre--trends and to conduct uniform inference for dynamic effects.
+\end{itemize}
+
+\subsection{Conceptual Derivation (Callaway--Sant'Anna)}
+Let $G_i$ denote the first period in which unit $i$ is treated ($G_i=\infty$ for never--treated units).  
+Potential outcomes are $Y_{it}(g)$, the outcome at $t$ if first treated in period $g$.  
+For each cohort $g$ and period $t\ge g$, the causal parameter of interest is
+\[
+  ATT(g,t)\;=\;\mathbb{E}\!\bigl[\,Y_{it}(g)-Y_{it}(\infty)\;\big|\;G_i=g \bigr].
+\]
+CS identify $ATT(g,t)$ under:
+
+\begin{enumerate}[label=(\roman*),leftmargin=1.1cm]
+  \item \emph{Conditional parallel trends}:
+  \[
+    \mathbb{E}[\,Y_{it}(\infty)-Y_{is}(\infty)\mid G_i=g, X_i]\;=\;
+    \mathbb{E}[\,Y_{it}(\infty)-Y_{is}(\infty)\mid G_i>\!t, X_i],
+  \]
+  for all $t\ge s<g$.
+  \item \emph{No anticipation}: $Y_{it}(g)=Y_{it}(\infty)$ for $t<g$.
+  \item \emph{Overlap}: $\Pr(G_i=g\,|\,X_i)>0$ for each treated cohort conditional on covariates $X_i$.
+\end{enumerate}
+
+Estimation proceeds in two steps:
+\[
+  \widehat{ATT}(g,t)\;=\;
+  \underbrace{\bigl[\hat{\Delta}_{gt}-\hat{\Delta}_{g,\,g-1}\bigr]}_{\text{first  DiD}}
+  \;-\;
+  \underbrace{\bigl[\hat{\Delta}_{Ct}-\hat{\Delta}_{C,\,g-1}\bigr]}_{\text{second DiD}},
+\]
+where $\Delta$ denotes mean changes in outcomes, and $C$ is the set of controls that are still untreated at $t$.  
+Doubly robust inverse--probability weights (DRIPW) or outcome--regression adjustments can be added for efficiency and additional robustness.
+
+\paragraph{Aggregation.}
+Researchers often form overall effects such as
+\[
+  ATT^{\text{Overall}}(k)\;=\;
+  \sum_{g}\;\omega_g\;\widehat{ATT}(g,\,g+k),
+\]
+where $k$ is event time and $\omega_g$ are data--driven weights (e.g.\ cohort size).  
+Setting $k=0$ yields the \emph{on--impact} effect, while averaging over $k\ge0$ gives long--run impacts.
+
+\subsection{Applying Staggered DiD to the Brady Plan}
+To honour the actual implementation dates, we would:
+
+\begin{enumerate}[label=\arabic*.,leftmargin=1.25cm]
+  \item \textbf{Define treatment timing}: $G_i$ equals the first year country $i$ issued Brady bonds (Mexico 1989, Uruguay 1990, $\dots$, Peru 1995).
+  \item \textbf{Construct an event--study window}: set $e=t-G_i$ for $e\in[-5,\,5]$, omitting $e=-1$ as the reference period.
+  \item \textbf{Estimate dynamic effects} using SA or BJS to obtain unbiased $\theta_{e}$'s.
+  \item \textbf{Test pre--trends}: joint Wald tests or the Roth--Sant'Anna uniform test across $e<0$.
+  \item \textbf{Report cohort heterogeneity}: plot $\widehat{ATT}(g,t)$ heatmaps or distributional summaries to reveal which borrowers benefited most.
+\end{enumerate}
+
+\subsection{Further Econometric Considerations}
+
+\begin{itemize}
+  \item \textbf{Anticipation and spillovers}.  
+  Some debt--relief benefits may accrue \emph{before} formal exchange (announcement effects) or spill over to neighbouring countries; adding leads and spatial lags helps diagnose these channels.
+  \item \textbf{Treatment reversals}.  
+  Brady restructurings are effectively irreversible---an assumption required for identification.  
+  If units could ``exit'' treatment, alternative estimators (e.g.\ multiple--treatment--status MSMs) would be necessary.
+  \item \textbf{Weight diagnostics}.  
+  Always inspect Goodman--Bacon decomposition weights; large negative weights in a TWFE model are a red flag and justify switching to modern estimators.
+  \item \textbf{Robust inference}.  
+  Use the block bootstrap or the CS multiplier bootstrap to account for serial correlation and clustering at the country level, especially with a small number of cohorts.
+\end{itemize}
+
+\subsection{Key Takeaways for Practitioners}
+\begin{enumerate}[leftmargin=1.25cm,label=(\alph*)]
+  \item Align empirical strategy with the \emph{true} adoption pattern; forcing a common treatment date induces bias.
+  \item Report both \emph{dynamic} (event--time) and \emph{cohort--specific} estimates; average effects can mask sizeable heterogeneity.
+  \item Complement staggered DiD with narrative evidence (e.g.\ policy documents, market commentary) to interpret why certain cohorts gain more.
+\end{enumerate}
+
+%------------------------------------------------
+
+
+% \section{拓展分析：交错双重差分 (Staggered Difference-in-Differences)}
+% \subsection{交错DiD的适用情景与本文的关联}
+% 经典DiD假设所有处理组单位在同一时间点接受处理。然而，在很多现实情况中，不同单位在不同时间点开始接受处理，这就是“交错采纳”或交错DiD的情景。
+% \begin{itemize}
+%     \item \textbf{与本文的关联}: 作者为简化分析，将布雷迪计划的处理时间点统一设为1990年。但实际上，各国是在1990年之后陆续实施布雷迪协议的。如果使用各国\textit{实际}实施时间，则构成交错DiD设定。
+% \end{itemize}
+
+% \subsection{传统双向固定效应 (TWFE) 在交错DiD下的问题}
+% 当处理时点交错且处理效应随时间动态变化或在不同组间存在异质性时，传统的TWFE估计量（即 $\beta_2$）不再是所有已处理单位的加权平均处理效应，
+% 而是可能受到“负权重”或“坏控制组”问题的污染 (\cite{goodman-bacon2021difference}; \cite{callaway2021difference}; \cite{sun2021estimating}; \cite{borusyak2021revisiting})。
+
+% \subsection{现代交错DiD估计方法}
+% 为了解决TWFE在交错DiD下的问题，近年来涌现了多种新的估计方法，主要包括：
+% \begin{itemize}
+%     \item \textbf{Callaway and Sant'Anna (CS, 2021)}: 估计“组别-时间平均处理效应” ($ATT(g,t)$)。
+%     \item \textbf{Sun and Abraham (SA, 2021)}: 修正了传统事件研究TWFE回归中的问题，估计队列特定的动态处理效应。
+%     \item \textbf{Borusyak, Jaravel, and Spiess (BJS, 2021)}: 基于插补 (imputation) 的方法。
+% \end{itemize}
+
+% \subsection{交错DiD的（概念性）数学步骤与推导}
+% 以Callaway \& Sant'Anna (CS) 方法为例，其核心是识别 $ATT(g,t)$。
+% 令 $G_i$ 为单位 $i$ 开始接受处理的时期（如果单位 $i$ 从未接受处理，则 $G_i = \infty$）。
+% $Y_{it}(g)$ 是单位 $i$ 在时期 $t$ 的潜在结果，如果它在时期 $g$ 开始接受处理。
+% 我们感兴趣的参数是 $ATT(g,t) = \mathbb{E}[Y_{it}(g) - Y_{it}(\infty) | G_i=g]$。
+% CS方法通过两步DiD来识别：
+% 对于队列 $g$ 和时期 $t \ge g$:
+% \begin{equation}
+%     ATT(g,t) = \mathbb{E}[\Delta Y_{it} | G_i=g] - \mathbb{E}[\Delta Y_{it'} | G_i' \in C_{g,t}]
+% \end{equation}
+% 其中 $\Delta Y_{it} = Y_{it} - Y_{i,g-1}$ (或者其他预处理期)。$C_{g,t}$ 是在时期 $t$ 仍然是“干净”控制组的单位集合。
+
+% Sun \& Abraham (SA) 的事件研究形式通常写为：
+% \begin{equation}
+%     Y_{it} = \alpha_i + \lambda_t + \sum_{g \in \mathcal{G}} \sum_{e=-L, e \neq -1}^{M} \theta_{g,e} \mathbf{1}\{G_i=g\} \mathbf{1}\{t-G_i=e\} + X_{it}'\Gamma + \epsilon_{it}
+% \end{equation}
+% 其中 $\mathcal{G}$ 是所有处理队列的集合，$e=t-G_i$ 是事件时间，$\theta_{g,e}$ 是队列 $g$ 在事件时间 $e$ 的处理效应。
+
+% \subsection{在本文中应用交错DiD的分析}
+% 如果研究者决定使用各国\textit{实际}实施布雷迪计划的时间点，则应采用现代交错DiD方法。
+% \begin{itemize}
+%     \item \textbf{数据准备}: 收集每个国家实施布雷迪协议的具体年份 $G_i$。
+%     \item \textbf{模型设定 (以事件研究为例)}: 估计事件时间 $e = t - G_i$ 从例如 $e=-5$ 到 $e=+5$ 的动态处理效应 $\theta_e$。
+%     \item \textbf{预期差异与挑战}: 结果可能与原文不同；控制组选择困难；数据要求高。
+% \end{itemize}

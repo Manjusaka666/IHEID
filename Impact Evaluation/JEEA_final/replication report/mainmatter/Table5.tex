@@ -1,0 +1,22 @@
+\begin{table}[ht!]\centering
+\def\sym#1{\ifmmode^{#1}\else\(^{#1}\)\fi}
+\caption{Table 5: Baker Initiative (1986) - Difference-in-Difference Analysis}
+\renewcommand{\arraystretch}{1.2} % 增加行距
+\begin{tabular*}{\textwidth}{@{\hskip\tabcolsep\extracolsep\fill}p{4cm}*{5}{>{\centering\arraybackslash}p{2cm}}}
+\hline\hline
+            &(1)&(2)&(3)&(4)&(5)\\
+            &\parbox{2cm}{\centering Growth, real p.c.}&\parbox{2cm}{\centering Credit Ratings (change)}&\parbox{2cm}{\centering Debt Service to Exports}&\parbox{2cm}{\centering Total Public Debt/GDP}&\parbox{2cm}{\centering External Debt/GNI}\\
+\hline
+\parbox{4cm}{\raggedright Post-1986 dummy}&  $-1.976$  &  $-5.968^{**}$  &  $-5.758$  &  $-17.214^{**}$  &  $-8.881$  \\
+            &  $(1.292)$  &  $(2.328)$ & $(3.426)$   &  $(7.106)$   &  $(6.251)$  \\
+[0.5em]
+\parbox{4cm}{\raggedright Baker Treatment $\times$ Post-1986}&  $-1.918$&  $6.305^{*}$  &  $-9.049^{*}$&  $22.988^{**}$  &  $17.432$   \\
+            &  $(1.329)$   &  $(3.121)$   &  $(4.720)$   &  $(9.360)$   &  $(10.802)$   \\
+\hline
+Observations&       $275$   &       $279$   &       $189$   &       $226$   &       $199$   \\
+R-squared   &       $0.111$   &       $0.200$   &       $0.154$   &       $0.238$   &       $0.189$   \\
+Adjusted R² &       $0.077$   &       $0.170$   &       $0.106$   &       $0.203$   &       $0.145$   \\
+\hline\hline
+\multicolumn{6}{p{0.95\textwidth}}{\footnotesize \textbf{Notes:} This table reports difference-in-difference estimates of the effect of the Baker Initiative on various economic outcomes. Treatment group consists of countries that received Baker Plan debt relief. All regressions include country and year fixed effects. Time window: 1981-1990 (5 years before and after 1986). Standard errors clustered at country level in parentheses. $^*$ p<0.10, $^{**}$ p<0.05, $^{***}$ p<0.01}\\
+\end{tabular*}
+\end{table}

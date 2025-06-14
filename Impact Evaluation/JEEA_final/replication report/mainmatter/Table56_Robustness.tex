@@ -1,0 +1,35 @@
+\begin{table}[htbp]\centering
+\def\sym#1{\ifmmode^{#1}\else\(^{#1}\)\fi}
+\caption{Robustness Checks: Baker and Brady Initiative Analysis}
+\begin{tabular}{l*{11}{c}}
+\toprule
+                &\multicolumn{3}{c}{Baker Initiative (1986)}&\multicolumn{8}{c}{Brady Initiative (1990)}                                                            \\\cmidrule(lr){2-4}\cmidrule(lr){5-12}
+                &\multicolumn{1}{c}{(1)}&\multicolumn{1}{c}{(2)}&\multicolumn{1}{c}{(3)}&\multicolumn{1}{c}{(4)}&\multicolumn{1}{c}{(5)}&\multicolumn{1}{c}{(6)}&\multicolumn{1}{c}{(7)}&\multicolumn{1}{c}{(8)}&\multicolumn{1}{c}{(9)}&\multicolumn{1}{c}{(10)}&\multicolumn{1}{c}{(11)}\\
+                &\multicolumn{1}{c}{Baker No FE}&\multicolumn{1}{c}{Baker 3yr}&\multicolumn{1}{c}{Baker w/ Controls}&\multicolumn{1}{c}{Brady No FE}&\multicolumn{1}{c}{Brady 3yr}&\multicolumn{1}{c}{Brady 4yr}&\multicolumn{1}{c}{Brady 6yr}&\multicolumn{1}{c}{Brady w/o Early}&\multicolumn{1}{c}{Brady w/o EE}&\multicolumn{1}{c}{Brady w/ Controls}&\multicolumn{1}{c}{Placebo 1988}\\
+\midrule
+Post-1986       &    1.006   &   -1.195   &   -2.227   &            &            &            &            &            &            &            &            \\
+                &  [0.723]   &  [1.361]   &  [1.388]   &            &            &            &            &            &            &            &            \\
+Baker Treatment &   -1.867   &   -3.522** &   -0.698   &            &            &            &            &            &            &            &            \\
+                &  [1.310]   &  [1.521]   &  [1.165]   &            &            &            &            &            &            &            &            \\
+Post-1990       &            &            &            &   -0.537   &   -0.230   &    0.831   &    0.488   &    2.194   &   -0.271   &    1.296   &            \\
+                &            &            &            &  [0.580]   &  [1.144]   &  [1.387]   &  [0.977]   &  [1.404]   &  [1.310]   &  [1.452]   &            \\
+Brady Treatment &            &            &            &    3.094***&    5.403***&    4.843***&    2.430** &    4.142***&    3.025** &    2.563** &            \\
+                &            &            &            &  [1.030]   &  [1.599]   &  [1.255]   &  [0.941]   &  [1.209]   &  [1.185]   &  [1.051]   &            \\
+Post-1988       &            &            &            &            &            &            &            &            &            &            &    1.458   \\
+                &            &            &            &            &            &            &            &            &            &            &  [1.343]   \\
+Placebo Treatment&            &            &            &            &            &            &            &            &            &            &    0.623   \\
+                &            &            &            &            &            &            &            &            &            &            &  [1.360]   \\
+\midrule
+Observations    &      275   &      166   &      240   &      270   &      162   &      216   &      323   &      230   &      230   &      230   &      267   \\
+R-squared       &    0.012   &    0.150   &    0.161   &    0.048   &    0.188   &    0.186   &    0.119   &    0.185   &    0.120   &    0.179   &    0.099   \\
+\bottomrule
+\multicolumn{12}{l}{\footnotesize Standard errors in brackets}\\
+\multicolumn{12}{l}{\footnotesize Note: Dependent variable is real per capita GDP growth.}\\
+\multicolumn{12}{l}{\footnotesize Robust standard errors clustered at country level.}\\
+\multicolumn{12}{l}{\footnotesize No FE = No time fixed effects; w/ Controls = includes banking/currency crises;}\\
+\multicolumn{12}{l}{\footnotesize w/o Early = excludes Mexico, Uruguay, Venezuela, Costa Rica;}\\
+\multicolumn{12}{l}{\footnotesize w/o EE = excludes Eastern Europe; Placebo uses 1988 as treatment year.}\\
+\multicolumn{12}{l}{\footnotesize Significance levels: * p<0.10, ** p<0.05, *** p<0.01}\\
+\multicolumn{12}{l}{\footnotesize * p<0.10, ** p<0.05, *** p<0.01}\\
+\end{tabular}
+\end{table}

@@ -1,0 +1,18 @@
+# Ignoring output and logfiles
+
+report.pdf
+web
+*.aux
+*.bbl
+*.bcf
+*.blg
+*.fdb_latexmk
+*.fls
+*.lof
+*.log
+*.lot
+*.out
+*.run.xml
+*.synctex.gz
+*.toc
+*.xdv

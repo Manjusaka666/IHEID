@@ -1,0 +1,38 @@
+\begin{table}[htbp]\centering
+\renewcommand{\arraystretch}{1.2}
+\caption{Table A1: Robustness Checks - 1934 Summer Defaults Effect on GDP Growth (Transposed)}
+\label{tab:robustness_1934_transposed}
+\begin{adjustbox}{width=\textwidth,center}
+\begin{tabular}{@{\extracolsep{5pt}}l*{4}{c}@{}}
+\toprule
+\textbf{Specification} & \textbf{Treatment Effect} & \textbf{Std. Error} & \textbf{Observations} & \textbf{Adjusted R²} \\
+\midrule
+(1) Baseline & $4.658^{***}$ & $(1.437)$ & 237 & 0.270 \\
+(2) No Year FE & $4.667^{***}$ & $(1.392)$ & 237 & 0.135 \\
+(3) 3-Year Window & $4.002^{*}$ & $(2.013)$ & 132 & 0.186 \\
+(4) 4-Year Window & $3.952^{**}$ & $(1.845)$ & 175 & 0.272 \\
+(5) 6-Year Window & $4.658^{***}$ & $(1.437)$ & 237 & 0.270 \\
+(6) Placebo 1933 & --- & --- & 218 & --- \\
+(7) Excl. Treat Year & $4.625^{***}$ & $(1.533)$ & 215 & 0.265 \\
+(8) With Inflation & $4.405^{**}$ & $(1.873)$ & 170 & 0.275 \\
+(9) With Crises & $4.437^{**}$ & $(1.556)$ & 217 & 0.295 \\
+(10) With Wars & $5.448^{***}$ & $(1.619)$ & 215 & 0.249 \\
+(11) With Politics & $3.933^{**}$ & $(1.684)$ & 215 & 0.281 \\
+(12) No East Europe & $3.921^{**}$ & $(1.607)$ & 187 & 0.271 \\
+(13) Europe Only & $4.553^{***}$ & $(1.583)$ & 215 & 0.245 \\
+(14) No Germany & $4.440^{***}$ & $(1.487)$ & 226 & 0.261 \\
+(15) No Aus/NZ & $4.553^{***}$ & $(1.583)$ & 215 & 0.246 \\
+(16) No Large Relief & $5.192^{***}$ & $(1.639)$ & 204 & 0.261 \\
+(17) No Small Relief & $4.203^{**}$ & $(1.543)$ & 204 & 0.281 \\
+(18) No Best GDP & $3.577^{**}$ & $(1.473)$ & 204 & 0.244 \\
+(19) No Worst GDP & $5.872^{***}$ & $(1.412)$ & 204 & 0.199 \\
+\bottomrule
+\end{tabular}
+\end{adjustbox}
+
+\vspace{0.3cm}
+\begin{minipage}{\textwidth}
+\footnotesize
+\textbf{Notes:} This table presents robustness checks for the main result on the effect of the 1934 summer defaults on real per capita GDP growth. The baseline specification includes country and year fixed effects with standard errors clustered at the country level. Row (1) replicates the main result from Table 4. Rows (2)-(19) show results under various alternative specifications and sample restrictions. Treatment effect measures the impact of war debt default on GDP growth in the post-1934 period. The placebo test (row 6) uses 1933 as the false treatment year and shows no significant effect. Standard errors in parentheses. Significance levels: $^*$ p$<$0.10, $^{**}$ p$<$0.05, $^{***}$ p$<$0.01
+\end{minipage}
+\end{table}

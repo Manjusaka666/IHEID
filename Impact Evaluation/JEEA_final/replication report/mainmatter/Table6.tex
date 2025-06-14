@@ -1,0 +1,22 @@
+\begin{table}[ht!]\centering
+\def\sym#1{\ifmmode^{#1}\else\(^{#1}\)\fi}
+\caption{Table 6: Brady Initiative (1990) - Difference-in-Difference Analysis}
+\renewcommand{\arraystretch}{1.2} % 增加行距
+\begin{tabular*}{\textwidth}{@{\hskip\tabcolsep\extracolsep\fill}p{4cm}*{5}{>{\centering\arraybackslash}p{2cm}}}
+\hline\hline
+            &(1)&(2)&(3)&(4)&(5)\\
+            &\parbox{2cm}{\centering Growth, real p.c.}&\parbox{2cm}{\centering Credit Ratings (change)}&\parbox{2cm}{\centering Debt Service to Exports}&\parbox{2cm}{\centering Total Public Debt/GDP}&\parbox{2cm}{\centering External Debt/GNI}\\
+\hline
+\parbox{4cm}{\raggedright Post-1990 dummy}&  $1.207$  &  $5.061^*$  &  $-1.884$  &  $-15.324^{**}$  &  $-10.819$  \\
+            &  $(1.350)$  &  $(2.505)$ & $(2.461)$   &  $(7.101)$   &  $(9.069)$  \\
+[0.5em]
+\parbox{4cm}{\raggedright Brady Treatment $\times$ Post-1990}&  $3.094^{***}$&  $6.991^{**}$  &  $-1.565$&  $-14.514^*$  &  $-1.821$   \\
+            &  $(1.046)$   &  $(3.095)$   &  $(3.542)$   &  $(7.377)$   &  $(10.677)$   \\
+\hline
+Observations&       $270$   &       $270$   &       $190$   &       $233$   &       $200$   \\
+R-squared   &       $0.132$   &       $0.242$   &       $0.299$   &       $0.275$   &       $0.089$   \\
+Adjusted R² &       $0.099$   &       $0.213$   &       $0.259$   &       $0.242$   &       $0.041$   \\
+\hline\hline
+\multicolumn{6}{p{0.95\textwidth}}{\footnotesize \textbf{Notes:} This table reports difference-in-difference estimates of the effect of the Brady Initiative on various economic outcomes. Treatment group consists of countries that received Brady Plan debt relief. All regressions include country and year fixed effects. Time window: 1986-1995 (5 years before and after 1990). Standard errors clustered at country level in parentheses. $^*$ p<0.10, $^{**}$ p<0.05, $^{***}$ p<0.01}\\
+\end{tabular*}
+\end{table}

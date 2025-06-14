@@ -1,0 +1,21 @@
+\begin{table}[ht!]\centering
+\def\sym#1{\ifmmode^{#1}\else\(^{#1}\)\fi}
+\caption{Brady Plan (1989-1995) - Callaway-Sant'Anna Staggered Difference-in-Differences Analysis}
+\renewcommand{\arraystretch}{1.2} % 增加行距
+\begin{tabular*}{\textwidth}{@{\hskip\tabcolsep\extracolsep\fill}p{4cm}*{5}{>{\centering\arraybackslash}p{2cm}}}
+\hline\hline
+            &(1)&(2)&(3)&(4)&(5)\\
+            &\parbox{2cm}{\centering Growth, real p.c.}&\parbox{2cm}{\centering Credit Ratings (change)}&\parbox{2cm}{\centering Debt Service to Exports}&\parbox{2cm}{\centering Total Public Debt/GDP}&\parbox{2cm}{\centering External Debt/GNI}\\
+\hline
+\parbox{4cm}{\raggedright Average Treatment Effect on Treated (ATT)}&  $1.005$  &  $2.331$  &  $5.047$  &  $-22.587^{**}$  &  $-20.799^{**}$  \\
+            &  $(1.923)$  &  $(2.494)$ & $(3.299)$   &  $(9.722)$   &  $(9.550)$  \\
+[0.5em]
+\hline
+Treatment Countries&       $16$   &       $16$   &       $16$   &       $16$   &       $16$   \\
+Control Countries   &       $24$   &       $24$   &       $24$   &       $24$   &       $24$   \\
+% Treatment Period     &       \multicolumn{5}{c}{$1989-1995$}   \\
+% Method              &       \multicolumn{5}{c}{Callaway-Sant'Anna (2021)}   \\
+\hline\hline
+\multicolumn{6}{p{0.95\textwidth}}{\footnotesize \textbf{Notes:} This table presents average treatment effects on the treated (ATT) from the Callaway and Sant'Anna (2021) staggered difference-in-differences estimator using actual Brady Plan implementation dates by country. Treatment timing varies from 1989-1995: Mexico, Philippines, Costa Rica (1989); Uruguay, Venezuela (1990); Nigeria (1991); Argentina, Brazil (1992); Bolivia, Bulgaria, Dominican Republic, Jordan (1993); Ecuador, Poland (1994); Panama, Peru (1995). Control group consists of emerging market economies that never implemented Brady agreements. The method accounts for treatment effect heterogeneity across cohorts and time periods using doubly robust inverse probability weighting (DRIPW). Standard errors clustered at country level in parentheses. $^*$ p<0.10, $^{**}$ p<0.05, $^{***}$ p<0.01}\\
+\end{tabular*}
+\end{table}
