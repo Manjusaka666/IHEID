@@ -1,0 +1,5 @@
+Supplement to Week5 2022
+
+For those who wish to pursue further the banking and housing sector models,
+attached are Dynare codes for the GTZ2021 and KRS models.
+For the Iacoviello and Guerrieri model, use the (attached) zip file entitled ASYMMETRIES_CODES_JULY2017.zip
