@@ -1,0 +1,356 @@
+\documentclass[a4paper,12pt]{article} % This defines the style of your paper
+
+\usepackage[top = 2.5cm, bottom = 2.5cm, left = 2.5cm, right = 2.5cm]{geometry} 
+
+% Unfortunately, LaTeX has a hard time interpreting German Umlaute. The following two lines and packages should help. If it doesn't work for you please let me know.
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{pifont}
+% \usepackage{ctex}
+\usepackage{amsthm, amsmath, amssymb, mathrsfs,mathtools}
+
+% Defining a new theorem style without italics
+\newtheoremstyle{nonitalic}% name
+  {\topsep}% Space above
+  {\topsep}% Space below
+  {\upshape}% Body font
+  {}% Indent amount
+  {\bfseries}% Theorem head font
+  {.}% Punctuation after theorem head
+  {.5em}% Space after theorem head
+  {}% Theorem head spec (can be left empty, meaning ‘normal`)
+  
+\theoremstyle{nonitalic}
+% Define new 'solution' environment
+\newtheorem{innercustomsol}{Solution}
+\newenvironment{solution}[1]
+  {\renewcommand\theinnercustomsol{#1}\innercustomsol}
+  {\endinnercustomsol}
+
+% Custom counter for the solutions
+\newcounter{solutionctr}
+\renewcommand{\thesolutionctr}{(\alph{solutionctr})}
+
+% Environment for auto-numbering with custom format
+\newenvironment{autosolution}
+  {\stepcounter{solutionctr}\begin{solution}{\thesolutionctr}}
+  {\end{solution}}
+
+
+\newtheorem{problem}{Problem}
+\usepackage{color}
+
+% The following two packages - multirow and booktabs - are needed to create nice looking tables.
+\usepackage{multirow} % Multirow is for tables with multiple rows within one cell.
+\usepackage{booktabs} % For even nicer tables.
+
+% As we usually want to include some plots (.pdf files) we need a package for that.
+\usepackage{graphicx} 
+\usepackage{subfigure}
+
+
+% The default setting of LaTeX is to indent new paragraphs. This is useful for articles. But not really nice for homework problem sets. The following command sets the indent to 0.
+\usepackage{setspace}
+\setlength{\parindent}{0in}
+\usepackage{longtable}
+
+% Package to place figures where you want them.
+\usepackage{float}
+
+% The fancyhdr package let's us create nice headers.
+\usepackage{fancyhdr}
+
+\usepackage{fancyvrb}
+
+\usepackage{enumitem}
+
+%Code environment 
+\usepackage{listings} % Required for insertion of code
+\usepackage{xcolor} % Required for custom colors
+
+% ---------- Listings setup ----------
+\definecolor{codebg}{RGB}{250,250,250}
+\definecolor{dkgray}{RGB}{64,64,64}
+\definecolor{dkblue}{RGB}{0,0,140}
+\definecolor{dkgreen}{RGB}{0,100,0}
+\definecolor{maroon}{RGB}{128,0,0}
+\definecolor{purplec}{RGB}{106,13,173}
+
+\lstdefinestyle{code}{
+  backgroundcolor=\color{codebg},
+  basicstyle=\ttfamily\small,
+  breaklines=true,
+  columns=fullflexible,
+  keepspaces=true,
+  keywordstyle=\color{dkblue}\bfseries,
+  stringstyle=\color{maroon},
+  commentstyle=\itshape\color{dkgreen},
+  numberstyle=\scriptsize\color{dkgray},
+  numbers=left,
+  numbersep=8pt,
+  frame=single,
+  framerule=0.3pt,
+  rulecolor=\color{dkgray},
+  showstringspaces=false,
+  tabsize=2,
+  upquote=true
+}
+
+% Dynare is Matlab-like; define a language based on Matlab with some added keywords
+\lstdefinelanguage{Dynare}{
+  morekeywords={
+    var,varexo,parameters,model,end,initval,steady_state_model,shocks,
+    periods,stoch_simul,check,steady,resid,log,exp,stderr,varexo_det,
+    ramsey\_policy,planner\_objective,osr,osr\_params,estimated\_params,
+    varobs,estimation,identification,shocks,init,values,planner\_discount,
+    simul,verbatim,save\_params\_and\_steady\_state,trend\_vars,units,
+    deterministic\_trends,steady\_state\_operator,estimated\_params\_bounds
+  },
+  sensitive=true,
+  morecomment=[l]\%,      % Dynare/Matlab-style comments
+  morestring=[b]',       % strings
+}
+
+\lstdefinelanguage{MatlabX}{
+  language=Matlab,
+  morekeywords={dynare},
+}
+
+\lstset{style=code}
+% % Define colors for code listing
+% \definecolor{codegreen}{rgb}{0,0.6,0}
+% \definecolor{codegray}{rgb}{0.5,0.5,0.5}
+% \definecolor{codepurple}{rgb}{0.58,0,0.82}
+% \definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+
+% % Code listing style named "mystyle"
+% \lstdefinestyle{mystyle}{
+%     backgroundcolor=\color{backcolour},   
+%     commentstyle=\color{codegreen},
+%     keywordstyle=\color{magenta},
+%     numberstyle=\tiny\color{codegray},
+%     stringstyle=\color{codepurple},
+%     basicstyle=\ttfamily\footnotesize, % Change to serif font
+%     breakatwhitespace=false,         
+%     breaklines=true,                 
+%     captionpos=b,                    
+%     keepspaces=true,                 
+%     numbers=left,                    
+%     numbersep=5pt,                  
+%     showspaces=false,                
+%     showstringspaces=false,
+%     showtabs=false,                  
+%     tabsize=2
+% }
+
+% \lstset{style=mystyle}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 3. Header (and Footer)
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% To make our document nice we want a header and number the pages in the footer.
+
+\pagestyle{fancy} % With this command we can customize the header style.
+
+\fancyhf{} % This makes sure we do not have other information in our header or footer.
+
+\lhead{\footnotesize Demystifying DSGE Models}% \lhead puts text in the top left corner. \footnotesize sets our font to a smaller size.
+
+%\rhead works just like \lhead (you can also use \chead)
+\rhead{\footnotesize Jingle Fu} %<---- Fill in your lastnames.
+
+% Similar commands work for the footer (\lfoot, \cfoot and \rfoot).
+% We want to put our page number in the center.
+\cfoot{\footnotesize \thepage}
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\begin{document}
+
+
+\thispagestyle{empty} % This command disables the header on the first page. 
+
+\begin{tabular}{p{15.5cm}} % This is a simple tabular environment to align your text nicely 
+{\large \bf Demystifying DSGE Models} \\
+The Graduate Institute, Fall 2025, John D.A. Cuddy\\
+\hline % \hline produces horizontal lines.
+\\
+\end{tabular} % Our tabular environment ends here.
+
+\vspace*{0.3cm} % Now we want to add some vertical space in between the line and our title.
+
+\begin{center} % Everything within the center environment is centered.
+	{\Large \bf PS1 Solutions} % <---- Don't forget to put in the right number
+	\vspace{2mm}
+	
+        % YOUR NAMES GO HERE
+	{\bf Jingle Fu} % <---- Fill in your names here!
+		
+\end{center}  
+
+\vspace{0.4cm}
+\setstretch{1.2}
+
+% \begin{autosolution}
+% \ 
+
+% \end{autosolution}
+
+\section{Part 1: Basic RBC ($\sigma=1$, $P=1$)}
+
+\subsection{Q1. Firm FOCs and Factor Income Shares}
+The representative competitive firm solves
+\begin{equation}
+\max_{K_t,L_t}\ \Pi_t = A_t K_t^{\alpha} L_t^{1-\alpha} - R_t K_t - W_t L_t.
+\end{equation}
+First-order conditions (FOCs):
+\begin{align}
+\frac{\partial \Pi_t}{\partial K_t}=0 
+&\Rightarrow \alpha A_t K_t^{\alpha-1} L_t^{1-\alpha} - R_t = 0 
+\ \Rightarrow\ R_t=\alpha \frac{Y_t}{K_t},\\[4pt]
+\frac{\partial \Pi_t}{\partial L_t}=0 
+&\Rightarrow (1-\alpha) A_t K_t^{\alpha} L_t^{-\alpha} - W_t = 0 
+\ \Rightarrow\ W_t=(1-\alpha)\frac{Y_t}{L_t}.
+\end{align}
+Hence factor income shares:
+\begin{equation}
+R_t K_t=\alpha Y_t, \qquad W_t L_t=(1-\alpha)Y_t.
+\end{equation}
+
+\subsection{Q2. Household Problem and Euler/Labor-Supply Conditions}
+Preferences:
+\begin{equation}
+\sum_{t=0}^\infty \beta^t\left[ \gamma \log C_t + (1-\gamma)\log(1-L_t)\right],
+\end{equation}
+Budget:
+\begin{equation}
+C_t + K_{t+1} = W_t L_t + (R_t+1-\delta) K_t.
+\end{equation}
+Lagrangian:
+\[
+\mathcal{L}=\sum_t \beta^t\Big\{\gamma\log C_t+(1-\gamma)\log(1-L_t)-\lambda_t\big[C_t+K_{t+1}-W_tL_t-(R_t+1-\delta)K_t\big]\Big\}.
+\]
+FOCs yield
+\begin{align}
+\lambda_t &= \frac{\gamma}{C_t},\\[4pt]
+\frac{1-\gamma}{1-L_t} &= \lambda_t W_t = \frac{\gamma}{C_t} W_t,\\[4pt]
+\lambda_t &= \beta \lambda_{t+1}(R_{t+1}+1-\delta).
+\end{align}
+Thus,
+\begin{equation}
+\boxed{\frac{1-\gamma}{\gamma}\frac{C_t}{1-L_t}=W_t},\qquad
+\boxed{\frac{C_{t+1}}{C_t}=\beta\big(R_{t+1}+1-\delta\big)}.
+\end{equation}
+
+\subsection{Q3. Full Non-linear Equilibrium System (Dynare conventions)}
+Let capital be predetermined (dated $t-1$) in production and factor prices:
+\begin{align}
+Y_t &= A_t K_{t-1}^{\alpha} L_t^{1-\alpha},\\
+R_t &= \alpha \frac{Y_t}{K_{t-1}},\qquad W_t=(1-\alpha)\frac{Y_t}{L_t},\\
+\frac{C_{t+1}}{C_t} &= \beta \big(R_{t+1}+1-\delta\big),\\
+\frac{1-\gamma}{\gamma}\frac{C_t}{1-L_t} &= W_t,\\
+Y_t &= C_t + I_t,\\
+K_t &= (1-\delta)K_{t-1}+I_t,\\
+\ln A_t &= \rho_A \ln A_{t-1} + \varepsilon^A_t,\quad \text{with } \bar A=1.
+\end{align}
+
+\subsection{Q4. Steady State Derivations}
+From Euler at steady state:
+\begin{equation}
+1=\beta(R+1-\delta)\quad \Rightarrow\quad R=\frac{1}{\beta}-1+\delta.
+\end{equation}
+Using $R=\alpha Y/K$ gives ratios
+\begin{equation}
+\frac{K}{Y}=\frac{\alpha}{R},\qquad \frac{I}{Y}=\delta \frac{\alpha}{R},\qquad \frac{C}{Y}=1-\delta\frac{\alpha}{R}.
+\end{equation}
+Intratemporal labor condition implies
+\begin{equation}
+\frac{1-\gamma}{\gamma}\frac{C}{1-L}=(1-\alpha)\frac{Y}{L}
+\ \Rightarrow\
+L=\frac{1-\alpha}{(1-\alpha)+\frac{1-\gamma}{\gamma}\frac{C}{Y}}.
+\end{equation}
+With $\bar A=1$, steady-state output level is
+\begin{equation}
+\bar Y= \left(\frac{\alpha\beta}{1-\beta+\beta\delta}\right)^{\frac{\alpha}{1-\alpha}} \bar L.
+\end{equation}
+
+\subsection{Q5. What to Expect from IRFs (Qualitative)}
+A positive TFP innovation typically produces $Y,C,I,W,R\uparrow$ on impact; $K$ rises over time; $L$ increases on impact if substitution dominates.
+Consumption is smoother than investment; investment is most volatile.
+
+\subsection{Dynare code for Part 1}
+We keep the model in non-linear levels, capital dated at $t\!-\!1$, and lead the Euler RHS in \texttt{Dynare}.
+The file below is pulled directly from \texttt{rbc\_basic.mod}.
+\medskip
+
+\noindent\textbf{Include the external Dynare file:}
+\begin{lstlisting}[language=Dynare,caption={\texttt{rbc\_basic.mod}},label={lst:rbc_basic}]
+\lstinputlisting{./PS1/rbc_basic.mod}
+\end{lstlisting}
+
+\section{Part 2: RBC with Housework (CES Aggregator)}
+\subsection{Environment}
+Market production:
+\begin{equation}
+Y_t=A_t K_{t-1}^{\alpha} L_{m,t}^{1-\alpha},\quad 
+R_t=\alpha \frac{Y_t}{K_{t-1}},\quad W_t=(1-\alpha)\frac{Y_t}{L_{m,t}}.
+\end{equation}
+Home production:
+\begin{equation}
+C_{h,t}=B_t L_{h,t}^{\theta}.
+\end{equation}
+CES aggregator for utility:
+\begin{equation}
+C_t=\Big[\omega C_{m,t}^{\eta}+(1-\omega)C_{h,t}^{\eta}\Big]^{1/\eta}.
+\end{equation}
+Budget/resource constraints:
+\begin{equation}
+C_{m,t}+I_t=Y_t,\qquad K_t=(1-\delta)K_{t-1}+I_t.
+\end{equation}
+Time allocation: leisure $=1-L_{m,t}-L_{h,t}$.
+
+\subsection{FOCs}
+Let $\lambda_t$ be the multiplier on the market budget and $\zeta_t$ for the home-production identity. Then:
+\begin{align}
+\lambda_t &= \gamma \omega \frac{C_{m,t}^{\eta-1}}{\omega C_{m,t}^{\eta}+(1-\omega)C_{h,t}^{\eta}},\\
+\zeta_t &= \gamma (1-\omega) \frac{C_{h,t}^{\eta-1}}{\omega C_{m,t}^{\eta}+(1-\omega)C_{h,t}^{\eta}},\\
+\frac{1-\gamma}{1-L_{m,t}-L_{h,t}} &= \lambda_t W_t,\\
+\frac{1-\gamma}{1-L_{m,t}-L_{h,t}} &= \zeta_t \theta B_t L_{h,t}^{\theta-1},\\
+\beta \lambda_{t+1}(R_{t+1}+1-\delta) &= \lambda_t.
+\end{align}
+Equivalently,
+\begin{align}
+\frac{1-\gamma}{1-L_{m,t}-L_{h,t}} 
+&= \gamma \omega \frac{C_{m,t}^{\eta-1}}{\omega C_{m,t}^{\eta} + (1-\omega)C_{h,t}^{\eta}} W_t,\\
+\beta\,\gamma \omega \frac{C_{m,t+1}^{\eta-1}}{\omega C_{m,t+1}^{\eta}+(1-\omega)C_{h,t+1}^{\eta}}(R_{t+1}+1-\delta)
+&= \gamma \omega \frac{C_{m,t}^{\eta-1}}{\omega C_{m,t}^{\eta}+(1-\omega)C_{h,t}^{\eta}},\\
+\frac{1-\gamma}{1-L_{m,t}-L_{h,t}}
+&= \gamma (1-\omega) \frac{C_{h,t}^{\eta-1}}{\omega C_{m,t}^{\eta}+(1-\omega)C_{h,t}^{\eta}} \theta B_t L_{h,t}^{\theta-1}.
+\end{align}
+
+\subsection{Steady State and Comparison}
+The market block mirrors Part 1 with $L_m$ in place of $L$. With table-provided steady-state labor allocations $(\bar L_m,\bar L_h)$,
+one obtains
+\begin{equation}
+\bar Y=\left(\frac{\alpha\beta}{1-\beta+\beta\delta}\right)^{\frac{\alpha}{1-\alpha}} \bar L_m,\quad
+\bar C_m=\bar Y-\delta \bar K,\quad
+\bar C_h=\bar B\ \bar L_h^{\theta}.
+\end{equation}
+Given $(\bar L_m,\bar L_h)=(0.28550,0.26689)$ and $\theta=0.8$, the steady-state levels match the assignment's Table~4 exactly.
+
+\subsection{Dynamics (Qualitative IRFs)}
+\begin{itemize}[nosep]
+  \item $A$ shock: wages rise, $L_m\uparrow$ and $L_h\downarrow$, $C_m$ up, $C_h$ can fall on impact; $Y,I,K$ behave as in RBC with added reallocation.
+  \item $B$ shock: $L_h\uparrow$, $L_m\downarrow$, $C_h$ up; $Y,C_m,I$ may decline on impact; total $C$ may still increase with high substitution ($\eta=0.8\Rightarrow$ elasticity $=5$).
+\end{itemize}
+
+\subsection{Dynare code for Part 2}
+The complete non-linear model with both market and home sectors, including the CES aggregator and two exogenous processes,
+is in \texttt{rbc\_home.mod} and included below.
+
+\begin{lstlisting}[language=Dynare,caption={\texttt{rbc\_home.mod}},label={lst:rbc_home}]
+\lstinputlisting{./PS1/rbc_home.mod}
+\end{lstlisting}
+
+
+\end{document}
+

@@ -1,0 +1,66 @@
+\documentclass[a4paper]{report}
+
+\input{setup/preamble}
+\input{setup/macros}
+\input{setup/letterfonts}
+\usepackage{placeins} % Package to handle floating elements
+
+\addbibresource{gr.bib} 
+
+\course{Demystifying DSGE Models}
+\professor[https://www.graduateinstitute.ch/discover-institute/john-da-cuddy]{John D.A. Cuddy}
+\me[jingle.fu@graduateinstitute.ch]{}
+\institute{Graduate Institute of International and Developoment Studies, Geneva}
+\class{International Economics}
+\session{Semester II, 2024}
+\date{Based on lectures by \profloc{} in Autumn semester, 2025
+% \\ Notes created by Mubtasim Fuad 
+\\~\\ Draft updated on \today}
+
+\begin{document}
+
+\renewcommand\thepage{Title}
+\maketitle
+\renewcommand\thepage{Preface} 
+% \chapter*{Preface}  % to show preface on toc
+\input{preface}
+% \addcontentsline{toc}{chapter}{\protect\numberline{}Preface} % to show preface on toc
+\pagenumbering{gobble}
+% \pagenumbering{roman}   % to show preface on toc
+\newpage
+\pagestyle{plain}
+\pagenumbering{roman}
+\pdfbookmark{\contentsname}{toc}              
+\setcounter{tocdepth}{3}
+\tableofcontents
+\newpage
+\pagestyle{head}
+\pagenumbering{arabic}
+
+% start lectures
+\chapter{Introduction to DSGE Models}
+\input{lectures/Lec1}
+% \input{lectures/Lec2}
+% \chapter{Causal Inference}
+% \input{lectures/Lec3}
+% \chapter{Panel Data Analysis}
+% \input{lectures/Lec4}
+% \input{lectures/Lec5}
+% \input{lectures/Lec6}
+% \chapter{Univariate Time Series}
+% \input{lectures/Lec7}
+% \input{lectures/Lec8}
+% \input{lectures/Lec9}
+% \chapter{Multivariate Time Series}
+% \input{lectures/Lec10}
+% \chapter{Topics in Econometrics(2) - Cross-Sectional Data}
+% \input{lectures/241202}
+
+\chapter{Appendix}
+\input{lectures/Appendix}
+\nocite{*} % Add this line to include all entries in the bibliography
+% end lectures
+
+\input{endpage}
+
+\end{document}
