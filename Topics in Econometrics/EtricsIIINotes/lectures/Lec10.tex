@@ -1,0 +1,720 @@
+Many time series arising in practice are best considered as components of
+some vector-valued (multivariate) time series $y_t = (y_{1t}, y_{2t}, \cdots, y_{nt})^{\prime}$,
+which is an $n \times 1$ vector process observed in sequence series $y_t$,
+whose specification includes two parts:
+\begin{enumerate}
+    \item[(1)] The serial dependence of each component series $\{y_{it}\}$;
+    \item[(2)] THe interdependence between different component series $\{y_{it}\}$ and $\{y_{jt}\}$.
+\end{enumerate}
+The most common multivariate time series models used by economists are vector autoregressions (VARs).
+
+\section{Multivaraite Processes}
+Stationarity and ergodicity of a multivariate process are defined analogously to the univariate case.
+If all the finite dimensional joint distributions of the random variables $\{y_{it}\}$ were multivariate normal,
+then the distributional properties of $\{y_{it}\}$ would be completely determined by the means,
+\begin{gather*}
+    \mu_{it} = \mathbb{E}[y_{it}]
+\end{gather*}
+and covariances,
+\begin{gather*}
+    \gamma_{ij}(t, t-h) = \Cov[y_{i,t}, y_{j,t-h}] = \mathbb{E}\left[ (y_{i,t} - \mu_{i,t})(y_{j,t-h} - \mu_{j,t-h}) \right].
+\end{gather*}
+It is more convenient when dealing with $n$ interrelated series to use vector notation. 
+The second-order properties of the multivariate process are specified by the mean vectors:
+\begin{gather*}
+    \mu_t = \mathbb{E}[y_t]
+\end{gather*}
+and covariance matrices:
+\begin{gather*}
+    \Gamma_t(h) = \Cov[y_t, y_{t-h}] = \mathbb{E}\left[ (y_t - \mu_t)(y_{t-h} - \mu_{t-h})^{\prime} \right].
+\end{gather*}
+\begin{definition}[Stationary Multivariate Time Series]\label{def:stationary-multivariate}
+    \
+
+    A multivariate time series $\{y_t\}$ is said to be weakly stationary if:
+    \begin{enumerate}
+        \item[(1)] $\mu_t = \mu$ for all $t$;
+        \item[(2)] $\Gamma_t(h) = \Gamma(h) = \mathbb{E}\left[(y_t - \mu)(y_{t-h} - \mu)^{\prime}\right]$ for all $t$ and $h$.
+    \end{enumerate}
+\end{definition}
+We shall refer to $\mu$ as the mean of the series and $\Gamma(h)$ as the covariance function of the series at lag $h$. 
+\begin{eg}
+    \
+
+    Take the bivariate case($n=2$) as an example, we have:
+    \begin{gather*}
+        \Gamma(h) = \begin{bmatrix}
+            \Cov[y_{1,t}, y_{1,t-h}] & \Cov[y_{1,t}, y_{2,t-h}] \\
+            \Cov[y_{1,t-h}, y_{2,t}] & \Cov[y_{2,t}, y_{2,t-h}] \\
+        \end{bmatrix}
+        = \begin{bmatrix}
+            \gamma_{11}(h) & \gamma_{12}(h) \\
+            \gamma_{21}(h) & \gamma_{22}(h) \\
+        \end{bmatrix}
+    \end{gather*}
+    The diagonal elements are simply the univariate autocovariances of $y_{1t}$ and $y_{2t}$,
+    while the off-diagonal elements are the cross-covariances between $y_{1t}$ and $y_{2t}$,
+    with the former (latter) leading the latter (former) by a displacement of $h$ lags.
+    We should notice that $\gamma_{12}(h) \neq \gamma_{21}(h)$,
+    as the correlation of $y_{1t}$ with the past movement in $y_{2t}$ is not necessarily the same as the correlation of $y_{2t}$ with the past movement in $y_{1t}$.
+
+    As a result, in contrast to the univariate case, in multivariate case, $\Gamma(h) \neq \Gamma(-h).$
+    Instead, we have $\gamma_{12} (h) = \gamma_{21} (-h)$, because:
+    \begin{gather*}
+        \Gamma_t(-h)^{\prime} = \mathbb{E}\left[(y_t - \mu_t)(y_{t+h} - \mu_{t+h})^{\prime}\right]^{\prime} = \mathbb{E}\left[(y_{t+h} - \mu_{t+h})(y_t - \mu_t)^{\prime} \right] = \Gamma_{t+h}(h)
+    \end{gather*}
+    and under weakly stationarity, time doesn't matter: $\Gamma_{t+h}(h) = \Gamma_t(h) = \Gamma(h)$,
+    and therefore, $\Gamma(h) = \Gamma(-h)^{\prime}$
+\end{eg}
+A multivariate White Noise (WN) process and the multivariate General Linear Process
+(GLP) are also defined analogously to the univariate case.
+\begin{definition}[Multivariate White Noise]\label{def:multivariate-wn}
+    \
+
+    The $n$-variate series $u_t$ is said to be a WN process with mean zero and covariance $\Sigma$,
+    written $u_t \sim WN(0, \Sigma)$,
+    if and only if $u_t$ is weakly stationary with mean vector $\mathbf{0}$ and covariance matrix function:
+    \begin{gather*}
+        \Gamma(h) = \Cov[u_t, u_{t-h}] = \mathbb{E}[u_t u_{t-h}^{\prime}] = \begin{cases}
+            \Sigma, & h=0 \\
+            0, & h \neq 0
+        \end{cases}
+    \end{gather*}
+    Note that $\Sigma$ is not necessarily diagonal, i.e. the individual components of the vector valued process $u_t$ may be contemporaneously correlated.
+    However, the defining feature of a WN process is that each of the components is uncorrelated with its own past (and future) movements as well as those of any of the other components.
+\end{definition}
+The multivariate GLP is defined as:
+\begin{gather*}
+    y_t = B(L) u_t = \sum_{l=0}^{\infty} B_l u_{t-l}, \quad u_t \sim WN(0, \Sigma)
+\end{gather*}
+where $B_0 = I$ and $\sum_{l=0}^{\infty} \lVert B_l \rVert^2 < \infty.$
+
+\section{Vector Autoregressions (VARs)}\label{sec:VAR}
+A VAR is a common way to approximate the multivariate GLP.
+As in the previous lecture, we have built a VAR(1) model for solving the AR(2) process.
+\begin{gather*}
+    y_t = \Phi_0 + \Phi_1 y_{t-1} + u_t, \quad u_t \sim WN(0, \Sigma)
+\end{gather*}
+\begin{gather*}
+    \begin{bmatrix}
+        y_{1t} \\
+        y_{2t}
+    \end{bmatrix} = \begin{bmatrix}
+         \Phi_{0,1} \\
+         \Phi_{0,2} \\
+    \end{bmatrix} + \begin{bmatrix}
+        \Phi_{1,11} & \Phi_{1,12}  \\
+        \Phi_{1,21} & \Phi_{1,22}  \\
+    \end{bmatrix}
+    \begin{bmatrix}
+        y_{1,t-1} \\
+        y_{2,t-1}
+    \end{bmatrix} + \begin{bmatrix}
+         u_{1t} \\
+         u_{2t} \\
+    \end{bmatrix}, \quad u_t \sim WN(0, \Sigma)
+\end{gather*}
+where $u_t \sim  WN\left( \begin{bmatrix}
+     0 \\
+     0 \\
+\end{bmatrix}, \begin{bmatrix}
+    \sigma_{11} & \sigma_{12} \\
+    \sigma_{21} & \sigma_{22} \\
+\end{bmatrix} \right)$.
+There are two sources of interaction between $y_{1t}$ and $y_{2t}$:
+\begin{enumerate}
+    \item[(1)] The value of each series today depends on its own, but also on the other variable's value at time $t-1$;
+    \item[(2)] The innovations of the two series are potentially correlated (contemporaneously).
+\end{enumerate}
+If the equations include $p$ lags of each variable we obtain the $p$-th order vector autoregressive (VAR) model:
+\begin{gather}\label{eq:varp}
+    y_t = \Phi_0 + \Phi_1 y_{t-1} + \cdots + \Phi_p y_{t-p} + u_t
+\end{gather}
+Our notation allows $y_t = [y_{1t}, y_{2t}, \cdots, y_{nt}]^{\prime}$ to be a vector of dimension $n$ in which case the matrices $\Phi_i$ are $n \times n$ and error $u_t$ is $n \times 1$.
+We will denote the elements of $\Phi_i$ using the notation:
+\begin{gather*}
+    \Phi_i = \begin{bmatrix}
+        \Phi_{i,11} & \Phi_{i,12} & \cdots & \Phi_{i,1n} \\
+        \Phi_{i,21} & \Phi_{i,22} & \cdots & \Phi_{i,2n} \\
+        \vdots & \vdots & \ddots & \vdots \\
+        \Phi_{i,n1} & \Phi_{i,n2} & \cdots & \Phi_{i,nn} \\
+    \end{bmatrix}.
+\end{gather*}
+The error $u_t = [u_{1t}, u_{2t}, \cdots, u_{nt}]^{\prime}$ is the component of $y_t$ which is unforecastable at time $t-1$.
+However, the components of $y_t$ are contemporaneously correlated, therefore the contemporabeous covariance matrix $\Sigma = \mathbb{E}[u u^{\prime}]$ is non-diagonal.
+\begin{definition}[VAR$(p)$]\label{def:varp}
+    \
+
+    A VAR(p) model is a system of $n$ equations of the form:
+    \begin{gather}\label{eq:varp-def}
+        y_t = \Phi_0 + \sum_{i=1}^{p} \Phi_i y_{t-i} + u_t, \quad u_t \sim WN(0, \Sigma)
+    \end{gather}
+    where $y_t$ is an $n$-dimensional vector, $\Phi_0$ is an $n$-dimensional vector of constants, $\Phi_i$ are $n \times n$ matrices of coefficients, and $u_t$ is an $n$-dimensional vector of white noise errors.
+\end{definition}
+
+\subsection{Stationarity of VAR\texorpdfstring{$(p)$}{(p)}}\label{sec:stationarity-var}
+We are interested in conditions under which $y_t$ is a stationary process.
+Let $\lambda_i(\Phi)$ denote the $i$-th eigenvalue of the matrix $\Phi$.
+\begin{theorem}[SS and Ergodic of VAR(1)]\label{thm:stationarity-var1}
+    \
+
+    If $u_t$ is strictly stationary and ergodic, with $\mathbb{E}[u_t] < \infty$, and $\vert \lambda_i(\Phi_1) \vert < 1$,
+    then the VAR$(1)$ process $y_t$ is also strictly stationary and ergodic.
+\end{theorem}
+\begin{eg}
+    \
+
+    Consider the VAR(2) model:
+    \begin{gather*}
+        y_t = \Phi_0 + \Phi_1 y_{t-1} + \Phi_2 y_{t-2} + u_t
+    \end{gather*}
+    or we write in companion form:
+    \begin{gather*}
+        \begin{bmatrix}
+            y_t \\
+            y_{t-1}
+        \end{bmatrix} = \underset{F_0}{\underbrace{\begin{bmatrix}
+            \Phi_0 \\
+            0
+        \end{bmatrix}}} + 
+        \underset{F_1(np \times np)}{\underbrace{\begin{bmatrix}
+            \Phi_1 & \Phi_2 \\
+            I & 0
+        \end{bmatrix}}}
+        \begin{bmatrix}
+            y_{t-1} \\
+            y_{t-2}
+        \end{bmatrix} + \begin{bmatrix}
+             u_t \\
+             0 \\
+        \end{bmatrix}
+    \end{gather*}
+    we can simply write:
+    \begin{gather*}
+        Y_t = F_0 + F_1 Y_{t-1} + v_t
+    \end{gather*}
+    We take mean on both sides,
+    \begin{gather*}
+        \mathbb{E}[y_t] = \Phi_0 + \Phi_1 \mathbb{E}[y_{t-1}] + \Phi_2 \mathbb{E}[y_{t-2}] + 0
+    \end{gather*}
+    as $\mathbb{E}[y_t] = \mathbb{E}[y_{t-1}] = \mathbb{E}[y_{t-2}] = \mu$,
+    we know that $\mu = \left(1 - \Phi_1 - \Phi_2\right)^{-1} \Phi_0.$
+\end{eg}
+For the $VAR(p)$ model \ref{eq:varp-def}, we can write using the lag operator notation:
+\begin{gather*}
+    \Phi (L) y_t = \Phi_0 + u_t
+\end{gather*}
+where
+\begin{gather*}
+    \Phi(z) = I_n - \Phi_1 z - \Phi_2 z^2 - \cdots - \Phi_p z^p.
+\end{gather*}
+The condition for stationarity of the system can be expressed as a restriction on the roots of the
+determinantal equation of the autoregressive polynomial.
+Recall that a root $r$ of $\det \left(\Phi(z) \right)$ is a solution to $\det \left(\Phi(r) \right) = 0$.
+\begin{theorem}[SS and Ergodicity of VAR(p)]\label{thm:stationarity-varp}
+    \
+
+    If all roots $r$ of the polynomial $\det \left(\Phi(z) \right)$ satisfy $\vert r \vert > 1$,
+    then the VAR(p) process $y_t$ is strictly stationary and ergodic.
+\end{theorem}
+Or, equivalently, we write the VAR$(p)$ model in companion form:
+\begin{gather}\label{eq:varp-companion}
+    \begin{bmatrix}
+        y_t \\
+        y_{t-1} \\
+        \vdots \\
+        y_{t-p+1}
+    \end{bmatrix} = \begin{bmatrix}
+         \Phi_0 \\
+         0 \\
+         \vdots \\
+         0 \\
+    \end{bmatrix} + 
+    \underset{F_{np \times np}}{\underbrace{\begin{bmatrix}
+        \Phi_1 & \Phi_2 & \cdots & \Phi_p \\
+        I & 0 & \cdots & 0 \\
+        0 & I & \cdots & 0 \\
+        \vdots & \vdots & \ddots & \vdots \\
+        0 & \cdots & I & 0 \\
+    \end{bmatrix}}}
+    \begin{bmatrix}
+        y_{t-1} \\
+        y_{t-2} \\
+        \vdots \\
+        y_{t-p}
+    \end{bmatrix} + 
+    \begin{bmatrix}
+         u_t \\
+         0 \\
+         \vdots \\
+         0 \\
+    \end{bmatrix}
+\end{gather}
+We can simply write $Y_t = F_0 + F Y_{t-1} + v_t$,
+hence Theorem \ref{thm:stationarity-var1} can be reorganize to:
+\begin{theorem}[SS and Ergodicity of VAR(p)]\label{thm:stationarity-varp-2}
+    \
+
+    If all eigenvalues $\lambda_i(F)$ of the matrix $F$, given by:
+    \begin{gather*}
+        \vert I_n \lambda^p - \Phi_1 \lambda^{p-1} - \Phi_2 \lambda^{p-2} - \cdots - \Phi_p \vert = 0
+    \end{gather*}
+    satisfy $\vert \lambda_i(F) \vert < 1$,
+    then the VAR$(p)$ process $y_t$ is strictly stationary and ergodic.
+\end{theorem}
+
+\subsection{Moments \& GLP-Representation}
+Once we know that a VAR$(p)$ is Weakly Stationary, it is quite trivial to calculate its mean.
+
+Consider first for a VAR$(1)$. Repeatedly inserting for lags $y_{t-1}$, we get:
+\begin{align*}
+    y_t &= \Phi_0 + \Phi_1 y_{t-1} + u_t \\
+    &= \Phi_0 + \Phi_1 (\Phi_0 + \Phi_1 y_{t-2} + u_{t-1}) + u_t \\
+    &= \Phi_0 + \Phi_1 \Phi_0 + \Phi_1^2 y_{t-2} + \Phi_1 u_{t-1} + u_t \\
+    &= \cdots \\
+    &= \sum_{l=0}^{\infty} \Phi_1^l \Phi_0 + \sum_{l=0}^{\infty} \Phi_1^l u_{t-l} + \lim_{k \to \infty} \Phi_1^k y_{t-k} \\
+    &= \frac{\Phi_0}{1 - \Phi_1} + \sum_{l=0}^{\infty} \Phi_1^l u_{t-l}
+\end{align*}
+if $\Phi_1$ has all eigenvalues in the unit circle, then $\lim_{k \to \infty} \Phi_1^k y_{t-k} = 0$.
+Based on this expresison, we can get the ACF:
+\begin{align*}
+    \Gamma(h) = \Cov[y_t, y_{t-h}] &= \mathbb{E}\left[ \left(\sum_{t=0}^{\infty}\Phi_1^l u_{t-l} \right) \left( \sum_{k=0}^{\infty}\Phi_1^k u_{t-h-k} \right)^{\prime} \right] \\
+    &= \sum_{k=0}^{\infty} \mathbb{E}\left[ \left(\Phi_1^{k+h} u_{t-h-k} \right) \left(\Phi_1^k u_{t-h-k} \right)^{\prime} \right] \\
+    &= \sum_{k=0}^{\infty} \Phi_1^{h+k}  \mathbb{E}\left[ u_{t-h-k} u_{t-h-k}^{\prime} \right] \Phi_1^{k^{\prime}} \\
+    &= \sum_{k=0}^{\infty} \Phi_1^{h+k} \Sigma \Phi_1^{k^{\prime}}
+\end{align*}
+The previous discussion can be extended easily to VAR$(p)$ processes with $p>1$ because any VAR$(p)$ process can be written in VAR$(1)$ form. 
+More precisely, if $y_t$ is a VAR$(p)$ process as in definition \ref{def:varp},
+a corresponding $np$-dimensional VAR$(1)$ is shown as equation \ref{eq:varp-companion}: $Y_t = F_0 + F Y_{t-1} + v_t$.
+Recall that
+\begin{gather*}
+    Y_t = \begin{bmatrix}
+            y_t \\
+            y_{t-1} \\
+            \vdots \\
+            y_{t-p+1} \\
+         \end{bmatrix}, \quad 
+    F = \begin{bmatrix}
+            \Phi_1 & \Phi_2 & \cdots & \Phi_p \\
+            I_n & 0 & \cdots & 0 \\
+            0 & I_n & \cdots & 0 \\
+            \vdots & \vdots & \ddots & \vdots \\
+            0 & \cdots & I_n & 0 \\
+        \end{bmatrix}, \quad
+    v_t = \begin{bmatrix}
+            u_t \\
+            0 \\
+            \vdots \\
+            0 \\
+        \end{bmatrix}
+\end{gather*}
+Following previous discussion, we know that $Y_t$ is strictly stationary and ergodic,
+if $\vert \lambda_i(F) \vert < 1$ (Theorem \ref{thm:stationarity-varp-2}).
+It's mean vector is:
+\begin{gather*}
+    \mathbf{\mu} = \mathbb{E}[Y_t] = \left(I_{np} - F\right)^{-1} F_0
+\end{gather*}
+and the autocovariances are
+\begin{gather*}
+    \Gamma_Y(h) = \sum_{k=0}^{\infty} F^{h+k} \Sigma^v F^{k^{\prime}}
+\end{gather*}
+where $\Sigma^v = \mathbb{E}[v_t v_t^{\prime}] = \mathbb{V}[u_t] = \begin{bmatrix}
+    \Sigma & 0 \\
+    0 & 0 \\
+\end{bmatrix}$.
+Using the $(n \times np)$ matrix
+\begin{gather*}
+    M = \begin{bmatrix}
+        I_n & 0 & 0 & 0 \\
+    \end{bmatrix},
+\end{gather*}
+the process $y_t$ is obtained as $y_t = M Y_t$.
+Because $Y_t$ is strictly stationary and ergodic, $y_t$ is also strictly stationary and ergodic,
+meaning that $\mathbb{E}[y_t] = M \mathbf{\mu}$ is constant for all $t$ and the autocovariances $\Gamma_y(h) = M \Gamma_Y(h) M^{\prime}$ are also time invariant.
+And we can have the ACF for the original $y_t$:
+\begin{align*}
+    \Gamma_y(h) = \Cov[y_t, y_{t-h}] &= \Cov[MY_t, MY_{t-h}] \\
+    &= M \Cov[Y_t, Y_{t-h}] M^{\prime} \\
+    &= \sum_{k=0}^{\infty} M F^{h+k} \Sigma^v F^{k^{\prime}} M^{\prime} \\
+    &= \sum_{k=0}^{\infty} \left(F^{k+h} \right)_{11} \Sigma^v \left( F^k \right)_{11}^{\prime}
+\end{align*}
+where $(F^k)_{11}$ denotes the upper-left $(n \times n)$ block of the $(np \times np)$ matrix $F^k$.
+\subsection{Computation of Autocovariances and Autocorrelations of VAR Processes*}
+In order to illustrate the computation of the autocovariances when the process
+coefficients are given, suppose that $y_t$ is strictly stationary and ergodic VAR$(1)$ process:
+\begin{gather*}
+    y_t = \Phi_0 + \Phi_1 y_{t-1} + u_t, \quad u_t \sim WN(0, \Sigma)
+\end{gather*}
+We can rewrite the equation in mean-adjusted form:
+\begin{gather*}
+    y_t - \mu = \Phi_1 \left( y_{t-1} - \mu \right) + u_t
+\end{gather*}
+where $\mu = \mathbb{E}[y_t] = \frac{\Phi_0}{1-\Phi_1}.$
+Postmultiplying by $(y_{t-h} - \mu)^{\prime}$ and taking the expection, we have:
+\begin{gather*}
+    \Cov[y_t ,y_{t-h}] = \mathbb{E}\left[(y_t - \mu)(y_{t-h} - \mu)^{\prime}\right] = \Phi_1 \mathbb{E}\left[(y_{t-1} - \mu)(y_{t-h} - \mu)^{\prime}\right] + \mathbb{E}[u_t (y_{t-h} - \mu)^{\prime}].
+\end{gather*}
+Thus, for $h=0$, we have:
+\begin{gather}\label{eq:varp-gamma0}
+    \Gamma_y(0) = \Cov[y_t, y_t] = \Phi_1 \Cov[y_{t-1}, y_t] + \mathbb{E}[u_t u_t^{\prime}] = \Phi_1 \Gamma_y(-1) + \Sigma = \Phi_1 \Gamma_y(1)^{\prime} + \Sigma
+\end{gather}
+and for $h > 0$,
+\begin{gather}\label{eq:varp-gammarecursive}
+    \Gamma_y(h) = \Phi_1 \Gamma_y(h-1) + \mathbb{E}\left[u_t \left(\sum_{j=0}^{\infty} \Phi_1^j u_{t-1-j}\right)\right] = \Phi_1 \Gamma_y(h-1)
+\end{gather}
+as $u_t$ is strict white noise, indicating that $\mathbb{E}[u_t u_s] = 0$ for $t \neq s$.
+
+These equations are usually referred to as the \textit{Yule-Walker equations} (\ref{appendix:Yule-Walker}).
+If $\Phi_1$ and the covariance matrix $\Gamma_y(0) = \Sigma_y$ of $y_t$ are unknown, the $\Gamma_y(h)$ can be computed recursively using the equation above.
+
+If $\Phi_1$ and $\Sigma$ are given, $\Gamma_y(0)$ can be determined as follows.
+For $h=1$, we get from equation \ref{eq:varp-gammarecursive} that $\Gamma_y(1) = \Phi_1 \Gamma_y(0)$,
+and substitute back into equation \ref{eq:varp-gamma0} gives:
+\begin{gather*}
+    \Gamma_y(0) = \Phi_1 \Gamma_y(0) \Phi_1^{\prime} + \Sigma \footnotemark
+\end{gather*}
+\footnotetext{
+Or using the stationarity of $y_t$, we know that $\mathbb{V}[y_t] = \mathbb{V}[y_{t-1}]$,
+so \[\Gamma_y(0) = \mathbb{V}[y_t] = \mathbb{V}[\Phi_1 y_{t-1} + u_t] = \Phi_1 \Gamma_y(0) \Phi_1^{\prime} + \Sigma\].
+}
+This is a matrix equation in $\Gamma_y(0)$, which can be solved using the Kronecker product and vector operator (See appendix \ref{appendix:krproduct-vec}).
+\begin{align*}
+    \vecop \Gamma_y(0) &= \vecop (\Phi_1 \Gamma_y(0) \Phi_1^{\prime}) + \vecop \Sigma \\
+                 &= \left(I_n \otimes \Phi_1\right) \vecop \Gamma_y(0) + \vecop \Sigma
+\end{align*}
+Hence,
+\begin{gather*}
+    \vecop \Gamma_y(0) = \left(I_{n^2} - \Phi_1 \otimes \Phi_1\right)^{-1} \vecop \Sigma
+\end{gather*}
+Note that the invertibility of $I_{n^2} - \Phi_1 \otimes \Phi_1$ follows from the strict stationarity of $y_t$
+because the eigenvalues of $\Phi_1 \otimes \Phi_1$ are the products of the eigenvalues of $\Phi_1.$
+Hence, the eigenvalues of $\Phi_1 \otimes \Phi_1$ are all less than 1 in absolute value.
+
+
+\subsection{Reduced-Form vs. Structural Representation}
+The above expressions for the VAR model are called reduced-form representation and the $u_t$ that appear in it are called reduced-form errors.
+They are the forecasting errors obtained when predicting $y_t$ one step ahead:
+\begin{align*}
+    y_t &= \Phi_0 + \Phi_1 y_{t-1} + u_t \\
+    \Rightarrow \mathbb{E}_{t-1} [y_t] &= \Phi_0 + \Phi_1 y_{t-1} + \mathbb{E}_{t-1} [u_t]\\
+    \Rightarrow u_t &= y_t - \mathbb{E}_{t-1} [y_t]
+\end{align*}
+This is why $u_t$ is also referred to as the innovation to the process $y_t$ at time $t$;
+it contains everything that affects $y_t$ and is not known to the researcher at time $t-1$.
+
+Generally, in impulse response analysis the emphasis has shifted from specifying the relations
+between the observable variables directly to interpreting the
+unexpected part of their changes or the shocks. 
+To make causal statements in VAR, we need to decompose the reduced-form errors into underlying, independent driving forces of $y_t$, referred to as shocks (structural innovations).
+One way to do so is to think of the forecast errors as linear functions of the structural innovations.
+In that case, we have the relations
+\begin{gather*}
+    u_t = \Phi_{\varepsilon} \varepsilon_t, \quad \varepsilon_t \sim WN(0, I_n)
+\end{gather*}
+where $\varepsilon_t$ is the vector of shocks. Hence $\Sigma = \Phi_{\varepsilon} \Sigma_{\varepsilon} \Phi_{\varepsilon}^{\prime}$,
+as we normalize the variances of the structural innovations to one,
+we have $\Sigma = \Phi_{\varepsilon} \Phi_{\varepsilon}^{\prime}$.
+
+\begin{note}
+    \
+
+    Due to the symmetry of the covariance matrix, these relations specify only $\frac{n(n+1)}{2}$ different equations
+and we need again $\frac{n(n-1)}{2}$ further relations to identify all $n^2$ elements of $\Phi_{\varepsilon}$.
+We shall discuss this in a following section.
+\end{note}
+
+Let's review the two forms of VAR representation:
+\begin{gather*}
+    \text{Reduced-form: } y_t = \Phi_0 + \Phi_1 y_{t-1} + u_t, \quad u_t \sim WN(0, \Sigma) \\
+    \text{Structural: } y_t = \Phi_0 + \Phi_1 y_{t-1} + \Phi_{\varepsilon} \varepsilon_t, \quad \varepsilon_t \sim WN(0, I_n)
+\end{gather*}
+For a general VAR$(p)$ model
+\begin{gather*}
+    y_t = \Phi_0 + \sum_{i=1}^{\infty} \Phi_i y_{t-i} + u_t, \quad u_t \sim WN(0, \Sigma)
+\end{gather*}
+Sometimes, we write the structural representation as:
+\begin{gather*}
+    A y_t = B_0 + B_1 y_{t-1} + \cdots + B_p y_{t-p} + \varepsilon_t, \quad \varepsilon_t \sim WN(0, I_n)
+\end{gather*}
+where $A = \Phi_{\varepsilon}^{-1} , B_0 = \Phi_{\varepsilon}^{-1} \Phi_0, B_i = \Phi_{\varepsilon}^{-1} \Phi_i$ and $\varepsilon_t = \Phi_{\varepsilon}^{-1} u_t \sim \left(0, \Sigma_{\varepsilon} = A \Sigma A^{\prime} \right).$
+For the structural representation of VAR$(1)$, we can write:
+\begin{gather*}
+    y_t = \left(I - \Phi_1\right)^{-1} \Phi_0 + \sum_{l=0}^{\infty} \Phi_1^l \Phi_{\varepsilon} \varepsilon_{t-l}  \\
+    \Gamma_y(0) = \sum_{l=0}^{\infty} \Phi_1^l \Sigma_v \Phi_1^{l^\prime}, \quad \Sigma_v = \mathbb{E}\left[\Phi_{\varepsilon}\varepsilon_t \varepsilon_t^{\prime} \Phi_{\varepsilon}^{\prime} \right] = \Phi_{\varepsilon} \Phi_{\varepsilon}^{\prime}
+\end{gather*}
+
+Suppose that we know all parameters in the VAR, including the matrix $\Phi_{\varepsilon}$ that maps reduced-form errors into structural shocks.
+This allows us to compute impulse-response functions (IRFs), variance decompositions (VDs) and historical decompositions (HDs).
+
+An IRF illustrates the dynamic effects of a shock on a series in $y_t$.
+Having identified the structural shocks $\varepsilon_t$, our interest usually is not in the shocks themselves,
+however, but in the responses of each element of $y_t$ to a one-time impulse of $\varepsilon_t$.
+\begin{definition}[Impulse Response Function (IRF)]\label{def:IRF}
+    \
+
+    The effect of shock $j$, $\varepsilon_{jt}$ on series $i$, $y_{it}$, $h$ periods into the future is given by:
+    \begin{gather}\label{eq:IRF}
+        \Theta_{ij} = \pd{y_{i, t+h}}{\varepsilon_{j, t}} = \left[ \pd{y_{t+h}}{\varepsilon_t} \right]_{ij} = \left[(F^h)_{11} \Phi_{\varepsilon}\right]_{ij} = \left[\Phi_1^h \Phi_{\varepsilon}\right]_{ij}
+    \end{gather}
+    The sequence $\Theta_{ij}$ is referred to as the IRF of variable $i$ to shock $j$,
+    which tells us the dynamic effect of $\varepsilon_{jt}$ on the series $y_{it}.$
+    As by definition, $\varepsilon_{jt}$ is i.i.d., this effect has a causal interpretation.
+\end{definition}
+
+A variance decomposition of $y_t$ determines the contribution of each shock to the variance of $y_t$.
+\begin{gather*}
+    \Gamma_0 = \mathbb{V}[y_t] = \sum_{l=0}^{\infty} \Phi_1^l \Phi_\varepsilon I \Phi_\varepsilon^{\prime} \Phi_1^{l^\prime}.
+\end{gather*}
+Let $I^{(j)}$ be the identity matrix with all but the $j$-th diagonal element equal to zero. Then
+\begin{gather*}
+    \Gamma_0^{(j)} = \sum_{l=0}^{\infty} \Phi_1^l \Phi_\varepsilon I^{(j)} \Phi_\varepsilon^{\prime} \Phi_1^{l^\prime}
+\end{gather*}
+We have that $\Gamma_0 = \sum_{j=1}^{n} \Gamma_0^{(j)}$, as a result,
+the fraction of the variance of a particular series $y_{it}$, $\mathbb{V}[y_{it}] = \left[\Gamma_0\right]_{ij}$ is explained by $\varepsilon_{jt}$ given by:
+\begin{gather*}
+    \left[\Gamma_0^{(j)}\right]_{ii} / \left[\Gamma_0\right]_{ii}.
+\end{gather*}
+
+\section{Estimation of Reduced-Form VARs}
+\label{sec:estimation-var}
+
+Consider the general VAR(p) model:
+\begin{gather}\label{eq:varest}
+    y_t = \Phi_0 + \Phi_1 y_{t-1} + \cdots + \Phi_p y_{t-p} + u_t, \quad u_t \sim WN(0, \Sigma)
+\end{gather}
+and we write it into a simple regression form:
+\begin{gather*}
+    y_t^{\prime} = x_t^{\prime} \Phi + u_t^{\prime}, \quad x_t = \begin{bmatrix}
+         y_{t-1} \\
+         y_{t-2} \\
+         \vdots \\
+         1 \\
+    \end{bmatrix}, \Phi = \begin{bmatrix}
+         \Phi_1^{\prime} \\
+         \Phi_2^{\prime} \\
+         \vdots \\
+         \Phi_0^{\prime} \\
+    \end{bmatrix}
+\end{gather*}
+in matrix form:
+\begin{gather*}
+    Y = X \Phi + U, Y = \begin{bmatrix}
+         y_1^{\prime} \\
+         y_2^{\prime} \\
+         \vdots \\
+         y_T^{\prime} \\
+    \end{bmatrix}.
+\end{gather*}
+To simplify, we only analyze for the OLS estimator:
+\begin{align*}
+    \min_{\Phi} \sum_{t} \sum_{i} u_{it}^2 &= \min_{\Phi} \sum_{t} u_t^{\prime} u_t \\
+    % &= \min_{\Phi} (Y - X\Phi)^{\prime} (Y - X\Phi) \\
+    &= \min_{\Phi} \tr\left[ (Y - X\Phi)^{\prime} (Y - X\Phi) \right] \\
+    \Rightarrow \hat{\Phi} &= (X^{\prime} X)^{-1} X^{\prime} Y \\
+    \Sigma = \mathbb{V}[u_t] &= \begin{bmatrix}
+        \mathbb{V}[u_{1t}] & \Cov[u_{1t}, u_{2t}] \\
+        \cdot &  \mathbb{V}[u_{2t}] \\
+    \end{bmatrix} \leftarrow \begin{bmatrix}
+        \frac{1}{T} \sum_{t} \hat{u}_{it}^2 & \frac{1}{T} \sum_{t} \hat{u}_{1t} \hat{u}_{2t} \\
+        \cdot & \frac{1}{T} \hat{u}_{2t} \\
+    \end{bmatrix} = \hat{\Sigma} \\
+    \hat{\Sigma} &= \frac{1}{T} \sum_{t=1}^{T} \hat{u}_t \hat{u}_t^{\prime} = \frac{1}{T} \hat{U}^{\prime} \hat{U} = \frac{1}{T} \left(Y - X \hat{\Phi} \right)^{\prime} \left(Y - X \hat{\Phi} \right)
+\end{align*}
+This holds whether or not $x_t$ is actually a VAR$(p)$ process.
+By the properties of projection errors, $\mathbb{E}[x_t u_t^{\prime}] = 0$.
+The projection coeicicent matrix $\hat{\Phi}$ is identified if $X^{\prime} X = \mathbb{E}[x_t x_t^{\prime}]$ is invertible.
+\begin{theorem}[Identification of SVAR]\label{thm:identification-svar}
+    \
+
+    If $y_t$ is strictly stationary, and $\Sigma = \mathbb{E}[u_t u_t^{\prime}] < \infty$,
+    then $Q = \mathbb{E}[x_t x_t^{\prime}] > 0$ and the coefficient vector
+    $\hat{\Phi}$ is identified.
+\end{theorem}
+
+
+\section{Estimation of Structural VARs}
+\label{sec:estimation-structural-var}
+
+We  consider the structural VAR(1) model in the form:
+\begin{gather*}
+    y_t = \Phi_0 + \Phi_1 y_{t-1} + \Phi_{\varepsilon} \varepsilon_t, \quad \varepsilon_t \sim WN(0, I)
+\end{gather*}
+As we have previously discussed in a note, there are $\frac{n(n+1)}{2}$ unique elements in $\Sigma$, but $n^2$ elements in $\Phi_{\varepsilon}$.
+So, \textit{point identify} $\Phi_{\varepsilon}$, we need $\frac{n(n-1)}{2}$ additional restrictions.
+Even with fewer restrictions, we can decrease the identified set, and we can possibly point-identify the effects of some of the $n$ shocks in $\varepsilon_t$
+(by point-identifying the corresponding columns of $\Phi_{\varepsilon}$) or the responses of some of the $n$ series in $y_t$ by point-identifying the corresponding rows of $\Phi_{\varepsilon}$.
+
+We can further analyze the structural VAR model by decomposing $\Phi_{\varepsilon}$ into a part that we can point-identify and a part that we cannot.
+Let $\Omega $ be an orthogonal matrix such that $\Omega \Omega^{\prime} = I$.
+Then we can decompose $\Phi_{\varepsilon}$ as:
+\begin{gather*}
+    \Phi_{\varepsilon} = \Sigma_{\tr} \Omega
+\end{gather*}
+where $\Sigma_{\tr}$ is the Cholesky decomposition of $\Sigma$, satisfying $\Sigma_{\tr} \Sigma_{\tr}^{\prime} = \Sigma$,
+and $\Omega$ is any orthogonal matrix with $\Omega \Omega^{\prime} = I.$
+
+Because we can point-identify $\Sigma$, and because Cholesky decomposition is unique up to the ordering of the diagonal elements,
+we can point-identify the diagonal elements of $\Sigma_{\tr}$ from the data.
+And that any $\Omega$ is consistent with the data (gives the same likelihood), as for any $\Omega$,
+$\Phi_{\varepsilon} \Phi_{\varepsilon}^{\prime} = \Sigma_{\tr} \Omega \Omega^{\prime} \Sigma_{\tr} = \Sigma$.
+
+From a frequentist point of view, this means that we cannot find a
+(unique) point estimator for $\Omega$ from the data.
+
+\begin{eg}
+    \
+
+    For $n=2$, we can obtain a  nice representation of the space of orthogonal matrices:
+    \begin{gather*}
+        \Omega(\theta, \xi) = \begin{bmatrix}
+            \cos \theta & -\xi \sin \theta \\
+            \sin \theta & \cos \theta \\
+        \end{bmatrix}, \quad
+        \text{where } -\pi < \theta < \pi, \quad \xi = \{-1,1\}
+    \end{gather*}
+    We notice that $\Omega(\frac{\pi}{2}) = \Omega(-\frac{\pi}{2})$,
+    which means that only the signs of the impulse responses change but not the shape.
+\end{eg}
+
+\section{Point Restrictions}
+\label{sec:point-restrictions}
+
+A point-restriction fixes some of the elements of $\Omega $.
+For example, one might impose a point restriction on short-term dynamics,
+such as real activity reacting to monetary policy shocks only with a lag.
+If $y_{it}$ is GDP and $\varepsilon_{jt}$ is the MP shock, this implies that:
+\begin{gather*}
+    \pd{y_{it}}{\varepsilon_{jt}} = \left( (F^0)_{11} \Phi_{\varepsilon} \right)_{ij} = \left(\Sigma_{\tr} \Omega \right) = 0
+\end{gather*}
+and restrict the dot product of the $i$-th row of $\Sigma_{\tr}$ and the $j$-th column of $\Omega$ to be zero.
+
+\begin{eg}[Short-run Rerictions]
+    \
+
+    Consider the following example: the central bank does not react contemporaneously to technology shocks
+    because data on aggregate output only become available with a one-quarter lag.
+    Suppose that
+    \begin{gather*}
+        y_t = \begin{bmatrix}
+             \text{Fed Funds} \\
+             \text{Output} \\
+        \end{bmatrix}, \quad
+        \varepsilon_t = \begin{bmatrix}
+             \varepsilon_{R,t} \\
+             \varepsilon_{z,t} \\
+        \end{bmatrix}
+        = \begin{bmatrix}
+             \text{Technology shock} \\ 
+             \text{Monetary Policy shock} \\
+        \end{bmatrix}
+    \end{gather*}
+    Formalization in our framework:
+    \begin{enumerate}
+        \item[(i)] $\theta =0, \xi =1$;
+        \item[(ii)] $\theta = 0, \xi =-1$;
+        \item[(iii)] $\theta = \pi, \xi =1$;
+        \item[(iv)] $\theta = \pi, \xi =-1$;
+    \end{enumerate}
+    Under (i), we have:
+    \begin{gather*}
+        u_t = \begin{bmatrix}
+            \Sigma_{11}^{\tr}  &  0 \\
+            \Sigma_{21}^{\tr} & \Sigma_{22}^{\tr} \\
+        \end{bmatrix}
+        \begin{bmatrix}
+            1 &  0 \\
+            0 &  1 \\
+        \end{bmatrix}
+        \begin{bmatrix}
+             \varepsilon_{R,t} \\
+             \varepsilon_{z,t} \\
+        \end{bmatrix}
+    \end{gather*}
+    Choosing between (i)-(iv) normalizes the direction of responses.
+\end{eg}
+
+\begin{eg}[Long-run Restrictions]
+    \
+
+    Now, let's assume that monetary policy shocks do not raise output in the long-run.
+    Suppose that
+    \begin{gather*}
+        y_t = \begin{bmatrix}
+             \text{Inflation} \\
+             \text{Output Growth} \\
+        \end{bmatrix}, \quad
+        \varepsilon_t = \begin{bmatrix}
+             \varepsilon_{R,t} \\
+             \varepsilon_{z,t} \\
+        \end{bmatrix}
+        = \begin{bmatrix}
+             \text{Technology shock} \\ 
+             \text{Monetary Policy shock} \\
+        \end{bmatrix}
+    \end{gather*}
+    Moreover, we have (as in the definition \ref{def:MAq}): 
+    \begin{gather*}
+        y_t = \left(\sum_{j=0}^{\infty} \phi_j L^j\right) u_t = \phi(L) u_t
+    \end{gather*}
+    Notice that $\xi $ only affects the response to the second shock. Hence we set it to 1.
+
+    Let's examine the moving average representation of $y_t$ in terms of the structural shocks:
+    \begin{align*}
+        y_t &= \begin{bmatrix}
+            \phi_{11}(L) & \phi_{12}(L) \\
+            \phi_{21}(L) & \phi_{22}(L) \\
+        \end{bmatrix}
+        \begin{bmatrix}
+            \Sigma_{11}^{\tr}  &  0 \\
+            \Sigma_{21}^{\tr} & \Sigma_{22}^{\tr} \\
+        \end{bmatrix}
+        \begin{bmatrix}
+            \cos \theta & -\sin \theta \\
+            \sin \theta & \cos \theta \\
+        \end{bmatrix}
+        \begin{bmatrix}
+             \varepsilon_{R,t} \\
+             \varepsilon_{z,t} \\
+        \end{bmatrix} \\
+        &=
+        \begin{bmatrix}
+            \cdot &  \cdot \\
+            \Sigma_{11}^{\tr} \cos \theta \phi_{21}(L) + \left(\Sigma_{21}^{\tr} \cos \theta + \Sigma_{22}^{\tr} \sin \theta \right)\phi_{22}(L) & \cdot \\
+        \end{bmatrix}
+        \begin{bmatrix}
+             \varepsilon_{R,t} \\
+             \varepsilon_{z,t} \\
+        \end{bmatrix} \\
+        &=
+        \begin{bmatrix}
+            d_{11}(L) & d_{12}(L) \\
+            d_{21}(L) & d_{22}(L) \\
+        \end{bmatrix}
+        \begin{bmatrix}
+             \varepsilon_{R,t} \\
+             \varepsilon_{z,t} \\
+        \end{bmatrix}
+    \end{align*}
+    Suppose that in period $t = 0$ log output and log prices are equal to zero.
+    Then the log-level of output and prices in period $t = T > 0$ is given by:
+    \begin{gather*}
+        y_T = \sum_{t=1}^{T}y_t = \sum_{t=1}^{T} \sum_{j=0}^{\infty} D_j \varepsilon_{t-j}
+    \end{gather*}
+    Now consider the derivative
+    \begin{gather*}
+        \frac{\partial y_T}{\partial \varepsilon_1^{\prime}} = \sum_{j=0}^{T-1} D_j
+    \end{gather*}
+    Letting $T \to \infty$ gives us the long-run response of the level of prices and output to the shock $\varepsilon_1$:
+    \begin{gather*}
+        \pd{y_\infty}{\varepsilon_1^{\prime}} = \sum_{j=0}^{\infty} D_j = D(1)
+    \end{gather*}
+    Here, we want to restrict the long-run effect of monetary policy shocks on output: $d_{21}(1) = 0$.
+    This leads us to the equation
+    \begin{gather*}
+        \left[\Sigma_{11}^{\tr}\phi_{21}(1) + \Sigma_{21}^{\tr}\phi_{22}(1) \right]\cos \theta + \Sigma_{22}^{\tr}\phi_{22}(1) \sin \theta = 0.
+    \end{gather*}
+    Notice that the equation has two solutions for $\theta \in \left(-\pi, \pi \right].$
+    Under one solution a positive monetary policy shock is contractionary,
+    under the other solution it is expansionary.
+    The shape of the responses is, of course, the same.
+\end{eg}

@@ -47,7 +47,7 @@
 % As we usually want to include some plots (.pdf files) we need a package for that.
 \usepackage{graphicx} 
 \usepackage{subfigure}
-
+\usepackage{hyperref}
 
 % The default setting of LaTeX is to indent new paragraphs. This is useful for articles. But not really nice for homework problem sets. The following command sets the indent to 0.
 \usepackage{setspace}
@@ -56,6 +56,7 @@
 
 % Package to place figures where you want them.
 \usepackage{float}
+\usepackage{placeins}
 
 % The fancyhdr package let's us create nice headers.
 \usepackage{fancyhdr}
@@ -195,9 +196,9 @@ The Graduate Institute, Fall 2025, John D.A. Cuddy\\
 
 % \end{autosolution}
 
-\section{Part 1: Basic RBC ($\sigma=1$, $P=1$)}
+\section*{Part 1: Basic RBC Model}
 
-\subsection{Q1. Firm FOCs and Factor Income Shares}
+\subsection*{Q1. Firm FOCs and Factor Income Shares}
 The representative competitive firm solves
 \begin{equation}
 \max_{K_t,L_t}\ \Pi_t = A_t K_t^{\alpha} L_t^{1-\alpha} - R_t K_t - W_t L_t.
@@ -216,7 +217,7 @@ Hence factor income shares:
 R_t K_t=\alpha Y_t, \qquad W_t L_t=(1-\alpha)Y_t.
 \end{equation}
 
-\subsection{Q2. Household Problem and Euler/Labor-Supply Conditions}
+\subsection*{Q2. Household Problem and Euler/Labor-Supply Conditions}
 Preferences:
 \begin{equation}
 \sum_{t=0}^\infty \beta^t\left[ \gamma \log C_t + (1-\gamma)\log(1-L_t)\right],
@@ -231,125 +232,527 @@ Lagrangian:
 \]
 FOCs yield
 \begin{align}
-\lambda_t &= \frac{\gamma}{C_t},\\[4pt]
-\frac{1-\gamma}{1-L_t} &= \lambda_t W_t = \frac{\gamma}{C_t} W_t,\\[4pt]
-\lambda_t &= \beta \lambda_{t+1}(R_{t+1}+1-\delta).
+\frac{\partial \mathcal{L}}{\partial C_t} &= \beta^t \left( \frac{\gamma}{C_t} - \lambda_t \right) = 0,\\
+\frac{\partial \mathcal{L}}{\partial L_t} &= \beta^t \left( -\frac{1-\gamma}{1-L_t} + \lambda_t W_t \right) = 0,\\
+\frac{\partial \mathcal{L}}{\partial K_{t+1}} &= - \beta^t \lambda_t + \beta^{t+1} \lambda_{t+1}(R_{t+1}+1-\delta) = 0, \\
+\frac{\partial \mathcal{L}}{\partial \lambda_t} &= -\beta^t \left[C_t - K_{t+1} + W_t L_t + (R_t+1-\delta) K_t \right] = 0.
 \end{align}
 Thus,
-\begin{equation}
-\boxed{\frac{1-\gamma}{\gamma}\frac{C_t}{1-L_t}=W_t},\qquad
-\boxed{\frac{C_{t+1}}{C_t}=\beta\big(R_{t+1}+1-\delta\big)}.
-\end{equation}
+\begin{align}
+\lambda_t &= \frac{\gamma}{C_t},\\
+W_t &= \frac{1-\gamma}{\gamma}\frac{C_t}{1-L_t},\\
+\frac{\mathbb{E}_t C_{t+1}}{C_t} &= \beta\big(R_{t+1}+1-\delta\big).
+\end{align}
 
-\subsection{Q3. Full Non-linear Equilibrium System (Dynare conventions)}
+\subsection*{Q3. Full Non-linear Equilibrium System (Dynare conventions)}
 Let capital be predetermined (dated $t-1$) in production and factor prices:
 \begin{align}
 Y_t &= A_t K_{t-1}^{\alpha} L_t^{1-\alpha},\\
-R_t &= \alpha \frac{Y_t}{K_{t-1}},\qquad W_t=(1-\alpha)\frac{Y_t}{L_t},\\
-\frac{C_{t+1}}{C_t} &= \beta \big(R_{t+1}+1-\delta\big),\\
-\frac{1-\gamma}{\gamma}\frac{C_t}{1-L_t} &= W_t,\\
+R_t &= \alpha \frac{Y_t}{K_{t}},\\
+W_t &= (1-\alpha)\frac{Y_t}{L_t},\\
+\frac{\mathbb{E}_t C_{t+1}}{C_t} &= \beta \big(R_{t+1}+1-\delta\big),\\
+W_t &= \frac{1-\gamma}{\gamma}\frac{C_t}{1-L_t},\\
 Y_t &= C_t + I_t,\\
 K_t &= (1-\delta)K_{t-1}+I_t,\\
-\ln A_t &= \rho_A \ln A_{t-1} + \varepsilon^A_t,\quad \text{with } \bar A=1.
+\ln A_t &= (1- \rho_A) \ln \bar A + \rho_A \ln A_{t-1} + \varepsilon^A_t.
 \end{align}
 
-\subsection{Q4. Steady State Derivations}
-From Euler at steady state:
-\begin{equation}
-1=\beta(R+1-\delta)\quad \Rightarrow\quad R=\frac{1}{\beta}-1+\delta.
-\end{equation}
-Using $R=\alpha Y/K$ gives ratios
-\begin{equation}
-\frac{K}{Y}=\frac{\alpha}{R},\qquad \frac{I}{Y}=\delta \frac{\alpha}{R},\qquad \frac{C}{Y}=1-\delta\frac{\alpha}{R}.
-\end{equation}
-Intratemporal labor condition implies
-\begin{equation}
-\frac{1-\gamma}{\gamma}\frac{C}{1-L}=(1-\alpha)\frac{Y}{L}
-\ \Rightarrow\
-L=\frac{1-\alpha}{(1-\alpha)+\frac{1-\gamma}{\gamma}\frac{C}{Y}}.
-\end{equation}
-With $\bar A=1$, steady-state output level is
-\begin{equation}
-\bar Y= \left(\frac{\alpha\beta}{1-\beta+\beta\delta}\right)^{\frac{\alpha}{1-\alpha}} \bar L.
-\end{equation}
+\subsection*{Q4. Steady State Derivations}
+From Euler at equation steady state:
+\begin{align}
+1 &= \beta(\bar R+1-\delta)
+\Rightarrow \bar R = \beta^{-1}-1+\delta.
+\end{align}
 
-\subsection{Q5. What to Expect from IRFs (Qualitative)}
-A positive TFP innovation typically produces $Y,C,I,W,R\uparrow$ on impact; $K$ rises over time; $L$ increases on impact if substitution dominates.
-Consumption is smoother than investment; investment is most volatile.
+Using the firm pricing condition $\bar R=\alpha\,\bar Y/\bar K$,
+\begin{align}
+\frac{\bar K}{\bar Y} &= \frac{\alpha}{\bar R}, \\
+\frac{\bar I}{\bar Y} &= \delta\frac{\bar K}{\bar Y}=\delta\frac{\alpha}{\bar R}, \\
+\frac{\bar C}{\bar Y} &= 1-\frac{\bar I}{\bar Y}
+= 1-\delta\frac{\alpha}{\bar R}.
+\end{align}
 
-\subsection{Dynare code for Part 1}
-We keep the model in non-linear levels, capital dated at $t\!-\!1$, and lead the Euler RHS in \texttt{Dynare}.
-The file below is pulled directly from \texttt{rbc\_basic.mod}.
-\medskip
+The intratemporal FOC and the wage equation are
+\begin{align}
+\frac{1-\gamma}{\gamma}\frac{\bar C}{1-\bar L} &= \bar W, \\
+\bar W &= (1-\alpha)\frac{\bar Y}{\bar L}.
+\end{align}
+Divide both sides of the first equation by $\bar Y$ and define
+$\overline{CY}\equiv \bar C/\bar Y=1-\delta\frac{\alpha}{\bar R}$:
+\begin{align}
+\frac{1-\gamma}{\gamma}\frac{\overline{CY}}{1-\bar L} &= (1-\alpha)\frac{1}{\bar L}.
+\end{align}
+Rearranging,
+\begin{align}
+\left(\frac{1-\gamma}{\gamma}\overline{CY} + (1-\alpha) \right)\bar L &= (1-\alpha), \\
+\Rightarrow\quad
+\bar L &= \frac{1-\alpha}{(1-\alpha) + \frac{1-\gamma}{\gamma}\left(1-\delta\frac{\alpha}{\bar R}\right)}.
+\end{align}
 
-\noindent\textbf{Include the external Dynare file:}
-\begin{lstlisting}[language=Dynare,caption={\texttt{rbc\_basic.mod}},label={lst:rbc_basic}]
-\lstinputlisting{./PS1/rbc_basic.mod}
-\end{lstlisting}
+Using production with $\bar K=\tfrac{\alpha}{\bar R}\bar Y$,
+\begin{align}
+\bar Y &= \bar A\,\bar K^{\alpha}\bar L^{1-\alpha}
+       = \bar A\left(\tfrac{\alpha}{\bar R}\bar Y\right)^{\alpha}\bar L^{1-\alpha}, \\
+\bar Y^{1-\alpha} &= \bar A\left(\tfrac{\alpha}{\bar R}\right)^{\alpha}\bar L^{1-\alpha}, \\
+\Rightarrow\quad
+\bar Y &= \bar A^{\tfrac{1}{1-\alpha}}
+\left(\frac{\alpha}{\bar R}\right)^{\tfrac{\alpha}{1-\alpha}}
+\bar L = \bar A^{\frac{1}{1-\alpha}}\left(\frac{\alpha \beta}{1 - \beta + \beta \delta}\right)^{\frac{\alpha}{1-\alpha}}\bar L.
+\end{align}
+Then
+\begin{align}
+\bar K &= \frac{\alpha}{\bar R}\,\bar Y, \\
+\bar I &= \delta\,\bar K, \\
+\bar C &= \bar Y - \bar I, \\
+\bar W &= (1-\alpha)\frac{\bar Y}{\bar L}, \\
+\bar R &= \beta^{-1}-1+\delta.
+\end{align}
 
-\section{Part 2: RBC with Housework (CES Aggregator)}
-\subsection{Environment}
-Market production:
-\begin{equation}
-Y_t=A_t K_{t-1}^{\alpha} L_{m,t}^{1-\alpha},\quad 
-R_t=\alpha \frac{Y_t}{K_{t-1}},\quad W_t=(1-\alpha)\frac{Y_t}{L_{m,t}}.
-\end{equation}
+% \begin{equation}
+% 1=\beta(R+1-\delta)\quad \Rightarrow\quad R=\frac{1}{\beta}-1+\delta.
+% \end{equation}
+% Using $R=\alpha Y/K$ gives ratios
+% \begin{equation}
+% \frac{K}{Y}=\frac{\alpha}{R},\qquad \frac{I}{Y}=\delta \frac{\alpha}{R},\qquad \frac{C}{Y}=1-\delta\frac{\alpha}{R}.
+% \end{equation}
+% Intratemporal labor condition implies
+% \begin{equation}
+% \frac{1-\gamma}{\gamma}\frac{C}{1-L}=(1-\alpha)\frac{Y}{L}
+% \ \Rightarrow\
+% L=\frac{1-\alpha}{(1-\alpha)+\frac{1-\gamma}{\gamma}\frac{C}{Y}}.
+% \end{equation}
+% With $\bar A=1$, steady-state output level is
+% \begin{equation}
+% \bar Y= \left(\frac{\alpha\beta}{1-\beta+\beta\delta}\right)^{\frac{\alpha}{1-\alpha}} \bar L.
+% \end{equation}
+
+\subsection*{Q5. Simulation Dynamics}
+% A positive TFP innovation typically produces $Y,C,I,W,R\uparrow$ on impact; $K$ rises over time; $L$ increases on impact if substitution dominates.
+% Consumption is smoother than investment; investment is most volatile.
+
+Table~\ref{Table:th_moments_basic} reports the steady-state moments for the basic model.
+The volatility ranking follows the familiar RBC pattern: investment remains the most volatile variable,
+output fluctuates with intermediate intensity, and consumption is the smoothest series.
+This reflects the consumption-smoothing motive of households, while forward-looking capital accumulation
+amplifies investment responses. Labor supply remains the least volatile variable, consistent with the
+preference calibration that tempers fluctuations in hours worked.
+
+\input{rbc_basic/latex/rbc_basic_th_moments}
+
+% Table~\ref{Table:th_corr_matrix_basic} presents the revised correlation matrix.
+% All major aggregates remain strongly procyclical.
+% Consumption, investment, and labor move closely with output, with investment again showing the tightest correlation,
+% underscoring its amplification role in the cycle. Wages are almost perfectly synchronized with output,
+% highlighting the direct link between productivity shocks and the marginal product of labor.
+% The return to capital is also procyclical, though less tightly than wages.
+
+% \input{rbc_basic/latex/rbc_basic_th_corr_matrix}
+
+% Table~\ref{Table:th_autocorr_matrix_basic} summarizes the persistence properties.
+% Consumption exhibits the strongest persistence, reflecting its gradual adjustment in response to shocks.
+% Output and investment are also persistent, though somewhat less so than consumption.
+% Labor shows significant autocorrelation as well, indicating that labor supply decisions respond 
+% with inertia rather than instantaneously to shocks.
+
+% \input{rbc_basic/latex/rbc_basic_th_autocorr_matrix}
+
+The impulse responses in Figure~\ref{fig:rbc_basic_irf} confirm these dynamics.
+Following a positive technology shock, output rises immediately and gradually returns toward steady state.
+Consumption increases smoothly in a hump-shaped pattern, consistent with intertemporal smoothing.
+Investment surges strongly on impact, then decays faster than output.
+Because the return to installing capital is temporarily high,
+so agents bring investment forward.
+
+As a stock, capital adjusts with a lag;
+higher investment today lifts tomorrow's capacity,
+propagating the output expansion beyond the life of the TFP innovation.
+
+Factor prices jump on impact—wages rise with the marginal product of labor and the rental rate rises with the marginal product of capital—but the medium-run dynamics are governed by general-equilibrium feedbacks:
+as investment swells the capital stock, capital deepening drives the marginal product of capital below its pre-shock level,
+so the rental rate $r$ not only declines but undershoots the benchmark before converging back.
+Labor supply shows the mirror image:
+initially hours $l$ rise because the substitution effect from the higher real wage dominates,
+but as wealth accumulates (via higher consumption and a larger capital stock) the income effect takes over,
+desired leisure increases, and hours gradually fall below steady state before returning.
+
+% The Dynare simulation for the baseline RBC (Part~1) under a one-standard-deviation technology shock to $A_t$ produces the following qualitative impulse responses (\emph{see Figure~\ref{fig:rbc_basic_irf}}):
+% \begin{itemize}
+%   \item \textbf{Output $Y_t$} increases on impact and gradually mean-reverts, as higher productivity raises effective output given predetermined capital.
+%   \item \textbf{Consumption $C_t$} rises but less than output on impact due to intertemporal smoothing; with $\sigma=1$, the response is hump-shaped and persistent.
+%   \item \textbf{Investment $I_t$} is the most volatile component and rises strongly on impact, reflecting intertemporal substitution toward capital accumulation while productivity is high.
+%   \item \textbf{Hours $L_t$} increase on impact: the substitution effect of a higher real wage dominates the income effect, yielding procyclical labor.
+%   \item \textbf{Rental rate $R_t$} increases on impact as the marginal product of capital rises.
+%   \item \textbf{Real wage $W_t$} increases on impact due to a higher marginal product of labor.
+% \end{itemize}
+% Overall, the ordering of volatilities is standard RBC: $\mathrm{Var}(I)>\mathrm{Var}(Y)>\mathrm{Var}(C)$; all six variables are procyclical on impact in our calibration.
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=\textwidth]{rbc_basic.pdf}
+  \caption{Impulse responses from baseline RBC (one s.d. shock to $A_t$).}
+  \label{fig:rbc_basic_irf}
+\end{figure}
+\FloatBarrier
+
+\subsection*{Dynare code for Part 1}
+% We keep the model in non-linear levels, capital dated at $t\!-\!1$, and lead the Euler RHS in \texttt{Dynare}.
+% The file below is pulled directly from \texttt{rbc\_basic.mod}.
+% \medskip
+
+\lstinputlisting[language=Dynare,inputencoding=cp1252,caption={\texttt{rbc\_basic.mod}},label={lst:rbc_basic}]{rbc_basic.mod}
+
+\pagebreak
+
+
+\section*{Part 2: RBC with Housework}
+\subsection*{Q6. Firm's problem and first-order conditions}
+The representative firm chooses $(K_t,L_{m,t})$ to maximize
+\[
+\Pi_t = A_t K_t^{\alpha} L_{m,t}^{1-\alpha} - R_t K_t - W_t L_{m,t}.
+\]
+
+Take FOC with respect to $K_t$ and $L_{m,t}$,
+\begin{align}
+\frac{\partial \Pi_t}{\partial K_t}
+&= \alpha A_t K_t^{\alpha-1} L_{m,t}^{1-\alpha} - R_t
+= 0
+\ \Longrightarrow\
+R_t=\alpha A_t K_t^{\alpha-1} L_{m,t}^{1-\alpha},\\
+\frac{\partial \Pi_t}{\partial L_{m,t}}
+&= (1-\alpha) A_t K_t^{\alpha} L_{m,t}^{-\alpha} - W_t
+= 0
+\ \Longrightarrow\
+W_t=(1-\alpha) A_t K_t^{\alpha} L_{m,t}^{-\alpha}.
+\end{align}
+
+Hence factor income shares:
+\begin{align}
+R_t K_t &= \alpha A_t K_t^{\alpha} L_{m,t}^{1-\alpha} = \alpha Y_t,\\
+W_t L_{m,t} &= (1-\alpha)Y_t, \\
+Y_t &= A_t K_t^{\alpha} L_{m,t}^{1-\alpha}.
+\end{align}
+
+
+\subsection*{Q7. Household problem and first-order conditions}
+
+CES total consumption:
+\[
+C_t=\big[\omega C_{m,t}^{\eta}+(1-\omega)C_{h,t}^{\eta}\big]^{1/\eta}.
+\]
+Market budget (with capital accumulation):
+\[
+C_{m,t}+K_{t+1}=W_t L_{m,t}+(R_t+1-\delta)K_t.
+\]
 Home production:
-\begin{equation}
+\[
 C_{h,t}=B_t L_{h,t}^{\theta}.
-\end{equation}
-CES aggregator for utility:
-\begin{equation}
-C_t=\Big[\omega C_{m,t}^{\eta}+(1-\omega)C_{h,t}^{\eta}\Big]^{1/\eta}.
-\end{equation}
-Budget/resource constraints:
-\begin{equation}
-C_{m,t}+I_t=Y_t,\qquad K_t=(1-\delta)K_{t-1}+I_t.
-\end{equation}
-Time allocation: leisure $=1-L_{m,t}-L_{h,t}$.
+\]
+% Per-period utility:
+% \[
+% U_t=\gamma\log C_t+(1-\gamma)\log(1-L_{m,t}-L_{h,t}).
+% \]
 
-\subsection{FOCs}
+With multipliers $\lambda_t$ (budget) and $\zeta_t$ (home production),
+\begin{align}
+  \mathcal{L}
+= \sum_{t=0}^{\infty}\beta^t & \left\{ \gamma\log\!\big[\omega C_{m,t}^{\eta}+(1-\omega)C_{h,t}^{\eta}\big]^{1/\eta} \right. \\
+&+(1-\gamma)\log(1-L_{m,t}-L_{h,t}) \\
+&-\lambda_t\big(C_{m,t}+K_{t+1}-W_tL_{m,t}-(R_t+1-\delta)K_t\big) \\
+& \left. -\zeta_t\big(C_{h,t}-B_t L_{h,t}^{\theta}\big) \right\}.
+\end{align}
+
+Take the FOCs w.r.t $C_{m,t},C_{h,t},L_{m,t},L_{h,t},K_{t+1}$,
+\begin{align}
+\frac{\partial \mathcal{L}_t}{\partial C_{m,t}} &= \beta^t\Big(\gamma\cdot \frac{\omega C_{m,t}^{\eta-1}}{\omega C_{m,t}^{\eta}+(1-\omega)C_{h,t}^{\eta}} - \lambda_t\Big)=0,\\
+\frac{\partial \mathcal{L}_t}{\partial C_{h,t}} &= \beta^t\Big(\gamma\cdot \frac{(1-\omega) C_{h,t}^{\eta-1}}{\omega C_{m,t}^{\eta}+(1-\omega)C_{h,t}^{\eta}} - \zeta_t\Big)=0,\\
+\frac{\partial \mathcal{L}_t}{\partial L_{m,t}} &= \beta^t\Big(-\frac{1-\gamma}{1-L_{m,t}-L_{h,t}} + \lambda_t W_t\Big)=0,\\
+\frac{\partial \mathcal{L}_t}{\partial L_{h,t}} &= \beta^t\Big(-\frac{1-\gamma}{1-L_{m,t}-L_{h,t}} + \zeta_t\,\theta B_t L_{h,t}^{\theta-1}\Big)=0,\\
+\frac{\partial \mathcal{L}_t}{\partial K_{t+1}} &= \beta^t(-\lambda_t) + \beta^{t+1}\lambda_{t+1}(R_{t+1}+1-\delta)=0.
+\end{align}
+
 Let $\lambda_t$ be the multiplier on the market budget and $\zeta_t$ for the home-production identity. Then:
 \begin{align}
 \lambda_t &= \gamma \omega \frac{C_{m,t}^{\eta-1}}{\omega C_{m,t}^{\eta}+(1-\omega)C_{h,t}^{\eta}},\\
 \zeta_t &= \gamma (1-\omega) \frac{C_{h,t}^{\eta-1}}{\omega C_{m,t}^{\eta}+(1-\omega)C_{h,t}^{\eta}},\\
-\frac{1-\gamma}{1-L_{m,t}-L_{h,t}} &= \lambda_t W_t,\\
-\frac{1-\gamma}{1-L_{m,t}-L_{h,t}} &= \zeta_t \theta B_t L_{h,t}^{\theta-1},\\
-\beta \lambda_{t+1}(R_{t+1}+1-\delta) &= \lambda_t.
+\lambda_t W_t &= \frac{1-\gamma}{1-L_{m,t}-L_{h,t}},\\
+\zeta_t \theta B_t L_{h,t}^{\theta-1} &= \frac{1-\gamma}{1-L_{m,t}-L_{h,t}},\\
+\lambda_t &= \beta \lambda_{t+1}(R_{t+1}+1-\delta).
 \end{align}
 Equivalently,
 \begin{align}
 \frac{1-\gamma}{1-L_{m,t}-L_{h,t}} 
-&= \gamma \omega \frac{C_{m,t}^{\eta-1}}{\omega C_{m,t}^{\eta} + (1-\omega)C_{h,t}^{\eta}} W_t,\\
-\beta\,\gamma \omega \frac{C_{m,t+1}^{\eta-1}}{\omega C_{m,t+1}^{\eta}+(1-\omega)C_{h,t+1}^{\eta}}(R_{t+1}+1-\delta)
-&= \gamma \omega \frac{C_{m,t}^{\eta-1}}{\omega C_{m,t}^{\eta}+(1-\omega)C_{h,t}^{\eta}},\\
+&= \gamma \omega\, \frac{C_{m,t}^{\eta-1}}{\omega C_{m,t}^{\eta} + (1-\omega)C_{h,t}^{\eta}} W_t,\\
+\beta\,\gamma\, \omega \frac{C_{m,t+1}^{\eta-1}}{\omega C_{m,t+1}^{\eta}+(1-\omega)C_{h,t+1}^{\eta}}(R_{t+1}+1-\delta)
+&= \gamma\,\omega\, \frac{C_{m,t}^{\eta-1}}{\omega C_{m,t}^{\eta}+(1-\omega)C_{h,t}^{\eta}},\\
 \frac{1-\gamma}{1-L_{m,t}-L_{h,t}}
 &= \gamma (1-\omega) \frac{C_{h,t}^{\eta-1}}{\omega C_{m,t}^{\eta}+(1-\omega)C_{h,t}^{\eta}} \theta B_t L_{h,t}^{\theta-1}.
 \end{align}
 
-\subsection{Steady State and Comparison}
-The market block mirrors Part 1 with $L_m$ in place of $L$. With table-provided steady-state labor allocations $(\bar L_m,\bar L_h)$,
-one obtains
-\begin{equation}
-\bar Y=\left(\frac{\alpha\beta}{1-\beta+\beta\delta}\right)^{\frac{\alpha}{1-\alpha}} \bar L_m,\quad
-\bar C_m=\bar Y-\delta \bar K,\quad
-\bar C_h=\bar B\ \bar L_h^{\theta}.
-\end{equation}
-Given $(\bar L_m,\bar L_h)=(0.28550,0.26689)$ and $\theta=0.8$, the steady-state levels match the assignment's Table~4 exactly.
+\subsection*{Q8. Complete the equilibrium system (fill in missing equations)}
+\begin{align*}
+Y_t &= A_t K_t^{\alpha} L_{m,t}^{1-\alpha},\\
+C_{h,t} &= B_t L_{h,t}^{\theta},\\
+K_t &= (1-\delta)K_{t-1}+I_t,\\
+I_t &= Y_t - C_{m,t},\\
+W_t &= (1-\alpha)\frac{Y_t}{L_{m,t}},\\
+R_t &= \alpha\frac{Y_t}{K_t},\\
+C^{\mathrm{tot}}_t &= \big[\omega C_{m,t}^{\eta}+(1-\omega)C_{h,t}^{\eta}\big]^{1/\eta},\\
+\ln A_t &= (1-\rho_A)\ln\bar A+\rho_A\ln A_{t-1}+\varepsilon^A_t, \\
+\ln B_t &= (1-\rho_B)\ln\bar B+\rho_B\ln B_{t-1}+\varepsilon^B_t.
+\end{align*}
 
-\subsection{Dynamics (Qualitative IRFs)}
-\begin{itemize}[nosep]
-  \item $A$ shock: wages rise, $L_m\uparrow$ and $L_h\downarrow$, $C_m$ up, $C_h$ can fall on impact; $Y,I,K$ behave as in RBC with added reallocation.
-  \item $B$ shock: $L_h\uparrow$, $L_m\downarrow$, $C_h$ up; $Y,C_m,I$ may decline on impact; total $C$ may still increase with high substitution ($\eta=0.8\Rightarrow$ elasticity $=5$).
-\end{itemize}
+Together with the three optimality conditions stated in Q7,
+these equations complete the competitive equilibrium system for the RBC model with home production.
 
-\subsection{Dynare code for Part 2}
-The complete non-linear model with both market and home sectors, including the CES aggregator and two exogenous processes,
-is in \texttt{rbc\_home.mod} and included below.
+\subsection*{Q9. Steady-state derivations}
+From the Euler condition,
+\begin{align}
+1 &= \beta(\bar R+1-\delta)
+\Rightarrow\quad \bar R = \beta^{-1}-1+\delta
+\end{align}
 
-\begin{lstlisting}[language=Dynare,caption={\texttt{rbc\_home.mod}},label={lst:rbc_home}]
-\lstinputlisting{./PS1/rbc_home.mod}
-\end{lstlisting}
+From the firm's pricing condition $\bar R=\alpha\,\bar Y/\bar K$:
+\begin{align}
+\frac{\bar K}{\bar Y} &= \frac{\alpha}{\bar R}
+= \frac{\alpha}{\beta^{-1}-1+\delta} = \frac{\alpha \beta}{1 - \beta + \beta \delta}.
+\end{align}
+
+Hence the steady-state shares are
+\begin{align}
+\frac{\bar I}{\bar Y} &= \delta\,\frac{\alpha}{\bar R}
+= \delta\,\frac{\alpha \beta}{1 - \beta + \beta \delta}, \\
+\frac{\bar C_m}{\bar Y} &= 1-\frac{\bar I}{\bar Y}
+= 1-\delta\,\frac{\alpha}{\beta^{-1}-1+\delta}.
+\end{align}
+
+Factor prices in levels:
+\begin{align}
+\bar W &= (1-\alpha)\frac{\bar Y}{\bar L_m}, \\
+\bar R &= \beta^{-1}-1+\delta.
+\end{align}
+
+With $\bar Y=\bar A\,\bar K^{\alpha}\bar L_m^{1-\alpha}$ and $\bar K=(\alpha/\bar R)\bar Y$,
+\begin{align}
+\bar Y &= \bar A\left(\tfrac{\alpha}{\bar R}\bar Y\right)^{\alpha}\bar L_m^{1-\alpha}, \\
+\bar Y^{1-\alpha} &= \bar A\left(\tfrac{\alpha}{\bar R}\right)^{\alpha}\bar L_m^{1-\alpha}.
+\end{align}
+
+Thus
+\begin{align}
+\bar Y &= \bar A^{\tfrac{1}{1-\alpha}}
+\left(\frac{\alpha}{\bar R}\right)^{\tfrac{\alpha}{1-\alpha}}
+\bar L_m = \bar A^{\frac{1}{1-\alpha}}\left(\frac{\alpha \beta}{1 - \beta + \beta \delta}\right)^{\frac{\alpha}{1-\alpha}}\bar L_m.
+\end{align}
+
+Define
+\begin{align}
+\Phi &\equiv \bar A^{\frac{1}{1-\alpha}}\left(\frac{\alpha \beta}{1 - \beta + \beta \delta}\right)^{\frac{\alpha}{1-\alpha}}\,
+\end{align}
+so that
+\begin{align}
+\bar Y &= \Phi\,\bar L_m, \\
+\bar K &= \frac{\alpha}{\bar R}\,\Phi\,\bar L_m, \\
+\bar I &= \delta\,\frac{\alpha}{\bar R}\,\Phi\,\bar L_m, \\
+\bar C_m &= \left(1-\delta\,\frac{\alpha}{\bar R}\right)\Phi\,\bar L_m, \\
+\bar W &= (1-\alpha)\,\Phi, \\
+\bar C_h &= \bar B\,\bar L_h^{\theta}, \\
+\bar C^{\mathrm{tot}} &= \left[\omega \bar C_m^{\eta}+(1-\omega)\bar C_h^{\eta}\right]^{1/\eta}.
+\end{align}
+
+Define
+\begin{align}
+\bar S &\equiv \omega \bar C_m^{\eta}+(1-\omega)\bar C_h^{\eta}.
+\end{align}
+
+The two steady-state FOCs are
+\begin{align}
+\frac{1-\gamma}{1-\bar L_m-\bar L_h}
+&= \gamma\,\omega\,\frac{\bar C_m^{\eta-1}}{\bar S}\,\bar W, \\
+\frac{1-\gamma}{1-\bar L_m-\bar L_h}
+&= \gamma(1-\omega)\,\frac{\bar C_h^{\eta-1}}{\bar S}\,\theta\,\bar B\,\bar L_h^{\theta-1}.
+\end{align}
+
+Equating the RHS terms gives the relative condition:
+\begin{align}
+\omega\,\bar C_m^{\eta-1}\,\bar W
+&= (1-\omega)\,\theta\,\bar B\,\bar L_h^{\theta\eta-1}\,\bar C_h^{\eta-1}.
+\end{align}
+
+Substitute $\bar C_m=(1-\delta\frac{\alpha}{\bar R})\Phi\,\bar L_m$, $\bar W=(1-\alpha)\Phi$, and $\bar C_h=\bar B\,\bar L_h^{\theta}$:
+\begin{align}
+\omega(1-\alpha)\left(1-\delta\frac{\alpha}{\bar R}\right)^{\eta-1}\Phi^{\eta}\,\bar L_m^{\eta-1}
+&= (1-\omega)\,\theta\,\bar B^{\eta}\,\bar L_h^{\theta\eta-1}.
+\tag{*}\label{eq:rel}
+\end{align}
+
+The level condition with leisure is
+\begin{align}
+\frac{1-\gamma}{1-\bar L_m-\bar L_h}
+&= \gamma\,\omega\,(1-\alpha)\left(1-\delta\frac{\alpha}{\bar R}\right)^{\eta-1}
+\frac{\Phi^{\eta}\,\bar L_m^{\eta-1}}{
+\omega\left[\left(1-\delta\frac{\alpha}{\bar R}\right)\Phi\,\bar L_m\right]^{\eta}
++(1-\omega)\,\bar B^{\eta}\,\bar L_h^{\theta\eta}}.
+\tag{**}\label{eq:level}
+\end{align}
+
+Equations \eqref{eq:rel} and \eqref{eq:level} jointly determine $(\bar L_m,\bar L_h)$ in terms of parameters
+$\{\alpha,\beta,\delta,\gamma,\omega,\eta,\theta,\bar A,\bar B\}$.
+
+Let
+\begin{align}
+\bar R &= \beta^{-1}-1+\delta, \\
+\overline{CY} &= 1-\delta\,\frac{\alpha}{\bar R}, \\
+\Phi &= \bar A^{\tfrac{1}{1-\alpha}}
+\left(\frac{\alpha}{\bar R}\right)^{\tfrac{\alpha}{1-\alpha}}.
+\end{align}
+
+Then
+\begin{align}
+\bar Y &= \Phi\,\bar L_m, \\
+\bar K &= \frac{\alpha}{\bar R}\,\Phi\,\bar L_m, \\
+\bar I &= \delta\,\frac{\alpha}{\bar R}\,\Phi\,\bar L_m, \\
+\bar C_m &= \overline{CY}\,\Phi\,\bar L_m, \\
+\bar C_h &= \bar B\,\bar L_h^{\theta}, \\
+\bar C^{\mathrm{tot}} &= \left[\omega \bar C_m^{\eta}+(1-\omega)\bar C_h^{\eta}\right]^{1/\eta}, \\
+\bar W &= (1-\alpha)\,\Phi, \\
+\bar R &= \beta^{-1}-1+\delta.
+\end{align}
+
+\subsection*{Q10. Simulation Dynamics}
+% \begin{itemize}[nosep]
+%   \item $A$ shock: wages rise, $L_m\uparrow$ and $L_h\downarrow$, $C_m$ up, $C_h$ can fall on impact; $Y,I,K$ behave as in RBC with added reallocation.
+%   \item $B$ shock: $L_h\uparrow$, $L_m\downarrow$, $C_h$ up; $Y,C_m,I$ may decline on impact; total $C$ may still increase with high substitution ($\eta=0.8\Rightarrow$ elasticity $=5$).
+% \end{itemize}
+
+% We consider two separate one-standard-deviation shocks using the Dynare runs for the home-production model (Part~2). Figures~\ref{Fig:IRF:epsA} and \ref{Fig:IRF:epsB} display the IRFs.
+
+% \begin{itemize}
+%   \item \textbf{Market output $Y_t$} rises on impact and gradually returns to steady state.
+%   \item \textbf{Market consumption $C_{m,t}$} increases, while \textbf{home consumption $C_{h,t}$} \emph{decreases} on impact as time reallocates from home to market ($L_{m,t}\uparrow, L_{h,t}\downarrow$).
+%   % \item \textbf{Total consumption $C^{\text{tot}}_t$} rises because the increase in $C_{m,t}$ outweighs the decline in $C_{h,t}$ given high substitution elasticity ($1/(1-\eta)=5$).
+%   \item \textbf{Investment $I_t$} rises strongly on impact, reflecting its role as the most elastic component of demand.
+%   \item \textbf{Rental rate $R_t$} and \textbf{wage $W_t$} increase modestly.
+% \end{itemize}
+
+Table~\ref{Table:th_moments} reports the updated theoretical moments.
+The volatility ranking remains consistent with RBC theory: investment is more volatile than output,
+while consumption is smoother. Importantly, the distinction between market consumption ($C_m$) and home consumption ($C_h$)
+highlights the buffering role of the home sector. In the revised calibration, home consumption is even less volatile,
+making total consumption (the CES aggregate) smoother and more persistent than market consumption alone.
+This confirms that the home sector dampens aggregate consumption variability.
+
+\input{rbc_home/latex/rbc_home_th_moments}
+
+% Table~\ref{Table:th_corr_matrix} presents the correlation structure.
+% Market variables ($Y, C_m, I, L_m$) remain strongly procyclical.
+% However, home consumption and home hours ($C_h, L_h$) now show clearer countercyclical patterns:
+% when productivity in the market sector rises, households reallocate time toward market work,
+% causing $L_h$ and $C_h$ to fall.
+% Total consumption remains positively correlated with output, but less tightly than market consumption,
+% reflecting the stabilizing contribution of home production.
+
+% \input{rbc_home/latex/rbc_home_th_corr_matrix}
+
+% Persistence is summarized in Table~\ref{Table:th_autocorr_matrix}. 
+% Consumption variables, especially the CES aggregate, display high autocorrelation,
+% consistent with households’ preference for smoothing.
+% Labor allocation between home and market also shows persistence,
+% indicating that time-use decisions adjust gradually rather than instantaneously to shocks.
+% Investment remains less persistent but highly responsive, which is characteristic of forward-looking capital dynamics
+
+% \input{rbc_home/latex/rbc_home_th_autocorr_matrix}
+
+% Variance decomposition results in Table~\ref{Table:th_var_decomp_uncond} show that
+% market productivity shocks ($\varepsilon^A$) account for most of the variation in output, market consumption, and investment.
+% In contrast, home productivity shocks ($\varepsilon^B$) explain a larger share of the fluctuations in home consumption and home hours,
+% and contribute nontrivially to total consumption.
+% This underlines the dual sources of business cycle fluctuations once the home sector is introduced.
+
+% \input{./rbc_home/latex/rbc_home_th_var_decomp_uncond}
+
+\paragraph{(i) Market TFP shock $(A_t\uparrow)$:} 
+
+The impulse responses further illustrate these mechanisms.
+Figure~\ref{Fig:IRF:epsA} shows that:
+output increase on impact, then gradual mean reversion because the reallocation of time toward market work adds to the initial boost;
+later, as capital builds, it sustains output even while the shock fades.
+
+Market consumption rises, but more smoothly than output while home consumption falls on impact due to time reallocation and then slowly returns.
+With reasonable substitutability in your CES aggregator, the rise in $C_m$ dominates the fall in $C_h$.
+In welfare terms, a market TFP gain makes the overall consumption bundle better even though the home component dips.
+
+The market wage rises relative to the shadow value of home time,
+so households reallocate time toward market work.
+Aggregate hours only creep up—some of the productivity windfall is still taken as higher consumption rather than massive extra work.
+
+Higher market TFP raises marginal products.
+The wage follows the marginal product of market labor;
+the rental rate follows the marginal product of capital—high when the shock hits,
+then easing as capital accumulates.
+
+\begin{figure}[H]
+  \centering
+  \subfigure[Panel (a)]{
+    % 修改：为 includegraphics 指定 key 'width='（原为 \includegraphics[\textwidth]{...}）
+    \includegraphics[width=\textwidth]{rbc_home_A.pdf}
+    \label{Fig:IRF:epsA1}
+  }
+  \hfill
+  \subfigure[Panel (b)]{
+    % 修改：为 includegraphics 指定 key 'width='（原为 \includegraphics[\textwidth]{...}）
+    \includegraphics[width=\textwidth]{rbc_home_A2.pdf}
+    \label{Fig:IRF:epsA2}
+  }
+  \caption{Impulse response functions to an orthogonalized shock to $\varepsilon_A$.}
+  \label{Fig:IRF:epsA}
+\end{figure}
+
+\paragraph{(ii) Home-productivity shock $(B_t\uparrow)$:}
+% \begin{itemize}
+%   \item The return to home time increases, so \textbf{$L_{h,t}$ rises} and \textbf{$L_{m,t}$ falls}.
+%   \item \textbf{Home consumption $C_{h,t}$} rises, while \textbf{market consumption $C_{m,t}$} and \textbf{investment $I_t$} \emph{decline}.
+%   \item \textbf{Market output $Y_t$} decreases with lower $L_{m,t}$; \textbf{rental rate $R_t$} falls, while \textbf{wage $W_t$} \emph{increases} (higher marginal product of the reduced market labor).
+%   % \item \textbf{Total consumption $C^{\text{tot}}_t$} increases despite lower GDP, as households substitute toward the more productive home good.
+% \end{itemize}
+
+The impulse responses further illustrate these mechanisms.
+Figure~\ref{Fig:IRF:epsB} depicts the effects of a positive home productivity shock.
+Higher $B_t$ makes each hour at home more productive; with more time reallocated to home,
+$C_h$ rises and market income/output fall; consumption smoothing tempers the drop.
+The CES aggregator allows substitution into the now-cheaper/more productive home good. With sufficiently high substitutability,
+the gain in $C_h$ outweighs the loss in $C_m$, so total consumption rises.
+
+Fewer market hours $L_m$ reduce current production;
+later, a lower capital stock prolongs the downturn.
+
+The intratemporal time-allocation margin is a core channel here:
+a higher home marginal product pulls time homeward.
+Because the productivity windfall raises effective income,
+households often take some of it as leisure, so $Ltot$ doesn't surge.
+
+With fewer market hours, the marginal product of market labor rises,
+with weaker market output relative to predetermined capital, the marginal product of capital declines.
+
+\begin{figure}[H]
+  \centering
+  \subfigure[Panel (a)]{
+    \includegraphics[width=0.8\textwidth]{rbc_home_B.pdf}
+    \label{Fig:IRF:epsB1}
+  }
+  \hfill
+  \subfigure[Panel (b)]{
+    \includegraphics[width=0.8\textwidth]{rbc_home_B2.pdf}
+    \label{Fig:IRF:epsB2}
+  }
+  \caption{Impulse response functions to an orthogonalized shock to $\varepsilon_B$.}
+  \label{Fig:IRF:epsB}
+\end{figure}
+
+\subsection*{Dynare code for Part 2}
+% The complete non-linear model with both market and home sectors, including the CES aggregator and two exogenous processes,
+% is in \texttt{rbc\_home.mod} and included below.
+
+\lstinputlisting[language=Dynare,inputencoding=cp1252,caption={\texttt{rbc\_home.mod}},label={lst:rbc_home}]{rbc_home.mod}
 
 
 \end{document}

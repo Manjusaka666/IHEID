@@ -1,0 +1,308 @@
+\section{Introduction}
+
+\begin{definition}[Proportional Function]
+    We say $f(x)$ is proportional to $g(x)$ if there exists a constant $c$,
+    such that $f(x) = c \cdot g(x)$ for all $x$ in the domain of interest.
+    We denote this relationship as $f(x) \propto g(x)$.
+\end{definition}
+
+If $y$ is a R.V. with pdf $f(y) \propto \exp(-\lambda y)$ for $y \geq 0$ and $0$ otherwise,
+then we know $f(y) = c \cdot \exp(-\lambda y)$.
+To find $c$, we use the fact that the total probability must equal 1:
+\begin{equation}
+    \int_0^\infty f(y) dy = 1 \implies \int_0^\infty c \cdot \exp(-\lambda y) dy = 1
+\end{equation}
+Calculating the integral, we have:
+\begin{equation}
+    c \cdot \left[ -\frac{1}{\lambda} \exp(-\lambda y) \right]_0^\infty = 1
+\end{equation}
+Evaluating the limits, we get:
+\begin{equation}
+    c = \frac{1}{\lambda}
+\end{equation}
+
+Now looking at the normal distribution: $y \sim \mathcal{N} \left( \mu , \sigma^2 \right)$
+we have
+\begin{align}
+    p(y | \mu, \sigma^2) &= \frac{1}{\sqrt{2 \pi \sigma^2}} \exp \left( -\frac{(y - \mu)^2}{2\sigma^2} \right) \\
+    & \propto \exp \left( -\frac{1}{2\sigma^2} (y - \mu)^2 \right)
+\end{align}
+
+For a simple linear regression model $y_i = \theta + u_i$, where $\mathbb{E}[ u_i | \theta =0]$,
+we know $\mathbb{E}[ y_i | \theta ] = \theta$.
+
+
+
+\begin{itemize}
+    \item Least-squares estimator:
+    \begin{align}
+        \hat{\theta}_{LS} &= \arg \min_\theta \sum_{i=1}^n (y_i - \mathbb{E}[ y_i | \theta ])^2 \\
+        &= \arg \min_\theta \left( y_i - \theta \right)^2 \\
+        &= \frac{1}{n} \sum_{i=1}^n y_i
+    \end{align}
+    \item Maximum likelihood estimator(Assuming $y_i | \theta \sim \mathcal{N} \left( \theta , \sigma^2 \right)$):
+    \begin{align}
+        \hat{\theta}_{ML} &= \arg \max_\theta \prod_{i=1}^n p(y_i | \theta) \\
+        &\propto \arg \max_\theta \prod_{i=1}^n \exp \left( -\frac{1}{2\sigma^2} (y_i - \theta)^2 \right) \\
+        &\propto \arg \min_\theta \sum_{i=1}^n (y_i - \theta)^2 \\
+        &= \frac{1}{n} \sum_{i=1}^n y_i = \hat{\theta}_{LS}
+    \end{align}
+    It's easy to see that:
+    \begin{align}
+        \mathbb{E}[\hat{\theta } | \theta ] &= \mathbb{E} \left[ \frac{1}{n} \sum_{i=1}^n y_i | \theta \right] = \theta \\
+        \mathbb{V}[\hat{\theta } | \theta ] &= \mathbb{V} \left[ \frac{1}{n} \sum_{i=1}^n y_i | \theta \right] = \frac{\sigma^2}{n}
+    \end{align}
+    Even without assuming that $\hat{\theta } | \theta \sim \mathcal{N} \left( \theta , \frac{\sigma^2}{n} \right)$,
+    we know by the Central Limit Theorem that:
+    \begin{equation}
+        \sqrt{n} \left( \hat{\theta } - \theta \right) \xrightarrow{d} \mathcal{N} \left( 0 , \sigma^2 \right) \Rightarrow \hat{\theta } | \theta \sim \mathcal{N} \left( \theta , \frac{\sigma^2}{n} \right)
+    \end{equation}
+\end{itemize}
+
+\begin{definition}[Posterior]
+    The posterior distribution of a parameter $\theta$ given data $y$ is defined as:
+    \begin{equation}
+        p(\theta | y) = \frac{p(y | \theta) p(\theta)}{p(y)} \propto p(y | \theta) p(\theta)
+    \end{equation}
+    where $p(y | \theta)$ is the likelihood, $p(\theta)$ is the prior distribution of $\theta$, and $p(y)$ is the marginal likelihood.
+
+    This shows how, given a prior belief about $\theta$ and observed data $y$,
+    we can update our belief to form the posterior distribution.
+\end{definition}
+
+\begin{eg}
+    Taking a simple example: 
+    \begin{equation}
+        y_i | \theta \sim \mathcal{N} \left( \theta , 1 \right) \Rightarrow p(y_i | \theta) = \frac{1}{\sqrt{2\pi}} \exp \left( -\frac{1}{2} (y_i - \theta)^2 \right)
+    \end{equation}
+    Suppose $\theta \sim \mathcal{N} \left( \theta , \frac{1}{\lambda } \right)$.
+    \begin{align}
+        p(\theta | y) & \propto p(y | \theta) p(\theta) \\
+        &= (2\pi )^{ -\frac{n}{2}} \exp \left( -\frac{1}{2} (y_i - \theta)^2 \right) \cdot \frac{1}{\sqrt{2\pi \frac{1}{\lambda}}} \exp \left( -\frac{1}{2 \frac{1}{\lambda }} (\theta - \theta_0)^2 \right) \\
+        & \propto \exp \left( -\frac{1}{2} \sum_{i=1}^n (y_i - \theta)^2 - \frac{\lambda }{2} (\theta - \theta_0)^2 \right) \\
+        & \propto \exp \left( -\frac{1}{2} \left[ (n + \lambda ) \theta^2 - 2 \left(\sum_{i=1}^n y_i + \lambda \theta_0\right) \theta \right] \right) \\
+        \theta | y & \sim \mathcal{N} \left( \frac{1}{n + \lambda } \left( \sum_{i=1}^n y_i + \lambda \theta_0 \right), \frac{1}{n + \lambda } \right)
+    \end{align}
+    We guess that $\theta | y \sim \mathcal{N} \left( \bar{\theta }, \bar{V} \right)$,
+    then we can write:
+    \begin{align}
+        p \left( \theta | y \right) & \propto \exp \left( -\frac{1}{2} \bar{V}^{-1} (\theta - \bar{\theta })^2 \right) \\
+        & \propto \exp \left( -\frac{1}{2} \left[ \bar{V}^{-1} \theta^2 - 2 \bar{V}^{-1} \bar{\theta } \theta \right] \right)
+    \end{align}
+    then, we know that:
+    \begin{equation}
+        \bar{V}^{-1} = n + \lambda 
+    \end{equation}
+    and
+    \begin{align}
+        \bar{\theta } &= \frac{1}{n + \lambda } \left( \sum_{i=1}^n y_i + \lambda \theta_0 \right) \\
+        &= \frac{1}{n + \lambda } \cdot \left[ n \cdot \sum_{i=1}^n y_i + \lambda\, \theta_0 \right] \\
+        & \to \begin{cases}
+            \theta_0, &\text{ if } \lambda \to \infty ; \\
+            \hat{\theta }, &\text{ if } \lambda \to 0 \text{ and/or } n \to \infty .
+        \end{cases}
+    \end{align}
+    In general, we can push $\theta _0$ to $0$ by re-centering $y_i$.
+    Then we have:
+    \begin{equation}
+        \hat{\theta } = \frac{n}{n + \lambda }\, \underset{ \hat{\theta }_{ML} }{ \underbrace{ \frac{1}{n} \sum_{i=1}^n y_i }}
+    \end{equation}
+    then,
+    \begin{align}
+        \mathbb{E}[\hat{\theta } | \theta ] &= \mathbb{E}\left[ \frac{1}{n + \lambda} \sum_{i=1}^n y_i | \theta \right] \\
+        &= \frac{1}{n + \lambda} \sum_{i=1}^n \mathbb{E}[y_i | \theta ] = \frac{1}{n + \lambda} \sum_{i=1}^n \theta = \frac{n}{n + \lambda} \theta 
+    \end{align}
+    for any $\lambda > 0$, this $\hat{\theta }$ is biased.
+    \begin{align}
+        \mathbb{V}[\hat{\theta } | \theta ] &= \mathbb{V}\left[ \frac{1}{n + \lambda} \sum_{i=1}^n y_i | \theta \right] \\
+        &= \frac{1}{(n + \lambda)^2} \sum_{i=1}^n \mathbb{V}[y_i | \theta ] \\
+        &= \frac{n}{(n + \lambda)^2} \\
+        &< \frac{1}{n} = \mathbb{V}[\hat{\theta }_{ML} | \theta ] \text{ for any } \lambda > 0.
+    \end{align}
+\end{eg}
+
+\section{Hypothesis Testing}
+
+We want to test $H_0: \theta = 0$ vs $H_1: \theta \neq 0$.
+$\varphi \in \{0, 1\}$ is a test function, where $\phi = 1$ means accept,
+then the size of the test is defined as:
+\begin{equation}
+    \alpha = \mathbb{P}(\varphi = 1 | \theta = 0) = \mathbf{1} \{\theta < \theta_0 \}
+\end{equation}
+
+We have:
+\begin{align}
+    \mathbb{P}(\theta | y) \begin{dcases}
+        p\left( \theta \in \Theta_0 | y \right);\\
+        p\left( \theta \notin \Theta_0 | y \right) = 1 - p\left( \theta \in \Theta_0 | y \right).
+    \end{dcases}
+\end{align}
+Then, the posterior odds ratio is defined as:
+\begin{equation}
+    \frac{p\left( \theta \in \Theta_0 | y \right)}{p\left( \theta \in \Theta_1 | y \right)} = \frac{p\left( \theta \in \Theta_0 | y \right)}{1 - p\left( \theta \in \Theta_0 | y \right)}
+\end{equation}
+The Bayes factor is defined as:
+\begin{equation}
+    BF = \frac{\text{Post. Odds}}{\text{Prior Odds}}
+\end{equation}
+
+\begin{eg}
+    
+Suppose $\theta \in \{0, 1\}$, and $y | \theta \in \{ 0,1,2,3,4 \}$,
+\begin{table}[H]
+    \centering
+    \begin{tabular}{c|ccccc}
+        \toprule
+         & 0 & 1 & 2 & 3 & 4 \\
+        \midrule
+        $p(y | \theta = 0)$ & 75\% & 14\% & 4\% & 3.7\% & 3.3\% \\
+        $p(y | \theta = 1)$ & 70\% & 25.1\% & 4\% & 0.5\% & 0.4\% \\
+        \bottomrule
+    \end{tabular}
+    \caption{Example}
+    \label{tab:example}
+\end{table}
+
+Suppose $y=2$, then the hypothesis test results are:
+\begin{align}
+    \mathcal{H}_0: \theta = 0 & \to p(y \geq 2 | \theta = 0) = 11\% \\
+    \mathcal{H}_1: \theta = 1 & \to p(y \geq 2 | \theta = 1) = 4.9\%
+\end{align}
+
+The Bayes factors are:
+\begin{align}
+    BF &= \frac{p\left(\theta = 1 | y = 2 \right)}{p\left(\theta = 0 | y = 2 \right)} \\
+    &= \frac{p(y = 2 | \theta = 1)p(\theta = 1)}{p(y = 2 | \theta = 0)p(\theta = 0)}
+\end{align}
+
+\end{eg}
+
+Consider $c(y)$ such that $\mathbb{P}\left[ \theta \in c(y) | \theta \right] = 1- \alpha $, e.g. 95\%,
+then the decision rule is:
+\begin{equation}
+    \left\{ \theta_0 \in \Theta : \varphi(\theta_0, \alpha ) = 1 \right\}
+\end{equation}
+Under Bayesian approach, we say:  $\mathbb{P}\left[ \theta \in c(y) | y \right] = 1- \alpha $, e.g. 95\%,
+then we have the Highest Posterior Density(HPD) region:
+\begin{equation}
+    c(y) = \left\{ \theta : p(\theta | y) \geq k_\alpha  \right\}
+\end{equation}
+where $k_\alpha $ is such that $\mathbb{P}\left[ \theta \in c(y) | y \right] = 1- \alpha $.
+
+\begin{figure}[ht]
+    \centering
+    \begin{tikzpicture}
+        \pgfmathsetmacro{\mu}{0.3}      % posterior mean
+        \pgfmathsetmacro{\sigma}{0.6}   % posterior sd
+        \pgfmathsetmacro{\peak}{1/(sqrt(2*pi)*\sigma)}
+        \pgfmathsetmacro{\kfactor}{0.42} % k_alpha as fraction of peak (adjust for illustration)
+        \pgfmathsetmacro{\kval}{\kfactor*\peak}
+        \begin{axis}[
+            width=0.8\linewidth,
+            height=5.2cm,
+            domain=\mu-3*\sigma:\mu+3*\sigma,
+            samples=200,
+            axis x line=middle,
+            axis y line=left,
+            xlabel={\(\theta\)},
+            ylabel={\(p(\theta\mid y)\)},
+            xmin=\mu-2.2,
+            xmax=\mu+2.2,
+            ymin=0,
+            ytick=\empty,
+            enlargelimits=false,
+            tick align=outside,
+            clip=false,
+            ]
+            % posterior density path
+            \addplot[name path=post, very thick, smooth, blue] 
+                {1/(sqrt(2*pi)*\sigma)*exp(-0.5*((x-\mu)/\sigma)^2)};
+            % horizontal k line
+            \addplot[name path=kline, draw=none] {\kval};
+            % fill HPD region (where posterior >= k)
+            % we use a soft clip range that contains the two intersections for clarity
+            \addplot[blue!20, fill=blue!20] fill between[of=post and kline, soft clip={domain=\mu-1.05:\mu+1.05}];
+            % dashed k line and label
+            \draw[dashed, gray] (axis cs:\mu-2.2,\kval) -- (axis cs:\mu+1.88,\kval);
+            \node[gray, right] at (axis cs:\mu+1.9,\kval) {\(k_\alpha\)};
+            % annotate HPD interval endpoints (approximate)
+            \pgfmathsetmacro{\leftroot}{\mu-1.02}
+            \pgfmathsetmacro{\rightroot}{\mu+1.02}
+            % \draw[|<->|, thick] (axis cs:\leftroot,0.02) -- (axis cs:\rightroot,0.02) node[midway, below=3pt] {\textbf{HPD region} \(c(y)\)};
+            % mark posterior mean
+            \draw[->, thin] (axis cs:\mu, \peak*0.95) -- (axis cs:\mu, \peak) node[above] {\(\bar\theta\)};
+        \end{axis}
+    \end{tikzpicture}
+    \caption{HPD Region Example}
+    \label{fig:hpd_example}
+\end{figure}
+
+Now we consider a simple linear regression model:
+\begin{equation}
+    y_i = x_i' \beta + u_i, \quad u_i \sim \mathcal{N}(0, \sigma^2)
+\end{equation}
+then $y_i | x_i, \beta \sim \mathcal{N}(x_i' \beta, \sigma^2)$.
+
+Denote $\theta = (\beta', \sigma^2)'$ as the parameter of interest,
+then the likelihood function is:
+\begin{align}
+    p(y | x, \theta) &= \prod_{i=1}^n \frac{1}{\sqrt{2\pi \sigma^2}} \exp \left( -\frac{1}{2\sigma^2} (y_i - x_i' \beta)^2 \right) \\
+    &= \prod \frac{1}{(2\pi \sigma^2)^{\frac{n}{2}}} \exp \left( -\frac{1}{2\sigma^2} \sum_{i=1}^n (y_i - x_i' \beta)^2 \right) \\
+    &= (2\pi \sigma^2)^{ -\frac{n}{2}} \exp \left( -\frac{1}{2\sigma^2} \sum_{i=1}^n (y_i - x_i' \beta)^2 \right) \\
+    &= (2\pi \sigma^2)^{ -\frac{n}{2}} \exp \left( -\frac{1}{2\sigma^2} (y - X\beta)'(y - X\beta) \right)
+\end{align}
+and the Maximum Likelihood Estimator will be:
+\begin{align}
+    \hat{\theta}_{ML} &= \arg \max_\theta p(y | x, \theta) \\
+    &= \arg \min_\theta (y - X\beta)'(y - X\beta)
+\end{align}
+which we would solve:
+\begin{align}
+    \hat{\beta } &= (X'X)^{-1} X'y \\
+    \hat{\sigma }^2 &= \frac{1}{n} \sum_{i=1}^n (y_i - x_i' \hat{\beta })^2
+\end{align}
+
+\begin{eg}
+    Suppose $\beta \sim \mathcal{N}(\beta_0, \sigma^2 V_0)$, then
+    \begin{equation}
+        p(\beta ) = (2\pi \sigma^2 )^{ -\frac{k}{2}} | V_0|^{ -\frac{1}{2}} \exp \left( -\frac{1}{2\sigma^2} (\beta - \beta_0)' V_0^{-1} (\beta - \beta_0) \right)
+    \end{equation}
+    then the posterior distribution is:
+    \begin{align}
+        p(\beta | y) & \propto p(y | \beta) p(\beta) \\
+        &= (2\pi \sigma^2 )^{ -\frac{n + k}{2}} | V_0|^{ -\frac{1}{2}} \exp \left( -\frac{1}{2\sigma^2} (\beta - \beta_0)' V_0^{-1} (\beta - \beta_0) \right) \cdot \exp \left( -\frac{1}{2\sigma^2} \left(Y - X \beta \right)^{\prime} \left(Y - X \beta \right) \right) \\
+        & \propto \exp \left( -\frac{1}{2\sigma^2} \beta X^{\prime} X \beta - \frac{1}{2\sigma^2} \beta_0 X^{\prime} X \beta_0 \right) \cdot \exp \left( -\frac{1}{2\sigma^2} \left(\beta_0 - \beta \right)^{\prime} V_0^{-1} \left(\beta_0 - \beta \right) \right) \\
+        & \propto \exp \left( -\frac{1}{2\sigma^2} \left[ \beta' (X'X + V_0^{-1}) \beta - 2 (X' Y + V_0^{-1} \beta_0)' \beta \right] \right)
+    \end{align}
+    This let us guess that $\beta | Y \sim \mathcal{N}(\bar{\beta }, \sigma^2 \bar{V})$,
+    with:
+    \begin{align}
+        \bar{V}^{-1} &= X'X + V_0^{-1} \\
+        \bar{\beta } &= \bar{V} \left( X'Y + V_0^{-1} \beta_0 \right) = \left(X'X + V_0^{-1}\right)^{-1} \left(X' X \hat{\beta }_{ML}  + V_0^{-1} \beta_0 \right).
+    \end{align}
+    We can calculate the probability $p(y)$,
+    \begin{align*}
+        p(y) &= \frac{p(y | \beta ) p(\beta )}{p(\beta | y )} \\
+        &= \frac{(2\pi \sigma^2 )^{ -\frac{n + k}{2}} | V_0|^{ -\frac{1}{2}} \exp \left( -\frac{1}{2\sigma^2} (\beta - \beta_0)' V_0^{-1} (\beta - \beta_0) \right) \cdot \exp \left( -\frac{1}{2\sigma^2} \left(Y - X \beta \right)^{\prime} \left(Y - X \beta \right) \right)}{(2\pi \sigma^2 )^{ -\frac{k}{2}} | \bar{V}|^{ -\frac{1}{2}} \exp \left( -\frac{1}{2\sigma^2} (\beta - \bar{\beta })' \bar{V}^{-1} (\beta - \bar{\beta }) \right)} \\
+        &= (2\pi \sigma^2 )^{ -\frac{n}{2}} \left(\frac{| V_0|}{|\bar{V}| } \right)^{ -\frac{1}{2}} \exp \left( -\frac{1}{2\sigma^2} \left(Y^{\prime} Y + \beta_0' V_0^{-1} \beta_0 - \bar{\beta }' \bar{V}^{-1} \bar{\beta } \right) \right)
+    \end{align*}
+    Or, we can integrate out $\beta $:
+    \begin{align*}
+        p(y) &= \int p(y | \beta ) p(\beta ) d\beta = \mathbb{E}_\beta [p(y | \beta )]
+    \end{align*}
+\end{eg}
+
+\section{Ridge Regression}
+
+Under the previous normal prior assumption, we can simplify the prior to $\beta_j \sim \mathcal{N}(0, \sigma^2 \lambda^{-1} I)$,
+then we have $V_0 = \lambda^{-1} I$.
+
+\begin{align*}
+    \beta | y \sim \mathcal{N}(\bar{\beta }, \sigma^2 \bar{V}) \\
+    \bar{V}^{-1} = \left( X'X + \lambda I \right)^{ -1} \\
+    \bar{\beta } = \left(X^{\prime} X + \lambda I \right) X^{\prime} Y
+\end{align*}
+The Ridge regression estimator is:
+\begin{equation}
+    \overline{\beta } = \arg \min_\beta (Y - X \beta )' (Y - X \beta ) + \lambda \beta' \beta
+\end{equation}

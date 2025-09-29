@@ -1,0 +1,560 @@
+\section{Fundamentals of Time Series Analysis}
+\label{sec:fundamentals-of-time-series-analysis}
+
+A \textbf{time series} $Y_t \in \mathbb{R}^m$ is a process which is sequentially ordered over time.
+The time series is univariate if $m = 1$ and multivariate if $m > 1$.
+
+Most economic time series are recorded at discrete intervals such as annual, quarterly, monthly,
+weekly, or daily. The number of observed periods $s$ per year is called the \textbf{frequency}.
+In most cases we will denote the observed sample by the periods $t = 1, \cdots, n$. 
+
+% Suppose we have a sample $\{w_i\}_{i=1}^n$, with $w_i = (y_i, x_i^{\prime})^{\prime}$, $\{w_{it}\}_{i=1:n, t=1:T}$.
+
+% Now, we look at $\{w_t\}_{i=1}^T$, usually written as $y_t$, is univariate time series data.
+Recall that cross-sectional observations are conventionally treated as random draws from an under-
+lying population. This is not an appropriate model for time series processes due to serial dependence.
+Instead, we treat the observed sample $\{y_1, \cdots, y_n\}$ as a realization of a dependent stochastic process. It is
+often useful to view $\{y_1, \cdots, y_n\}$ as a subset of an underlying doubly-infinite sequence $\{\cdots, y_{t-1}, y_t, y_{t+1}, \cdots \}$.
+
+A random vector $Y_t$ can be characterized by its distribution. A set such as $\{y_t, y_{t+1}, \cdots, y_{t+l} \}$ can be
+characterized by its joint distribution. Important features of these distributions are their \textbf{means, vari-
+ances, and covariances}.
+
+\begin{remark}
+    \
+
+    Time series theory is a mixture of probabilistic and statistical concepts. 
+    The probabilistic part is to study and characterize probability distributions 
+    of sets of variables $y_t$ that will typically be dependent.
+    The statistical problem is to determine the probability distribution of the time series
+    given observations $y_1, \cdots, y_n$ at times $1,2, \cdots, n.$
+    The resulting stochastic model can be used in two ways:
+    \begin{itemize}
+        \item understanding the stochastic system;
+        \item predicting the ``future'', i.e. $y_{n+1}, y_{n+2}, \cdots$
+    \end{itemize}
+\end{remark}
+% In the cross-sectional context, we average over $i$ to get 
+% \[\mathbb{E}[y_i] = \int y_i f_y(y_i) d y_i.\]
+
+
+As mentioned above, under time series data, we care about the joint distribution of random variable $y_t$.
+
+We give the following definitions of the mean, variance, and covariance of a random variable $y_t$.
+\begin{definition}[Mean function]\label{def:mean-function}
+    \
+
+    The mean function of a random variable $y_t$ is defined as
+    \begin{gather*}
+        \mu_t = \mathbb{E}[y_t] = \int y_t f_{t}(y_t) d y_t,
+    \end{gather*}
+    where $f_{t}(y_t)$ is the probability density function (PDF) of $y_t$.
+\end{definition}
+
+\begin{definition}[Autocovariance function]\label{def:autocovariance-function}
+    \
+
+    The autocovariance function of a random variable $y_t$ is defined as
+    \begin{gather*}
+        \gamma_{y}(r,s) = \Cov(y_r, y_s) = \mathbb{E}\Bigl[ (y_r - \mu_r)(y_s - \mu_s) \Bigr].
+    \end{gather*}    
+\end{definition}
+
+\begin{definition}[Autocorrelation function]\label{def:autocorrelation-function}
+    \
+
+    The autocorrelation function (ACF) of a random variable $y_t$ is defined as
+    \begin{gather*}
+        \rho_{y}(r,s) = \frac{\Cov(y_r, y_s)}{\sqrt{\operatorname{Var}(y_r) \operatorname{Var}(y_s)}} = \frac{\gamma_{y}(r,s)}{\sqrt{\gamma_{y}(r,r) \gamma_{y}(s,s)}}.
+    \end{gather*}
+    
+\end{definition}
+
+\subsection{Stationarity and Strict Stationarity}
+
+\begin{definition}[Stationarity]\label{def:weak-stationarity}
+    \
+
+    The time serie $\{y_t, t \in \mathbb{Z}\}$, is said to be stationary if:
+    \begin{enumerate}
+        \item[(i)] $\mathbb{E}[\vert y_t \vert ^2] < \infty$, for all $t$,
+        \item[(ii)] $\mathbb{E}[y_t] = \mu $, for all $t$,
+        \item[(iii)] $\gamma_y(r,s) = \gamma_y(r+t, s+t)$, for all $r,s,t \in \mathbb{Z}$. 
+    \end{enumerate}
+\end{definition}
+
+\begin{remark}[About Stationarity]
+    \
+    
+    Stationarity as just defined is frequently referred to in the literature as weak stationarity,
+    covariance stationarity, stationarity in the wide sense or second-order stationarity.
+    For us however the term stationarity, without further qualification, 
+    will always refer to the properties specified by Definition \ref{def:weak-stationarity},
+    that is, when we say stationary, we mean weak stationary.
+\end{remark}
+
+If $\{y_t, t \in \mathbb{Z}\}$ is \textbf{stationary}, then $\gamma_y(r,s) = \gamma_y(r-s, 0)$ for all $r,s \in \mathbb{Z}$.
+It is therefore convenient to redefine the autocovariance function of a stationary
+process as the function of just one variable,
+\begin{gather*}
+    \gamma_y(h) \equiv \gamma_y(h, 0) = \Cov(y_{t+h}, y_t), \quad \forall t, h \in \mathbb{Z}.
+\end{gather*}
+The function $\gamma_y(\cdot)$ will be referred to as the autocovariance function of $\{y_t\}$
+and $\gamma_y(h)$ as its value at lag $h$. The autocorrelation function (ACF) of $\{y_t\}$
+is defined analogously as the function whose value at lag $h$ is given by
+\begin{gather*}
+    \rho_y(h) = \frac{\gamma_y(t+h, t)}{\sqrt{\gamma_y(t+h, t+h) \gamma_y(t,t)} } = \frac{\gamma_y(h)}{\gamma_y(0)} = \operatorname{Corr}(y_{t+h}, y_t).
+\end{gather*}
+The auto-covariance and auto-correlation are functions $\gamma_y: \mathbb{Z} \to \mathbb{R}$ and $\rho_y: \mathbb{Z} \to [-1,1].$
+Together with the mean $\mu = \mathbb{E}[y_t]$, they determine
+the first and second moments of the stationary time series. 
+
+% We also think of $y_t$ as a random variable (RV). Without the i.i.d. assumption,
+% we generally have $T$ realizations of different and mutually dependent variables.
+% \begin{gather*}
+%     \mathbb{E}[y_t] = \int y_t f_{t}(y_t) d y_t = \mu_t, \\
+%     \mathbb{V}[y_t] = \mathbb{E}\Bigl[(y_t - \mu_t)^2 \Bigr] = \gamma_{0,t}, \\
+%     \Cov(y_t, y_{t-h}) = \mathbb{E}\Bigl[ (y_t - \mu_t)(y_{t-h} - \mu_{t-h}  ) \Bigr] = \gamma_{h,t}.
+% \end{gather*}
+
+% \begin{definition}[Weak Stationarity]\label{def:weak-stationarity}
+%     \
+
+%     $y_t$ is a weakly stationary process if
+%     \begin{enumerate}
+%         \item $\mu_t = \mu$ for all $t$,
+%         \item $\gamma_{0,t} = \gamma_0$ for all $t$,
+%         \item $\gamma_{h,t} = \gamma_h$ for all $t$.
+%     \end{enumerate}
+%     autocovariance function (ACF): $\{\gamma_0, \gamma_1, \cdots\}$
+%     autocorrelation function: $\{\rho_0, \rho_1, \cdots \}$, where $\rho_h = \frac{\gamma_h}{\gamma_0}$.
+% \end{definition}
+
+
+\begin{definition}[Strict Stationarity]\label{def:strict-stationarity}
+    \
+
+    The time series $\{y_t, t \in \mathbb{Z}\}$ is said to be strictly stationary if the joint distribution of $(y_{t_1}, y_{t_2}, \cdots, y_{t_k})$
+    and $(y_{t_1+h}, y_{t_2+h}, \cdots, y_{t_k+h})$ are the same for all $h$ and $k$ and $t_1, \cdots, t_k$.
+\end{definition}
+% Strict stationarity means intuitively that the graphs over two equal-length
+% time intervals of a realization of the time series should exhibit similar statistical
+% characteristics. For example, the proportion of ordinates not exceeding a
+% given level $y$ should be roughly the same for both intervals.
+This is the natural generalization of the cross-section definition of identical distributions.
+Strict stationarity implies that the (marginal) distribution of $y_t$ doesn't vary over time.
+It also implies that the bivariate distributions of $(y_t, y_{t+1})$ and multivariate distributions of $(y_t, \cdots, y_{t+l})$
+are stable over time.
+
+\subsection*{The Relation Between Stationarity and Strict Stationarity}
+
+If $\{y_t\}$ is strict stationary, it immediately follows, on taking $k=1$ in Definition \ref{def:strict-stationarity}, 
+that $y_t$ has the same distribution for all $t$. If $\mathbb{E}[\vert y_t \vert ^2] < \infty $,
+this implies in particular that $\mathbb{E}[y_t]$ and $\mathbb{V}[y_t]$ are constant.
+Moreover, taking $k=2$, we find that $y_{t+h}$ and $y_t$ have the same joint distribution,
+and hence the same covariance for all $h$. 
+Thus a strictly stationary process with finite second moments is stationary.
+
+The converse of the previous statement is not true. For example if $\{y_t\}$ is a sequence
+of independent RVs s.t. $y_t$ is exponentially distributed with mean 1 when $t$ is odd
+and normally distributed with mean 1 and variance 1 when $t$ is even, then $\{y_t\}$ is stationary
+with $\gamma_y(0)=1$ and $\gamma_y(h) = 0$ for $h \neq 0$. However since $y_1$ and $y_2$ have different distributions,
+$\{y_t\}$ cannot be strictly stationary.
+
+\begin{note}
+    \
+
+    There is one important case however in which stationarity does imply strict stationarity.
+\end{note}
+
+\begin{definition}[Gaussian Time Series]\label{def:gaussian-time-series}
+    \
+
+    The process $\{y_t\}$ is a Gaussian time series if and only if the distribution functions of $\{y_t\}$ are all multivariate normal.
+\end{definition}
+If $\{y_t\}$ is a stationary Gaussian time series, then for all $k \in \{1, 2, \cdots\}$ and for all $h, t_1, t_2, \cdots$,
+the random vectors $(y_{t_1}, \cdots, y_{t_k})^{\prime}$ and $(y_{t_1 + h}, \cdots, y_{t_k + h})^{\prime} $
+have the same mean and covariance matrix, and hence the same distribution. $\{y_t\}$ is strictly stationary.
+
+A straightforward but essential relationship is that an i.i.d. process is strictly stationary.
+\begin{theorem}[IID Strict Stationary]\label{thm:iid-stationary}
+    \
+
+    If $\{y_t\}$ is an i.i.d. process, then $\{y_t\}$ is strictly stationary.
+\end{theorem}
+
+\subsection{Transformations of Stationary Processes}
+One of the important properties of strict stationarity is that it is preserved by transformation. That is,
+transformations of strictly stationary processes are also strictly stationary. This includes transformations
+which include the full history of $y_t$.
+\begin{theorem}[Transformation Invariance]\label{thm:transformation-invariance}
+    \
+
+    If $\{y_t\}$ is strict stationary, and $X_t = \phi (y_t, y_{t-1}, \cdots) \in \mathbb{R}^q$ is a random vector
+    then $X_t$ is also strict stationary.   
+\end{theorem}
+
+A transformation which includes the full past history is an infinite-order moving average.
+For scalar $y$ and coefficients $a_j$ define the vector process
+\begin{gather*}
+    X_t = \sum_{j=0}^{\infty} a_j y_{t-j}.
+\end{gather*}
+Many time-series models involve representations and transformations of this form.
+
+This infinite series exists if it is convergent, meaning that the sequence $\sum_{j=0}^{N}a_j y_{t-j}$
+has a finite limit as $N \to \infty$.  Since the inputs $y_t$ are random we define this as a probability limit.
+
+\begin{definition}[Convergence]\label{def:convergence}
+    \
+
+    The infinite series $\{X_t\}$ converges almost surely if $\sum_{j=0}^{N} a_j y_{t-j}$
+    has a finite limit as $N \to \infty$ with probability 1.
+    In this case we describe $X_t$ as convergent.
+    
+\end{definition}
+\begin{theorem}[Convergence-Stationary]\label{thm:convergence-stationary}
+    \
+
+    If $\{y_t\}$ is a strict stationary process, $\mathbb{E}[y] < \infty$ 
+    and $\sum_{j=0}^{\infty} \vert a_j \vert < \infty$,
+    then $X_t$ converges almost surely,
+    and the process $\{X_t\}$ is strict stationary.  
+\end{theorem}
+
+\subsection{Ergodicity}
+\label{sec:ergodicity}
+
+Stationarity alone is not sufficient for the weak law of large numbers as there are strictly stationary
+processes with no time series variation.
+
+\begin{eg}
+    \
+    
+    If the stationary process is $y_t = Z$ for some RV $Z$.
+    This is random but constant over all time. 
+    An implication is that the sample mean of $y_t = Z$ will be inconsistent for the population expectation.
+\end{eg}
+
+We now motivate the concept of \textbf{ergodicity}\footnotemark. Conceptionally, this is more difficult to understand
+than the mean and variance. But it is a very helpful tool when analysing estimators. It allows one
+to simply replace the sample mean by its expectation without the need to evaluating a variance,
+which is extremely useful in some situations.
+
+\footnotetext{In the late 1800s, the physicist Ludwig Boltzmann needed a word to express the idea that if you took
+an isolated system at constant energy and let it run, any one trajectory, continued long enough, would
+be representative of the system as a whole. Being a highly-educated nineteenth century German-speaker,
+Boltzmann knew far too much ancient Greek, so he called this the ``ergodic property'', from \textit{ergon} ``energy,
+work'' and hodos ``way, path''. The name stuck.}
+
+It can be difficult to evaluate the mean and variance of an estimator. Therefore, we may want
+an alternative form of convergence (instead of the mean squared error). To see whether this is
+possible we recall that for i.i.d random variables we have the very useful law of large numbers
+\begin{gather*}
+    \frac{1}{n} \sum_{t=1}^{n} y_t \xrightarrow{a.s.} \mathbb{E}[y_t] = \mu.
+\end{gather*}
+and in general $\frac{1}{n} \sum_{t=1}^{n} g(y_t) \xrightarrow{a.s.} \mathbb{E}[g(y)]$ if $\mathbb{E}[g(y)] < \infty$.
+Does such a result exists in time series? 
+It does, but we require the slightly stronger condition that a time series is ergodic 
+(which is a slightly stronger condition than the strictly stationary).
+
+% What is a minimal assumption beyond stationarity so that the law of large numbers applies? This
+% topic is called \textbf{ergodicity}.
+% It is sufficiently important that it is treated as a separate area of study. We
+% mention only a few highlights here. For a rigorous treatment see a standard textbook such as Walters
+% (1982).
+
+A useful intuition is that if $y_t$ is ergodic then its sample paths will pass through all parts of the sample
+space never getting ``stuck'' in a subregion. 
+% Or, in a more plain language, it ensures that observations become independent when we consider large enough displacements.
+
+% \begin{definition}[Ergodicity]\label{def:ergodicity}
+%     \
+
+%     A process is said to be ergodic if time averages converge to ensemble averages.
+%     \begin{gather*}
+%         \lim_{n \to \infty} \left| \mathbb{E}[f(y_{t_1}, \cdots, y_{t_k}) g(y_{t_1 + n}, \cdots, y_{t_k + n})] \right| - \left| \mathbb{E}[f(y_{t_1}, \cdots, y_{t_k})] \right| \left| \mathbb{E}[g(y_{t_1}, \cdots, y_{t_k})] \right| = 0, \\
+%         \forall t_1, \cdots, t_k, \text{ taking } k>l \text{ w.l.o.g}. 
+%     \end{gather*}
+% \end{definition}
+
+\begin{definition}[Ergodicity: Formal Definition*]\label{def:ergodicity}
+    \
+
+    Let $(\Omega, \mathcal{F}, P)$ be a probability space.
+    A transformation $T: \Omega \to \Omega$ is said to be a measure preserving
+    if for every set $A \in \mathcal{F}$, $P(T^{-1}(A)) = P(A)$.
+    Moreover, it is said to be an ergodic transformation if $T^{-1} A = A$ implies $P(A)=0$ or $1$.
+
+    It is not obvious what this has to do with stochastic processes, but we attempt to make a link.
+    Let us suppose that $y = \{y_t\}$ is a strictly stationary process defined on the probability space $(\Omega, \mathcal{F}, P)$.
+    By strict stationarity the transformation (shifting a sequence by one)
+    \begin{gather*}
+        T(y_1, y_2, \cdots) = (y_2, y_3, \cdots)
+    \end{gather*}
+    is a measure preserving transformation. 
+    To understand ergodicity we define the set $A$, where
+    \begin{gather*}
+        A = \{\omega: \left( y_1(\omega), y_0(\omega), \cdots \right) \in H \} = \{ \omega: \left( y_{-1}(\omega), y_{-2}(\omega), \cdots \right) \in H \}.
+    \end{gather*}
+    The stochastic process is said to be ergodic, 
+    if the only sets which satisfies the above are such that $P(A) = 0$ or $1$.
+    Roughly, this means there cannot be too many outcomes $\omega$ which generate sequences which `repeat' itself (are periodic in some sense).
+
+    An equivalent definition is given later. From this definition it can be seen why `repeats' are a bad idea. 
+    If a sequence repeats, the time average is unlikely to converge to the mean.
+\end{definition}
+
+The definition of ergodicity, given above, is quite complex and is rarely used in time series analysis.
+However, one consequence of ergodicity is the ergodic theorem, which is extremely useful in time
+series.
+
+\begin{theorem}[Ergodic Theorem]\label{thm:ergodic-theorem}
+    \
+
+    If $\{y_t\}$ is a strict stationary process, and $\mathbb{E}[y] = \mu < \infty$, then as $n \to \infty$:
+    \begin{gather*}
+        \mathbb{E}\left[ \frac{1}{n} \sum_{t=1}^{n} y_t - \mu \right] \to 0
+    \end{gather*}
+    and
+    \begin{gather*}
+        \frac{1}{n} \sum_{t=1}^{n} y_t \xrightarrow{a.s.} \mu.
+    \end{gather*} 
+\end{theorem}
+
+\begin{proposition}[CLT for SS \& Ergodic Processes]\label{prop:clt-ss-ergodic}
+    \
+    
+    If the process $\{y_t\}$ is strict stationary and ergodic, and $\mathbb{E}[y] = \mu < \infty$,
+    $\mathbb{V}[y_t] = \sigma^2 < \infty$, and $\bar{\sigma}_T^2 = \mathbb{V}[\frac{1}{\sqrt{T}}\sum_{t=1}^{T} y_t] \xrightarrow{p} \bar{\sigma}^2 < \infty$,
+    then
+    \begin{gather*}
+        \frac{1}{\sqrt{T}} \sum_{t=1}^{T} y_t \xrightarrow{d} \mathcal{N}(\mu, \bar{\sigma}^2).
+    \end{gather*}
+\end{proposition}
+
+\begin{definition}[Ergodicity: Plain Definition]\label{def:ergodicity-plain}
+    \
+
+    In general, for any shift $\tau_1, \cdots, \tau_k$, and function $g: \mathbb{R}^{k+1} \to \mathbb{R}$,
+    we have:
+    \begin{gather*}
+        \frac{1}{n} \sum_{t=1}^{n} g(y_t, y_{t+\tau_1}, \cdots, y_{t+\tau_k}) \xrightarrow{a.s.} \mathbb{E}[g(y, y_{t+\tau_1}, \cdots, y_{t+\tau_k})].
+    \end{gather*}
+\end{definition}
+This is mostly used as the definition of ergodicity,
+as it is an iff with the ergodic definition.
+This result generalises the strong law of large numbers
+(which shows almost sure convergence for i.i.d. random variables)
+to dependent random variables.
+
+Definition \ref{def:ergodicity-plain} also gives us an idea of what constitutes an ergodic process.
+Suppose that $\{\epsilon_t\}$ is an ergodic process (a classical example are i.i.d. random variables).
+Then any reasonable (meaning measurable) function of $\{y_t\}$ is also ergodic
+if $y_t$ is defined as:
+\begin{gather*}
+    y_t = h(\cdots, \epsilon_{t-1}, \epsilon_t, \epsilon_{t+1}, \cdots)
+\end{gather*}
+where $\{\epsilon_t\}$ are i.i.d. RVs and $h$ is a measurable function.
+
+\begin{remark}
+    \
+
+    Definition \ref{def:ergodicity-plain} is roughly equivalent to:
+    \begin{gather*}
+        \lim_{n \to \infty} \frac{1}{n} \sum_{l=1}^{n} \mathbb{P}[A_l \cap B] = \mathbb{P}[A] \mathbb{P}[B],
+    \end{gather*}
+    which is a kind of asymptotic independence-on-average.
+\end{remark}
+
+Many standard time series processes can be shown to be ergodic.
+A useful starting point is the observation that an i.i.d. sequence is ergodic. 
+
+\begin{theorem}[IID Ergodic]\label{thm:iid-ergodic}
+    \
+
+    If $\{y_t\}$ is an i.i.d. process, then $\{y_t\}$ is strict stationary and ergodic.    
+\end{theorem}
+
+Second, ergodicity, like stationarity, is preserved by transformation.
+\begin{theorem}[Ergodicity transformation Invariance]\label{thm:ergodicity-transformation-invariance}
+    \
+
+    If $\{y_t\} \in \mathbb{R}^m$ is strict stationary and ergodic,
+    and $X_t = \phi (y_t, y_{t-1}, \cdots) \in \mathbb{R}^q$ is a random vector,
+    then $X_t$ is also strict stationary and ergodic.
+\end{theorem}
+
+As an example, the infinite-order moving average transformation is ergodic
+if the input is ergodic and the coefficients are absolutely convergent.
+
+\begin{theorem}
+    \
+
+    If $y_t$ is strict stationary and ergodic, $\mathbb{E}[y] < \infty$,
+    and $\sum_{j=0}^{\infty} \vert a_j \vert < \infty$,
+    then $X_t = \sum_{j=0}^{\infty} a_j y_{t-j}$ is strict stationary and ergodic.    
+\end{theorem}
+
+We now present a useful property. It is that the Cesàro sum of the autocovariances limits to zero.
+
+\begin{theorem}[Cesàro Sum of Autocovariances]\label{thm:cesaro-sum-autocovariances}
+    \
+
+    If $\{y_t\} \in \mathbb{R}$ is strict stationary and ergodic, and $\mathbb{E}[y^2] < \infty$,
+    then the Cesàro sum of the autocovariances converges to zero:
+    \begin{gather*}
+        \lim_{n \to \infty} \frac{1}{n} \sum_{l=1}^{n} \Cov[y_t, y_{t+l}] = 0.
+    \end{gather*}    
+\end{theorem}
+
+\subsection{Conditioning on Information Sets}
+
+In the past few sections we have introduced the concept of the infinite histories. We now consider
+conditional expectations given infinite histories.
+
+Recall from probability theory that an \textbf{outcome} is an element of a sample space.
+An \textbf{event} is a set of outcomes.
+
+Now we wish to define a conditional expectation given an infinite past history. Specifically, we wish
+to define
+\begin{gather*}
+    \mathbb{E}_{t-1}[y_t] = \mathbb{E}\left[y_t | y_{t-1}, y_{t-2}, \cdots \right].
+\end{gather*}
+the expected value of $y_t$ given the infinite past history $\tilde{y}_{t-1} = (y_{t-1}, y_{t-2}, \cdots)$ up to time $t$.
+Intuitively, $\mathbb{E}_{t-1}[y_t]$ is the mean of the conditional distribution, the latter reflecting the information in the history.
+
+Formally, in time series literature, we should follow the measure-theoretic approach to define $\mathbb{E}_{t-1}[y_t]$ as 
+the conditional expectation given a $\sigma$-field:
+\begin{gather*}
+    \mathbb{E}_{t-1}[y_t] = \mathbb{E}\left[y_t | \mathcal{F}_{t-1} \right]
+\end{gather*}
+where $\mathcal{F}_{t-1}$ is the $\sigma$-field generated by the infinite past history $\tilde{y}_{t-1}$.
+\footnote{A $\sigma$-field is a collection of subsets of a sample space which is closed under complementation and countable unions.}
+
+The $\sigma$-field generated by a random variable $Y$ is the collection of measurable events involving $Y$.
+Similarly, the $\sigma$-field generated by an infinite history is the collection of measurable events involving this history.
+
+Intuitively, $\mathcal{F}_{t-1}$ contains all the information available in the history $\tilde{y}_{t-1}$.
+Consequently, economists typically call $\mathcal{F}_{t-1}$ an \textbf{information set} rather than a $\sigma$-field.
+
+We now describe some properties about information sets $\mathcal{F}_t$:
+\begin{enumerate}
+    \item[(i)] $\mathcal{F}_{t-1} \subset \mathcal{F}_{t}$. This means that information accumulates over time. Information
+    is not lost. 
+    \item[(ii)] It is important to be precise about which variables are contained in the information set.
+    For example, the information sets $\mathcal{F}_{1t} = \sigma (y_t, y_{t-1}, \cdots)$ and $\mathcal{F}_{2t} = \sigma (y_t, x_t, y_{t-1}, x_{t-1}, \cdots)$ are distinct even though they are both dated at time $t$.
+    \item[(iii)] the conditional expectations (14.10) follow the law of iterated expectations and the conditioning theorem, thus:
+    \begin{gather*}
+        \mathbb{E}\left[ \mathbb{E}[y_t | \mathcal{F}_{t-1}] | \mathcal{F}_{t-2} \right] = \mathbb{E}[y_t | \mathcal{F}_{t-2}], \\
+        \mathbb{E}\left[ \mathbb{E}[y_t | \mathcal{F}_{t-1}] \right] = \mathbb{E}[y_t].
+    \end{gather*}
+    and
+    \begin{gather*}
+        \mathbb{E}\left[y_{t-1} y_t | \mathcal{F}_{t-1} \right] = y_{t-1} \mathbb{E}[y_t | \mathcal{F}_{t-1}].
+    \end{gather*}
+\end{enumerate}
+
+\subsection{Martingale Difference Sequences}
+An important concept in economics is unforecastability, meaning that the conditional expectation is
+the unconditional expectation. This is similar to the properties of a regression error. An unforecastable
+process is called a \textbf{martingale difference sequence (MDS)}.
+
+A MDS $y_t$ is defined with respect to a specific sequence of information sets $\mathcal{F}_t$.
+Most commonly, the latter are the natural filtration $\mathcal{F}_t = \sigma(y_t, y_{t-1}, \cdots)$
+(the past history of $y_t$) but it could be a larger information set.
+The only requirement is that $y_t$ is adapted to $\mathcal{F}_t$, meaning that $\mathbb{E}[y_t | \mathcal{F}_t] = y_t$.
+
+\begin{definition}[Martingale Difference Sequence]\label{def:martingale-difference-sequence}
+    \
+
+    A process $\{y_t, \mathcal{F}_t\}$ is a martingale difference sequence (MDS) if $y_t$ is adapted to $\mathcal{F}_t$, $\mathbb{E}[y_t] < \infty$:
+    \begin{gather*}
+        \mathbb{E}[y_t | \mathcal{F}_{t-1}] = 0, \quad \forall t.
+    \end{gather*}
+\end{definition}
+
+In words, a MDS $y_t$ is unforecastable in the mean. If we apply the iterated expectations, $\mathbb{E}[y_t] = \mathbb{E}\left[ \mathbb{E}[y_t | \mathcal{F}_{t-1}] \right] = 0$,
+thus a MDS is mean zero.
+
+\begin{note}
+   \
+   
+   The term ``martingale difference sequence'' refers to the fact that the summed process $S_t = \sum_{j=1}^{t} y_j $, is a martingale and $y_t$ is its first-difference. 
+   \begin{definition}[Martingale]\label{def:martingale}
+       \
+
+       A process $\{S_t, \mathcal{F}_t\}$ is a martingale if $S_t$ is adapted to $\mathcal{F}_t$, $\mathbb{E}[S_t] < \infty$:
+       \begin{gather*}
+           \mathbb{E}[S_t | \mathcal{F}_{t-1}] = S_{t-1}, \quad \forall t.
+       \end{gather*}
+   \end{definition}
+\end{note}
+
+\begin{proposition}[I.I.D. and MDS]\label{prop:mds-property-1}
+    \
+
+    If $y_t$ is i.i.d. and mean zero, it is a MDS but the reverse is not the case. 
+\end{proposition}
+\begin{proof}
+    \
+
+    Suppose that $y_t$ is i.i.d. and mean zero. It is then independent from $\mathcal{F}_{t-1} = \sigma(y_{t-1}, y_{t-2}, \cdots)$,
+    so $\mathbb{E}[y_t | \mathcal{F}_{t-1}] = \mathbb{E}[y_t] = 0$.
+    Thus an i.i.d. shock is a MDS as claimed.
+
+    For the reverse, we let $u_t \sim \mathcal{N} (0,1)$ is i.i.d. and set $y_t = u_t u_{t-1}.$
+    By the conditioning theorem,
+    \begin{gather*}
+        \mathbb{E}[y_t | \mathcal{F}_{t-1}] = \mathbb{E}[u_t u_{t-1} | \mathcal{F}_{t-1}] = u_{t-1} \mathbb{E}[u_t | \mathcal{F}_{t-1}] = 0.
+    \end{gather*}
+    So $y_t$ is a MDS. However, $y_t$ is not i.i.d., which can be shown by calculating the first autocovariance of $y_t^2$:
+    \begin{align*}
+        \Cov[y_t^2, y_{t-1}^2] &= \mathbb{E}[y_t^2 y_{t-1}^2] - \mathbb{E}[y_t^2] \mathbb{E}[y_{t-1}^2] \\
+        &= \mathbb{E}[u_t^2]\mathbb{E}[u_{t-1}^4]\mathbb{E}[u_{t-2}^2] - 1 \\
+        &= 2 \neq 0.
+    \end{align*}
+    Since the covariance is non-zero, $y_t$ is not an independent sequence.
+    Thus $y_t$ is a MDS but not i.i.d.
+\end{proof}
+
+\begin{theorem}[Serial Uncorrelation and MDS]\label{thm:mds-serial-uncorrelated}
+    \
+
+    If $\{y_t, \mathcal{F}_t\}$ is a MDS, and $\mathbb{E}[y_t^2] < \infty$, then
+    $y_t$ is serially uncorrelated.
+\end{theorem}
+\begin{proof}
+    \
+
+    Take the process $y_t = u_t + u_{t-1} u_{t-2}$ with $u_t \sim \mathcal{N}(0,1)$, i.i.d.
+    The process is not MDS because $\mathbb{E}[y_t | \mathcal{F}_{t-1}] = u_{t-1} u_{t-2} \neq 0$,
+    however,
+    \begin{align*}
+        \Cov[y_t, y_{t-1}] &= \mathbb{E}[y_t y_{t-1}] \\
+        &= \mathbb{E}\left[ (u_t + u_{t-1} u_{t-2}) (u_{t-1} + u_{t-2} u_{t-3}) \right] \\
+        &= \mathbb{E}\left[ u_t u_{t-1} + u_t u_{t-2} u_{t-3} + u_{t-1}^2 u_{t-2} + u_{t-1} u_{t-2}^2 u_{t-3} \right] \\
+        &= \mathbb{E}[u_t] \mathbb{E}[u_{t-1}] + \mathbb{E}[u_t] \mathbb{E}[u_{t-2}] \mathbb{E}[u_{t-3}] + \mathbb{E}[u_{t-1}^2] \mathbb{E}[u_{t-2}] + \mathbb{E}[u_{t-1}] \mathbb{E}[u_{t-2}^2] \mathbb{E}[u_{t-3}] \\
+        &= 0
+    \end{align*}
+    Similarly, $\Cov[y_t, y_{t+k}] = 0$ for all $k \neq 0$. Thus the process is serially uncorrelated.
+\end{proof}
+
+\begin{definition}[Homoskedastic Martingale Difference Sequence]\label{homoskedastic-mds}
+    \
+
+    A MDS $\{y_t, \mathcal{F}_t\}$ is said to be homoskedastic if
+    \begin{gather*}
+        \mathbb{E}[y_t^2 | \mathcal{F}_{t-1}] = \sigma^2 < \infty, \quad \forall t.
+    \end{gather*}
+    where $\sigma^2$ is a constant.
+\end{definition}
+
+\begin{theorem}[MDS CLT]\label{thm:mds-clt}
+    \
+
+    If $\{y_t, \mathcal{F}_t\}$ is a martingale difference sequence, $\mathbb{E}[\vert y_t \vert ^{2r}] < \infty$,
+    and $\bar{\sigma}_T^2 =  \mathbb{V}\left[\frac{1}{\sqrt{T}} \sum_{t=1}^{T} y_t \right] \to \bar{\sigma}^2 > 0$, then
+    \begin{gather*}
+        \frac{1}{\sqrt{T}} \sum_{t=1}^{T} y_t \xrightarrow{d} \mathcal{N}(0, \bar{\sigma}^2).
+    \end{gather*}
+\end{theorem}

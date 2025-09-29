@@ -34,7 +34,7 @@ log(a)= rhoa*log(a(-1))+ e;
 log(z)= rhoz*log(z(-1))+ u;
 end;
 
-% /*
+/*
 %Initial Values
 initval;
 y = 1;
@@ -51,7 +51,7 @@ u = 0;
 o = z*m;
 q = (1-alpha-theta)*y/o;
 end;
-% */
+*/
 
 %Steady-State
 resid;
