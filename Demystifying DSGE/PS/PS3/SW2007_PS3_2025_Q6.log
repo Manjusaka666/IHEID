@@ -1,0 +1,546 @@
+Starting Dynare (version 6.4).
+Calling Dynare with arguments: none
+Starting preprocessing of the model file ... 
+Found 41 equation(s). 
+Evaluating expressions... 
+Computing static model derivatives (order 1). 
+Normalizing the static model... 
+Finding the optimal block decomposition of the static model... 
+11 block(s) found: 
+  9 recursive block(s) and 2 simultaneous block(s). 
+  the largest simultaneous block has 14 equation(s) 
+                                 and 14 feedback variable(s). 
+Computing dynamic model derivatives (order 2). 
+Normalizing the dynamic model... 
+Finding the optimal block decomposition of the dynamic model... 
+4 block(s) found: 
+  2 recursive block(s) and 2 simultaneous block(s). 
+  the largest simultaneous block has 14 equation(s) 
+                                 and 13 feedback variable(s). 
+Preprocessing completed. 
+Preprocessing time: 0h00m00s.
+
+
+Residuals of the static equations:
+Equation number  1: FOC labour with mpl expressed as function of rk and w, flex price economy :       0.000000
+Equation number  2: FOC capacity utilization, flex price economy                              :       0.000000
+Equation number  3: Firm FOC capital, flex price economy                                      :       0.000000
+Equation number  4: Definition capital services, flex price economy                           :       0.000000
+Equation number  5: Investment Euler Equation, flex price economy                             :       0.000000
+Equation number  6: Arbitrage equation value of capital, flex price economy                   :       0.000000
+Equation number  7: Consumption Euler Equation, flex price economy                            :       0.000000
+Equation number  8: Aggregate Resource Constraint, flex price economy                         :       0.000000
+Equation number  9: Aggregate Production Function, flex price economy                         :       0.000000
+Equation number 10: Wage equation, flex price economy                                         :       0.000000
+Equation number 11: Law of motion for capital, flex price economy (see header notes)          :       0.000000
+Equation number 12: FOC labour with mpl expressed as function of rk and w, SW Equation (9)    :       0.000000
+Equation number 13: FOC capacity utilization, SW Equation (7)                                 :       0.000000
+Equation number 14: Firm FOC capital, SW Equation (11)                                        :       0.000000
+Equation number 15: Definition capital services, SW Equation (6)                              :       0.000000
+Equation number 16: Law of motion for capital, SW Equation (8)                                :       0.000000
+Equation number 17: Investment Euler Equation, SW Equation (3)                                :       0.000000
+Equation number 18: Arbitrage equation value of capital, SW Equation (4)                      :       0.000000
+Equation number 19: Consumption Euler Equation, SW Equation (2)                               :       0.000000
+Equation number 20: Aggregate Resource Constraint, SW Equation (1)                            :       0.000000
+Equation number 21: Aggregate Production Function, SW Equation (5)                            :       0.000000
+Equation number 22: New Keynesian Phillips Curve, SW Equation (10)                            :       0.000000
+Equation number 23: Wage Phillips Curve, SW Equation (13), with (12) for mu_w                 :       0.000000
+Equation number 24: muw                                                                       :       0.000000
+Equation number 25: Taylor rule, SW Equation (14)                                             :       0.000000
+Equation number 26: Law of motion for productivity                                            :       0.000000
+Equation number 27: Law of motion for risk premium                                            :       0.000000
+Equation number 28: Law of motion for spending process                                        :       0.000000
+Equation number 29: Law of motion for investment specific technology shock process            :       0.000000
+Equation number 30: Law of motion for monetary policy shock process                           :       0.000000
+Equation number 31: Law of motion for price markup shock process                              :       0.000000
+Equation number 32: epinfma                                                                   :       0.000000
+Equation number 33: Law of motion for wage markup shock process                               :       0.000000
+Equation number 34: ewma                                                                      :       0.000000
+Equation number 35: Observation equation output                                               :      -0.398200
+Equation number 36: Observation equation consumption                                          :      -0.398200
+Equation number 37: Observation equation investment                                           :      -0.398200
+Equation number 38: Observation equation real wage                                            :      -0.398200
+Equation number 39: Observation equation inflation                                            :      -0.700000
+Equation number 40: Observation equation interest rate                                        :      -2.053741
+Equation number 41: Observation equation hours worked                                         :       0.000000
+
+
+
+STEADY-STATE RESULTS:
+
+labobs  		 0
+robs    		 2.05374
+pinfobs 		 0.7
+dy      		 0.3982
+dc      		 0.3982
+dinve   		 0.3982
+dw      		 0.3982
+ewma    		 0
+epinfma 		 0
+zcapf   		 0
+rkf     		 0
+kf      		 0
+pkf     		 0
+cf      		 0
+invef   		 0
+yf      		 0
+labf    		 0
+wf      		 0
+rrf     		 0
+mc      		 0
+zcap    		 0
+rk      		 0
+k       		 0
+pk      		 0
+c       		 0
+inve    		 0
+y       		 0
+lab     		 0
+pinf    		 0
+w       		 0
+r       		 0
+a       		 0
+b       		 0
+g       		 0
+qs      		 0
+ms      		 0
+spinf   		 0
+sw      		 0
+kpf     		 0
+kp      		 0
+muw     		 0
+
+EIGENVALUES:
+         Modulus             Real        Imaginary
+               0                0                0
+               0                0                0
+               0                0                0
+               0                0                0
+               0                0                0
+       2.172e-17        2.172e-17                0
+        3.26e-17        -3.26e-17                0
+          0.4359           0.4359                0
+          0.4788           0.4788                0
+          0.5799           0.5799                0
+          0.6238           0.6238                0
+          0.7165           0.7165                0
+          0.8221           0.8221                0
+          0.8263           0.8256          0.03532
+          0.8263           0.8256         -0.03532
+          0.8543           0.8543                0
+          0.9757           0.9757                0
+          0.9768           0.9768                0
+          0.9957           0.9957                0
+          0.9977           0.9977                0
+           1.035            1.035          0.01217
+           1.035            1.035         -0.01217
+            1.04             1.04                0
+           1.167            1.148           0.2061
+           1.167            1.148          -0.2061
+           1.267            1.267                0
+           1.278            1.278                0
+       2.212e+16       -2.212e+16                0
+       2.202e+17        2.202e+17                0
+       5.925e+17       -5.925e+17                0
+       4.747e+18       -4.747e+18                0
+        4.22e+19         4.22e+19                0
+
+There are 12 eigenvalue(s) larger than 1 in modulus for 12 forward-looking variable(s)
+The rank condition is verified.
+
+
+
+Residuals of the static equations:
+Equation number  1: FOC labour with mpl expressed as function of rk and w, flex price economy :       0.000000
+Equation number  2: FOC capacity utilization, flex price economy                              :       0.000000
+Equation number  3: Firm FOC capital, flex price economy                                      :       0.000000
+Equation number  4: Definition capital services, flex price economy                           :       0.000000
+Equation number  5: Investment Euler Equation, flex price economy                             :       0.000000
+Equation number  6: Arbitrage equation value of capital, flex price economy                   :       0.000000
+Equation number  7: Consumption Euler Equation, flex price economy                            :       0.000000
+Equation number  8: Aggregate Resource Constraint, flex price economy                         :       0.000000
+Equation number  9: Aggregate Production Function, flex price economy                         :       0.000000
+Equation number 10: Wage equation, flex price economy                                         :       0.000000
+Equation number 11: Law of motion for capital, flex price economy (see header notes)          :       0.000000
+Equation number 12: FOC labour with mpl expressed as function of rk and w, SW Equation (9)    :       0.000000
+Equation number 13: FOC capacity utilization, SW Equation (7)                                 :       0.000000
+Equation number 14: Firm FOC capital, SW Equation (11)                                        :       0.000000
+Equation number 15: Definition capital services, SW Equation (6)                              :       0.000000
+Equation number 16: Law of motion for capital, SW Equation (8)                                :       0.000000
+Equation number 17: Investment Euler Equation, SW Equation (3)                                :       0.000000
+Equation number 18: Arbitrage equation value of capital, SW Equation (4)                      :       0.000000
+Equation number 19: Consumption Euler Equation, SW Equation (2)                               :       0.000000
+Equation number 20: Aggregate Resource Constraint, SW Equation (1)                            :       0.000000
+Equation number 21: Aggregate Production Function, SW Equation (5)                            :       0.000000
+Equation number 22: New Keynesian Phillips Curve, SW Equation (10)                            :       0.000000
+Equation number 23: Wage Phillips Curve, SW Equation (13), with (12) for mu_w                 :       0.000000
+Equation number 24: muw                                                                       :       0.000000
+Equation number 25: Taylor rule, SW Equation (14)                                             :       0.000000
+Equation number 26: Law of motion for productivity                                            :       0.000000
+Equation number 27: Law of motion for risk premium                                            :       0.000000
+Equation number 28: Law of motion for spending process                                        :       0.000000
+Equation number 29: Law of motion for investment specific technology shock process            :       0.000000
+Equation number 30: Law of motion for monetary policy shock process                           :       0.000000
+Equation number 31: Law of motion for price markup shock process                              :       0.000000
+Equation number 32: epinfma                                                                   :       0.000000
+Equation number 33: Law of motion for wage markup shock process                               :       0.000000
+Equation number 34: ewma                                                                      :       0.000000
+Equation number 35: Observation equation output                                               :       0.000000
+Equation number 36: Observation equation consumption                                          :       0.000000
+Equation number 37: Observation equation investment                                           :       0.000000
+Equation number 38: Observation equation real wage                                            :       0.000000
+Equation number 39: Observation equation inflation                                            :       0.000000
+Equation number 40: Observation equation interest rate                                        :       0.000000
+Equation number 41: Observation equation hours worked                                         :       0.000000
+
+
+
+STEADY-STATE RESULTS:
+
+labobs  		 0
+robs    		 2.05374
+pinfobs 		 0.7
+dy      		 0.3982
+dc      		 0.3982
+dinve   		 0.3982
+dw      		 0.3982
+ewma    		 0
+epinfma 		 0
+zcapf   		 0
+rkf     		 0
+kf      		 0
+pkf     		 0
+cf      		 0
+invef   		 0
+yf      		 0
+labf    		 0
+wf      		 0
+rrf     		 0
+mc      		 0
+zcap    		 0
+rk      		 0
+k       		 0
+pk      		 0
+c       		 0
+inve    		 0
+y       		 0
+lab     		 0
+pinf    		 0
+w       		 0
+r       		 0
+a       		 0
+b       		 0
+g       		 0
+qs      		 0
+ms      		 0
+spinf   		 0
+sw      		 0
+kpf     		 0
+kp      		 0
+muw     		 0
+
+EIGENVALUES:
+         Modulus             Real        Imaginary
+               0                0                0
+               0                0                0
+               0                0                0
+               0                0                0
+               0                0                0
+       2.172e-17        2.172e-17                0
+        3.26e-17        -3.26e-17                0
+          0.4359           0.4359                0
+          0.4788           0.4788                0
+          0.5799           0.5799                0
+          0.6238           0.6238                0
+          0.7165           0.7165                0
+          0.8221           0.8221                0
+          0.8263           0.8256          0.03532
+          0.8263           0.8256         -0.03532
+          0.8543           0.8543                0
+          0.9757           0.9757                0
+          0.9768           0.9768                0
+          0.9957           0.9957                0
+          0.9977           0.9977                0
+           1.035            1.035          0.01217
+           1.035            1.035         -0.01217
+            1.04             1.04                0
+           1.167            1.148           0.2061
+           1.167            1.148          -0.2061
+           1.267            1.267                0
+           1.278            1.278                0
+       2.212e+16       -2.212e+16                0
+       2.202e+17        2.202e+17                0
+       5.925e+17       -5.925e+17                0
+       4.747e+18       -4.747e+18                0
+        4.22e+19         4.22e+19                0
+
+There are 12 eigenvalue(s) larger than 1 in modulus for 12 forward-looking variable(s)
+The rank condition is verified.
+
+
+You did not declare endogenous variables after the estimation/calib_smoother command.
+Initial value of the log posterior (or likelihood): -921.0924
+                                            First-order      Norm of
+ Iter F-count            f(x)  Feasibility   optimality         step
+    0      37    9.210924e+02    0.000e+00    7.790e+02
+    1      80    8.981168e+02    0.000e+00    9.347e+02    2.325e-01
+    2     120    8.967934e+02    0.000e+00    9.024e+02    4.363e-02
+    3     160    8.953731e+02    0.000e+00    8.025e+02    4.052e-02
+    4     198    8.849759e+02    0.000e+00    7.630e+02    5.160e-01
+    5     237    8.744729e+02    0.000e+00    4.418e+02    3.814e-01
+    6     277    8.690597e+02    0.000e+00    3.822e+02    6.163e-01
+    7     315    8.530191e+02    0.000e+00    4.818e+02    2.149e+00
+    8     353    8.500725e+02    0.000e+00    3.353e+02    5.735e-01
+    9     392    8.450893e+02    0.000e+00    2.855e+02    6.277e-01
+   10     431    8.371775e+02    0.000e+00    3.204e+02    1.266e+00
+   11     470    8.288123e+02    0.000e+00    3.174e+02    1.412e+00
+   12     510    8.278381e+02    0.000e+00    3.689e+02    3.013e-01
+   13     549    8.234426e+02    0.000e+00    2.648e+02    6.621e-01
+   14     587    8.214612e+02    0.000e+00    1.959e+02    2.236e+00
+   15     625    8.189910e+02    0.000e+00    4.870e+02    7.144e-01
+   16     664    8.162569e+02    0.000e+00    1.367e+02    8.817e-01
+   17     704    8.150122e+02    0.000e+00    1.732e+02    4.379e-01
+   18     742    8.140438e+02    0.000e+00    8.830e+01    2.716e-01
+   19     780    8.129311e+02    0.000e+00    9.931e+01    9.690e-01
+   20     819    8.120587e+02    0.000e+00    1.109e+02    3.471e-01
+   21     859    8.111580e+02    0.000e+00    1.147e+02    3.905e-01
+   22     898    8.093151e+02    0.000e+00    1.582e+02    7.461e-01
+   23     938    8.087931e+02    0.000e+00    1.011e+02    1.471e-01
+   24     977    8.082083e+02    0.000e+00    7.489e+01    2.572e-01
+   25    1016    8.081214e+02    0.000e+00    7.100e+01    2.816e-01
+   26    1054    8.077683e+02    0.000e+00    4.509e+01    3.157e-01
+   27    1094    8.074321e+02    0.000e+00    6.770e+01    1.395e-01
+   28    1138    8.073565e+02    0.000e+00    1.790e+01    2.326e-02
+   29    1177    8.073428e+02    0.000e+00    2.071e+01    4.246e-02
+   30    1218    8.073311e+02    0.000e+00    1.202e+01    4.552e-02
+
+                                            First-order      Norm of
+ Iter F-count            f(x)  Feasibility   optimality         step
+   31    1257    8.073073e+02    0.000e+00    8.206e+00    2.983e-02
+   32    1298    8.072411e+02    0.000e+00    9.963e+00    3.820e-02
+   33    1338    8.072384e+02    0.000e+00    7.896e+00    4.683e-02
+   34    1380    8.072030e+02    0.000e+00    2.469e+00    2.066e-02
+   35    1420    8.072010e+02    0.000e+00    1.771e+00    1.596e-02
+   36    1462    8.072035e+02    0.000e+00    7.560e-01    1.375e-02
+   37    1502    8.072021e+02    0.000e+00    2.970e+00    8.383e-03
+   38    1544    8.071989e+02    0.000e+00    2.572e-01    6.338e-03
+   39    1591    8.071965e+02    0.000e+00    9.992e-01    3.016e-03
+   40    1629    8.071948e+02    0.000e+00    1.750e+00    8.926e-03
+   41    1672    8.071935e+02    0.000e+00    5.273e-01    5.123e-03
+   42    1712    8.071934e+02    0.000e+00    5.875e-01    2.593e-03
+   43    1754    8.071931e+02    0.000e+00    1.417e-01    2.565e-03
+   44    1794    8.071931e+02    0.000e+00    3.768e-01    1.805e-03
+   45    1836    8.071930e+02    0.000e+00    4.863e-02    1.010e-03
+   46    1879    8.071930e+02    0.000e+00    5.865e-02    7.665e-04
+   47    1918    8.071929e+02    0.000e+00    1.331e-01    2.793e-04
+   48    1959    8.071929e+02    0.000e+00    4.754e-02    1.215e-03
+   49    1999    8.071929e+02    0.000e+00    1.298e-01    2.715e-04
+   50    2041    8.071929e+02    0.000e+00    2.329e-02    2.792e-04
+   51    2086    8.071927e+02    0.000e+00    2.532e-01    3.738e-03
+   52    2126    8.071927e+02    0.000e+00    1.703e-01    2.861e-03
+   53    2168    8.071927e+02    0.000e+00    5.705e-02    2.229e-03
+   54    2211    8.071927e+02    0.000e+00    4.051e-02    7.792e-04
+   55    2251    8.071927e+02    0.000e+00    5.336e-02    2.161e-04
+   56    2292    8.071927e+02    0.000e+00    4.358e-03    4.731e-04
+   57    2339    8.071927e+02    0.000e+00    1.000e-01    3.501e-04
+   58    2382    8.071927e+02    0.000e+00    9.655e-03    2.732e-04
+   59    2422    8.071927e+02    0.000e+00    1.115e-02    2.622e-04
+   60    2463    8.071927e+02    0.000e+00    1.563e-02    3.427e-04
+
+                                            First-order      Norm of
+ Iter F-count            f(x)  Feasibility   optimality         step
+   61    2502    8.071927e+02    0.000e+00    4.635e-02    2.173e-04
+   62    2540    8.071927e+02    0.000e+00    1.582e-02    3.782e-04
+   63    2577    8.071927e+02    0.000e+00    3.689e-03    6.554e-05
+   64    2614    8.071927e+02    0.000e+00    1.566e-03    6.762e-05
+   65    2652    8.071927e+02    0.000e+00    1.532e-03    2.919e-05
+   66    2695    8.071927e+02    0.000e+00    7.873e-04    6.786e-06
+   67    2732    8.071927e+02    0.000e+00    1.362e-02    2.684e-04
+   68    2771    8.071927e+02    0.000e+00    4.195e-03    1.607e-04
+   69    2808    8.071927e+02    0.000e+00    1.625e-03    2.746e-05
+   70    2845    8.071927e+02    0.000e+00    1.658e-03    2.187e-05
+   71    2883    8.071927e+02    0.000e+00    1.367e-03    1.392e-05
+   72    2921    8.071927e+02    0.000e+00    8.791e-04    1.942e-05
+   73    2959    8.071927e+02    0.000e+00    9.790e-04    1.620e-05
+   74    2998    8.071927e+02    0.000e+00    1.320e-03    6.687e-06
+   75    3035    8.071927e+02    0.000e+00    2.126e-03    2.351e-05
+   76    3072    8.071927e+02    0.000e+00    9.672e-04    1.825e-05
+   77    3110    8.071927e+02    0.000e+00    1.542e-03    1.142e-05
+   78    3147    8.071927e+02    0.000e+00    6.522e-04    7.543e-06
+   79    3190    8.071927e+02    0.000e+00    2.372e-04    2.829e-06
+
+<a href = "matlab: helpview('optim','local_min_poss_with_constr','CSHelpWindow');">Local minimum possible. Constraints satisfied</a>.
+
+fmincon stopped because the <a href = "matlab: helpview('optim','norm_curr_step_simple_fminconip','CSHelpWindow');">size of the current step</a> is less than
+the value of the <a href = "matlab: helpview('optim','step_size_tol','CSHelpWindow');">step size tolerance</a> and constraints are 
+satisfied to within the value of the <a href = "matlab: helpview('optim','constraint_tolerance','CSHelpWindow');">constraint tolerance</a>.
+
+<<a href = "matlab: createExitMsg({'optimlib:sqpLineSearch:Exit2basic','fmincon'},{'optimlib:sqpLineSearch:Exit2detailed','1.000000e-06','0.000000e+00','1.000000e-06'},true,true);;">stopping criteria details</a>>
+
+Final value of minus the log posterior (or likelihood):807.192674 
+
+RESULTS FROM POSTERIOR ESTIMATION
+parameters
+           prior mean     mode    s.d.  prior pstdev
+
+calfa          0.3000   0.2163  0.0186   norm 0.0500 
+czcap          0.5000   0.6356  0.1026   beta 0.1500 
+cfc            1.2500   1.6375  0.0774   norm 0.1250 
+cindw          0.5000   0.6160  0.1369   beta 0.1500 
+cprobw         0.5000   0.7253  0.0727   beta 0.1000 
+cindp          0.5000   0.3352  0.1188   beta 0.1500 
+cprobp         0.5000   0.6847  0.0494   beta 0.1000 
+csigma         1.5000   1.3817  0.1270   norm 0.3750 
+csigl          2.0000   1.8831  0.6190   norm 0.7500 
+chabb          0.7000   0.6918  0.0435   beta 0.1000 
+csadjcost      4.0000   5.5767  1.0178   norm 1.5000 
+cmaw           0.5000   0.8826  0.0547   beta 0.2000 
+cmap           0.5000   0.7041  0.0980   beta 0.2000 
+ctrend         0.4000   0.4182  0.0148   norm 0.1000 
+constebeta     0.2500   0.1348  0.0530   gamm 0.1000 
+constepinf     0.6250   0.8528  0.1095   gamm 0.1000 
+constelab      0.0000   5.0242  1.0899   norm 2.0000 
+crpi           1.5000   1.9554  0.1851   norm 0.2500 
+crdy           0.1250   0.2323  0.0279   norm 0.0500 
+cry            0.1250   0.0737  0.0228   norm 0.0500 
+crr            0.7500   0.8038  0.0274   beta 0.1000 
+crhoa          0.5000   0.9494  0.0126   beta 0.2000 
+cgy            0.5000   0.5507  0.0914   norm 0.2500 
+crhob          0.5000   0.2062  0.0872   beta 0.2000 
+crhog          0.5000   0.9727  0.0084   beta 0.2000 
+crhoqs         0.5000   0.6927  0.0604   beta 0.2000 
+crhoms         0.5000   0.1425  0.0705   beta 0.2000 
+crhopinf       0.5000   0.8699  0.0474   beta 0.2000 
+crhow          0.5000   0.9696  0.0121   beta 0.2000 
+
+standard deviation of shocks
+           prior mean     mode    s.d.  prior pstdev
+
+ea             0.1000   0.4378  0.0271   invg 2.0000 
+eb             0.1000   0.2412  0.0242   invg 2.0000 
+eg             0.1000   0.5135  0.0297   invg 2.0000 
+eqs            0.1000   0.4244  0.0452   invg 2.0000 
+em             0.1000   0.2426  0.0152   invg 2.0000 
+epinf          0.1000   0.1251  0.0153   invg 2.0000 
+ew             0.1000   0.2581  0.0239   invg 2.0000 
+
+
+Log data density [Laplace approximation] is -887.481962.
+
+
+MODEL SUMMARY
+
+  Number of variables:         41
+  Number of stochastic shocks: 7
+  Number of state variables:   20
+  Number of jumpers:           12
+  Number of static variables:  15
+
+
+MATRIX OF COVARIANCE OF EXOGENOUS SHOCKS
+Variables          ea        eb        eg       eqs        em     epinf        ew
+ea           0.191666  0.000000  0.000000  0.000000  0.000000  0.000000  0.000000
+eb           0.000000  0.058166  0.000000  0.000000  0.000000  0.000000  0.000000
+eg           0.000000  0.000000  0.263669  0.000000  0.000000  0.000000  0.000000
+eqs          0.000000  0.000000  0.000000  0.180076  0.000000  0.000000  0.000000
+em           0.000000  0.000000  0.000000  0.000000  0.058870  0.000000  0.000000
+epinf        0.000000  0.000000  0.000000  0.000000  0.000000  0.015647  0.000000
+ew           0.000000  0.000000  0.000000  0.000000  0.000000  0.000000  0.066612
+
+POLICY AND TRANSITION FUNCTIONS
+                                   y               c            inve            pinf               r               w               k             lab
+ewma(-1)                    1.698901        2.818971        0.581993       -3.038967       -0.746442       -3.744805       -0.801575        1.545023
+epinfma(-1)                 2.022547        0.828033        5.514233       -3.281391       -0.759572        4.335248        1.957191        1.035919
+yf(-1)                     -0.166588       -0.172585       -0.239756       -0.028626        0.180187       -0.036056       -0.054917       -0.114655
+y(-1)                       0.166588        0.172585        0.239756        0.028626       -0.180187        0.036056        0.054917        0.114655
+r(-1)                      -0.576538       -0.597295       -0.829763       -0.099070        0.623603       -0.124784       -0.190061       -0.396804
+a(-1)                       0.220220        0.226859        0.740914       -0.108437       -0.170736        0.107616       -0.308652       -0.954659
+b(-1)                       0.353919        0.439135        0.291661        0.014256        0.092790        0.042470        0.105372        0.246705
+g(-1)                       0.910168       -0.118816       -0.205665        0.025473        0.056120        0.016546        0.240299        0.642913
+qs(-1)                      0.513090       -0.028333        2.533397        0.050163        0.059843        0.064577        0.153757        0.357382
+ms(-1)                     -0.117701       -0.120524       -0.173645       -0.021102        0.105343       -0.026140       -0.039021       -0.080947
+spinf(-1)                  -2.498993       -1.023091       -6.813208        4.054381        0.938503       -5.356492       -2.418241       -1.279948
+sw(-1)                     -1.866417       -3.096928       -0.639379        3.338616        0.820043        4.114052        0.880612       -1.697366
+kpf(-1)                     0.020577        0.019413        0.035465        0.006662        0.001884        0.004996        0.006963        0.014112
+kp(-1)                     -0.070780        0.055073       -0.055331       -0.028705       -0.028473        0.014776        0.564169       -0.210839
+cf(-1)                      0.012031        0.017853        0.001117       -0.002309       -0.075454        0.000094        0.003135        0.008510
+invef(-1)                   0.010064        0.011950        0.009915        0.000452       -0.027574        0.001444        0.003075        0.006994
+c(-1)                       0.457837        0.709063       -0.057794        0.011955        0.117546        0.020294        0.124840        0.322307
+inve(-1)                    0.176072        0.002118        0.835967        0.005683        0.045621        0.010623        0.048943        0.123693
+pinf(-1)                   -0.100526       -0.108509       -0.202410        0.331319        0.102276        0.174566        0.031862       -0.087125
+w(-1)                       0.024143       -0.034576       -0.064548        0.055569        0.027270        0.796481        0.269940       -0.055679
+ea                          0.747276        0.171669        0.663931       -0.099790       -0.148055        0.122716       -0.189037       -0.641495
+eb                          1.716074        2.129267        1.414200        0.069124        0.449916        0.205925        0.510923        1.196214
+eg                          0.935730       -0.122153       -0.211441        0.026188        0.057696        0.017011        0.247048        0.660969
+eqs                         0.740669       -0.040900        3.657073        0.072413        0.086387        0.093220        0.221955        0.515897
+em                         -0.826107       -0.845924       -1.218759       -0.148111        0.739368       -0.183471       -0.273880       -0.568144
+epinf                      -0.919407       -0.505138       -2.017105        1.845539        0.481021       -2.192167       -0.963020       -0.450673
+ew                         -0.128886       -0.349535       -0.176523        0.410069        0.125484        1.828697        0.572220       -0.258339
+
+
+THEORETICAL MOMENTS
+VARIABLE         MEAN  STD. DEV.   VARIANCE
+y              0.0000     5.4233    29.4120
+c              0.0000     5.5288    30.5671
+inve           0.0000    10.9913   120.8079
+pinf           0.0000     0.5411     0.2928
+r              0.0000     0.5948     0.3538
+w              0.0000     2.8282     7.9990
+k              0.0000     5.1516    26.5390
+lab            0.0000     2.8729     8.2537
+
+
+
+VARIANCE DECOMPOSITION (in percent)
+            ea      eb      eg     eqs      em   epinf      ew
+y        25.69    1.80    3.93    9.44    2.83    7.02   49.29
+c         7.64    2.59    8.83    4.11    2.68    4.55   69.60
+inve     16.56    0.34    5.17   44.34    1.84    7.65   24.10
+pinf      3.70    0.75    1.21    3.83    5.25   31.63   53.63
+r        10.06    8.48    4.32   20.90   16.55    7.39   32.31
+w        22.82    0.61    1.38    9.49    2.95   36.34   26.40
+k        17.54    0.37    4.67   29.90    1.53    9.58   36.41
+lab       2.05    2.93   10.18    9.50    4.02    7.12   64.20
+
+
+
+MATRIX OF CORRELATIONS
+Variables          y        c     inve     pinf        r        w        k      lab
+y             1.0000   0.8176   0.8114  -0.3497  -0.3420   0.3742   0.7388   0.8097
+c             0.8176   1.0000   0.6915  -0.4768  -0.5438   0.2394   0.7879   0.6640
+inve          0.8114   0.6915   1.0000  -0.1992  -0.1164   0.4284   0.6624   0.6342
+pinf         -0.3497  -0.4768  -0.1992   1.0000   0.6583   0.2272  -0.1973  -0.3155
+r            -0.3420  -0.5438  -0.1164   0.6583   1.0000   0.0861  -0.2334  -0.2110
+w             0.3742   0.2394   0.4284   0.2272   0.0861   1.0000   0.6074   0.0037
+k             0.7388   0.7879   0.6624  -0.1973  -0.2334   0.6074   1.0000   0.4369
+lab           0.8097   0.6640   0.6342  -0.3155  -0.2110   0.0037   0.4369   1.0000
+
+
+
+COEFFICIENTS OF AUTOCORRELATION
+Order          1       2       3       4       5
+y         0.9850  0.9615  0.9334  0.9026  0.8705
+c         0.9921  0.9792  0.9639  0.9470  0.9292
+inve      0.9808  0.9393  0.8855  0.8261  0.7653
+pinf      0.8575  0.7373  0.6353  0.5489  0.4764
+r         0.9006  0.7849  0.6807  0.5912  0.5156
+w         0.9780  0.9479  0.9111  0.8696  0.8250
+k         0.9966  0.9897  0.9801  0.9683  0.9548
+lab       0.9721  0.9349  0.8938  0.8514  0.8091
+This is pdfTeX, Version 3.141592653-2.6-1.40.28 (TeX Live 2025) (preloaded format=pdflatex) 
+ restricted \write18 enabled. 
+entering extended mode 
+GPL Ghostscript 10.05.1: PDFDocEncoding ad is undefined
+GPL Ghostscript 10.05.1: PDFDocEncoding ad is undefined
+GPL Ghostscript 10.05.1: PDFDocEncoding ad is undefined
+GPL Ghostscript 10.05.1: PDFDocEncoding ad is undefined
+GPL Ghostscript 10.05.1: PDFDocEncoding ad is undefined
+GPL Ghostscript 10.05.1: PDFDocEncoding ad is undefined
+GPL Ghostscript 10.05.1: PDFDocEncoding ad is undefined
+GPL Ghostscript 10.05.1: PDFDocEncoding ad is undefined
+GPL Ghostscript 10.05.1: PDFDocEncoding ad is undefined
+GPL Ghostscript 10.05.1: PDFDocEncoding ad is undefined
+GPL Ghostscript 10.05.1: PDFDocEncoding ad is undefined
+GPL Ghostscript 10.05.1: PDFDocEncoding ad is undefined
+GPL Ghostscript 10.05.1: PDFDocEncoding ad is undefined
+Total computing time : 0h01m33s

@@ -1,0 +1,125 @@
+Starting Dynare (version 6.4).
+Calling Dynare with arguments: none
+Starting preprocessing of the model file ... 
+Found 8 equation(s). 
+Evaluating expressions... 
+Computing static model derivatives (order 1). 
+Normalizing the static model... 
+Finding the optimal block decomposition of the static model... 
+3 block(s) found: 
+  2 recursive block(s) and 1 simultaneous block(s). 
+  the largest simultaneous block has 6 equation(s) 
+                                 and 6 feedback variable(s). 
+Computing dynamic model derivatives (order 2). 
+Normalizing the dynamic model... 
+Finding the optimal block decomposition of the dynamic model... 
+2 block(s) found: 
+  1 recursive block(s) and 1 simultaneous block(s). 
+  the largest simultaneous block has 7 equation(s) 
+                                 and 7 feedback variable(s). 
+Preprocessing completed. 
+Preprocessing time: 0h00m01s.
+
+
+Residuals of the static equations:
+Equation number 1: y :       0.005516
+Equation number 2: r :       0.000000
+Equation number 3: w :       0.000000
+Equation number 4: 4 :      -0.000520
+Equation number 5: 5 :      -0.018229
+Equation number 6: 6 :       0.010000
+Equation number 7: k :       0.002200
+Equation number 8: 8 :       0.000000
+
+
+
+STEADY-STATE RESULTS:
+
+y 		 0.744697
+c 		 0.572708
+i 		 0.17199
+k 		 2.86649
+l 		 0.360396
+r 		 0.0909278
+w 		 1.34312
+a 		 1
+
+EIGENVALUES:
+         Modulus             Real        Imaginary
+          0.8866           0.8866                0
+            0.95             0.95                0
+           1.163            1.163                0
+       3.613e+17       -3.613e+17                0
+
+There are 2 eigenvalue(s) larger than 1 in modulus for 2 forward-looking variable(s)
+The rank condition is verified.
+
+
+MODEL SUMMARY
+
+  Number of variables:         8
+  Number of stochastic shocks: 1
+  Number of state variables:   2
+  Number of jumpers:           2
+  Number of static variables:  4
+
+
+MATRIX OF COVARIANCE OF EXOGENOUS SHOCKS
+Variables        epsA
+epsA         0.000100
+
+POLICY AND TRANSITION FUNCTIONS
+                                   y               c               i               k               l               r               w               a
+Constant                    0.744640        0.572770        0.171870        2.866375        0.360353        0.090921        1.343171        1.000000
+(correction)               -0.000057        0.000062       -0.000119       -0.000119       -0.000043       -0.000007        0.000056               0
+k(-1)                       0.055192        0.108550       -0.053358        0.886642       -0.026607       -0.024982        0.198700               0
+a(-1)                       0.923502        0.310584        0.612918        0.612918        0.160849        0.112760        1.066152        0.950000
+epsA                        0.972107        0.326930        0.645177        0.645177        0.169315        0.118695        1.122265        1.000000
+k(-1),k(-1)                -0.010755       -0.006593       -0.004162       -0.004162        0.003261        0.007402       -0.016880               0
+a(-1),k(-1)                 0.103492        0.037612        0.065880        0.065880        0.014220       -0.026701        0.123688               0
+a(-1),a(-1)                 0.022419       -0.025734        0.048153        0.048153       -0.110384        0.002737       -0.024028       -0.023750
+epsA,epsA                   0.536477        0.143555        0.392922        0.392922       -0.033195        0.065504        0.564042        0.500000
+k(-1),epsA                  0.108939        0.039592        0.069348        0.069348        0.014968       -0.028106        0.130198               0
+a(-1),epsA                  1.019306        0.272754        0.746552        0.746552       -0.063071        0.124458        1.071680        0.950000
+
+
+APPROXIMATED THEORETICAL MOMENTS
+VARIABLE         MEAN  STD. DEV.   VARIANCE
+y              0.7456     0.0383     0.0015
+c              0.5734     0.0258     0.0007
+i              0.1722     0.0148     0.0002
+k              2.8706     0.1527     0.0233
+l              0.3603     0.0032     0.0000
+r              0.0909     0.0023     0.0000
+w              1.3447     0.0632     0.0040
+a              1.0005     0.0320     0.0010
+
+
+
+APPROXIMATED MATRIX OF CORRELATIONS
+Variables          y        c        i        k        l        r        w        a
+y             1.0000   0.9681   0.8993   0.9165   0.5672   0.1745   0.9881   0.9918
+c             0.9681   1.0000   0.7612   0.9875   0.3429  -0.0776   0.9951   0.9283
+i             0.8993   0.7612   1.0000   0.6492   0.8702   0.5875   0.8215   0.9477
+k             0.9165   0.9875   0.6492   1.0000   0.1903  -0.2340   0.9670   0.8580
+l             0.5672   0.3429   0.8702   0.1903   1.0000   0.9099   0.4340   0.6676
+r             0.1745  -0.0776   0.5875  -0.2340   0.9099   1.0000   0.0212   0.2986
+w             0.9881   0.9951   0.8215   0.9670   0.4340   0.0212   1.0000   0.9605
+a             0.9918   0.9283   0.9477   0.8580   0.6676   0.2986   0.9605   1.0000
+
+
+
+APPROXIMATED COEFFICIENTS OF AUTOCORRELATION
+Order          1       2       3       4       5
+y         0.9672  0.9341  0.9010  0.8679  0.8352
+c         0.9911  0.9779  0.9613  0.9419  0.9202
+i         0.8999  0.8104  0.7305  0.6591  0.5951
+k         0.9969  0.9887  0.9761  0.9600  0.9410
+l         0.8431  0.7062  0.5868  0.4830  0.3928
+r         0.8511  0.7209  0.6072  0.5079  0.4214
+w         0.9837  0.9644  0.9426  0.9190  0.8939
+a         0.9500  0.9025  0.8574  0.8145  0.7738
+[警告: 导出的图像显示了坐标区工具栏。要从图像中删除坐标区工具栏，请再次导出。] 
+[警告: 导出的图像显示了坐标区工具栏。要从图像中删除坐标区工具栏，请再次导出。] 
+Total computing time : 0h00m09s
+Note: warning(s) encountered in MATLAB/Octave code

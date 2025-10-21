@@ -18,7 +18,7 @@ Calculating the integral, we have:
 \end{equation}
 Evaluating the limits, we get:
 \begin{equation}
-    c = \frac{1}{\lambda}
+    c = \lambda 
 \end{equation}
 
 Now looking at the normal distribution: $y \sim \mathcal{N} \left( \mu , \sigma^2 \right)$
@@ -271,13 +271,13 @@ which we would solve:
     \begin{align}
         p(\beta | y) & \propto p(y | \beta) p(\beta) \\
         &= (2\pi \sigma^2 )^{ -\frac{n + k}{2}} | V_0|^{ -\frac{1}{2}} \exp \left( -\frac{1}{2\sigma^2} (\beta - \beta_0)' V_0^{-1} (\beta - \beta_0) \right) \cdot \exp \left( -\frac{1}{2\sigma^2} \left(Y - X \beta \right)^{\prime} \left(Y - X \beta \right) \right) \\
-        & \propto \exp \left( -\frac{1}{2\sigma^2} \beta X^{\prime} X \beta - \frac{1}{2\sigma^2} \beta_0 X^{\prime} X \beta_0 \right) \cdot \exp \left( -\frac{1}{2\sigma^2} \left(\beta_0 - \beta \right)^{\prime} V_0^{-1} \left(\beta_0 - \beta \right) \right) \\
+        & \propto \exp \left( \frac{1}{2\sigma^2} \left[ - \beta ^{\prime} X^{\prime} Y - Y^{\prime} X \beta + \beta X^{\prime} X \beta + \beta_0^{\prime} V_0^{-1} \beta_0 - \beta ^{\prime} V_0^{-1} \beta_0 - \beta_0^{\prime} V_0^{ - 1 } \beta \right] \right) \\
         & \propto \exp \left( -\frac{1}{2\sigma^2} \left[ \beta' (X'X + V_0^{-1}) \beta - 2 (X' Y + V_0^{-1} \beta_0)' \beta \right] \right)
     \end{align}
     This let us guess that $\beta | Y \sim \mathcal{N}(\bar{\beta }, \sigma^2 \bar{V})$,
     with:
     \begin{align}
-        \bar{V}^{-1} &= X'X + V_0^{-1} \\
+        \bar{V} &= \left[ X'X + V_0^{-1} \right]^{-1} \\
         \bar{\beta } &= \bar{V} \left( X'Y + V_0^{-1} \beta_0 \right) = \left(X'X + V_0^{-1}\right)^{-1} \left(X' X \hat{\beta }_{ML}  + V_0^{-1} \beta_0 \right).
     \end{align}
     We can calculate the probability $p(y)$,

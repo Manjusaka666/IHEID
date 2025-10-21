@@ -1,134 +1,116 @@
-For our general regression model $y_i = x_i^{\prime} \beta + u_i$, we have $\mathbb{E}[x_i u_i] \neq 0$,
-thus $\hat{\beta}_{OLS} \overset{\rho}{\rightarrow} \beta$ doesn't hold.
+With prior $\lambda $ and $\sigma ^2 = 1$, the MDD expression from above can be simplified to:
+\begin{equation}
+    p(y) = \frac{\left(2 \pi \right)^{-\frac{n}{2}} \exp \left( -\frac{1}{2} Y^{\prime} Y \right) \left|\, \lambda^{-1} I_k \right|^{ - \frac{1}{2}} }{\left|\, X^{\prime} X + \lambda I \right|^{\frac{1}{2}} \exp \left( - \frac{1}{2} \overline{\beta }^{\prime} \overline{V}^{-1} \overline{\beta} \right) }
+\end{equation}
 
-To consistently estimate $\beta$, we require additional assumptions.
-One type of information which is commonly used in economics is the \textbf{instruments}.
+Taking logs, we get:
+\begin{align*}
+    \log p(y) &= c - \frac{1}{2} Y^{\prime} Y + \frac{1}{2} \overline{\beta }^{\prime} \overline{V}^{-1} \overline{\beta } - \frac{1}{2} \log \left|\, X^{\prime} X + \lambda I_k \right| \\
+    &= c - \frac{1}{2} \left[  Y^{\prime} Y\, - Y^{\prime} X \overline{V} X^{\prime} Y\, \right] - \frac{1}{2} \log \lambda^{- k} \left|\, X^{\prime} X + \lambda I \right| \\
+    &= c - \frac{1}{2} \left[  Y^{\prime} Y\, - Y^{\prime} X \left(X^{\prime} X + \lambda I_k \right)^{-1} X^{\prime} Y\, \right] - \frac{1}{2} \log \left|\, \lambda^{-1} X^{\prime} X + I \right|    
+\end{align*}
+where $c = -\frac{n}{2} \log(2 \pi)$ is a constant that doesn't depend on $Y$ or $\lambda $.
 
-\begin{definition}[Instrumental Variable]\label{def:IV}
-    \
+The penalty term:
+\begin{align*}
+    \log \left|\, \lambda^{-1} X^{\prime} X + I \right| &= - \frac{1}{2} \log \left|\,n \left( \frac{1}{n} \sum_{i} x_i x_i^{\prime} + \frac{\lambda}{n} I \right) \right| \\
+    &= - \frac{k}{2} \log n - \frac{1}{2} \log \left|\, Q_n + \frac{\lambda}{n} I \right|
+\end{align*}
 
-    We take $z_i \in \mathbb{R}^r$ as an instrumental variable if:
-    \begin{align*}
-        \mathbb{E}[z_i u_i] &= 0 \\
-        \mathbb{E}[z_i x_i] &\neq 0 \\
-        \mathbb{E}[z_i z_i^{\prime}] &> 0 \\
-        \rank \Bigl(\mathbb{E}[z_i x_i^{\prime}] \Bigr) &= k \leq r \quad \footnotemark
-    \end{align*}
-    \footnotetext{We say that the model is just-identified if $k = r$ and over-identified if $k < r$.}
+\begin{definition}
+    The Bayesian Information Criterion (BIC) is defined as:
+    \begin{equation}
+        BIC = \log p(y | \hat{\beta }_{ML}) - \frac{k}{2} \log n
+    \end{equation}
+    where $\hat{\beta }_{ML}$ is the maximum likelihood estimate of $\beta $.
 \end{definition}
 
-\subsection{Instrumental Variables and 2SLS}
+For $\beta \sim \mathcal{N} \left( \beta_0, \sigma ^2 V_0 \right)$,
+\begin{itemize}
+    \item Ridge: $\beta \sim \mathcal{N} (0, \sigma ^2 \lambda^{-1} I)$, $\beta _j \sim \mathcal{N} (0, \sigma ^2 \lambda^{-1})$
+    \item Lasso: $\beta \sim Laplace(\cdot)$, $p(\beta_j ) \propto \exp \left( -\lambda \left| \beta _j \right| \right)$,
+                where the mode solves
+                \[\min_{\beta} \left\{ \left( Y - X \beta \right)^{\prime} \left( Y - X \beta \right) + \tilde{\lambda} \sum_{j=1}^{k} \left| \beta_j \right| \right\}\].
+\end{itemize}
 
-Then, we have the 2SLS method:
-\begin{definition}[2SLS Method]
-    \ 
-    \begin{enumerate}
-        \item Estimate: $x_i = z_i^{\prime} \gamma + e_i \Rightarrow \hat{\gamma} = (Z^{\prime} Z)^{-1}Z^{\prime} X \Rightarrow \hat{X} = Z^{\prime} \hat{\gamma} = P_Z X$;
-        \item Estimate: $y_i = \hat{x}_i^{\prime} \beta + u_i^*$.
-        \begin{align*}
-            \hat{\beta}_{2SLS} &= (\hat{X}^{\prime} \hat{X})^{-1}\hat{X}^{\prime} Y \\ 
-            &= \left((P_Z X)^{\prime} P_Z X\right)^{-1} (P_Z X)^{\prime} Y \\ 
-            &= (X^{\prime} P_Z X)^{-1} X^{\prime} P_Z Y \\
-            &= \left(X^{\prime} Z (Z^{\prime} Z)^{-1} Z^{\prime} X\right)^{-1} X^{\prime} Z (Z^{\prime} Z)^{-1} Z^{\prime} Y \\ 
-            &= \beta + \left(X^{\prime} Z (Z^{\prime} Z)^{-1} Z^{\prime} X\right)^{-1} X^{\prime} Z (Z^{\prime} Z)^{-1} Z^{\prime} u \\ 
-            &= \beta + \left(Z^{\prime} X\right)^{-1} \left(Z^{\prime} Z\right) \left(X^{\prime} Z\right)^{-1} X^{\prime} Z \left(Z^{\prime} Z\right)^{-1}  Z^{\prime} u \quad \footnotemark \\
-            &= \beta + \left(Z^{\prime} X\right)^{-1} Z^{\prime} u \\
-            % &\overset{p}{\rightarrow} \beta + Q_{xz}^{-1} \mathbb{E}[x_i z_i^{\prime}] \mathbb{E}[z_i z_i^{\prime}] \mathbb{E}[z_i u_i]\\ 
-            &\overset{p}{\rightarrow} \beta.
-        \end{align*}
-    \end{enumerate}
-    \footnotetext{To compute $\hat{\beta}_{2SLS}$, we need $Z^{\prime} Z$ to be full rank, which requires us to have more observations than IVs.}
-\end{definition}
+\subsection{Model Selection}
+Suppose we have regression models $M_j$, with parameters $\theta _j$
 
-Ideally, $z_i$ should be as highly correlated with $x_i$ as possible, but uncorrelated with $u_i$.
-To see this, we find hte variance of $\hat{\beta}_{2SLS}$
+
+Suppose we have two regression models:
+\begin{equation}
+    M_1: y_i = \beta _1^1 x_{1i} + \beta_2^1 x_{2i} + u_i, \quad M_2: y_i = \beta _1^2 x_{1i}+ v_i
+\end{equation}
+with $p\left(\beta _1^1, \beta _2^1 | M_1 \right) = \mathcal{N} \left( \begin{bmatrix}
+     0 \\
+     0 \\
+\end{bmatrix}, \begin{bmatrix}
+    1 &  0 \\
+    0 &  1 \\
+\end{bmatrix} \right)$,
+and for model 2, we have
+$p\left( \beta _1^2 | M_2 \right) = \mathcal{N} \left( 0, 1 \right)$
+$p\left( \beta _1^2 | M_2 \right) = \delta _0$
+Then $p\left( \beta _1^2, \beta _2^2 | M_2 \right) = \mathcal{N} \left( \begin{bmatrix}
+    0 \\
+    0 \\
+\end{bmatrix}, \begin{bmatrix}
+    1 &  0 \\
+    0 &  0 \\
+\end{bmatrix} \right)$,
+so, we can write:
+\begin{equation*}
+    p(\beta ) = \mathcal{N} \left( \begin{bmatrix}
+        0 \\
+        0 \\
+    \end{bmatrix}, \begin{bmatrix}
+        1 &  0 \\
+        0 &  \lambda \\
+        \end{bmatrix} \right)
+\end{equation*}
+with $\lambda \in \{0, 1\}$.
+
+\[
+p(\theta | y) = \sum_{j} \pi_{j,n} p(\theta | y, M_j)
+\]
+
+For $y_i = \beta _1 x_{1i} + \beta _2 x_{2i} + u_i$,
+with $p(\beta | M_j) = \mathcal{N} \left( \begin{bmatrix}
+     0 \\
+     0 \\
+\end{bmatrix}, \begin{bmatrix}
+    1 & 0 \\
+    0 & \lambda \\
+\end{bmatrix} \right)$,
+we have:
+\begin{equation*}
+    \lambda = \begin{dcases}
+        0, & \pi_{2,0} \\
+        1, & \pi_{1,0} 
+    \end{dcases}
+\end{equation*},
+then
 \begin{align*}
-    \mathbb{V}[\hat{\beta}_{2SLS} | X, Z] &= \mathbb{V}\left[\left(X^{\prime} P_Z X \right)^{-1} X^{\prime} P_Z U | X, Z \right] \\
-    &= \left(X^{\prime} P_Z X \right)^{-1} \mathbb{V}\left[X^{\prime} P_Z U | X, Z \right] \left(X^{\prime} P_Z X \right)^{-1} \\
-    &= \left(X^{\prime} P_Z X \right)^{-1} X^{\prime} P_Z \mathbb{E}[U U^{\prime} | X, Z] P_Z X \left(X^{\prime} P_Z X \right)^{-1}\\
-    &= \left(X^{\prime} P_Z X\right)^{-1} \sigma^2
+    p(\beta , \lambda ) &= p(\beta | \lambda ) p(\lambda ) \\
+            &= \pi_{1,0} \cdot \mathcal{N} \left( \begin{bmatrix}
+                0 \\
+                0 \\
+            \end{bmatrix}, \begin{bmatrix}
+                1 & 0 \\
+                0 & 1 \\
+            \end{bmatrix} \right) + \pi_{2,0} \cdot \mathcal{N} \left( \begin{bmatrix}
+                0 \\
+                0 \\
+            \end{bmatrix}, \begin{bmatrix}
+                1 & 0 \\
+                0 & 0 \\
+            \end{bmatrix} \right)
 \end{align*}
-which holds under homoskedasticity.
-As we know $\mathbb{V}[\hat{\beta}_{OLS}] = (X^{\prime} X)^{-1} \sigma^2$, 
+so,
 \begin{align*}
-    \mathbb{V}\left[\hat{\beta}_{OLS}\right]^{-1} - \mathbb{V}\left[\hat{\beta}_{2SLS} \right]^{-1} &= (\sigma^2)^{-1} X^{\prime} X - (\sigma^2)^{-1} X^{\prime} P_Z X \\
-    &= (\sigma^2)^{-1} X^{\prime} (I - P_Z) X \\
-    &= (\sigma^{-2}) X^{\prime} M_Z X \\
-    &= \sigma^{-2} (\underset{\hat{E}}{\underbrace{M_Z X}})' M_Z X \\
-    &= \sigma^{-2} SSR_{1SLS} > 0.
+    p(\beta , \lambda | y) &= p(\beta | \lambda , y) p(\lambda | y) \\
+            &= \pi_{1, n} p(\beta | y, \lambda = 1) + \pi_{2, n} p(\beta | y, \lambda = 0)
 \end{align*}
-This means that the variance of 2SLS estimator is larger than that of the OLS.
 
-By the usual arguments, the asymptotic analysis reveals that:
-\begin{gather*}
-    \sqrt{n} (\hat{\beta}_{2SLS} - \beta) \overset{p}{\rightarrow} \mathcal{N} (0, V_{2SLS})
-\end{gather*}
-where
-\begin{gather*}
-    V_{2SLS}  = Q_{XZ}^{-1} X^{\prime} Z \left(Z^{\prime} Z\right)^{-1} Z^{\prime} U U^{\prime} Z \left(Z^{\prime} Z \right)^{-1} \left(X^{\prime} Z\right)^{\prime} Q_{XZ}^{-1}
-\end{gather*}
-where $Q_{XZ} = \left(Z^{\prime} X\right) \left(Z^{\prime} Z\right)^{-1}  \left(X^{\prime} Z\right)$
-
-As usual, we can estimate it by replacing $u_i$ with $\hat{u}_i$ and expectation operators with population means.
-Thereby, it's important to note that $u_i \neq u_i^*$, and to obtain $\hat{u}_i$, we don't use $\hat{x}_i$,but $x_i$:
-\begin{gather*}
-     \hat{u}_i = y_i - x_i^{\prime} \hat{\beta}_{2SLS}
-\end{gather*}
-Under homoskedasticity, $V_{2SLS} = \sigma^2 Q_{XZ}^{-1} $, which we estimate using $\hat{\sigma}^2 = \frac{1}{n} \sum_i u_i^2$.
-
-
-\subsection{Weak Identification in IV Models}
-
-If the the correlation between $x_i$ and $z_i$ is weak, then we say it's a \textbf{weak instrument}.
-Under weak IVs, the finite sample distribution of $\hat{\beta}_{2SLS}$ may not assemble the asymptotic property.
-
-In absence of an asymptotic distribution, we can conduct inference using its numerical approximation via bootstrapping.
-Or alternatively, we can construct a confidence set for $\beta$ using the Following the procedure of Anderson and Rubin (1949).
-
-The method is based on the idea that, for $\beta = \beta_0$, the auxiliary regression $y_i - x_i^{\prime} \beta = \delta z_i + v_i$ should yield $\delta =0$,
-because $y_i - x_i^{\prime} \beta_0 = u_i$ and $u_i$ is uncorrelated with $z_i$.
-
-\begin{theorem}[Anderson-Rubin Method]\label{thm:IV-AR}
-    \
-    
-    For a given $\beta_0$, we get:
-    \begin{gather*}
-        \sqrt{n} \hat{\delta}(\beta_0) = \sqrt{n} \left(Z^{\prime} Z \right)^{-1} Z^{\prime} (Y - X \beta_0) = \left(Z^{\prime} Z\right)^{-1} \sqrt{n} Z^{\prime} U \overset{d}{\rightarrow} \mathcal{N} \left(0, \frac{\sigma_u^2}{\mathbb{E}(z_i^2)} \right)
-    \end{gather*}
-    which allows us to test $\mathcal{H}_0: \delta =0.$
-    For many $\beta$s, test: $\mathcal{H}_0: \delta(\beta) = 0$, e.g. using t-test.
-    \[T_t = \frac{\hat{\delta}(\beta_0)}{se(\hat{\delta}(\beta_0))} = \frac{\hat{\delta}_0}{\sqrt{\hat{\sigma}_u^2 / Z^{\prime} Z} } \overset{d}{\rightarrow} \mathcal{N}(0,1)\]
-    The 90\% CI for $\beta$ is the set of $\beta$s at which $\delta(\beta) = 0$ cannot be rejected at 90\% confidence level.
-    A confidence set for $\beta$ is given by taking all $\beta_0$ such that $\mathcal{H}_0: \delta =0$ cannot be rejected.
-\end{theorem}
-
-\begin{remark}[About Anderson-Rubin (AR) Test]\footnote{Retrieved from MIT14.384 Time Series Analysis, Fall 2007
-    Professor Anna Mikusheva, Lecture 7-8, \url{https://ocw.mit.edu/courses/14-384-time-series-analysis-fall-2013/365cba34145fa204731e9df202d4771e_MIT14_384F13_lec7and8.pdf}}
-    \
-    
-    Consider our model
-    \begin{align*}
-        y&=X\beta+u,\\
-        X&=Z\Pi+v,
-    \end{align*}
-    where $X$ is one-dimensional and test for hypothesis $H_0:\beta=\beta_0.$ Under the null, vector $y-X\beta$ is equal to
-    the error $u_t$ and is uncorrelated with $Z$ (due to exogeneity of instruments). 
-    The suggested statistics is:
-    \begin{gather*}
-        AR(\beta_0)=\frac{(y-X\beta)'P_Z(y-X\beta)}{(y-X\beta)'M_Z(y-X\beta)/(T-k)}.
-    \end{gather*}
-    here $P_Z=Z(Z^{\prime}Z)^{-1}Z^{\prime}, M_Z=I-P_z.$
-    
-    The distribution of AR does not depend on $\mu$ asymptotically $AR\to\chi_k^2/k.$ The formula may remind you of the J-test for over-identifying restrictions. It would be a J-test if one were to plugs in $\hat{\beta}_{TSLS}.$
-    In a more general situation of more than one endogenous variable and/or included exogenous regressors AR statistic is F-statistic testing 
-    that all coeffcients on $Z$ are zero in the regression of $y-\beta_0X$ on $Z$ and $W$.
-    
-    Note, that one tests all coefficients $\beta$ simultaneously (as a set) in a case of more than one endogenous regressor.
-    AR confidence set One can construct a confidence set robust towards weak instruments based on the AR test by inverting it. 
-    That is, by finding all $\beta$ which are not rejected by the data. In this case, it is the set :
-    \begin{gather*}
-        CI =\{ \beta_0:AR(\beta_0)<\chi_{k,1-\alpha}^2 \}.
-    \end{gather*}
-    The nice thing about this procedure is that solving for the confidence set is equivalent to solving a quadratic inequality. 
-    This confidence set can be empty with positive probability (caution!).
-\end{remark}
+To get $p(\theta , \lambda | y)$, we can consider $p(\lambda | y)$, whose mode is given by: $\arg \max_{\lambda} p(y | \lambda )$,
+and we can also consider the posterior $p(\theta | y)$, which equals $\int p(\theta | y, \lambda ) p(y | \lambda ) d \lambda $.

@@ -1,0 +1,426 @@
+Starting Dynare (version 6.4).
+Calling Dynare with arguments: none
+Starting preprocessing of the model file ... 
+Substitution of exo lags: added 2 auxiliary variables and equations. 
+Found 49 equation(s). 
+Evaluating expressions... 
+Computing static model derivatives (order 1). 
+Normalizing the static model... 
+Finding the optimal block decomposition of the static model... 
+15 block(s) found: 
+  13 recursive block(s) and 2 simultaneous block(s). 
+  the largest simultaneous block has 16 equation(s) 
+                                 and 16 feedback variable(s). 
+Computing dynamic model derivatives (order 2). 
+Normalizing the dynamic model... 
+Finding the optimal block decomposition of the dynamic model... 
+4 block(s) found: 
+  2 recursive block(s) and 2 simultaneous block(s). 
+  the largest simultaneous block has 16 equation(s) 
+                                 and 14 feedback variable(s). 
+Preprocessing completed. 
+Preprocessing time: 0h00m00s.
+
+
+Residuals of the static equations:
+Equation number  1: Consumption Euler equation             :       0.000000
+Equation number  2: Investment Euler equation              :       0.000000
+Equation number  3: Capital evolution                      :       0.000000
+Equation number  4: Capital utilization                    :       0.000000
+Equation number  5: Rate of utilization                    :       0.000000
+Equation number  6: Price markup                           :       0.000000
+Equation number  7: Rental rate of capital                 :       0.000000
+Equation number  8: Aggregate production function          :       0.000000
+Equation number  9: Resource constraint                    :       0.000000
+Equation number 10: Phillips curve                         :       0.000000
+Equation number 11: Wage evolution                         :       0.000000
+Equation number 12: Marginal rate of substitution          :       0.000000
+Equation number 13: Taylor rule                            :       0.000000
+Equation number 14: Return to capital                      :       0.000000
+Equation number 15: Spreads equation                       :       0.000000
+Equation number 16: Evolution of net worth                 :       0.000000
+Equation number 17: Flexible consumption Euler             :       0.000000
+Equation number 18: Flexible investment Euler              :       0.000000
+Equation number 19: Flexible capital evolution             :       0.000000
+Equation number 20: Flexible capital utilization           :       0.000000
+Equation number 21: Flexible rate of utilization           :       0.000000
+Equation number 22: Flexible price markup                  :       0.000000
+Equation number 23: Flexible rental rate of capital        :       0.000000
+Equation number 24: Flexible production function           :       0.000000
+Equation number 25: Flexible resource constraint           :       0.000000
+Equation number 26: Flexible marginal rate of substitution :       0.000000
+Equation number 27: Flexible arbitrage condition           :       0.000000
+Equation number 28: Output gap definition                  :       0.000000
+Equation number 29: Technology shock level                 :       0.000000
+Equation number 30: Technology shock stationary            :       0.000000
+Equation number 31: Government spending shock              :       0.000000
+Equation number 32: Risk premium shock                     :       0.000000
+Equation number 33: Investment shock                       :       0.000000
+Equation number 34: Price markup shock                     :       0.000000
+Equation number 35: Wage markup shock                      :       0.000000
+Equation number 36: Monetary policy shock                  :       0.000000
+Equation number 37: Financial shock                        :       0.000000
+Equation number 38: Inflation target shock                 :       0.000000
+Equation number 39: Permanent technology shock             :       0.000000
+Equation number 40: Output growth                          :      -0.400000
+Equation number 41: Consumption growth                     :      -0.400000
+Equation number 42: Investment growth                      :      -0.400000
+Equation number 43: Wage growth                            :      -0.400000
+Equation number 44: Hours worked                           :       0.000000
+Equation number 45: Interest rate                          :      -0.700000
+Equation number 46: Inflation                              :      -0.700000
+Equation number 47: Spread                                 :      -0.020000
+
+
+
+STEADY-STATE RESULTS:
+
+c                		 0
+inve             		 0
+y                		 0
+lab              		 0
+pinf             		 0
+w                		 0
+r                		 0
+rk               		 0
+k                		 0
+mc               		 0
+spinf            		 0
+sw               		 0
+g                		 0
+b                		 0
+rkf              		 0
+kf               		 0
+cf               		 0
+invef            		 0
+yf               		 0
+labf             		 0
+wf               		 0
+sobs             		 0.02
+labobs           		 0
+robs             		 0.7
+pinfobs          		 0.7
+dy               		 0.4
+dc               		 0.4
+dinve            		 0.4
+dw               		 0.4
+wh               		 0
+rktil            		 0
+ztil             		 0
+sigw             		 0
+pist             		 0
+og               		 0
+zp               		 0
+n                		 0
+z                		 0
+u                		 0
+mu               		 0
+rm               		 0
+kbar             		 0
+qk               		 0
+rf               		 0
+kbarf            		 0
+uf               		 0
+qkf              		 0
+
+EIGENVALUES:
+         Modulus             Real        Imaginary
+       2.881e-17        2.881e-17                0
+       8.378e-17       -8.378e-17                0
+       1.402e-16       -1.402e-16                0
+       1.714e-16       -1.714e-16                0
+       2.659e-16       -2.659e-16                0
+          0.0673           0.0673                0
+          0.1173           0.1173                0
+          0.2156           0.2156                0
+          0.2258           0.2258                0
+          0.6435           0.6435                0
+          0.6609           0.6609                0
+          0.7213           0.7213                0
+          0.7875           0.7875                0
+          0.7939           0.7939                0
+          0.9261           0.9261                0
+          0.9425           0.9402          0.06537
+          0.9425           0.9402         -0.06537
+           0.944            0.944                0
+            0.95             0.95                0
+          0.9564           0.9564                0
+          0.9734           0.9734                0
+          0.9793           0.9793                0
+          0.9899           0.9899                0
+            0.99             0.99                0
+          0.9911           0.9911                0
+           1.028            1.027           0.0327
+           1.028            1.027          -0.0327
+           1.041            1.041                0
+            1.07             1.07                0
+           1.117            1.098           0.2091
+           1.117            1.098          -0.2091
+            1.28             1.28                0
+        1.93e+17        -1.93e+17                0
+       2.966e+17        2.966e+17                0
+       4.961e+17       -4.961e+17                0
+       5.543e+17       -5.543e+17                0
+
+There are 11 eigenvalue(s) larger than 1 in modulus for 11 forward-looking variable(s)
+The rank condition is verified.
+
+
+You did not declare endogenous variables after the estimation/calib_smoother command.
+Initial value of the log posterior (or likelihood): -9025.5445
+                                            First-order      Norm of
+ Iter F-count            f(x)  Feasibility   optimality         step
+    0      41    9.025544e+03    0.000e+00    1.979e+05
+    1      82    1.207919e+03    0.000e+00    1.116e+05    3.074e+00
+    2     124    9.563548e+02    0.000e+00    1.110e+05    1.751e+00
+    3     166    9.431912e+02    0.000e+00    1.086e+05    4.132e-01
+    4     209    9.424134e+02    0.000e+00    1.066e+05    1.111e-01
+    5     252    9.324962e+02    0.000e+00    1.051e+05    2.930e-01
+    6     295    9.221728e+02    0.000e+00    1.034e+05    4.963e-01
+    7     337    9.134286e+02    0.000e+00    8.870e+04    2.853e-01
+    8     379    9.122536e+02    0.000e+00    6.992e+04    5.184e-01
+    9     421    8.911801e+02    0.000e+00    4.060e+04    4.618e-01
+   10     463    8.843418e+02    0.000e+00    3.946e+04    2.269e-01
+   11     506    8.787490e+02    0.000e+00    3.526e+04    3.746e-01
+Objective function returned Inf; trying a new point...
+   12     549    8.722628e+02    0.000e+00    3.383e+04    1.425e+00
+   13     592    8.701623e+02    0.000e+00    3.193e+04    2.674e-01
+   14     634    8.576903e+02    0.000e+00    2.781e+04    1.753e+00
+   15     676    8.528165e+02    0.000e+00    2.187e+04    2.668e-01
+   16     718    8.306322e+02    0.000e+00    1.608e+04    9.716e-01
+Objective function returned Inf; trying a new point...
+   17     761    8.198963e+02    0.000e+00    1.543e+04    4.350e-01
+Objective function returned Inf; trying a new point...
+   18     805    8.167615e+02    0.000e+00    1.505e+04    2.487e-01
+Objective function returned Inf; trying a new point...
+   19     847    8.116818e+02    0.000e+00    1.007e+04    8.912e-01
+   20     889    8.041091e+02    0.000e+00    8.731e+03    6.568e-01
+   21     933    8.021407e+02    0.000e+00    8.670e+03    2.046e-01
+   22     976    7.963361e+02    0.000e+00    8.226e+03    3.901e-01
+   23    1018    7.925245e+02    0.000e+00    6.604e+03    2.389e-01
+   24    1060    7.873213e+02    0.000e+00    5.137e+03    1.886e-01
+   25    1101    7.833903e+02    0.000e+00    2.453e+03    8.870e-01
+   26    1143    7.810164e+02    0.000e+00    2.352e+03    1.492e-01
+   27    1185    7.751406e+02    0.000e+00    2.360e+03    2.426e-01
+   28    1229    7.732790e+02    0.000e+00    2.121e+03    1.544e-01
+Objective function returned Inf; trying a new point...
+   29    1273    7.728853e+02    0.000e+00    2.317e+03    4.196e-01
+   30    1315    7.673245e+02    0.000e+00    2.111e+03    1.964e-01
+
+                                            First-order      Norm of
+ Iter F-count            f(x)  Feasibility   optimality         step
+   31    1356    7.643445e+02    0.000e+00    1.720e+03    4.579e-01
+   32    1398    7.624287e+02    0.000e+00    1.516e+03    4.474e-01
+   33    1440    7.579457e+02    0.000e+00    1.143e+03    1.995e-01
+Objective function returned Inf; trying a new point...
+   34    1482    7.578021e+02    0.000e+00    1.196e+03    5.013e-01
+Objective function returned Inf; trying a new point...
+   35    1525    7.528210e+02    0.000e+00    1.189e+03    2.721e-01
+Objective function returned Inf; trying a new point...
+   36    1567    7.385569e+02    0.000e+00    9.362e+02    2.141e-01
+   37    1608    7.276741e+02    0.000e+00    7.627e+02    1.848e-01
+   38    1650    7.248920e+02    0.000e+00    4.932e+02    1.341e-01
+Objective function returned Inf; trying a new point...
+   39    1693    7.224178e+02    0.000e+00    5.301e+02    2.231e-01
+Objective function returned Inf; trying a new point...
+   40    1737    7.202087e+02    0.000e+00    4.965e+02    7.252e-02
+   41    1779    7.191278e+02    0.000e+00    2.872e+02    1.012e-01
+   42    1821    7.167545e+02    0.000e+00    2.367e+02    2.543e-01
+Objective function returned Inf; trying a new point...
+   43    1873    7.161345e+02    0.000e+00    1.681e+02    8.366e-03
+Objective function returned Inf; trying a new point...
+   44    1915    7.159096e+02    0.000e+00    1.681e+02    1.165e-02
+Objective function returned Inf; trying a new point...
+   45    1958    7.145364e+02    0.000e+00    6.519e+01    2.067e-01
+Objective function returned Inf; trying a new point...
+   46    2014    7.144947e+02    0.000e+00    5.231e+01    9.819e-04
+Objective function returned Inf; trying a new point...
+   47    2056    7.144626e+02    0.000e+00    5.354e+01    2.064e-03
+Objective function returned Inf; trying a new point...
+   48    2105    7.144277e+02    0.000e+00    5.267e+01    8.498e-04
+Objective function returned Inf; trying a new point...
+   49    2147    7.143949e+02    0.000e+00    5.298e+01    2.007e-03
+Objective function returned Inf; trying a new point...
+   50    2199    7.143911e+02    0.000e+00    5.288e+01    9.198e-05
+Objective function returned Inf; trying a new point...
+   51    2242    7.143893e+02    0.000e+00    5.289e+01    1.068e-04
+Objective function returned Inf; trying a new point...
+   52    2296    7.143892e+02    0.000e+00    5.288e+01    1.256e-06
+Objective function returned Inf; trying a new point...
+
+<a href = "matlab: helpview('optim','local_min_poss_with_constr','CSHelpWindow');">Local minimum possible. Constraints satisfied</a>.
+
+fmincon stopped because the <a href = "matlab: helpview('optim','norm_curr_step_simple_fminconip','CSHelpWindow');">size of the current step</a> is less than
+the value of the <a href = "matlab: helpview('optim','step_size_tol','CSHelpWindow');">step size tolerance</a> and constraints are 
+satisfied to within the value of the <a href = "matlab: helpview('optim','constraint_tolerance','CSHelpWindow');">constraint tolerance</a>.
+
+<<a href = "matlab: createExitMsg({'optimlib:sqpLineSearch:Exit2basic','fmincon'},{'optimlib:sqpLineSearch:Exit2detailed','1.000000e-06','0.000000e+00','1.000000e-06'},true,true);;">stopping criteria details</a>>
+
+Final value of minus the log posterior (or likelihood):714.389221 
+
+OPTIMIZATION PROBLEM!
+ (minus) the hessian matrix at the "mode" is not positive definite!
+=> variance of the estimated parameters are not positive.
+You should try to change the initial values of the parameters using
+the estimated_params_init block, or use another optimization routine.
+[Warning: The results below are most likely wrong!] 
+[> In <a href="matlab:matlab.lang.internal.introspective.errorDocCallback('check_hessian_at_the_mode', 'D:\dynare\6.4\matlab\utilities\estimation\check_hessian_at_the_mode.m', 68)" style="font-weight:bold">check_hessian_at_the_mode</a> (<a href="matlab: opentoline('D:\dynare\6.4\matlab\utilities\estimation\check_hessian_at_the_mode.m',68,0)">line 68</a>)
+In <a href="matlab:matlab.lang.internal.introspective.errorDocCallback('dynare_estimation_1', 'D:\dynare\6.4\matlab\estimation\dynare_estimation_1.m', 324)" style="font-weight:bold">dynare_estimation_1</a> (<a href="matlab: opentoline('D:\dynare\6.4\matlab\estimation\dynare_estimation_1.m',324,0)">line 324</a>)
+In <a href="matlab:matlab.lang.internal.introspective.errorDocCallback('dynare_estimation', 'D:\dynare\6.4\matlab\estimation\dynare_estimation.m', 105)" style="font-weight:bold">dynare_estimation</a> (<a href="matlab: opentoline('D:\dynare\6.4\matlab\estimation\dynare_estimation.m',105,0)">line 105</a>)
+In <a href="matlab:matlab.lang.internal.introspective.errorDocCallback('Cai4PS4_Q3v3.driver', 'E:\IHEID Economics\IHEID\Demystifying DSGE\PS\PS4\+Cai4PS4_Q3v3\driver.m', 1539)" style="font-weight:bold">Cai4PS4_Q3v3.driver</a> (<a href="matlab: opentoline('E:\IHEID Economics\IHEID\Demystifying DSGE\PS\PS4\+Cai4PS4_Q3v3\driver.m',1539,0)">line 1539</a>)
+In <a href="matlab:matlab.lang.internal.introspective.errorDocCallback('dynare', 'D:\dynare\6.4\matlab\dynare.m', 308)" style="font-weight:bold">dynare</a> (<a href="matlab: opentoline('D:\dynare\6.4\matlab\dynare.m',308,0)">line 308</a>)] 
+[Warning: Matrix is singular, close to singular or badly scaled. Results may be inaccurate. RCOND = NaN.] 
+[> In <a href="matlab:matlab.lang.internal.introspective.errorDocCallback('dynare_estimation_1', 'D:\dynare\6.4\matlab\estimation\dynare_estimation_1.m', 353)" style="font-weight:bold">dynare_estimation_1</a> (<a href="matlab: opentoline('D:\dynare\6.4\matlab\estimation\dynare_estimation_1.m',353,0)">line 353</a>)
+In <a href="matlab:matlab.lang.internal.introspective.errorDocCallback('dynare_estimation', 'D:\dynare\6.4\matlab\estimation\dynare_estimation.m', 105)" style="font-weight:bold">dynare_estimation</a> (<a href="matlab: opentoline('D:\dynare\6.4\matlab\estimation\dynare_estimation.m',105,0)">line 105</a>)
+In <a href="matlab:matlab.lang.internal.introspective.errorDocCallback('Cai4PS4_Q3v3.driver', 'E:\IHEID Economics\IHEID\Demystifying DSGE\PS\PS4\+Cai4PS4_Q3v3\driver.m', 1539)" style="font-weight:bold">Cai4PS4_Q3v3.driver</a> (<a href="matlab: opentoline('E:\IHEID Economics\IHEID\Demystifying DSGE\PS\PS4\+Cai4PS4_Q3v3\driver.m',1539,0)">line 1539</a>)
+In <a href="matlab:matlab.lang.internal.introspective.errorDocCallback('dynare', 'D:\dynare\6.4\matlab\dynare.m', 308)" style="font-weight:bold">dynare</a> (<a href="matlab: opentoline('D:\dynare\6.4\matlab\dynare.m',308,0)">line 308</a>)
+] 
+
+RESULTS FROM POSTERIOR ESTIMATION
+parameters
+           prior mean     mode    s.d.  prior pstdev
+
+calfa          0.3000   0.4249     NaN   norm 0.0500 
+czcap          0.5000   0.7546     NaN   beta 0.1500 
+cfc            1.2500   1.1083     NaN   norm 0.1250 
+cindw          0.5000   0.4304     NaN   beta 0.1500 
+cprobw         0.5000   0.5160     NaN   beta 0.1000 
+cindp          0.5000   0.3461     NaN   beta 0.1500 
+cprobp         0.5000   0.7423     NaN   beta 0.1000 
+csigma         1.5000   1.1880     NaN   norm 0.3750 
+csigl          2.0000  -1.0500     NaN   norm 0.7500 
+chabb          0.7000   0.6653     NaN   beta 0.1000 
+csadjcost      4.0000   1.3303     NaN   norm 1.5000 
+crpi           1.5000   1.6391     NaN   norm 0.2500 
+cry            0.1250   0.0039     NaN   norm 0.0500 
+crdy           0.1250   0.1339     NaN   norm 0.0500 
+crr            0.7500   0.9228     NaN   beta 0.1000 
+cnstar         0.0000   0.5067     NaN   norm 2.0000 
+cgamma         0.4000   0.2944     NaN   norm 0.1000 
+czeta_spb      0.0500   0.0465     NaN   beta 0.0050 
+constepinf     0.6250   0.6896     NaN   gamm 0.2000 
+cgy            0.5000   0.1931     NaN   beta 0.2000 
+crhoa          0.5000   0.8288     NaN   beta 0.2000 
+crhob          0.5000   0.8861     NaN   beta 0.2000 
+crhog          0.5000   0.7293     NaN   beta 0.2000 
+crhoqs         0.5000   0.8371     NaN   beta 0.2000 
+crhoms         0.5000   0.6185     NaN   beta 0.2000 
+crhopinf       0.5000   0.6287     NaN   beta 0.2000 
+crhow          0.5000   0.4358     NaN   beta 0.2000 
+crhosigw       0.7500   0.2915     NaN   beta 0.1500 
+crhopist       0.7500   0.7652     NaN   beta 0.1500 
+cmap           0.5000   0.5308     NaN   beta 0.2000 
+cmaw           0.5000   0.4374     NaN   beta 0.2000 
+
+standard deviation of shocks
+           prior mean     mode    s.d.  prior pstdev
+
+ea             0.1000   0.6549     NaN   invg 2.0000 
+eb             0.1000   0.0532     NaN   invg 2.0000 
+eg             0.1000   1.9535     NaN   invg 2.0000 
+eqs            0.1000   0.1858     NaN   invg 2.0000 
+em             0.1000   0.2462     NaN   invg 2.0000 
+epinf          0.1000   0.1848     NaN   invg 2.0000 
+ew             0.1000   0.7973     NaN   invg 2.0000 
+esigw          0.1000   2.9932     NaN   invg 2.0000 
+epist          0.1000   0.0439     NaN   invg 2.0000 
+
+
+Log data density [Laplace approximation] is NaN.
+
+
+MODEL SUMMARY
+
+  Number of variables:         49
+  Number of stochastic shocks: 10
+  Number of state variables:   25
+  Number of jumpers:           11
+  Number of static variables:  19
+
+
+MATRIX OF COVARIANCE OF EXOGENOUS SHOCKS
+Variables          ea        eb        eg       eqs        em     epinf        ew     esigw     epist       ezp
+ea           0.428854  0.000000  0.000000  0.000000  0.000000  0.000000  0.000000  0.000000  0.000000  0.000000
+eb           0.000000  0.002825  0.000000  0.000000  0.000000  0.000000  0.000000  0.000000  0.000000  0.000000
+eg           0.000000  0.000000  3.816334  0.000000  0.000000  0.000000  0.000000  0.000000  0.000000  0.000000
+eqs          0.000000  0.000000  0.000000  0.034536  0.000000  0.000000  0.000000  0.000000  0.000000  0.000000
+em           0.000000  0.000000  0.000000  0.000000  0.060621  0.000000  0.000000  0.000000  0.000000  0.000000
+epinf        0.000000  0.000000  0.000000  0.000000  0.000000  0.034134  0.000000  0.000000  0.000000  0.000000
+ew           0.000000  0.000000  0.000000  0.000000  0.000000  0.000000  0.635731  0.000000  0.000000  0.000000
+esigw        0.000000  0.000000  0.000000  0.000000  0.000000  0.000000  0.000000  8.959519  0.000000  0.000000
+epist        0.000000  0.000000  0.000000  0.000000  0.000000  0.000000  0.000000  0.000000  0.001928  0.000000
+ezp          0.000000  0.000000  0.000000  0.000000  0.000000  0.000000  0.000000  0.000000  0.000000  0.010000
+
+POLICY AND TRANSITION FUNCTIONS
+                                   y               c            inve            pinf               r               w               k             lab              qk               n           rktil              og
+y(-1)                       0.440429        0.476309        0.654532        0.052053       -0.068203       -0.033423        0.136583        0.590100        0.551063        0.961480        0.598403        0.440429
+r(-1)                      -3.050609       -3.266221       -4.693490       -0.350183        0.469044        0.244621       -0.943309       -4.089307       -3.903668       -7.486611       -4.217779       -3.050609
+spinf(-1)                  -0.623747       -0.670040       -0.660325        1.457623        0.100832       -1.058739       -0.423161       -0.665957        1.133286        2.781268        2.503281       -0.623747
+sw(-1)                      0.003067       -0.091195        0.227338        0.153504        0.019845        0.869700        0.181634       -0.129405        0.463412        0.897113        0.620344        0.003067
+g(-1)                       0.236648        0.113518        0.111533        0.008780        0.002232       -0.032924        0.070279        0.319365        0.068852        0.131686        0.082933        0.008346
+b(-1)                       8.246197        9.134509       11.179003        1.008682        1.234324       -0.448028        2.594174       11.021211       11.503391       19.968616       12.385232        8.246197
+yf(-1)                     -0.440429       -0.476309       -0.654532       -0.052053        0.068203        0.033423       -0.136583       -0.590100       -0.551063       -0.961480       -0.598403       -0.440429
+ztil(-1)                   -0.010624       -0.350723        1.464751       -0.105507       -0.053837        0.075779        0.151566       -0.373622        0.338691        1.889643        0.204820       -0.301639
+sigw(-1)                   -0.032691        0.001213       -0.224191        0.001872       -0.004150        0.009135       -0.008756       -0.044821       -0.416031       -0.835454       -0.400156       -0.032691
+pist(-1)                    1.136543        1.249729        1.591911        0.175547        0.077870       -0.089305        0.351822        1.523242        1.068069        1.931605        1.244121        1.136543
+zp(-1)                      0.785762        2.163987       -5.057788       -0.193039        0.018031       -1.801930       -0.725081        1.768643       -1.074921       -6.433151       -1.204377        0.316475
+n(-1)                       0.022145       -0.023480        0.263359       -0.012310        0.001413       -0.020582        0.002942        0.032572        0.152735        1.240114        0.135254        0.022145
+mu(-1)                      1.401780        1.244678        3.388563        0.120743        0.136798       -0.165170        0.422500        1.887169       -1.177192       -1.759276       -0.967314        0.905466
+rm(-1)                     -4.886082       -5.302835       -7.177319       -0.676032       -0.122808        0.389659       -1.511320       -6.549409       -5.127560       -9.124343       -5.786348       -4.886082
+kbar(-1)                   -0.089945        0.040494       -0.383337       -0.022900       -0.014970        0.189552        0.648884       -0.620610       -0.286439       -0.547312       -0.337898       -0.089945
+qk(-1)                     -0.037512        0.039772       -0.446104        0.020852       -0.002394        0.034863       -0.004983       -0.055173       -0.258719       -2.100631       -1.229108       -0.037512
+kbarf(-1)                  -0.202634       -0.234439       -0.227517       -0.039205       -0.018926        0.011976       -0.063546       -0.270973       -0.164553       -0.307773       -0.204871       -0.104048
+epinf(-2)                   0.526660        0.565748        0.557545       -1.230744       -0.085138        0.893946        0.357296        0.562301       -0.956890       -2.348363       -2.113644        0.526660
+ew(-2)                     -0.003078        0.091519       -0.228145       -0.154049       -0.019916       -0.872789       -0.182280        0.129865       -0.465059       -0.900299       -0.622548       -0.003078
+c(-1)                       0.380359        0.538854       -0.035247        0.006416        0.051856       -0.051104        0.113335        0.513029       -0.078344       -0.102228       -0.056563        0.380359
+inve(-1)                    0.131836        0.016467        0.798013        0.001943        0.017938       -0.019364        0.038940        0.178075       -0.107569       -0.166995       -0.097444        0.131836
+pinf(-1)                   -0.136323       -0.162101       -0.146260        0.326245        0.023009        0.061900       -0.031568       -0.190563       -0.022136        0.184024        0.301411       -0.136323
+w(-1)                       0.003198       -0.051239        0.076094        0.078468        0.010363        0.724280        0.151474       -0.106913        0.178740        0.374633        0.267543        0.003198
+cf(-1)                      0.150021        0.161134        0.228077        0.008133       -0.058155       -0.010828        0.046639        0.200917        0.214950        0.365360        0.220510       -0.441024
+invef(-1)                   0.108583        0.116995        0.163562        0.007698       -0.012518       -0.008738        0.033570        0.145559        0.116951        0.202592        0.124157       -0.100541
+ea                         -1.184725       -1.389309       -2.173175       -0.085260       -0.027476       -1.462177       -1.862028       -0.778430       -0.856628       -9.876099       -0.924683       -0.124307
+eb                          9.306372       10.308890       12.616235        1.138364        1.393016       -0.505629        2.927695       12.438156       12.982328       22.535888       13.977543        9.306372
+eg                          0.324487        0.155654        0.152931        0.012039        0.003060       -0.045145        0.096366        0.437907        0.094408        0.180565        0.113717        0.011444
+eqs                         1.674607        1.486929        4.048075        0.144243        0.163423       -0.197317        0.504730        2.254467       -1.406308       -2.101682       -1.155581        1.081696
+em                         -7.900126       -8.573958      -11.604742       -1.093051       -0.198564        0.630026       -2.443598      -10.589498       -8.290562      -14.752815       -9.355733       -7.900126
+epinf                      -0.600208       -0.619275       -0.742995        1.307716        0.085013       -1.070839       -0.418004       -0.632836       -0.040112        0.762378        1.222777       -0.600208
+ew                          0.006216       -0.099267        0.146670        0.151906        0.020066        1.406591        0.294172       -0.207623        0.345095        0.723912        0.517145        0.006216
+esigw                      -0.100282       -0.008404       -0.628070       -0.000166       -0.013479        0.020320       -0.028459       -0.136312       -1.345289       -2.202094       -1.300189       -0.100282
+epist                       1.485277        1.633192        2.080368        0.229411        0.101763       -0.116707        0.459775        1.990630        1.395792        2.524294        1.625864        1.485277
+ezp                         0.827118        2.277881       -5.323987       -0.203199        0.018980       -1.896768       -0.763243        1.861729       -1.131496       -6.771738       -1.267765        0.333131
+
+All endogenous are constant or non stationary, not displaying correlations and auto-correlations
+
+This is pdfTeX, Version 3.141592653-2.6-1.40.28 (TeX Live 2025) (preloaded format=pdflatex) 
+ restricted \write18 enabled. 
+entering extended mode 
+GPL Ghostscript 10.05.1: PDFDocEncoding ad is undefined
+GPL Ghostscript 10.05.1: PDFDocEncoding ad is undefined
+GPL Ghostscript 10.05.1: PDFDocEncoding ad is undefined
+GPL Ghostscript 10.05.1: PDFDocEncoding ad is undefined
+GPL Ghostscript 10.05.1: PDFDocEncoding ad is undefined
+GPL Ghostscript 10.05.1: PDFDocEncoding ad is undefined
+GPL Ghostscript 10.05.1: PDFDocEncoding ad is undefined
+GPL Ghostscript 10.05.1: PDFDocEncoding ad is undefined
+GPL Ghostscript 10.05.1: PDFDocEncoding ad is undefined
+GPL Ghostscript 10.05.1: PDFDocEncoding ad is undefined
+GPL Ghostscript 10.05.1: PDFDocEncoding ad is undefined
+GPL Ghostscript 10.05.1: PDFDocEncoding ad is undefined
+GPL Ghostscript 10.05.1: PDFDocEncoding ad is undefined
+GPL Ghostscript 10.05.1: PDFDocEncoding ad is undefined
+GPL Ghostscript 10.05.1: PDFDocEncoding ad is undefined
+GPL Ghostscript 10.05.1: PDFDocEncoding ad is undefined
+GPL Ghostscript 10.05.1: PDFDocEncoding ad is undefined
+GPL Ghostscript 10.05.1: PDFDocEncoding ad is undefined
+GPL Ghostscript 10.05.1: PDFDocEncoding ad is undefined
+GPL Ghostscript 10.05.1: PDFDocEncoding ad is undefined
+GPL Ghostscript 10.05.1: PDFDocEncoding ad is undefined
+GPL Ghostscript 10.05.1: PDFDocEncoding ad is undefined
+GPL Ghostscript 10.05.1: PDFDocEncoding ad is undefined
+GPL Ghostscript 10.05.1: PDFDocEncoding ad is undefined
+GPL Ghostscript 10.05.1: PDFDocEncoding ad is undefined
+GPL Ghostscript 10.05.1: PDFDocEncoding ad is undefined
+GPL Ghostscript 10.05.1: PDFDocEncoding ad is undefined
+GPL Ghostscript 10.05.1: PDFDocEncoding ad is undefined
+Total computing time : 0h02m25s
+Note: warning(s) encountered in MATLAB/Octave code

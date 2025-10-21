@@ -1,0 +1,198 @@
+-------------------------------------------------------------------------------------------------------------------------------------------------------
+      name:  <unnamed>
+       log:  /Users/daviddorn/Dropbox/Current Projects/china-syndrome/AER-PublishedVersion/Public Release Data/log/import_stats_final.log
+  log type:  text
+ opened on:  14 Mar 2013, 11:35:10
+
+. 
+. 
+. *******************************************************************
+. * Import levels
+. *******************************************************************
+. 
+. use ../dta/import_levels.dta, clear
+(WDI GDP and current account data)
+
+. 
+. foreach v in usch uslw usce ushi otch otlw otce othi {
+  2.    foreach y in 1991 2000 2007 {
+  3.           disp "imports `v', year `y'"
+  4.       summ l_totimp_`v'_`y'
+  5.    }
+  6. }
+imports usch, year 1991
+
+    Variable |       Obs        Mean    Std. Dev.       Min        Max
+-------------+--------------------------------------------------------
+l_t~sch_1991 |         1    26.27168           .   26.27168   26.27168
+imports usch, year 2000
+
+    Variable |       Obs        Mean    Std. Dev.       Min        Max
+-------------+--------------------------------------------------------
+l_t~sch_2000 |         1    121.5563           .   121.5563   121.5563
+imports usch, year 2007
+
+    Variable |       Obs        Mean    Std. Dev.       Min        Max
+-------------+--------------------------------------------------------
+l_t~sch_2007 |         1    330.0224           .   330.0224   330.0224
+imports uslw, year 1991
+
+    Variable |       Obs        Mean    Std. Dev.       Min        Max
+-------------+--------------------------------------------------------
+l_t~slw_1991 |         1    7.686292           .   7.686292   7.686292
+imports uslw, year 2000
+
+    Variable |       Obs        Mean    Std. Dev.       Min        Max
+-------------+--------------------------------------------------------
+l_t~slw_2000 |         1    22.81182           .   22.81182   22.81182
+imports uslw, year 2007
+
+    Variable |       Obs        Mean    Std. Dev.       Min        Max
+-------------+--------------------------------------------------------
+l_t~slw_2007 |         1    45.43323           .   45.43323   45.43323
+imports usce, year 1991
+
+    Variable |       Obs        Mean    Std. Dev.       Min        Max
+-------------+--------------------------------------------------------
+l_t~sce_1991 |         1    38.54689           .   38.54689   38.54689
+imports usce, year 2000
+
+    Variable |       Obs        Mean    Std. Dev.       Min        Max
+-------------+--------------------------------------------------------
+l_t~sce_2000 |         1     151.594           .    151.594    151.594
+imports usce, year 2007
+
+    Variable |       Obs        Mean    Std. Dev.       Min        Max
+-------------+--------------------------------------------------------
+l_t~sce_2007 |         1    182.9547           .   182.9547   182.9547
+imports ushi, year 1991
+
+    Variable |       Obs        Mean    Std. Dev.       Min        Max
+-------------+--------------------------------------------------------
+l_t~shi_1991 |         1    322.3691           .   322.3691   322.3691
+imports ushi, year 2000
+
+    Variable |       Obs        Mean    Std. Dev.       Min        Max
+-------------+--------------------------------------------------------
+l_t~shi_2000 |         1    649.9709           .   649.9709   649.9709
+imports ushi, year 2007
+
+    Variable |       Obs        Mean    Std. Dev.       Min        Max
+-------------+--------------------------------------------------------
+l_t~shi_2007 |         1    763.1056           .   763.1056   763.1056
+imports otch, year 1991
+
+    Variable |       Obs        Mean    Std. Dev.       Min        Max
+-------------+--------------------------------------------------------
+l_t~tch_1991 |         1    28.19076           .   28.19076   28.19076
+imports otch, year 2000
+
+    Variable |       Obs        Mean    Std. Dev.       Min        Max
+-------------+--------------------------------------------------------
+l_t~tch_2000 |         1    94.28167           .   94.28167   94.28167
+imports otch, year 2007
+
+    Variable |       Obs        Mean    Std. Dev.       Min        Max
+-------------+--------------------------------------------------------
+l_t~tch_2007 |         1    262.8331           .   262.8331   262.8331
+imports otlw, year 1991
+
+    Variable |       Obs        Mean    Std. Dev.       Min        Max
+-------------+--------------------------------------------------------
+l_t~tlw_1991 |         1    9.234803           .   9.234803   9.234803
+imports otlw, year 2000
+
+    Variable |       Obs        Mean    Std. Dev.       Min        Max
+-------------+--------------------------------------------------------
+l_t~tlw_2000 |         1    13.73426           .   13.73426   13.73426
+imports otlw, year 2007
+
+    Variable |       Obs        Mean    Std. Dev.       Min        Max
+-------------+--------------------------------------------------------
+l_t~tlw_2007 |         1    31.03631           .   31.03631   31.03631
+imports otce, year 1991
+
+    Variable |       Obs        Mean    Std. Dev.       Min        Max
+-------------+--------------------------------------------------------
+l_t~tce_1991 |         1    2.801011           .   2.801011   2.801011
+imports otce, year 2000
+
+    Variable |       Obs        Mean    Std. Dev.       Min        Max
+-------------+--------------------------------------------------------
+l_t~tce_2000 |         1    5.250258           .   5.250258   5.250258
+imports otce, year 2007
+
+    Variable |       Obs        Mean    Std. Dev.       Min        Max
+-------------+--------------------------------------------------------
+l_t~tce_2007 |         1     11.6411           .    11.6411    11.6411
+imports othi, year 1991
+
+    Variable |       Obs        Mean    Std. Dev.       Min        Max
+-------------+--------------------------------------------------------
+l_t~thi_1991 |         1    723.6269           .   723.6269   723.6269
+imports othi, year 2000
+
+    Variable |       Obs        Mean    Std. Dev.       Min        Max
+-------------+--------------------------------------------------------
+l_t~thi_2000 |         1    822.5926           .   822.5926   822.5926
+imports othi, year 2007
+
+    Variable |       Obs        Mean    Std. Dev.       Min        Max
+-------------+--------------------------------------------------------
+l_t~thi_2007 |         1    1329.752           .   1329.752   1329.752
+
+. 
+. 
+. *******************************************************************
+. * Export levels
+. *******************************************************************
+. 
+. use ../dta/export_levels.dta, clear
+(SIC trade data for ADH post collapse of problem SIC industries)
+
+. 
+. 
+. foreach v in usch otch {
+  2.    foreach y in 1992 2000 2007 {
+  3.           disp "exports `v', year `y'"
+  4.       summ l_totexp_`v'_`y'
+  5.    }
+  6. }
+exports usch, year 1992
+
+    Variable |       Obs        Mean    Std. Dev.       Min        Max
+-------------+--------------------------------------------------------
+l_totexp_u~2 |         1    10.32224           .   10.32224   10.32224
+exports usch, year 2000
+
+    Variable |       Obs        Mean    Std. Dev.       Min        Max
+-------------+--------------------------------------------------------
+l_totexp_u~0 |         1    23.00427           .   23.00427   23.00427
+exports usch, year 2007
+
+    Variable |       Obs        Mean    Std. Dev.       Min        Max
+-------------+--------------------------------------------------------
+l_totexp_u~7 |         1    57.41103           .   57.41103   57.41103
+exports otch, year 1992
+
+    Variable |       Obs        Mean    Std. Dev.       Min        Max
+-------------+--------------------------------------------------------
+l_totexp_o~2 |         1    26.63425           .   26.63425   26.63425
+exports otch, year 2000
+
+    Variable |       Obs        Mean    Std. Dev.       Min        Max
+-------------+--------------------------------------------------------
+l_totexp_o~0 |         1    68.22276           .   68.22276   68.22276
+exports otch, year 2007
+
+    Variable |       Obs        Mean    Std. Dev.       Min        Max
+-------------+--------------------------------------------------------
+l_totexp_o~7 |         1    196.8862           .   196.8862   196.8862
+
+. 
+. log close
+      name:  <unnamed>
+       log:  /Users/daviddorn/Dropbox/Current Projects/china-syndrome/AER-PublishedVersion/Public Release Data/log/import_stats_final.log
+  log type:  text
+ closed on:  14 Mar 2013, 11:35:10
+-------------------------------------------------------------------------------------------------------------------------------------------------------

@@ -1,0 +1,141 @@
+\begin{center}
+\begin{longtable}{ccc}
+\caption{Endogenous}\\%
+\hline%
+\multicolumn{1}{c}{\textbf{Variable}} &
+\multicolumn{1}{c}{\textbf{\LaTeX}} &
+\multicolumn{1}{c}{\textbf{Description}}\\%
+\hline\hline%
+\endfirsthead
+\multicolumn{3}{c}{{\tablename} \thetable{} -- Continued}\\%
+\hline%
+\multicolumn{1}{c}{\textbf{Variable}} &
+\multicolumn{1}{c}{\textbf{\LaTeX}} &
+\multicolumn{1}{c}{\textbf{Description}}\\%
+\hline\hline%
+\endhead
+\texttt{labobs} & ${lHOURS}$ & log hours worked\\
+\texttt{robs} & ${FEDFUNDS}$ & Federal funds rate\\
+\texttt{pinfobs} & ${dlP}$ & Inflation\\
+\texttt{dy} & ${dlGDP}$ & Output growth rate\\
+\texttt{dc} & ${dlCONS}$ & Consumption growth rate\\
+\texttt{dinve} & ${dlINV}$ & Investment growth rate\\
+\texttt{dw} & ${dlWAG}$ & Wage growth rate\\
+\texttt{ewma} & ${\eta^{w,aux}}$ & Auxiliary wage markup moving average variable\\
+\texttt{epinfma} & ${\eta^{p,aux}}$ & Auxiliary price markup moving average variable\\
+\texttt{zcapf} & ${z^{flex}}$ & Capital utilization rate flex price economy\\
+\texttt{rkf} & ${r^{k,flex}}$ & rental rate of capital flex price economy\\
+\texttt{kf} & ${k^{s,flex}}$ & Capital services flex price economy\\
+\texttt{pkf} & ${q^{flex}}$ & real value of existing capital stock flex price economy\\
+\texttt{cf} & ${c^{flex}}$ & Consumption flex price economy\\
+\texttt{invef} & ${i^{flex}}$ & Investment flex price economy\\
+\texttt{yf} & ${y^{flex}}$ & Output flex price economy\\
+\texttt{labf} & ${l^{flex}}$ & hours worked flex price economy\\
+\texttt{wf} & ${w^{flex}}$ & real wage flex price economy\\
+\texttt{rrf} & ${r^{flex}}$ & real interest rate flex price economy\\
+\texttt{mc} & ${\mu_p}$ & gross price markup\\
+\texttt{zcap} & ${z}$ & Capital utilization rate\\
+\texttt{rk} & ${r^{k}}$ & rental rate of capital\\
+\texttt{k} & ${k^{s}}$ & Capital services\\
+\texttt{pk} & ${q}$ & real value of existing capital stock\\
+\texttt{c} & ${c}$ & Consumption\\
+\texttt{inve} & ${i}$ & Investment\\
+\texttt{y} & ${y}$ & Output\\
+\texttt{lab} & ${l}$ & hours worked\\
+\texttt{pinf} & ${\pi}$ & Inflation\\
+\texttt{w} & ${w}$ & real wage\\
+\texttt{r} & ${r}$ & nominal interest rate\\
+\texttt{a} & ${\varepsilon_a}$ & productivity process\\
+\texttt{b} & ${c_2*\varepsilon_t^b}$ & Scaled risk premium shock\\
+\texttt{g} & ${\varepsilon^g}$ & Exogenous spending\\
+\texttt{qs} & ${\varepsilon^i}$ & Investment-specific technology\\
+\texttt{ms} & ${\varepsilon^r}$ & Monetary policy shock process\\
+\texttt{spinf} & ${\varepsilon^p}$ & Price markup shock process\\
+\texttt{sw} & ${\varepsilon^w}$ & Wage markup shock process\\
+\texttt{kpf} & ${k^{flex}}$ & Capital stock flex price economy\\
+\texttt{kp} & ${k}$ & Capital stock\\
+\texttt{muw} & ${\mu_w}$ & wage markup\\
+\hline%
+\end{longtable}
+\end{center}
+\begin{center}
+\begin{longtable}{ccc}
+\caption{Exogenous}\\%
+\hline%
+\multicolumn{1}{c}{\textbf{Variable}} &
+\multicolumn{1}{c}{\textbf{\LaTeX}} &
+\multicolumn{1}{c}{\textbf{Description}}\\%
+\hline\hline%
+\endfirsthead
+\multicolumn{3}{c}{{\tablename} \thetable{} -- Continued}\\%
+\hline%
+\multicolumn{1}{c}{\textbf{Variable}} &
+\multicolumn{1}{c}{\textbf{\LaTeX}} &
+\multicolumn{1}{c}{\textbf{Description}}\\%
+\hline\hline%
+\endhead
+\texttt{ea} & ${\eta^a}$ & productivity shock\\
+\texttt{eb} & ${\eta^b}$ & Investment-specific technology shock\\
+\texttt{eg} & ${\eta^g}$ & Spending shock\\
+\texttt{eqs} & ${\eta^i}$ & Investment-specific technology shock\\
+\texttt{em} & ${\eta^m}$ & Monetary policy shock\\
+\texttt{epinf} & ${\eta^{p}}$ & Price markup shock\\
+\texttt{ew} & ${\eta^{w}}$ & Wage markup shock\\
+\hline%
+\end{longtable}
+\end{center}
+\begin{center}
+\begin{longtable}{ccc}
+\caption{Parameters}\\%
+\hline%
+\multicolumn{1}{c}{\textbf{Variable}} &
+\multicolumn{1}{c}{\textbf{\LaTeX}} &
+\multicolumn{1}{c}{\textbf{Description}}\\%
+\hline\hline%
+\endfirsthead
+\multicolumn{3}{c}{{\tablename} \thetable{} -- Continued}\\%
+\hline%
+\multicolumn{1}{c}{\textbf{Variable}} &
+\multicolumn{1}{c}{\textbf{\LaTeX}} &
+\multicolumn{1}{c}{\textbf{Description}}\\%
+\hline\hline%
+\endhead
+\texttt{curvw} & ${\varepsilon_w}$ & Curvature Kimball aggregator wages\\
+\texttt{cgy} & ${\rho_{ga}}$ & Feedback technology on exogenous spending\\
+\texttt{curvp} & ${\varepsilon_p}$ & Curvature Kimball aggregator prices\\
+\texttt{constelab} & ${\bar l}$ & steady state hours\\
+\texttt{constepinf} & ${\bar \pi}$ & steady state inflation rate\\
+\texttt{constebeta} & ${100(\beta^{-1}-1)}$ & time preference rate in percent\\
+\texttt{cmaw} & ${\mu_w}$ & coefficient on MA term wage markup\\
+\texttt{cmap} & ${\mu_p}$ & coefficient on MA term price markup\\
+\texttt{calfa} & ${\alpha}$ & capital share\\
+\texttt{czcap} & ${\psi}$ & capacity utilization cost\\
+\texttt{csadjcost} & ${\varphi}$ & investment adjustment cost\\
+\texttt{ctou} & ${\delta}$ & depreciation rate\\
+\texttt{csigma} & ${\sigma_c}$ & risk aversion\\
+\texttt{chabb} & ${\lambda}$ & external habit degree\\
+\texttt{cfc} & ${\Phi}$ & fixed cost share\\
+\texttt{cindw} & ${\iota_w}$ & Indexation to past wages\\
+\texttt{cprobw} & ${\xi_w}$ & Calvo parameter wages\\
+\texttt{cindp} & ${\iota_p}$ & Indexation to past prices\\
+\texttt{cprobp} & ${\xi_p}$ & Calvo parameter prices\\
+\texttt{csigl} & ${\sigma_l}$ & Frisch elasticity\\
+\texttt{clandaw} & ${\phi_w}$ & Gross markup wages\\
+\texttt{crpi} & ${r_{\pi}}$ & Taylor rule inflation feedback\\
+\texttt{crdy} & ${r_{\Delta y}}$ & Taylor rule output growth feedback\\
+\texttt{cry} & ${r_{y}}$ & Taylor rule output level feedback\\
+\texttt{crr} & ${\rho}$ & interest rate persistence\\
+\texttt{crhoa} & ${\rho_a}$ & persistence productivity shock\\
+\texttt{crhoas} & ${d_2}$ & Unused parameter\\
+\texttt{crhob} & ${\rho_b}$ & persistence risk premium shock\\
+\texttt{crhog} & ${\rho_g}$ & persistence spending shock\\
+\texttt{crhols} & ${d_1}$ & Unused parameter\\
+\texttt{crhoqs} & ${\rho_i}$ & persistence risk premium shock\\
+\texttt{crhoms} & ${\rho_r}$ & persistence monetary policy shock\\
+\texttt{crhopinf} & ${\rho_p}$ & persistence price markup shock\\
+\texttt{crhow} & ${\rho_w}$ & persistence wage markup shock\\
+\texttt{ctrend} & ${\bar \gamma}$ & net growth rate in percent\\
+\texttt{cg} & ${\frac{\bar g}{\bar y}}$ & steady state exogenous spending share\\
+\hline%
+\end{longtable}
+\end{center}

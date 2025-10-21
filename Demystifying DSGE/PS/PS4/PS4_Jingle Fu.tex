@@ -1,0 +1,1476 @@
+\documentclass[a4paper,12pt]{article}
+
+\usepackage[top = 2.5cm, bottom = 2.5cm, left = 2.5cm, right = 2.5cm]{geometry} 
+
+% Unfortunately, LaTeX has a hard time interpreting German Umlaute. The following two lines and packages should help. If it doesn't work for you please let me know.
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{pifont}
+% \usepackage{ctex}
+\usepackage{amsthm, amsmath, amssymb, mathrsfs,mathtools}
+
+% Defining a new theorem style without italics
+\newtheoremstyle{nonitalic}% name
+  {\topsep}% Space above
+  {\topsep}% Space below
+  {\upshape}% Body font
+  {}% Indent amount
+  {\bfseries}% Theorem head font
+  {.}% Punctuation after theorem head
+  {.5em}% Space after theorem head
+  {}% Theorem head spec (can be left empty, meaning 'normal`)
+  
+\theoremstyle{nonitalic}
+% Define new 'solution' environment
+\newtheorem{innercustomsol}{Solution}
+\newenvironment{solution}[1]
+  {\renewcommand\theinnercustomsol{#1}\innercustomsol}
+  {\endinnercustomsol}
+
+% Custom counter for the solutions
+\newcounter{solutionctr}
+\renewcommand{\thesolutionctr}{(\alph{solutionctr})}
+
+% Environment for auto-numbering with custom format
+\newenvironment{autosolution}
+  {\stepcounter{solutionctr}\begin{solution}{\thesolutionctr}}
+  {\end{solution}}
+
+
+\newtheorem{problem}{Problem}
+
+\usepackage{color}
+
+% The following two packages - multirow and booktabs - are needed to create nice looking tables.
+\usepackage{multirow} % Multirow is for tables with multiple rows within one cell.
+\usepackage{booktabs} % For even nicer tables.
+\usepackage{threeparttable} % <-- 添加：提供 threeparttable 环境及 tablenotes
+
+% As we usually want to include some plots (.pdf files) we need a package for that.
+\usepackage{graphicx} 
+\usepackage{subfigure}
+\usepackage{hyperref}
+% \usepackage{subcaption}
+
+% The default setting of LaTeX is to indent new paragraphs. This is useful for articles. But not really nice for homework problem sets. The following command sets the indent to 0.
+\usepackage{setspace}
+\setlength{\parindent}{0in}
+\usepackage{longtable}
+
+% Package to place figures where you want them.
+\usepackage{float}
+\usepackage{placeins}
+
+% The fancyhdr package let's us create nice headers.
+\usepackage{fancyhdr}
+
+\usepackage{fancyvrb}
+
+\usepackage{enumitem}
+
+%Code environment 
+\usepackage{listings} % Required for insertion of code
+\usepackage{xcolor} % Required for custom colors
+\usepackage{tcolorbox}
+\usepackage{subcaption}
+\usepackage{tabularx}
+\usepackage{makecell}
+
+\newtcolorbox{note}[1]{%
+  colback=white,      % 背景白色
+  title=#1,           % 标题从参数获取
+  fontupper=\color{blue},  % 内部文本蓝色
+  boxrule=1pt,        % 边框宽度
+  arc=3pt,             % 圆角（可选）
+  coltitle=white
+}
+
+% ---------- Listings setup ----------
+\definecolor{codebg}{RGB}{250,250,250}
+\definecolor{dkgray}{RGB}{64,64,64}
+\definecolor{dkblue}{RGB}{0,0,140}
+\definecolor{dkgreen}{RGB}{0,100,0}
+\definecolor{maroon}{RGB}{128,0,0}
+\definecolor{purplec}{RGB}{106,13,173}
+
+\lstdefinestyle{code}{
+  backgroundcolor=\color{codebg},
+  basicstyle=\ttfamily\small,
+  breaklines=true,
+  columns=fullflexible,
+  keepspaces=true,
+  keywordstyle=\color{dkblue}\bfseries,
+  stringstyle=\color{maroon},
+  commentstyle=\itshape\color{dkgreen},
+  numberstyle=\scriptsize\color{dkgray},
+  numbers=left,
+  numbersep=8pt,
+  frame=single,
+  framerule=0.3pt,
+  rulecolor=\color{dkgray},
+  showstringspaces=false,
+  tabsize=2,
+  upquote=true
+}
+
+% Dynare is Matlab-like; define a language based on Matlab with some added keywords
+\lstdefinelanguage{Dynare}{
+  morekeywords={
+    var,varexo,parameters,model,end,initval,steady_state_model,shocks,
+    periods,stoch_simul,check,steady,resid,log,exp,stderr,varexo_det,
+    ramsey\_policy,planner\_objective,osr,osr\_params,estimated\_params,
+    varobs,estimation,identification,shocks,init,values,planner\_discount,
+    simul,verbatim,save\_params\_and\_steady\_state,trend\_vars,units,
+    deterministic\_trends,steady\_state\_operator,estimated\_params\_bounds
+  },
+  sensitive=true,
+  morecomment=\[l\]\%,      % Dynare/Matlab-style comments
+  morestring=\[b\]',       % strings
+}
+
+\lstdefinelanguage{MatlabX}{
+  language=Matlab,
+  morekeywords={dynare},
+}
+
+\lstset{style=code}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 3. Header (and Footer)
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% To make our document nice we want a header and number the pages in the footer.
+
+\pagestyle{fancy} % With this command we can customize the header style.
+
+\fancyhf{} % This makes sure we do not have other information in our header or footer.
+
+\lhead{\footnotesize Demystifying DSGE Models}% \lhead puts text in the top left corner. \footnotesize sets our font to a smaller size.
+
+%\rhead works just like \lhead (you can also use \chead)
+\rhead{\footnotesize Jingle Fu} %<---- Fill in our lastnames.
+
+% Similar commands work for the footer (\lfoot, \cfoot and \rfoot).
+% We want to put our page number in the center.
+\cfoot{\footnotesize \thepage}
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\begin{document}
+
+
+\thispagestyle{empty} % This command disables the header on the first page. 
+
+\begin{tabular}{p{15.5cm}} % This is a simple tabular environment to align our text nicely 
+{\large \bf Demystifying DSGE Models} \\
+The Graduate Institute, Fall 2025, John D.A. Cuddy\\
+\hline % \hline produces horizontal lines.
+\\
+\end{tabular} % Our tabular environment ends here.
+
+\vspace*{0.3cm} % Now we want to add some vertical space in between the line and our title.
+
+\begin{center} % Everything within the center environment is centered.
+	{\Large \bf PS4 Solutions} % <---- Don't forget to put in the right number
+	\vspace{2mm}
+	
+        % our NAMES GO HERE
+	{\bf Jingle Fu} % <---- Fill in our names here!
+		
+\end{center}  
+
+\vspace{0.4cm}
+\setstretch{1.2}
+
+% ========= Q3: Baseline Estimation (1965Q1-2004Q4) =========
+\section*{Q2. Estimating the SWFF$+$ Model With and Without the External Finance Premium (1965Q1--2004Q4)}
+
+When working on Q2, I found out that the original paper seems to have two more errors other than mentioned by professor in the Problem Set.
+One is in formula A-24, as the sign of $\overline{k}_t$ should be positive,
+and the other one is the coefficient of $(R_{t-1} - \pi _t)$ in formula A-26, which should be $\zeta_{n,R}$ instead of $\zeta_{n, \tilde{R}_{t}^k}$.
+
+I put the derivationas below for reference.
+
+\section*{Leverage-sign part of (A-24): why the coefficient on $\bar k_t$ is \emph{positive}}
+Define leverage as the ratio of asset value to internal funds at date $t$:
+\[
+\Lambda_t\equiv \frac{Q_t \bar K_t}{N_t}.
+\]
+Taking logs and linearizing around the non-stochastic steady state gives
+\[
+\widehat{\log \Lambda_t}=\underset{ = q^k_t}{\underbrace{\log\frac{Q_t}{P_t}}}
++\underbrace{\log\frac{\bar K_t}{Z_t}}_{ = \bar k_t}
+-\underbrace{\log\frac{N_t}{P_t Z_t}}_{ = n_t}
+=q^k_t+\bar k_t-n_t.
+\]
+Hence, in any linear spread specification in which the external finance premium rises with leverage, the contribution of $\bar k_t$ must enter with a \textbf{positive} sign. Intuitively: for given $N_t$, a higher capital stock $\bar K_t$ (or a higher installed-capital price $Q_t$) increases leverage and therefore increases the premium; the sign cannot be negative without contradicting this accounting relation.
+
+
+\section*{Deriving (A-26): Entrepreneur Net Worth Dynamics (step by step)}
+\subsection*{Step 1. Nominal balance sheet at the start of $t$}
+At $t-1$, the entrepreneur holds installed capital $\bar K_{t-1}$ priced at $Q_{t-1}$ and finances it with nominal net worth $N_{t-1}$ and nominal debt $B_{t-1}$:
+\[
+Q_{t-1}\bar K_{t-1}=N_{t-1}+B_{t-1}.
+\tag{1}
+\]
+
+\subsection*{Step 2. Contract clearing at $t$ with monitoring losses}
+At $t$, the capital position yields the nominal payoff $\big[R^k_t+(1-\delta)Q_t\big]\bar K_{t-1}$. Under the BGG/CMR contract, entrepreneurs retain the fraction $1-\Gamma_t$ of that payoff (default/monitoring absorbs the rest). In \emph{real} terms (dividing by $P_t$),
+\[
+(1-\Gamma_t) \frac{R^k_t+(1-\delta)Q_t}{P_t} \bar K_{t-1}.
+\tag{2}
+\]
+Debt repayment in real terms equals $\dfrac{R_{t-1}}{\Pi_t}\cdot \dfrac{B_{t-1}}{P_{t-1}}$, where $\Pi_t\equiv P_t/P_{t-1}$.
+
+\subsection*{Step 3. Survival/entry aggregation}
+With survival probability $\gamma^*\in(0,1)$ and net entry summarized by the linear term $\varphi N_{t-1}$, aggregate \emph{real} net worth in $P_t$ units satisfies
+\[
+\frac{N_t}{P_t}
+=\gamma^*\left[(1-\Gamma_t)\frac{R^k_t+(1-\delta)Q_t}{P_t} \bar K_{t-1}
+-\frac{R_{t-1}}{\Pi_t}\frac{B_{t-1}}{P_{t-1}}\right]
++\varphi \frac{N_{t-1}}{P_{t-1}}.
+\tag{3}
+\]
+
+\subsection*{Step 4. Stationarization (deflation by $P_t$ and detrending by $Z_t$)}
+Define stationary date-$t$ stocks
+\[
+n_t\equiv \frac{N_t}{P_t Z_t},\qquad
+b_{t-1}\equiv \frac{B_{t-1}}{P_{t-1} Z_{t-1}},\qquad
+a_{t-1}\equiv \frac{Q_{t-1}\bar K_{t-1}}{P_t Z_t}.
+\]
+Using $g_t\equiv Z_t/Z_{t-1}$, and the identity in \eqref{eq:BS},
+\[
+\frac{B_{t-1}}{P_t Z_t}=b_{t-1},\frac{Z_{t-1}}{Z_t}=\frac{b_{t-1}}{g_t},
+\qquad
+a_{t-1}=\frac{Q_{t-1}}{P_{t-1}}\frac{\bar K_{t-1}}{Z_{t-1}}\frac{P_{t-1}}{P_t}\frac{Z_{t-1}}{Z_t}.
+\]
+Divide \eqref{eq:N_over_P} by $Z_t$ and use $B_{t-1}=Q_{t-1}\bar K_{t-1}-N_{t-1}$ to obtain the stationary \emph{levels} equation
+\[
+n_t
+=\gamma^*\big[(1-\Gamma_t) \mathcal R^k_t a_{t-1}
+-\underbrace{\Big(\frac{R_{t-1}}{\Pi_t}\Big)}_{\equiv \mathcal R_{t-1}} (a_{t-1}-n_{t-1})\big]
++\varphi,n_{t-1},
+\tag{4}
+\]
+where $\mathcal R^k_t\equiv \dfrac{r^k_t+(1-\delta)q_t}{q_{t-1}}$ is the gross \emph{real} return on capital measured in units of the installed-capital price (this equals $\widetilde R^k_t-\pi_t$ at first order via (A-25)).
+
+\subsection*{Step 5. First-order expansion of the stationary asset base $a_{t-1}$}
+From the definition of $a_{t-1}$,
+\[
+\log a_{t-1}=\log\frac{Q_{t-1}}{P_{t-1}}
++\log\frac{\bar K_{t-1}}{Z_{t-1}}
+-\log\Pi_t-\log g_t,
+\]
+hence, at first order (hats denote log-deviations from steady state),
+\[
+\widehat a_{t-1}=q^k_{t-1}+\bar k_{t-1}-\pi_t-z_t.
+\tag{5}
+\]
+\emph{Critical implication.} Because $a_{t-1}$ is a date-$t$ stationary object, it contains the factor $Z_{t-1}/Z_t=1/g_t$; therefore its first-order log-deviation \emph{must} include the \textbf{current} $-z_t$ term. This is the source of the $-z_t$ term in (A-26).
+
+\subsection*{Step 6. Linearization scaffolding}
+Define for convenience
+\[
+V_t\equiv (1-\Gamma_t) \mathcal R^k_t a_{t-1},
+\qquad
+D_t\equiv \mathcal R_{t-1} (a_{t-1}-n_{t-1}).
+\]
+Then (4) rewrites as
+\[
+n_t=\gamma^*(V_t-D_t)+\varphi n_{t-1}.
+\tag{6}
+\]
+Log-linearizing around a non-stochastic steady state ${\overline n,\overline V,\overline D,\overline a,\overline{\mathcal R^k},\overline{\mathcal R},\overline\Gamma}$ and dividing by $\overline n$ yields
+\[
+\widehat n_t
+=\underbrace{\frac{\gamma^*\overline V}{\overline n}}_{\zeta_{n,V}} \widehat V_t
+-\underbrace{\frac{\gamma^*\overline D}{\overline n}}_{\zeta_{n,D}} \widehat D_t
++\underbrace{\varphi}_{\zeta_{n,n_{t-1}}} \widehat n_{t-1}.
+\tag{7}
+\]
+
+\subsection*{Step 7. First-order expansions of $V_t$ and $D_t$}
+For $V_t=(1-\Gamma_t)\mathcal R^k_t a_{t-1}$,
+\[
+\widehat V_t
+=\underbrace{\frac{1}{1-\overline\Gamma}\frac{\partial(1-\Gamma_t)}{\partial \sigma_{\omega,t-1}}}_{-\text{positive}} \tilde{\sigma}_{\omega,t-1}
++\underbrace{\widehat{\mathcal R^k_t}}_{=\ \widetilde R^k_t-\pi_t}
++\underbrace{\widehat a_{t-1}}_{=\ q^k_{t-1}+\bar k_{t-1}-\pi_t-z_t}.
+\tag{8}
+\]
+For $D_t=\mathcal R_{t-1}(a_{t-1}-n_{t-1})$, the log-linearization of a level difference gives share weights:
+\[
+\widehat D_t
+=\widehat{\mathcal R_{t-1}}
++\underbrace{\frac{\overline a}{\overline a-\overline n}}_{=\ \overline A/\overline B} \widehat a_{t-1}
+-\underbrace{\frac{\overline n}{\overline a-\overline n}}_{=\ \overline N/\overline B} \widehat n_{t-1},
+\qquad \overline B\equiv \overline a-\overline n.
+\tag{9}
+\]
+
+\subsection*{Step 8. Collect terms (A-26)}
+Substituting (8)-(9) into (7) and grouping yields
+\begin{align*}
+\widehat n_t
+&= \underbrace{\gamma^*\frac{\overline V}{\overline n}}_{\zeta_{n,\widetilde R^k_t}}\ (\widetilde R^k_t-\pi_t)
+ - \underbrace{\gamma^*\frac{\overline D}{\overline n}}_{\zeta_{n,R_{t-1}}} (R_{t-1}-\pi_t) \\
+&\quad + \underbrace{\big[\gamma^*\frac{\overline V}{\overline n}-\gamma^*\frac{\overline D}{\overline n}\frac{\overline A}{\overline B}\big]}_{\zeta_{n,qK_{t-1}}} (q^k_{t-1}+\bar k_{t-1})
+ + \underbrace{\big[\varphi+\gamma^*\frac{\overline D}{\overline n}\frac{\overline N}{\overline B}\big]}_{\zeta_{n,n_{t-1}}} n_{t-1} \\
+&\quad - \underbrace{\gamma^*\frac{\overline V}{\overline n}}_{\zeta_{n,z_t}} z_t
+ - \underbrace{\gamma^*\frac{\overline V}{\overline n},\frac{1}{1-\overline\Gamma}\frac{\partial(1-\Gamma)}{\partial \sigma_\omega}}_{\zeta_{n,\sigma_{\omega,t-1}}} \tilde{\sigma}_{\omega,t-1} \\
+&= \zeta_{n,\widetilde R^k_t}(\widetilde R^k_t-\pi_t)
+- \zeta_{n,R_{t}}(R_{t-1}-\pi_t)
++ \zeta_{n,qK_{t}}(q^k_{t-1}+\bar k_{t-1}) \\
+&\quad + \zeta_{n,n_{t}} n_{t-1}
+- \zeta_{n,z_t} z_t
+- \frac{\zeta_{n,\sigma_{\omega,t}}}{\zeta_{sp, \sigma_{\omega }}}  \tilde{\sigma}_{\omega,t-1}. \tag{10}
+\end{align*}
+
+This is (A-26) in rigorous first-order form, with explicit time subscripts on every coefficient (e.g., $\zeta_{n,\widetilde R^k_t}$) and with the missing $-,\zeta_{n,z_t},z_t$ term made explicit.
+The coefficient of $z_t$ comes \emph{solely} from the $Z_{t-1}/Z_t$ term inside $a_{t-1}$ and equals $\gamma^*(\overline V/\overline n)$ in steady-state shares.
+In the Dynare parameterization used by the paper, this corresponds to $-\texttt{cgammstar}\cdot \texttt{cvstar}/\texttt{cnstar}\cdot z_t$.
+
+\subsection*{Economic consistency}
+The signs match the financial accelerator logic: a higher current capital real return raises net worth;
+a higher last-period real debt rate lowers it;
+a larger beginning-of-period asset base increases it (net of the debt share subtraction);
+dispersion reduces it through default/monitoring losses;
+and a positive technology growth innovation $z_t$ \emph{reduces} stationary net worth because all stocks are expressed in date-$t$ units and thus scaled by $Z_t$.
+
+% ========================
+% TABLE 1: Deep parameters
+% ========================
+\begin{table}[h!]
+\centering
+\begin{threeparttable}
+  \caption{Comparison of Estimated Parameter Posterior Modes (Q2, SW sample 1965Q1--2004Q4)}
+  \label{tab:q2_param_modes}
+  \footnotesize
+  \setlength{\tabcolsep}{6pt}
+    \begin{tabular}{l l l c c}
+    \toprule
+    \multicolumn{1}{c}{Parameter} & \multicolumn{1}{c}{Description} & \multicolumn{1}{c}{Dynare Name} & \multicolumn{1}{c}{Q2 (with \textit{sobs})} & \multicolumn{1}{c}{Q2v2 (no \textit{sobs})} \\
+    \midrule
+    \multicolumn{5}{l}{\textit{Structural Parameters}}\\
+    $\alpha$            & Capital Share                         & \texttt{calfa}     & 0.2652 & 0.2652 \\
+    $\sigma_c$          & Intertemporal Substitution (IES$^{-1}$) & \texttt{csigma}  & 1.5127 & 2.1858 \\
+    $h$                 & Habit Formation                        & \texttt{chabb}     & 0.5319 & 0.7239 \\
+    $\xi_w$             & Calvo Probability (Wages)              & \texttt{cprobw}    & 0.9046 & 0.7656 \\
+    $\sigma_\ell$       & Inverse Frisch Elasticity              & \texttt{csigl}     & 1.8145 & 1.4809 \\
+    $\xi_p$             & Calvo Probability (Prices)             & \texttt{cprobp}    & 0.6859 & 0.5953 \\
+    $\iota_w$           & Indexation (Wages)                     & \texttt{cindw}     & 0.2766 & 0.4702 \\
+    $\iota_p$           & Indexation (Prices)                    & \texttt{cindp}     & 0.2625 & 0.3401 \\
+    $\psi$              & Capacity Utilization Cost              & \texttt{czcap}     & 0.4425 & 0.5389 \\
+    $\phi$              & Investment Adjustment Cost             & \texttt{csadjcost} & 0.0850 & 1.5994 \\
+    $\Phi$              & Fixed Costs                            & \texttt{cfc}       & 1.4276 & 1.6161 \\
+    \addlinespace[2pt]
+    \multicolumn{5}{l}{\textit{Monetary Policy Parameters}}\\
+    $r_{\pi}$        & Taylor Rule: Inflation                  & \texttt{crpi}      & 2.0297 & 1.8685 \\
+    $\rho$           & Taylor Rule: Persistence                & \texttt{crr}       & 0.8554 & 0.8427 \\
+    $r_{y}$          & Taylor Rule: Output Gap                 & \texttt{cry}       & 0.1584 & 0.1595 \\
+    $r_{\Delta y}$   & Taylor Rule: Output Growth              & \texttt{crdy}      & 0.2888 & 0.2440 \\
+    \addlinespace[2pt]
+    \multicolumn{5}{l}{\textit{Shock Process Parameters}}\\
+    $\rho_a$            & Persistence: Productivity               & \texttt{crhoa}     & 0.9668 & 0.9353 \\
+    $\rho_b$            & Persistence: Risk Premium               & \texttt{crhob}     & 0.8686 & 0.1992 \\
+    $\rho_g$            & Persistence: Gov.\ Spending             & \texttt{crhog}     & 0.9815 & 0.9890 \\
+    $\rho_i$            & Persistence: Investment  & \texttt{crhoqs}    & 0.9954 & 0.5890 \\
+    $\rho_r$            & Persistence: Monetary Policy            & \texttt{crhoms}    & 0.0293 & 0.0658 \\
+    $\rho_{p}$          & Persistence: Price Markup               & \texttt{crhopinf}  & 0.8947 & 0.9096 \\
+    $\rho_{w}$          & Persistence: Wage Markup                & \texttt{crhow}     & 0.6020 & 0.9757 \\
+    $\mu_p$             & MA Term: Price Markup                   & \texttt{cmap}      & 0.7306 & 0.6470 \\
+    $\mu_w$             & MA Term: Wage Markup                    & \texttt{cmaw}      & 0.8124 & 0.8462 \\
+    $\rho_{ga}$         & Feedback Tech.\ on Spending             & \texttt{cgy}       & 0.7746 & 0.7044 \\
+    $\rho_{\sigma^w}$   & Persistence: Wage Trend Variance        & \texttt{crhosigw}  & 0.9945 & 0.7193 \\
+    $\rho_{pI}$         & Persistence: Investment Price           & \texttt{crhopist}  & 0.9967 & 0.9985 \\
+    \addlinespace[2pt]
+    \multicolumn{5}{l}{\textit{Other/Levels}}\\
+    $n^\ast$           & Labor Supply Shift (level)              & \texttt{cnstar}    & 2.5374 & 0.5057 \\
+    $\gamma$           & Trend Growth (quarterly, \%)            & \texttt{cgamma}    & 0.5072 & 0.4347 \\
+    $\zeta_{sp,b}$     & Financial Wedge Elasticity to Leverage  & \texttt{czeta\_spb}& 0.0459 & 0.0482 \\
+    $\bar{\pi}$        & Inflation Target (quarterly, \%)        & \texttt{constepinf}& 0.3016 & 0.3042 \\
+    \bottomrule
+    \end{tabular}
+  \begin{tablenotes}[flushleft]
+  \footnotesize
+  \item \textit{Notes:} Posterior modes using \texttt{mode\_compute=1}.
+  Q2 includes the external finance premium observable \texttt{sobs};
+  Q2v2 excludes it. Numbers are read from Dynare logs.
+  Symbols and groupings follow Cai \textit{et al.} (2019) and Smets--Wouters (2007).
+  The Q2v2 run ends with a non-p.d.\ Hessian, so standard errors are unreliable for that column.
+  \end{tablenotes}
+  \end{threeparttable}
+\end{table}
+
+\bigskip
+
+% ========================
+% TABLE 2: Shock SDs
+% ========================
+\begin{table}[h!]
+\centering
+\begin{threeparttable}
+\caption{Estimated Shock Standard Deviations (Posterior Modes)}
+\label{tab:shocks_q2}
+\small
+\begin{tabularx}{\textwidth}{X X X X}
+\toprule
+Shock & Prior mean & Mode (with \texttt{sobs}) & Mode (no \texttt{sobs}) \\
+\midrule
+TFP ($\varepsilon^a$) & 0.1000 & 0.4681 & 0.4394 \\
+Risk prem.\ ($\varepsilon^b$) & 0.1000 & 0.0906 & 0.2020 \\
+Gov.\ spending ($\varepsilon^g$) & 0.1000 & 2.7908 & 2.8966 \\
+Inv.-spec.\ tech ($\varepsilon^{qs}$) & 0.1000 & 1.8478 & 0.9110 \\
+Mon.\ policy ($\varepsilon^m$) & 0.1000 & 0.2365 & 0.2261 \\
+Price markup ($\varepsilon^{pinf}$) & 0.1000 & 0.1661 & 0.1702 \\
+Wage markup ($\varepsilon^{w}$) & 0.1000 & 0.3207 & 0.3357 \\
+Wage trend var.\ ($\varepsilon^{\sigma^w}$) & 0.1000 & 0.0714 & 0.0462 \\
+Inv.\ price ($\varepsilon^{pI}$) & 0.1000 & 0.0360 & 0.0413 \\
+\bottomrule
+\end{tabularx}
+\begin{tablenotes}[flushleft]
+\footnotesize
+\item \emph{Notes:} Posterior modes from the ``standard deviation of shocks'' blocks.
+In both runs the measurement-error innovation for the financial wedge ($\varepsilon^{zp}$) is fixed at variance $0.01$;
+it is not freely estimated.
+\end{tablenotes}
+\end{threeparttable}
+\end{table}
+
+\bigskip
+
+% ========================
+% TABLE 3: Variance Decomposition
+% ========================
+\begin{table}[h!]
+\centering
+\begin{threeparttable}
+\caption{Unconditional Variance Decomposition (\%) -- SW Sample}
+\label{tab:vdc_q2}
+\footnotesize
+\setlength{\tabcolsep}{3.8pt}
+\begin{tabular}{lrrrrrrrrrr}
+\toprule
+\multicolumn{11}{c}{\textbf{(a) With \texttt{sobs}}} \\
+\midrule
+ & ea & eb & eg & eqs & em & epinf & ew & esigw & epist & ezp \\
+\midrule
+$y$      & 2.42 & 4.87 & 2.59 & 15.53 & 4.42 & 1.35 & 0.05 & 0.92 & 27.24 & 40.61 \\
+$c$      & 0.65 & 5.15 & 5.45 & 22.41 & 2.14 & 0.43 & 0.03 & 0.62 & 29.72 & 33.40 \\
+$inve$   & 3.40 & 5.91 & 0.39 & 42.57 & 6.99 & 1.74 & 0.10 & 18.77 & 5.31 & 14.83 \\
+$\pi$    & 1.55 & 0.58 & 0.01 & 0.08 & 0.19 & 9.14 & 0.19 & 0.16 & 7.06 & 81.04 \\
+$r$      & 2.00 & 17.33& 0.39 & 0.48 & 1.00 & 0.96 & 0.09 & 1.26 & 4.98 & 71.51 \\
+$w$      & 3.46 & 0.32 & 0.11 & 16.96& 0.32 & 5.66 & 0.54 & 0.85 & 4.50 & 67.27 \\
+$k$      & 1.93 & 1.58 & 0.07 & 72.86& 1.57 & 1.38 & 0.05 & 4.85 & 11.66& 4.05 \\
+$\ell$   & 0.93 & 4.18 & 3.11 & 2.53 & 3.44 & 0.66 & 0.08 & 0.96 & 15.63& 68.48 \\
+\midrule
+\multicolumn{11}{c}{\textbf{(b) Without \texttt{sobs}}} \\
+\midrule
+ & ea & eb & eg & eqs & em & epinf & ew & esigw & epist & ezp \\
+\midrule
+$y$      & 2.23 & 0.71 & 9.27 & 5.48 & 2.54 & 2.24 & 10.64 & 0.00 & 63.18 & 3.70 \\
+$c$      & 0.84 & 0.63 & 9.77 & 2.86 & 1.25 & 1.05 & 15.55 & 0.00 & 60.44 & 7.61 \\
+$inve$   & 2.65 & 0.19 & 0.13 & 9.18 & 2.24 & 1.04 & 0.66 & 0.01 & 10.21 & 73.68 \\
+$\pi$    & 1.81 & 0.08 & 0.05 & 0.36 & 0.67 & 10.59& 20.84 & 0.00 & 44.79 & 20.80 \\
+$r$      & 6.16 & 1.20 & 0.49 & 3.05 & 3.00 & 1.81 & 11.81 & 0.01 & 26.18 & 46.29 \\
+$w$      & 3.19 & 0.05 & 0.24 & 1.52 & 0.54 & 6.98 & 17.81 & 0.00 & 38.21 & 31.46 \\
+$k$      & 2.94 & 0.06 & 0.09 & 3.06 & 0.74 & 1.03 & 0.34 & 0.00 & 22.60 & 69.12 \\
+$\ell$   & 1.34 & 0.64 & 10.88& 3.25 & 2.00 & 0.99 & 17.11 & 0.00 & 20.89 & 42.90 \\
+\bottomrule
+\end{tabular}
+\begin{tablenotes}[flushleft]
+\footnotesize
+\item \emph{Notes:} Rows are observables or key model variables; columns are structural shocks.
+Entries are shares (\%) of the unconditional variance.
+With \texttt{sobs}, the financial wedge disturbance ($\varepsilon^{zp}$) explains a dominant fraction of real and nominal variance;
+excluding \texttt{sobs} shifts variance toward the investment-price ($\varepsilon^{pI}$) and wage-markup ($\varepsilon^{w}$) shocks.
+\end{tablenotes}
+\end{threeparttable}
+\end{table}
+
+
+\bigskip
+
+% ========================
+% FIGURES: IRFs
+% ========================
+
+\begin{figure}[h!]
+\centering
+% --- Row 1 ---
+\begin{minipage}{.32\textwidth}
+  \centering
+  \includegraphics[width=\linewidth]{Q2_compare_outputs/IRF_TFP_sobs_vs_nosobs.pdf}
+  \caption{TFP shock ($\varepsilon^{a}$)}
+  \label{fig:q2_irf_tfp}
+\end{minipage}\hfill
+\begin{minipage}{.32\textwidth}
+  \centering
+  \includegraphics[width=\linewidth]{Q2_compare_outputs/IRF_Risk_premium_sobs_vs_nosobs.pdf}
+  \caption{Risk-premium shock ($\varepsilon^{b}$)}
+  \label{fig:q2_irf_rp}
+\end{minipage}\hfill
+\begin{minipage}{.32\textwidth}
+  \centering
+  \includegraphics[width=\linewidth]{Q2_compare_outputs/IRF_MonPol_sobs_vs_nosobs.pdf}
+  \caption{Monetary-policy shock ($\varepsilon^{m}$)}
+  \label{fig:q2_irf_mp}
+\end{minipage}
+
+\vspace{3mm}
+% --- Row 2 ---
+\begin{minipage}{.32\textwidth}
+  \centering
+  \includegraphics[width=\linewidth]{Q2_compare_outputs/IRF_Exogenous_spending_sobs_vs_nosobs.pdf}
+  \caption{Gov.\ spending shock ($\varepsilon^{g}$)}
+  \label{fig:q2_irf_g}
+\end{minipage}\hfill
+\begin{minipage}{.32\textwidth}
+  \centering
+  \includegraphics[width=\linewidth]{Q2_compare_outputs/IRF_Price_Markup_sobs_vs_nosobs.pdf}
+  \caption{Price-markup shock ($\varepsilon^{p}$)}
+  \label{fig:q2_irf_pmu}
+\end{minipage}\hfill
+\begin{minipage}{.32\textwidth}
+  \centering
+  \includegraphics[width=\linewidth]{Q2_compare_outputs/IRF_Wage_Markup_sobs_vs_nosobs.pdf}
+  \caption{Wage-markup shock ($\varepsilon^{w}$)}
+  \label{fig:q2_irf_wmu}
+\end{minipage}
+
+\vspace{3mm}
+% --- Row 3 ---
+\begin{minipage}{.32\textwidth}
+  \centering
+  \includegraphics[width=\linewidth]{Q2_compare_outputs/IRF_Investment-specific_sobs_vs_nosobs.pdf}
+  \caption{Investment\ shock ($\varepsilon^{i}$)}
+  \label{fig:q2_irf_qs}
+\end{minipage}
+% (two empty slots intentionally left for balance)
+\hfill
+\caption{Impulse responses: SW sample (1965Q1--2004Q4), model with vs.\ without \textit{sobs}}
+\caption*{\footnotesize\emph{Notes:} Each subfigure is a $3\times3$ panel of variable responses to a one-standard-deviation innovation in the indicated shock,
+computed over a 40-quarter horizon. Variables appear in the same order across all subfigures: output ($y$), consumption ($c$), investment ($inve$),
+capital services ($k$), real wage ($w$), hours ($lab$), policy rate ($r$), and inflation ($\pi$); the ninth tile (bottom-right) contains the legend.
+Solid blue lines report the model estimated \emph{with} the external finance premium observable \textit{sobs};
+dashed red lines report the model estimated \emph{without} \textit{sobs} (Q2v2).
+Both specifications are estimated on the Smets--Wouters (SW) period 1965Q1--2004Q4 with \texttt{mode\_compute=1} and identical priors;
+the measurement system differs only by the inclusion of \textit{sobs}.
+The \textit{sobs} series is the BAA--AAA corporate spread from FRED, averaged from monthly to quarterly and divided by four to obtain a quarterly rate.
+Inflation is quarterly percent (log-difference of the GDP deflator times 100);
+the policy rate is the average effective federal funds rate divided by four (quarterly percent).
+Responses are deviations from the non-stochastic steady state; axis scales are comparable within subfigures but may differ across shocks to preserve readability.}
+\label{fig:q2_irf_fullpanel}
+\end{figure}
+\FloatBarrier
+
+% ========================
+% TEXT: Professional assessment
+% ========================
+% =========================
+% Q2 ANALYSIS (TEXT SECTION)
+% =========================
+
+IRFs are in Figures~\ref{fig:q2_irf_tfp}--\ref{fig:q2_irf_qs}.
+In all that follows, \emph{Q2} denotes the model \emph{with} \textit{sobs}; \emph{Q2v2} is the model \emph{without} \textit{sobs}.
+
+\subsubsection*{A. Structural parameters and behavioral margins}
+
+\paragraph{Real frictions.}
+
+Including \textit{sobs} materially rebalances the real side.
+Habit falls from $h=0.724$ (Q2v2) to $0.532$ (Q2), and investment adjustment costs collapse from $\phi=1.599$ to $0.085$.
+Capacity-utilization costs also decline ($\psi:0.539\!\rightarrow\!0.443$).
+With the external finance premium observed, the system no longer needs large intrinsic smoothing in consumption and investment: 
+persistence is now explained via the financial and relative-price blocks rather than via $h$ and $\phi$.
+
+
+\paragraph{Nominal rigidities.}
+
+Wage stickiness strengthens with \textit{sobs} ($\xi_w:0.766\!\rightarrow\!0.905$) and price stickiness also edges up ($\xi_p:0.595\!\rightarrow\!0.686$), 
+while indexation is lower ($\iota_w:0.470\!\rightarrow\!0.277$, $\iota_p:0.340\!\rightarrow\!0.263$).
+The pattern—more Calvo rigidity and less indexation—fits the idea that spreads help match real-nominal co-movement; 
+the wage- and price-setting margins then carry more of the nominal adjustment.
+
+\paragraph{Preferences and steady-state block.}
+
+Intertemporal substitution rises with \textit{sobs}: the inverse IES falls ($\sigma_c:2.186\!\rightarrow\!1.513$).
+The inverse Frisch elasticity is somewhat higher in Q2 ($\sigma_\ell:1.481\!\rightarrow\!1.815$), 
+but these level shifts fine-tune steady-state wedges rather than driving the key dynamic differences.
+
+\subsubsection*{B. Policy rule}
+
+\paragraph{Systematic response.}
+
+The inflation coefficient is stronger with spreads ($r_\pi:1.869\!\rightarrow\!2.030$), confirming an active Taylor principle.
+Policy inertia remains high and is slightly higher in Q2 ($\rho:0.843\!\rightarrow\!0.855$), 
+while the growth term rises ($r_{\Delta y}:0.244\!\rightarrow\!0.289$) and the output-gap term stays small ($r_y\simeq0.16$).
+Net effect: a firm, systematic reaction to inflation pressures, implemented with substantial smoothing.
+
+\subsubsection*{C. Shock propagation and innovation variances}
+
+\paragraph{Persistence (AR parameters).}
+
+With \textit{sobs}, persistence shifts decisively to the financial and relative-price blocks:
+$\rho_b$ jumps from $0.199$ (Q2v2) to $0.869$ and $\rho_i$ from $0.589$ to $0.995$.
+Wage-markup persistence, by contrast, drops ($\rho_w:0.976\!\rightarrow\!0.602$).
+Policy shocks become less persistent ($\rho_r:0.066\!\rightarrow\!0.029$);
+TFP and government spending remain very persistent ($\rho_a\!\approx\!0.967$, $\rho_g\!\approx\!0.982$).
+
+\paragraph{Standard deviations.}
+
+Conditional on \textit{sobs}, the risk-premium innovation becomes \emph{less} volatile ($\sigma_{eb}:0.202\!\rightarrow\!0.091$),
+while the investment-specific innovation becomes \emph{more} volatile ($\sigma_{eqs}:0.911\!\rightarrow\!1.848$).
+Other innovation s.d.'s move modestly.
+Identification-wise, directly observing the spread anchors the financial wedge tightly;
+the model no longer needs large transitory risk-premium shocks to fit credit and investment co-movement, 
+and instead loads more on the \emph{persistent} $q^I$ channel.
+
+\subsubsection*{D. Impulse responses: transmission and magnitudes}
+
+\paragraph{TFP ($\varepsilon^a$).}
+
+IRFs (Fig.~\ref{fig:q2_irf_tfp}) are qualitatively similar across runs,
+but with \textit{sobs} investment and capital adjust more via the $q^I$ margin (high $\rho_i$), 
+so real responses are more \emph{persistent} even as habits and $S''$ are weaker.
+
+\paragraph{Risk premium ($\varepsilon^b$).}
+
+In Fig.~\ref{fig:q2_irf_rp}, Q2 displays longer-lived responses of $inve$, $y$, and (indirectly) $r$ because $\rho_b$ is high, 
+yet peaks are \emph{smaller} on impact due to the lower $\sigma_{eb}$.
+This is the hallmark of a spread-anchored wedge: smaller jumps, longer tails.
+
+\paragraph{Monetary policy ($\varepsilon^m$).}
+
+Fig.~\ref{fig:q2_irf_mp} shows broadly similar disinflationary dynamics; with \textit{sobs}, the \emph{policy shock} itself is less persistent ($\rho_r$ lower), 
+so $r$ reverts faster after like-for-like shocks even as the \emph{rule} remains inertial.
+The real side is cushioned by the persistent $q^I$ process.
+
+\paragraph{Government spending ($\varepsilon^g$).}
+
+Fig.~\ref{fig:q2_irf_g} confirms transitory demand effects in both runs.
+With stronger nominal rigidities in Q2 and a persistent wedge, crowding-out of $inve$ is somewhat more prolonged, 
+but peak magnitudes are similar.
+
+\paragraph{Markup shocks ($\varepsilon^{p}$, $\varepsilon^{w}$).}
+
+Figs.~\ref{fig:q2_irf_pmu}--\ref{fig:q2_irf_wmu} show price-markup dynamics remain sticky under both specifications, 
+while wage-markup shocks are \emph{less} persistent in Q2 (lower $\rho_w$) and spill over less to $y$ and $k$ relative to Q2v2, 
+consistent with the reallocation of persistence to the financial/$q^I$ blocks.
+
+\paragraph{Investment shocks ($\varepsilon^{i}$).}
+
+Fig.~\ref{fig:q2_irf_qs} highlights the core shift:
+with \textit{sobs}, $\rho_i\simeq0.995$ and a larger s.d.\ produce long-lived movements in $inve$ and $k$ at muted inflation cost.
+This channel replaces the role that high $\phi$ and habit played in Q2v2.
+
+\subsubsection*{E. Variance decomposition (unconditional) and its interpretation}
+
+The unconditional variance decomposition formalizes the reallocation of business-cycle variance:
+
+\begin{itemize}
+  \item \textbf{Real activity ($y,c,inve,k,\ell$).}
+  In Q2, the financial wedge ($\varepsilon^{zp}$) and the investment-price shock ($\varepsilon^{pI}$) dominate. 
+  For example, for $y$ the shares are: $\varepsilon^{zp}$ 40.6\% and $\varepsilon^{pI}$ 27.2\%.
+  In Q2v2, $y$ is dominated by $\varepsilon^{pI}$ (63.2\%), with a much smaller role for the wedge (3.7\%).
+  \item \textbf{Inflation and the policy rate ($\pi,r$).}
+  In Q2, $\pi$ is chiefly a financial-wedge phenomenon (81.0\%), and $r$ likewise (71.5\%) with a sizable risk-premium component (17.3\%).
+  In Q2v2, $\pi$ is split across $\varepsilon^{pI}$ (44.8\%), $\varepsilon^{w}$ (20.8\%), and $\varepsilon^{zp}$ (20.8\%); 
+  $r$ is driven by $\varepsilon^{zp}$ (46.3\%) and $\varepsilon^{pI}$ (26.2\%).
+  \item \textbf{Investment.}
+  With \textit{sobs}, $inve$ is mainly $\varepsilon^{qs}$ (42.6\%) plus $\varepsilon^{esigw}$ (18.8\%) and a nontrivial wedge share (14.8\%).
+  Without \textit{sobs}, $inve$ variance shifts heavily to the wedge (73.7\%), compensating for the missing spread measurement.
+\end{itemize}
+
+\subsubsection*{F. Central bank takeaways}
+
+For policy, three conclusions follow.
+
+\begin{enumerate}
+  \item \textbf{Credit conditions as a state variable.}
+  Conditioning on \textit{sobs} turns the wedge into a slow-moving driver of nominal and real fluctuations (dominant shares in $\pi$ and $r$, sizable in $y$).
+  This materially affects medium-term risk assessments and investment outlooks.
+  \item \textbf{Less intrinsic smoothing, more external propagation.}
+  Lower $h$ and $\phi$ in Q2 mean persistence lives in the financial/$q^I$ blocks.
+  Stabilization scenarios should lean on the identification of these blocks rather than on artificially persistent policy paths.
+  \item \textbf{Systematic policy vs.\ shocks.}
+  The policy \emph{rule} is forceful and inertial in both runs, but \emph{policy shocks} are less persistent with \textit{sobs} ($\rho_r$ lower), 
+  implying faster mean reversion of $r$ after disturbances when the spread is observed.
+\end{enumerate}
+
+\paragraph{Remark on inference.}
+
+The Q2v2 (no \textit{sobs}) run ends with a non-positive-definite Hessian at the mode; posterior s.e.'s are unreliable. 
+Comparisons are therefore based on modes, IRFs and variance decompositions,
+which display stable qualitative patterns across the two specifications.
+
+
+\pagebreak
+\section*{Q3.}
+
+\begin{table}[h!]
+\centering
+\begin{threeparttable}
+  \caption{Estimated Posterior Modes across Samples (with \textit{sobs})}
+  \label{tab:q3_param_modes}
+  \footnotesize
+  \setlength{\tabcolsep}{4pt}
+  \renewcommand{\arraystretch}{1.1}
+      \begin{tabularx}{\textwidth}{
+        >{\raggedright\arraybackslash}p{1.0cm}
+        >{\raggedright\arraybackslash}p{4.2cm}
+        >{\raggedright\arraybackslash}p{2.0cm}
+        *{4}{>{\centering\arraybackslash}X}
+        }
+        \toprule
+        \multicolumn{1}{c}{Parameter} & 
+        \multicolumn{1}{c}{Description} & 
+        \multicolumn{1}{c}{Dynare Name} & 
+        \makecell[c]{Q2 (SW)\\(1965Q1- \\-2004Q4)} &
+        \makecell[c]{FinCrises\\(1992Q1-\\-2010Q4)} &
+        \makecell[c]{PostGFC\\(2011Q1-\\-2025Q1)} &
+        \makecell[c]{Longest\\(1965Q1-\\-2025Q1)} \\
+        \midrule
+
+        \multicolumn{7}{l}{\textit{Structural Parameters}}\\
+        $\alpha$        & Capital Share                         & \texttt{calfa}      & 0.2652 & 0.2665 & 0.4249 & 0.3906 \\
+        $\sigma_c$      & Intertemporal Substitution            & \texttt{csigma}     & 1.5127 & 1.7053 & 1.1880 & 1.4501 \\
+        $h$             & Habit Formation                       & \texttt{chabb}      & 0.5319 & 0.4895 & 0.6653 & 0.3156 \\
+        $\xi_w$         & Calvo Prob.\ (Wages)                  & \texttt{cprobw}     & 0.9046 & 0.4940 & 0.5160 & 0.8972 \\
+        $\sigma_\ell$   & Labor Supply Elasticity (inverse)     & \texttt{csigl}      & 1.8145 & -0.2550 & -1.0500 & 0.0404 \\
+        $\xi_p$         & Calvo Prob.\ (Prices)                 & \texttt{cprobp}     & 0.6859 & 0.8928 & 0.7423 & 0.8428 \\
+        $\iota_w$       & Indexation (Wages)                    & \texttt{cindw}      & 0.2766 & 0.3260 & 0.4304 & 0.2821 \\
+        $\iota_p$       & Indexation (Prices)                   & \texttt{cindp}      & 0.2625 & 0.2777 & 0.3461 & 0.2158 \\
+        $\psi$          & Capacity Utilization Cost             & \texttt{czcap}      & 0.4425 & 0.8435 & 0.7546 & 0.6150 \\
+        $\phi$          & Investment Adjustment Cost            & \texttt{csadjcost}  & 0.0850 & 0.1152 & 1.3303 & 0.0780 \\
+        $\Phi$          & Fixed Costs                           & \texttt{cfc}        & 1.4276 & 1.4313 & 1.1083 & 1.2291 \\
+        \addlinespace[2pt]
+
+        \multicolumn{7}{l}{\textit{Monetary Policy Parameters}}\\
+        $r_{\pi}$       & Taylor Rule: Inflation                & \texttt{crpi}       & 2.0297 & 1.4707 & 1.6391 & 1.7781 \\
+        $\rho$          & Taylor Rule: Persistence              & \texttt{crr}        & 0.8554 & 0.9326 & 0.9228 & 0.9311 \\
+        $r_{y}$         & Taylor Rule: Output Gap               & \texttt{cry}        & 0.0010 & 0.0033 & 0.0039 & 0.0040 \\
+        $r_{\Delta y}$  & Taylor Rule: Output Growth            & \texttt{crdy}       & 0.3141 & 0.1617 & 0.1514 & 0.1205 \\
+        \addlinespace[2pt]
+
+        \multicolumn{7}{l}{\textit{Shock Process Parameters}}\\
+        $\rho_a$        & Persistence: Productivity             & \texttt{crhoa}      & 0.9948 & 0.9770 & 0.9207 & 0.9922 \\
+        $\rho_b$        & Persistence: Risk Premium             & \texttt{crhob}      & 0.8196 & 0.7727 & 0.9129 & 0.8088 \\
+        $\rho_g$        & Persistence: Gov.\ Spending           & \texttt{crhog}      & 0.9893 & 0.9920 & 0.6815 & 0.9920 \\
+        $\rho_i$        & Persistence: Investment.      & \texttt{crhoqs}     & 0.9954 & 0.9355 & 0.8371 & 0.9956 \\
+        $\rho_r$        & Persistence: Monetary Policy Shock    & \texttt{crhoms}     & 0.0293 & 0.4057 & 0.6185 & 0.0641 \\
+        $\rho_{p}$      & Persistence: Price Markup             & \texttt{crhopinf}   & 0.8947 & 0.7167 & 0.6287 & 0.9673 \\
+        $\rho_{w}$      & Persistence: Wage Markup              & \texttt{crhow}      & 0.6020 & 0.4875 & 0.4358 & 0.2546 \\
+        $\mu_p$         & MA Term: Price Markup                 & \texttt{cmap}       & 0.7300 & 0.5502 & 0.5308 & 0.8372 \\
+        $\mu_w$         & MA Term: Wage Markup                  & \texttt{cmaw}       & 0.8117 & 0.4939 & 0.4374 & 0.4425 \\
+        $\rho_{ga}$     & Feedback Tech.\ on Spending           & \texttt{cgy}        & 0.7269 & 0.5643 & 0.2479 & 0.6471 \\
+        \addlinespace[2pt]
+
+        \multicolumn{7}{l}{\textit{Steady-State / Intercepts}}\\
+        $\bar{\pi}$     & Steady-state inflation (q/q)          & \texttt{constepinf} & 0.3016 & 0.2932 & 0.6896 & 0.3870 \\
+        $\gamma$        & Trend growth (q/q)                    & \texttt{cgamma}     & 0.3980 & 0.2233 & 0.5236 & 0.4599 \\
+        $n^*$           & Steady-state hours                     & \texttt{cnstar}     & 0.9587 & 0.9289 & 0.9703 & 0.9634 \\
+        \bottomrule
+      \end{tabularx}
+  \begin{tablenotes}[flushleft]
+  \footnotesize
+  \item \textit{Notes:} Posterior \emph{modes} from Dynare estimations of the Cai\_4PS4 model that include the external finance premium observable
+  \texttt{sobs} (BAA--AAA spread, monthly averaged to quarterly and divided by four). Samples: SW (1965Q1--2004Q4), FinCrises (1992Q1--2010Q4),
+  PostGFC (2011Q1--2025Q1), and Longest (1965Q1--2025Q1).
+  Grouping, symbols, and labels follow Cai \textit{et al.} (2019) and Smets--Wouters (2007).
+  \end{tablenotes}
+\end{threeparttable}
+\end{table}
+\FloatBarrier
+
+% ------------------------------ IRF BLOCK ------------------------------
+\begin{figure}[ht!]
+\centering
+% Panel (a): TFP
+\begin{minipage}{0.48\textwidth}
+  \centering
+  \includegraphics[width=\linewidth]{Q3_TFP.pdf}
+  \caption*{(a) IRFs to a TFP innovation ($e_a$)}
+  \label{fig:q3_irf_TFP}
+\end{minipage}\hfill
+% Panel (b): Risk premium
+\begin{minipage}{0.48\textwidth}
+  \centering
+  \includegraphics[width=\linewidth]{Q3_Risk premium.pdf}
+  \caption*{(b) IRFs to a risk premium innovation ($e_b$)}
+  \label{fig:q3_irf_rp}
+\end{minipage}
+
+\vspace{0.6em}
+
+% Panel (c): Monetary policy
+\begin{minipage}{0.48\textwidth}
+  \centering
+  \includegraphics[width=\linewidth]{Q3_MonPol.pdf}
+  \caption*{(c) IRFs to a monetary policy innovation ($e_m$)}
+  \label{fig:q3_irf_mp}
+\end{minipage}
+
+\caption*{\footnotesize\emph{Notes:} Each panel reports 40-quarter impulse responses (posterior-mode solution) for eight observables.
+All variables are in percentage deviations from the nonstochastic steady state; policy rate and inflation are annualized
+(monthly series averaged to quarters and divided by four before estimation).
+Lines compare the four samples: SW (1965Q1--2004Q4), FinCrises (1992Q1--2010Q4), PostGFC (2011Q1--2025Q1), and Longest (1965Q1--2025Q1).
+The ninth (empty) subplot location carries the legend. Shock sizes correspond to one standard deviation under each sample's posterior mode.
+Visual scale is harmonized across samples to facilitate comparison of propagation strength and persistence.}
+\end{figure}
+\FloatBarrier
+
+% ------------------------------ DISCUSSION ------------------------------
+
+\subsubsection*{A. Structural frictions}
+
+\paragraph{Price vs.\ wage stickiness.}
+Relative to the Q2 (SW) benchmark, \emph{price stickiness} rises in the FinCrises and Longest samples
+($\xi_p=0.8928$ and 0.8428 vs.\ SW 0.6859),
+consistent with a flatter Phillips relationship and a more muted \emph{impact} response of inflation.
+By contrast, \emph{wage stickiness} is very high in SW and Longest
+($\xi_w=0.9046$, 0.8972) but much lower in FinCrises and PostGFC ($\xi_w=0.4940$, 0.5160),
+implying faster nominal wage adjustment and a larger role for the labor margin outside the SW window.
+Indexation rises post-GFC ($\iota_p=0.3461$, $\iota_w=0.4304$ vs.\ SW 0.2625, 0.2766),
+which injects intrinsic persistence into inflation and wages even if Calvo probabilities decline.
+
+\paragraph{Investment and utilization frictions.}
+Investment adjustment costs surge post-GFC ($\phi=1.3303$ vs.\ SW 0.0850; FinCrises 0.1152; Longest 0.0780),
+and capacity-utilization costs are higher in the crisis and post-crisis samples (FinCrises 0.8435, PostGFC 0.7546 vs.\ SW 0.4425).
+The theory then predicts smoother, more hump-shaped investment paths and more restrained movements in utilization in those samples.
+Habit is comparatively high in PostGFC ($h=0.6653$) and low in Longest (0.3156),
+which helps shape medium-run persistence on the demand side.
+
+\paragraph{Preferences and steady state.}
+Intertemporal substitution is strongest in PostGFC ($\sigma_c=1.1880$ vs.\ SW 1.5127 and Longest 1.4501),
+so real-rate changes transmit more strongly to consumption there.
+A red flag is that the inverse Frisch elasticity becomes \emph{negative} in FinCrises/PostGFC ($\sigma_\ell=-0.2550$, -1.0500),
+which is economically inadmissible and typically arises when trend-wage volatility and hours measurement are used to soak up regime breaks.
+
+\bigskip
+\subsubsection*{B. Monetary policy}
+
+\paragraph{Systematic response.}
+All samples satisfy the Taylor principle, with SW the most aggressive on inflation ($r_\pi=2.0297$).
+FinCrises is least aggressive ($1.4707$), PostGFC is intermediate ($1.6391$), and Longest is strong ($1.7781$).
+Interest-rate smoothing is materially higher after the early 1990s (FinCrises $\rho=0.9326$, PostGFC 0.9228,
+Longest 0.9311 vs.\ SW 0.8554), implying more persistent rate paths for a given disturbance.
+The \emph{policy shock} itself is almost white noise in SW/Longest ($\rho_r=0.0293$, 0.0641)
+but becomes highly persistent in FinCrises/PostGFC (0.4057, 0.6185),
+which lengthens the tails of IRFs for $r$ and $\pi$ even holding rule inertia fixed.
+
+\bigskip
+\subsubsection*{C. Shock transmission and persistence}
+
+\paragraph{Technology and relative prices.}
+TFP persistence is high in SW/Longest ($\rho_a=0.9668$, 0.9677), lower in FinCrises (0.9711) and much lower post-GFC (0.8288).
+The investment shock block is nearly unit-root in SW/Longest ($\rho_i=0.9954$, 0.9956) but weaker in FinCrises (0.9355) and PostGFC (0.8371),
+and its innovation variance collapses post-GFC ($\sigma_{eqs}=0.1858 $vs.\ SW 1.8478, Longest 1.8464).
+Hence investment dynamics in PostGFC are driven much less by relative-price propagation and more by internal frictions ($\phi$, $\psi$).
+
+\paragraph{Financial wedge.}
+Risk-premium persistence is high in all samples (SW 0.8686, FinCrises 0.9168, PostGFC 0.8861, Longest 0.8577),
+consistent with slow-moving credit conditions.
+But innovation variances differ substantially: smallest in FinCrises ($\sigma_{eb}=0.0381$) and largest in Longest (0.1271),
+so amplitudes vary even if persistence is similar.
+
+\paragraph{Policy shocks.}
+With large smoothing and persistent policy shocks in FinCrises/PostGFC ($\rho\approx 0.93$ and $\rho_r\in[0.41,0.62]$),
+a one-time monetary disturbance produces longer-lived trajectories for interest rates and—via the NKPC and the Euler equation—longer-lived paths for inflation and the output gap.
+In SW/Longest, the near-white-noise policy innovation facilitates faster reversion.
+
+\bigskip
+\subsubsection*{D. Impulse responses: mechanisms and dynamics (TFP, risk premium, monetary policy)}
+
+\paragraph{TFP shock ($e_a$).}
+In SW/Longest, very persistent $a_t$ and near-unit-root investment shock ($\rho_i\approx 1$) produce long-lived comovement in $y,c,k$,
+with investment reacting in a smooth, hump-shaped way due to a small $S''$ channel (low $\phi$) and a strong $q^I$ channel.
+With higher price stickiness in FinCrises ($\xi_p=0.8928$) and more flexible wages ($\xi_w=0.4940$),
+marginal-cost adjustments occur more on the labor side,
+dampening inflation's impact response while indexation (especially post-GFC) prolongs its tail.
+PostGFC combines large internal frictions and weak investment shock ($\phi=1.3303$, $\rho_i=0.8371$, $\sigma_{eqs}=0.1858$),
+so the investment jump is small and mean reversion is faster despite a higher capital share ($\alpha=0.4249$);
+inflation inertia comes more from indexation than from swift marginal-cost movements.
+
+\paragraph{Risk-premium shock ($e_b$).}
+In the Euler equation, a higher premium raises the effective discount rate and the user cost of capital,
+depressing $c$ and $inve$ via the $q^I$ and financing wedges.
+Given high persistence of $b_t$ in all windows,
+FinCrises displays the sharpest but shortest-lived investment and output drops (tiny $\sigma_{eb}$),
+while PostGFC shows smaller impact but more persistent effects (largest $\rho_b$ together with larger $\phi$).
+Where price stickiness is high (FinCrises/Longest), the jump in marginal cost transmits less to \emph{impact} inflation;
+indexation then governs the slow unwind.
+
+\paragraph{Monetary policy shock ($e_m$).}
+With large rule smoothing and persistent disturbances (FinCrises/PostGFC),
+a contractionary shock generates \emph{long} tails in $r$ and $\pi$; on the real side,
+high $\phi$/$\psi$ (PostGFC) make $y$ and $inve$ adjust more gradually but for longer.
+In SW/Longest, the near-white-noise policy innovation yields faster reversion in $r$ and $\pi$, with investment reacting more through the $q^I$ channel (low $\phi$).
+
+\bigskip
+\subsubsection*{E. Comparing to Q2 (SW, with \textit{sobs})}
+
+The SW benchmark combines moderate nominal rigidities with highly persistent $a_t$ and $q^I$ ($\rho_a=0.9668$,
+$\rho_i=0.9954$) and a forceful response to inflation ($r_\pi=2.0297$) with relatively modest smoothing ($\rho=0.8554$).
+Adding the three post-1984 samples reveals:
+
+(i) tighter price rigidity and more smoothing around the crisis period;
+
+(ii) a post-GFC regime with more flexible wages but higher indexation and weak relative-price propagation (investment shock),
+so investment inertia is largely internal (big $\phi$/$\psi$);
+
+(iii) in the long sample, price stickiness plus a strong inflation coefficient keep inflation well-anchored even when the real side reacts more to policy disturbances.
+In all samples, including the external finance premium observable (\texttt{sobs}) disciplines the financial block and yields a slowly evolving wedge that is central for investment.
+
+\bigskip
+\subsubsection*{F. Takeaways for policy}
+
+Across windows, robust inflation control (large $r_\pi$) is a stable feature.
+But the \emph{speed and shape} of transmission depends on nominal frictions and financial persistence:
+more price stickiness, higher rule smoothing, and persistent policy/credit shocks jointly imply longer-lived disinflations and interest-rate paths.
+PostGFC investment is particularly sensitive to the \emph{duration} of tight policy (through $\phi$ and $\psi$) rather than just the \emph{size} of the initial move,
+and expectations management matters more when indexation is high.
+
+\bigskip
+
+\textcolor{blue}{\textbf{Problems and explanations.}\\
+Two diagnostic issues likely explain any mismatch you observe between parameter tables and IRFs:\\
+(1) the PostGFC run has an indefinite Hessian at the mode (s.e.\ listed as NaN),
+so the mode is \emph{flat} and IRFs can be very sensitive to small numerical changes;\\
+(2) the inverse Frisch elasticity is estimated negative in FinCrises/PostGFC,
+which is economically inadmissible and usually indicates the wage-trend shock and the hours measurement are overfitting low-frequency shifts.
+% If an IRF looks inconsistent with the table (e.g., a large investment shock-driven investment jump post-GFC),
+% the most common cause is that the IRF was generated at a \emph{different} parameter set than the one reported (e.g., not reloading the sample's mode before simulation).
+\\
+Under typical macroeconomic theory, the Frisch (labor supply) elasticity should be positive,
+and a negative estimate strongly suggests something is amiss.\\
+In the turbulent 2011Q1-2025Q1 period,
+there are many reasons a DSGE estimation might falsely ``find'' a negative elasticity
+- including the post-2008 labor market scarring (shifting the supply curve),
+the unprecedented COVID-19 labor shock (breaking the usual wage-hours link),
+composition and rigidities that made wages behave atypically.\\
+Each of these factors can generate an observed inverse relationship between wages and hours that is not due to a true preference-driven negative elasticity.\\
+According to a very recent working paper from the St. Louis Fed\footnote{Faria e Castro, M., 2025; The St. Louis Fed DSGE Model, Federal Reserve Bank of
+St. Louis Working Paper 2024-014. URL https://doi.org/10.20955/wp.2024.014},
+they explicitly modeled a transient labor supply contraction to avoid distorting structural parameters during the COVID-19 shock.
+And analysis of the 2020 recession confirms that unusual composition effects drove wages up while hours fell,
+a statistical quirk rather than a true preference reversal.\\
+For the Great Financial Crises period (1992Q1-2010Q4),
+there's also a similar explanation regarding the composition effect, which is purely statistical.\\
+When recessions shed disproportionate low-wage jobs,
+the average wage of remaining workers rises, even if nobody's individual wage went up.
+This ``composition effect'' is known to mute or invert the cyclicality of aggregate wages,
+especially in 2008-09 and its aftermath, and it shows up strongly in CPS-based decompositions.
+If a DSGE's measurement equation takes the aggregate wage at face value,
+it may infer that ``wages rose while hours fell,''
+which a naive optimizer then ``explains'' by pushing the Frisch elasticity toward zero or negative.
+\footnote{Daly, Mary C., and Bart Hobijn. 2017. ``Composition and Aggregate Real Wage Growth.'' American Economic Review 107 (5): 349-52.}
+}
+
+\textcolor{red}{Since this might also be a mis-setting of our DSGE model, as mentioned in St. Louis Fed 2025,
+what we could do is trying to fix the csigl to positive as what SW2007 did,
+as we don't have the ability to add a special labor contraction to avoid this distort. \\
+We can change the prior of csigl to a truncated normal distribution with support only on positive values,
+in the dynare code: \texttt{csigl,,0.25,10.0,NORMAL\_PDF,2,0.75;}, which is the same as SW2007.
+The revised estimation results are shown in the following table and figures.
+Not to make the work too complicated, I only change the setting for Q3.}
+
+% ========================
+% Q3: Posterior Modes (σ_ℓ > 0) and Brief Interpretation
+% ========================
+
+\begin{table}[h!]
+\centering
+\begin{threeparttable}
+  \caption{Estimated Posterior Modes across Samples (with \textit{sobs}; $\sigma_\ell>0$ constraint)}
+  \label{tab:q3_param_modes_new}
+  \footnotesize
+  \setlength{\tabcolsep}{4pt}
+  \renewcommand{\arraystretch}{1.1}
+      \begin{tabularx}{\textwidth}{
+        >{\raggedright\arraybackslash}p{1cm}
+        >{\raggedright\arraybackslash}p{4.2cm}
+        >{\raggedright\arraybackslash}p{2.0cm}
+        *{4}{>{\centering\arraybackslash}X}
+        }
+        \toprule
+        \multicolumn{1}{c}{Parameter} & 
+        \multicolumn{1}{c}{Description} & 
+        \multicolumn{1}{c}{Dynare Name} & 
+        \makecell[c]{Q2 (SW)\\(1965Q1--\\2004Q4)} &
+        \makecell[c]{FinCrises\\(1992Q1--\\2010Q4)} &
+        \makecell[c]{PostGFC\\(2011Q1--\\2025Q1)} &
+        \makecell[c]{Longest\\(1965Q1--\\2025Q1)} \\
+        \midrule
+        \multicolumn{7}{l}{\textit{Structural Parameters}}\\
+        $\alpha$      & Capital Share                         & \texttt{calfa}     & 0.2652 & 0.2811 & 0.4648 & 0.3872 \\
+        $\sigma_c$    & Intertemporal Substitution            & \texttt{csigma}    & 1.5126 & 1.5096 & 0.9284 & 1.4485 \\
+        $h$           & Habit Formation                       & \texttt{chabb}     & 0.5319 & 0.5089 & 0.4871 & 0.3047 \\
+        $\xi_w$       & Calvo Prob. (Wages)                   & \texttt{cprobw}    & 0.9046 & 0.7615 & 0.7184 & 0.9053 \\
+        $\sigma_\ell$ & Inverse Frisch Elasticity             & \texttt{csigl}     & 1.8146 & 0.6967 & 1.3551 & 0.5876 \\
+        $\xi_p$       & Calvo Prob. (Prices)                  & \texttt{cprobp}    & 0.6859 & 0.8835 & 0.6813 & 0.8967 \\
+        $\iota_w$     & Indexation (Wages)                    & \texttt{cindw}     & 0.2766 & 0.3271 & 0.7078 & 0.2091 \\
+        $\iota_p$     & Indexation (Prices)                   & \texttt{cindp}     & 0.2625 & 0.2184 & 0.5577 & 0.1690 \\
+        $\psi$        & Capacity Utilization Cost             & \texttt{czcap}     & 0.4425 & 0.8719 & 0.5788 & 0.6004 \\
+        $\phi$        & Investment Adj. Cost                  & \texttt{csadjcost} & 0.0850 & 0.1306 & 1.8683 & 0.0657 \\
+        $\Phi$        & Fixed Costs                           & \texttt{cfc}       & 1.4276 & 1.5027 & 1.1860 & 1.1496 \\
+        \addlinespace[2pt]
+        \multicolumn{7}{l}{\textit{Monetary Policy Parameters}}\\
+        $r_{\pi}$     & Taylor Rule: Inflation                 & \texttt{crpi}      & 2.0297 & 1.5258 & 1.1966 & 1.6343 \\
+        $\rho$        & Taylor Rule: Persistence               & \texttt{crr}       & 0.8554 & 0.9102 & 0.9265 & 0.9616 \\
+        $r_{y}$       & Taylor Rule: Output Gap                & \texttt{cry}       & 0.1585 & 0.0745 & 0.2333 & 0.0711 \\
+        $r_{\Delta y}$& Taylor Rule: Output Growth             & \texttt{crdy}      & 0.2888 & 0.1972 & 0.0049 & 0.3036 \\
+        \addlinespace[2pt]
+        \multicolumn{7}{l}{\textit{Shock Process Parameters}}\\
+        $\rho_a$      & Persistence: Productivity              & \texttt{crhoa}     & 0.9668 & 0.9576 & 0.6717 & 0.9695 \\
+        $\rho_b$      & Persistence: Risk Premium              & \texttt{crhob}     & 0.8686 & 0.9036 & 0.7848 & 0.8830 \\
+        $\rho_g$      & Persistence: Gov.\ Spending            & \texttt{crhog}     & 0.9815 & 0.9758 & 0.7151 & 0.9801 \\
+        $\rho_i$      & Persistence: Inv.-Spec.\ Tech.         & \texttt{crhoqs}    & 0.9954 & 0.9313 & 0.9955 & 0.9960 \\
+        $\rho_r$      & Persistence: Monetary Policy           & \texttt{crhoms}    & 0.0293 & 0.3442 & 0.4590 & 0.0528 \\
+        $\rho_{p}$    & Persistence: Price Markup              & \texttt{crhopinf}  & 0.8947 & 0.7458 & 0.4230 & 0.9559 \\
+        $\rho_{w}$    & Persistence: Wage Markup               & \texttt{crhow}     & 0.6020 & 0.9589 & 0.4433 & 0.2604 \\
+        $\mu_p$       & MA: Price Markup                       & \texttt{cmap}      & 0.7300 & 0.5933 & 0.6523 & 0.8239 \\
+        $\mu_w$       & MA: Wage Markup                        & \texttt{cmaw}      & 0.8117 & 0.9496 & 0.5153 & 0.4294 \\
+        $\rho_{ga}$   & Feedback Tech.\ on Spending            & \texttt{cgy}       & 0.7849 & 0.6212 & 0.1595 & 0.6312 \\
+        \bottomrule
+      \end{tabularx}
+  \begin{tablenotes}[flushleft]
+  \footnotesize
+  \item \textit{Notes:} Posterior \emph{modes} from four Q3 estimations of the Cai\_4PS4 model with the external-finance premium observable \texttt{sobs}.
+  The inverse Frisch elasticity is constrained to be positive ($\sigma_\ell>0$).
+  Samples are listed in the column headers; values are taken directly from the Dynare log outputs for each run.
+  \end{tablenotes}
+\end{threeparttable}
+\end{table}
+\FloatBarrier
+
+% \subsubsection*{Brief interpretation (central bank perspective)}
+
+\paragraph{Nominal frictions.}
+Relative to the SW benchmark, the \emph{FinCrises} and \emph{Longest} samples point to very high \emph{price} stickiness (Calvo $\xi_p$ in the high-0.8s), while \emph{PostGFC} keeps $\xi_p$ closer to SW. Wage stickiness stays high in SW/Longest but relaxes in FinCrises/PostGFC. Indexation rises materially after 2010 (both $\iota_p$ and $\iota_w$), indicating that part of nominal inertia shifts from Calvo probabilities to indexation in the post-GFC regime.
+
+\paragraph{Real frictions.}
+Habit $h$ is moderate in SW/FinCrises and smaller in the Longest window. Investment adjustment costs $\phi$ are \emph{small} in SW/Longest but spike in PostGFC, implying hump-shaped investment dynamics and a larger role for the user-cost/financial block to transmit disturbances.
+
+\paragraph{Policy rule.}
+All four samples satisfy an \emph{active} Taylor principle ($r_\pi>1$). The Longest window features the strongest inertia ($\rho\simeq0.96$), consistent with longer policy cycles and a greater weight of expected real-rate paths. FinCrises is also highly inertial; SW is more moderate.
+
+\paragraph{Shock propagation.}
+Investment-specific technology is near a unit root in SW/PostGFC/Longest ($\rho_i\approx 1$), sustaining persistent investment swings; monetary-policy shocks are closer to white noise in SW/Longest but more persistent in FinCrises/PostGFC. Risk-premium persistence peaks post-GFC, reinforcing the sensitivity of investment to financial conditions.
+
+\paragraph{On the $\sigma_\ell>0$ restriction.}
+Imposing $\sigma_\ell>0$ removes implausible negative Frisch elasticities and yields coherent wage–hours dynamics across samples. Posteriors remain comparatively wide on this margin, signaling that aggregate time-series provide limited discipline on labor-supply curvature; policy conclusions should continue to down-weight this parameter relative to better-identified nominal and investment frictions.
+
+\pagebreak
+% ============================================
+% Q4: Priors vs Posteriors (SW sample, with sobs)
+% ============================================
+
+\section*{Q4. Prior vs.\ Posterior Distributions (SW Sample, with \textit{sobs})}
+
+\begin{figure}[h!]
+  \centering
+  % \includegraphics[width=0.48\textwidth]{Cai4PS4_Q4/graphs/Cai4PS4_Q4_PriorsAndPosteriors1-eps-converted-to.pdf}\hfill
+  \includegraphics[width=0.48\textwidth]{Cai4PS4_Q4/graphs/Cai4PS4_Q4_PriorsAndPosteriors2-eps-converted-to.pdf}
+  \includegraphics[width=0.48\textwidth]{Cai4PS4_Q4/graphs/Cai4PS4_Q4_PriorsAndPosteriors3-eps-converted-to.pdf}\hfill
+  % \includegraphics[width=0.48\textwidth]{Cai4PS4_Q4/graphs/Cai4PS4_Q4_PriorsAndPosteriors4-eps-converted-to.pdf}\\[2pt]
+  % \includegraphics[width=0.48\textwidth]{Cai4PS4_Q4/graphs/Cai4PS4_Q4_PriorsAndPosteriors5-eps-converted-to.pdf}
+  \caption{Q4 (SW, 1965Q1--2004Q4): Priors (gray) vs.\ Posteriors (solid), by parameter block.
+  Panel order: structural \& rigidities; policy \& levels.}
+  \label{fig:q4_priorpost}
+\end{figure}
+\FloatBarrier
+
+% \paragraph{Nominal rigidities (Calvo \& indexation).}
+% \begin{itemize}
+%   \item \textbf{Wages.} The posterior concentrates far to the right of the prior for the Calvo wage parameter ($\xi_w$), with mass around $0.90$ and a tight HPD band, indicating \emph{very sticky} wages.%
+%   \footnote{Posterior mean $\xi_w\simeq0.903$; HPD $[0.878,0.929]$.}
+%   \item \textbf{Prices.} The Calvo price parameter ($\xi_p$) shifts upward from the prior mean ($0.5$) and contracts around $\approx0.69$, again well-informed by the data.%
+%   \footnote{Posterior mean $\xi_p\simeq0.686$; HPD $[0.626,0.754]$.}
+%   \item \textbf{Indexation.} Both price and wage indexation ($\iota_p,\iota_w$) move \emph{down} relative to their priors and tighten (e.g., $\iota_p\approx0.27$, $\iota_w\approx0.29$), suggesting only moderate intrinsic persistence in inflation and wages once Calvo stickiness is high.%
+%   \footnote{Posterior means $\iota_p\simeq0.271$, $\iota_w\simeq0.294$.}
+% \end{itemize}
+% These patterns (high $\xi_w$ and moderately high $\xi_p$ with modest indexation) closely echo the original SW evidence that the data strongly favor substantial nominal rigidities.
+
+% \paragraph{Real frictions (habit, investment adjustment, utilization, fixed costs).}
+% \begin{itemize}
+%   \item \textbf{Habit ($h$).} The posterior shifts left from the prior mean $0.7$ and contracts around $\approx0.52$, indicating the data do not need extreme consumption smoothing once financial/relative-price channels are measured.%
+%   \footnote{Posterior mean $h\simeq0.524$; HPD $[0.386,0.651]$.}
+%   \item \textbf{Investment adjustment ($\phi$).} The posterior places \emph{overwhelming} mass near zero ($\approx0.09$) despite a very diffuse prior centered at $4$, a dramatic move that signals the SW data (with \textit{sobs}) attribute investment dynamics primarily to the \emph{investment-specific} and financial wedges rather than to high convex adjustment costs.%
+%   \footnote{Posterior mean $\phi\simeq0.093$; HPD $[0.056,0.127]$.}
+%   \item \textbf{Utilization cost ($\psi$).} The posterior tightens slightly below the prior mean (around $0.46$), showing the data discipline the elasticity of utilization.%
+%   \footnote{Posterior mean $\psi\simeq0.457$; HPD $[0.344,0.563]$.}
+%   \item \textbf{Fixed costs ($\Phi$).} The posterior is elevated and tight ($\approx1.44$), evidencing strong information about steady-state markups/returns.%
+%   \footnote{Posterior mean $\Phi\simeq1.438$; HPD $[1.345,1.547]$.}
+% \end{itemize}
+
+% \paragraph{Preferences (intertemporal and labor).}
+% \begin{itemize}
+%   \item \textbf{Intertemporal substitution ($\sigma_c$).} The posterior mass shifts slightly above the prior mean and narrows ($\approx1.53$), indicating \emph{moderate} information in the data.%
+%   \footnote{Posterior mean $\sigma_c\simeq1.533$; HPD $[1.354,1.716]$.}
+%   \item \textbf{Inverse Frisch ($\sigma_\ell$).} The posterior remains comparatively wide and near the prior center (HPD roughly $[0.96,2.61]$), a classic case where the SW observables carry \emph{limited} information on labor-supply curvature absent stronger labor-market instruments; the prior still matters.%
+%   \footnote{Posterior mean $\sigma_\ell\simeq1.807$; wide HPD.}
+% \end{itemize}
+% This pattern—sharp identification of nominal rigidities, weaker grip on labor-supply curvature—is standard in medium-scale Bayesian DSGEs with SW-style observables.
+
+% \paragraph{Monetary policy rule.}
+% \begin{itemize}
+%   \item \textbf{Inflation coefficient ($r_\pi$).} The posterior shifts well above the prior mean and tightens near $\approx2.0$, confirming an \emph{active} Taylor principle.%
+%   \footnote{Posterior mean $r_\pi\simeq1.99$; HPD $[1.70,2.29]$.}
+%   \item \textbf{Inertia ($\rho$).} Posterior puts substantial mass at high smoothing ($\approx0.85$), away from the prior mean $0.75$, again tightly estimated.%
+%   \footnote{Posterior mean $\rho\simeq0.847$; HPD $[0.803,0.892]$.}
+%   \item \textbf{Output terms ($r_y$, $r_{\Delta y}$).} Both shift up and tighten (e.g., $r_{\Delta y}\approx0.29$), consistent with policy reacting to output growth as in SW.%
+%   \footnote{Posterior means $r_y\simeq0.165$, $r_{\Delta y}\simeq0.292$.}
+% \end{itemize}
+% These findings align with the literature's baseline on SW-type rules under Bayesian estimation.
+
+% \paragraph{Shock processes (persistence and innovation variances).}
+% \begin{itemize}
+%   \item \textbf{Persistence.} Productivity and investment-specific processes are \emph{near-unit-root} in the posterior ($\rho_a\approx0.964$, $\rho_{i}\approx0.995$); monetary-policy shocks are close to white noise ($\rho_r\approx0.046$). All are sharply away from diffuse priors.%
+%   \footnote{Posterior means $\rho_a\simeq0.964$, $\rho_i\simeq0.995$, $\rho_r\simeq0.046$; tight HPDs.}
+%   \item \textbf{Std.\ devs.} Several shock s.d.'s move far from the prior scale (set at $0.1$ with inverse-gamma): e.g., government spending ($\sigma_{e_g}\sim2.83$) and investment shock ($\sigma_{e_{qs}}\sim1.85$) shift \emph{right} and tighten; inflation-target and investment-price shocks shift \emph{left}.%
+%   \footnote{Posterior means: $\sigma_{e_g}\simeq2.83$, $\sigma_{e_{qs}}\simeq1.85$, $\sigma_{e_{\pi^*}}\simeq0.047$; see shock panel.}
+% \end{itemize}
+% The strong posterior contraction for AR parameters and selected shock variances is typical in SW-style estimations and underpins the model's propagation margins.
+
+% \subsubsection*{Takeaways: What the data taught us beyond the priors}
+
+% \begin{enumerate}
+%   \item \textbf{Nominal rigidities are data-driven.} The wage and price Calvo posteriors are both \emph{significantly to the right} of their priors and tightly concentrated, endorsing substantial nominal stickiness with only modest indexation. The contraction is decisive (posterior $\neq$ prior), so the data—not the priors—pin these frictions.%
+%   \item \textbf{Investment adjustment costs collapse.} Despite a very loose prior centered at $4$, the posterior for $\phi$ sits near zero with a narrow HPD. The SW sample with \textit{sobs} credits investment volatility to the relative-price (investment shock) and financial wedges rather than to large $S''$.%
+%   \item \textbf{Policy is active and inertial.} $r_\pi$ and $\rho$ are tightly estimated above their prior means, with meaningful roles for $r_y$ and $r_{\Delta y}$—consistent with the original SW evidence under Bayesian estimation.%
+%   \item \textbf{Labor-supply curvature is weakly identified.} The inverse Frisch posterior remains broad and not far from its prior, a known feature when only aggregate macro observables are used; the prior still carries weight here.%
+%   \item \textbf{Shock dynamics are sharply updated.} Persistence parameters (especially $\rho_a,\rho_i$) and selected s.d.'s show strong posterior movement and contraction relative to the priors, highlighting that the SW data contain clear information about the \emph{sources} and \emph{durations} of fluctuations.%
+% \end{enumerate}
+
+% \subsubsection*{Interpretation in light of the literature}
+
+% The prior--posterior shifts we observe mirror the canonical SW findings: the data strongly discipline nominal rigidities and propagation via highly persistent technology/investment shock processes, while some deep preference parameters (e.g., labor-supply curvature) remain only weakly pinned down. In Bayesian DSGE work, large posterior movement away from the prior with narrower dispersion signals strong data information, whereas \emph{posterior $\approx$ prior} suggests limited identification or weak signals in the observables—precisely the pattern we see here.%
+% \footnote{See An \& Schorfheide (2007) on Bayesian updating/identification; SW (2007) for benchmark magnitudes.}
+% Moreover, the posterior for the policy rule (\,$r_\pi\approx2$, high $\rho$\,) corresponds to an \emph{active, inertial} policy consistent with SW-era U.S. data.
+
+% \paragraph{Bottom line.} The priors helped regularize the estimation, but the SW data with \textit{sobs} \emph{overrode} them for the key structural margins—Calvo stickiness, policy aggressiveness/inertia, and the dominance of investment shock/technology persistence—while leaving labor-supply curvature relatively prior-driven. In that sense, the prior--posterior figures make clear which mechanisms are truly \emph{identified by the data} and which remain partly \emph{anchored by prior beliefs}.
+
+\paragraph{Nominal rigidities: the data are highly informative.}
+The wage Calvo probability is pushed far to the right and tightly concentrated (posterior mass near $\xi_w\!\approx\!0.90$),
+and the price Calvo probability shifts right with clear contraction (posterior around $\xi_p\!\approx\!0.69$).
+In both cases the data move the mass well away from priors centered near one-half.
+By contrast, indexation parameters are pulled \emph{down} from diffuse priors and become moderate ($\iota_p,\iota_w\!\approx\!0.27$-$0.30$).
+The message from Fig.~\ref{fig:q4_priorpost} is that the SW data pin nominal inertia primarily through Calvo stickiness rather than through high indexation:
+the posteriors are sharp and displaced relative to the priors.
+
+\paragraph{Real frictions: less intrinsic smoothing than the priors allow.}
+Habit formation moves left from a high prior and tightens (posterior around $h\!\approx\!0.52$),
+and capacity-utilization costs are modest ($\psi\!\approx\!0.46$).
+Most notably, the investment adjustment cost \emph{collapses} toward the lower tail despite a very loose prior centered at a large value (posterior $\phi\!\approx\!0.09$ with a narrow density,
+Fig.~\ref{fig:q4_priorpost}).
+The data therefore attribute investment persistence to relative-price and financial channels,
+not to large convex adjustment costs. Fixed costs rise above their prior mean and tighten,
+consistent with well-identified steady-state markups.
+
+\paragraph{Preferences: partly data-driven, partly prior-driven.}
+Intertemporal substitution is mildly updated and contracts around a value just above its prior center ($\sigma_c\!\approx\!1.5$);
+the posterior visibly contains information.
+In contrast, the inverse Frisch elasticity exhibits a \emph{wide} posterior with limited displacement from its prior;
+the data provide only weak discipline on labor-supply curvature given the observable set.
+
+\paragraph{Policy rule: active and inertial—strongly identified.}
+The inflation coefficient shifts \emph{up} and tightens around a value near two ($r_\pi\!\approx\!2$), confirming an active Taylor principle.
+Policy inertia moves \emph{up} from its prior and is sharply estimated ($\rho\!\approx\!0.85$).
+The output-growth term is clearly nonzero and informative ($r_{\Delta y}\!\approx\!0.29$),
+while the output-gap term remains small but identified ($r_y$ modestly above its prior).
+The shapes in Fig.~\ref{fig:q4_priorpost}—peaked posteriors displaced from the priors—indicate that systematic policy is learned from the data rather than imposed.
+
+% \paragraph{Shock persistence (briefly, for context).}
+% Although Q4 focuses on structure, the identification logic is reinforced by the persistence block (not shown here):
+% technology and investment-specific processes load heavy near unit root ($\rho_a,\rho_{qs}$ close to 1 with tight posteriors),
+% while policy shock persistence is near white noise. This combination rationalizes why the model does not need large $h$ or $\phi$ to fit medium-run dynamics.
+
+% \paragraph{Bottom line (data vs.\ priors).}
+The prior-posterior graphs show that the SW data \emph{override} the priors on the margins that matter for transmission:
+
+(i) \textbf{Nominal rigidities}—high and precisely measured Calvo stickiness, low-moderate indexation;
+
+(ii) \textbf{Investment propagation}—\emph{very} small adjustment costs, shifting persistence to relative prices and the financial block;
+
+(iii) \textbf{Systematic policy}—an \emph{active} and \emph{inertial} rule with a meaningful response to output growth.
+
+By contrast, \textbf{labor-supply curvature} remains largely prior-driven. In short, the data carry strong information about nominal and policy frictions and about where investment persistence comes from, while preferences on the labor margin remain weakly identified.
+
+
+
+
+\section*{Q5. Prior vs. Posteriors (Longest Sample, with \textit{sobs})}
+
+% ============================================================
+% Q5: Priors vs Posteriors on the Longest Sample (1965Q1--2025Q1, with \textit{sobs})
+% Comparison to Q4 (SW 1965Q1--2004Q4)
+% ============================================================
+
+% \subsubsection*{A. Setup and reading of the evidence}
+
+% \paragraph{Prior--posterior figures (inserted).}
+The following panels superimpose priors (gray) and posteriors (solid) for each block. 
+Figures~\ref{fig:q5_priorpost} report Q5 (Longest); Figures~\ref{fig:q4_priorpost} report Q4 (SW).
+The visual comparison reveals which margins are \emph{data-driven} (posterior shifted/tighter than the prior) and which remain \emph{prior-driven} (posterior similar to prior).
+
+\begin{figure}[h!]
+  \centering
+  % \includegraphics[width=0.48\textwidth]{Cai4PS4_Q5/graphs/Cai4PS4_Q5_PriorsAndPosteriors1-eps-converted-to.pdf}\hfill
+  \includegraphics[width=0.48\textwidth]{Cai4PS4_Q5/graphs/Cai4PS4_Q5_PriorsAndPosteriors2-eps-converted-to.pdf}\hfill
+  \includegraphics[width=0.48\textwidth]{Cai4PS4_Q5/graphs/Cai4PS4_Q5_PriorsAndPosteriors3-eps-converted-to.pdf}
+  % \includegraphics[width=0.48\textwidth]{Cai4PS4_Q5/graphs/Cai4PS4_Q5_PriorsAndPosteriors4-eps-converted-to.pdf}\\[2pt]
+  % \includegraphics[width=0.48\textwidth]{Cai4PS4_Q5/graphs/Cai4PS4_Q5_PriorsAndPosteriors5-eps-converted-to.pdf}
+  \caption{Q5 (Longest, 1965Q1--2025Q1): Priors (gray) vs.\ Posteriors (solid), by parameter block. 
+  Panel order: structural \& rigidities; policy \& levels.}
+  \label{fig:q5_priorpost}
+\end{figure}
+\FloatBarrier
+
+\subsubsection*{What changed relative to Q4? (Longest vs SW, with \textit{sobs})}
+
+\paragraph{Nominal rigidities (Calvo vs.\ indexation).}
+The long sample assigns \emph{very high price stickiness}: the price Calvo posterior shifts \textbf{further right} and \textbf{tighter} (from $\xi_p\!=\!0.6859$ in SW to $0.8428$ in Longest), while wage stickiness stays very high in both samples (SW $\xi_w\!=\!0.9046$; Longest $0.8972$).
+At the same time, both price and wage indexation posteriors sit \textbf{lower} and more concentrated (prices $\iota_p$: $0.2625\!\to\!0.1815$; wages $\iota_w$: $0.2766\!\to\!0.1752$).
+Economic read: adding 2005-2025 strengthens the message that short-run nominal inertia is \emph{primarily Calvo}, not indexation-driven.
+
+\paragraph{Real frictions (habit, utilization, adjustment costs).}
+Two Q4 results survive and intensify: the posterior for investment adjustment costs $\phi$ again \textbf{collapses near zero} (SW $0.0850$, Longest $0.0780$), and habit $h$ \textbf{falls materially} (SW $0.5319$ to Longest $0.3156$).
+What does change is capacity-utilization cost $\psi$, which is \textbf{higher} in the long window ($0.4425\!\to\!0.6150$).
+Interpretation: once \textit{sobs} disciplines the financial wedge and the data include decades of persistent relative-price movements, persistence in investment and output is explained less by intrinsic smoothing ($h,\phi$) and more by \emph{external} channels—investment shock/relative prices and the nominal/policy block.
+
+\paragraph{Preferences (intertemporal vs.\ labor supply).}
+The intertemporal parameter $\sigma_c$ shows a \textbf{visible contraction} around similar levels across windows (SW $1.5127$, Longest $1.4501$), indicating the data are informative here.
+By contrast, the inverse Frisch elasticity $\sigma_\ell$ remains \textbf{weakly identified} in both; the long window’s mode is very small ($\approx 0.0404$) but the posterior remains broad.
+Aggregate observables do not convert into sharp discipline on labor-supply curvature; micro evidence should continue to anchor this margin.
+
+\paragraph{Policy rule: more inertia, still active.}
+The long window confirms an \emph{active} rule—$r_\pi$ remains decisively above one—while shifting the posterior slightly lower (SW $2.0297$ to Longest $1.7781$) and \textbf{raising inertia} (SW $\rho\!=\!0.8554$ to Longest $0.9311$).
+The output-gap term shrinks (SW $r_y\!=\!0.1584$ vs Longest $0.0606$) and the growth term is similar ($\approx 0.29$).
+Economic read: with stickier prices and more rule inertia, nominal disturbances (policy innovations and perceived-target movements) create \emph{more persistent} expected real-rate paths—one reason post-2005 decompositions allocate more investment variance to the nominal block.
+
+% \paragraph{What changed vs.\ Q4.}
+% \begin{itemize}
+%   \item \textbf{Nominal block:} \emph{More Calvo, less indexation.} The long sample pushes price stickiness higher and tighter; indexation is secondary. Nominal propagation plays a larger role in real dynamics.
+%   \item \textbf{Real frictions:} \emph{Smaller intrinsic smoothing, stronger external channels.} The data tighten the case for near-zero adjustment costs and lower habit; persistence is assigned to investment shock/financial and policy/nominal mechanisms rather than to $h$ or $\phi$.
+%   \item \textbf{Policy:} \emph{Active, more inertial.} Higher $\rho$ in Q5 strengthens the user-cost channel, helping explain the post-2005 rotation in investment decompositions toward nominal-policy drivers.
+%   \item \textbf{Identification limits:} The Frisch margin remains largely prior-driven; the long window does not overturn this.
+% \end{itemize}
+% In short, relative to Q4, the Longest sample's prior-posterior shifts say: \emph{more Calvo, less indexation; smaller intrinsic real frictions; more inertial (still active) policy}—a transmission mechanism where \textbf{nominal stickiness and the expected real-rate path} dominate medium-run dynamics, while labor-supply curvature remains weakly informed by aggregates.
+
+
+% \subsubsection*{B. What changed relative to Q4? (Longest vs SW, with \textit{sobs})}
+
+% \paragraph{Nominal rigidities (Calvo \& indexation).}
+% The long sample assigns \emph{very high price stickiness}: $\xi_p$ rises from $0.6859$ (SW) to $0.8428$ (Longest), with a visibly tighter posterior in Q5 panels (Fig.~\ref{fig:q5_priorpost}, structural block). 
+% Wage stickiness remains very high in both (SW $\xi_w=0.9046$; Longest $0.8972$). 
+% Indexation is \emph{modest} and lower in the long sample (prices $\iota_p$: $0.2625\to0.1815$, wages $\iota_w$: $0.2766\to0.1752$), 
+% consistent with the long-run data attributing nominal inertia mainly to Calvo probabilities rather than indexation.
+
+% \paragraph{Real frictions and demand smoothing.}
+% Habit falls materially (SW $h=0.5319$ to Longest $0.3156$). 
+% Investment adjustment costs are near zero in both (SW $\phi=0.0850$, Longest $0.0780$), while utilization costs are higher in the long window ($\psi$: $0.4425\to0.6150$).
+% Interpretation: once \textit{sobs} disciplines the financial wedge and the data include five decades of persistent swings in relative investment prices, the model does \emph{not} require large $S''$ or high $h$ to match persistence.
+
+% \paragraph{Preferences and steady state.}
+% The IES$^{-1}$ is similar across windows (SW $\sigma_c=1.5127$, Longest $1.4501$), 
+% while the inverse Frisch elasticity remains weakly identified in both; the long window’s mode is very small ($\sigma_\ell\approx0.0404$), and the posterior stays broad in the figures.
+
+% \paragraph{Policy rule.}
+% The long window confirms an \emph{active} rule but with stronger inertia: $r_\pi$ eases from $2.0297$ (SW) to $1.7781$ (Longest), 
+% while $\rho$ rises from $0.8554$ to $0.9311$. The output-gap term shrinks (SW $r_y=0.1584$ vs Longest $0.0606$) and the growth term is similar (about $0.29$). 
+% In the Q5 plots (policy block), posterior mass for $\rho$ sits even closer to one than in SW, implying longer-lived policy-rate paths in the composite historical sample.
+
+% \paragraph{Shock propagation (AR) and volatility (s.d.).}
+% Persistence of investment shock remains near-unit-root and \emph{tight} in both (SW $\rho_i=0.9954$, Longest $0.9956$; the Q5 AR panel contracts further to the right). 
+% TFP persistence stays high (about $0.967$). 
+% Markup dynamics change: price-markup persistence rises markedly (SW $\rho_p=0.8947$ to Longest $0.9673$), while wage-markup persistence falls (SW $\rho_w=0.6020$ to Longest $0.2546$). 
+% On innovation s.d.'s, the long window shows larger TFP and risk-premium shocks (TFP $0.4681\to0.5696$, risk premium $0.0906\to0.1271$), 
+% similar large investment shock shocks ($\sim1.85$), a bigger monetary-policy shock ($0.2365\to0.3307$), and a higher wage-markup s.d.\ ($0.3207\to0.4943$). 
+% These differences are clearly visible in the Q5 shock-s.d.\ panel where posteriors shift right and tighten away from diffuse priors.
+
+% \paragraph{Central-bank read.}
+Relative to the SW window, the Longest sample points to:
+
+(i) \textbf{more price rigidity} and \textbf{more persistent markups}, so inflation reacts more sluggishly to shocks;
+
+(ii) \textbf{greater policy inertia} with still-active inflation control, implying longer disinflation paths for a given initial tightening;
+
+(iii) \textbf{investment driven by the $q^I$/investment shock channel}, not by convex costs, with larger real-side variance shares attributable to persistent relative-price movements and financial conditions.
+
+% ========================
+% TABLES (numbers taken directly from logs)
+% ========================
+
+\begin{table}[h!]
+\centering
+\begin{threeparttable}
+  \caption{Structural Parameters: Posterior Modes (Q4 vs Q5)}
+  \label{tab:q5_struct_modes}
+  \footnotesize
+  \setlength{\tabcolsep}{4pt}
+  \renewcommand{\arraystretch}{1.12}
+  \begin{tabularx}{\textwidth}{>{\raggedright\arraybackslash}p{1.6cm} >{\raggedright\arraybackslash}p{3.6cm} >{\raggedright\arraybackslash}p{2.6cm} *{2}{>{\centering\arraybackslash}X}}
+  \toprule
+  \multicolumn{1}{c}{Parameter} & \multicolumn{1}{c}{Description} & \multicolumn{1}{c}{Dynare Name} & \multicolumn{1}{c}{Q4 (SW)} & \multicolumn{1}{c}{Q5 (Longest)}\\
+  \midrule
+  $\alpha$      & Capital Share                         & \texttt{calfa}     & 0.2652 & 0.3906 \\
+  $\sigma_c$    & Intertemporal Substitution             & \texttt{csigma}    & 1.5127 & 1.4501 \\
+  $h$           & Habit Formation                        & \texttt{chabb}     & 0.5319 & 0.3156 \\
+  $\xi_w$       & Calvo Prob.\ (Wages)                   & \texttt{cprobw}    & 0.9046 & 0.8972 \\
+  $\sigma_\ell$ & Labor Supply Elasticity (inverse)      & \texttt{csigl}     & 1.8145 & 0.0404 \\
+  $\xi_p$       & Calvo Prob.\ (Prices)                  & \texttt{cprobp}    & 0.6859 & 0.8428 \\
+  $\iota_w$     & Indexation (Wages)                     & \texttt{cindw}     & 0.2766 & 0.1752 \\
+  $\iota_p$     & Indexation (Prices)                    & \texttt{cindp}     & 0.2625 & 0.1815 \\
+  $\psi$        & Capacity Utilization Cost              & \texttt{czcap}     & 0.4425 & 0.6150 \\
+  $\phi$        & Investment Adjustment Cost             & \texttt{csadjcost} & 0.0850 & 0.0780 \\
+  $\Phi$        & Fixed Costs                            & \texttt{cfc}       & 1.4276 & 1.1968 \\
+  \bottomrule
+  \end{tabularx}
+  \begin{tablenotes}[flushleft]
+  \footnotesize
+  \item \textit{Notes:} Posterior modes from Dynare logs: SW window (\texttt{Cai4PS4\_Q4.log}) and the Longest-sample estimation log (1965Q1--2025Q1). Both runs include \texttt{sobs}. 
+  \end{tablenotes}
+\end{threeparttable}
+\end{table}
+
+\begin{table}[h!]
+\centering
+\begin{threeparttable}
+  \caption{Monetary Policy Rule: Posterior Modes (Q4 vs Q5)}
+  \label{tab:q5_policy_modes}
+  \footnotesize
+  \setlength{\tabcolsep}{4pt}
+  \renewcommand{\arraystretch}{1.12}
+  \begin{tabularx}{\textwidth}{>{\raggedright\arraybackslash}p{1.6cm} >{\raggedright\arraybackslash}p{3.4cm} >{\raggedright\arraybackslash}p{2.6cm} *{2}{>{\centering\arraybackslash}X}}
+  \toprule
+  \multicolumn{1}{c}{Parameter} & \multicolumn{1}{c}{Description} & \multicolumn{1}{c}{Dynare Name} & \multicolumn{1}{c}{Q4 (SW)} & \multicolumn{1}{c}{Q5 (Longest)}\\
+  \midrule
+  $r_{\pi}$     & Taylor: Inflation                 & \texttt{crpi}      & 2.0297 & 1.7781 \\
+  $\rho$        & Taylor: Persistence               & \texttt{crr}       & 0.8554 & 0.9311 \\
+  $r_{y}$       & Taylor: Output Gap                & \texttt{cry}       & 0.1584 & 0.0606 \\
+  $r_{\Delta y}$& Taylor: Output Growth             & \texttt{crdy}      & 0.2888 & 0.2875 \\
+  \bottomrule
+  \end{tabularx}
+  \begin{tablenotes}[flushleft]
+  \footnotesize
+  \item \textit{Notes:} Posterior modes from the same logs. The long window places more weight on persistence (higher $\rho$) with a still-active inflation coefficient.
+  \end{tablenotes}
+\end{threeparttable}
+\end{table}
+
+% \paragraph{Nominal rigidities (Calvo vs.\ indexation): the long sample strengthens the Calvo narrative.}
+% Relative to Q4 (SW, 1965-2004), the Longest window pushes the \emph{price} Calvo posterior \textbf{further right} and \textbf{tighter} (visibly more mass near very high stickiness), while the \emph{wage} Calvo remains high and sharp in both.
+% At the same time, both price and wage \emph{indexation} posteriors sit \textbf{lower} and more concentrated than their diffuse priors.
+% Interpretation: adding 2005-2025 lets the data say even more clearly that short-run nominal inertia is \emph{primarily Calvo} rather than indexation-driven.
+% (If one wants a numeric anchor: $\xi_p$ rises from roughly $0.69$ (Q4) toward the mid-$0.8$s (Q5), while $\iota_p,\iota_w$ step down.)
+
+% \paragraph{Real frictions (habit, utilization, adjustment costs): less intrinsic smoothing, more external propagation.}
+% Two robust messages from Q4 survive and intensify:
+% (i) the posterior for investment adjustment costs $\phi$ again \textbf{collapses near zero} despite loose priors (the data do \emph{not} want large $S''$);
+% (ii) habit $h$ shifts \textbf{left} and contracts further in the long sample.
+% What does change is capacity-utilization cost $\psi$: its posterior sits \textbf{higher} and tighter than in Q4.
+% Economic read: persistence in investment and output is explained less by intrinsic smoothing ($h,\phi$) and more by \emph{external} channels—relative prices and the nominal/policy block—which the post-2005 data highlight.
+
+% \paragraph{Preferences (intertemporal vs.\ labor supply): mixed identification—unchanged lesson.}
+% The intertemporal parameter $\sigma_c$ again shows a \textbf{visible contraction} around a value modestly above its prior center; the data carry information here in both samples.
+% By contrast, the inverse Frisch elasticity $\sigma_\ell$ remains \textbf{weakly identified}: the posterior stays broad and close to the prior in Q4 and Q5.
+% The long sample does not convert the aggregate observables into sharper discipline on the labor-supply curvature; micro evidence should continue to anchor this margin.
+
+% \paragraph{Policy rule (brief): more inertia, still active—posteriors move further from priors.}
+% The inflation coefficient $r_\pi$ remains \textbf{decisively above one} and tightly estimated in both samples; the long sample’s posterior centers slightly lower but stays far from the prior, confirming an active rule.
+% Policy inertia $\rho$ becomes \textbf{even higher and tighter} in Q5 than in Q4.
+% Economic read: with stickier prices and more rule inertia, nominal disturbances (policy innovations and perceived-target movements) create \emph{more persistent} expected real-rate paths—one reason the model reallocates investment variance toward the nominal block in the post-2005 period.
+
+% \paragraph{Bottom line—what changed vs.\ Q4.}
+% \begin{itemize}
+%   \item \textbf{Nominal block:} The long sample adds clear information that \emph{price stickiness is very high} and indexation is secondary; posteriors shift further from priors than in Q4. This raises the role of nominal propagation for real activity.
+%   \item \textbf{Real frictions:} The data \emph{tighten} the case for \emph{small} adjustment costs and \emph{lower} habit. Persistence is assigned to investment shock/financial and policy/nominal channels rather than to $h$ or $\phi$.
+%   \item \textbf{Policy:} The rule is \emph{active and more inertial} than in Q4 (posterior further from prior), strengthening the user-cost channel for investment and helping explain the rotation in post-2005 decompositions.
+%   \item \textbf{Identification limits:} The Frisch margin remains largely prior-driven; the long window does not overturn this.
+% \end{itemize}
+
+% \paragraph{One-sentence synthesis.}
+% Compared with Q4, the Longest sample's prior-posterior shifts say: \emph{more Calvo, less indexation; smaller intrinsic real frictions; more inertial (still active) policy}—i.e., the data lean harder toward a transmission mechanism where \textbf{nominal stickiness and the expected real-rate path} dominate medium-run dynamics, while labor-supply curvature remains weakly informed by aggregates.
+
+
+\pagebreak
+
+\section*{Q6. Shock decomposition for investment across samples}
+
+% =========================
+% Q6. Investment shock decomposition (SW vs Longest)
+% =========================
+
+
+\begin{figure}[h!]
+  \centering
+  \begin{minipage}{0.95\textwidth}
+    \centering
+    \includegraphics[width=\textwidth]{Q6_SW_shock_decomp.pdf}\\
+    \vspace{2pt}
+    \small (a) SW, 1965Q1--2004Q4
+  \end{minipage}
+
+  \vspace{6pt}
+
+  \begin{minipage}{0.95\textwidth}
+    \centering
+    \includegraphics[width=\textwidth]{Q6_Longest_shock_decomp.pdf}\\
+    \vspace{2pt}
+    \small (b) Longest, 2005Q1--2025Q1 (decomposition window only)
+  \end{minipage}
+    \caption{Shock decomposition for investment (\texttt{inve})}
+    \label{fig:q6_decomp}
+\end{figure}
+\FloatBarrier
+
+\paragraph{What a decomposition measures---and why samples differ.}
+A historical decomposition attributes each period's investment deviation to identified shocks, filtered through the model's propagation margins. 
+In the SW estimation, investment dynamics are governed by a near-unit-root \emph{investment-specific technology} (investment shock) process with moderate nominal rigidities and lower policy inertia.
+In the Longest estimation, \emph{price stickiness and policy inertia are stronger}, and \emph{policy innovations are larger}.
+These structural differences alone tilt the decomposition from a predominantly \emph{relative-price (investment shock) engine} in SW toward a \emph{user-cost (expected real rate) engine} after 2005.
+
+\paragraph{SW (1965--2004): relative-price engine with finance as amplifier.}
+Panel (a) shows investment shock shocks as the primary driver of investment cycles: persistent movements in the relative price of capital lift or depress Tobin's $q$ and generate multi-year swings in \texttt{inve}.
+Financial wedge disturbances matter episodically, mainly \emph{amplifying} or \emph{timing} investment shock-driven cycles by shifting the external finance premium and the user cost.
+Monetary policy innovations play a contained role: with less inertia and smaller policy disturbances in this window, the expected real rate channel nudges rather than steers investment.
+
+\paragraph{Longest (2005--2025): user-cost engine with policy and target shocks in the lead.}
+Panel (b) displays a rotation toward the nominal--policy block:
+\begin{itemize}
+  \item \textbf{Policy innovations.} With stickier prices and a more inertial rule, rate surprises translate into \emph{persistent} movements in expected real rates. Duration---not just the initial level---now drives the user cost and, hence, investment paths.
+  \item \textbf{Inflation-target (and markup) shocks.} Drifts or re-anchoring in the perceived inflation target necessitate a sustained policy stance in a sticky-price economy, tilting the entire investment trajectory for many quarters via the real cost of capital.
+  \item \textbf{investment shock remains a backbone.} The near-unit-root investment shock process still explains an important share, but it no longer monopolizes medium-frequency variation once policy-duration effects become dominant.
+  \item \textbf{Financial wedge innovations shrink in residual importance.} As policy/target shocks absorb more of the variation that co-moves with spreads, the incremental “pure wedge” contribution diminishes, even though the spread observable remains crucial for identifying the financial state.
+\end{itemize}
+
+\paragraph{Event read (2005 onward).}
+The decomposition aligns with three phases: (i) the GFC collapse, where financial and policy shocks jointly drive the investment fall and subsequent recovery; 
+(ii) the low-inflation 2010s, where target-related variation and policy duration dominate the user-cost channel; 
+(iii) the pandemic and exit, where large nominal and policy surprises create sizable, slowly-reverting investment swings in a sticky-price, high-inertia environment.
+
+% \paragraph{Policy takeaways.}
+% \begin{enumerate}
+%   \item \textbf{Investment is increasingly policy-sensitive through the expected real-rate channel.} 
+%   Forecasts and scenarios must specify not just peak rates but the \emph{path and persistence} of policy; communications that shape target expectations now have first-order effects on capital formation.
+%   \item \textbf{Technology vs.\ nominal drivers.} 
+%   The SW world is a \emph{relative-price} cycle with finance as amplifier; the post-2005 world is a \emph{policy-duration} cycle with investment shock as backbone. 
+%   Forecast errors will hinge more on misjudging policy \emph{duration} and the \emph{target path} than on mismeasuring investment shock alone.
+%   \item \textbf{Policy mix.} 
+%   Because pure wedge innovations explain less of investment variance post-2005, monetary policy and expectations management bear more stabilization load; macroprudential tools should limit the need for excessively persistent rate paths to rein in investment booms/busts.
+% \end{enumerate}
+
+Historical decompositions are model-conditional. 
+The qualitative result is robust across both estimations: investment shock remains the structural backbone of investment, yet since 2005 the \emph{nominal--policy block sets the tempo} via the expected real-rate (user-cost) channel.
+
+% \subsubsection*{Central bank takeaways}
+
+% \begin{enumerate}
+%   \item \textbf{Post-2005 investment is policy-sensitive.} The Longest decomposition tells us that investment has become more responsive to monetary innovations and to slow-moving target shifts. Communication and target credibility therefore have first-order effects on capital formation, not just on inflation.
+%   \item \textbf{User-cost channel vs.\ technology channel.} While the \(q^I\) process remains a pillar, the marginal contribution of the nominal block to the user cost is larger after 2005. This implies that, for scenario design, rate-path assumptions and target dynamics will drive investment outcomes at least as much as assumptions about capital-goods technology.
+%   \item \textbf{Financial shocks are not the whole story.} In the pre-GFC sample, wedge innovations explain a big share of investment variance. In the last two decades, once policy is modeled as more inertial and volatile, the wedge innovation plays a reduced residual role. Spread data remain crucial for identifying the state, but counterfactuals that operate purely through $ezp$ will miss important policy-nominal propagation.
+% \end{enumerate}
+
+
+
+\end{document}

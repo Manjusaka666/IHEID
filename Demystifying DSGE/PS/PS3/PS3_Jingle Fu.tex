@@ -1,0 +1,1691 @@
+\documentclass[a4paper,12pt]{article} % This defines the style of our paper
+
+\usepackage[top = 2.5cm, bottom = 2.5cm, left = 2.5cm, right = 2.5cm]{geometry} 
+
+% Unfortunately, LaTeX has a hard time interpreting German Umlaute. The following two lines and packages should help. If it doesn't work for you please let me know.
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{pifont}
+% \usepackage{ctex}
+\usepackage{amsthm, amsmath, amssymb, mathrsfs,mathtools}
+
+% Defining a new theorem style without italics
+\newtheoremstyle{nonitalic}% name
+  {\topsep}% Space above
+  {\topsep}% Space below
+  {\upshape}% Body font
+  {}% Indent amount
+  {\bfseries}% Theorem head font
+  {.}% Punctuation after theorem head
+  {.5em}% Space after theorem head
+  {}% Theorem head spec (can be left empty, meaning 'normal`)
+  
+\theoremstyle{nonitalic}
+% Define new 'solution' environment
+\newtheorem{innercustomsol}{Solution}
+\newenvironment{solution}[1]
+  {\renewcommand\theinnercustomsol{#1}\innercustomsol}
+  {\endinnercustomsol}
+
+% Custom counter for the solutions
+\newcounter{solutionctr}
+\renewcommand{\thesolutionctr}{(\alph{solutionctr})}
+
+% Environment for auto-numbering with custom format
+\newenvironment{autosolution}
+  {\stepcounter{solutionctr}\begin{solution}{\thesolutionctr}}
+  {\end{solution}}
+
+
+\newtheorem{problem}{Problem}
+\usepackage{color}
+
+% The following two packages - multirow and booktabs - are needed to create nice looking tables.
+\usepackage{multirow} % Multirow is for tables with multiple rows within one cell.
+\usepackage{booktabs} % For even nicer tables.
+\usepackage{threeparttable} % <-- 添加：提供 threeparttable 环境及 tablenotes
+
+% As we usually want to include some plots (.pdf files) we need a package for that.
+\usepackage{graphicx} 
+\usepackage{subfigure}
+\usepackage{hyperref}
+
+% The default setting of LaTeX is to indent new paragraphs. This is useful for articles. But not really nice for homework problem sets. The following command sets the indent to 0.
+\usepackage{setspace}
+\setlength{\parindent}{0in}
+\usepackage{longtable}
+
+% Package to place figures where you want them.
+\usepackage{float}
+\usepackage{placeins}
+
+% The fancyhdr package let's us create nice headers.
+\usepackage{fancyhdr}
+
+\usepackage{fancyvrb}
+
+\usepackage{enumitem}
+
+%Code environment 
+\usepackage{listings} % Required for insertion of code
+\usepackage{xcolor} % Required for custom colors
+\usepackage{subcaption}
+\usepackage{tabularx}
+
+% ---------- Listings setup ----------
+\definecolor{codebg}{RGB}{250,250,250}
+\definecolor{dkgray}{RGB}{64,64,64}
+\definecolor{dkblue}{RGB}{0,0,140}
+\definecolor{dkgreen}{RGB}{0,100,0}
+\definecolor{maroon}{RGB}{128,0,0}
+\definecolor{purplec}{RGB}{106,13,173}
+
+\lstdefinestyle{code}{
+  backgroundcolor=\color{codebg},
+  basicstyle=\ttfamily\small,
+  breaklines=true,
+  columns=fullflexible,
+  keepspaces=true,
+  keywordstyle=\color{dkblue}\bfseries,
+  stringstyle=\color{maroon},
+  commentstyle=\itshape\color{dkgreen},
+  numberstyle=\scriptsize\color{dkgray},
+  numbers=left,
+  numbersep=8pt,
+  frame=single,
+  framerule=0.3pt,
+  rulecolor=\color{dkgray},
+  showstringspaces=false,
+  tabsize=2,
+  upquote=true
+}
+
+% Dynare is Matlab-like; define a language based on Matlab with some added keywords
+\lstdefinelanguage{Dynare}{
+  morekeywords={
+    var,varexo,parameters,model,end,initval,steady_state_model,shocks,
+    periods,stoch_simul,check,steady,resid,log,exp,stderr,varexo_det,
+    ramsey\_policy,planner\_objective,osr,osr\_params,estimated\_params,
+    varobs,estimation,identification,shocks,init,values,planner\_discount,
+    simul,verbatim,save\_params\_and\_steady\_state,trend\_vars,units,
+    deterministic\_trends,steady\_state\_operator,estimated\_params\_bounds
+  },
+  sensitive=true,
+  morecomment=[l]\%,      % Dynare/Matlab-style comments
+  morestring=[b]',       % strings
+}
+
+\lstdefinelanguage{MatlabX}{
+  language=Matlab,
+  morekeywords={dynare},
+}
+
+\lstset{style=code}
+% % Define colors for code listing
+% \definecolor{codegreen}{rgb}{0,0.6,0}
+% \definecolor{codegray}{rgb}{0.5,0.5,0.5}
+% \definecolor{codepurple}{rgb}{0.58,0,0.82}
+% \definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+
+% % Code listing style named "mystyle"
+% \lstdefinestyle{mystyle}{
+%     backgroundcolor=\color{backcolour},   
+%     commentstyle=\color{codegreen},
+%     keywordstyle=\color{magenta},
+%     numberstyle=\tiny\color{codegray},
+%     stringstyle=\color{codepurple},
+%     basicstyle=\ttfamily\footnotesize, % Change to serif font
+%     breakatwhitespace=false,         
+%     breaklines=true,                 
+%     captionpos=b,                    
+%     keepspaces=true,                 
+%     numbers=left,                    
+%     numbersep=5pt,                  
+%     showspaces=false,                
+%     showstringspaces=false,
+%     showtabs=false,                  
+%     tabsize=2
+% }
+
+% \lstset{style=mystyle}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 3. Header (and Footer)
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% To make our document nice we want a header and number the pages in the footer.
+
+\pagestyle{fancy} % With this command we can customize the header style.
+
+\fancyhf{} % This makes sure we do not have other information in our header or footer.
+
+\lhead{\footnotesize Demystifying DSGE Models}% \lhead puts text in the top left corner. \footnotesize sets our font to a smaller size.
+
+%\rhead works just like \lhead (you can also use \chead)
+\rhead{\footnotesize Jingle Fu} %<---- Fill in our lastnames.
+
+% Similar commands work for the footer (\lfoot, \cfoot and \rfoot).
+% We want to put our page number in the center.
+\cfoot{\footnotesize \thepage}
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\begin{document}
+
+
+\thispagestyle{empty} % This command disables the header on the first page. 
+
+\begin{tabular}{p{15.5cm}} % This is a simple tabular environment to align our text nicely 
+{\large \bf Demystifying DSGE Models} \\
+The Graduate Institute, Fall 2025, John D.A. Cuddy\\
+\hline % \hline produces horizontal lines.
+\\
+\end{tabular} % Our tabular environment ends here.
+
+\vspace*{0.3cm} % Now we want to add some vertical space in between the line and our title.
+
+\begin{center} % Everything within the center environment is centered.
+	{\Large \bf PS3 Solutions} % <---- Don't forget to put in the right number
+	\vspace{2mm}
+	
+        % our NAMES GO HERE
+	{\bf Jingle Fu} % <---- Fill in our names here!
+		
+\end{center}  
+
+\vspace{0.4cm}
+\setstretch{1.2}
+
+% ========= Q3: Baseline Estimation (1965Q1-2004Q4) =========
+\section*{Q3. Baseline Estimation of SW2007 (1965Q1-2004Q4)}
+
+\begin{table}[h!]
+  \centering
+  \caption{Comparison of Estimated Parameter Posterior Modes}
+  \label{tab:post_modes_q3}
+  \begin{threeparttable}
+  \footnotesize
+  \setlength{\tabcolsep}{6pt}
+  \begin{tabular}{l l l c c}
+    \toprule
+    \multicolumn{1}{c}{Parameter} & \multicolumn{1}{c}{Description} & \multicolumn{1}{c}{Dynare Name} & \multicolumn{1}{c}{Q3 Estimation} & \multicolumn{1}{c}{Smets \& Wouters (2007)}\\
+    \midrule
+    \multicolumn{5}{l}{\emph{Structural Parameters}}\\
+    $\alpha$   & Capital share                    & \texttt{calfa}     & 0.2127 & 0.19 \\
+    $\sigma_c$ & Intertemporal substitution       & \texttt{csigma}    & 1.4504 & 1.39 \\
+    $h$        & Habit formation                  & \texttt{chabb}     & 0.6857 & 0.71 \\
+    $\xi_w$    & Calvo prob.\ (wages)             & \texttt{cprobw}    & 0.7329 & 0.73 \\
+    $\sigma_l$ & Labor supply elasticity          & \texttt{csigl}     & 1.9554 & 1.92 \\
+    $\xi_p$    & Calvo prob.\ (prices)            & \texttt{cprobp}    & 0.6931 & 0.65 \\
+    $\iota_w$  & Indexation (wages)               & \texttt{cindw}     & 0.6202 & 0.59 \\
+    $\iota_p$  & Indexation (prices)              & \texttt{cindp}     & 0.3253 & 0.22 \\
+    $\psi$     & Capital utilization cost         & \texttt{czcap}     & 0.5731 & 0.54 \\
+    $\phi$     & Investment adj.\ cost            & \texttt{csadjcost} & 5.5245 & 5.48 \\
+    $\Phi$     & Fixed costs                      & \texttt{cfc}       & 1.6276 & 1.61 \\
+    \addlinespace
+    \multicolumn{5}{l}{\emph{Monetary Policy Parameters (Taylor rule)}}\\
+    $r_\pi$    & Response to inflation            & \texttt{crpi}      & 1.9760 & 2.03 \\
+    $\rho$     & Interest rate persistence        & \texttt{crr}       & 0.8075 & 0.81 \\
+    $r_y$      & Response to output gap           & \texttt{cry}       & 0.0754 & 0.08 \\
+    $r_{\Delta y}$ & Response to output growth   & \texttt{crdy}      & 0.2266 & 0.22 \\
+    \addlinespace
+    \multicolumn{5}{l}{\emph{Shock Process Parameters}}\\
+    $\rho_a$   & Persistence: productivity        & \texttt{crhoa}     & 0.9573 & 0.95 \\
+    $\rho_b$   & Persistence: risk premium        & \texttt{crhob}     & 0.2000 & 0.18 \\
+    $\rho_g$   & Persistence: gov.\ spending      & \texttt{crhog}     & 0.9713 & 0.97 \\
+    $\rho_i$   & Persistence: invest.\ specific   & \texttt{crhoqs}    & 0.7086 & 0.71 \\
+    $\rho_r$   & Persistence: MP shock            & \texttt{crhoms}    & 0.1438 & 0.12 \\
+    $\rho_p$   & Persistence: price mark-up       & \texttt{crhopinf}  & 0.8826 & 0.90 \\
+    $\rho_w$   & Persistence: wage mark-up        & \texttt{crhow}     & 0.9632 & 0.97 \\
+    $\mu_p$    & MA term: price mark-up           & \texttt{cmap}      & 0.7228 & 0.74 \\
+    $\mu_w$    & MA term: wage mark-up            & \texttt{cmaw}      & 0.8721 & 0.88 \\
+    $\rho_{ga}$& Feedback tech.\ on spending      & \texttt{cgy}       & 0.5548 & 0.52 \\
+    \bottomrule
+  \end{tabular}
+  \begin{tablenotes}[flushleft]\footnotesize
+    \item \emph{Notes:} Q3 Estimation are posterior modes from our baseline run over 1965Q1-2004Q4. The monetary policy modes imply a strong inflation response and sizable interest-rate smoothing.
+    \item The rightmost column reproduces the canonical SW(2007) Table 1a values to facilitate visual comparison of magnitudes and notation.
+  \end{tablenotes}
+  \end{threeparttable}
+\end{table}
+\FloatBarrier
+
+\begin{table}[h!]
+  \centering
+  \caption{Variance Decomposition: Q3 vs.\ Original \texttt{usmodel}}
+  \label{tab:vardec_q3_vs_usmodel}
+  \begin{threeparttable}
+  \footnotesize
+  \setlength{\tabcolsep}{5.2pt}
+  \begin{tabular}{l rrrrrrr | rrrrrrr}
+  \toprule
+   & \multicolumn{7}{c}{\textbf{Q3 Estimation} (SW2007\_PS3\_2025)} & \multicolumn{7}{c}{\textbf{Original} (\texttt{usmodel})}\\
+   \cmidrule(lr){2-8}\cmidrule(l){9-15}
+   Variable & $ea$ & $eb$ & $eg$ & $eqs$ & $em$ & $ep$ & $ew$ & $ea$ & $eb$ & $eg$ & $eqs$ & $em$ & $ep$ & $ew$\\
+   \midrule
+   $y$     & 31.2 & 1.9 & 3.9 & 9.8 & 3.0 & 8.1 & 42.2  & 28.6 & 66.2 & 2.6 & 2.0 & 0.6 & 0.0 & 0.0 \\
+   $\pi$   & 3.9  & 0.7 & 1.3 & 4.4 & 5.3 & 33.5 & 50.9 & 0.8  & 92.8 & 0.3 & 2.2 & 2.5 & 1.2 & 0.3 \\
+   $i$     & 10.4 & 8.5 & 4.8 & 23.5& 16.8& 7.7 & 28.3 & 0.2  & 97.9 & 0.1 & 1.6 & 0.3 & 0.0 & 0.0 \\
+   \bottomrule
+  \end{tabular}
+  \begin{tablenotes}[flushleft]\footnotesize
+    \item \emph{Notes:} Entries are shares (\%) of forecast-error variance at business-cycle frequencies. Q3 results from \texttt{SW2007\_PS3\_2025.log}; original \texttt{usmodel} from \texttt{usmodel\_q3.log}.
+  \end{tablenotes}
+  \end{threeparttable}
+\end{table}
+\FloatBarrier
+
+
+\paragraph{Central-bank reading of the Q3 estimates.}
+The posterior mode for the inflation coefficient is $r_\pi\!=\!1.98$, comfortably satisfying the Taylor principle,
+while the smoothing parameter remains high at $\rho\!=\!0.81$;
+the output-gap and output-growth terms are small at $r_y\!=\!0.08$ and $r_{\Delta y}\!=\!0.23$.
+Together, these imply a policy that leans hard against inflation, adjusts rates gradually,
+and places limited weight on real activity—qualitatively consistent with SW (2007).
+The deep frictions mirror standard post-1990s estimates: price and wage stickiness near 0.69-0.73,
+sizeable indexation on wages ($\iota_w\!\approx\!0.62$) but more modest on prices ($\iota_p\!\approx\!0.33$), strong habits ($h\!\approx\!0.69$),
+and sizable investment adjustment costs ($\phi\!\approx\!5.5$).
+Productivity and government-spending processes are highly persistent ($\rho_a\!\approx\!0.96$, $\rho_g\!\approx\!0.97$),
+whereas the risk-premium process is much less so ($\rho_b\!\approx\!0.20$).
+
+The MP shock is only mildly persistent ($\rho_m\!\approx\!0.14$),
+so the surprise component dies out within a quarter, leaving the endogenous persistence to the policy rule and nominal rigidities.
+The FEVD indicates MP shocks explain a non-trivial share of rate volatility (about 0.17\%) but a smaller share of inflation variance,
+consistent with inflation being driven largely by markup shocks in this sample;
+nonetheless, policy innovations measurably discipline inflation and activity via expected-real-rate channels.
+
+
+\paragraph{Where Q3 differs from SW2007.}
+Variance decompositions highlight a fundamental re-allocation of nominal variation across wedges.
+In the Q3 baseline, wage and price mark-up shocks dominate inflation and the policy rate (about 51\% and 28\% of the rate, respectively),
+while TFP and mark-ups together drive output (roughly 31\% and 42\%).
+By contrast, the unmodified SW2007 assigns almost all of inflation and interest-rate variability to the risk-premium process ($\approx$93-98\%).
+This is neither empirically plausible nor consistent with sticky-price/wage theory, and it compresses the monetary transmission channel.
+
+
+\begin{figure}[h!]
+  \centering
+  \caption{Impulse Responses to Demand Shocks and Monetary Policy Shock, Q3 Baseline}
+  \label{fig:irfs_q3}
+  \begin{minipage}{\textwidth}
+    \centering
+    \textit{(a) Demand block (risk premium, spending, investment-specific)}
+    \includegraphics[width=\linewidth]{Q3_demand.pdf}
+  \end{minipage}
+  \vspace{0.5ex}
+  \begin{minipage}{0.92\linewidth}\footnotesize
+  \emph{Notes:} Output, hours, inflation, and the policy rate following a one-s.d.\ risk-premium shock ($b_t$), exogenous spending shock ($g_t$),
+  and investment-specific technology shock ($q_t$). Line styles/legend as in the figure file.
+  \end{minipage}\hfill
+  \vspace{0.5ex}
+  \begin{minipage}{\textwidth}
+    \centering
+    \textit{(b) Monetary policy shock}
+    \includegraphics[width=\linewidth]{Q3_monetary.pdf}
+  \end{minipage}
+  \vspace{0.5ex}
+  \begin{minipage}{0.95\linewidth}\footnotesize
+    \emph{Notes:} Output, hours, inflation, and the policy rate following a one-s.d.\ monetary policy shock ($m_t$). Line styles/legend as in the figure file.
+  \end{minipage}
+\end{figure}
+\FloatBarrier
+
+\paragraph{Co-movements and policy transmission.}
+Under Q3, the unconditional correlation between inflation and the policy rate is positive ($\text{corr}(\pi,i)\!\approx\!0.65$),
+while output and inflation are mildly \emph{negatively} correlated ($\text{corr}(y,\pi)\!\approx\!-0.30$),
+indicating that policy reacts systematically to inflationary pressure and that supply-side mark-ups matter for price dynamics.
+The original run instead implies a very tight positive association of inflation with the policy rate ($\approx\!0.95$) and a strong positive $y$-$\pi$ co-movement,
+again reflecting the risk-premium dominance.
+
+% \paragraph{IRFs (visual style and naming).}
+% For consistency with the papers you shared, cite Figure~\ref{fig:irfs_q3} in-text as “\emph{Figure 1. Impulse responses to demand and investment shocks (Q3 baseline).}” Keep captions declarative (what, sample, model) and interpretive (which line is which). If you also include the original SW \texttt{usmodel} IRFs, name them “\emph{Figure A1. Impulse responses, original \texttt{usmodel} setup}” and place the file you uploaded there.
+
+\paragraph{Policy takeaways.}
+From a policy standpoint, the Q3 estimates describe a regime that
+\begin{itemize}
+    \item (i) anchors inflation expectations via $r_\pi\!>\!1$;
+    \item (ii) tempers real-side amplification through high smoothing.
+\end{itemize}
+Because nominal wedges (price/wage mark-ups) explain the bulk of nominal variability, systematic policy remains effective:
+a contractionary innovation raises real rates on impact, curbing inflation with limited output sacrifice relative to a risk-premium-driven world.
+This reading aligns with the central-bank literature that cautions against over-attributing inflation to demand wedges and underscores the role of price/wage stickiness in shaping transmission.
+% \footnote{For style and inference on small-sample uncertainty in monetary parameters, see Cho and Moreno (2006), whose bootstrap shows upward bias in $r_\pi$ and wide small-sample intervals; our modal $r_\pi$ remains safely above one. See also An and Schorfheide (2007) for posterior multi-modality and the need for careful mode exploration in DSGE estimation.}
+
+% ===== End Q3 section ====
+
+
+\pagebreak
+
+% ========= Q4: Re-estimation (1980Q1-2015Q4) =========
+\section*{Q4. Re-estimation of SW2007 over 1980Q1-2015Q4 and Comparison to Q3}
+
+\begin{table}[h!]
+  \centering
+  \caption{Posterior Mode Estimates: 1965Q1-2004Q4 vs.\ 1980Q1-2015Q4}
+  \label{tab:post_modes_q4}
+  \begin{threeparttable}
+  \footnotesize
+  \setlength{\tabcolsep}{6pt}
+  \begin{tabular}{l l l c c c}
+    \toprule
+    \multicolumn{1}{c}{Parameter} & \multicolumn{1}{c}{Description} & \multicolumn{1}{c}{Dynare Name} & \multicolumn{1}{c}{Q4 (1980-2015)} & \multicolumn{1}{c}{Q3 (1965-2004)} & \multicolumn{1}{c}{SW (2007)}\\
+    \midrule
+    \multicolumn{6}{l}{\emph{Structural Parameters}}\\
+    $\alpha$   & Capital share                    & \texttt{calfa}     & 0.2109 & 0.2127 & 0.19 \\
+    $\sigma_c$ & Intertemporal substitution       & \texttt{csigma}    & 1.5330 & 1.4504 & 1.39 \\
+    $h$        & Habit formation                  & \texttt{chabb}     & 0.5966 & 0.6857 & 0.71 \\
+    $\xi_w$    & Calvo prob.\ (wages)             & \texttt{cprobw}    & 0.7692 & 0.7329 & 0.73 \\
+    $\sigma_l$ & Labor supply elasticity          & \texttt{csigl}     & 1.0518 & 1.9554 & 1.92 \\
+    $\xi_p$    & Calvo prob.\ (prices)            & \texttt{cprobp}    & 0.8264 & 0.6931 & 0.65 \\
+    $\iota_w$  & Indexation (wages)               & \texttt{cindw}     & 0.4283 & 0.6202 & 0.59 \\
+    $\iota_p$  & Indexation (prices)              & \texttt{cindp}     & 0.2411 & 0.3253 & 0.22 \\
+    $\psi$     & Capital utilization cost         & \texttt{czcap}     & 0.8589 & 0.5731 & 0.54 \\
+    $\phi$     & Investment adjustment cost       & \texttt{csadjcost} & 6.3138 & 5.5245 & 5.48 \\
+    $\Phi$     & Fixed costs                      & \texttt{cfc}       & 1.5072 & 1.6276 & 1.61 \\
+    \addlinespace
+    \multicolumn{6}{l}{\emph{Monetary Policy Parameters (Taylor rule)}}\\
+    $r_\pi$    & Response to inflation            & \texttt{crpi}      & 1.7901 & 1.9760 & 2.03 \\
+    $\rho$     & Interest-rate persistence        & \texttt{crr}       & 0.8324 & 0.8075 & 0.81 \\
+    $r_y$      & Response to output gap           & \texttt{cry}       & 0.0363 & 0.0754 & 0.08 \\
+    $r_{\Delta y}$ & Response to output growth   & \texttt{crdy}      & 0.2039 & 0.2266 & 0.22 \\
+    \addlinespace
+    \multicolumn{6}{l}{\emph{Shock Process Parameters}}\\
+    $\rho_a$   & Persistence: productivity        & \texttt{crhoa}     & 0.9757 & 0.9573 & 0.95 \\
+    $\rho_b$   & Persistence: risk premium        & \texttt{crhob}     & 0.5463 & 0.2000 & 0.18 \\
+    $\rho_g$   & Persistence: gov.\ spending      & \texttt{crhog}     & 0.9661 & 0.9713 & 0.97 \\
+    $\rho_{qs}$& Persistence: invest.\ specific   & \texttt{crhoqs}    & 0.8714 & 0.7086 & 0.71 \\
+    $\rho_m$   & Persistence: monetary policy     & \texttt{crhoms}    & 0.2655 & 0.1438 & 0.12 \\
+    $\rho_p$   & Persistence: price mark-up       & \texttt{crhopinf}  & 0.8908 & 0.8826 & 0.90 \\
+    $\rho_w$   & Persistence: wage mark-up        & \texttt{crhow}     & 0.9203 & 0.9632 & 0.97 \\
+    $\mu_p$    & MA term: price mark-up           & \texttt{cmap}      & 0.7792 & 0.7228 & 0.74 \\
+    $\mu_w$    & MA term: wage mark-up            & \texttt{cmaw}      & 0.8993 & 0.8721 & 0.88 \\
+    $\rho_{ga}$& Feedback tech.\ on spending      & \texttt{cgy}       & 0.4934 & 0.5548 & 0.52 \\
+    \bottomrule
+  \end{tabular}
+  \begin{tablenotes}[flushleft]\footnotesize
+    \item \emph{Notes:} Q4 modes are from \texttt{SW2007\_PS3\_2025\_Q4.log}. Q3 modes are from Section~\ref{tab:post_modes_q3}. SW(2007) entries replicate Table~1a in their paper. Relative to Q3, the 1980-2015 sample features (i) \emph{greater nominal rigidity} (higher $\xi_p,\xi_w$ and lower indexation $\iota_p,\iota_w$), (ii) \emph{stronger real frictions} (larger $\phi$ and higher utilization costs $\psi$), and (iii) \emph{more persistent financial and investment disturbances} ($\rho_b,\rho_{qs}$).
+  \end{tablenotes}
+  \end{threeparttable}
+\end{table}
+
+\begin{table}[h!]
+  \centering
+  \caption{Forecast-Error Variance Decomposition (percent, business-cycle horizons)}
+  \label{tab:vardec_q4_vs_q3}
+  \begin{threeparttable}
+  \footnotesize
+  \setlength{\tabcolsep}{5.2pt}
+  \begin{tabular}{l rrrrrrr | rrrrrrr}
+    \toprule
+    & \multicolumn{7}{c}{\textbf{Q4 (1980-2015)}} & \multicolumn{7}{c}{\textbf{Q3 (1965-2004)}}\\
+    \cmidrule(lr){2-8}\cmidrule(l){9-15}
+    Variable & $ea$ & $eb$ & $eg$ & $eqs$ & $em$ & $ep$ & $ew$ & $ea$ & $eb$ & $eg$ & $eqs$ & $em$ & $ep$ & $ew$\\
+    \midrule
+    $y$     & 32.6 & 3.9 & 3.6 & 39.4 & 7.4 & 9.5 & 3.6  & 31.2 & 1.9 & 3.9 & 9.8 & 3.0 & 8.1 & 42.2 \\
+    $\pi$   &  6.0 & 2.4 & 3.1 & 19.1 &10.9 &45.4 &13.2  &  3.9 & 0.7 & 1.3 & 4.4 & 5.3 &33.5 & 50.9 \\
+    $i$     &  7.4 &13.6 & 4.5 & 57.7 &11.1 & 3.3 & 2.6  & 10.4 & 8.5 & 4.8 &23.5 &16.8 & 7.7 & 28.3 \\
+    \bottomrule
+  \end{tabular}
+  \begin{tablenotes}[flushleft]\footnotesize
+    \item \emph{Notes:} Q4 shares are from \texttt{SW2007\_PS3\_2025\_Q4.log}; Q3 shares reproduce Table~\ref{tab:vardec_q3_vs_usmodel}. Columns: $ea$ (TFP), $eb$ (risk premium), $eg$ (gov.\ spending), $eqs$ (investment-specific technology), $em$ (monetary policy), $ep$ (price mark-up), $ew$ (wage mark-up). The post-1980 sample shifts output and policy-rate variability decisively toward $q_t$ (investment-specific technology), while inflation variability is primarily price mark-up driven with non-trivial contributions from $q_t$ and monetary shocks.
+  \end{tablenotes}
+  \end{threeparttable}
+\end{table}
+
+
+\paragraph{Central-bank reading of the Q4 estimates (vs.\ Q3).}
+
+Three features stand out.
+
+\emph{(i) Monetary stance.} 
+
+The inflation coefficient remains safely above unity ($r_\pi\!=\!1.79$) while policy smoothing rises ($\rho\!=\!0.83$),
+and the output-gap weight roughly halves ($r_y\!\approx\!0.04$).
+This points to a more \emph{gradualist}, inflation-targeting regime that leans a bit less on real-activity feedback than in Q3.
+The policy shock is also more persistent ($\rho_m\!\approx\!0.27$), lengthening the footprint of rate innovations.
+
+\emph{(ii) Deeper nominal and real frictions.}
+
+Relative to Q3, price and wage stickiness increase markedly ($\xi_p\!\approx\!0.83$, $\xi_w\!\approx\!0.77$)
+while indexation declines (especially on prices),
+pushing the Phillips curves toward a more forward-looking—flatter—configuration.
+Habits fall and both investment adjustment and utilization costs rise,
+tempering expenditure switching and making capital services less nimble.
+
+\emph{(iii) Shock anatomy and co-movements.}
+
+The FEVD reallocates variability away from wage mark-ups toward investment-specific technology ($q_t$):
+$q_t$ explains $\sim\!40\%$ of output and nearly $58\%$ of the policy rate,
+while price mark-ups now lead inflation dynamics (about $45\%$).
+Contemporaneous correlations are consistent with this re-allocation:
+$\mathrm{corr}(y,\pi)$ turns mildly positive ($\approx 0.15$, from negative in Q3), and $\mathrm{corr}(\pi,i)$ remains positive ($\approx 0.57$),
+indicating a systematic but smoother policy reaction to inflationary pressure as mark-up shocks recede relative to technology and investment disturbances.
+
+\paragraph{IRFs: transmission channels.}
+
+The Taylor rule remains active against inflation but with slightly lower $r_\pi$ and higher smoothing,
+consistent with a more inertial operating procedure.
+The MP shock becomes \emph{more} persistent ($\rho_m\!\approx\!0.27$), but its innovation variance falls.
+IRFs show a smoother path for $i_t$ and milder disinflation/output costs on impact.
+FEVDs indicate MP innovations account for $\sim$11\% of policy-rate variance (down from Q3) but \emph{more} of inflation variance ($\sim$11\% vs.\ 5\%),
+reflecting a cleaner nominal environment with less noise from markup shocks.
+
+The policy-rate IRFs are increasingly dominated by the \emph{inertia channel} (high $\rho$) in early horizons,
+with the \emph{inflation-feedback channel} (via $r_\pi$) taking over more slowly as price dynamics materialize under higher Calvo stickiness and lower indexation.
+This pattern is precisely what the FEVD reallocations toward $q_t$ and $ep_t$ imply.
+
+
+\begin{figure}[h!]
+  \centering
+  \caption{Impulse Responses to Risk-Premium, Spending, and Investment-Specific Shocks: Q4 Re-estimation}
+  \label{fig:irfs_q4}
+  \begin{minipage}{\textwidth}
+    \centering
+    \textit{(a) Demand block}
+    \includegraphics[width=\linewidth]{Q4_demand.pdf}
+  \end{minipage}
+  \vspace{0.5ex}
+  \begin{minipage}{0.92\linewidth}\footnotesize
+  \emph{Notes:} Output ($y$), hours ($\ell$), inflation ($\pi$), and the policy rate ($i$) IRFs to one-s.d.\ innovations in $b_t$, $g_t$, and $q_t$ from the Q4 estimation. Line styles/legend as in the figure file.
+  \end{minipage}\hfill
+  \vspace{0.5ex}
+  \begin{minipage}{\textwidth}
+    \centering
+    \textit{(b) Monetary policy shock}
+    \includegraphics[width=\linewidth]{Q4_monetary.pdf}
+  \end{minipage}
+  \vspace{0.5ex}
+  \begin{minipage}{0.95\linewidth}\footnotesize
+    \emph{Notes:} Later sample with higher price stickiness, lower price indexation; slightly lower $r_\pi$ and higher $\rho$ than Q3.
+  \end{minipage}
+\end{figure}
+\FloatBarrier
+
+% Reading Figure~\ref{fig:irfs_q4} through a policy lens:
+% \begin{itemize}
+%   \item \textbf{Risk-premium shock ($b_t$).} With higher smoothing and lower $r_y$, the rate response is more drawn out.
+%   The real-rate channel still delivers disinflation,
+%   but the output sacrifice is modest because stronger nominal rigidities damp the immediate pass-through to prices and wages (lower indexation).
+%   \item \textbf{Government spending shock ($g_t$).} Inflation responses are more hump-shaped and peak later
+%   —a hallmark of higher $\xi_p$ and reduced indexation—while the rate adjusts gradually.
+%   Relative to Q3, consumption/investment crowding-out is more persistent due to the larger $\phi$ and higher utilization costs.
+%   \item \textbf{Investment-specific technology ($q_t$).} The post-1980 sample loads heavily on $q_t$ persistence ($\rho_{qs}\!\approx\!0.87$).
+%   IRFs display pronounced and persistent movements in output and the policy rate with only moderate inflation pressure;
+%   monetary transmission operates mainly through intertemporal substitution, not mark-up compression.
+%   \item \textbf{Monetary policy shock ($m_t$).} The Taylor rule remains active against inflation but with slightly lower $r_\pi$ and higher smoothing,
+%   consistent with a more inertial operating procedure. The MP shock becomes \emph{more} persistent ($\rho_m\!\approx\!0.27$), but its innovation variance falls.
+%   IRFs show a smoother path for $i_t$ and milder disinflation/output costs on impact.
+%   FEVDs indicate MP innovations account for $\sim$11\% of policy-rate variance (down from Q3) but \emph{more} of inflation variance ($\sim$11\% vs.\ 5\%),
+%   reflecting a cleaner nominal environment with less noise from markup shocks.
+% \end{itemize}
+
+
+\paragraph{Policy takeaways (1980-2015).}
+
+The re-estimation describes a regime that
+\begin{itemize}
+  \item(i) keeps the Taylor principle intact;
+  \item(ii) relies more on rate smoothing and less on output-gap feedback;
+  \item(iii) faces price formation that is more forward-looking and stickier.
+  With wage mark-ups no longer dominating inflation, systematic policy remains effective yet needs patience:
+  higher smoothing and flatter Phillips curves make disinflations more gradual.
+  The prominence of $q_t$ cautions that real-side investment disturbances—and their interaction with policy via real rates—are first-order drivers of business-cycle comovement in this period.
+\end{itemize}
+
+\pagebreak
+
+% ========= Q5: Re-estimation (1967Q1-1991Q4) =========
+\section*{Q5. Re-estimation of SW2007 over 1967Q1-1991Q4 and Comparison to Q3}
+
+\begin{table}[h!]
+  \centering
+  \caption{Posterior Mode Estimates: 1967Q1-1991Q4 vs.\ 1965Q1-2004Q4}
+  \label{tab:post_modes_q5}
+  \begin{threeparttable}
+  \footnotesize
+  \setlength{\tabcolsep}{6pt}
+  \begin{tabular}{l l l c c c}
+    \toprule
+    \multicolumn{1}{c}{Parameter} & \multicolumn{1}{c}{Description} & \multicolumn{1}{c}{Dynare Name}
+    & \multicolumn{1}{c}{Q5 (1967-1991)} & \multicolumn{1}{c}{Q3 (1965-2004)} & \multicolumn{1}{c}{SW (2007)}\\
+    \midrule
+    \multicolumn{6}{l}{\emph{Structural Parameters}}\\
+    $\alpha$   & Capital share                    & \texttt{calfa}     & 0.2123 & 0.2127 & 0.19 \\
+    $\sigma_c$ & Intertemporal substitution (inv.)& \texttt{csigma}    & 1.1106 & 1.4504 & 1.39 \\
+    $h$        & Habit formation                  & \texttt{chabb}     & 0.7143 & 0.6857 & 0.71 \\
+    $\xi_w$    & Calvo prob.\ (wages)             & \texttt{cprobw}    & 0.7434 & 0.7329 & 0.73 \\
+    $\sigma_l$ & Labor supply elasticity (inv.)   & \texttt{csigl}     & 1.9156 & 1.9554 & 1.92 \\
+    $\xi_p$    & Calvo prob.\ (prices)            & \texttt{cprobp}    & 0.5583 & 0.6931 & 0.65 \\
+    $\iota_w$  & Indexation (wages)               & \texttt{cindw}     & 0.5732 & 0.6202 & 0.59 \\
+    $\iota_p$  & Indexation (prices)              & \texttt{cindp}     & 0.3708 & 0.3253 & 0.22 \\
+    $\psi$     & Capital utilization cost         & \texttt{czcap}     & 0.3971 & 0.5731 & 0.54 \\
+    $\phi$     & Investment adjustment cost       & \texttt{csadjcost} & 3.9275 & 5.5245 & 5.48 \\
+    $\Phi$     & Fixed costs                      & \texttt{cfc}       & 1.4865 & 1.6276 & 1.61 \\
+    \addlinespace
+    \multicolumn{6}{l}{\emph{Monetary Policy Parameters (Taylor rule)}}\\
+    $r_\pi$    & Response to inflation            & \texttt{crpi}      & 1.8342 & 1.9760 & 2.03 \\
+    $\rho$     & Interest-rate persistence        & \texttt{crr}       & 0.7813 & 0.8075 & 0.81 \\
+    $r_y$      & Response to output gap           & \texttt{cry}       & 0.0933 & 0.0754 & 0.08 \\
+    $r_{\Delta y}$ & Response to output growth   & \texttt{crdy}      & 0.2114 & 0.2266 & 0.22 \\
+    \addlinespace
+    \multicolumn{6}{l}{\emph{Shock Process Parameters}}\\
+    $\rho_a$   & Persistence: productivity        & \texttt{crhoa}     & 0.8572 & 0.9573 & 0.95 \\
+    $\rho_b$   & Persistence: risk premium        & \texttt{crhob}     & 0.4845 & 0.2000 & 0.18 \\
+    $\rho_g$   & Persistence: gov.\ spending      & \texttt{crhog}     & 0.9131 & 0.9713 & 0.97 \\
+    $\rho_{qs}$& Persistence: invest.\ specific   & \texttt{crhoqs}    & 0.8836 & 0.7086 & 0.71 \\
+    $\rho_m$   & Persistence: monetary policy     & \texttt{crhoms}    & 0.1607 & 0.1438 & 0.12 \\
+    $\rho_p$   & Persistence: price mark-up       & \texttt{crhopinf}  & 0.8356 & 0.8826 & 0.90 \\
+    $\rho_w$   & Persistence: wage mark-up        & \texttt{crhow}     & 0.8941 & 0.9632 & 0.97 \\
+    $\mu_p$    & MA term: price mark-up           & \texttt{cmap}      & 0.6649 & 0.7228 & 0.74 \\
+    $\mu_w$    & MA term: wage mark-up            & \texttt{cmaw}      & 0.7201 & 0.8721 & 0.88 \\
+    $\rho_{ga}$& Feedback tech.\ on spending      & \texttt{cgy}       & 0.5637 & 0.5548 & 0.52 \\
+    \bottomrule
+  \end{tabular}
+  \begin{tablenotes}[flushleft]\footnotesize
+    \item \emph{Notes:} Q5 modes come from \texttt{SW2007\_PS3\_2025\_Q5.log}, Q3 modes from Section~\ref{tab:post_modes_q3}. Relative to Q3, the pre-1992 sample exhibits \emph{less price rigidity}, \emph{more price indexation}, and markedly higher persistence of financial ($\rho_b$) and investment-specific ($\rho_{qs}$) disturbances.
+  \end{tablenotes}
+  \end{threeparttable}
+\end{table}
+
+\begin{table}[h!]
+  \centering
+  \caption{Forecast-Error Variance Decomposition (percent, business-cycle horizons)}
+  \label{tab:vardec_q5_vs_q3}
+  \begin{threeparttable}
+  \footnotesize
+  \setlength{\tabcolsep}{5.2pt}
+  \begin{tabular}{l rrrrrrr | rrrrrrr}
+    \toprule
+    & \multicolumn{7}{c}{\textbf{Q5 (1967-1991)}} & \multicolumn{7}{c}{\textbf{Q3 (1965-2004)}}\\
+    \cmidrule(lr){2-8}\cmidrule(l){9-15}
+    Variable & $ea$ & $eb$ & $eg$ & $eqs$ & $em$ & $ep$ & $ew$ & $ea$ & $eb$ & $eg$ & $eqs$ & $em$ & $ep$ & $ew$\\
+    \midrule
+    $y$     & 12.7 & 10.5 & 4.3 & 25.5 & 5.2 & 5.0 & 36.8  & 31.2 & 1.9 & 3.9 & 9.8 & 3.0 & 8.1 & 42.2 \\
+    $\pi$   &  5.1 &  4.3 & 0.7 & 10.6 & 6.6 & 25.2 & 47.5 &  3.9 & 0.7 & 1.3 & 4.4 & 5.3 & 33.5 & 50.9 \\
+    $i$     &  7.4 & 24.2 & 2.2 & 28.2 & 15.2& 4.6 & 18.2 & 10.4 & 8.5 & 4.8 & 23.5& 16.8& 7.7 & 28.3 \\
+    \bottomrule
+  \end{tabular}
+  \begin{tablenotes}[flushleft]\footnotesize
+    \item \emph{Notes:} Q5 shares are computed from \texttt{SW2007\_PS3\_2025\_Q5.log}. The pre-1992 sample reallocates output and rate variability toward $q_t$ (investment-specific technology) and raises the role of the risk-premium $b_t$ for the policy rate. Inflation remains mark-up dominated, but price mark-ups contribute less than in Q3 while $q_t$ and monetary shocks play a larger role.
+  \end{tablenotes}
+  \end{threeparttable}
+\end{table}
+
+\begin{figure}[h!]
+  \centering
+  \caption{Impulse Responses to Demand Shocks and Monetary Policy Shock: Q5 Re-estimation}
+  \label{fig:irfs_q5}
+  \begin{minipage}{\textwidth}
+    \centering
+    \textit{(a) Demand block}
+    \includegraphics[width=\linewidth]{Q5_demand.pdf}
+  \end{minipage}
+  \vspace{0.5ex}
+  \begin{minipage}{0.92\linewidth}\footnotesize
+  \emph{Notes:} Output ($y$), hours ($\ell$), inflation ($\pi$), and policy rate ($i$) responses to one-s.d.\ shocks to $b_t$, $g_t$, and $q_t$. Line styles/legend as in the figure file.
+  \end{minipage}\hfill
+  \vspace{0.5ex}
+  \begin{minipage}{\textwidth}
+    \centering
+    \textit{(b) Monetary policy shock}
+    \includegraphics[width=\linewidth]{Q5_monetary.pdf}
+  \end{minipage}
+  \vspace{0.5ex}
+  \begin{minipage}{0.95\linewidth}\footnotesize
+    \emph{Notes:} Earlier subsample with lower price stickiness and higher price indexation; slightly lower smoothing than Q3.
+  \end{minipage}
+\end{figure}
+\FloatBarrier
+
+\paragraph{Central-bank reading of the Q5 estimates (vs.\ Q3).}
+
+\emph{(i) Monetary stance.}
+
+The Taylor principle still holds ($r_\pi\!=\!1.83$), but the rule is slightly less aggressive and a touch less inertial than in Q3.
+Combined with a higher steady-state inflation level and greater shock persistence ($\rho_b$, $\rho_{qs}$),
+monetary innovations leave a more visible footprint on the rate, while inflation remains primarily governed by cost-push forces.
+
+\emph{(ii) Price/wage formation.}
+
+Lower price stickiness (shorter contracts) together with \emph{higher price indexation} makes the Phillips curve more backward-looking and raises intrinsic inflation persistence.
+Wage contracts are slightly stickier, but with less MA and serial persistence than Q3.
+The result is that:
+\begin{itemize}
+  \item(i) mark-up shocks still dominate inflation variance ($\approx 72.7\%$);
+  \item(ii) investment disturbances transmit more strongly to prices and the policy rate through marginal-cost and intertemporal channels.
+\end{itemize}
+
+\emph{(iii) Shock anatomy and co-movements.}
+
+The FEVD shifts output and the policy rate toward $q_t$ and $b_t$;
+$\mathrm{corr}(\pi,i)$ remains strongly positive, while $\mathrm{corr}(y,\pi)$ is near zero rather than distinctly negative,
+consistent with a period in which supply/cost-push and investment drivers of activity often coincided with monetary tightening episodes.
+
+\paragraph{IRFs: transmission channels in 1967-1991.}
+
+Under a less sticky but more indexed price process, IRFs display:
+
+\begin{enumerate}
+  \item[(i)] faster near-term pass-through of shocks to inflation, but with persistence coming from indexation rather than contract duration;
+  \item[(ii)] larger and more persistent real responses to $q_t$ due to lower adjustment and utilization costs;
+  \item[(iii)] policy-rate responses that are front-loaded to investment and risk-premium shocks and less tightly tied to wage-markups than in Q3.
+  For a decomposition-style reading, early-horizon movements are driven by the intertemporal channel (real-rate effects on $c$ and $i$),
+  while later horizons reflect cost-push persistence through indexation.
+\end{enumerate}
+
+\paragraph{Policy takeaways (pre-1992 sample).}
+
+A central bank facing lower price rigidity but stronger indexation should expect cost-push persistence alongside stronger investment-driven cycles.
+The estimated rule is appropriately active but slightly less aggressive than in Q3;
+credible inflation control still relies on $r_\pi\!>\!1$, but patience is required as indexation prolongs the disinflation path.
+The prominence of $q_t$ warns that real-rate management—via forward guidance or term-premium channels—plays an outsized role in stabilizing activity over this period.
+
+\pagebreak
+
+% ========= Q6: Kimball vs. Dixit-Stiglitz on the SW sample =========
+\section*{Q6. Kimball Aggregator vs.\ Dixit-Stiglitz (1966Q1-2004Q4)}
+
+\begin{table}[h!]
+  \centering
+  \caption{Posterior Modes (SW sample): Kimball vs.\ Dixit-Stiglitz}
+  \label{tab:q6_posterior}
+  \begin{threeparttable}
+  \footnotesize
+  \setlength{\tabcolsep}{6.2pt}
+  \begin{tabular}{l l c c}
+    \toprule
+    \multicolumn{1}{c}{Parameter} & \multicolumn{1}{c}{Description} & \multicolumn{1}{c}{Kimball} & \multicolumn{1}{c}{Dixit--Stiglitz} \\
+    \midrule
+    \multicolumn{4}{l}{\emph{Monetary policy (Taylor rule)}}\\
+    $r_\pi$ & Inflation feedback (\texttt{crpi}) & 1.955 & 1.968 \\
+    $\rho$  & Interest-rate smoothing (\texttt{crr}) & 0.804 & 0.783 \\
+    $r_y$   & Output-gap level (\texttt{cry}) & 0.074 & 0.069 \\
+    $r_{\Delta y}$ & Output growth (\texttt{crdy}) & 0.232 & 0.228 \\
+    \addlinespace
+    \multicolumn{4}{l}{\emph{Nominal frictions}}\\
+    $\xi_p$ & Calvo prob.\ (prices, \texttt{cprobp}) & 0.685 & 0.839 \\
+    $\xi_w$ & Calvo prob.\ (wages, \texttt{cprobw})  & 0.725 & 0.812 \\
+    $\iota_p$ & Indexation (prices, \texttt{cindp}) & 0.335 & 0.346 \\
+    $\iota_w$ & Indexation (wages, \texttt{cindw})  & 0.616 & 0.653 \\
+    $\varepsilon_p$ & Kimball curvature (prices, \texttt{curvp}) & 10.000 & 0.000 \\
+    $\varepsilon_w$ & Kimball curvature (wages, \texttt{curvw})  & 10.000 & 0.000 \\
+    \addlinespace
+    \multicolumn{4}{l}{\emph{Selected deep real parameters}}\\
+    $\sigma_c$ & Intertemporal elasticity (\texttt{csigma}) & 1.382 & 1.348 \\
+    $\lambda$  & Habit (\texttt{chabb}) & 0.692 & 0.693 \\
+    $\varphi$  & Inv.\ adj.\ cost, level (\texttt{csadjcost}) & 5.577 & 5.308 \\
+    $\psi$     & Utilization cost slope (\texttt{czcap}) & 0.636 & 0.660 \\
+    $\Phi$     & Fixed costs (\texttt{cfc}) & 1.637 & 1.629 \\
+    $\alpha$   & Capital share (\texttt{calfa}) & 0.216 & 0.218 \\
+    \bottomrule
+  \end{tabular}
+  \begin{tablenotes}[flushleft]\footnotesize
+    \item \emph{Notes:} Posterior modes from Q6 re-estimations on the original SW sample (1966Q1-2004Q4). ``Kimball'' allows state-dependent demand elasticities via $\varepsilon_{p,w}\!>\!0$; DS sets $\varepsilon_{p,w}\!=\!0$. Monetary-policy parameters are virtually unchanged across aggregators, while Kimball attains \emph{lower} Calvo probabilities with similar overall nominal rigidity.
+  \end{tablenotes}
+  \end{threeparttable}
+\end{table}
+
+
+\paragraph{Central-bank reading.}
+
+For policy design, the aggregator choice leaves the \emph{stance} of estimated policy intact (aggressive on inflation, with meaningful smoothing)
+and preserves the shock rankings that matter for risk assessments:
+mark-ups dominate nominal variability, productivity and wage mark-ups shape medium-run real dynamics.
+The Kimball aggregator achieves these patterns with more plausible contract lengths and, thus,a more credible Phillips curve slope.
+Practically, this means optimal policy exercises (e.g., inflation-forecast targeting) will deliver very similar prescriptions under either aggregator,
+but the Kimball specification better reconciles micro evidence on price/wage changes with macro dynamics—an advantage when communicating model structure to the policy committee.
+
+% \begin{table}[h!]
+%   \centering
+%   \caption{IRF Visual Diagnostics (What the panels show, Kimball vs.\ DS)}
+%   \label{tab:q6_visual_diagnostics}
+%   \begin{threeparttable}
+%   \footnotesize
+%   \setlength{\tabcolsep}{5.6pt}
+%   \begin{tabular}{l p{0.36\linewidth} p{0.36\linewidth}}
+%     \toprule
+%     \textbf{Shock} & \textbf{Kimball (left panel)} & \textbf{Dixit--Stiglitz (right panel)}\\
+%     \midrule
+%     Risk premium $(b_t)$
+%       & Output/hours show a smooth hump; inflation falls gradually with a slightly delayed trough; the policy rate path is inertial and tracks disinflation with a lag.
+%       & Very similar hump in real activity; the disinflation is a bit more front-loaded, with the rate reacting somewhat sooner; overall amplitude differences are small.\\
+%     Government spending $(g_t)$
+%       & Output/hours rise on impact with a modest peak; inflation exhibits a pronounced hump with a later peak; rate adjusts gradually in line with inflation.
+%       & Impact pattern is close, but inflation's peak tends to arrive earlier; the policy rate response is marginally earlier and a touch sharper.\\
+%     Investment-specific $(q_t)$
+%       & Output/hours display persistent, hump-shaped increases; inflation pressure is contained and more delayed; the rate climbs steadily as real activity accumulates.
+%       & Output/hours again show a hump; inflation nudges up a bit sooner; the rate path is very similar, with slightly earlier lift-off.\\
+%     \bottomrule
+%   \end{tabular}
+%   \begin{tablenotes}[flushleft]\footnotesize
+%     \item \emph{Notes:} Entries summarize \emph{what is visible} in the panels of Figure~\ref{fig:q6_irfs}: timing (impact vs.\ peak), persistence (how slowly responses decay), and relative amplitude. Differences are modest across aggregators; the Kimball model typically shows slightly \emph{slower} short-run pass-through to inflation with similar real-side humps. Sources: Figure panels you provided.%
+%   \end{tablenotes}
+%   \end{threeparttable}
+% \end{table}
+
+\paragraph{IRFs: transmission under Kimball vs.\ DS.}
+
+Comparing panels (a) and (b) in Figure~\ref{fig:q6_irfs} reveals three robust features:
+
+\begin{itemize}
+  \item \textbf{Monetary policy shock:} Both models imply a gradual policy-rate path (large $\rho$) and a hump-shaped disinflation.
+  Kimball attenuates and spreads out the pass-through to inflation;
+  DS produces a more front-loaded disinflation and a larger initial output contraction (Figures~\ref{fig:q6_monetary}).
+  Under Kimball, the short-run inflation fall is slightly \emph{more} gradual despite lower $\xi_p$,
+  consistent with real rigidity from $\varepsilon_p>0$; output and hours display very similar near-term declines,
+  suggesting that the sacrifice ratio is not materially altered by the aggregator once the rule coefficients are held at the (estimated) values.
+  \item \textbf{Mark-up shocks:} Wage mark-ups generate the largest and most persistent swings in inflation and activity in both models.
+  Under Kimball, the same mark-up impulse produces a somewhat smoother inflation path with comparable output costs,
+  mirroring the variance shares in Table~\ref{tab:q6_posterior}.
+  \item \textbf{Risk-premium and $q_t$ shocks:} Consumption/investment comovement and the hump in output are virtually identical;
+  Kimball's slightly higher $\varphi$ nudges investment adjustment costs up,
+  marginally dampening the near-term investment overshoot versus DS.
+\end{itemize}
+
+
+\begin{figure}[h!]
+  \centering
+  \caption{Impulse Responses under Alternative Aggregators (SW sample)}
+  \label{fig:q6_irfs}
+  \begin{minipage}{0.49\textwidth}
+    \centering
+    \textit{(a) Kimball aggregator}
+    
+    \vspace{0.25ex}
+    \includegraphics[width=\linewidth]{Q6_Kimball_demand.pdf}
+  \end{minipage}\hfill
+  \begin{minipage}{0.49\textwidth}
+    \centering
+    \textit{(b) Dixit--Stiglitz aggregator}
+    
+    \vspace{0.25ex}
+    \includegraphics[width=\linewidth]{Q6_DS_demand.pdf}
+  \end{minipage}
+  \vspace{0.5ex}
+  \begin{minipage}{0.92\linewidth}\footnotesize
+    \emph{Notes:} Model-consistent IRFs (quarterly) to the standard SW shock block (risk-premium $b_t$, government spending $g_t$, investment-specific $q_t$, monetary policy $r_t$, price and wage mark-ups). Variables shown are output, hours, inflation, and policy rate. Line styles correspond to those in the exported PDFs. The sample is 1966Q1-2004Q4; all parameters are posterior modes in Table~\ref{tab:q6_posterior}.
+  \end{minipage}
+\end{figure}
+\FloatBarrier
+
+\begin{figure}[h!]
+  \centering
+  \caption{Impulse Responses under Alternative Aggregators (SW sample)}
+  \label{fig:q6_monetary}
+  \begin{minipage}{0.49\textwidth}
+    \centering
+    \textit{(a) Kimball aggregator}
+    \vspace{0.25ex}
+    \includegraphics[width=\linewidth]{Q6_Kimball_monetary.pdf}
+  \end{minipage}\hfill
+  \vspace{0.5ex}
+  \begin{minipage}{0.49\textwidth}
+    \centering
+    \textit{(b) Dixit--Stiglitz aggregator}
+    \vspace{0.25ex}
+    \includegraphics[width=\linewidth]{Q6_DS_monetary.pdf}
+  \end{minipage}\hfill
+  \vspace{0.5ex}
+  \begin{minipage}{0.92\linewidth}\footnotesize
+    \emph{Notes:} One s.d.\ innovation to the monetary policy rule. Kimball curvature attenuates the immediate pass-through to inflation and generates more hump-shaped real activity responses,
+    reflecting stronger strategic complementarity in price setting.
+    Same shock under DS. With weaker real rigidity, disinflation from a policy tightening is more front-loaded and the output gap response is sharper on impact.
+  \end{minipage}
+\end{figure}
+\FloatBarrier
+
+% \paragraph{Interpreter's guide to the Kimball-DS contrast (from the figures).}
+
+% The Kimball aggregator introduces curvature in demand that strengthens strategic complementarities in price and wage setting. The visual consequence in our IRFs is not “larger” inflation inertia via longer contracts, but \emph{smoother} short-run price adjustment with very similar medium-run persistence. In our panels, that shows up as:
+% \begin{itemize}
+%   \item a slightly more gradual disinflation after a risk-premium tightening, with the policy rate path tracking that smoothness;
+%   \item a later inflation peak after a government-spending shock, while the output/hours peak timings remain close across models;
+%   \item near-identical output/hours propagation to an investment-specific shock, with inflation reacting a bit later under Kimball and the policy rate rising in sync with the real-rate channel.
+% \end{itemize}
+% These are small but systematic differences that align with the theoretical role of Kimball curvature in flattening the effective Phillips curve without requiring implausibly high Calvo probabilities.
+
+\paragraph{Policy implications.}
+
+The aggregator choice does \emph{not} overturn the core messages:
+
+\begin{itemize}
+    \item (i) policy reacts gradually (sizable inertia) and aggressively to inflation (Taylor principle);
+    \item (ii) mark-up and investment disturbances remain central for nominal vs.\ real volatility, respectively; and
+    \item (iii) when $q_t$ is in the driver's seat, patience is warranted—the policy rate must lean against stronger real-side momentum while inflation pressure materializes with a lag. Kimball's smoother near-term pass-through marginally increases the value of forward-looking communication, but it does not call for different rule coefficients, judging by the dynamics in our figures.
+\end{itemize}
+
+
+% \paragraph{What the Kimball aggregator buys you.}
+Relative to DS, the Kimball aggregator delivers substantially \emph{lower} estimated Calvo rigidities (prices: $0.69$ vs.\ $0.84$; wages: $0.73$ vs.\ $0.81$)
+while keeping monetary-policy coefficients very close (Table~\ref{tab:q6_posterior}).
+% This is precisely the identification gain highlighted in SW (2007):
+% state-dependent demand elasticity induces strong strategic complementarity in price/wage setting,
+% so one does not need implausibly long contracts to explain the same degree of nominal inertia.
+% From a policy perspective, this matters because it pins down the Phillips curve slope via \emph{real} rigidity,
+% not only nominal stickiness.
+
+% \paragraph{Shock attribution is robust to the aggregator.}
+
+% \begin{table}[h!]
+%   \centering
+%   \caption{Variance Decomposition (\% of forecast-error variance at business-cycle horizons)}
+%   \label{tab:q6_vardec}
+%   \begin{threeparttable}
+%   \footnotesize
+%   \setlength{\tabcolsep}{4.5pt}
+%   \begin{tabular}{l rrrrrrr | rrrrrrr}
+%   \toprule
+%      & \multicolumn{7}{c}{\textbf{Kimball}} & \multicolumn{7}{c}{\textbf{Dixit--Stiglitz}}\\
+%      \cmidrule(lr){2-8}\cmidrule(l){9-15}
+%     Variable & $ea$ & $eb$ & $eg$ & $ei$ & $em$ & $ep$ & $ew$ & $ea$ & $eb$ & $eg$ & $ei$ & $em$ & $ep$ & $ew$ \\
+%     \midrule
+%     $y$     & 25.7 & 1.8 & 3.9 & 9.4 & 2.8 & 7.0 & 49.3 & 23.6 & 1.4 & 4.2 & 7.1 & 1.7 & 6.3 & 55.7 \\
+%     $\pi$   & 3.7  & 0.8 & 1.2 & 3.8 & 5.3 & 31.6 & 53.6 & 3.8  & 1.2 & 1.1 & 5.9 & 6.7 & 27.1 & 54.3 \\
+%     $i$     & 16.6 & 0.3 & 5.2 & 44.3& 1.8 & 7.6 & 24.1 & 16.5 & 0.3 & 4.1 & 41.5& 1.0 & 7.6 & 29.2 \\
+%     $r$     & 10.1 & 8.5 & 4.3 & 20.9& 16.6& 7.4 & 32.3 & 9.2  & 8.5 & 3.6 & 21.5& 15.4& 7.6 & 34.3 \\
+%     \bottomrule
+%   \end{tabular}
+%   \begin{tablenotes}[flushleft]\footnotesize
+%     \item \emph{Notes:} $ea$ productivity, $eb$ risk premium, $eg$ government spending, $ei$ investment-specific technology, $em$ monetary policy, $ep$ price mark-up, $ew$ wage mark-up.
+%   \end{tablenotes}
+%   \end{threeparttable}
+% \end{table}
+
+% Variance decompositions (Table~\ref{tab:q6_vardec}) are remarkably stable across aggregators. In both models:
+
+% \begin{itemize}
+%     \item (i) inflation and the policy rate are dominated by mark-up shocks -- especially the wage mark-up in the medium run (around 54\% of $\pi$ and 32--34\% of $r$);
+%     \item (ii) output fluctuations assign the largest role to the wage mark-up (about one-half) with a sizable contribution from technology (24--26\%).
+%     Investment-specific shocks remain the main high-frequency driver of investment.
+%     Hence, the monetary transmission mechanism inferred from the data is essentially aggregator-invariant.
+% \end{itemize}
+
+For policy analysis over 1965-2004, the Kimball aggregator is preferable:
+it fits better and yields nominal rigidity estimates that square with micro evidence and SW's original rationale for adopting Kimball.
+Because the monetary rule is stable across specifications, differences in IRFs mostly reflect the aggregator's real rigidity rather than changes in systematic policy.
+For counterfactuals and risk assessment, Kimball's smoother inflation response and more hump-shaped real dynamics suggest more gradualism in the transmission of both demand and policy shocks,
+consistent with the central-bank reading of a flatter effective Phillips curve.
+% ===== End Q6 section =====
+
+
+\pagebreak
+
+% ========= Q7: Fixed Calvo at 0.5 under Dixit-Stiglitz (SW sample) =========
+\section*{Q7. Fixing Calvo Probabilities at 0.5 with the Dixit-Stiglitz Aggregator (1965Q1-2004Q4)}
+
+\begin{table}[h!]
+  \centering
+  \caption{Posterior Modes under Fixed Calvo: Comparison with Q6 (DS)}
+  \label{tab:q7_postmodes_fixedcalvo_vs_q6}
+  \begin{threeparttable}
+  \footnotesize
+  \setlength{\tabcolsep}{6pt}
+  \begin{tabular}{l l l c c}
+    \toprule
+    \multicolumn{1}{c}{Parameter} & \multicolumn{1}{c}{Description} & \multicolumn{1}{c}{Dynare Name}
+    & \multicolumn{1}{c}{Q7 (Calvo fixed at 0.5)} & \multicolumn{1}{c}{Q6 (DS, estimated)}\\
+    \midrule
+    \multicolumn{5}{l}{\emph{Monetary policy (Taylor rule)}}\\
+    $r_\pi$    & Response to inflation                & \texttt{crpi}      & 2.0369 & 1.9681 \\
+    $\rho$     & Interest-rate smoothing              & \texttt{crr}       & 0.6764 & 0.7832 \\
+    $r_y$      & Output gap                           & \texttt{cry}       & 0.0476 & 0.0686 \\
+    $r_{\Delta y}$ & Output growth                    & \texttt{crdy}      & 0.2178 & 0.2278 \\
+    \addlinespace
+    \multicolumn{5}{l}{\emph{Nominal frictions (DS aggregator; Calvo fixed in Q7, estimated in Q6)}}\\
+    $\xi_p$    & Calvo prob.\ (prices)                & \texttt{cprobp}    & 0.5000 & 0.8395 \\
+    $\xi_w$    & Calvo prob.\ (wages)                 & \texttt{cprobw}    & 0.5000 & 0.8117 \\
+    $\iota_p$  & Indexation (prices)                  & \texttt{cindp}     & 0.7844 & 0.3456 \\
+    $\iota_w$  & Indexation (wages)                   & \texttt{cindw}     & 0.7501 & 0.6534 \\
+    \addlinespace
+    \multicolumn{5}{l}{\emph{Selected deep real parameters}}\\
+    $\sigma_c$ & Intertemporal elasticity (inv.)      & \texttt{csigma}    & 1.5555 & 1.3483 \\
+    $h$        & Habit formation                      & \texttt{chabb}     & 0.4812 & 0.6927 \\
+    $\phi$     & Investment adjustment cost           & \texttt{csadjcost} & 2.7698 & 5.3076 \\
+    $\psi$     & Utilization-cost slope               & \texttt{czcap}     & 0.8185 & 0.6603 \\
+    $\Phi$     & Fixed costs                          & \texttt{cfc}       & 1.6516 & 1.6290 \\
+    \bottomrule
+  \end{tabular}
+  \begin{tablenotes}[flushleft]\footnotesize
+    \item \emph{Notes:} Q7 fixes $\xi_p=\xi_w=0.5$ (two-quarter contracts) under the \emph{same} DS aggregator used in Q6. With shorter contracts, the estimation shifts nominal persistence toward indexation and (more persistent) mark-up processes; policy remains active with \emph{less} smoothing than in Q6.
+  \end{tablenotes}
+  \end{threeparttable}
+\end{table}
+
+\begin{table}[h!]
+  \centering
+  \caption{Variance Decomposition (percent, business-cycle horizons): Fixed-Calvo (Q7) vs.\ Q6 (DS)}
+  \label{tab:q7_vardec_fixedcalvo_vs_q6}
+  \begin{threeparttable}
+  \footnotesize
+  \setlength{\tabcolsep}{5.2pt}
+  \begin{tabular}{l rrrrrrr | rrrrrrr}
+    \toprule
+     & \multicolumn{7}{c}{\textbf{Q7 (Calvo 0.5)}} & \multicolumn{7}{c}{\textbf{Q6 (DS)}}\\
+     \cmidrule(lr){2-8}\cmidrule(l){9-15}
+    Variable & $ea$ & $eb$ & $eg$ & $eqs$ & $em$ & $ep$ & $ew$
+             & $ea$ & $eb$ & $eg$ & $eqs$ & $em$ & $ep$ & $ew$\\
+    \midrule
+    $y$     & 24.7 & 0.3 & 3.9 & 4.1 & 0.2 & 17.6 & 49.2
+            & 23.6 & 1.4 & 4.2 & 7.1 & 1.7 & 6.3 & 55.7 \\
+    $\pi$   &  5.6 & 10.2& 0.9 & 11.0& 17.9& 21.3& 33.1
+            &  3.8 &  1.2& 1.1 &  5.9&  6.7& 27.1& 54.3 \\
+    $r$     &  8.3 & 18.5& 2.5 & 30.2&  6.7& 10.6& 23.3
+            &  9.2 &  8.5& 3.6 & 21.5& 15.4&  7.6& 34.3 \\
+    \bottomrule
+  \end{tabular}
+  \begin{tablenotes}[flushleft]\footnotesize
+    \item \emph{Notes:} Under shorter contracts (Q7), inflation and the policy rate load relatively \emph{more} on demand/investment/monetary disturbances and \emph{less} on wage mark-ups than in Q6, consistent with a steeper effective Phillips curve.
+  \end{tablenotes}
+  \end{threeparttable}
+\end{table}
+
+\begin{figure}[h!]
+  \centering
+  \caption{Impulse Responses to Demand Shocks and Monetary Policy Shock: Q7 (DS, Calvo fixed at 0.5)}
+  \label{fig:irfs_q7}
+  \begin{minipage}{\textwidth}
+    \centering
+    \textit{(a) Demand block}
+    \includegraphics[width=\linewidth]{Q7_demand.pdf}
+  \end{minipage}
+  \vspace{0.5ex}
+  \begin{minipage}{0.92\linewidth}\footnotesize
+  \emph{Notes:} One-s.d.\ shocks to the risk premium $(b_t)$, exogenous spending $(g_t)$, and investment-specific technology $(q_t)$ with \textbf{Calvo(0.5)}.
+  Relative to Q6 (see \texttt{Q6\_DS\_demand.pdf}), $y$ and $\ell$ display slightly smaller humps but \emph{earlier} inflation pass-through and rate responses—consistent with a steeper NKPC and lower $\phi$ in Q7.
+  \end{minipage}\hfill
+  \vspace{0.5ex}
+  \begin{minipage}{\textwidth}
+    \centering
+    \textit{(b) Monetary policy shock}
+    \includegraphics[width=\linewidth]{Q7_monetary.pdf}
+  \end{minipage}
+  \vspace{0.5ex}
+  \begin{minipage}{0.95\linewidth}\footnotesize
+    \emph{Notes:} One-s.d.\ contractionary innovation. Versus Q6 (\texttt{Q6\_DS\_monetary.pdf}), Q7 yields a \textbf{more front-loaded} disinflation with a \textbf{lower and earlier} rate peak and \textbf{smaller} output/hour declines on impact, followed by faster normalization.
+  \end{minipage}
+\end{figure}
+\FloatBarrier
+
+\paragraph{What is the meaning of the $\boldsymbol{\xi_p=\xi_w=0.5}$ test?}
+
+It is an \emph{identification and robustness} check.
+By fixing both Calvo probabilities at 0.5 (two-quarter contracts),
+we shut down ``long contracts'' as the main source of nominal inertia.
+The estimation must then assign inflation persistence to
+
+\begin{itemize}
+    \item (i) indexation $(\iota_p,\iota_w)$;
+    \item (ii) serially correlated mark-up shocks $(\rho_p,\mu_p)$ and $(\rho_w,\mu_w)$, and/or
+    \item (iii) policy inertia $(\rho)$.
+\end{itemize}
+
+If policy coefficients, IRFs, and variance shares remain economically plausible and broadly consistent with Q6,
+then the baseline inferences are \emph{not} an artifact of estimated extreme stickiness.
+
+\paragraph{Central-bank reading of our Q7 results (vs.\ Q6, DS).}
+\emph{(i) Rule coefficients.}
+
+The Taylor coefficient is a shade \textbf{higher} ($r_\pi\!=\!2.04$ vs.\ $1.97$) and smoothing \textbf{lower} ($\rho\!=\!0.68$ vs.\ $0.78$),
+implying an operating procedure that reacts more forcefully to inflation but glides back faster. 
+
+\emph{(ii) Nominal frictions.}
+
+Fixing $\xi_p=\xi_w=0.5$ steepens the NKPC; the estimation compensates with \textbf{higher indexation}
+($\iota_p\!\approx\!0.78$, $\iota_w\!\approx\!0.75$) and \textbf{more persistent} price/wage mark-up processes (higher ARs),
+while shock standard deviations for price and wage mark-ups are also higher than in Q6.
+
+\emph{(iii) Shock attribution.}
+
+FEVDs shift $\pi$ and $r$ away from wage mark-ups and toward $eb$, $eqs$,
+and $em$ (Table~\ref{tab:q7_vardec_fixedcalvo_vs_q6}),
+indicating that with shorter contracts the nominal block transmits demand/investment shocks more directly into prices and policy. 
+
+\emph{(iv) Real propagation.}
+
+Lower $\phi$ and higher $\psi$ in Q7 shorten and sharpen the capital/utilization adjustment, reducing hump length relative to Q6.
+
+\paragraph{IRFs and transmission mechanics.}
+
+Under the DS aggregator, fixing $\xi_p=\xi_w=0.5$ steepens the effective Phillips curve and,
+together with a \emph{stronger} inflation response and \emph{less} rate smoothing in the rule ($r_\pi:\,1.97\!\to\!2.04$, $\rho:\,0.78\!\to\!0.68$),
+delivers a \textbf{more front-loaded and deeper} disinflation for a \textbf{smaller} real contraction.
+
+In the IRFs, inflation's trough in Q7 is roughly three times the Q6 decline ($\Delta\pi_{\min}\!\approx\!-0.16$\% vs.\ $\approx\!-0.05$\%),
+while output and hours fall noticeably less on impact (Q7 $\Delta y_{\min}\!\approx\!-0.15$\% vs.\ Q6 $\approx\!-0.25$\%; hours similarly),
+and the policy rate peaks \emph{earlier} at a \emph{lower} level before gliding down.
+This pattern is the joint consequence of more frequent reoptimizations (Calvo$=0.5$) shifting persistence toward indexation (Q7 $\iota_p\!\approx\!0.78$, $\iota_w\!\approx\!0.75$)
+and of a less inertial operating procedure, which lowers the sacrifice ratio:
+the central bank achieves a larger, quicker disinflation with milder and shorter real-side costs.
+Notably, the monetary-shock persistence itself is higher in Q7 (AR $\rho_m:\,0.17\!\to\!0.31$),
+but the reduced policy smoothing keeps the rate path tighter and earlier,
+preventing protracted real drags while anchoring expected inflation more decisively.
+(Fig.~\ref{fig:irfs_q7}b vs.\ Q6\_DS). 
+
+\textbf{Demand shocks ($b_t,g_t,q_t$):} Compared with Q6, activity responses are slightly less hump-shaped while inflation moves up \emph{earlier} and somewhat \emph{more},
+prompting earlier rate adjustments (Fig.~\ref{fig:irfs_q7}a vs.\ Q6\_DS);
+this is the joint effect of shorter contracts (steeper slope) and lower $\phi$.
+
+\paragraph{Policy implications.}
+
+\begin{enumerate}
+  \item[(i)] The Taylor principle remains securely satisfied;
+  with \emph{less smoothing}, guidance can achieve earlier peaks without overshoot. 
+  \item[(ii)] Shorter contracts lower the sacrifice ratio for a given disinflation path by making prices/wages re-optimize more often;
+  use this to front-load disinflations when needed. 
+  \item[(iii)] Because FEVD mass shifts from wage mark-ups to demand/investment/MP shocks,
+  calibrate responses to the \emph{origin} and \emph{persistence} of disturbances rather than leaning mechanically on markup-driven narratives.
+\end{enumerate}
+
+% \section*{Q7. Fixing Calvo Probabilities at 0.5 with the Dixit-Stiglitz Aggregator (1965Q1-2004Q4)}
+
+% \begin{table}[h!]
+%   \centering
+%   \caption{Posterior Modes under Fixed Calvo: Comparison with Q3 Baseline}
+%   \label{tab:q7_postmodes_fixedcalvo}
+%   \begin{threeparttable}
+%   \footnotesize
+%   \setlength{\tabcolsep}{6pt}
+%   \begin{tabular}{l l l c c}
+%     \toprule
+%     \multicolumn{1}{c}{Parameter} & \multicolumn{1}{c}{Description} & \multicolumn{1}{c}{Dynare Name}
+%     & \multicolumn{1}{c}{Q7 (Calvo fixed at 0.5)} & \multicolumn{1}{c}{Q3 (Baseline)}\\
+%     \midrule
+%     \multicolumn{5}{l}{\emph{Monetary policy (Taylor rule)}}\\
+%     $r_\pi$    & Response to inflation                & \texttt{crpi}      & 2.0369 & 1.9760 \\
+%     $\rho$     & Interest-rate smoothing              & \texttt{crr}       & 0.6764 & 0.8075 \\
+%     $r_y$      & Output gap                           & \texttt{cry}       & 0.0476 & 0.0754 \\
+%     $r_{\Delta y}$ & Output growth                    & \texttt{crdy}      & 0.2178 & 0.2266 \\
+%     \addlinespace
+%     \multicolumn{5}{l}{\emph{Nominal frictions (DS aggregator; Calvo fixed)}}\\
+%     $\xi_p$    & Calvo prob.\ (prices) \emph{(fixed)} & \texttt{cprobp}    & 0.5000 & 0.6931 \\
+%     $\xi_w$    & Calvo prob.\ (wages)  \emph{(fixed)} & \texttt{cprobw}    & 0.5000 & 0.7329 \\
+%     $\iota_p$  & Indexation (prices)                  & \texttt{cindp}     & 0.7844 & 0.3253 \\
+%     $\iota_w$  & Indexation (wages)                   & \texttt{cindw}     & 0.7501 & 0.6202 \\
+%     \addlinespace
+%     \multicolumn{5}{l}{\emph{Selected deep real parameters}}\\
+%     $\sigma_c$ & Intertemporal elasticity (inv.)      & \texttt{csigma}    & 1.5555 & 1.4504 \\
+%     $h$        & Habit formation                      & \texttt{chabb}     & 0.4812 & 0.6857 \\
+%     $\phi$     & Investment adjustment cost           & \texttt{csadjcost} & 2.7698 & 5.5245 \\
+%     $\psi$     & Utilization cost slope               & \texttt{czcap}     & 0.8185 & 0.5731 \\
+%     $\Phi$     & Fixed costs                          & \texttt{cfc}       & 1.6516 & 1.6276 \\
+%     \bottomrule
+%   \end{tabular}
+%   \begin{tablenotes}[flushleft]\footnotesize
+%     \item \emph{Notes:} Q7 modes from our rerun with $\xi_p=\xi_w=0.5$ (DS aggregator). Q3 columns reproduce the baseline in Table~\ref{tab:post_modes_q3}.
+%     Fixing $\xi=0.5$ implies an expected contract duration of 2 quarters,
+%   forcing the model to obtain nominal persistence via indexation and markup dynamics rather than infrequent price/wage resets.
+%   Monetary-policy coefficients remain active with somewhat \emph{less} smoothing.
+%   \end{tablenotes}
+%   \end{threeparttable}
+% \end{table}
+
+% \begin{table}[h!]
+%   \centering
+%   \caption{Variance Decomposition (percent, business-cycle horizons): Fixed-Calvo vs.\ Q3}
+%   \label{tab:q7_vardec_fixedcalvo}
+%   \begin{threeparttable}
+%   \footnotesize
+%   \setlength{\tabcolsep}{5.2pt}
+%   \begin{tabular}{l rrrrrrr | rrrrrrr}
+%     \toprule
+%      & \multicolumn{7}{c}{\textbf{Q7 (Calvo 0.5)}} & \multicolumn{7}{c}{\textbf{Q3 (Baseline)}}\\
+%      \cmidrule(lr){2-8}\cmidrule(l){9-15}
+%     Variable & $ea$ & $eb$ & $eg$ & $eqs$ & $em$ & $ep$ & $ew$
+%              & $ea$ & $eb$ & $eg$ & $eqs$ & $em$ & $ep$ & $ew$\\
+%     \midrule
+%     $y$     & 24.7 & 0.3 & 3.9 & 4.1 & 0.2 & 17.6 & 49.2
+%             & 31.2 & 1.9 & 3.9 & 9.8 & 3.0 & 8.1 & 42.2 \\
+%     $\pi$   &  5.6 & 10.2& 0.9 & 11.0& 17.9& 21.3& 33.1
+%             &  3.9 & 0.7 & 1.3 & 4.4 & 5.3 & 33.5& 50.9 \\
+%     $r$     &  8.3 & 18.5& 2.5 & 30.2& 6.7 & 10.6& 23.3
+%             & 10.4 & 8.5 & 4.8 & 23.5& 16.8& 7.7 & 28.3 \\
+%     \bottomrule
+%   \end{tabular}
+%   \begin{tablenotes}[flushleft]\footnotesize
+%     \item \emph{Notes:} Q7 shares from the TeX binder; Q3 shares from Table~\ref{tab:vardec_q3_vs_usmodel}. With shorter contracts, inflation and the policy rate now load more on demand/investment disturbances ($eb,eqs,em$) and relatively less on wage mark-ups than in Q3, consistent with a steeper Phillips curve under fixed Calvo.%
+%   \end{tablenotes}
+%   \end{threeparttable}
+% \end{table}
+
+% \begin{figure}[h!]
+%   \centering
+%   \caption{Impulse Responses to Demand Shocks and Monetary Policy Shock: Q7 (DS, Calvo fixed at 0.5)}
+%   \label{fig:irfs_q7}
+%   \begin{minipage}{\textwidth}
+%     \centering
+%     \textit{(a) Demand block}
+%     \includegraphics[width=\linewidth]{Q7_demand.pdf}
+%   \end{minipage}
+%   \vspace{0.5ex}
+%   \begin{minipage}{0.92\linewidth}\footnotesize
+%   \emph{Notes:} One-s.d.\ shocks to the risk premium $(b_t)$, exogenous spending $(g_t)$, and investment-specific technology $(q_t)$ under the Dixit-Stiglitz aggregator with \textbf{Calvo probabilities fixed at 0.5} (two-quarter contracts).
+%   Output ($y$) and hours ($\ell$) display \emph{larger impact} effects and \emph{shorter} humps than in longer-contract runs.
+%   \end{minipage}\hfill
+%   \vspace{0.5ex}
+%   \begin{minipage}{\textwidth}
+%     \centering
+%     \textit{(b) Monetary policy shock}
+%     \includegraphics[width=\linewidth]{Q7_monetary.pdf}
+%   \end{minipage}
+%   \vspace{0.5ex}
+%   \begin{minipage}{0.95\linewidth}\footnotesize
+%     \emph{Notes:} One-s.d.\ contractionary innovation to the policy rule. With \textbf{Calvo(0.5)} and \emph{lower rate smoothing} than Q3,
+%     the disinflation is \textbf{more front-loaded} and the policy rate peaks \textbf{earlier}, yielding larger impact declines in $y,\ell$ but \emph{faster} normalization.
+%   \end{minipage}
+% \end{figure}
+% \FloatBarrier
+
+% \paragraph{What is the meaning of the $\boldsymbol{\xi_p=\xi_w=0.5}$ test?}
+
+% It is an \emph{identification and robustness} check.
+% By fixing both Calvo probabilities at 0.5 (two-quarter contracts),
+% we shut down ``long contracts'' as the main source of nominal inertia.
+% The estimation must then assign inflation persistence to
+
+% \begin{itemize}
+%     \item (i) indexation $(\iota_p,\iota_w)$;
+%     \item (ii) serially correlated mark-up shocks $(\rho_p,\mu_p)$ and $(\rho_w,\mu_w)$, and/or
+%     \item (iii) policy inertia $(\rho)$.
+% \end{itemize}
+
+% If the monetary-policy coefficients and shock attributions remain plausible and close to Q3,
+% our policy conclusions are \emph{not} an artifact of extreme stickiness.
+
+% \paragraph{Central-bank reading of our Q7 results (vs.\ Q3).}
+
+% \emph{(i) Rule coefficients.}
+
+% The inflation response remains robustly active ($r_\pi\!\approx\!2.04$),
+% while rate smoothing falls from about $0.81$ (Q3) to $0.68$ in Q7—policy is still gradual,
+% but a little less inertial.
+
+% \emph{(ii) Nominal frictions.}
+
+% As intended, $\xi_p$ and $\xi_w$ are fixed at~0.5.
+% The estimation compensates by pushing indexation up substantially ($\iota_p\!\approx\!0.78$, $\iota_w\!\approx\!0.75$),
+% making backward-looking terms carry more of the persistence load (Table~\ref{tab:q7_postmodes_fixedcalvo}).
+
+% \emph{(iii) Shock attribution.}
+
+% FEVDs shift inflation and the policy rate away from wage mark-ups and toward demand/investment/monetary shocks (compare Table~\ref{tab:q7_vardec_fixedcalvo} to Q3).
+% This is the textbook signature of a steeper Phillips curve under shorter contracts.
+
+% \emph{(iv) Second moments.}
+
+% The unconditional correlations remain strongly monetary:
+% $\mathrm{corr}(\pi,r)\!\approx\!0.67$ and $\mathrm{corr}(y,\pi)\!\approx\!-0.30$,
+% essentially mirroring our Q3 pattern—policy systematically leans against inflation while supply-side mark-ups generate countercyclical price pressures.
+
+% \paragraph{IRFs and transmission mechanics.}
+
+% Relative to Q3's longer effective contracts, the Q7 IRFs exhibit:
+% \begin{itemize}\itemsep0.25ex
+%   \item \textbf{Risk-premium tightening ($b_t$):} output and hours contract with a slightly larger impact effect; disinflation is more front-loaded; the policy rate path peaks earlier given similar $r_\pi$ but lower $\rho$.
+%   \item \textbf{Government spending ($g_t$):} activity rises on impact; inflation's peak arrives sooner; the rate response is earlier and a shade steeper, consistent with a sharper near-term Phillips slope.
+%   \item \textbf{Investment-specific ($q_t$):} real variables display the usual hump; inflation nudges up earlier; the rate lifts off a bit sooner but remains gradual overall.
+% \end{itemize}
+% These features are visible in our Q7 panel and align with the FEVD reallocation toward demand-side shocks.
+
+% \paragraph{Policy implications.}
+
+% \begin{enumerate}
+%     \item[(i)] the Taylor principle is satisfied with comfortable margin;
+%     \item[(ii)] slightly less smoothing under fixed Calvo delivers earlier policy-rate peaks when inflation pressure builds;
+%     \item[(iii)] the sacrifice ratio tilts toward \emph{shorter—but sharper—}disinflations, because prices and wages reoptimize more frequently; and
+%     \item[(iv)] our Q3 conclusions are robust—the transmission mechanism and shock ranking remain qualitatively the same, with differences concentrated in timing.
+% \end{enumerate}
+% --- End Q7 section ---
+
+\pagebreak
+
+% ========= Q8: Subsample Estimations (SW samples) =========
+\section*{Q8. Subsample Estimation: Great Inflation vs.\ Great Moderation}
+
+% % ---------- Table 1: Monetary policy parameters across samples ----------
+% \begin{table}[h!]
+%   \centering
+%   \begin{threeparttable}
+%   \caption{Monetary Policy Parameters: Posterior Modes Across Samples}
+%   \label{tab:q8_policy}
+%   \footnotesize
+%   \setlength{\tabcolsep}{6.5pt}
+%   \begin{tabular}{lcccc}
+%     \toprule
+%     & Inflation feedback $r_\pi$ & Smoothing $\rho$ & Output level $r_y$ & Output growth $r_{\Delta y}$ \\
+%     \midrule
+%     \textbf{(A) 1966Q2--1979Q2} & 1.296 & 0.781 & 0.159 & 0.201 \\
+%     \textbf{(B) 1984Q1--2004Q4} & 1.846 & 0.808 & 0.016 & 0.115 \\
+%     \addlinespace
+%     \textbf{Q3 baseline (65Q1--04Q4)} & 1.976 & 0.808 & 0.075 & 0.227 \\
+%     \bottomrule
+%   \end{tabular}
+%   \begin{tablenotes}[flushleft]\footnotesize
+%     \item \emph{Notes:} Q3 numbers reproduce the baseline in Section~Q3. A higher $r_\pi$ in (B) indicates a more aggressive
+%     anti-inflation stance, while $r_y$ falls markedly (near zero), consistent with diminished direct
+%     responses to real activity in the Great Moderation.
+%   \end{tablenotes}
+%   \end{threeparttable}
+% \end{table}
+
+% % ---------- Table 2: Shock standard deviations ----------
+% \begin{table}[h!]
+%   \centering
+%   \begin{threeparttable}
+%   \caption{Standard Deviations of Key Structural Shocks (Posterior Modes)}
+%   \label{tab:q8_sigmas}
+%   \footnotesize
+%   \setlength{\tabcolsep}{7pt}
+%   \begin{tabular}{lccc}
+%     \toprule
+%     & Productivity $\sigma_{\eta_a}$ & Monetary policy $\sigma_{\eta_m}$ & Price mark-up $\sigma_{\eta_p}$ \\
+%     \midrule
+%     \textbf{(A) 1966Q2--1979Q2} & 0.548 & 0.220 & 0.216 \\
+%     \textbf{(B) 1984Q1--2004Q4} & 0.354 & 0.099 & 0.074 \\
+%     \bottomrule
+%   \end{tabular}
+%   \begin{tablenotes}[flushleft]\footnotesize
+%     \item \emph{Notes:} In (B) the innovations to productivity, policy, and price mark-ups are substantially less volatile
+%     than in (A), consistent with the decline in observed macro volatility in the Great Moderation.
+%   \end{tablenotes}
+%   \end{threeparttable}
+% \end{table}
+
+% % ---------- Table 3: Selected deep parameters ----------
+% \begin{table}[h!]
+%   \centering
+%   \begin{threeparttable}
+%   \caption{Selected Deep Parameters: Posterior Modes by Subsample}
+%   \label{tab:q8_struct}
+%   \footnotesize
+%   \setlength{\tabcolsep}{6pt}
+%   \begin{tabular}{lcc}
+%     \toprule
+%     & \textbf{(A) 66Q2--79Q2} & \textbf{(B) 84Q1--04Q4} \\
+%     \midrule
+%     Price Calvo $\xi_p$ & 0.515 & 0.759 \\
+%     Wage Calvo $\xi_w$  & 0.691 & 0.540 \\
+%     Price indexation $\iota_p$ & 0.394 & 0.506 \\
+%     Wage indexation $\iota_w$  & 0.589 & 0.541 \\
+%     Habit $h=\lambda$          & 0.680 & 0.702 \\
+%     Inv.\ adj.\ cost $\phi$    & 3.77  & 7.09 \\
+%     TFP persistence $\rho_a$   & 0.844 & 0.961 \\
+%     \bottomrule
+%   \end{tabular}
+%   \begin{tablenotes}[flushleft]\footnotesize
+%     \item \emph{Notes:} Relative to (A), (B) features more price stickiness but somewhat less wage stickiness,
+%     slightly stronger habits, higher investment adjustment costs, and more persistent technology. These shifts
+%     alter the slope and propagation in the Phillips and IS blocks.
+%   \end{tablenotes}
+%   \end{threeparttable}
+% \end{table}
+
+
+\begin{table}[h!]
+  \centering
+  \caption{Posterior Mode Estimates: Great Inflation (A) vs.\ Great Moderation (B)}
+  \label{tab:q8_full_post_modes}
+  \begin{threeparttable}
+  \footnotesize
+  \setlength{\tabcolsep}{6pt}
+  \begin{tabular}{l l l c c}
+    \toprule
+    \multicolumn{1}{c}{Parameter} & \multicolumn{1}{c}{Description} & \multicolumn{1}{c}{Dynare Name} & \multicolumn{1}{c}{(A) 1966Q2--1979Q2} & \multicolumn{1}{c}{(B) 1984Q1--2004Q4}\\
+    \midrule
+    \multicolumn{5}{l}{\emph{Structural Parameters}}\\
+    $\alpha$   & Capital share                    & \texttt{calfa}     & 0.1999 & 0.2302 \\
+    $\sigma_c$ & Intertemporal substitution       & \texttt{csigma}    & 1.0711 & 1.4768 \\
+    $h$        & Habit formation                  & \texttt{chabb}     & 0.6796 & 0.7015 \\
+    $\xi_w$    & Calvo prob.\ (wages)             & \texttt{cprobw}    & 0.6914 & 0.5399 \\
+    $\sigma_l$ & Labor supply elasticity          & \texttt{csigl}     & 1.6373 & 2.1042 \\
+    $\xi_p$    & Calvo prob.\ (prices)            & \texttt{cprobp}    & 0.5151 & 0.7594 \\
+    $\iota_w$  & Indexation (wages)               & \texttt{cindw}     & 0.5893 & 0.5407 \\
+    $\iota_p$  & Indexation (prices)              & \texttt{cindp}     & 0.3939 & 0.5062 \\
+    $\psi$     & Capital utilization cost         & \texttt{czcap}     & 0.4004 & 0.7432 \\
+    $\phi$     & Investment adj.\ cost            & \texttt{csadjcost} & 3.7700 & 7.0923 \\
+    $\Phi$     & Fixed costs                      & \texttt{cfc}       & 1.3891 & 1.5587 \\
+    $g_{trend}$& Deterministic growth trend       & \texttt{ctrend}    & 0.3890 & 0.3890 \\
+    $c_{\beta}$& Risk-premium steady state        & \texttt{constebeta}& 0.1656 & 0.1328 \\
+    $\bar\pi$  & Steady-state inflation           & \texttt{constepinf}& 0.6892 & 0.6490 \\
+    $c_{\ell}$ & Labor disutility level           & \texttt{constelab} & 2.8077 & 2.9581 \\
+    $\mu_p$    & MA term: price mark-up           & \texttt{cmap}      & 0.5749 & 0.6336 \\
+    $\mu_w$    & MA term: wage mark-up            & \texttt{cmaw}      & 0.7142 & 0.6786 \\
+    $\rho_{ga}$& Feedback tech.\ on spending      & \texttt{cgy}       & 0.5646 & 0.4474 \\
+    \addlinespace
+    \multicolumn{5}{l}{\emph{Monetary Policy Parameters (Taylor rule)}}\\
+    $r_\pi$    & Response to inflation            & \texttt{crpi}      & 1.2962 & 1.8463 \\
+    $\rho$     & Interest-rate persistence        & \texttt{crr}       & 0.7805 & 0.8082 \\
+    $r_y$      & Response to output gap           & \texttt{cry}       & 0.1585 & 0.0160 \\
+    $r_{\Delta y}$ & Response to output growth    & \texttt{crdy}      & 0.2014 & 0.1150 \\
+    \addlinespace
+    \multicolumn{5}{l}{\emph{Shock Process Parameters}}\\
+    $\rho_a$   & Persistence: productivity        & \texttt{crhoa}     & 0.8440 & 0.9606 \\
+    $\rho_b$   & Persistence: risk premium        & \texttt{crhob}     & 0.3179 & 0.1063 \\
+    $\rho_g$   & Persistence: gov.\ spending      & \texttt{crhog}     & 0.9333 & 0.9584 \\
+    $\rho_{qs}$& Persistence: invest.\ specific   & \texttt{crhoqs}    & 0.5889 & 0.6353 \\
+    $\rho_m$   & Persistence: monetary policy     & \texttt{crhoms}    & 0.3626 & 0.5153 \\
+    $\rho_p$   & Persistence: price mark-up       & \texttt{crhopinf}  & 0.7365 & 0.7944 \\
+    $\rho_w$   & Persistence: wage mark-up        & \texttt{crhow}     & 0.9555 & 0.9671 \\
+    \addlinespace
+    \multicolumn{5}{l}{\emph{Standard Deviations of Structural Shocks}}\\
+    $\sigma_{ea}$   & Std.\ dev.\ productivity shock        & \texttt{ea}    & 0.5481 & 0.3539 \\
+    $\sigma_{eb}$   & Std.\ dev.\ risk-premium shock        & \texttt{eb}    & 0.2473 & 0.1970 \\
+    $\sigma_{eg}$   & Std.\ dev.\ gov.\ spending shock      & \texttt{eg}    & 0.5404 & 0.4087 \\
+    $\sigma_{eqs}$  & Std.\ dev.\ invest.-specific shock    & \texttt{eqs}   & 0.4416 & 0.3566 \\
+    $\sigma_{em}$   & Std.\ dev.\ monetary policy shock     & \texttt{em}    & 0.2203 & 0.0987 \\
+    $\sigma_{epinf}$& Std.\ dev.\ price mark-up shock       & \texttt{epinf} & 0.2157 & 0.0744 \\
+    $\sigma_{ew}$   & Std.\ dev.\ wage mark-up shock        & \texttt{ew}    & 0.1757 & 0.2984 \\
+    \bottomrule
+  \end{tabular}
+  \begin{tablenotes}[flushleft]\footnotesize
+    \item \emph{Notes:} (A) Great Inflation; (B) Great Moderation. Relative to (A), (B) shows stronger inflation focus ($r_\pi$),
+    indicating a more aggressive anti-inflation stance,w hile $r_y$ falls markedly (near zero), consistent with diminished direct
+    responses to real activity in the Great Moderation.
+    Deep parameters tilt toward higher price stickiness and larger $\phi$, with more persistent TFP.
+  \end{tablenotes}
+  \end{threeparttable}
+\end{table}
+\FloatBarrier
+
+
+% ---------- Q8 IRFs: 2x2 stacked block with one integrated Notes ----------
+\begin{figure}[h!]
+  \centering
+  \caption{Impulse Responses to Demand and Monetary Shocks: Q8 Subsamples}
+  \label{fig:irfs_q8}
+  \begin{minipage}{0.49\textwidth}
+    \centering
+    \textit{(a) A: Demand block}\\[-0.3ex]
+    \includegraphics[width=\linewidth]{Q8_A_demand.pdf}
+  \end{minipage}\hfill
+  \begin{minipage}{0.49\textwidth}
+    \centering
+    \textit{(b) A: Monetary policy shock}\\[-0.3ex]
+    \includegraphics[width=\linewidth]{Q8_A_monetary.pdf}
+  \end{minipage}\\[0.6ex]
+  \begin{minipage}{0.49\textwidth}
+    \centering
+    \textit{(c) B: Demand block}\\[-0.3ex]
+    \includegraphics[width=\linewidth]{Q8_B_demand.pdf}
+  \end{minipage}\hfill
+  \begin{minipage}{0.49\textwidth}
+    \centering
+    \textit{(d) B: Monetary policy shock}\\[-0.3ex]
+    \includegraphics[width=\linewidth]{Q8_B_monetary.pdf}
+  \end{minipage}
+  \vspace{0.5ex}
+  \begin{minipage}{0.95\linewidth}\footnotesize
+    \emph{Notes:} One-s.d.\ shocks. Great Inflation (A) vs.\ Great Moderation (B). (A) shows larger, more front-loaded $i$ and $\pi$ responses (higher $\sigma_{\eta_m}$, lower $r_\pi$); output costs on impact are bigger.
+    (B) responses are smaller and smoother (much lower $\sigma_{\eta_m}$, higher $r_\pi$, higher $\phi$): disinflation is gentler and activity humps—from $q_t$ especially—are persistent but lower in amplitude.
+  \end{minipage}
+\end{figure}
+\FloatBarrier
+
+\paragraph{Central-bank reading (A vs.\ B).}
+Three facts stand out. First, the policy rule becomes more \emph{inflation-focused} over time:
+$r_\pi$ rises from about 1.30 in (A) to 1.85 in (B), while $r_y$ collapses toward near zero and $r_{\Delta y}$ declines.
+Interest-rate smoothing is similar or slightly higher in (B). Second, the volatility of key disturbances falls sharply in (B):
+the standard deviations of productivity, monetary policy, and price mark-up shocks drop by roughly 35\%, 55\%, and 66\%, respectively.
+Third, in (B), nominal and real frictions shift toward \emph{more price stickiness} (higher $\xi_p$), \emph{less wage stickiness} (lower $\xi_w$),
+and \emph{steeper investment adjustment costs} (higher $\phi$), with more persistent technology ($\rho_a$ closer to one).
+These features flatten near-term price dynamics while damping and lengthening real adjustment.
+
+\paragraph{Variance and co-movements.}
+In (B), lower $\sigma_{em}$ and $\sigma_{epinf}$ reduce short-horizon variation in inflation and interest rates; decomposition assigns
+a relatively smaller role to monetary and price-markup innovations than in (A), while wage-markup forces remain influential for the real side.
+This dovetails with the observed moderation of nominal volatility in (B) under a rule that reacts primarily to inflation rather than output gaps.
+
+\paragraph{IRFs and transmission mechanics.}
+Scaled to one-s.d.\ shocks, (B) exhibits \emph{smaller} and \emph{smoother} disinflations: higher price stickiness and slightly higher smoothing
+spread the policy-rate path and mute the initial movement in inflation, while higher investment adjustment costs damp investment
+and deliver lower—but still persistent—real humps (especially after investment-specific shocks). In (A), larger innovations and a non-trivial reaction to output
+produce \emph{bigger, more front-loaded} moves in the policy rate and inflation, with sharper near-term output costs.
+For the monetary policy shock specifically, (B) combines a much smaller innovation with slightly greater shock persistence and a stronger inflation response in the rule,
+yielding a gradual but effective disinflation with limited impact volatility.
+
+\paragraph{Conclusion for Q8.}
+We find the same three broad patterns emphasized by SW for their subsamples:
+\begin{enumerate}
+  \item[(i)] broadly stable structural parameters with economically meaningful shifts in sticky-price/wage parameters (higher $\xi_p$, lower $\xi_w$) and higher $\phi$ in (B);
+  \item[(ii)] sizable declines in the standard deviations of productivity, monetary-policy, and price mark-up shocks in (B), consistent with lower macro volatility;
+  \item[(iii)] a lower policy response to output in (B) (near-zero $r_y$) alongside a strong response to inflation.
+\end{enumerate}
+% ===== End Q8 section =====
+
+
+% ========= Q9: Diffuse priors + RWMH on SW period (1965Q1-2004Q4) =========
+\section*{Q9. Diffuse Priors and RWMH on the SW Sample (1965Q1-2004Q4)}
+
+\paragraph{Why the first diffuse-prior run failed.}
+
+Replacing SW's tight priors with diffuse ones can flatten the posterior around combinations of nominal frictions (Calvo probabilities and indexation),
+policy inertia, and mark-up ARMA terms.
+In our first pass, the optimizer did reach a local solution, but Dynare flagged a \emph{non-positive-definite Hessian} at the putative mode,
+with singular-matrix warnings; hence the usual covariance approximation was invalid and results ``most likely wrong.''
+This is the classic symptom of (locally) weak curvature/near non-identification under weak priors, not a coding error.
+
+Following the prompt, we re-estimate with Random-Walk Metropolis-Hastings (RWMH).
+The second run exhibits healthy acceptance ratios ($\approx 29\%$ and 41\%),
+and Dynare's convergence/marginal-likelihood diagnostics complete cleanly.
+
+% % ---------- Table 1: Policy rule, diffuse priors (RWMH) vs Q3 ----------
+% \begin{table}[h!]
+%   \centering
+%   \caption{Monetary Policy under Diffuse Priors (RWMH) vs.\ Q3 Baseline}
+%   \label{tab:q9_policy}
+%   \begin{threeparttable}
+%   \footnotesize
+%   \setlength{\tabcolsep}{6.3pt}
+%   \begin{tabular}{l l c c}
+%     \toprule
+%     \multicolumn{1}{c}{Parameter} & \multicolumn{1}{c}{Meaning}
+%     & \multicolumn{1}{c}{Q3 (Mode)} & \multicolumn{1}{c}{Q9 (Post.\ mean; stdev)}\\
+%     \midrule
+%     $r_\pi$  & Response to inflation (\texttt{crpi}) & 1.9760 & 2.7139 \;(0.1024) \\
+%     $\rho$   & Rate smoothing (\texttt{crr})         & 0.8075 & 0.8857 \;(0.0124) \\
+%     $r_y$    & Output gap (\texttt{cry})             & 0.0754 & 0.1242 \;(0.0259) \\
+%     $r_{\Delta y}$ & Output growth (\texttt{crdy})   & 0.2266 & 0.2365 \;(0.0322) \\
+%     \bottomrule
+%   \end{tabular}
+%   \begin{tablenotes}[flushleft]\footnotesize
+%     \item \emph{Notes:} Q3 (mode) from the baseline log. Q9 values are posterior means (stdevs) from the RWMH TeX binder, Table 2. Laplace log data density: Q3 \(-904.32\), RWMH pre-MCMC \(-908.31\). RWMH modified-harmonic-mean: \(-905.54\).
+%   \end{tablenotes}
+%   \end{threeparttable}
+% \end{table}
+
+% % ---------- Table 2: Nominal frictions and deep real parameters ----------
+% \begin{table}[h!]
+%   \centering
+%   \caption{Price-Wage Frictions and Deep Parameters: Q9 (Diffuse Priors) vs.\ Q3}
+%   \label{tab:q9_deep}
+%   \begin{threeparttable}
+%   \footnotesize
+%   \setlength{\tabcolsep}{6.2pt}
+%   \begin{tabular}{l l c c}
+%     \toprule
+%     \multicolumn{1}{c}{Parameter} & \multicolumn{1}{c}{Meaning}
+%     & \multicolumn{1}{c}{Q3 (Mode)} & \multicolumn{1}{c}{Q9 (Post.\ mean; stdev)} \\
+%     \midrule
+%     $\xi_w$  & Calvo prob.\ (wages) (\texttt{cprobw}) & 0.7329 & 0.933 \;(0.0168) \\
+%     $\xi_p$  & Calvo prob.\ (prices) (\texttt{cprobp}) & 0.6931 & 0.738 \;(0.0506) \\
+%     $\iota_w$& Indexation (wages) (\texttt{cindw})     & 0.6202 & 0.824 \;(0.1569) \\
+%     $\iota_p$& Indexation (prices) (\texttt{cindp})    & 0.3253 & 0.183 \;(0.1297) \\
+%     $h$      & Habit (\texttt{chabb} or $\lambda$)     & 0.6857 & 0.719 \;(0.0443) \\
+%     $\phi$   & Inv.\ adj.\ cost (\texttt{csadjcost})   & 5.5245 & 8.404 \;(1.4476) \\
+%     $\psi$   & Utilization cost slope (\texttt{czcap}) & 0.5731 & 0.754 \;(0.1235) \\
+%     \bottomrule
+%   \end{tabular}
+%   \begin{tablenotes}[flushleft]\footnotesize
+%     \item \emph{Notes:} Q3 numbers from the baseline; Q9 entries are posterior means (stdevs) from RWMH Table 2. Diffuse priors push the posterior toward \emph{stickier wages}, mildly \emph{stickier prices}, higher wage indexation but lower price indexation, and notably \emph{larger} investment adjustment costs.
+%   \end{tablenotes}
+%   \end{threeparttable}
+% \end{table}
+
+% % ---------- Table 3: Shock standard deviations ----------
+% \begin{table}[h!]
+%   \centering
+%   \caption{Standard Deviations of Structural Shocks: Q9 (Diffuse Priors, Post.\ means) vs.\ Q3 Modes}
+%   \label{tab:q9_shocks}
+%   \begin{threeparttable}
+%   \footnotesize
+%   \setlength{\tabcolsep}{6pt}
+%   \begin{tabular}{l c c}
+%     \toprule
+%     Shock & Q3 (Mode) & Q9 (Post.\ mean; 90\% HPD) \\
+%     \midrule
+%     $\eta_a$ (TFP)               & 0.441 & 0.429 \;[0.382, 0.476] \\
+%     $\eta_b$ (Risk premium)      & 0.241 & 0.257 \;[0.213, 0.298] \\
+%     $\eta_g$ (Gov.\ spending)    & 0.515 & 0.540 \;[0.496, 0.583] \\
+%     $\eta_i$ (Inv.-specific)     & 0.415 & 0.423 \;[0.350, 0.491] \\
+%     $\eta_m$ (Monetary policy)   & 0.239 & 0.228 \;[0.208, 0.249] \\
+%     $\eta_{p}$ (Price mark-up)   & 0.123 & 0.100 \;[0.069, 0.130] \\
+%     $\eta_{w}$ (Wage mark-up)    & 0.251 & 0.259 \;[0.224, 0.298] \\
+%     \bottomrule
+%   \end{tabular}
+%   \begin{tablenotes}[flushleft]\footnotesize
+%     \item \emph{Notes:} Q3 modes from the baseline log; Q9 posterior means and HPDs from RWMH TeX binder, Table 3. Relative to Q3, diffuse priors nudge policy and price mark-up volatility \emph{down} and risk-premium/wage mark-up volatility \emph{up} a touch.
+%   \end{tablenotes}
+%   \end{threeparttable}
+% \end{table}
+
+\begin{table}[h!]
+  \centering
+  \caption{Posterior Estimates under Diffuse Priors (RWMH) vs.\ Q3 Baseline}
+  \label{tab:q9_params}
+  \begin{threeparttable}
+  \footnotesize
+  \setlength{\tabcolsep}{6pt}
+  \begin{tabular}{l l l c c}
+    \toprule
+    \multicolumn{1}{c}{Parameter} & \multicolumn{1}{c}{Description} & \multicolumn{1}{c}{Dynare Name} & \multicolumn{1}{c}{Q9 (RWMH, Post.\ mean)} & \multicolumn{1}{c}{Q3 (Mode)} \\
+    \midrule
+    \multicolumn{5}{l}{\emph{Structural parameters}}\\
+    $\alpha$   & Capital share                    & \texttt{calfa}     & 0.2049 & 0.2127 \\
+    $\sigma_c$ & Intertemporal substitution       & \texttt{csigma}    & 1.6761 & 1.4504 \\
+    $h$        & Habit formation                  & \texttt{chabb}     & 0.7186 & 0.6857 \\
+    $\xi_w$    & Calvo prob.\ (wages)             & \texttt{cprobw}    & 0.9326 & 0.7329 \\
+    $\sigma_l$ & Labor supply elasticity          & \texttt{csigl}     & 3.9475 & 1.9554 \\
+    $\xi_p$    & Calvo prob.\ (prices)            & \texttt{cprobp}    & 0.7382 & 0.6931 \\
+    $\iota_w$  & Indexation (wages)               & \texttt{cindw}     & 0.8236 & 0.6202 \\
+    $\iota_p$  & Indexation (prices)              & \texttt{cindp}     & 0.1832 & 0.3253 \\
+    $\psi$     & Utilization cost slope           & \texttt{czcap}     & 0.7540 & 0.5731 \\
+    $\phi$     & Investment adjustment cost       & \texttt{csadjcost} & 8.4036 & 5.5245 \\
+    $\Phi$     & Fixed costs                      & \texttt{cfc}       & 1.8501 & 1.6276 \\
+    \addlinespace
+    \multicolumn{5}{l}{\emph{Monetary policy (Taylor rule)}}\\
+    $r_\pi$    & Response to inflation            & \texttt{crpi}      & 2.7777 & 1.9760 \\
+    $\rho$     & Interest-rate smoothing          & \texttt{crr}       & 0.8823 & 0.8075 \\
+    $r_y$      & Response to output gap           & \texttt{cry}       & 0.1361 & 0.0754 \\
+    $r_{\Delta y}$ & Response to output growth    & \texttt{crdy}      & 0.2474 & 0.2266 \\
+    \addlinespace
+    \multicolumn{5}{l}{\emph{Shock processes (ARMA/persistence and feedbacks)}}\\
+    $\rho_a$   & Persistence: productivity        & \texttt{crhoa}     & 0.9615 & 0.9573 \\
+    $\rho_b$   & Persistence: risk premium        & \texttt{crhob}     & 0.1367 & 0.2000 \\
+    $\rho_g$   & Persistence: gov.\ spending      & \texttt{crhog}     & 0.9776 & 0.9713 \\
+    $\rho_{qs}$& Persistence: invest.\ specific   & \texttt{crhoqs}    & 0.6979 & 0.7086 \\
+    $\rho_m$   & Persistence: MP shock            & \texttt{crhoms}    & 0.0527 & 0.1438 \\
+    $\rho_p$   & Persistence: price mark-up       & \texttt{crhopinf}  & 0.9176 & 0.8826 \\
+    $\rho_w$   & Persistence: wage mark-up        & \texttt{crhow}     & 0.7680 & 0.9632 \\
+    $\rho_{ga}$& Tech.\ feedback in $g_t$         & \texttt{cgy}       & 0.4756 & 0.5548 \\
+    \addlinespace
+    \multicolumn{5}{l}{\emph{MA terms (mark-ups)}}\\
+    $\mu_p$    & MA term: price mark-up           & \texttt{cmap}      & 0.7490 & 0.7228 \\
+    $\mu_w$    & MA term: wage mark-up            & \texttt{cmaw}      & 0.7187 & 0.8721 \\
+    \addlinespace
+    \multicolumn{5}{l}{\emph{Detrending/measurement constants}}\\
+    $\gamma$   & Trend growth                      & \texttt{ctrend}    & 0.3990 & 0.4272 \\
+    $\bar{\pi}$& Steady inflation scaling          & \texttt{constepinf}& 1.1188 & 0.9099 \\
+    $\bar{\beta}$& Discount scaling                 & \texttt{constebeta}& 0.2288 & 0.1317 \\
+    $\bar{\ell}$& Hours scaling                     & \texttt{constelab} & 5.4972 & 5.0595 \\
+    \addlinespace
+    \multicolumn{5}{l}{\emph{Std.\ deviations of structural shocks}}\\
+    $\sigma_{\eta_a}$  & TFP shock                  & \texttt{ea}   & 0.4288 & 0.4414 \\
+    $\sigma_{\eta_b}$  & Risk premium               & \texttt{eb}   & 0.2572 & 0.2405 \\
+    $\sigma_{\eta_g}$  & Gov.\ spending             & \texttt{eg}   & 0.5399 & 0.5149 \\
+    $\sigma_{\eta_{qs}}$ & Inv.\ specific          & \texttt{eqs}  & 0.4233 & 0.4152 \\
+    $\sigma_{\eta_m}$  & Monetary policy            & \texttt{em}   & 0.2278 & 0.2393 \\
+    $\sigma_{\eta_p}$  & Price mark-up              & \texttt{epinf}& 0.1004 & 0.1227 \\
+    $\sigma_{\eta_w}$  & Wage mark-up               & \texttt{ew}   & 0.2592 & 0.2508 \\
+    \bottomrule
+  \end{tabular}
+  \begin{tablenotes}[flushleft]\footnotesize
+    \item \emph{Notes:} Q9 entries are posterior means from the RWMH run with diffuse priors; Q3 entries are posterior modes from the baseline. Source: model logs. 
+  \end{tablenotes}
+  \end{threeparttable}
+\end{table}
+\FloatBarrier
+
+% ---------- Figure: IRFs ----------
+\begin{figure}[h!]
+  \centering
+  \caption{Impulse Responses under Diffuse Priors (RWMH), SW Sample}\hfill
+  \label{fig:q9_irfs}
+  \begin{minipage}{\textwidth}
+    \centering
+    \textit{(a) Demand block}
+    \vspace{0.25ex}
+    \includegraphics[width=\linewidth]{Q9_demand.pdf}
+  \end{minipage}\hfill
+  \vspace{0.5ex}
+  \begin{minipage}{\textwidth}
+    \centering
+    \textit{(b) Monetary policy shock}
+    \vspace{0.25ex}
+    \includegraphics[width=\linewidth]{Q9_monetary.pdf}
+  \end{minipage}\hfill
+  \vspace{0.5ex}
+  \begin{minipage}{0.93\linewidth}\footnotesize
+    \emph{Notes:} IRFs are from the RWMH re-estimation over 1965Q1-2004Q4. Parameters underlying these IRFs include a stronger anti-inflation response ($r_\pi\!\approx\!2.71$) and higher smoothing ($\rho\!\approx\!0.89$), together with very high wage stickiness ($\xi_w\!\approx\!0.93$) and larger investment adjustment costs ($\phi\!\approx\!8.4$).
+  \end{minipage}
+\end{figure}
+\FloatBarrier
+
+
+\paragraph{Central-bank reading (diffuse priors vs.\ Q3).}
+
+\emph{Policy stance.} The data, freed from tight priors, push the Taylor-rule inflation coefficient \emph{up} and the smoothing parameter \emph{up}:
+$r_\pi$ rises from $\approx1.976$ to $\approx2.7$; $\rho$ from $\approx0.8075$ to $\approx0.8823$ (Table~\ref{tab:q9_params}).
+For an interest-rate path, that means a more forceful reaction to inflation pressures but implemented more gradually—precisely the combination that anchors expectations while avoiding unnecessary output volatility.
+The sampler diagnostics (acceptance ratios, convergence messages) support that these are data-driven posterior features rather than artifacts of a single local mode.
+
+\emph{Nominal frictions.} Wage contracts become \emph{very} sticky in posterior mean ($\xi_w\!\approx\!0.93$) and wage indexation is higher,
+whereas price indexation falls (Table~\ref{tab:q9_params}).
+This shifts intrinsic persistence toward wages and reduces the backward-looking component in prices.
+The price Calvo probability increases only moderately relative to Q3, keeping price contract durations plausible.
+
+\emph{Real propagation.} Investment adjustment costs rise materially ($\phi\!\approx\!8.4$ vs.\ $5.5$),
+and utilization-cost slope $\psi$ is higher.
+In IRFs, that shows up as more gradual investment dynamics after $q_t$ or demand disturbances,
+with smaller near-term overshoots but persistence in levels—consistent with a steeper intertemporal margin that smooths capital adjustment (Figure~\ref{fig:q9_irfs}).
+
+\emph{Shock volatility.} Relative to Q3, policy and price mark-up innovation variances decline,
+while risk-premium and wage mark-up variances are a bit higher (Table~\ref{tab:q9_params}).
+This rebalancing is coherent with
+\begin{enumerate}
+    \item[(i)] a more aggressive, smoother policy that leaves less room for idiosyncratic policy shocks to drive nominal volatility, and
+    \item[(ii)] wage-setting frictions bearing more of the persistence.
+\end{enumerate}
+
+\paragraph{IRFs: what changes relative to Q3.}
+
+With $r_\pi$ higher and $\rho$ higher, the disinflation following a contractionary monetary innovation is \emph{decisive yet smoothed}:
+inflation falls promptly without an excessive overshoot, and the policy rate path is more inertial.
+Wage-driven price dynamics (high $\xi_w$, higher $\iota_w$) make inflation's medium-run persistence slightly more governed by labor-market mark-ups than in Q3,
+while lower price indexation reduces the purely backward-looking component on the price side.
+For $q_t$ shocks, larger $\phi$ pushes investment and output responses toward a slower,
+more hump-shaped adjustment—what you'd expect if capital reallocation is costlier under the diffuse-prior posterior (Figure~\ref{fig:q9_irfs}).
+
+A contractionary innovation produces a \textbf{decisive yet gradual} disinflation:
+inflation falls promptly with less front-loading; the policy rate path is smoother;
+output and hours responses are milder on impact but slightly more persistent due to higher real/nominal rigidities.
+This pattern follows directly from $r_\pi\uparrow$, $\rho\uparrow$, $\xi_w\uparrow$, and $\phi\uparrow$. 
+
+% \paragraph{Operational takeaways for the committee.}
+
+% \begin{enumerate}
+%     \item[(i)] Keep $r_\pi{>}1$ with purposeful smoothing—both are strongly supported by the data even without tight priors.  
+%     \item[(ii)] Monitor wage-price interactions closely: with wages driving more of the persistence, disinflations that ignore wage dynamics risk being slower and costlier.  
+%     \item[(iii)] Expect a more measured investment response to rate hikes and $q_t$ shocks—higher adjustment costs mean real activity adjusts with a longer, gentler hump.
+% \end{enumerate}
+
+% ========= End Q9 =========
+
+
+\end{document}

@@ -1,0 +1,123 @@
+Starting Dynare (version 6.4).
+Calling Dynare with arguments: none
+Starting preprocessing of the model file ... 
+Found 46 equation(s). 
+Evaluating expressions... 
+Computing static model derivatives (order 1). 
+Normalizing the static model... 
+Finding the optimal block decomposition of the static model... 
+12 block(s) found: 
+  9 recursive block(s) and 3 simultaneous block(s). 
+  the largest simultaneous block has 15 equation(s) 
+                                 and 15 feedback variable(s). 
+Computing dynamic model derivatives (order 2). 
+Normalizing the dynamic model... 
+Finding the optimal block decomposition of the dynamic model... 
+5 block(s) found: 
+  2 recursive block(s) and 3 simultaneous block(s). 
+  the largest simultaneous block has 15 equation(s) 
+                                 and 13 feedback variable(s). 
+Preprocessing completed. 
+Preprocessing time: 0h00m00s.
+[警告: Some of the parameters have no value (constebeta, ccs, cinvs, crdpi) when using stoch_simul. If these parameters are not initialized in a
+steadystate file or a steady_state_model-block, Dynare may not be able to solve the model. Note that simul, perfect_foresight_setup, and
+perfect_foresight_solver do not automatically call the steady state file.] 
+
+MODEL SUMMARY
+
+  Number of variables:         46
+  Number of stochastic shocks: 7
+  Number of state variables:   23
+  Number of jumpers:           12
+  Number of static variables:  17
+
+
+MATRIX OF COVARIANCE OF EXOGENOUS SHOCKS
+Variables          ea        eb        eg       eqs        em     epinf        ew
+ea           0.213259  0.000000  0.000000  0.000000  0.000000  0.000000  0.000000
+eb           0.000000  3.427312  0.000000  0.000000  0.000000  0.000000  0.000000
+eg           0.000000  0.000000  0.370881  0.000000  0.000000  0.000000  0.000000
+eqs          0.000000  0.000000  0.000000  0.362043  0.000000  0.000000  0.000000
+em           0.000000  0.000000  0.000000  0.000000  0.057456  0.000000  0.000000
+epinf        0.000000  0.000000  0.000000  0.000000  0.000000  0.021170  0.000000
+ew           0.000000  0.000000  0.000000  0.000000  0.000000  0.000000  0.043639
+
+POLICY AND TRANSITION FUNCTIONS
+                                   y               c            inve            pinf               r               w               k             lab
+cf(-1)                      0.003443        0.006746       -0.004325       -0.000644       -0.105989       -0.000515        0.001487        0.002551
+yf(-1)                     -0.037436       -0.042612       -0.031664       -0.000953        0.222265       -0.001651       -0.020470       -0.026375
+c(-1)                      -0.003844       -0.004090        0.002843       -0.001647       -0.003600       -0.010817       -0.008421       -0.000712
+y(-1)                       0.037436        0.042612        0.031664        0.000953       -0.222265        0.001651        0.020470        0.026375
+a(-1)                       0.019698        0.113858        0.490673       -0.172000       -0.497268        0.193984       -0.653747       -1.089038
+b(-1)                       1.644256        1.625689        2.015010        0.125833        0.672160        0.138636        0.938313        1.146020
+g(-1)                       1.190166        0.154407       -0.228721        0.035783        0.199989        0.026472        0.635335        0.843373
+qs(-1)                      0.811364        0.202537        2.609319        0.120051        0.318349        0.086186        0.473564        0.562176
+kpf(-1)                     0.002049        0.001398        0.003769        0.002736        0.022718        0.000861        0.001577        0.001299
+kp(-1)                     -0.226576       -0.049429        0.083371       -0.027725       -0.108201        0.002494        0.102591       -0.231148
+bg(-1)                     -0.057641       -0.091652        0.022800       -0.003044       -0.026450       -0.003969       -0.032365       -0.040342
+invef(-1)                   0.002637        0.003691        0.000442        0.000058       -0.035332       -0.000012        0.001366        0.001882
+inve(-1)                    0.285569        0.101569        0.847958        0.011015        0.100480        0.012164        0.155892        0.201270
+pinf(-1)                   -0.178747       -0.188302       -0.123863        0.433135        0.597151       -0.114003       -0.160721       -0.106042
+w(-1)                       0.291669        0.310398       -0.215780        0.124949        0.273174        0.820861        0.639034        0.054049
+c_nlc(-1)                   0.291521        0.427427       -0.012853        0.005816        0.094431        0.013041        0.159511        0.205348
+cf_nlc(-1)                 -0.001128       -0.001579       -0.000189       -0.000025        0.015115        0.000005       -0.000584       -0.000805
+ea                          0.629350        0.193208        0.374653       -0.154068       -0.395979        0.207990       -0.329834       -0.659570
+eb                          2.835413        2.803395        3.474754        0.216990        1.159097        0.239069        1.618060        1.976238
+eg                          1.195306        0.155074       -0.229708        0.035938        0.200853        0.026586        0.638079        0.847016
+eqs                         1.132399        0.282676        3.641757        0.167552        0.444312        0.120288        0.660941        0.784615
+em                         -0.159507       -0.181560       -0.134911       -0.004059        0.947016       -0.007035       -0.087218       -0.112376
+epinf                      -0.854218       -0.903062       -0.168402        1.226984        1.589336       -1.188215       -1.149936       -0.386176
+ew                          0.582610        0.620022       -0.431021        0.249586        0.545666        1.639675        1.276475        0.107964
+
+
+THEORETICAL MOMENTS
+VARIABLE         MEAN  STD. DEV.   VARIANCE
+y              0.0000    21.2112   449.9149
+c              0.0000    20.8657   435.3793
+inve           0.0000    32.4701  1054.3101
+pinf           0.0000     1.5732     2.4748
+r              0.0000     3.7899    14.3630
+w              0.0000     9.7831    95.7087
+k              0.0000    15.4384   238.3456
+lab            0.0000    11.9576   142.9840
+
+
+
+VARIANCE DECOMPOSITION (in percent)
+            ea      eb      eg     eqs      em   epinf      ew
+y        31.56   61.70    3.21    3.51    0.00    0.01    0.01
+c        34.67   57.10    6.70    1.50    0.00    0.01    0.01
+inve     18.79   64.04    0.44   16.67    0.00    0.01    0.05
+pinf      1.70   87.88    0.42    7.86    0.00    1.48    0.67
+r         0.74   92.41    0.30    5.51    0.36    0.44    0.25
+w        90.33    7.96    0.10    1.18    0.00    0.11    0.31
+k        36.47   55.35    1.01    7.07    0.00    0.04    0.07
+lab       1.72   88.24    5.68    4.32    0.00    0.01    0.02
+
+
+
+MATRIX OF CORRELATIONS
+Variables         y       c    inve    pinf       r       w       k     lab
+y            1.0000  0.8943  0.9095  0.7390  0.7291  0.7359  0.9486  0.7489
+c            0.8943  1.0000  0.9014  0.6414  0.6571  0.7701  0.9095  0.5834
+inve         0.9095  0.9014  1.0000  0.7504  0.7098  0.6672  0.9512  0.7092
+pinf         0.7390  0.6414  0.7504  1.0000  0.9161  0.1665  0.6314  0.9514
+r            0.7291  0.6571  0.7098  0.9161  1.0000  0.1666  0.6153  0.9198
+w            0.7359  0.7701  0.6672  0.1665  0.1666  1.0000  0.8038  0.1090
+k            0.9486  0.9095  0.9512  0.6314  0.6153  0.8038  1.0000  0.6239
+lab          0.7489  0.5834  0.7092  0.9514  0.9198  0.1090  0.6239  1.0000
+
+
+
+COEFFICIENTS OF AUTOCORRELATION
+Order          1       2       3       4       5
+y         0.9591  0.8860  0.8052  0.7282  0.6599
+c         0.9608  0.8926  0.8192  0.7514  0.6931
+inve      0.9703  0.9129  0.8455  0.7774  0.7136
+pinf      0.9410  0.8444  0.7353  0.6272  0.5263
+r         0.8105  0.6657  0.5491  0.4532  0.3733
+w         0.9973  0.9924  0.9863  0.9797  0.9730
+k         0.9746  0.9287  0.8771  0.8271  0.7817
+lab       0.9372  0.8260  0.7038  0.5881  0.4862
+Total computing time : 0h00m07s
+Note: warning(s) encountered in MATLAB/Octave code

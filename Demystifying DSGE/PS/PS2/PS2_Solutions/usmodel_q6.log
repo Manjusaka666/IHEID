@@ -1,0 +1,215 @@
+Starting Dynare (version 6.4).
+Calling Dynare with arguments: none
+Starting preprocessing of the model file ... 
+Found 46 equation(s). 
+Evaluating expressions... 
+Computing static model derivatives (order 1). 
+Normalizing the static model... 
+Finding the optimal block decomposition of the static model... 
+12 block(s) found: 
+  9 recursive block(s) and 3 simultaneous block(s). 
+  the largest simultaneous block has 15 equation(s) 
+                                 and 15 feedback variable(s). 
+Computing dynamic model derivatives (order 2). 
+Normalizing the dynamic model... 
+Finding the optimal block decomposition of the dynamic model... 
+5 block(s) found: 
+  2 recursive block(s) and 3 simultaneous block(s). 
+  the largest simultaneous block has 15 equation(s) 
+                                 and 13 feedback variable(s). 
+Preprocessing completed. 
+Preprocessing time: 0h00m00s.
+[警告: Some of the parameters have no value (constebeta, ccs, cinvs, crdpi) when using steady. If these parameters are not initialized in a steadystate
+file or a steady_state_model-block, Dynare may not be able to solve the model. Note that simul, perfect_foresight_setup, and perfect_foresight_solver
+do not automatically call the steady state file.] 
+
+STEADY-STATE RESULTS:
+
+labobs  		 0
+robs    		 1.15418
+pinfobs 		 0.5
+dy      		 0.4
+dc      		 0.4
+dinve   		 0.4
+dw      		 0.4
+ewma    		 0
+epinfma 		 0
+zcapf   		 0
+rkf     		 0
+kf      		 0
+pkf     		 0
+cf      		 0
+invef   		 0
+yf      		 0
+labf    		 0
+wf      		 0
+rrf     		 0
+mc      		 0
+zcap    		 0
+rk      		 0
+k       		 0
+pk      		 0
+c       		 0
+inve    		 0
+y       		 0
+lab     		 0
+pinf    		 0
+w       		 0
+r       		 0
+a       		 0
+b       		 0
+g       		 0
+qs      		 0
+ms      		 0
+spinf   		 0
+sw      		 0
+kpf     		 0
+kp      		 0
+c_nlc   		 0
+c_lc    		 0
+cf_nlc  		 0
+cf_lc   		 0
+t       		 0
+bg      		 0
+
+EIGENVALUES:
+         Modulus             Real        Imaginary
+               0                0                0
+               0                0                0
+               0                0                0
+               0                0                0
+               0                0                0
+       2.886e-18       -2.886e-18                0
+       1.321e-17        1.321e-17                0
+       3.276e-16        3.276e-16                0
+       3.978e-09       -3.978e-09                0
+       3.978e-09        3.978e-09                0
+          0.4293           0.4293                0
+          0.4817           0.4817                0
+          0.5799           0.5799                0
+          0.7024           0.7024                0
+          0.7165           0.7165                0
+            0.76             0.76                0
+          0.8054           0.8051          0.02504
+          0.8054           0.8051         -0.02504
+             0.9              0.9                0
+          0.9848           0.9848                0
+          0.9854           0.9854                0
+          0.9977           0.9977                0
+            1.02             1.02                0
+           1.022            1.022                0
+           1.075            1.057           0.1974
+           1.075            1.057          -0.1974
+           1.098            1.098                0
+           1.228            1.228                0
+           1.512            1.512                0
+       4.446e+16        4.446e+16                0
+       4.641e+16       -4.641e+16                0
+       7.672e+16        7.672e+16                0
+        1.67e+17         1.67e+17                0
+        4.44e+17        -4.44e+17                0
+
+There are 12 eigenvalue(s) larger than 1 in modulus for 12 forward-looking variable(s)
+The rank condition is verified.
+
+[警告: Some of the parameters have no value (constebeta, ccs, cinvs, crdpi) when using stoch_simul. If these parameters are not initialized in a
+steadystate file or a steady_state_model-block, Dynare may not be able to solve the model. Note that simul, perfect_foresight_setup, and
+perfect_foresight_solver do not automatically call the steady state file.] 
+
+MODEL SUMMARY
+
+  Number of variables:         46
+  Number of stochastic shocks: 7
+  Number of state variables:   22
+  Number of jumpers:           12
+  Number of static variables:  18
+
+
+MATRIX OF COVARIANCE OF EXOGENOUS SHOCKS
+Variables          ea        eb        eg       eqs        em     epinf        ew
+ea           0.213259  0.000000  0.000000  0.000000  0.000000  0.000000  0.000000
+eb           0.000000  3.427312  0.000000  0.000000  0.000000  0.000000  0.000000
+eg           0.000000  0.000000  0.370881  0.000000  0.000000  0.000000  0.000000
+eqs          0.000000  0.000000  0.000000  0.362043  0.000000  0.000000  0.000000
+em           0.000000  0.000000  0.000000  0.000000  0.057456  0.000000  0.000000
+epinf        0.000000  0.000000  0.000000  0.000000  0.000000  0.021170  0.000000
+ew           0.000000  0.000000  0.000000  0.000000  0.000000  0.000000  0.043639
+
+POLICY AND TRANSITION FUNCTIONS
+                                   y               c            inve            pinf               r               w               k             lab
+cf(-1)                      0.003443        0.006746       -0.004325       -0.000644       -0.105989       -0.000515        0.001487        0.002551
+yf(-1)                     -0.037436       -0.042612       -0.031664       -0.000953        0.222265       -0.001651       -0.020470       -0.026375
+c(-1)                      -0.003844       -0.004090        0.002843       -0.001647       -0.003600       -0.010817       -0.008421       -0.000712
+y(-1)                       0.037436        0.042612        0.031664        0.000953       -0.222265        0.001651        0.020470        0.026375
+a(-1)                       0.019698        0.113858        0.490673       -0.172000       -0.497268        0.193984       -0.653747       -1.089038
+b(-1)                       1.644256        1.625689        2.015010        0.125833        0.672160        0.138636        0.938313        1.146020
+qs(-1)                      0.811364        0.202537        2.609319        0.120051        0.318349        0.086186        0.473564        0.562176
+kpf(-1)                     0.002049        0.001398        0.003769        0.002736        0.022718        0.000861        0.001577        0.001299
+kp(-1)                     -0.226576       -0.049429        0.083371       -0.027725       -0.108201        0.002494        0.102591       -0.231148
+bg(-1)                     -0.064335       -0.101707        0.023824       -0.003312       -0.029286       -0.004392       -0.036101       -0.045034
+invef(-1)                   0.002637        0.003691        0.000442        0.000058       -0.035332       -0.000012        0.001366        0.001882
+inve(-1)                    0.285569        0.101569        0.847958        0.011015        0.100480        0.012164        0.155892        0.201270
+pinf(-1)                   -0.178747       -0.188302       -0.123863        0.433135        0.597151       -0.114003       -0.160721       -0.106042
+w(-1)                       0.291669        0.310398       -0.215780        0.124949        0.273174        0.820861        0.639034        0.054049
+c_nlc(-1)                   0.291521        0.427427       -0.012853        0.005816        0.094431        0.013041        0.159511        0.205348
+cf_nlc(-1)                 -0.001128       -0.001579       -0.000189       -0.000025        0.015115        0.000005       -0.000584       -0.000805
+ea                          0.019743        0.114121        0.491804       -0.172396       -0.498414        0.194431       -0.655254       -1.091548
+eb                          2.835413        2.803395        3.474754        0.216990        1.159097        0.239069        1.618060        1.976238
+eg                          1.509402        0.522608        0.024464        0.004588        0.228754        0.016143        0.795405        1.072856
+eqs                         1.132399        0.282676        3.641757        0.167552        0.444312        0.120288        0.660941        0.784615
+em                         -0.159507       -0.181560       -0.134911       -0.004059        0.947016       -0.007035       -0.087218       -0.112376
+epinf                      -0.854218       -0.903062       -0.168402        1.226984        1.589336       -1.188215       -1.149936       -0.386176
+ew                          0.582610        0.620022       -0.431021        0.249586        0.545666        1.639675        1.276475        0.107964
+
+
+THEORETICAL MOMENTS
+VARIABLE         MEAN  STD. DEV.   VARIANCE
+y              0.0000    20.1470   405.9017
+c              0.0000    21.3942   457.7132
+inve           0.0000    32.5805  1061.4871
+pinf           0.0000     1.5743     2.4785
+r              0.0000     3.7941    14.3952
+w              0.0000     9.8779    97.5724
+k              0.0000    15.0726   227.1842
+lab            0.0000    11.7950   139.1216
+
+
+
+VARIANCE DECOMPOSITION (in percent)
+            ea      eb      eg     eqs      em   epinf      ew
+y        27.49   68.38    0.21    3.89    0.00    0.01    0.01
+c        44.21   54.31    0.02    1.43    0.00    0.01    0.01
+inve     19.78   63.60    0.00   16.56    0.00    0.01    0.05
+pinf      2.26   87.75    0.00    7.84    0.00    1.48    0.66
+r         1.09   92.20    0.17    5.50    0.36    0.43    0.25
+w        90.61    7.81    0.00    1.16    0.00    0.11    0.31
+k        34.31   58.07    0.10    7.41    0.00    0.04    0.07
+lab       4.53   90.69    0.31    4.44    0.00    0.01    0.02
+
+
+
+MATRIX OF CORRELATIONS
+Variables         y       c    inve    pinf       r       w       k     lab
+y            1.0000  0.9749  0.9451  0.7648  0.7590  0.7162  0.9481  0.7189
+c            0.9749  1.0000  0.9126  0.6204  0.6377  0.8296  0.9639  0.5693
+inve         0.9451  0.9126  1.0000  0.7429  0.7040  0.6755  0.9688  0.6913
+pinf         0.7648  0.6204  0.7429  1.0000  0.9155  0.1507  0.6365  0.9619
+r            0.7590  0.6377  0.7040  0.9155  1.0000  0.1557  0.6237  0.9312
+w            0.7162  0.8296  0.6755  0.1507  0.1557  1.0000  0.7913  0.0347
+k            0.9481  0.9639  0.9688  0.6365  0.6237  0.7913  1.0000  0.5831
+lab          0.7189  0.5693  0.6913  0.9619  0.9312  0.0347  0.5831  1.0000
+
+
+
+COEFFICIENTS OF AUTOCORRELATION
+Order          1       2       3       4       5
+y         0.9534  0.8731  0.7842  0.6995  0.6244
+c         0.9626  0.8976  0.8278  0.7633  0.7078
+inve      0.9705  0.9135  0.8465  0.7790  0.7155
+pinf      0.9409  0.8441  0.7349  0.6267  0.5258
+r         0.8084  0.6644  0.5479  0.4522  0.3723
+w         0.9973  0.9925  0.9866  0.9801  0.9735
+k         0.9726  0.9246  0.8706  0.8183  0.7709
+lab       0.9328  0.8189  0.6937  0.5752  0.4708
+Total computing time : 0h00m06s
+Note: warning(s) encountered in MATLAB/Octave code

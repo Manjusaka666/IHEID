@@ -1,0 +1,448 @@
+\documentclass[a4paper,12pt]{article} % This defines the style of your paper
+
+\usepackage[top = 2.5cm, bottom = 2.5cm, left = 2.5cm, right = 2.5cm]{geometry} 
+
+% Unfortunately, LaTeX has a hard time interpreting German Umlaute. The following two lines and packages should help. If it doesn't work for you please let me know.
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{pifont}
+% \usepackage{ctex}
+\usepackage{amsthm, amsmath, amssymb, mathrsfs,mathtools}
+
+% Defining a new theorem style without italics
+\newtheoremstyle{nonitalic}% name
+  {\topsep}% Space above
+  {\topsep}% Space below
+  {\upshape}% Body font
+  {}% Indent amount
+  {\bfseries}% Theorem head font
+  {.}% Punctuation after theorem head
+  {.5em}% Space after theorem head
+  {}% Theorem head spec (can be left empty, meaning ‘normal`)
+  
+\theoremstyle{nonitalic}
+% Define new 'solution' environment
+\newtheorem{innercustomsol}{Solution}
+\newenvironment{solution}[1]
+  {\renewcommand\theinnercustomsol{#1}\innercustomsol}
+  {\endinnercustomsol}
+
+% Custom counter for the solutions
+\newcounter{solutionctr}
+\renewcommand{\thesolutionctr}{(\alph{solutionctr})}
+
+% Environment for auto-numbering with custom format
+\newenvironment{autosolution}
+  {\stepcounter{solutionctr}\begin{solution}{\thesolutionctr}}
+  {\end{solution}}
+
+
+\newtheorem{problem}{Problem}
+\usepackage{color}
+
+% The following two packages - multirow and booktabs - are needed to create nice looking tables.
+\usepackage{multirow} % Multirow is for tables with multiple rows within one cell.
+\usepackage{booktabs} % For even nicer tables.
+
+% As we usually want to include some plots (.pdf files) we need a package for that.
+\usepackage{graphicx} 
+\usepackage{subfigure}
+\usepackage{hyperref}
+
+% The default setting of LaTeX is to indent new paragraphs. This is useful for articles. But not really nice for homework problem sets. The following command sets the indent to 0.
+\usepackage{setspace}
+\setlength{\parindent}{0in}
+\usepackage{longtable}
+
+% Package to place figures where you want them.
+\usepackage{float}
+\usepackage{placeins}
+
+% The fancyhdr package let's us create nice headers.
+\usepackage{fancyhdr}
+
+\usepackage{fancyvrb}
+
+\usepackage{enumitem}
+
+%Code environment 
+\usepackage{listings} % Required for insertion of code
+\usepackage{xcolor} % Required for custom colors
+\usepackage{subcaption}
+
+% ---------- Listings setup ----------
+\definecolor{codebg}{RGB}{250,250,250}
+\definecolor{dkgray}{RGB}{64,64,64}
+\definecolor{dkblue}{RGB}{0,0,140}
+\definecolor{dkgreen}{RGB}{0,100,0}
+\definecolor{maroon}{RGB}{128,0,0}
+\definecolor{purplec}{RGB}{106,13,173}
+
+\lstdefinestyle{code}{
+  backgroundcolor=\color{codebg},
+  basicstyle=\ttfamily\small,
+  breaklines=true,
+  columns=fullflexible,
+  keepspaces=true,
+  keywordstyle=\color{dkblue}\bfseries,
+  stringstyle=\color{maroon},
+  commentstyle=\itshape\color{dkgreen},
+  numberstyle=\scriptsize\color{dkgray},
+  numbers=left,
+  numbersep=8pt,
+  frame=single,
+  framerule=0.3pt,
+  rulecolor=\color{dkgray},
+  showstringspaces=false,
+  tabsize=2,
+  upquote=true
+}
+
+% Dynare is Matlab-like; define a language based on Matlab with some added keywords
+\lstdefinelanguage{Dynare}{
+  morekeywords={
+    var,varexo,parameters,model,end,initval,steady_state_model,shocks,
+    periods,stoch_simul,check,steady,resid,log,exp,stderr,varexo_det,
+    ramsey\_policy,planner\_objective,osr,osr\_params,estimated\_params,
+    varobs,estimation,identification,shocks,init,values,planner\_discount,
+    simul,verbatim,save\_params\_and\_steady\_state,trend\_vars,units,
+    deterministic\_trends,steady\_state\_operator,estimated\_params\_bounds
+  },
+  sensitive=true,
+  morecomment=[l]\%,      % Dynare/Matlab-style comments
+  morestring=[b]',       % strings
+}
+
+\lstdefinelanguage{MatlabX}{
+  language=Matlab,
+  morekeywords={dynare},
+}
+
+\lstset{style=code}
+% % Define colors for code listing
+% \definecolor{codegreen}{rgb}{0,0.6,0}
+% \definecolor{codegray}{rgb}{0.5,0.5,0.5}
+% \definecolor{codepurple}{rgb}{0.58,0,0.82}
+% \definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+
+% % Code listing style named "mystyle"
+% \lstdefinestyle{mystyle}{
+%     backgroundcolor=\color{backcolour},   
+%     commentstyle=\color{codegreen},
+%     keywordstyle=\color{magenta},
+%     numberstyle=\tiny\color{codegray},
+%     stringstyle=\color{codepurple},
+%     basicstyle=\ttfamily\footnotesize, % Change to serif font
+%     breakatwhitespace=false,         
+%     breaklines=true,                 
+%     captionpos=b,                    
+%     keepspaces=true,                 
+%     numbers=left,                    
+%     numbersep=5pt,                  
+%     showspaces=false,                
+%     showstringspaces=false,
+%     showtabs=false,                  
+%     tabsize=2
+% }
+
+% \lstset{style=mystyle}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 3. Header (and Footer)
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% To make our document nice we want a header and number the pages in the footer.
+
+\pagestyle{fancy} % With this command we can customize the header style.
+
+\fancyhf{} % This makes sure we do not have other information in our header or footer.
+
+\lhead{\footnotesize Demystifying DSGE Models}% \lhead puts text in the top left corner. \footnotesize sets our font to a smaller size.
+
+%\rhead works just like \lhead (you can also use \chead)
+\rhead{\footnotesize Jingle Fu} %<---- Fill in your lastnames.
+
+% Similar commands work for the footer (\lfoot, \cfoot and \rfoot).
+% We want to put our page number in the center.
+\cfoot{\footnotesize \thepage}
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\begin{document}
+
+
+\thispagestyle{empty} % This command disables the header on the first page. 
+
+\begin{tabular}{p{15.5cm}} % This is a simple tabular environment to align your text nicely 
+{\large \bf Demystifying DSGE Models} \\
+The Graduate Institute, Fall 2025, John D.A. Cuddy\\
+\hline % \hline produces horizontal lines.
+\\
+\end{tabular} % Our tabular environment ends here.
+
+\vspace*{0.3cm} % Now we want to add some vertical space in between the line and our title.
+
+\begin{center} % Everything within the center environment is centered.
+	{\Large \bf PS2 Solutions} % <---- Don't forget to put in the right number
+	\vspace{2mm}
+	
+        % YOUR NAMES GO HERE
+	{\bf Jingle Fu} % <---- Fill in your names here!
+		
+\end{center}  
+
+\vspace{0.4cm}
+\setstretch{1.2}
+
+% \begin{autosolution}
+% \ 
+
+% \end{autosolution}
+
+\subsection*{Q3. Simulation of SW2007 model}
+
+% \input{PS2_Solutions/usmodel_q3/latex/usmodel_q3_th_moments.tex}
+
+The result is very close to the class replication of SW2007, and the only difference is of risk premium shock.
+
+Our result shows a hump-shaped response in all three variables,
+while the class replication shows a more immediate monotonic response in output and investment.
+Furthermore, our result shows a ten times higher peak response in investment than the class replication,
+which is probably because of the different standard error of the risk premium shock, since the slides use $0.24$,
+while in the standard SW2007 calibration it is $1.8513$.
+
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=\textwidth]{Q3_fig.pdf}
+  \caption{Class Figure Replication}
+  \label{fig:class_fig}
+\end{figure}
+\FloatBarrier
+
+\subsection*{Q4. 1st-time Replication}
+% A positive TFP innovation typically produces $Y,C,I,W,R\uparrow$ on impact; $K$ rises over time; $L$ increases on impact if substitution dominates.
+% Consumption is smoother than investment; investment is most volatile.
+
+
+% \input{rbc_basic/latex/rbc_basic_th_moments}
+
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=\textwidth]{Q4.pdf}
+  \caption{SW2007 Fig2 Replication - 1st time}
+  \label{fig:fig2_repl_1}
+\end{figure}
+\FloatBarrier
+
+\subsection*{Q5. 2nd-time Replication}
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=\textwidth]{Q5.pdf}
+  \caption{SW2007 Fig2 Replication - 2st time}
+  \label{fig:fig2_repl_2}
+\end{figure}
+\FloatBarrier
+
+\subsection*{Q6. SW2007 model to Cogan et al 2010}
+
+With $\omega = 0.5$, half the households consume current income; introducing the government budget constraint and tax rule mainly changes the fiscal-shock panel.
+
+Non-fiscal panels remain close to Q3, since g is unchanged and debt/taxes barely move from a zero-debt steady state.
+Under a positive fiscal shock, disposable income for liquidity-constrained households props up consumption,
+as shown that the consumption falls less than in Q3 and can even tick up,
+while investment is still crowded out by both the resource cost and the interest-rate response, so output rises more than in Q3.
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=\textwidth]{Q6_fig.pdf}
+  \caption{Cogan 2010(Simplified spending equation)}
+  \label{fig:fig6}
+\end{figure}
+\FloatBarrier
+
+
+\subsection*{Q7. Original SW2007 model with government spending feedback}
+
+After restoring the original SW process for $g$, the only change is to make the fiscal shock persistent again.
+As a result the blue output line becomes more hump-shaped and longer-lived,
+the investment line stays depressed for longer,
+and the consumption line—supported by liquidity-constrained households—declines less and does so more durably than in Q6.
+
+So, Q7 amplifies the persistence of the fiscal-shock responses relative to Q6,
+while preserving the short-run ranking, Y$\uparrow$, Inv$\downarrow$, C less negative than in the fully Ricardian benchmark.
+This brings the result closer to the persistent decay of Q3.
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=\textwidth]{Q7_fig.pdf}
+  \caption{Cogan 2010 with government spending}
+  \label{fig:fig7}
+\end{figure}
+\FloatBarrier
+
+% \begin{figure}[H]
+% \centering
+
+% % 第一行
+% \begin{minipage}{0.45\textwidth}
+%   \centering
+%   \includegraphics[width=\textwidth]{PS2_Solutions/usmodel_q7/graphs/usmodel_q7_IRF_ea}
+%   \caption*{IRF (orthogonalized shock to $e_a$).}
+%   \label{Fig:IRF:ea2}
+% \end{minipage}\hfill
+% \begin{minipage}{0.45\textwidth}
+%   \centering
+%   \includegraphics[width=\textwidth]{PS2_Solutions/usmodel_q7/graphs/usmodel_q7_IRF_eb}
+%   \caption*{IRF (orthogonalized shock to $e_b$).}
+%   \label{Fig:IRF:eb2}
+% \end{minipage}
+
+% \vspace{0.5cm}
+
+% % 第二行
+% \begin{minipage}{0.45\textwidth}
+%   \centering
+%   \includegraphics[width=\textwidth]{PS2_Solutions/usmodel_q7/graphs/usmodel_q7_IRF_eg}
+%   \caption*{IRF (orthogonalized shock to $e_g$).}
+%   \label{Fig:IRF:eg2}
+% \end{minipage}\hfill
+% \begin{minipage}{0.45\textwidth}
+%   \centering
+%   \includegraphics[width=\textwidth]{PS2_Solutions/usmodel_q7/graphs/usmodel_q7_IRF_eqs}
+%   \caption*{IRF (orthogonalized shock to $e_{qs}$).}
+%   \label{Fig:IRF:eqs2}
+% \end{minipage}
+
+% \vspace{0.5cm}
+
+% % 第三行
+% \begin{minipage}{0.45\textwidth}
+%   \centering
+%   \includegraphics[width=\textwidth]{PS2_Solutions/usmodel_q7/graphs/usmodel_q7_IRF_em}
+%   \caption*{IRF (orthogonalized shock to $e_m$).}
+%   \label{Fig:IRF:em2}
+% \end{minipage}\hfill
+% \begin{minipage}{0.45\textwidth}
+%   \centering
+%   \includegraphics[width=\textwidth]{PS2_Solutions/usmodel_q7/graphs/usmodel_q7_IRF_epinf}
+%   \caption*{IRF (orthogonalized shock to $e_{pinf}$).}
+%   \label{Fig:IRF:epinf2}
+% \end{minipage}
+
+% \vspace{0.5cm}
+
+% % 第四行（单独一张）
+% \begin{minipage}{0.45\textwidth}
+%   \centering
+%   \includegraphics[width=\textwidth]{PS2_Solutions/usmodel_q7/graphs/usmodel_q7_IRF_ew}
+%   \caption*{IRF (orthogonalized shock to $e_w$).}
+%   \label{Fig:IRF:ew2}
+% \end{minipage}
+
+% \caption{IRF for different orthogonalized shocks.}
+% \label{Fig:IRF:All2}
+% \end{figure}
+
+% \begin{figure}[H]
+%   \centering
+%   \includegraphics[width=\textwidth]{Q7.pdf}
+%   \caption{Cogan et al 2010 with government spending feedback}
+%   \label{fig:fig_cogan2010_2}
+% \end{figure}
+% \FloatBarrier
+% % We keep the model in non-linear levels, capital dated at $t\!-\!1$, and lead the Euler RHS in \texttt{Dynare}.
+% % The file below is pulled directly from \texttt{rbc\_basic.mod}.
+% % \medskip
+
+% \lstinputlisting[language=Dynare,inputencoding=cp1252,caption={\texttt{rbc\_basic.mod}},label={lst:rbc_basic}]{rbc_basic.mod}
+
+% \pagebreak
+
+% \paragraph{(i) Market TFP shock $(A_t\uparrow)$:} 
+
+% The impulse responses further illustrate these mechanisms.
+% Figure~\ref{Fig:IRF:epsA} shows that:
+% output increase on impact, then gradual mean reversion because the reallocation of time toward market work adds to the initial boost;
+% later, as capital builds, it sustains output even while the shock fades.
+
+% Market consumption rises, but more smoothly than output while home consumption falls on impact due to time reallocation and then slowly returns.
+% With reasonable substitutability in your CES aggregator, the rise in $C_m$ dominates the fall in $C_h$.
+% In welfare terms, a market TFP gain makes the overall consumption bundle better even though the home component dips.
+
+% The market wage rises relative to the shadow value of home time,
+% so households reallocate time toward market work.
+% Aggregate hours only creep up—some of the productivity windfall is still taken as higher consumption rather than massive extra work.
+
+% Higher market TFP raises marginal products.
+% The wage follows the marginal product of market labor;
+% the rental rate follows the marginal product of capital—high when the shock hits,
+% then easing as capital accumulates.
+
+% \begin{figure}[H]
+%   \centering
+%   \subfigure[Panel (a)]{
+%     % 修改：为 includegraphics 指定 key 'width='（原为 \includegraphics[\textwidth]{...}）
+%     \includegraphics[width=\textwidth]{rbc_home_A.pdf}
+%     \label{Fig:IRF:epsA1}
+%   }
+%   \hfill
+%   \subfigure[Panel (b)]{
+%     % 修改：为 includegraphics 指定 key 'width='（原为 \includegraphics[\textwidth]{...}）
+%     \includegraphics[width=\textwidth]{rbc_home_A2.pdf}
+%     \label{Fig:IRF:epsA2}
+%   }
+%   \caption{Impulse response functions to an orthogonalized shock to $\varepsilon_A$.}
+%   \label{Fig:IRF:epsA}
+% \end{figure}
+
+% \paragraph{(ii) Home-productivity shock $(B_t\uparrow)$:}
+% % \begin{itemize}
+% %   \item The return to home time increases, so \textbf{$L_{h,t}$ rises} and \textbf{$L_{m,t}$ falls}.
+% %   \item \textbf{Home consumption $C_{h,t}$} rises, while \textbf{market consumption $C_{m,t}$} and \textbf{investment $I_t$} \emph{decline}.
+% %   \item \textbf{Market output $Y_t$} decreases with lower $L_{m,t}$; \textbf{rental rate $R_t$} falls, while \textbf{wage $W_t$} \emph{increases} (higher marginal product of the reduced market labor).
+% %   % \item \textbf{Total consumption $C^{\text{tot}}_t$} increases despite lower GDP, as households substitute toward the more productive home good.
+% % \end{itemize}
+
+% The impulse responses further illustrate these mechanisms.
+% Figure~\ref{Fig:IRF:epsB} depicts the effects of a positive home productivity shock.
+% Higher $B_t$ makes each hour at home more productive; with more time reallocated to home,
+% $C_h$ rises and market income/output fall; consumption smoothing tempers the drop.
+% The CES aggregator allows substitution into the now-cheaper/more productive home good. With sufficiently high substitutability,
+% the gain in $C_h$ outweighs the loss in $C_m$, so total consumption rises.
+
+% Fewer market hours $L_m$ reduce current production;
+% later, a lower capital stock prolongs the downturn.
+
+% The intratemporal time-allocation margin is a core channel here:
+% a higher home marginal product pulls time homeward.
+% Because the productivity windfall raises effective income,
+% households often take some of it as leisure, so $Ltot$ doesn't surge.
+
+% With fewer market hours, the marginal product of market labor rises,
+% with weaker market output relative to predetermined capital, the marginal product of capital declines.
+
+% \begin{figure}[H]
+%   \centering
+%   \subfigure[Panel (a)]{
+%     \includegraphics[width=0.8\textwidth]{rbc_home_B.pdf}
+%     \label{Fig:IRF:epsB1}
+%   }
+%   \hfill
+%   \subfigure[Panel (b)]{
+%     \includegraphics[width=0.8\textwidth]{rbc_home_B2.pdf}
+%     \label{Fig:IRF:epsB2}
+%   }
+%   \caption{Impulse response functions to an orthogonalized shock to $\varepsilon_B$.}
+%   \label{Fig:IRF:epsB}
+% \end{figure}
+
+% \subsection*{Dynare code for Part 2}
+% % The complete non-linear model with both market and home sectors, including the CES aggregator and two exogenous processes,
+% % is in \texttt{rbc\_home.mod} and included below.
+
+% \lstinputlisting[language=Dynare,inputencoding=cp1252,caption={\texttt{rbc\_home.mod}},label={lst:rbc_home}]{rbc_home.mod}
+
+
+\end{document}
+
