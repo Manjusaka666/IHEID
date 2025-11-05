@@ -1,0 +1,106 @@
+\begin{dmath*}
+{\ lambda_{h}} = \frac{\left(1-{{\ beta}}\, {{\ theta_{H}}}\right)\, \left(1-{{\ theta_{H}}}\right)}{{{\ theta_{H}}}}
+\end{dmath*}
+\begin{dmath*}
+{\ lambda_{f}} = \frac{\left(1-{{\ beta}}\, {{\ theta_{F}}}\right)\, \left(1-{{\ theta_{F}}}\right)}{{{\ theta_{F}}}}
+\end{dmath*}
+% Equation 1
+\begin{dmath}
+{{c}}_{t}-{{h}}\, {{c}}_{t-1}={{y ^ *}}_{t}-{{h}}\, {{y ^ *}}_{t-1}+\frac{1}{{{\ sigma}}}\, \left(1-{{h}}\right)\, {{q}}_{t}
+\end{dmath}
+% Equation 2
+\begin{dmath}
+{{\ pi_H}}_{t}={{\ beta}}\, \left({{\ pi_H}}_{t+1}-{{\ pi_H}}_{t}\, {{\ delta_{H}}}\right)+{{\ delta_{H}}}\, {{\ pi_H}}_{t-1}+\frac{\left(1-{{\ beta}}\, {{\ theta_{H}}}\right)\, \left(1-{{\ theta_{H}}}\right)}{{{\ theta_{H}}}}\, \left({{\ varphi}}\, {{y}}_{t}-\left(1+{{\ varphi}}\right)\, {{\ varepsilon_{a}}}_{t}+{{\ alpha}}\, {{s}}_{t}+\left({{c}}_{t}-{{h}}\, {{c}}_{t-1}\right)\, \frac{{{\ sigma}}}{1-{{h}}}\right)
+\end{dmath}
+% Equation 3
+\begin{dmath}
+{{\ pi_F}}_{t}={{\ beta}}\, \left({{\ pi_F}}_{t+1}-{{\ pi_F}}_{t}\, {{\ delta_{F}}}\right)+{{\ delta_{F}}}\, {{\ pi_F}}_{t-1}+\frac{\left(1-{{\ beta}}\, {{\ theta_{F}}}\right)\, \left(1-{{\ theta_{F}}}\right)}{{{\ theta_{F}}}}\, \left({{q}}_{t}-{{s}}_{t}\, \left(1-{{\ alpha}}\right)\right)
+\end{dmath}
+% Equation 4
+\begin{dmath}
+{{q}}_{t+1}-{{q}}_{t}={{r}}_{t}-{{\ pi}}_{t+1}-\left({{r ^ *}}_{t}-{{\ pi ^ *}}_{t+1}\right)+{{\ varepsilon_{q}}}_{t}
+\end{dmath}
+% Equation 5
+\begin{dmath}
+{{s}}_{t}-{{s}}_{t-1}={{\ pi_F}}_{t}-{{\ pi_H}}_{t}+{{\ varepsilon_{s}}}_{t}
+\end{dmath}
+% Equation 6
+\begin{dmath}
+{{y}}_{t}={{c}}_{t}\, \left(1-{{\ alpha}}\right)+{{q}}_{t}\, {{\ alpha}}\, {{\ eta}}+{{s}}_{t}\, {{\ alpha}}\, {{\ eta}}+{{y ^ *}}_{t}\, {{\ alpha}}
+\end{dmath}
+% Equation 7
+\begin{dmath}
+{{\ pi}}_{t}={{\ pi_H}}_{t}\, \left(1-{{\ alpha}}\right)+{{\ alpha}}\, {{\ pi_F}}_{t}
+\end{dmath}
+% Equation 8
+\begin{dmath}
+{{r}}_{t}={{\ psi_{r}}}\, {{r}}_{t-1}+\left(1-{{\ psi_{r}}}\right)\, \left({{\ pi}}_{t}\, {{\ psi_{\ pi}}}+{{y}}_{t}\, {{\ psi_{y}}}+{{\ psi_{de}}}\, \left({{e}}_{t}-{{e}}_{t-1}\right)\right)+{{\ varepsilon_{r}}}_{t}
+\end{dmath}
+% Equation 9
+\begin{dmath}
+{{\ Delta e}}_{t}={{e}}_{t}-{{e}}_{t-1}
+\end{dmath}
+% Equation 10
+\begin{dmath}
+{{q}}_{t}-{{q}}_{t-1}={{\ Delta e}}_{t}+{{\ pi ^ *}}_{t}-{{\ pi}}_{t}
+\end{dmath}
+% Equation 11
+\begin{dmath}
+{{\ varepsilon_{r}}}_{t}={{\ rho_{r}}}\, {{\ varepsilon_{r}}}_{t-1}+{{e_{r}}}_{t}
+\end{dmath}
+% Equation 12
+\begin{dmath}
+{{\ varepsilon_{s}}}_{t}={{\ rho_{s}}}\, {{\ varepsilon_{s}}}_{t-1}+{{e_{s}}}_{t}
+\end{dmath}
+% Equation 13
+\begin{dmath}
+{{\ varepsilon_{q}}}_{t}={{\ rho_{q}}}\, {{\ varepsilon_{q}}}_{t-1}+{{e_{q}}}_{t}
+\end{dmath}
+% Equation 14
+\begin{dmath}
+{{\ varepsilon_{a}}}_{t}={{\ rho_{a}}}\, {{\ varepsilon_{a}}}_{t-1}+{{e_{a}}}_{t}
+\end{dmath}
+% Equation 15
+\begin{dmath}
+{{\ pi ^ *}}_{t}={{a_1}}\, {{\ pi ^ *}}_{t-1}+{{e_{\ pi ^ *}}}_{t}
+\end{dmath}
+% Equation 16
+\begin{dmath}
+{{y ^ *}}_{t}={{y ^ *}}_{t-1}\, {{b_1}}+{{e_{y ^ *}}}_{t}
+\end{dmath}
+% Equation 17
+\begin{dmath}
+{{r ^ *}}_{t}={{c_1}}\, {{r ^ *}}_{t-1}+{{e_{r ^ *}}}_{t}
+\end{dmath}
+% Equation 18
+\begin{dmath}
+{y\_obs}_{t}={{y}}_{t}
+\end{dmath}
+% Equation 19
+\begin{dmath}
+{yst\_obs}_{t}={{y ^ *}}_{t}
+\end{dmath}
+% Equation 20
+\begin{dmath}
+{r\_obs}_{t}={{r}}_{t}\, 4
+\end{dmath}
+% Equation 21
+\begin{dmath}
+{pi\_obs}_{t}={{\ pi}}_{t}\, 4
+\end{dmath}
+% Equation 22
+\begin{dmath}
+{q\_obs}_{t}={{q}}_{t}
+\end{dmath}
+% Equation 23
+\begin{dmath}
+{s\_obs}_{t}={{s}}_{t}
+\end{dmath}
+% Equation 24
+\begin{dmath}
+{pif\_obs}_{t}={{\ pi ^ *}}_{t}\, 4
+\end{dmath}
+% Equation 25
+\begin{dmath}
+{rst\_obs}_{t}={{r ^ *}}_{t}\, 4
+\end{dmath}

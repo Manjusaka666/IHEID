@@ -1,0 +1,200 @@
+Starting Dynare (version 6.4).
+Calling Dynare with arguments: none
+Starting preprocessing of the model file ... 
+Found 26 equation(s). 
+Evaluating expressions... 
+Computing static model derivatives (order 1). 
+Normalizing the static model... 
+Finding the optimal block decomposition of the static model... 
+6 block(s) found: 
+  5 recursive block(s) and 1 simultaneous block(s). 
+  the largest simultaneous block has 20 equation(s) 
+                                 and 20 feedback variable(s). 
+Computing dynamic model derivatives (order 2). 
+Normalizing the dynamic model... 
+Finding the optimal block decomposition of the dynamic model... 
+3 block(s) found: 
+  2 recursive block(s) and 1 simultaneous block(s). 
+  the largest simultaneous block has 20 equation(s) 
+                                 and 18 feedback variable(s). 
+Preprocessing completed. 
+Preprocessing time: 0h00m00s.
+
+
+Residuals of the static equations:
+Equation number  1: R      :       0.000000
+Equation number  2: lambda :       0.000000
+Equation number  3: 3      :       0.000000
+Equation number  4: Pi     :       0.000000
+Equation number  5: mc     :       0.000000
+Equation number  6: m      :       0.000000
+Equation number  7: n      :       0.000000
+Equation number  8: 8      :       0.000000
+Equation number  9: q      :       0.000000
+Equation number 10: s      :       0.000000
+Equation number 11: 11     :       0.000000
+Equation number 12: w      :       0.000000
+Equation number 13: 13     :       0.000000
+Equation number 14: deltaF :       0.000000
+Equation number 15: 15     :       0.000000
+Equation number 16: 16     :       0.000000
+Equation number 17: 17     :       0.000000
+Equation number 18: 18     :       0.000000
+Equation number 19: 19     :       0.000000
+Equation number 20: y      :       0.000000
+Equation number 21: Piw    :       0.000000
+Equation number 22: PsiL   :       0.000000
+Equation number 23: eb     :       0.000000
+Equation number 24: g      :       0.000000
+Equation number 25: emoney :       0.000000
+Equation number 26: z      :       0.000000
+
+
+
+STEADY-STATE RESULTS:
+
+y         		 0
+c         		 0
+Pi        		 0
+R         		 0
+lambda    		 0
+w         		 0
+wstar     		 0
+Jstar     		 0
+deltaW    		 0
+deltaF    		 0
+Deltastar 		 0
+h         		 0
+mc        		 0
+m         		 0
+n         		 0
+u         		 0
+v         		 0
+s         		 0
+q         		 0
+xL        		 0
+Piw       		 0
+PsiL      		 0
+z         		 0
+g         		 0
+eb        		 0
+emoney    		 0
+
+EIGENVALUES:
+         Modulus             Real        Imaginary
+               0                0                0
+        4.24e-17         4.24e-17                0
+       1.378e-16       -1.378e-16                0
+          0.4731           0.4731                0
+           0.733            0.733                0
+           0.797            0.797                0
+            0.82             0.82                0
+          0.8411           0.8411                0
+            0.89             0.89                0
+            0.95             0.95                0
+           1.071            1.071                0
+           1.074            1.074                0
+           1.082            1.082                0
+           1.127            1.127                0
+           1.253            1.253                0
+           2.046            2.046                0
+             Inf             -Inf                0
+
+There are 7 eigenvalue(s) larger than 1 in modulus for 7 forward-looking variable(s)
+The rank condition is verified.
+
+[Warning: stoch_simul: using order = 1 because Hessian is equal to zero] 
+[> In <a href="matlab:matlab.lang.internal.introspective.errorDocCallback('stoch_simul', 'D:\dynare\6.4\matlab\stochastic_solver\stoch_simul.m', 59)" style="font-weight:bold">stoch_simul</a> (<a href="matlab: opentoline('D:\dynare\6.4\matlab\stochastic_solver\stoch_simul.m',59,0)">line 59</a>)
+In <a href="matlab:matlab.lang.internal.introspective.errorDocCallback('CK08_simRTMv3.driver', 'E:\IHEID Economics\IHEID\Demystifying DSGE\PS\PS5\+CK08_simRTMv3\driver.m', 787)" style="font-weight:bold">CK08_simRTMv3.driver</a> (<a href="matlab: opentoline('E:\IHEID Economics\IHEID\Demystifying DSGE\PS\PS5\+CK08_simRTMv3\driver.m',787,0)">line 787</a>)
+In <a href="matlab:matlab.lang.internal.introspective.errorDocCallback('dynare', 'D:\dynare\6.4\matlab\dynare.m', 308)" style="font-weight:bold">dynare</a> (<a href="matlab: opentoline('D:\dynare\6.4\matlab\dynare.m',308,0)">line 308</a>)] 
+
+MODEL SUMMARY
+
+  Number of variables:         26
+  Number of stochastic shocks: 4
+  Number of state variables:   10
+  Number of jumpers:           7
+  Number of static variables:  10
+
+
+MATRIX OF COVARIANCE OF EXOGENOUS SHOCKS
+Variables      inno_eb     inno_z  interest_         g_
+inno_eb       0.010404   0.000000   0.000000   0.000000
+inno_z        0.000000   0.326041   0.000000   0.000000
+interest_     0.000000   0.000000   0.010000   0.000000
+g_            0.000000   0.000000   0.000000   0.454276
+
+POLICY AND TRANSITION FUNCTIONS
+                                   y              Pi               R               u               v            PsiL               h               w             Piw
+c(-1)                       0.417711        0.000273        0.011013               0        0.059049        8.316639        0.421930       -0.000276       -0.000004
+R(-1)                      -0.935622       -0.004254        0.922600               0      -26.635789      -18.621269       -0.945072        0.000974       -0.003280
+w(-1)                       0.019517        0.199692        0.000515               0        2.678128       16.169646        0.019714        0.800087       -0.000221
+m(-1)                       0.000037       -0.000021               0       -0.480204       -0.513370       -0.596642       -0.030266        0.000016       -0.000006
+n(-1)                       0.001200       -0.000693        0.000032      -15.526599      -16.598966      -19.291440       -0.978586        0.000510       -0.000184
+z(-1)                       0.005335       -0.096843        0.000141               0       -1.248400      -14.326724       -0.822894        0.096529       -0.000314
+g(-1)                       0.263574        0.000199        0.006949               0        0.312668        5.246481        0.266236       -0.000240       -0.000041
+eb(-1)                     -0.958279       -0.004430       -0.025266               0      -27.582481      -19.071821       -0.967958        0.001017       -0.003413
+Pi(-1)                     -0.078125       -0.000355        0.077038               0       -2.224109       -1.554891       -0.078914        0.000081       -0.000274
+inno_eb                    -0.102889       -0.000476       -0.002713               0       -2.961487       -2.047711       -0.103928        0.000109       -0.000366
+inno_z                      0.003715       -0.067436        0.000098               0       -0.869312       -9.976292       -0.573015        0.067217       -0.000219
+interest_                  -0.042471       -0.000193        0.041880               0       -1.209097       -0.845288       -0.042900        0.000044       -0.000149
+g_                          0.296151        0.000223        0.007808               0        0.351312        5.894923        0.299142       -0.000269       -0.000046
+
+
+THEORETICAL MOMENTS
+VARIABLE         MEAN  STD. DEV.   VARIANCE
+y              0.0000     0.3097     0.0959
+Pi             0.0000     0.0513     0.0026
+R              0.0000     0.0559     0.0031
+u              0.0000     0.6063     0.3676
+v              0.0000     0.9789     0.9582
+PsiL           0.0000     9.6478    93.0799
+h              0.0000     0.6205     0.3851
+w              0.0000     0.2452     0.0601
+Piw            0.0000     0.0003     0.0000
+
+
+
+VARIANCE DECOMPOSITION (in percent)
+          inno_eb     inno_z  interest_         g_
+y            3.57       2.52       0.56      93.35
+Pi           0.00     100.00       0.00       0.00
+R            9.88       5.72       2.52      81.89
+u           22.81      15.74       3.52      57.93
+v           20.14      36.67       3.16      40.04
+PsiL         0.71      61.58       0.11      37.60
+h            0.44      76.01       0.07      23.47
+w            0.00     100.00       0.00       0.00
+Piw          5.93      50.46       0.91      42.70
+
+
+
+MATRIX OF CORRELATIONS
+Variables          y       Pi        R        u        v     PsiL        h        w      Piw
+y             1.0000  -0.0095   0.3531  -0.1936   0.1318   0.5701   0.4010   0.1224  -0.3153
+Pi           -0.0095   1.0000   0.0702  -0.2266   0.4142   0.7326   0.6201  -0.1079   0.3938
+R             0.3531   0.0702   1.0000   0.4698  -0.5363   0.3504   0.3176  -0.1047  -0.5122
+u            -0.1936  -0.2266   0.4698   1.0000  -0.5602  -0.1981  -0.1476  -0.0218  -0.5502
+v             0.1318   0.4142  -0.5363  -0.5602   1.0000   0.2873   0.1729   0.1354   0.5655
+PsiL          0.5701   0.7326   0.3504  -0.1981   0.2873   1.0000   0.9294  -0.3572   0.2569
+h             0.4010   0.6201   0.3176  -0.1476   0.1729   0.9294   1.0000  -0.6767   0.4459
+w             0.1224  -0.1079  -0.1047  -0.0218   0.1354  -0.3572  -0.6767   1.0000  -0.6158
+Piw          -0.3153   0.3938  -0.5122  -0.5502   0.5655   0.2569   0.4459  -0.6158   1.0000
+
+
+
+COEFFICIENTS OF AUTOCORRELATION
+Order           1        2        3        4        5
+y          0.7592   0.5699   0.4210   0.3042   0.2127
+Pi         0.6376   0.3770   0.1925   0.0646  -0.0216
+R          0.9849   0.9531   0.9103   0.8607   0.8073
+u          0.9470   0.8575   0.7617   0.6721   0.5927
+v          0.6376   0.4464   0.3401   0.2767   0.2357
+PsiL       0.6910   0.4725   0.3160   0.2038   0.1239
+h          0.7843   0.6216   0.4959   0.3977   0.3204
+w          0.9783   0.9288   0.8629   0.7887   0.7116
+Piw        0.9070   0.8274   0.7577   0.6957   0.6397
+
+write_latex_prior_table:: No prior distributions detected. Skipping table creation.
+Total computing time : 0h00m06s
+Note: warning(s) encountered in MATLAB/Octave code

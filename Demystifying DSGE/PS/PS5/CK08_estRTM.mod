@@ -1,4 +1,4 @@
-% From Christoffel and Kuester (2008) "Resuscitating the wage channel in models with unemployment fluctuations", JME 55, p. 865– 887
+% From Christoffel and Kuester (2008) "Resuscitating the wage channel in models with unemployment fluctuations", JME 55, p. 865ï¿½ 887
 % Note: the original model runs on a MONTHLY frequency 
 %  The file here presents a recalibration of the model to a QUARTERLY frequency
 % Last edited: 2011/05/10 by K. Kuester
@@ -263,7 +263,13 @@ end;
 
 % Need as many shocks as observed variables !!! Here there are 4 shocks, so use only 4 observed variables
 varobs yobs cobs robs piobs; 
-estimation(Tex,optim=('MaxIter',10000),datafile='HP1side_filter.m',mode_compute=4,first_obs=71, presample=4,lik_init=2,prefilter=0,mh_replic=0,mh_nblocks=2,mh_jscale=0.20,mh_drop=0.2);
+estimation(Tex,optim=('MaxIter',20000),
+			datafile='HP1side_filter2025.m',
+			mode_compute=6,
+			first_obs=49, nobs=168,
+			presample=4,lik_init=2,prefilter=0,
+			mh_replic=0,mh_nblocks=2,mh_jscale=0.20,mh_drop=0.2);
+
 stoch_simul (Tex,irf = 24);
 
 % For Tex output

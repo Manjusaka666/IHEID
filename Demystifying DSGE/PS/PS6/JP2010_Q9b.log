@@ -1,0 +1,419 @@
+Starting Dynare (version 6.4).
+Calling Dynare with arguments: none
+Starting preprocessing of the model file ... 
+Found 30 equation(s). 
+Evaluating expressions... 
+Computing static model derivatives (order 1). 
+Normalizing the static model... 
+Finding the optimal block decomposition of the static model... 
+9 block(s) found: 
+  8 recursive block(s) and 1 simultaneous block(s). 
+  the largest simultaneous block has 14 equation(s) 
+                                 and 14 feedback variable(s). 
+Computing dynamic model derivatives (order 2). 
+Normalizing the dynamic model... 
+Finding the optimal block decomposition of the dynamic model... 
+3 block(s) found: 
+  2 recursive block(s) and 1 simultaneous block(s). 
+  the largest simultaneous block has 15 equation(s) 
+                                 and 15 feedback variable(s). 
+Preprocessing completed. 
+Preprocessing time: 0h00m00s.
+
+
+Residuals of the static equations:
+Equation number  1: 1         :       0.000000
+Equation number  2: 2         :       0.000000
+Equation number  3: 3         :       0.000000
+Equation number  4: de        :       0.000000
+Equation number  5: q         :       0.000000
+Equation number  6: 6         :       0.000000
+Equation number  7: mc        :       0.000000
+Equation number  8: 8         :       0.000000
+Equation number  9: pi        :       0.000000
+Equation number 10: 10        :       0.000000
+Equation number 11: 11        :       0.000000
+Equation number 12: i         :       0.000000
+Equation number 13: 13        :       0.000000
+Equation number 14: pi_star   :       0.000000
+Equation number 15: mc_star   :       0.000000
+Equation number 16: i_star    :       0.000000
+Equation number 17: eps_g     :       0.000000
+Equation number 18: eps_gs    :       0.000000
+Equation number 19: eps_a     :       0.000000
+Equation number 20: eps_cp    :       0.000000
+Equation number 21: eps_astar :       0.000000
+Equation number 22: eps_rp    :       0.000000
+Equation number 23: y_au      :       0.000000
+Equation number 24: pi_au     :       0.000000
+Equation number 25: i_au      :       0.000000
+Equation number 26: y_us      :       0.000000
+Equation number 27: q_au      :       0.000000
+Equation number 28: s_au      :       0.000000
+Equation number 29: pi_us     :       0.000000
+Equation number 30: i_us      :       0.000000
+
+
+
+EIGENVALUES:
+         Modulus             Real        Imaginary
+               0                0                0
+           0.102            0.102                0
+          0.1111           0.1111                0
+          0.3482           0.3482                0
+           0.426           0.4102           0.1147
+           0.426           0.4102          -0.1147
+          0.4608           0.4608                0
+             0.5              0.5                0
+             0.5              0.5                0
+             0.5              0.5                0
+             0.5              0.5                0
+             0.5              0.5                0
+             0.5              0.5                0
+          0.7304           0.7304                0
+          0.8425           0.8425                0
+           1.157            1.157                0
+           1.436            1.401           0.3169
+           1.436            1.401          -0.3169
+           1.491            1.421           0.4517
+           1.491            1.421          -0.4517
+           1.546            1.546                0
+       2.587e+16        2.587e+16                0
+        3.26e+17        -3.26e+17                0
+       2.459e+18        2.459e+18                0
+
+There are 9 eigenvalue(s) larger than 1 in modulus for 9 forward-looking variable(s)
+The rank condition is verified.
+
+[Warning: Some of the parameters have no value (dsge_prior_weight) when using steady. If these parameters are not initialized in a steadystate file or a
+steady_state_model-block, Dynare may not be able to solve the model. Note that simul, perfect_foresight_setup, and perfect_foresight_solver do not
+automatically call the steady state file.] 
+
+STEADY-STATE RESULTS:
+
+y         		 0
+c         		 0
+s         		 0
+psi       		 0
+q         		 0
+mc        		 0
+i         		 0
+pi        		 0
+pi_h      		 0
+pi_f      		 0
+nfa       		 0
+eps_a     		 0
+eps_g     		 0
+eps_cp    		 0
+eps_gs    		 0
+eps_rp    		 0
+de        		 0
+y_star    		 0
+mc_star   		 0
+i_star    		 0
+pi_star   		 0
+eps_astar 		 0
+y_au      		 0
+pi_au     		 0
+i_au      		 0
+y_us      		 0
+pi_us     		 0
+i_us      		 0
+q_au      		 0
+s_au      		 0
+PARAMETER INITIALIZATION: Warning, some deep parameters are not initialized. They will be
+PARAMETER INITIALIZATION: initialized with the prior mean.
+Initial value of the log posterior (or likelihood): -1696.2497
+                                            First-order      Norm of
+ Iter F-count            f(x)  Feasibility   optimality         step
+    0      34    1.696250e+03    0.000e+00    5.093e+02
+    1      69    1.647057e+03    0.000e+00    4.587e+02    4.838e+00
+Objective function returned Inf; trying a new point...
+    2     104    1.563807e+03    0.000e+00    3.174e+02    2.827e+00
+    3     139    1.533718e+03    0.000e+00    2.910e+02    1.004e+00
+    4     174    1.523437e+03    0.000e+00    2.575e+02    1.227e+00
+Objective function returned Inf; trying a new point...
+    5     210    1.511643e+03    0.000e+00    2.383e+02    4.017e-01
+Objective function returned Inf; trying a new point...
+    6     246    1.492863e+03    0.000e+00    1.804e+02    8.455e-01
+Objective function returned Inf; trying a new point...
+    7     281    1.470299e+03    0.000e+00    1.819e+02    1.765e+00
+    8     316    1.449018e+03    0.000e+00    1.638e+02    1.351e+00
+    9     351    1.427493e+03    0.000e+00    3.053e+02    1.320e+00
+   10     386    1.410151e+03    0.000e+00    3.142e+02    1.594e+00
+   11     421    1.384442e+03    0.000e+00    3.001e+02    7.351e-01
+   12     456    1.368924e+03    0.000e+00    2.779e+02    6.333e-01
+   13     490    1.344221e+03    0.000e+00    7.244e+02    3.264e+00
+   14     526    1.339175e+03    0.000e+00    2.386e+02    1.030e+00
+   15     561    1.328442e+03    0.000e+00    2.375e+02    3.158e-01
+   16     595    1.299256e+03    0.000e+00    1.357e+03    3.194e+00
+   17     632    1.299124e+03    0.000e+00    1.447e+03    1.963e-01
+   18     667    1.295478e+03    0.000e+00    2.593e+02    1.136e+00
+   19     702    1.282721e+03    0.000e+00    3.213e+02    8.133e-01
+   20     737    1.277502e+03    0.000e+00    3.287e+02    3.400e+00
+   21     772    1.274836e+03    0.000e+00    3.186e+02    3.300e-01
+   22     807    1.261808e+03    0.000e+00    2.472e+02    8.070e-01
+   23     842    1.247639e+03    0.000e+00    1.997e+02    2.590e+00
+   24     877    1.244858e+03    0.000e+00    1.951e+02    4.424e-01
+   25     913    1.242083e+03    0.000e+00    2.010e+02    3.962e-01
+   26     948    1.237557e+03    0.000e+00    1.591e+02    1.059e+00
+   27     983    1.234553e+03    0.000e+00    1.088e+02    5.013e-01
+   28    1019    1.232474e+03    0.000e+00    4.761e+01    5.248e-01
+   29    1055    1.230467e+03    0.000e+00    5.041e+01    4.062e-01
+   30    1091    1.230491e+03    0.000e+00    4.923e+01    5.584e-01
+
+                                            First-order      Norm of
+ Iter F-count            f(x)  Feasibility   optimality         step
+   31    1127    1.229072e+03    0.000e+00    7.632e+01    3.533e-01
+   32    1162    1.227681e+03    0.000e+00    4.742e+01    7.754e-01
+   33    1198    1.226916e+03    0.000e+00    5.039e+01    3.557e-01
+   34    1234    1.225938e+03    0.000e+00    7.671e+01    2.715e-01
+   35    1271    1.224975e+03    0.000e+00    4.650e+01    3.904e-01
+   36    1308    1.224803e+03    0.000e+00    3.933e+01    1.519e-01
+   37    1345    1.224465e+03    0.000e+00    2.534e+01    2.231e-01
+   38    1381    1.224273e+03    0.000e+00    2.678e+01    1.541e-01
+   39    1417    1.224074e+03    0.000e+00    7.461e+01    2.279e-01
+   40    1453    1.223932e+03    0.000e+00    5.815e+01    1.834e-01
+   41    1489    1.223684e+03    0.000e+00    3.552e+01    3.999e-01
+   42    1526    1.223643e+03    0.000e+00    3.567e+01    8.096e-02
+   43    1561    1.223390e+03    0.000e+00    5.289e+01    1.520e-01
+   44    1598    1.223301e+03    0.000e+00    6.934e+01    1.661e-01
+   45    1634    1.223241e+03    0.000e+00    5.501e+01    8.873e-02
+   46    1673    1.223189e+03    0.000e+00    1.666e+01    1.318e-01
+   47    1708    1.223133e+03    0.000e+00    2.984e+01    1.337e-01
+   48    1744    1.223079e+03    0.000e+00    3.342e+01    1.829e-01
+   49    1784    1.222990e+03    0.000e+00    5.119e+01    1.180e-01
+   50    1819    1.222929e+03    0.000e+00    6.311e+01    1.327e-01
+   51    1854    1.222889e+03    0.000e+00    3.651e+01    2.259e-01
+   52    1889    1.222732e+03    0.000e+00    1.776e+01    9.811e-02
+   53    1926    1.222713e+03    0.000e+00    3.703e+01    1.941e-01
+   54    1960    1.222582e+03    0.000e+00    1.699e+01    1.010e-01
+   55    1995    1.222608e+03    0.000e+00    1.669e+01    3.240e-02
+   56    2032    1.222562e+03    0.000e+00    1.524e+01    9.126e-02
+   57    2066    1.222524e+03    0.000e+00    1.485e+01    4.440e-02
+   58    2100    1.222515e+03    0.000e+00    1.439e+01    4.037e-02
+   59    2134    1.222509e+03    0.000e+00    1.381e+01    1.632e-02
+   60    2168    1.222499e+03    0.000e+00    1.296e+01    2.010e-02
+
+                                            First-order      Norm of
+ Iter F-count            f(x)  Feasibility   optimality         step
+   61    2202    1.222485e+03    0.000e+00    1.259e+01    2.208e-02
+   62    2236    1.222463e+03    0.000e+00    1.154e+01    2.941e-02
+   63    2270    1.222440e+03    0.000e+00    1.083e+01    3.938e-02
+   64    2304    1.222423e+03    0.000e+00    1.011e+01    2.227e-02
+   65    2338    1.222412e+03    0.000e+00    9.185e+00    3.551e-02
+   66    2372    1.222407e+03    0.000e+00    8.052e+00    6.371e-02
+   67    2406    1.222404e+03    0.000e+00    7.100e+00    6.246e-02
+   68    2440    1.222396e+03    0.000e+00    6.907e+00    5.672e-02
+   69    2474    1.222373e+03    0.000e+00    6.640e+00    6.996e-02
+   70    2508    1.222341e+03    0.000e+00    5.780e+00    7.500e-02
+   71    2542    1.222305e+03    0.000e+00    4.348e+00    6.719e-02
+   72    2576    1.222280e+03    0.000e+00    3.437e+00    4.168e-02
+   73    2610    1.222266e+03    0.000e+00    4.585e+00    2.663e-02
+   74    2644    1.222262e+03    0.000e+00    3.593e+00    1.979e-02
+   75    2678    1.222255e+03    0.000e+00    3.382e+00    1.737e-02
+   76    2712    1.222245e+03    0.000e+00    3.106e+00    1.895e-02
+   77    2746    1.222230e+03    0.000e+00    4.088e+00    2.655e-02
+   78    2780    1.222215e+03    0.000e+00    3.291e+00    2.832e-02
+   79    2814    1.222203e+03    0.000e+00    2.410e+00    2.339e-02
+   80    2848    1.222192e+03    0.000e+00    1.370e+00    2.599e-02
+   81    2882    1.222179e+03    0.000e+00    1.685e+00    4.307e-02
+   82    2916    1.222167e+03    0.000e+00    1.995e+00    5.596e-02
+   83    2950    1.222158e+03    0.000e+00    2.053e+00    6.675e-02
+   84    2984    1.222156e+03    0.000e+00    2.025e+00    5.030e-02
+   85    3018    1.222156e+03    0.000e+00    1.900e+00    2.356e-02
+   86    3052    1.222154e+03    0.000e+00    1.636e+00    1.916e-02
+   87    3086    1.222151e+03    0.000e+00    8.453e-01    1.658e-02
+   88    3120    1.222148e+03    0.000e+00    3.217e-01    9.901e-03
+   89    3154    1.222110e+03    0.000e+00    1.299e+00    6.192e-02
+   90    3188    1.222106e+03    0.000e+00    4.061e-01    1.054e-02
+
+                                            First-order      Norm of
+ Iter F-count            f(x)  Feasibility   optimality         step
+   91    3222    1.222105e+03    0.000e+00    2.737e-01    8.626e-03
+   92    3256    1.222105e+03    0.000e+00    1.703e-01    8.459e-03
+   93    3290    1.222105e+03    0.000e+00    2.000e-02    7.188e-04
+   94    3324    1.222103e+03    0.000e+00    3.856e-01    1.206e-02
+   95    3358    1.222103e+03    0.000e+00    1.171e-01    4.395e-03
+   96    3392    1.222103e+03    0.000e+00    3.879e-02    2.800e-03
+   97    3426    1.222103e+03    0.000e+00    1.711e-02    2.632e-03
+   98    3469    1.222103e+03    0.000e+00    5.413e-03    4.718e-05
+   99    3503    1.222103e+03    0.000e+00    3.183e-01    2.680e-03
+  100    3540    1.222103e+03    0.000e+00    7.597e-02    1.706e-03
+  101    3574    1.222103e+03    0.000e+00    1.342e-02    1.076e-03
+  102    3610    1.222103e+03    0.000e+00    6.349e-02    1.051e-03
+  103    3644    1.222103e+03    0.000e+00    1.189e-02    7.696e-04
+  104    3678    1.222103e+03    0.000e+00    6.496e-03    3.137e-04
+  105    3712    1.222103e+03    0.000e+00    1.484e-02    5.130e-04
+  106    3746    1.222103e+03    0.000e+00    1.376e-02    4.921e-04
+  107    3780    1.222103e+03    0.000e+00    1.332e-02    5.136e-04
+  108    3820    1.222103e+03    0.000e+00    8.729e-03    1.985e-04
+  109    3856    1.222103e+03    0.000e+00    1.721e-02    1.414e-04
+  110    3890    1.222103e+03    0.000e+00    1.058e-02    2.866e-04
+  111    3926    1.222103e+03    0.000e+00    8.693e-03    1.739e-04
+  112    3965    1.222103e+03    0.000e+00    3.478e-03    1.617e-04
+  113    4002    1.222103e+03    0.000e+00    8.968e-03    8.280e-05
+  114    4042    1.222103e+03    0.000e+00    8.347e-03    3.530e-05
+  115    4082    1.222103e+03    0.000e+00    6.430e-03    1.668e-05
+
+<a href = "matlab: helpview('optim','feasible_better_objective','CSHelpWindow');">Feasible point with lower objective function value found, but optimality criteria not satisfied. See output.bestfeasible.</a>.
+
+
+<a href = "matlab: helpview('optim','local_min_poss_with_constr','CSHelpWindow');">Local minimum possible. Constraints satisfied</a>.
+
+fmincon stopped because the <a href = "matlab: helpview('optim','norm_curr_step_simple_fminconip','CSHelpWindow');">size of the current step</a> is less than
+the value of the <a href = "matlab: helpview('optim','step_size_tol','CSHelpWindow');">step size tolerance</a> and constraints are 
+satisfied to within the value of the <a href = "matlab: helpview('optim','constraint_tolerance','CSHelpWindow');">constraint tolerance</a>.
+
+<<a href = "matlab: createExitMsg({'optimlib:sqpLineSearch:Exit2basic','fmincon'},{'optimlib:sqpLineSearch:Exit2detailed','1.000000e-06','0.000000e+00','1.000000e-06'},true,true);;">stopping criteria details</a>>
+
+Final value of minus the log posterior (or likelihood):1222.102917 
+
+RESULTS FROM POSTERIOR ESTIMATION
+parameters
+                  prior mean     mode    s.d.  prior pstdev
+
+sigma                 1.2000   0.1929  0.0599   gamm 0.4000 
+phi                   1.5000   4.1879  0.9439   gamm 0.7500 
+theta_h               0.5000   0.3735  0.0671   beta 0.1000 
+theta_f               0.5000   0.6601  0.0398   beta 0.1000 
+eta                   1.5000   0.9266  0.1330   gamm 0.7500 
+h                     0.5000   0.0310  0.0401   beta 0.2500 
+delta_h               0.5000   0.1391  0.1873   beta 0.2500 
+delta_f               0.5000   0.0278  0.0383   beta 0.2500 
+rho_i                 0.5000   0.3697  0.1517   beta 0.2500 
+psi_pi                1.5000   1.3700  0.2306   gamm 0.3000 
+psi_y                 0.2500   0.0225  0.0138   gamm 0.1300 
+psi_e                 0.2000   0.2000  0.0500   norm 0.0500 
+psi_dy                0.2500   0.1824  0.1111   gamm 0.1300 
+theta_star            0.7000   0.3672  0.0798   beta 0.1500 
+rho_i_star            0.5000   0.6365  0.1404   beta 0.1500 
+psi_pi_star           1.5000   1.8477  0.5087   gamm 0.7500 
+psi_istar             0.2500   0.1824  0.1111   gamm 0.1300 
+psi_y_star            0.2500   0.0294  0.0182   gamm 0.1300 
+rho_a                 0.8000   0.8969  0.0449   beta 0.1000 
+rho_g                 0.8000   0.8968  0.0336   beta 0.1000 
+rho_rp                0.8000   0.9423  0.0408   beta 0.1000 
+rho_gs                0.5000   0.8653  0.0358   beta 0.1500 
+rho_a_star            0.5000   0.8887  0.0418   beta 0.1500 
+chi                   1.5000   0.4597  0.2592   gamm 0.7500 
+dsge_prior_weight     1.0000   2.3637  0.2688   invg    Inf 
+
+standard deviation of shocks
+                  prior mean     mode    s.d.  prior pstdev
+
+epsilon_a             1.0000   0.3724  0.0354   invg    Inf 
+epsilon_i             1.0000   0.4433  0.0794   invg    Inf 
+epsilon_cp            1.0000   1.0266  0.1631   invg    Inf 
+epsilon_rp            1.0000   0.8745  0.1938   invg    Inf 
+epsilon_g             1.0000   0.8366  0.2533   invg    Inf 
+epsilon_gs            1.0000   2.4516  0.9295   invg    Inf 
+epsilon_astar         1.0000   0.2716  0.0250   invg    Inf 
+epsilon_istar         1.0000   0.4252  0.1164   invg    Inf 
+
+
+Log data density [Laplace approximation] is -1278.622901.
+
+
+MODEL SUMMARY
+
+  Number of variables:         30
+  Number of stochastic shocks: 8
+  Number of state variables:   15
+  Number of jumpers:           9
+  Number of static variables:  13
+
+
+MATRIX OF COVARIANCE OF EXOGENOUS SHOCKS
+Variables            epsilon_a      epsilon_i     epsilon_cp     epsilon_rp      epsilon_g     epsilon_gs  epsilon_astar  epsilon_istar
+epsilon_a             0.138674       0.000000       0.000000       0.000000       0.000000       0.000000       0.000000       0.000000
+epsilon_i             0.000000       0.196531       0.000000       0.000000       0.000000       0.000000       0.000000       0.000000
+epsilon_cp            0.000000       0.000000       1.053871       0.000000       0.000000       0.000000       0.000000       0.000000
+epsilon_rp            0.000000       0.000000       0.000000       0.764683       0.000000       0.000000       0.000000       0.000000
+epsilon_g             0.000000       0.000000       0.000000       0.000000       0.699876       0.000000       0.000000       0.000000
+epsilon_gs            0.000000       0.000000       0.000000       0.000000       0.000000       6.010536       0.000000       0.000000
+epsilon_astar         0.000000       0.000000       0.000000       0.000000       0.000000       0.000000       0.073778       0.000000
+epsilon_istar         0.000000       0.000000       0.000000       0.000000       0.000000       0.000000       0.000000       0.180777
+
+POLICY AND TRANSITION FUNCTIONS
+                                   y               c               i              pi            pi_h            pi_f              de             nfa              mc
+s(-1)                      -0.009640       -0.036644        0.011098        0.008259        0.094801       -0.372992       -0.383840        0.081011        0.050793
+i(-1)                      -0.078302       -0.092593        0.017637       -0.255722       -0.284891       -0.127225       -0.423415        0.039821       -0.317186
+nfa(-1)                     0.011419        0.472440       -0.020345       -0.015038        0.074048       -0.407499       -1.735198        0.883793        0.052770
+eps_a(-1)                   1.025724        0.904021       -0.072343       -0.069636       -0.156474        0.312918        1.168493       -0.123364       -0.090677
+eps_cp(-1)                 -0.035877       -0.001118        0.006123        0.005058       -0.067885        0.326403       -0.576035        0.059108       -0.077532
+eps_rp(-1)                  0.015370        0.785354       -0.047667       -0.035046        0.102928       -0.642879       -2.967459       -0.201908        0.082709
+i_star(-1)                 -0.001413        0.003564       -0.001340       -0.000955       -0.002819        0.007255        0.376962       -0.012750       -0.003343
+eps_astar(-1)               0.025076        0.142333        0.008861        0.006057        0.087501       -0.352737       -1.191218        0.127114        0.051900
+c(-1)                       0.002597        0.004239        0.004097        0.002948        0.003433        0.000813        0.000456       -0.001090        0.005066
+q(-1)                              0               0               0               0               0               0       -1.000000               0               0
+pi_h(-1)                   -0.027904       -0.029680        0.004975        0.004090        0.005388       -0.001628       -0.010864        0.004786       -0.124064
+pi_f(-1)                   -0.001725       -0.002661        0.000621        0.000481       -0.002764        0.014780       -0.013746        0.002957       -0.004510
+eps_g(-1)                   0.018182        0.083974        0.142184        0.103488        0.120715        0.027595       -0.100685       -0.024809        0.075632
+eps_gs(-1)                 -0.000183       -0.015910        0.001270        0.000930       -0.001578        0.011978        0.046033        0.004306       -0.001424
+y_star(-1)                  0.000089       -0.001284        0.000240        0.000174        0.000132        0.000357        0.001977        0.000613        0.000159
+epsilon_a                   1.143619        1.007928       -0.080658       -0.077640       -0.174459        0.348884        1.302798       -0.137543       -0.101099
+epsilon_i                  -0.211782       -0.250434        0.047701       -0.691647       -0.770538       -0.344102       -1.145202        0.107703       -0.857887
+epsilon_cp                 -0.071755       -0.002236        0.012246        0.010116       -0.135770        0.652807       -1.152071        0.118216       -0.155063
+epsilon_rp                  0.016311        0.833413       -0.050583       -0.037191        0.109227       -0.682219       -3.149049       -0.214264        0.087771
+epsilon_g                   0.020274        0.093637        0.158546        0.115397        0.134607        0.030770       -0.112272       -0.027664        0.084335
+epsilon_gs                 -0.000211       -0.018386        0.001467        0.001075       -0.001824        0.013842        0.053197        0.004976       -0.001645
+epsilon_astar               0.028215        0.160154        0.009971        0.006815        0.098457       -0.396903       -1.340369        0.143030        0.058399
+epsilon_istar              -0.002219        0.005599       -0.002105       -0.001500       -0.004428        0.011398        0.592201       -0.020030       -0.005251
+
+
+THEORETICAL MOMENTS
+VARIABLE         MEAN  STD. DEV.   VARIANCE
+y              0.0000     0.9695     0.9400
+c              0.0000     1.5254     2.3268
+i              0.0000     0.3280     0.1076
+pi             0.0000     0.3495     0.1221
+pi_h           0.0000     0.4444     0.1975
+pi_f           0.0000     1.1091     1.2301
+de             0.0000     3.3593    11.2851
+nfa            0.0000     4.2780    18.3012
+mc             0.0000     0.4334     0.1879
+
+
+
+VARIANCE DECOMPOSITION (in percent)
+            epsilon_a      epsilon_i     epsilon_cp     epsilon_rp      epsilon_g     epsilon_gs  epsilon_astar  epsilon_istar
+y               97.82           0.94           0.85           0.27           0.03           0.00           0.07           0.00
+c               23.23           0.69           5.36          68.36           0.52           0.21           1.63           0.00
+i                2.62           0.42           0.56           7.66          88.66           0.03           0.04           0.00
+pi               1.51          77.01           0.17           1.83          19.46           0.01           0.01           0.00
+pi_h             3.15          59.28          13.89          10.01          13.07           0.03           0.57           0.00
+pi_f             2.44           2.95          49.23          41.88           1.83           0.14           1.52           0.00
+de               2.30           2.32          13.49          79.34           0.48           0.24           1.27           0.56
+nfa              0.28           0.09           3.24          95.71           0.40           0.12           0.16           0.00
+mc               0.82          78.24          14.06           4.02           2.69           0.01           0.16           0.00
+
+
+
+MATRIX OF CORRELATIONS
+Variables          y        c        i       pi     pi_h     pi_f       de      nfa       mc
+y             1.0000   0.5248  -0.1719  -0.0350  -0.0386   0.0085   0.0649  -0.0533   0.0666
+c             0.5248   1.0000  -0.2693  -0.0862   0.0948  -0.3142  -0.1284   0.0318   0.1863
+i            -0.1719  -0.2693   1.0000   0.4069   0.2907   0.1799   0.0332   0.0599  -0.0156
+pi           -0.0350  -0.0862   0.4069   1.0000   0.8343   0.2306   0.1672   0.0119   0.7944
+pi_h         -0.0386   0.0948   0.2907   0.8343   1.0000  -0.3440   0.0145   0.1138   0.9142
+pi_f          0.0085  -0.3142   0.1799   0.2306  -0.3440   1.0000   0.2593  -0.1806  -0.2607
+de            0.0649  -0.1284   0.0332   0.1672   0.0145   0.2593   1.0000  -0.0974   0.1240
+nfa          -0.0533   0.0318   0.0599   0.0119   0.1138  -0.1806  -0.0974   1.0000  -0.0103
+mc            0.0666   0.1863  -0.0156   0.7944   0.9142  -0.2607   0.1240  -0.0103   1.0000
+
+
+
+COEFFICIENTS OF AUTOCORRELATION
+Order           1        2        3        4        5
+y          0.8839   0.7894   0.7052   0.6306   0.5644
+c          0.8244   0.6572   0.5068   0.3787   0.2740
+i          0.8937   0.7968   0.7089   0.6303   0.5605
+pi         0.1892   0.1533   0.1378   0.1226   0.1090
+pi_h       0.1726   0.0781   0.0469   0.0353   0.0322
+pi_f       0.3512   0.0354  -0.0908  -0.1270  -0.1233
+de        -0.0845  -0.0790  -0.0699  -0.0590  -0.0480
+nfa        0.9930   0.9740   0.9459   0.9114   0.8727
+mc        -0.0529  -0.0077  -0.0138  -0.0147  -0.0121
+Total computing time : 0h00m43s
+Note: warning(s) encountered in MATLAB/Octave code

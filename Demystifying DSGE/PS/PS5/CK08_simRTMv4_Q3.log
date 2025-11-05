@@ -1,0 +1,210 @@
+Starting Dynare (version 6.4).
+Calling Dynare with arguments: none
+Starting preprocessing of the model file ... 
+Found 38 equation(s). 
+Evaluating expressions... 
+Computing static model derivatives (order 1). 
+Normalizing the static model... 
+Finding the optimal block decomposition of the static model... 
+9 block(s) found: 
+  8 recursive block(s) and 1 simultaneous block(s). 
+  the largest simultaneous block has 18 equation(s) 
+                                 and 18 feedback variable(s). 
+Computing dynamic model derivatives (order 2). 
+Normalizing the dynamic model... 
+Finding the optimal block decomposition of the dynamic model... 
+5 block(s) found: 
+  4 recursive block(s) and 1 simultaneous block(s). 
+  the largest simultaneous block has 18 equation(s) 
+                                 and 16 feedback variable(s). 
+Preprocessing completed. 
+Preprocessing time: 0h00m00s.
+
+
+Residuals of the static equations:
+Equation number  1: R                :       0.000000
+Equation number  2: lambda           :       0.000000
+Equation number  3: 3                :       0.000000
+Equation number  4: Pi               :       0.000000
+Equation number  5: mc               :       0.000000
+Equation number  6: m                :       0.000000
+Equation number  7: n                :       0.000000
+Equation number  8: 8                :       0.000000
+Equation number  9: q                :       0.000000
+Equation number 10: s                :       0.000000
+Equation number 11: Jstar            :       0.000000
+Equation number 12: w                :       0.000000
+Equation number 13: 13               :       0.000000
+Equation number 14: deltaF           :       0.000000
+Equation number 15: 15               :       0.000000
+Equation number 16: 16               :       0.000000
+Equation number 17: 17               :       0.000000
+Equation number 18: 18               :       0.000000
+Equation number 19: 19               :       0.000000
+Equation number 20: y                :       0.000000
+Equation number 21: Piw              :       0.000000
+Equation number 22: PsiL             :       0.000000
+Equation number 23: eb               :       0.000000
+Equation number 24: g                :       0.000000
+Equation number 25: emoney           :       0.000000
+Equation number 26: z                :       0.000000
+Equation number 27: y_level          :      -1.000000
+Equation number 28: c_level          :      -0.643911
+Equation number 29: w_level          :      -2.868965
+Equation number 30: h_level          :      -0.333300
+Equation number 31: mc_level         :      -0.909091
+Equation number 32: xL_level         :      -0.909091
+Equation number 33: u_level          :      -0.058800
+Equation number 34: v_level          :      -0.085408
+Equation number 35: q_level          :      -0.330600
+Equation number 36: s_level          :      -0.480204
+Equation number 37: wh_level         :       0.000000
+Equation number 38: cshare_gov_level :      -0.347027
+
+
+Call solver on the full nonlinear problem.
+
+STEADY-STATE RESULTS:
+
+y                		 0
+c                		 0
+Pi               		 0
+R                		 0
+lambda           		 0
+w                		 0
+wstar            		 0
+Jstar            		 0
+deltaW           		 0
+deltaF           		 0
+Deltastar        		 0
+h                		 0
+mc               		 0
+m                		 0
+n                		 0
+u                		 0
+v                		 0
+s                		 0
+q                		 0
+xL               		 0
+Piw              		 0
+PsiL             		 0
+z                		 0
+g                		 0
+eb               		 0
+emoney           		 0
+y_level          		 1
+c_level          		 0.643911
+w_level          		 2.86897
+h_level          		 0.3333
+u_level          		 0.0588
+v_level          		 0.0854083
+q_level          		 0.3306
+s_level          		 0.480204
+mc_level         		 0.909091
+xL_level         		 0.909091
+wh_level         		 0.956226
+cshare_gov_level 		 0.347027
+
+EIGENVALUES:
+         Modulus             Real        Imaginary
+               0                0                0
+       5.717e-17       -5.717e-17                0
+       7.668e-16       -7.668e-16                0
+       8.042e-16       -8.042e-16                0
+          0.4701           0.4701                0
+          0.6756           0.6697           0.0891
+          0.6756           0.6697          -0.0891
+            0.82             0.82                0
+            0.89             0.89                0
+            0.95             0.95                0
+           1.033            1.033                0
+           1.078            1.075          0.09086
+           1.078            1.075         -0.09086
+       2.178e+12        2.178e+12                0
+       7.992e+16       -7.992e+16                0
+       2.872e+22       -2.872e+22                0
+             Inf              Inf                0
+
+There are 7 eigenvalue(s) larger than 1 in modulus for 7 forward-looking variable(s)
+The rank condition is verified.
+
+
+MODEL SUMMARY
+
+  Number of variables:         38
+  Number of stochastic shocks: 5
+  Number of state variables:   10
+  Number of jumpers:           7
+  Number of static variables:  22
+
+
+MATRIX OF COVARIANCE OF EXOGENOUS SHOCKS
+Variables      inno_eb     inno_z  interest_         g_   inno_eta
+inno_eb       0.010404   0.000000   0.000000   0.000000   0.000000
+inno_z        0.000000   0.326041   0.000000   0.000000   0.000000
+interest_     0.000000   0.000000   0.010000   0.000000   0.000000
+g_            0.000000   0.000000   0.000000   0.454276   0.000000
+inno_eta      0.000000   0.000000   0.000000   0.000000   0.100000
+
+POLICY AND TRANSITION FUNCTIONS
+                                   y               u               w              Pi
+c(-1)                       0.411540               0       -0.110209       -0.058611
+R(-1)                      -0.983757               0      -18.086126       -2.685329
+m(-1)                       0.000055       -0.480204       -0.003572       -0.000267
+n(-1)                       0.001764      -15.526599       -0.115497       -0.008631
+z(-1)                       0.001787               0       -1.099140       -0.239698
+g(-1)                       0.253686               0       -0.224886       -0.071691
+eb(-1)                     -1.021689               0      -18.890179       -2.835795
+Pi(-1)                     -0.082144               0       -1.510206       -0.224227
+inno_eb                    -0.109697               0       -2.028209       -0.304475
+inno_z                      0.001244               0       -0.765377       -0.166911
+interest_                  -0.044656               0       -0.820996       -0.121897
+g_                          0.285040               0       -0.252681       -0.080552
+m(-1),inno_eta             -0.000229               0        0.054492        0.002276
+n(-1),inno_eta             -0.007420               0        1.761904        0.073576
+
+
+APPROXIMATED THEORETICAL MOMENTS
+VARIABLE         MEAN  STD. DEV.   VARIANCE
+y              0.0000     0.3278     0.1074
+u              0.0000     0.6994     0.4891
+w              0.0000     0.6857     0.4702
+Pi             0.0000     0.1605     0.0258
+
+
+
+APPROXIMATED VARIANCE DECOMPOSITION (in percent)
+        inno_eb     inno_z  interest_         g_   inno_eta
+y          0.91       7.71       0.15      91.23       0.00
+u         24.07      48.84       3.75      23.33       0.00
+w         16.72      58.23       2.63      22.42       0.00
+Pi         6.62      53.43       1.01      38.94       0.00
+
+
+
+APPROXIMATED MATRIX OF CORRELATIONS
+Variables          y        u        w       Pi
+y             1.0000   0.2193  -0.3583  -0.6034
+u             0.2193   1.0000  -0.5981  -0.5482
+w            -0.3583  -0.5981   1.0000   0.9247
+Pi           -0.6034  -0.5482   0.9247   1.0000
+
+
+
+APPROXIMATED COEFFICIENTS OF AUTOCORRELATION
+Order          1       2       3       4       5
+y         0.8046  0.6624  0.5561  0.4744  0.4097
+u         0.8425  0.6145  0.4079  0.2484  0.1360
+w         0.6178  0.3660  0.2040  0.1028  0.0420
+Pi        0.6888  0.4795  0.3396  0.2464  0.1842
+
+write_latex_prior_table:: No prior distributions detected. Skipping table creation.
+This is pdfTeX, Version 3.141592653-2.6-1.40.28 (TeX Live 2025) (preloaded format=pdflatex) 
+ restricted \write18 enabled. 
+entering extended mode 
+GPL Ghostscript 10.05.1: PDFDocEncoding ad is undefined
+GPL Ghostscript 10.05.1: PDFDocEncoding ad is undefined
+GPL Ghostscript 10.05.1: PDFDocEncoding ad is undefined
+GPL Ghostscript 10.05.1: PDFDocEncoding ad is undefined
+GPL Ghostscript 10.05.1: PDFDocEncoding ad is undefined
+Total computing time : 0h00m24s

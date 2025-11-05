@@ -1,0 +1,55 @@
+Starting Dynare (version 6.4).
+Calling Dynare with arguments: none
+Starting preprocessing of the model file ... 
+Found 28 equation(s). 
+Evaluating expressions... 
+Computing static model derivatives (order 1). 
+Normalizing the static model... 
+Normalization failed with cutoff, trying symbolic normalization... 
+Could not normalize the static model. Variable e is not in the maximum cardinality matching. 
+Computing dynamic model derivatives (order 2). 
+Normalizing the dynamic model... 
+Finding the optimal block decomposition of the dynamic model... 
+3 block(s) found: 
+  2 recursive block(s) and 1 simultaneous block(s). 
+  the largest simultaneous block has 16 equation(s) 
+                                 and 16 feedback variable(s). 
+Preprocessing completed. 
+Preprocessing time: 0h00m00s.
+
+
+Residuals of the static equations:
+Equation number  1: 1         :       0.000000
+Equation number  2: 2         :            NaN
+Equation number  3: 3         :       0.000000
+Equation number  4: 4         :       0.000000
+Equation number  5: q         :            NaN
+Equation number  6: 6         :       0.000000
+Equation number  7: mc        :            NaN
+Equation number  8: 8         :       0.000000
+Equation number  9: pi        :       0.000000
+Equation number 10: 10        :       0.000000
+Equation number 11: 11        :            NaN
+Equation number 12: i         :       0.000000
+Equation number 13: 13        :       0.000000
+Equation number 14: pi_star   :       0.000000
+Equation number 15: mc_star   :            NaN
+Equation number 16: i_star    :       0.000000
+Equation number 17: eps_g     :       0.000000
+Equation number 18: eps_gs    :       0.000000
+Equation number 19: eps_a     :       0.000000
+Equation number 20: eps_cp    :       0.000000
+Equation number 21: eps_astar :       0.000000
+Equation number 22: eps_rp    :       0.000000
+Equation number 23: y_au      :       0.000000
+Equation number 24: pi_au     :       0.000000
+Equation number 25: i_au      :       0.000000
+Equation number 26: y_us      :       0.000000
+Equation number 27: pi_us     :       0.000000
+Equation number 28: i_us      :       0.000000
+
+
+STEADY:  numerical initial values or parameters incompatible with the following equations
+     2     5     7    11    15
+
+Check whether your model is truly linear. Put "resid(1);" before "steady;" to see the problematic equations.

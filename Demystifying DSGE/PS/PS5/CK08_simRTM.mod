@@ -1,4 +1,4 @@
-% From Christoffel and Kuester (2008) "Resuscitating the wage channel in models with unemployment fluctuations", JME 55, p. 865– 887
+% From Christoffel and Kuester (2008) "Resuscitating the wage channel in models with unemployment fluctuations", JME 55, p. 865? 887
 % Note: the original model runs on a MONTHLY frequency 
 % Last edited: 2011/05/10 by K. Kuester
 % This is the "RTM" version of the model
@@ -33,6 +33,25 @@ var
 	eb      ${e_b}$       (long_name='preference shock process')
 	emoney      ${e_m}$       (long_name='MonPol shock process') 
 	;
+
+% -------- Reporting variables (levels and shares for Table 2) --------
+var
+    y_level                 % Output (level)
+    c_level                 % Consumption (level)
+    wh_level                % Wage per employee (level)
+    u_level                 % Unemployment rate (level)
+    v_share_level           % Vacancies (as share of labor force)
+    s_prob_level            % Probability of finding a job within a month
+    q_prob_level            % Probability of finding a worker within a month
+    b_wh_ss     % Unemployment insurance replacement rate b/(wh)
+    kv_y_share_pct_level    % Percent share of output lost to vacancy posting, 100*kv/y
+    F_revenue_share_level   % Share of a labor firmâ€™s revenue lost to fixed costs, F/(xL*z*h^alpha)
+    CC_y_share_level        % Profit share (wholesale sector) in total output, CC/y
+    CLn_y_share_level       % Profit share (labor sector) in total output, CL*n/y
+    J_value_level           % Value of a labor firm, J
+    D_surplus_level         % Surplus of the worker from working, D
+;
+
 varexo  
 	inno_eb     ${\varepsilon_{b}}$       (long_name='preference shock')
 	inno_z     ${\varepsilon_{z}}$       (long_name='TFP shock')
@@ -210,6 +229,41 @@ eb        =     rho_eb*eb(-1) +  sig_innoeb*inno_eb;   // shock to discount fact
 g         =     rho_g*g(-1) +  g_ ;     // government spending shock              
 emoney    =     rho_emoney*emoney(-1) + sig_monpol*interest_;     // monetary policy shock  
 z         =     rho_z*z(-1) +  sig_innoz*inno_z;  // productivity shock
+
+
+% ===================== Reporting equations: Table 2 (steady state) =====================
+% Levels (display steady-state bars; linear mapping lets IRFs be read approximately in levels)
+
+% Core levels
+y_level              = ybar * (1 + y);            % Output
+c_level              = cbar * (1 + c);            % Consumption
+wh_level             = (wbar*hbar) * (1 + w + h); % Wage per employee
+
+u_level              = ubar * (1 + u);            % Unemployment rate
+v_share_level        = vbar * (1 + v);            % Vacancies (share of labor force)
+
+s_prob_level         = sbar * (1 + s);            % P(find a job in a month)
+q_prob_level         = qbar * (1 + q);            % P(find a worker in a month)
+
+% Replacement rate b/(wh): constant at steady state (your #b = b_wh * wbar * hbar)
+b_wh_ss  = b / (wbar*hbar);
+
+% Vacancy posting share: 100 * (k*v)/y, evaluated at steady state
+kv_y_share_pct_level = 100 * (kappa * vbar) / ybar;
+
+% Share of revenue lost to fixed costs: F / (xL*z*h^alpha), per employee (steady state)
+F_revenue_share_level = Phi / (xLbar * zbar * (hbar^alp));
+
+% Profit shares in total output (steady state)
+CC_y_share_level     = PsiCbar / ybar;           % Wholesale sector profit share CC/y
+CLn_y_share_level    = (PsiLbar * nbar) / ybar;  % Labor sector profit share CL*n/y
+
+% Values/surpluses (steady state levels)
+J_value_level        = Jbar;                     % Value of a labor firm, J
+
+% Worker surplus D (steady state) from Appendix A.1:
+D_surplus_level      = Deltabar * (1 + Deltastar);
+% =================== (end reporting equations) ===================
 end;
 
 shocks;

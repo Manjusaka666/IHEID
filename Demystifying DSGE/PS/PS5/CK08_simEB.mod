@@ -1,4 +1,4 @@
-% From Christoffel and Kuester (2008) "Resuscitating the wage channel in models with unemployment fluctuations", JME 55, p. 865– 887
+% From Christoffel and Kuester (2008) "Resuscitating the wage channel in models with unemployment fluctuations", JME 55, p. 865ï¿½ 887
 % Note: the original model runs on a MONTHLY frequency 
 % Last edited: 2011/05/10 by K. Kuester
 % This is the "EB" version of the model - see Appendix A.3
@@ -199,7 +199,8 @@ q         =     m-v;
 s         =     m-u;
 // newly optimized wage (wage setting FOC)
 %Jstar + deltaW = Deltastar + deltaF;  <====== changed for EB
-Jstar = Deltastar - (1/(1 - (eta + inno_eta)))*n;      
+% Jstar = Deltastar - (1/(1 - (eta + inno_eta)))*n;    
+Jstar = Deltastar - (1/(1-eta))*inno_eta;  
 // hours FOC
 %w         =     xL + z + (alp-1)*h ;  <====== changed for EB
 vphi*h - lambda         =     xL + z + (alp-1)*h ;

@@ -1,0 +1,128 @@
+Starting Dynare (version 6.4).
+Calling Dynare with arguments: none
+Starting preprocessing of the model file ... 
+Found 30 equation(s). 
+Evaluating expressions... 
+Computing static model derivatives (order 1). 
+Normalizing the static model... 
+Normalization failed with cutoff, trying symbolic normalization... 
+Could not normalize the static model. Variable e is not in the maximum cardinality matching. 
+Computing dynamic model derivatives (order 2). 
+Normalizing the dynamic model... 
+Finding the optimal block decomposition of the dynamic model... 
+3 block(s) found: 
+  2 recursive block(s) and 1 simultaneous block(s). 
+  the largest simultaneous block has 16 equation(s) 
+                                 and 16 feedback variable(s). 
+Preprocessing completed. 
+Preprocessing time: 0h00m00s.
+
+
+Residuals of the static equations:
+Equation number  1: 1         :       0.000000
+Equation number  2: 2         :       0.000000
+Equation number  3: 3         :       0.000000
+Equation number  4: 4         :       0.000000
+Equation number  5: q         :       0.000000
+Equation number  6: 6         :       0.000000
+Equation number  7: mc        :       0.000000
+Equation number  8: 8         :       0.000000
+Equation number  9: pi        :       0.000000
+Equation number 10: 10        :       0.000000
+Equation number 11: 11        :       0.000000
+Equation number 12: i         :       0.000000
+Equation number 13: 13        :       0.000000
+Equation number 14: pi_star   :       0.000000
+Equation number 15: mc_star   :       0.000000
+Equation number 16: i_star    :       0.000000
+Equation number 17: eps_g     :       0.000000
+Equation number 18: eps_gs    :       0.000000
+Equation number 19: eps_a     :       0.000000
+Equation number 20: eps_cp    :       0.000000
+Equation number 21: eps_astar :       0.000000
+Equation number 22: eps_rp    :       0.000000
+Equation number 23: y_au      :       0.000000
+Equation number 24: pi_au     :       0.000000
+Equation number 25: i_au      :       0.000000
+Equation number 26: y_us      :       0.000000
+Equation number 27: q_au      :       0.000000
+Equation number 28: s_au      :       0.000000
+Equation number 29: pi_us     :       0.000000
+Equation number 30: i_us      :       0.000000
+
+
+
+EIGENVALUES:
+         Modulus             Real        Imaginary
+        4.31e-17        -4.31e-17                0
+       5.235e-17       -5.235e-17                0
+           0.102            0.102                0
+          0.1074           0.1074                0
+          0.4257           0.4095           0.1164
+          0.4257           0.4095          -0.1164
+          0.4588           0.4473            0.102
+          0.4588           0.4473           -0.102
+             0.5              0.5                0
+             0.5              0.5                0
+             0.5              0.5                0
+             0.5              0.5                0
+             0.5              0.5                0
+             0.5              0.5                0
+          0.6818           0.6818                0
+          0.9808           0.9808                0
+               1                1                0
+           1.029            1.029                0
+           1.503            1.434           0.4482
+           1.503            1.434          -0.4482
+           1.531            1.496           0.3251
+           1.531            1.496          -0.3251
+           1.555            1.555                0
+       1.305e+17       -1.305e+17                0
+        3.12e+17         3.12e+17                0
+       1.838e+18        1.838e+18                0
+
+There are 9 eigenvalue(s) larger than 1 in modulus for 9 forward-looking variable(s)
+The rank condition is verified.
+
+
+STEADY-STATE RESULTS:
+
+y         		 0
+c         		 0
+s         		 0
+psi       		 0
+q         		 0
+mc        		 0
+i         		 0
+pi        		 0
+pi_h      		 0
+pi_f      		 0
+nfa       		 0
+eps_a     		 0
+eps_g     		 0
+eps_cp    		 0
+eps_gs    		 0
+eps_rp    		 0
+e         		 0
+y_star    		 0
+mc_star   		 0
+i_star    		 0
+pi_star   		 0
+eps_astar 		 0
+y_au      		 0
+pi_au     		 0
+i_au      		 0
+y_us      		 0
+pi_us     		 0
+i_us      		 0
+q_au      		 0
+s_au      		 0
+Error in computing likelihood for initial parameter values
+
+ESTIMATION_CHECKS: There was an error in computing the likelihood for initial parameter values.
+ESTIMATION_CHECKS: If this is not a problem with the setting of options (check the error message below),
+ESTIMATION_CHECKS: you should try using the calibrated version of the model as starting values. To do
+ESTIMATION_CHECKS: this, add an empty estimated_params_init-block with use_calibration option immediately before the estimation
+ESTIMATION_CHECKS: command (and after the estimated_params-block so that it does not get overwritten):
+
+

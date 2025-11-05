@@ -1,15 +1,17 @@
 %for CK-08 model 
 % This attempts to construct Fig1
 
-filepart = 'J:\MyCourseDSGEs2025\HW\Wk6-PS5\Tests';
+filepart = 'E:\IHEID Economics\IHEID\Demystifying DSGE\PS\PS5';
 load(fullfile(filepart,'CK08_simRTM\Output','CK08_simRTM_results.mat'));
 %load 'CK08_simRTM_results';
 OOPT.MODELS.oo_EHL = oo_;
 load(fullfile(filepart,'CK08_simRTMv2\Output','CK08_simRTMv2_results.mat'));
 %load 'CK08_simRTMv2_results';
+% load(fullfile(filepart,'CK08_simRTM_q4\Output','CK08_simRTM_q4_results.mat'));
 OOPT.MODELS.oo_EHL1 = oo_;
 load(fullfile(filepart,'CK08_simRTMv3\Output','CK08_simRTMv3_results.mat'));
 %load 'CK08_simRTMv3_results';
+% load(fullfile(filepart,'CK08_simRTM_q4v2\Output','CK08_simRTM_q4v2_results.mat'));
 OOPT.MODELS.oo_EHL2 = oo_;
 
 OOPT.NN=60;

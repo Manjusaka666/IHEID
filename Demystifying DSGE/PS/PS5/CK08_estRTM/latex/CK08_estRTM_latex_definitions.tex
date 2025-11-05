@@ -1,0 +1,121 @@
+\begin{center}
+\begin{longtable}{ccc}
+\caption{Endogenous}\\%
+\hline%
+\multicolumn{1}{c}{\textbf{Variable}} &
+\multicolumn{1}{c}{\textbf{\LaTeX}} &
+\multicolumn{1}{c}{\textbf{Description}}\\%
+\hline\hline%
+\endfirsthead
+\multicolumn{3}{c}{{\tablename} \thetable{} -- Continued}\\%
+\hline%
+\multicolumn{1}{c}{\textbf{Variable}} &
+\multicolumn{1}{c}{\textbf{\LaTeX}} &
+\multicolumn{1}{c}{\textbf{Description}}\\%
+\hline\hline%
+\endhead
+\texttt{y} & ${y}$ & output\\
+\texttt{c} & ${c}$ & consumption\\
+\texttt{Pi} & ${\pi}$ & inflation rate\\
+\texttt{R} & ${R}$ & interest rate\\
+\texttt{lambda} & ${\lambda}$ & marginal utility\\
+\texttt{w} & ${w}$ & aggregate wage rate\\
+\texttt{wstar} & ${w^*}$ & newly optimized wage rate\\
+\texttt{Jstar} & ${J^*}$ & market value of labour firm\\
+\texttt{deltaW} & ${\delta_W}$ & family surplus from employed worker\\
+\texttt{deltaF} & ${\delta_F}$ & firm surplus from employed worker\\
+\texttt{Deltastar} & ${\Delta^*}$ & optimised wage wedge\\
+\texttt{h} & ${h}$ & hours worked - based on measure 1\\
+\texttt{mc} & ${mc}$ & marginal cost\\
+\texttt{m} & ${m}$ & matches\\
+\texttt{n} & ${n}$ & employment - based on measure 1\\
+\texttt{u} & ${u}$ & unemployment - based on measure 1\\
+\texttt{v} & ${v}$ & vacancies - based on measure 1\\
+\texttt{s} & ${s}$ & job-finding probability\\
+\texttt{q} & ${q}$ & vacancy-filling probability\\
+\texttt{xL} & ${xL}$ & real competitive price for labour good\\
+\texttt{z} & ${z}$ & TFP shock process\\
+\texttt{g} & ${g}$ & govt spending shock process\\
+\texttt{eb} & ${e_b}$ & preference shock process\\
+\texttt{emoney} & ${e_m}$ & MonPol shock process\\
+\texttt{yobs} & ${y_{obs}}$ & observed output\\
+\texttt{cobs} & ${c_{obs}}$ & observed consumption\\
+\texttt{robs} & ${r_{obs}}$ & observed interest rate\\
+\texttt{piobs} & ${\pi_{obs}}$ & observed inflation rate\\
+\hline%
+\end{longtable}
+\end{center}
+\begin{center}
+\begin{longtable}{ccc}
+\caption{Exogenous}\\%
+\hline%
+\multicolumn{1}{c}{\textbf{Variable}} &
+\multicolumn{1}{c}{\textbf{\LaTeX}} &
+\multicolumn{1}{c}{\textbf{Description}}\\%
+\hline\hline%
+\endfirsthead
+\multicolumn{3}{c}{{\tablename} \thetable{} -- Continued}\\%
+\hline%
+\multicolumn{1}{c}{\textbf{Variable}} &
+\multicolumn{1}{c}{\textbf{\LaTeX}} &
+\multicolumn{1}{c}{\textbf{Description}}\\%
+\hline\hline%
+\endhead
+\texttt{inno\_eb} & ${\varepsilon_{b}}$ & preference shock\\
+\texttt{inno\_z} & ${\varepsilon_{z}}$ & TFP shock\\
+\texttt{interest\_} & ${\varepsilon_{r}}$ & MonPol shock\\
+\texttt{g\_} & ${\varepsilon_{g}}$ & govt spending shock\\
+\hline%
+\end{longtable}
+\end{center}
+\begin{center}
+\begin{longtable}{ccc}
+\caption{Parameters}\\%
+\hline%
+\multicolumn{1}{c}{\textbf{Variable}} &
+\multicolumn{1}{c}{\textbf{\LaTeX}} &
+\multicolumn{1}{c}{\textbf{Description}}\\%
+\hline\hline%
+\endfirsthead
+\multicolumn{3}{c}{{\tablename} \thetable{} -- Continued}\\%
+\hline%
+\multicolumn{1}{c}{\textbf{Variable}} &
+\multicolumn{1}{c}{\textbf{\LaTeX}} &
+\multicolumn{1}{c}{\textbf{Description}}\\%
+\hline\hline%
+\endhead
+\texttt{bet} & ${\beta}$ & lifetime discount factor\\
+\texttt{epsilon} & ${\epsilon}$ & markup\\
+\texttt{habit} & ${\varrho}$ & habit persistence\\
+\texttt{sig} & ${\sigma}$ & risk aversion\\
+\texttt{vphi} & ${\varphi}$ & inverse of Frisch elasticity\\
+\texttt{omega} & ${\omega}$ & Calvo price stickiness\\
+\texttt{price\_index} & ${\zeta_p}$ & degree of price indexation\\
+\texttt{xi} & ${\xi}$ & elasticity of matches wrt unemployment\\
+\texttt{eta} & ${\eta}$ & worker bargaining power\\
+\texttt{gamma} & ${\gamma}$ & Calvo wage stickiness\\
+\texttt{wage\_index} & ${\zeta_w}$ & degree of wage indexation\\
+\texttt{vtheta} & ${\vartheta}$ & separation rate (quarterly)\\
+\texttt{alp} & ${\alpha}$ & labour elasticity of production\\
+\texttt{phi\_R} & ${\phi_R}$ & interest rate smoothing\\
+\texttt{phi\_Pi} & ${\phi_{\pi}}$ & Taylor Rule weight on inflation\\
+\texttt{phi\_y} & ${\phi_y}$ & Taylor Rule weight on output\\
+\texttt{rho\_z} & ${\rho_{z}}$ & persistence of TFP shock process\\
+\texttt{rho\_eb} & ${\rho_{eb}}$ & persistence of preference shock process\\
+\texttt{rho\_g} & ${\rho_{g}}$ & persistence of govt spending shock process\\
+\texttt{rho\_emoney} & ${\rho_{m}}$ & persistence of MonPol shock process\\
+\texttt{sig\_innoz} & ${\sigma_{z}}$ & std dev of TFP shock process\\
+\texttt{sig\_innoeb} & ${\sigma_{eb}}$ & std dev of preference shock process\\
+\texttt{sig\_innog} & ${\sigma_{g}}$ & std dev of govt spending shock process\\
+\texttt{sig\_monpol} & ${\sigma_{m}}$ & std dev of MonPol shock process\\
+\texttt{ybar} & ${y_{ss}}$ & output steady-state\\
+\texttt{hbar} & ${h_{ss}}$ & hours worked steady-state\\
+\texttt{ubar} & ${u_{ss}}$ & unemployment steady-state\\
+\texttt{qbar} & ${q_{ss}}$ & job-finding probability steady-state\\
+\texttt{gbar} & ${g_{ss}}$ & govt-output ratio steady-state\\
+\texttt{Pibar} & ${\pi_{ss}}$ & inflation rate steady-state\\
+\texttt{b\_wh} & ${b_{ss}}$ & replacement rate steady-state\\
+\texttt{Phi\_y} & ${\phi_{ss}}$ & fixed-cost loss-output ratio steady-state\\
+\hline%
+\end{longtable}
+\end{center}

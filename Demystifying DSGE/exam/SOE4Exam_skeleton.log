@@ -1,0 +1,94 @@
+Starting Dynare (version 6.4).
+Calling Dynare with arguments: none
+Starting preprocessing of the model file ... 
+Found 21 equation(s). 
+Evaluating expressions... 
+Computing static model derivatives (order 1). 
+Normalizing the static model... 
+Normalization failed with cutoff, trying symbolic normalization... 
+Could not normalize the static model. Variable e is not in the maximum cardinality matching. 
+Computing dynamic model derivatives (order 2). 
+Normalizing the dynamic model... 
+Finding the optimal block decomposition of the dynamic model... 
+3 block(s) found: 
+  2 recursive block(s) and 1 simultaneous block(s). 
+  the largest simultaneous block has 10 equation(s) 
+                                 and 9 feedback variable(s). 
+Preprocessing completed. 
+Preprocessing time: 0h00m01s.
+
+
+Residuals of the static equations:
+Equation number  1: 1       :       0.000000
+Equation number  2: pi_h    :       0.000000
+Equation number  3: pi_f    :       0.000000
+Equation number  4: 4       :       0.000000
+Equation number  5: 5       :       0.000000
+Equation number  6: y       :       0.000000
+Equation number  7: pi      :       0.000000
+Equation number  8: r       :       0.000000
+Equation number  9: de      :       0.000000
+Equation number 10: 10      :       0.000000
+Equation number 11: eps_r   :       0.000000
+Equation number 12: eps_s   :       0.000000
+Equation number 13: eps_q   :       0.000000
+Equation number 14: eps_a   :       0.000000
+Equation number 15: pi_star :       0.000000
+Equation number 16: y_star  :       0.000000
+Equation number 17: r_star  :       0.000000
+Equation number 18: y_obs   :       0.000000
+Equation number 19: yst_obs :       0.000000
+Equation number 20: r_obs   :       0.000000
+Equation number 21: pi_obs  :       0.000000
+
+
+
+STEADY-STATE RESULTS:
+
+y       		 0
+c       		 0
+s       		 0
+q       		 0
+r       		 0
+pi      		 0
+pi_h    		 0
+pi_f    		 0
+eps_a   		 0
+eps_r   		 0
+eps_q   		 0
+eps_s   		 0
+e       		 0
+de      		 0
+y_star  		 0
+r_star  		 0
+pi_star 		 0
+y_obs   		 0
+yst_obs 		 0
+r_obs   		 0
+pi_obs  		 0
+
+EIGENVALUES:
+         Modulus             Real        Imaginary
+       1.881e-17       -1.881e-17                0
+             0.1              0.1                0
+          0.3836           0.3598           0.1329
+          0.3836           0.3598          -0.1329
+             0.5              0.5                0
+             0.5              0.5                0
+             0.5              0.5                0
+          0.5976           0.4856           0.3484
+          0.5976           0.4856          -0.3484
+             0.8              0.8                0
+             0.8              0.8                0
+             0.8              0.8                0
+               1                1                0
+           1.235           0.7498           0.9808
+           1.235           0.7498          -0.9808
+           1.261            1.261                0
+           2.381            2.381                0
+             Inf             -Inf                0
+             Inf              Inf                0
+
+There are 6 eigenvalue(s) larger than 1 in modulus for 5 forward-looking variable(s)
+The rank condition ISN'T verified!
+

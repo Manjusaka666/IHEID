@@ -1,0 +1,542 @@
+\documentclass[a4paper,12pt]{article}
+
+\usepackage[top = 2.5cm, bottom = 2.5cm, left = 2.5cm, right = 2.5cm]{geometry} 
+
+% Unfortunately, LaTeX has a hard time interpreting German Umlaute. The following two lines and packages should help. If it doesn't work for you please let me know.
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{pifont}
+% \usepackage{ctex}
+\usepackage{amsthm, amsmath, amssymb, mathrsfs,mathtools}
+
+% Defining a new theorem style without italics
+\newtheoremstyle{nonitalic}% name
+  {\topsep}% Space above
+  {\topsep}% Space below
+  {\upshape}% Body font
+  {}% Indent amount
+  {\bfseries}% Theorem head font
+  {.}% Punctuation after theorem head
+  {.5em}% Space after theorem head
+  {}% Theorem head spec (can be left empty, meaning 'normal`)
+  
+\theoremstyle{nonitalic}
+% Define new 'solution' environment
+\newtheorem{innercustomsol}{Solution}
+\newenvironment{solution}[1]
+  {\renewcommand\theinnercustomsol{#1}\innercustomsol}
+  {\endinnercustomsol}
+
+% Custom counter for the solutions
+\newcounter{solutionctr}
+\renewcommand{\thesolutionctr}{(\alph{solutionctr})}
+
+% Environment for auto-numbering with custom format
+\newenvironment{autosolution}
+  {\stepcounter{solutionctr}\begin{solution}{\thesolutionctr}}
+  {\end{solution}}
+
+
+\newtheorem{problem}{Problem}
+
+\usepackage{color}
+
+% The following two packages - multirow and booktabs - are needed to create nice looking tables.
+\usepackage{multirow} % Multirow is for tables with multiple rows within one cell.
+\usepackage{booktabs} % For even nicer tables.
+\usepackage{threeparttable} % <-- 添加：提供 threeparttable 环境及 tablenotes
+
+% As we usually want to include some plots (.pdf files) we need a package for that.
+\usepackage{graphicx} 
+\usepackage{subfigure}
+\usepackage{hyperref}
+% \usepackage{subcaption}
+
+% The default setting of LaTeX is to indent new paragraphs. This is useful for articles. But not really nice for homework problem sets. The following command sets the indent to 0.
+\usepackage{setspace}
+\setlength{\parindent}{0in}
+\usepackage{longtable}
+
+% Package to place figures where you want them.
+\usepackage{float}
+\usepackage{placeins}
+
+% The fancyhdr package let's us create nice headers.
+\usepackage{fancyhdr}
+
+\usepackage{fancyvrb}
+
+\usepackage{enumitem}
+
+%Code environment 
+\usepackage{listings} % Required for insertion of code
+\usepackage{xcolor} % Required for custom colors
+\usepackage{tcolorbox}
+\usepackage{subcaption}
+\usepackage{tabularx}
+\usepackage{makecell}
+
+\newtcolorbox{note}[1]{%
+  colback=white,      % 背景白色
+  title=#1,           % 标题从参数获取
+  fontupper=\color{blue},  % 内部文本蓝色
+  boxrule=1pt,        % 边框宽度
+  arc=3pt,             % 圆角（可选）
+  coltitle=white
+}
+
+% ---------- Listings setup ----------
+\definecolor{codebg}{RGB}{250,250,250}
+\definecolor{dkgray}{RGB}{64,64,64}
+\definecolor{dkblue}{RGB}{0,0,140}
+\definecolor{dkgreen}{RGB}{0,100,0}
+\definecolor{maroon}{RGB}{128,0,0}
+\definecolor{purplec}{RGB}{106,13,173}
+
+\lstdefinestyle{code}{
+  backgroundcolor=\color{codebg},
+  basicstyle=\ttfamily\small,
+  breaklines=true,
+  columns=fullflexible,
+  keepspaces=true,
+  keywordstyle=\color{dkblue}\bfseries,
+  stringstyle=\color{maroon},
+  commentstyle=\itshape\color{dkgreen},
+  numberstyle=\scriptsize\color{dkgray},
+  numbers=left,
+  numbersep=8pt,
+  frame=single,
+  framerule=0.3pt,
+  rulecolor=\color{dkgray},
+  showstringspaces=false,
+  tabsize=2,
+  upquote=true
+}
+
+% Dynare is Matlab-like; define a language based on Matlab with some added keywords
+\lstdefinelanguage{Dynare}{
+  morekeywords={
+    var,varexo,parameters,model,end,initval,steady_state_model,shocks,
+    periods,stoch_simul,check,steady,resid,log,exp,stderr,varexo_det,
+    ramsey\_policy,planner\_objective,osr,osr\_params,estimated\_params,
+    varobs,estimation,identification,shocks,init,values,planner\_discount,
+    simul,verbatim,save\_params\_and\_steady\_state,trend\_vars,units,
+    deterministic\_trends,steady\_state\_operator,estimated\_params\_bounds
+  },
+  sensitive=true,
+  morecomment=\[l\]\%,      % Dynare/Matlab-style comments
+  morestring=\[b\]',       % strings
+}
+
+\lstdefinelanguage{MatlabX}{
+  language=Matlab,
+  morekeywords={dynare},
+}
+
+\lstset{style=code}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 3. Header (and Footer)
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% To make our document nice we want a header and number the pages in the footer.
+
+\pagestyle{fancy} % With this command we can customize the header style.
+
+\fancyhf{} % This makes sure we do not have other information in our header or footer.
+
+\lhead{\footnotesize Demystifying DSGE Models}% \lhead puts text in the top left corner. \footnotesize sets our font to a smaller size.
+
+%\rhead works just like \lhead (you can also use \chead)
+\rhead{\footnotesize Jingle Fu} %<---- Fill in our lastnames.
+
+% Similar commands work for the footer (\lfoot, \cfoot and \rfoot).
+% We want to put our page number in the center.
+\cfoot{\footnotesize \thepage}
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\begin{document}
+
+
+\thispagestyle{empty} % This command disables the header on the first page. 
+
+\begin{tabular}{p{15.5cm}} % This is a simple tabular environment to align our text nicely 
+  {\large \bf Demystifying DSGE Models}              \\
+  The Graduate Institute, Fall 2025, John D.A. Cuddy \\
+  \hline % \hline produces horizontal lines.
+  \\
+\end{tabular} % Our tabular environment ends here.
+
+\vspace*{0.3cm} % Now we want to add some vertical space in between the line and our title.
+
+\begin{center} % Everything within the center environment is centered.
+  {\Large \bf PS6 Solutions} % <---- Don't forget to put in the right number
+  \vspace{2mm}
+
+  % our NAMES GO HERE
+  {\bf Jingle Fu} % <---- Fill in our names here!
+
+\end{center}
+
+\vspace{0.4cm}
+\setstretch{1.2}
+
+\section*{Q4.}
+
+\paragraph{Persistence and price stickiness.}
+Posteriors point to very flexible domestic prices (Calvo $\theta_H=0.0414$) alongside sticky import prices ($\theta_F=0.7703$).
+This asymmetry—common in emerging small open economies—helps rationalize incomplete (and gradual) pass-through from the external sector into CPI.
+Moderate indexation ($\delta_H=0.3604$, $\delta_F=0.5510$) supports inflation persistence without tipping the Phillips curves into over-backwardness.
+
+\paragraph{Monetary policy rule.}
+The estimated Taylor-rule coefficient on inflation ($\psi_\pi=1.9047>1$) exceeds unity,
+confirming that the Central Bank responds aggressively to inflation deviations,
+thereby ensuring determinacy. The coefficient on output ($\psi_y=0.2077$) is small,
+implying that stabilization of real activity plays a secondary role.
+The direct exchange-rate term is small but non-zero ($\psi_{de}=0.1489$),
+suggesting limited—but present—leaning against exchange-rate movements in the policy rule.
+Interest rate smoothing ($\psi_r=0.8283$) indicates considerable policy inertia,
+aligning with empirical evidence of gradual monetary adjustments.
+
+\paragraph{Nominal and real rigidities.}
+The degree of indexation to past inflation ($\delta_H=0.3604$, $\delta_F=0.5510$) points to moderate backward-looking behavior,
+helping the model reproduce observed inflation persistence.
+The habit parameter ($h=0.6415$) suggests significant consumption smoothing,
+which dampens the volatility of output and consumption in response to shocks.
+
+\paragraph{External transmission and shock processes.}
+Persistence in foreign variables ($b_1\approx0.9398$ for output, $c_1\approx0.9339$ for interest rates) ensures that international conditions transmit slowly to the domestic economy.
+The high autoregressive coefficients for domestic technology ($\rho_a=0.7606$) and exchange-rate shocks ($\rho_q=0.8836$) highlight the persistent nature of supply and financial disturbances.
+
+\paragraph{Shock volatility and variance decomposition.}
+Among estimated standard deviations, the most volatile drivers are the terms-of-trade and foreign-output shocks ($\sigma_{es}=0.46$, $\sigma_{ey^\ast}=0.55$),
+underlining the exposure of small open economy to external commodity price movements and foreign demand fluctuations.
+Domestic technology shocks ($\sigma_{ea}=0.68$) also play a notable role, while monetary and UIP shocks are relatively moderate.
+domestic technology shocks also play a notable role, while monetary
+
+\paragraph{Dynamic properties.}
+Autocorrelations in key observables—such as output ($0.89$ at lag 1) and interest rate ($0.96$)—show that the model captures the persistence found in actual Brazilian data. The correlation matrix indicates strong positive comovement between consumption and output, and a negative correlation between terms of trade and real exchange rate, both consistent with open-economy theory.
+
+Overall, the posterior modes reflect a coherent structure: a credible and inflation-focused monetary policy, moderate nominal rigidities, and high exposure to external shocks—typical of emerging-market open economies.
+
+
+\begin{table}[h!]
+  \centering
+  \begin{threeparttable}
+    \caption{Estimated Priors and Posterior Modes (Q4 Run)}
+    \label{tab:q4_params}
+    \footnotesize
+    \setlength{\tabcolsep}{6pt}
+    \begin{tabular}{l l l c c}
+      \toprule
+      \multicolumn{1}{c}{Parameter} & \multicolumn{1}{c}{Description}                 & \multicolumn{1}{c}{Dynare Name} & \multicolumn{1}{c}{Prior Mean} & \multicolumn{1}{c}{Posterior Mode} \\
+      \midrule
+      \multicolumn{5}{l}{\textit{Preferences and Technology}}                                                                                                                                 \\
+      $h$                           & Habit persistence                               & \texttt{h}                      & 0.5                            & 0.6415                             \\
+      $\sigma$                      & Inverse IES                                     & \texttt{sigma}                  & 1.5                            & 0.1798                             \\
+      $\varphi$                     & Inverse Frisch elasticity                       & \texttt{varphi}                 & 1.5                            & 0.1971                             \\
+      \addlinespace[2pt]
+      \multicolumn{5}{l}{\textit{Open-Economy Structure}}                                                                                                                                     \\
+      $\alpha$                      & Share of foreign goods in CPI                   & \texttt{alpha}                  & 0.5                            & 0.8678                             \\
+      $\eta$                        & Trade elasticity / demand curvature             & \texttt{eta}                    & 1.5                            & 0.9156                             \\
+      \addlinespace[2pt]
+      \multicolumn{5}{l}{\textit{Price Setting and Indexation}}                                                                                                                               \\
+      $\theta_H$                    & Calvo parameter (home prices)                   & \texttt{thetaH}                 & 0.5                            & 0.0414                             \\
+      $\theta_F$                    & Calvo parameter (import prices)                 & \texttt{thetaF}                 & 0.5                            & 0.7703                             \\
+      $\delta_H$                    & Indexation to home inflation                    & \texttt{deltaH}                 & 0.5                            & 0.3604                             \\
+      $\delta_F$                    & Indexation to import inflation                  & \texttt{deltaF}                 & 0.5                            & 0.5510                             \\
+      \addlinespace[2pt]
+      \multicolumn{5}{l}{\textit{Monetary Policy Rule}}                                                                                                                                       \\
+      $\psi_r$                      & Interest-rate smoothing                         & \texttt{psir}                   & 0.5                            & 0.8283                             \\
+      $\psi_{\pi}$                  & Response to inflation                           & \texttt{psi\_pi}                & 1.5                            & 1.9047                             \\
+      $\psi_y$                      & Response to output (gap/growth, per file setup) & \texttt{psiy}                   & 0.25                           & 0.2077                             \\
+      $\psi_{de}$                   & Response to nominal exchange-rate change        & \texttt{pside}                  & 0.2                            & 0.1489                             \\
+      \addlinespace[2pt]
+      \multicolumn{5}{l}{\textit{Shock Persistence (AR(1)) and Foreign Block}}                                                                                                                \\
+      $\rho_a$                      & Productivity persistence (home)                 & \texttt{rhoa}                   & 0.5                            & 0.7606                             \\
+      $\rho_s$                      & Terms-of-trade persistence                      & \texttt{rhos}                   & 0.5                            & 0.5059                             \\
+      $\rho_q$                      & Exchange-rate (risk-premium) persistence        & \texttt{rhoq}                   & 0.5                            & 0.8836                             \\
+      $\rho_r$                      & Monetary shock persistence                      & \texttt{rhor}                   & 0.5                            & 0.3551                             \\
+      $a_1$                         & Foreign inflation persistence                   & \texttt{a1}                     & 0.5                            & 0.2467                             \\
+      $b_1$                         & Foreign output persistence                      & \texttt{b1}                     & 0.5                            & 0.9398                             \\
+      $c_1$                         & Foreign interest-rate persistence               & \texttt{c1}                     & 0.5                            & 0.9339                             \\
+      \bottomrule
+    \end{tabular}
+    \begin{tablenotes}[flushleft]
+      \footnotesize
+      \item \textit{Notes:} THe table reports the posterior mean of the parameters. Priors are as specified in the model file.
+    \end{tablenotes}
+  \end{threeparttable}
+\end{table}
+
+\begin{table}[h!]
+  \centering
+  \begin{threeparttable}
+    \caption{Variance Decomposition by Shock (Q4 Run, Percent)}
+    \label{tab:q4_vardecomp}
+    \footnotesize
+    \setlength{\tabcolsep}{4pt}
+    \begin{tabular}{lrrrrrrr}
+      \toprule
+              & \multicolumn{1}{c}{$e_q$} & \multicolumn{1}{c}{$e_r$} & \multicolumn{1}{c}{$e_a$} & \multicolumn{1}{c}{$e_s$} & \multicolumn{1}{c}{$e_{y^\ast}$} & \multicolumn{1}{c}{$e_{\pi^\ast}$} & \multicolumn{1}{c}{$e_{r^\ast}$} \\
+      \midrule
+      $y$     & 10.44                     & 13.34                     & 33.44                     & 0.04                      & 39.16                            & 0.01                               & 3.56                             \\
+      $c$     & 37.84                     & 48.52                     & 0.10                      & 0.18                      & 0.40                             & 0.02                               & 12.93                            \\
+      $s$     & 30.96                     & 39.41                     & 17.84                     & 0.15                      & 1.29                             & 0.05                               & 10.30                            \\
+      $q$     & 37.86                     & 47.87                     & 0.09                      & 0.15                      & 1.44                             & 0.07                               & 12.52                            \\
+      $r$     & 52.19                     & 7.76                      & 0.22                      & 0.05                      & 1.37                             & 0.03                               & 38.38                            \\
+      $\pi$   & 35.54                     & 37.35                     & 3.30                      & 0.19                      & 3.96                             & 0.04                               & 19.62                            \\
+      $\pi_H$ & 33.67                     & 39.96                     & 10.91                     & 3.10                      & 0.79                             & 0.13                               & 11.43                            \\
+      $\pi_F$ & 35.78                     & 35.49                     & 1.85                      & 0.21                      & 4.82                             & 0.01                               & 21.84                            \\
+      % $e_a$              & 0.                        & 0.                        & 100.                      & 0.                        & 0.                               & 0.00                               & 0.00                             \\
+      % $e_r$              & 0.00                      & 100.00                    & 0.00                      & 0.00                      & 0.00                             & 0.00                               & 0.00                             \\
+      % $e_q$              & 100.00                    & 0.00                      & 0.00                      & 0.00                      & 0.00                             & 0.00                               & 0.00                             \\
+      % $e_s$              & 0.00                      & 0.00                      & 0.00                      & 100.00                    & 0.00                             & 0.00                               & 0.00                             \\
+      % $\Delta e$         & 37.98                     & 44.53                     & 0.58                      & 0.01                      & 1.06                             & 3.04                               & 12.80                            \\
+      % $y^\ast$           & 0.00                      & 0.00                      & 0.00                      & 0.00                      & 100.00                           & 0.00                               & 0.00                             \\
+      % $r^\ast$           & 0.00                      & 0.00                      & 0.00                      & 0.00                      & 0.00                             & 0.00                               & 100.00                           \\
+      % $\pi^\ast$         & 0.00                      & 0.00                      & 0.00                      & 0.00                      & 0.00                             & 100.00                             & 0.00                             \\
+      % $y_{\text{obs}}$   & 10.44                     & 13.34                     & 33.44                     & 0.04                      & 39.16                            & 0.01                               & 3.56                             \\
+      % $y^*_{\text{obs}}$ & 0.00                      & 0.00                      & 0.00                      & 0.00                      & 100.00                           & 0.00                               & 0.00                             \\
+      % $r_{\text{obs}}$   & 52.19                     & 7.76                      & 0.22                      & 0.05                      & 1.37                             & 0.03                               & 38.38                            \\
+      % $\pi_{\text{obs}}$ & 35.54                     & 37.35                     & 3.30                      & 0.19                      & 3.96                             & 0.04                               & 19.62                            \\
+      % $q_{\text{obs}}$   & 37.86                     & 47.87                     & 0.09                      & 0.15                      & 1.44                             & 0.07                               & 12.52                            \\
+      % $s_{\text{obs}}$   & 30.96                     & 39.41                     & 17.84                     & 0.15                      & 1.29                             & 0.05                               & 10.30                            \\
+      % $pif_{\text{obs}}$ & 0.00                      & 0.00                      & 0.00                      & 0.00                      & 0.00                             & 100.00                             & 0.00                             \\
+      % $r^*_{\text{obs}}$ & 0.00                      & 0.00                      & 0.00                      & 0.00                      & 0.00                             & 0.00                               & 100.00                           \\
+      \bottomrule
+    \end{tabular}
+    \begin{tablenotes}[flushleft]
+      \footnotesize
+      \item \textit{Notes:} Entries are posterior-mode variance shares from Dynare.
+    \end{tablenotes}
+  \end{threeparttable}
+\end{table}
+\FloatBarrier
+
+
+
+\section*{Q5.}
+
+\subsection*{Monetary policy shock}
+
+\paragraph{Q4 Benchmark}
+
+A contractionary MonPol shock produces: \(\,r\,\) up on impact;
+\(\,(c, y)\,\) down (hump-shaped), \(\,(\pi, \pi_H, \pi_F)\,\) down;
+real and nominal exchange rates appreciate;
+terms of trade improve.
+This is the standard NK--SOE mechanism:
+tighter intertemporal margin (Euler),
+lower marginal costs (Phillips),
+and a UIP channel that transmits through the exchange rate into import prices.
+
+
+\paragraph{Q5a}
+
+Impact responses of consumption and output are sharper and peak earlier than in Q4.
+Removing external habit raises the effective intertemporal elasticity,
+so the Euler equation delivers stronger immediate expenditure switching when \(r\) jumps.
+Exchange-rate appreciation is also slightly larger on impact,
+and the real side returns to steady state faster (less internal propagation without habit).
+
+% \paragraph{Q5b}
+% With no indexation, the monetary policy shock imposes a more gradual process for output to recover,
+% and a higher peak in the decrease of consumption.
+% The disinflation will bemore pronounced at the beginning of the shock,
+% yet recover slower than any other cases.
+
+% \paragraph{Q5c}
+% Removing the exchange-rate term from the Taylor rule,
+% the model will stay similar to the benchmark model for most variables,
+% with a alightly lower imported inflation peak and
+% a small appreciation in nominal exchange rate
+
+
+
+% \subsection*{Foreign Output shock}
+
+% \paragraph{Q5a}
+% Under foreign output shock,
+% the no-habit model gives aninitial increase in consumption,
+% and a much smaller effect in inflation terms.
+% The nominal rate will decrease less than the other models and recover faster.
+% For the real exchang erate, it shows a higher initial peak while reaching gradually almost the same level as benchmark.
+
+% % \paragraph{Q5b}
+% % With no indexation, the output gives a higher
+
+% \section*{Baseline orientation (\texttt{Q4.mod})}
+% The estimated baseline displays \textbf{very flexible domestic prices} and \textbf{sticky import prices} (posterior modes roughly \(\theta_H\approx 0.04\), \(\theta_F\approx 0.77\)), \textbf{sizeable habit} (\(h\approx 0.64\)), \textbf{moderate indexation} (\(\delta_H\approx 0.36,\ \delta_F\approx 0.55\)), and a \textbf{determinacy-consistent} Taylor rule (\(\psi_\pi\approx 1.90>1\), \(\psi_r\approx 0.83\)). These features shape the transmission we observe below.
+
+
+
+% \section*{1) Monetary Policy shock (positive home policy-rate innovation)}
+
+
+
+\paragraph{Q5b}
+
+Inflation disinflates more on impact and is less persistent than in \texttt{Q4} (both \(\pi_H\) and \(\pi_F\) panels flatten faster). With weaker backward-looking pressure, the price Phillips curves transmit the policy shock more cleanly to prices. As a result, the \textbf{required real-side adjustment is milder and shorter-lived}: output and consumption troughs are a touch smaller and closer to impact; the exchange-rate path is similar in level but \textbf{returns more quickly}, reflecting faster closure of the price gap that drives pass-through.
+
+\paragraph{Q5c}
+
+Dropping the \(\Delta e\) term removes the direct \textbf{lean-against-the-wind} channel.
+In the IRFs this shows up as \textbf{larger and more persistent exchange-rate appreciation}, and a \textbf{somewhat bigger disinflation} via import-price pass-through. Real activity bears \textbf{slightly more of the adjustment} (net-export channel amplified by the stronger appreciation). Note this variant also changes the model’s block structure (more recursive blocks), but determinacy is preserved.
+
+Under a monetary policy shock,
+across \texttt{Q4}\(\rightarrow\)\texttt{Q5a}\(\rightarrow\)\texttt{Q5b}\(\rightarrow\)\texttt{Q5c}, we move from (i) \textbf{demand-side amplification} (no habit \(\rightarrow\) larger, earlier real responses), to (ii) \textbf{nominal smoothing} (no indexation \(\rightarrow\) faster, less persistent inflation and faster ER reversion), to (iii) \textbf{open-economy amplification} (no ER term \(\rightarrow\) bigger, longer ER movements and more pass-through). The \textbf{baseline} strikes a middle ground: sufficient inertia to match persistence, but with disciplined anti-inflation policy.
+
+
+\subsection*{Foreign Output shock}
+
+\paragraph{Q4 Benchmark}
+
+A favorable external demand shock raises \(\,y\,\) and \(\,c\,\); the \textbf{exchange rate appreciates} (both real and nominal), \textbf{terms of trade deteriorate}, and \textbf{inflation falls modestly}; the policy rate \textbf{declines} (the rule accommodates the disinflation/appreciation). This aligns with an export-demand channel plus pass-through: stronger foreign demand improves domestic activity but, via appreciation and cheaper imports, \textbf{pulls down CPI inflation}.
+
+\paragraph{Q5a}
+
+Consumption rise more on impact and peak earlier, because intertemporal smoothing is weaker.
+And the output jump immediately with a gradual decrease to benchmark.
+With weaker real responses, the appreciation is \textbf{slightly smaller on impact}, and the policy rate \textbf{falls a bit less} initially (inflation drops a touch less via faster pass-through to prices). The net effect is a \textbf{front-loaded expansion}, with \textbf{faster normalization} afterward.
+
+\paragraph{Q5b}
+
+Removing indexation \textbf{dampens inflation persistence} further: \(\pi\), \(\pi_H\), and \(\pi_F\) decline a bit more on impact and \textbf{revert sooner}. With price gaps closing faster, \textbf{policy lowers the rate by less and for a shorter period}, and the appreciation path is \textbf{less persistent} than in \texttt{Q4}. Real-side responses are \textbf{similar in amplitude but shorter-lived}, reflecting the reduced nominal propagation.
+
+\paragraph{Q5c}
+
+Without the \(\Delta e\) term, policy \textbf{does not mechanically accommodate an appreciation}. Relative to \texttt{Q4}, the \textbf{policy rate falls by less}, so the \textbf{currency appreciates more/for longer} to clear the UIP condition. The bigger appreciation implies \textbf{stronger (more negative) inflation responses} but \textbf{dampens the real expansion} through the net-export channel; output and consumption \textbf{peak slightly lower and normalize more slowly} than under \texttt{Q4}. This is precisely the open-economy trade-off the ER term was designed to mitigate.
+
+Under a foreign output shock,
+no-habit \textbf{amplifies and front-loads} the real expansion; no-indexation \textbf{speeds up nominal adjustment} and shortens the cycle; removing the ER term \textbf{strengthens appreciation and pass-through}, \textbf{dampening} the real gains and \textbf{deepening} the disinflation.
+
+% \bigskip
+% \hrule
+% \bigskip
+
+% \section*{3) Consistency with the \texttt{Q4} variance decomposition}
+% Our \texttt{Q4} variance decomposition shows that \textbf{foreign-output and technology shocks dominate output fluctuations}, while \textbf{policy and risk-premium shocks} account for large shares of \textbf{inflation and exchange-rate dynamics}. The IRF rankings above line up with that attribution: (i) MonPol shocks primarily move \textbf{prices/ER} with secondary real effects (amplified by no-habit or no-ER-term); (ii) Foreign Output shocks primarily move \textbf{real activity}, with the \textbf{ER channel} governing how much of that gets undone by pass-through and policy accommodation. (These are precisely the shares you reported, e.g., \(y:\ 39.16\%\) from \(e_{y^{\ast}}\), \(\pi:\) split across \(e_r, e_q, e_{r^{\ast}}\).)
+
+% \section*{4) Model diagnostics and solution quality}
+% All four runs pass BK determinacy (``There are 5 eigenvalue(s) larger than 1 in modulus for 5 forward-looking variable(s). The rank condition is verified.''). \texttt{Q5c} uses \texttt{mode\_compute=1} and exhibits a more recursive block structure (6 blocks, smaller simultaneous core), consistent with dropping the ER term from the rule.
+
+% \bigskip
+
+% \section*{Bottom line}
+Relative to the estimated baseline, \textbf{No-Habit (\texttt{Q5a})} strengthens and accelerates real responses (bigger impact, earlier peaks), \textbf{No-Indexation (\texttt{Q5b})} cleans up nominal inertia (larger on-impact inflation move, faster reversion, smaller/prompt real adjustments), and \textbf{No-ER-term (\texttt{Q5c})} hands more control to \textbf{UIP and pass-through}, yielding \textbf{bigger and more persistent exchange-rate movements} that \textbf{intensify disinflation} and \textbf{trim real gains} after external shocks. The combined evidence across MonPol and Foreign Output disturbances paints a consistent SOE picture: \textbf{policy design} (habit/indexation/ER term) redistributes the adjustment \textbf{between prices, the exchange rate, and quantities} rather than overturning the core transmission.
+
+% --- End: Research-style comparison text (LaTeX) ---
+
+
+
+% \paragraph{Q5c}
+% Removing the exchange rate term also gives the most close result to the benchmark model.
+% On in terms of imported inflation, it gives a lower peak than the benchmark, and a more longer term of effect.
+% Increase in foreign output will have higher terms of trade in this case, because the nominal exchange rate depreciates more than the benchmark model.
+
+
+\begin{figure}[h!]
+  \centering
+  \label{fig:q5}
+  \includegraphics[width=0.9\textwidth]{Q5.pdf}
+  \caption{IRFs — Monetary policy shock ($\varepsilon_r$)}
+  \begin{minipage}{\textwidth}
+    \footnotesize
+    \textit{Notes:} This figure presents the IRF of the benchmark model (solid blue),
+    the no-habit model (dashed red),
+    the no-indexation model (dotted blue),
+    and the no-exchange-rate-term model (dashed green) under a monetary policy shock.
+  \end{minipage}
+\end{figure}
+\FloatBarrier
+
+\begin{figure}[h!]
+  \centering
+  \label{fig:q5}
+  \includegraphics[width=0.9\textwidth]{Q5_foreign output.pdf}
+  \caption{IRFs — Foreign Output shock ($\varepsilon_{y^{*}}$)}
+  \begin{minipage}{\textwidth}
+    \footnotesize
+    \textit{Notes:} This graphs gives the IRF of the benchmark model (solid blue),
+    the no-habit model (dashed red),
+    the no-indexation model (dotted blue),
+    and the no-exchange-rate-term model (dashed green) under a foreign output shock.
+  \end{minipage}
+\end{figure}
+\FloatBarrier
+
+
+
+
+
+% % ===========================
+% % Parameter Table (threeparttable)
+% % ===========================
+% \begin{table}[h!]
+%   \centering
+%   \begin{threeparttable}
+%     \caption{Estimated Priors and Posterior Modes (PS6 Q5 Run)}
+%     \label{tab:q5_params}
+%     \footnotesize
+%     \setlength{\tabcolsep}{6pt}
+%     \begin{tabular}{l l l c c}
+%       \toprule
+%       \multicolumn{1}{c}{Parameter} & \multicolumn{1}{c}{Description}             & \multicolumn{1}{c}{Dynare Name} & \multicolumn{1}{c}{Prior Mean} & \multicolumn{1}{c}{Posterior Mode} \\
+%       \midrule
+%       \multicolumn{5}{l}{\textit{Structural (Real \& Nominal)}}                                                                                                                           \\
+%       $\alpha$                      & Capital share                               & \texttt{alpha}                  & 0.1850                         & 0.0849                             \\
+%       $\sigma$                      & IES$^{-1}$                                  & \texttt{sigma}                  & 1.2                         & 0.3491                             \\
+%       $\phi$                        & Investment adj.\ cost                       & \texttt{phi}                    & 1.5                         & 2.6163                             \\
+%       $\theta_h$                    & Calvo prob.\ (home prices)                  & \texttt{theta\_h}               & 0.5                         & 0.4169                             \\
+%       $\theta_f$                    & Calvo prob.\ (import prices)                & \texttt{theta\_f}               & 0.5                         & 0.7879                             \\
+%       $\eta$                        & Trade elasticity / demand curvature         & \texttt{eta}                    & 1.5                         & 1.1443                             \\
+%       $h$                           & Habit                                       & \texttt{h}                      & 0.5                         & 0.1351                             \\
+%       $\delta_h$                    & Indexation (home)                           & \texttt{delta\_h}               & 0.5                         & 0.0798                             \\
+%       $\delta_f$                    & Indexation (import)                         & \texttt{delta\_f}               & 0.5                         & 0.0225                             \\
+%       \addlinespace[2pt]
+%       \multicolumn{5}{l}{\textit{Monetary Policy (Home)}}                                                                                                                                 \\
+%       $\rho_i$                      & Interest smoothing                          & \texttt{rho\_i}                 & 0.5                         & 0.3552                             \\
+%       $\psi_{\pi}$                  & Taylor rule: inflation                      & \texttt{psi\_pi}                & 1.5                         & 1.3621                             \\
+%       $\psi_y$                      & Taylor rule: output gap                     & \texttt{psi\_y}                 & 0.25                        & 0.0139                             \\
+%       $\psi_{\Delta y}$             & Taylor rule: output growth                  & \texttt{psi\_dy}                & 0.25                        & 0.2951                             \\
+%       $\psi_{e}$                    & Taylor rule: exchange rate term             & \texttt{psi\_e}                 & 0.2                         & 0.0769                             \\
+%       \addlinespace[2pt]
+%       \multicolumn{5}{l}{\textit{Foreign Block}}                                                                                                                                          \\
+%       $\theta_{\ast}$               & Calvo prob.\ (foreign prices)               & \texttt{theta\_star}            & 0.7                         & 0.3679                             \\
+%       $\rho_{i,\ast}$               & Interest smoothing (foreign)                & \texttt{rho\_i\_star}           & 0.5                         & 0.6878                             \\
+%       $\psi_{\pi,\ast}$             & Taylor rule: inflation (foreign)            & \texttt{psi\_pi\_star}          & 1.5                         & 1.1583                             \\
+%       $\psi_{y,\ast}$               & Taylor rule: output (foreign)               & \texttt{psi\_y\_star}           & 0.25                        & 0.0143                             \\
+%       $\psi_{\ast}$                 & Other slope (foreign rule)\tnote{$\dagger$} & \texttt{psi\_istar}             & 0.25                        & 0.1824                             \\
+%       \addlinespace[2pt]
+%       \multicolumn{5}{l}{\textit{Shock Persistence (AR(1))}}                                                                                                                              \\
+%       $\rho_a$                      & Productivity (home)                         & \texttt{rho\_a}                 & 0.8                         & 0.9282                             \\
+%       $\rho_g$                      & Government spending                         & \texttt{rho\_g}                 & 0.8                         & 0.9532                             \\
+%       $\rho_{rp}$                   & Risk premium                                & \texttt{rho\_rp}                & 0.8                         & 0.9570                             \\
+%       $\rho_{gs}$                   & Terms-of-trade wedge                        & \texttt{rho\_gs}                & 0.5                         & 0.9122                             \\
+%       $\rho_{a,\ast}$               & Productivity (foreign)                      & \texttt{rho\_a\_star}           & 0.5                         & 0.9472                             \\
+%       \addlinespace[2pt]
+%       \multicolumn{5}{l}{\textit{Shock Std.\ Dev.\ (posterior modes)}}                                                                                                                    \\
+%       $\sigma_{\epsilon_a}$         & Technology (home)                           & \texttt{epsilon\_a}             & 1.0                         & 0.6020                             \\
+%       $\sigma_{\epsilon_i}$         & Investment-specific                         & \texttt{epsilon\_i}             & 1.0                         & 0.8148                             \\
+%       $\sigma_{\epsilon_{cp}}$      & Cost-push / markup                          & \texttt{epsilon\_cp}            & 1.0                         & 1.2505                             \\
+%       $\sigma_{\epsilon_{rp}}$      & Risk premium                                & \texttt{epsilon\_rp}            & 1.0                         & 0.5454                             \\
+%       $\sigma_{\epsilon_g}$         & Government spending                         & \texttt{epsilon\_g}             & 1.0                         & 3.0133                             \\
+%       $\sigma_{\epsilon_{gs}}$      & Terms-of-trade wedge                        & \texttt{epsilon\_gs}            & 1.0                         & 3.2857                             \\
+%       $\sigma_{\epsilon_{a,\ast}}$  & Technology (foreign)                        & \texttt{epsilon\_astar}         & 1.0                         & 0.4204                             \\
+%       $\sigma_{\epsilon_{i,\ast}}$  & Inv.-specific (foreign)                     & \texttt{epsilon\_istar}         & 1.0                         & 0.3952                             \\
+%       \bottomrule
+%     \end{tabular}
+%     \begin{tablenotes}[flushleft]
+%       \footnotesize
+%       \item \textit{Notes:} Posterior modes are read from the \texttt{Dynare} log of the Q5 run.
+%       Entries for priors are prior means with the prior family reported in the last column.
+%       Groupings and symbols follow small open-economy NK usage in the spirit of JP2010.
+%       \texttt{psi\_istar} appears as an additional foreign-rule slope coefficient in the log;
+%       we report it for completeness without assigning a structural label beyond ``other slope'' since its precise mapping is model-file specific.
+%     \end{tablenotes}
+%   \end{threeparttable}
+% \end{table}
+\FloatBarrier
+
+
+\end{document}

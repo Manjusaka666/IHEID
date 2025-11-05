@@ -1,0 +1,209 @@
+Starting Dynare (version 6.4).
+Calling Dynare with arguments: none
+Starting preprocessing of the model file ... 
+Found 22 equation(s). 
+Evaluating expressions... 
+Computing static model derivatives (order 1). 
+Normalizing the static model... 
+Normalization failed with cutoff, trying symbolic normalization... 
+Could not normalize the static model. Variable e is not in the maximum cardinality matching. 
+Computing dynamic model derivatives (order 2). 
+Normalizing the dynamic model... 
+Finding the optimal block decomposition of the dynamic model... 
+2 block(s) found: 
+  1 recursive block(s) and 1 simultaneous block(s). 
+  the largest simultaneous block has 16 equation(s) 
+                                 and 16 feedback variable(s). 
+Preprocessing completed. 
+Preprocessing time: 0h00m00s.
+
+
+Residuals of the static equations:
+Equation number  1: 1         :       0.000000
+Equation number  2: 2         :       0.000000
+Equation number  3: 3         :       0.000000
+Equation number  4: 4         :       0.000000
+Equation number  5: q         :       0.000000
+Equation number  6: 6         :       0.000000
+Equation number  7: mc        :       0.000000
+Equation number  8: 8         :       0.000000
+Equation number  9: pi        :       0.000000
+Equation number 10: 10        :       0.000000
+Equation number 11: 11        :       0.000000
+Equation number 12: i         :       0.000000
+Equation number 13: 13        :       0.000000
+Equation number 14: pi_star   :       0.000000
+Equation number 15: mc_star   :       0.000000
+Equation number 16: i_star    :       0.000000
+Equation number 17: eps_g     :       0.000000
+Equation number 18: eps_gs    :       0.000000
+Equation number 19: eps_a     :       0.000000
+Equation number 20: eps_cp    :       0.000000
+Equation number 21: eps_astar :       0.000000
+Equation number 22: eps_rp    :       0.000000
+
+
+
+EIGENVALUES:
+         Modulus             Real        Imaginary
+       9.946e-18       -9.946e-18                0
+       4.455e-17        4.455e-17                0
+           0.102            0.102                0
+          0.1074           0.1074                0
+          0.4257           0.4094           0.1164
+          0.4257           0.4094          -0.1164
+          0.4587           0.4471           0.1025
+          0.4587           0.4471          -0.1025
+             0.5              0.5                0
+             0.5              0.5                0
+             0.5              0.5                0
+             0.5              0.5                0
+             0.5              0.5                0
+             0.5              0.5                0
+          0.7209           0.7209                0
+          0.8497           0.8497                0
+               1                1                0
+           1.153            1.153                0
+           1.499            1.458           0.3496
+           1.499            1.458          -0.3496
+           1.519            1.448           0.4587
+           1.519            1.448          -0.4587
+           1.548            1.548                0
+       8.793e+16        8.793e+16                0
+        6.37e+17        -6.37e+17                0
+       3.738e+18       -3.738e+18                0
+
+There are 9 eigenvalue(s) larger than 1 in modulus for 9 forward-looking variable(s)
+The rank condition is verified.
+
+
+STEADY-STATE RESULTS:
+
+y         		 0
+c         		 0
+s         		 0
+psi       		 0
+q         		 0
+mc        		 0
+i         		 0
+pi        		 0
+pi_h      		 0
+pi_f      		 0
+nfa       		 0
+eps_a     		 0
+eps_g     		 0
+eps_cp    		 0
+eps_gs    		 0
+eps_rp    		 0
+e         		 0
+y_star    		 0
+mc_star   		 0
+i_star    		 0
+pi_star   		 0
+eps_astar 		 0
+
+MODEL SUMMARY
+
+  Number of variables:         22
+  Number of stochastic shocks: 8
+  Number of state variables:   17
+  Number of jumpers:           9
+  Number of static variables:  3
+
+
+MATRIX OF COVARIANCE OF EXOGENOUS SHOCKS
+Variables            epsilon_a      epsilon_i     epsilon_cp     epsilon_rp      epsilon_g     epsilon_gs  epsilon_astar  epsilon_istar
+epsilon_a             1.000000       0.000000       0.000000       0.000000       0.000000       0.000000       0.000000       0.000000
+epsilon_i             0.000000       1.000000       0.000000       0.000000       0.000000       0.000000       0.000000       0.000000
+epsilon_cp            0.000000       0.000000       1.000000       0.000000       0.000000       0.000000       0.000000       0.000000
+epsilon_rp            0.000000       0.000000       0.000000       1.000000       0.000000       0.000000       0.000000       0.000000
+epsilon_g             0.000000       0.000000       0.000000       0.000000       1.000000       0.000000       0.000000       0.000000
+epsilon_gs            0.000000       0.000000       0.000000       0.000000       0.000000       1.000000       0.000000       0.000000
+epsilon_astar         0.000000       0.000000       0.000000       0.000000       0.000000       0.000000       1.000000       0.000000
+epsilon_istar         0.000000       0.000000       0.000000       0.000000       0.000000       0.000000       0.000000       1.000000
+
+POLICY AND TRANSITION FUNCTIONS
+                                   y               c               i              pi            pi_h            pi_f               e             nfa              mc
+y(-1)                       0.024130        0.014212       -0.034166        0.017967        0.016162        0.025921        0.122025       -0.009727        0.085595
+s(-1)                       0.052658        0.045924       -0.042948        0.005981        0.087478       -0.353047       -0.417572        0.063807        0.323629
+i(-1)                      -0.120652       -0.071058        0.170828       -0.089837       -0.080810       -0.129604       -0.610125        0.048637       -0.427976
+nfa(-1)                    -0.007719        0.469923       -0.529549        0.002367        0.173582       -0.751906       -2.642342        1.059193        0.988156
+eps_a(-1)                   0.115823        0.055687       -0.110011       -0.154827       -0.196041        0.026738        0.263683       -0.026178       -1.087923
+eps_cp(-1)                 -0.026263        0.061852       -0.041400        0.095900        0.049873        0.298668       -0.847462        0.076538        0.148133
+eps_rp(-1)                 -0.026866        0.098674       -0.218126       -0.022195        0.005397       -0.143749       -0.843574        0.032409        0.165362
+e(-1)                              0               0               0               0               0               0        1.000000               0               0
+i_star(-1)                 -0.005243       -0.055890        0.120220        0.001001       -0.018234        0.085738        0.609326       -0.043517       -0.130977
+eps_astar(-1)              -0.005242        0.074946       -0.125885       -0.015677        0.016133       -0.155811       -0.496123        0.047019        0.145071
+c(-1)                       0.408809        0.517115        0.195203       -0.012857       -0.018933        0.013910       -0.153981       -0.083580        0.116480
+q(-1)                       0.048261        0.028423       -0.068331        0.035935        0.032324        0.051841       -0.755950       -0.019455        0.171190
+pi_h(-1)                   -0.037742       -0.023196        0.048685        0.054063        0.066617       -0.001242       -0.048822        0.007117       -0.146028
+pi_f(-1)                   -0.002435        0.000849        0.005029        0.013002        0.003839        0.053369       -0.065064        0.009271        0.006415
+eps_g(-1)                   0.046893        0.084866        0.055523        0.033821        0.043104       -0.007073       -0.116724       -0.008114        0.296669
+eps_gs(-1)                  0.040136       -0.053480        0.122383        0.026493        0.016046        0.072514        0.292810        0.013885       -0.042980
+y_star(-1)                  0.085193       -0.001438        0.068031        0.021825        0.038572       -0.051950       -0.079111        0.097429        0.150044
+epsilon_a                   0.231645        0.111374       -0.220022       -0.309655       -0.392083        0.053475        0.527365       -0.052355       -2.175846
+epsilon_i                  -0.241305       -0.142116        0.341656       -0.179674       -0.161621       -0.259207       -1.220251        0.097274       -0.855952
+epsilon_cp                 -0.052525        0.123705       -0.082801        0.191799        0.099745        0.597335       -1.694924        0.153077        0.296265
+epsilon_rp                 -0.053731        0.197348       -0.436253       -0.044390        0.010794       -0.287497       -1.687148        0.064818        0.330724
+epsilon_g                   0.093787        0.169732        0.111046        0.067642        0.086208       -0.014145       -0.233449       -0.016228        0.593338
+epsilon_gs                  0.080272       -0.106959        0.244766        0.052985        0.032093        0.145027        0.585620        0.027769       -0.085961
+epsilon_astar              -0.010485        0.149893       -0.251770       -0.031353        0.032266       -0.311622       -0.992245        0.094038        0.290143
+epsilon_istar              -0.010487       -0.111780        0.240440        0.002001       -0.036468        0.171476        1.218651       -0.087034       -0.261955
+
+
+THEORETICAL MOMENTS
+VARIABLE         MEAN  STD. DEV.   VARIANCE
+y              0.0000     0.6019     0.3623
+c              0.0000     1.3407     1.7976
+i              0.0000     0.8907     0.7934
+pi             0.0000     0.4948     0.2448
+pi_h           0.0000     0.5338     0.2850
+pi_f           0.0000     1.1013     1.2129
+e                 NaN        NaN        NaN
+nfa            0.0000     1.7804     3.1700
+mc             0.0000     2.6369     6.9531
+
+
+
+VARIANCE DECOMPOSITION (in percent)
+            epsilon_a      epsilon_i     epsilon_cp     epsilon_rp      epsilon_g     epsilon_gs  epsilon_astar  epsilon_istar
+y               59.30          25.00           4.20           1.11           5.28           2.40           1.66           1.06
+c                4.70           5.18          54.71           6.86           3.71           4.00          15.81           5.02
+i               12.83          16.21           6.03          27.72           7.20          11.46          10.87           7.69
+pi              45.76          17.11          24.77           3.05           2.06           3.06           3.61           0.57
+pi_h            62.45          11.60          13.21           2.33           2.98           2.84           3.39           1.21
+pi_f             1.39           8.88          60.86           8.88           0.51           3.07          13.17           3.24
+nfa              4.18           6.66          64.46           0.63           1.01           4.14          14.09           4.82
+mc              75.06          11.69           2.85           1.81           5.52           0.50           1.48           1.09
+
+
+
+MATRIX OF CORRELATIONS
+Variables          y        c        i       pi     pi_h     pi_f      nfa       mc
+y             1.0000   0.3810  -0.3064  -0.2488  -0.3355   0.1122  -0.0072  -0.2904
+c             0.3810   1.0000  -0.5320  -0.3689  -0.2780  -0.3021   0.8456   0.0669
+i            -0.3064  -0.5320   1.0000   0.3058   0.2131   0.2877  -0.2874   0.0173
+pi           -0.2488  -0.3689   0.3058   1.0000   0.9119   0.4813  -0.2981   0.7694
+pi_h         -0.3355  -0.2780   0.2131   0.9119   1.0000   0.0791  -0.1754   0.9012
+pi_f          0.1122  -0.3021   0.2877   0.4813   0.0791   1.0000  -0.3493  -0.0560
+nfa          -0.0072   0.8456  -0.2874  -0.2981  -0.1754  -0.3493   1.0000   0.1085
+mc           -0.2904   0.0669   0.0173   0.7694   0.9012  -0.0560   0.1085   1.0000
+
+
+
+COEFFICIENTS OF AUTOCORRELATION
+Order           1        2        3        4        5
+y          0.7552   0.4942   0.2922   0.1569   0.0742
+c          0.9362   0.8404   0.7452   0.6584   0.5807
+i          0.4624   0.2027   0.0922   0.0503   0.0358
+pi         0.4657   0.2097   0.1111   0.0693   0.0469
+pi_h       0.4709   0.2177   0.1181   0.0723   0.0444
+pi_f       0.4738   0.1514   0.0003  -0.0622  -0.0831
+nfa        0.9790   0.9281   0.8590   0.7810   0.7005
+mc         0.3166   0.0887   0.0214   0.0037  -0.0011
+
+write_latex_prior_table:: No prior distributions detected. Skipping table creation.
+This is pdfTeX, Version 3.141592653-2.6-1.40.28 (TeX Live 2025) (preloaded format=pdflatex) 
+ restricted \write18 enabled. 
+entering extended mode 
+Total computing time : 0h00m20s

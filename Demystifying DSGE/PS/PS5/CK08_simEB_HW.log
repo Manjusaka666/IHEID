@@ -1,0 +1,169 @@
+Starting Dynare (version 6.4).
+Calling Dynare with arguments: none
+Starting preprocessing of the model file ... 
+Found 24 equation(s). 
+Evaluating expressions... 
+Computing static model derivatives (order 1). 
+Normalizing the static model... 
+Finding the optimal block decomposition of the static model... 
+6 block(s) found: 
+  5 recursive block(s) and 1 simultaneous block(s). 
+  the largest simultaneous block has 18 equation(s) 
+                                 and 18 feedback variable(s). 
+Computing dynamic model derivatives (order 2). 
+Normalizing the dynamic model... 
+Finding the optimal block decomposition of the dynamic model... 
+3 block(s) found: 
+  2 recursive block(s) and 1 simultaneous block(s). 
+  the largest simultaneous block has 18 equation(s) 
+                                 and 16 feedback variable(s). 
+Preprocessing completed. 
+Preprocessing time: 0h00m00s.
+
+
+Residuals of the static equations:
+Equation number  1: R      :       0.000000
+Equation number  2: lambda :       0.000000
+Equation number  3: 3      :       0.000000
+Equation number  4: Pi     :       0.000000
+Equation number  5: mc     :       0.000000
+Equation number  6: m      :       0.000000
+Equation number  7: n      :       0.000000
+Equation number  8: 8      :       0.000000
+Equation number  9: q      :       0.000000
+Equation number 10: s      :       0.000000
+Equation number 11: Jstar  :       0.000000
+Equation number 12: 12     :       0.000000
+Equation number 13: w      :       0.000000
+Equation number 14: 14     :       0.000000
+Equation number 15: 15     :       0.000000
+Equation number 16: 16     :       0.000000
+Equation number 17: 17     :       0.000000
+Equation number 18: y      :       0.000000
+Equation number 19: Piw    :       0.000000
+Equation number 20: PsiL   :       0.000000
+Equation number 21: eb     :       0.000000
+Equation number 22: g      :       0.000000
+Equation number 23: emoney :       0.000000
+Equation number 24: z      :       0.000000
+
+
+
+STEADY-STATE RESULTS:
+
+y         		 0
+c         		 0
+Pi        		 0
+R         		 0
+lambda    		 0
+w         		 0
+wstar     		 0
+Jstar     		 0
+Deltastar 		 0
+h         		 0
+mc        		 0
+m         		 0
+n         		 0
+u         		 0
+v         		 0
+s         		 0
+q         		 0
+xL        		 0
+Piw       		 0
+PsiL      		 0
+z         		 0
+g         		 0
+eb        		 0
+emoney    		 0
+
+EIGENVALUES:
+         Modulus             Real        Imaginary
+               0                0                0
+        2.81e-16        -2.81e-16                0
+        1.02e-15         1.02e-15                0
+       2.324e-15        2.324e-15                0
+          0.4282           0.4282                0
+          0.7115           0.7033           0.1075
+          0.7115           0.7033          -0.1075
+            0.82             0.82                0
+            0.89             0.89                0
+            0.95             0.95                0
+           1.022            1.022                0
+           1.298            1.298                0
+           2.045            2.045                0
+       1.229e+18       -1.229e+18                0
+       1.535e+19        1.535e+19                0
+
+There are 5 eigenvalue(s) larger than 1 in modulus for 5 forward-looking variable(s)
+The rank condition is verified.
+
+
+MODEL SUMMARY
+
+  Number of variables:         24
+  Number of stochastic shocks: 5
+  Number of state variables:   10
+  Number of jumpers:           5
+  Number of static variables:  10
+
+
+MATRIX OF COVARIANCE OF EXOGENOUS SHOCKS
+Variables      inno_eb     inno_z  interest_         g_   inno_eta
+inno_eb       0.010404   0.000000   0.000000   0.000000   0.000000
+inno_z        0.000000   0.326041   0.000000   0.000000   0.000000
+interest_     0.000000   0.000000   0.001849   0.000000   0.000000
+g_            0.000000   0.000000   0.000000   0.454276   0.000000
+inno_eta      0.000000   0.000000   0.000000   0.000000   0.100000
+
+POLICY AND TRANSITION FUNCTIONS
+                                   y               u               w              Pi
+c(-1)                       0.408494               0        0.266618        0.007866
+R(-1)                      -1.311363               0       -9.512623       -1.917685
+m(-1)                      -0.006750       -0.480204       -0.032560       -0.004377
+n(-1)                      -0.218255      -15.526599       -1.052767       -0.141515
+z(-1)                      -0.045162               0       -1.290015       -0.349088
+g(-1)                       0.255696               0       -0.015585       -0.035014
+eb(-1)                     -1.358089               0       -9.852065       -2.011202
+Pi(-1)                     -0.109500               0       -0.794312       -0.160128
+inno_eb                    -0.145816               0       -1.057801       -0.215940
+inno_z                     -0.031448               0       -0.898291       -0.243084
+interest_                  -0.059528               0       -0.431813       -0.087051
+g_                          0.287299               0       -0.017512       -0.039342
+m(-1),inno_eta                     0               0        0.031300               0
+n(-1),inno_eta                     0               0        1.012030               0
+
+
+APPROXIMATED THEORETICAL MOMENTS
+VARIABLE         MEAN  STD. DEV.   VARIANCE
+y              0.0000     0.3372     0.1137
+u              0.0000     0.6269     0.3930
+w              0.0000     0.6735     0.4537
+Pi             0.0000     0.1953     0.0381
+
+
+
+APPROXIMATED VARIANCE DECOMPOSITION (in percent)
+        inno_eb     inno_z  interest_         g_   inno_eta
+y          1.29      19.74       0.04      78.93       0.00
+u          7.28      89.80       0.21       2.71       0.00
+w          5.74      85.40       0.17       8.68       0.00
+Pi         2.69      82.45       0.08      14.78       0.00
+
+
+
+APPROXIMATED MATRIX OF CORRELATIONS
+Variables          y        u        w       Pi
+y             1.0000   0.1099  -0.0690  -0.3232
+u             0.1099   1.0000  -0.4813  -0.5669
+w            -0.0690  -0.4813   1.0000   0.9464
+Pi           -0.3232  -0.5669   0.9464   1.0000
+
+
+
+APPROXIMATED COEFFICIENTS OF AUTOCORRELATION
+Order           1        2        3        4        5
+y          0.8032   0.6571   0.5464   0.4608   0.3930
+u          0.8125   0.5461   0.3078   0.1273   0.0039
+w          0.5969   0.3357   0.1665   0.0591  -0.0063
+Pi         0.6705   0.4484   0.2982   0.1972   0.1301
+Total computing time : 0h00m12s

@@ -13,10 +13,16 @@ Macroeconomics A: Johannes Boehm
 
 Macroeconomics B: Cedric Tille
 
-Econometrics I / Econometrics II: Marko Mlikota
+Econometrics I / Econometrics II / Topics in Econometrics: Marko Mlikota
 
 International Finance: Ugo Panizza
 
 International Trade I: Monica Mrazova(UNIGE)
 
+International Trade II: Yuan Zi
+
 Impact Evaluation: Michelle Pellizzari(UNIGE)
+
+Demystifying DSGE Models: John D.A. Cuddy
+
+Mathematics and Statistics for Economists

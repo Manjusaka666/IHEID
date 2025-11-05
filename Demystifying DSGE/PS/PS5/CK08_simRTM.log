@@ -1,0 +1,228 @@
+Starting Dynare (version 6.4).
+Calling Dynare with arguments: none
+Starting preprocessing of the model file ... 
+Found 40 equation(s). 
+Evaluating expressions... 
+Computing static model derivatives (order 1). 
+Normalizing the static model... 
+Finding the optimal block decomposition of the static model... 
+7 block(s) found: 
+  6 recursive block(s) and 1 simultaneous block(s). 
+  the largest simultaneous block has 20 equation(s) 
+                                 and 20 feedback variable(s). 
+Computing dynamic model derivatives (order 2). 
+Normalizing the dynamic model... 
+Finding the optimal block decomposition of the dynamic model... 
+3 block(s) found: 
+  2 recursive block(s) and 1 simultaneous block(s). 
+  the largest simultaneous block has 20 equation(s) 
+                                 and 18 feedback variable(s). 
+Preprocessing completed. 
+Preprocessing time: 0h00m00s.
+
+
+Residuals of the static equations:
+Equation number  1: R                     :       0.000000
+Equation number  2: lambda                :       0.000000
+Equation number  3: 3                     :       0.000000
+Equation number  4: Pi                    :       0.000000
+Equation number  5: mc                    :       0.000000
+Equation number  6: m                     :       0.000000
+Equation number  7: n                     :       0.000000
+Equation number  8: 8                     :       0.000000
+Equation number  9: q                     :       0.000000
+Equation number 10: s                     :       0.000000
+Equation number 11: 11                    :       0.000000
+Equation number 12: w                     :       0.000000
+Equation number 13: 13                    :       0.000000
+Equation number 14: deltaF                :       0.000000
+Equation number 15: 15                    :       0.000000
+Equation number 16: 16                    :       0.000000
+Equation number 17: 17                    :       0.000000
+Equation number 18: 18                    :       0.000000
+Equation number 19: 19                    :       0.000000
+Equation number 20: y                     :       0.000000
+Equation number 21: Piw                   :       0.000000
+Equation number 22: PsiL                  :       0.000000
+Equation number 23: eb                    :       0.000000
+Equation number 24: g                     :       0.000000
+Equation number 25: emoney                :       0.000000
+Equation number 26: z                     :       0.000000
+Equation number 27: y_level               :      -1.000000
+Equation number 28: c_level               :      -0.643911
+Equation number 29: wh_level              :      -0.956226
+Equation number 30: u_level               :      -0.058800
+Equation number 31: v_share_level         :      -0.085408
+Equation number 32: s_prob_level          :      -0.480204
+Equation number 33: q_prob_level          :      -0.330600
+Equation number 34: b_wh_ss               :      -0.400000
+Equation number 35: kv_y_share_pct_level  :      -0.043205
+Equation number 36: F_revenue_share_level :      -0.009493
+Equation number 37: CC_y_share_level      :      -0.090909
+Equation number 38: CLn_y_share_level     :      -0.000461
+Equation number 39: J_value_level         :      -0.015332
+Equation number 40: D_surplus_level       :      -0.359045
+
+
+
+STEADY-STATE RESULTS:
+
+y                     		 0
+c                     		 0
+Pi                    		 0
+R                     		 0
+lambda                		 0
+w                     		 0
+wstar                 		 0
+Jstar                 		 0
+deltaW                		 0
+deltaF                		 0
+Deltastar             		 0
+h                     		 0
+mc                    		 0
+m                     		 0
+n                     		 0
+u                     		 0
+v                     		 0
+s                     		 0
+q                     		 0
+xL                    		 0
+Piw                   		 0
+PsiL                  		 0
+z                     		 0
+g                     		 0
+eb                    		 0
+emoney                		 0
+y_level               		 1
+c_level               		 0.643911
+wh_level              		 0.956226
+u_level               		 0.0588
+v_share_level         		 0.0854083
+s_prob_level          		 0.480204
+q_prob_level          		 0.3306
+b_wh_ss               		 0.4
+kv_y_share_pct_level  		 0.0432048
+F_revenue_share_level 		 0.009493
+CC_y_share_level      		 0.0909091
+CLn_y_share_level     		 0.000460909
+J_value_level         		 0.015332
+D_surplus_level       		 0.359045
+
+EIGENVALUES:
+         Modulus             Real        Imaginary
+               0                0                0
+       1.424e-17       -1.424e-17                0
+       2.561e-17        2.561e-17                0
+          0.4731           0.4731                0
+           0.732            0.732                0
+          0.8033           0.8033                0
+            0.82             0.82                0
+          0.8346           0.8346                0
+            0.89             0.89                0
+            0.95             0.95                0
+           1.068            1.068                0
+           1.078            1.078                0
+           1.113            1.113                0
+           1.253            1.253                0
+           1.291            1.291                0
+           2.047            2.047                0
+             Inf              Inf                0
+
+There are 7 eigenvalue(s) larger than 1 in modulus for 7 forward-looking variable(s)
+The rank condition is verified.
+
+[Warning: stoch_simul: using order = 1 because Hessian is equal to zero] 
+[> In <a href="matlab:matlab.lang.internal.introspective.errorDocCallback('stoch_simul', 'D:\dynare\6.4\matlab\stochastic_solver\stoch_simul.m', 59)" style="font-weight:bold">stoch_simul</a> (<a href="matlab: opentoline('D:\dynare\6.4\matlab\stochastic_solver\stoch_simul.m',59,0)">line 59</a>)
+In <a href="matlab:matlab.lang.internal.introspective.errorDocCallback('CK08_simRTM.driver', 'E:\IHEID Economics\IHEID\Demystifying DSGE\PS\PS5\+CK08_simRTM\driver.m', 939)" style="font-weight:bold">CK08_simRTM.driver</a> (<a href="matlab: opentoline('E:\IHEID Economics\IHEID\Demystifying DSGE\PS\PS5\+CK08_simRTM\driver.m',939,0)">line 939</a>)
+In <a href="matlab:matlab.lang.internal.introspective.errorDocCallback('dynare', 'D:\dynare\6.4\matlab\dynare.m', 308)" style="font-weight:bold">dynare</a> (<a href="matlab: opentoline('D:\dynare\6.4\matlab\dynare.m',308,0)">line 308</a>)] 
+
+MODEL SUMMARY
+
+  Number of variables:         40
+  Number of stochastic shocks: 4
+  Number of state variables:   10
+  Number of jumpers:           7
+  Number of static variables:  24
+
+
+MATRIX OF COVARIANCE OF EXOGENOUS SHOCKS
+Variables      inno_eb     inno_z  interest_         g_
+inno_eb       0.010404   0.000000   0.000000   0.000000
+inno_z        0.000000   0.326041   0.000000   0.000000
+interest_     0.000000   0.000000   0.010000   0.000000
+g_            0.000000   0.000000   0.000000   0.454276
+
+POLICY AND TRANSITION FUNCTIONS
+                                   y              Pi               R               u               v            PsiL               h               w             Piw
+c(-1)                       0.417621        0.000076        0.011011               0        0.056953        8.318090        0.421839       -0.000112       -0.000036
+R(-1)                      -0.938422       -0.014296        0.922526               0      -26.769048      -18.772427       -0.947901       -0.003861       -0.018157
+w(-1)                       0.019125        0.198617        0.000504               0        2.665367       16.159541        0.019318        0.799970       -0.001413
+m(-1)                       0.000036       -0.000030               0       -0.480204       -0.513492       -0.597007       -0.030267       -0.000002       -0.000031
+n(-1)                       0.001165       -0.000958        0.000031      -15.526599      -16.602896      -19.303226       -0.978621       -0.000053       -0.001011
+z(-1)                       0.005063       -0.097754        0.000133               0       -1.260138      -14.343729       -0.823169        0.095942       -0.001812
+g(-1)                       0.263425       -0.000112        0.006945               0        0.309512        5.245257        0.266086       -0.000152       -0.000264
+eb(-1)                     -0.961321       -0.015014       -0.025346               0      -27.721708      -19.229251       -0.971032       -0.003891       -0.018905
+Pi(-1)                     -0.078359       -0.001194        0.077032               0       -2.235237       -1.567512       -0.079150       -0.000322       -0.001516
+inno_eb                    -0.103216       -0.001612       -0.002721               0       -2.976436       -2.064614       -0.104258       -0.000418       -0.002030
+inno_z                      0.003526       -0.068070        0.000093               0       -0.877486       -9.988133       -0.573206        0.066808       -0.001262
+interest_                  -0.042598       -0.000649        0.041877               0       -1.215146       -0.852150       -0.043029       -0.000175       -0.000824
+g_                          0.295984       -0.000126        0.007804               0        0.347766        5.893547        0.298973       -0.000171       -0.000297
+
+
+THEORETICAL MOMENTS
+VARIABLE         MEAN  STD. DEV.   VARIANCE
+y              0.0000     0.3092     0.0956
+Pi             0.0000     0.0516     0.0027
+R              0.0000     0.0554     0.0031
+u              0.0000     0.6042     0.3651
+v              0.0000     0.9794     0.9591
+PsiL           0.0000     9.6585    93.2857
+h              0.0000     0.6203     0.3848
+w              0.0000     0.2438     0.0594
+Piw            0.0000     0.0019     0.0000
+
+
+
+VARIANCE DECOMPOSITION (in percent)
+          inno_eb     inno_z  interest_         g_
+y            3.56       2.51       0.56      93.37
+Pi           0.01      99.94       0.00       0.05
+R           10.25       5.74       2.54      81.47
+u           23.01      16.05       3.55      57.40
+v           20.23      37.19       3.18      39.41
+PsiL         0.72      61.70       0.11      37.47
+h            0.44      76.04       0.07      23.45
+w            0.00     100.00       0.00       0.00
+Piw          5.40      52.15       0.82      41.63
+
+
+
+MATRIX OF CORRELATIONS
+Variables          y       Pi        R        u        v     PsiL        h        w      Piw
+y             1.0000  -0.0180   0.3580  -0.1890   0.1276   0.5698   0.4005   0.1254  -0.3349
+Pi           -0.0180   1.0000   0.0535  -0.2439   0.4302   0.7315   0.6269  -0.1259   0.4202
+R             0.3580   0.0535   1.0000   0.4625  -0.5318   0.3531   0.3247  -0.1169  -0.4938
+u            -0.1890  -0.2439   0.4625   1.0000  -0.5559  -0.2002  -0.1479  -0.0258  -0.5317
+v             0.1276   0.4302  -0.5318  -0.5559   1.0000   0.2898   0.1738   0.1399   0.5446
+PsiL          0.5698   0.7315   0.3531  -0.2002   0.2898   1.0000   0.9302  -0.3583   0.2558
+h             0.4005   0.6269   0.3247  -0.1479   0.1738   0.9302   1.0000  -0.6759   0.4490
+w             0.1254  -0.1259  -0.1169  -0.0258   0.1399  -0.3583  -0.6759   1.0000  -0.6286
+Piw          -0.3349   0.4202  -0.4938  -0.5317   0.5446   0.2558   0.4490  -0.6286   1.0000
+
+
+
+COEFFICIENTS OF AUTOCORRELATION
+Order           1        2        3        4        5
+y          0.7587   0.5692   0.4204   0.3037   0.2124
+Pi         0.6370   0.3761   0.1915   0.0637  -0.0224
+R          0.9847   0.9524   0.9091   0.8589   0.8050
+u          0.9462   0.8554   0.7584   0.6677   0.5875
+v          0.6345   0.4418   0.3348   0.2712   0.2302
+PsiL       0.6914   0.4729   0.3164   0.2042   0.1242
+h          0.7840   0.6212   0.4954   0.3971   0.3198
+w          0.9783   0.9288   0.8628   0.7885   0.7113
+Piw        0.9071   0.8269   0.7562   0.6930   0.6358
+
+write_latex_prior_table:: No prior distributions detected. Skipping table creation.
+Total computing time : 0h00m07s
+Note: warning(s) encountered in MATLAB/Octave code

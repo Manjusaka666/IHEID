@@ -1,0 +1,509 @@
+Starting Dynare (version 6.4).
+Calling Dynare with arguments: none
+Starting preprocessing of the model file ... 
+Found 28 equation(s). 
+Evaluating expressions... 
+Computing static model derivatives (order 1). 
+Normalizing the static model... 
+Finding the optimal block decomposition of the static model... 
+6 block(s) found: 
+  5 recursive block(s) and 1 simultaneous block(s). 
+  the largest simultaneous block has 20 equation(s) 
+                                 and 20 feedback variable(s). 
+Computing dynamic model derivatives (order 2). 
+Normalizing the dynamic model... 
+Finding the optimal block decomposition of the dynamic model... 
+3 block(s) found: 
+  2 recursive block(s) and 1 simultaneous block(s). 
+  the largest simultaneous block has 20 equation(s) 
+                                 and 19 feedback variable(s). 
+Preprocessing completed. 
+Preprocessing time: 0h00m00s.
+
+
+Residuals of the static equations:
+Equation number  1: R      :       0.000000
+Equation number  2: lambda :       0.000000
+Equation number  3: 3      :       0.000000
+Equation number  4: Pi     :       0.000000
+Equation number  5: mc     :       0.000000
+Equation number  6: m      :       0.000000
+Equation number  7: n      :       0.000000
+Equation number  8: 8      :       0.000000
+Equation number  9: q      :       0.000000
+Equation number 10: s      :       0.000000
+Equation number 11: 11     :       0.000000
+Equation number 12: w      :       0.000000
+Equation number 13: 13     :       0.000000
+Equation number 14: deltaF :       0.000000
+Equation number 15: 15     :       0.000000
+Equation number 16: 16     :       0.000000
+Equation number 17: 17     :       0.000000
+Equation number 18: 18     :       0.000000
+Equation number 19: 19     :       0.000000
+Equation number 20: y      :       0.000000
+Equation number 21: eb     :       0.000000
+Equation number 22: g      :       0.000000
+Equation number 23: emoney :       0.000000
+Equation number 24: z      :       0.000000
+Equation number 25: yobs   :       0.000000
+Equation number 26: cobs   :       0.000000
+Equation number 27: piobs  :       0.000000
+Equation number 28: robs   :       0.000000
+
+
+
+STEADY-STATE RESULTS:
+
+y         		 0
+c         		 0
+Pi        		 0
+R         		 0
+lambda    		 0
+w         		 0
+wstar     		 0
+Jstar     		 0
+deltaW    		 0
+deltaF    		 0
+Deltastar 		 0
+h         		 0
+mc        		 0
+m         		 0
+n         		 0
+u         		 0
+v         		 0
+s         		 0
+q         		 0
+xL        		 0
+z         		 0
+g         		 0
+eb        		 0
+emoney    		 0
+yobs      		 0
+cobs      		 0
+robs      		 0
+piobs     		 0
+
+EIGENVALUES:
+         Modulus             Real        Imaginary
+               0                0                0
+       6.578e-17        6.578e-17                0
+       3.201e-15        3.201e-15                0
+          0.0841           0.0841                0
+          0.4017           0.4017                0
+          0.6712           0.6712                0
+          0.7279           0.7198            0.108
+          0.7279           0.7198           -0.108
+          0.7912           0.7912                0
+             0.9              0.9                0
+           1.109            1.109                0
+            1.31             1.31                0
+           1.443            1.443                0
+           2.211            2.211                0
+           2.515            2.515                0
+            10.1             10.1                0
+             Inf              Inf                0
+
+There are 7 eigenvalue(s) larger than 1 in modulus for 7 forward-looking variable(s)
+The rank condition is verified.
+
+
+You did not declare endogenous variables after the estimation/calib_smoother command.
+Initial value of the log posterior (or likelihood): -5324.5637
+[Warning: gmhmaxlik: Unknown option (MaxIter)!] 
+[> In <a href="matlab:matlab.lang.internal.introspective.errorDocCallback('gmhmaxlik', 'D:\dynare\6.4\matlab\optimization\gmhmaxlik.m', 59)" style="font-weight:bold">gmhmaxlik</a> (<a href="matlab: opentoline('D:\dynare\6.4\matlab\optimization\gmhmaxlik.m',59,0)">line 59</a>)
+In <a href="matlab:matlab.lang.internal.introspective.errorDocCallback('dynare_minimize_objective', 'D:\dynare\6.4\matlab\optimization\dynare_minimize_objective.m', 345)" style="font-weight:bold">dynare_minimize_objective</a> (<a href="matlab: opentoline('D:\dynare\6.4\matlab\optimization\dynare_minimize_objective.m',345,0)">line 345</a>)
+In <a href="matlab:matlab.lang.internal.introspective.errorDocCallback('dynare_estimation_1', 'D:\dynare\6.4\matlab\estimation\dynare_estimation_1.m', 244)" style="font-weight:bold">dynare_estimation_1</a> (<a href="matlab: opentoline('D:\dynare\6.4\matlab\estimation\dynare_estimation_1.m',244,0)">line 244</a>)
+In <a href="matlab:matlab.lang.internal.introspective.errorDocCallback('dynare_estimation', 'D:\dynare\6.4\matlab\estimation\dynare_estimation.m', 105)" style="font-weight:bold">dynare_estimation</a> (<a href="matlab: opentoline('D:\dynare\6.4\matlab\estimation\dynare_estimation.m',105,0)">line 105</a>)
+In <a href="matlab:matlab.lang.internal.introspective.errorDocCallback('CK08_estRTM_q8.driver', 'E:\IHEID Economics\IHEID\Demystifying DSGE\PS\PS5\+CK08_estRTM_q8\driver.m', 908)" style="font-weight:bold">CK08_estRTM_q8.driver</a> (<a href="matlab: opentoline('E:\IHEID Economics\IHEID\Demystifying DSGE\PS\PS5\+CK08_estRTM_q8\driver.m',908,0)">line 908</a>)
+In <a href="matlab:matlab.lang.internal.introspective.errorDocCallback('dynare', 'D:\dynare\6.4\matlab\dynare.m', 308)" style="font-weight:bold">dynare</a> (<a href="matlab: opentoline('D:\dynare\6.4\matlab\dynare.m',308,0)">line 308</a>)] 
+
+==========================================================
+   Change in the posterior covariance matrix = 0.64944.
+   Change in the posterior mean = 6.0577.
+   Current mode = 206.0464
+   Mode improvement = 5118.5173
+   New value of jscale = 0.041728
+==========================================================
+
+==========================================================
+   Change in the posterior covariance matrix = 1.4899.
+   Change in the posterior mean = 7.1217.
+   Current mode = 376.4449
+   Mode improvement = 170.3985
+   New value of jscale = 0.0057063
+==========================================================
+
+==========================================================
+   Change in the posterior covariance matrix = 0.05601.
+   Change in the posterior mean = 1.0421.
+   Current mode = 236.2493
+   Mode improvement = 140.1956
+   New value of jscale = 0.26155
+==========================================================
+
+Optimal value of the scale parameter = 0.26155
+
+
+Final value of minus the log posterior (or likelihood):236.249303 
+
+RESULTS FROM POSTERIOR ESTIMATION
+parameters
+           prior mean     mode    s.d.  prior pstdev
+
+omega          0.5000   0.6430  0.0042   beta 0.2000 
+gamma          0.5000   0.4431  0.0084   beta 0.2000 
+habit          0.5000   0.9731  0.0122   beta 0.2000 
+xi             0.5000   0.1870  0.0190   beta 0.2000 
+wage_index     0.5000   1.0000  0.0152   unif 0.2887 
+vtheta         0.1000   0.0792  0.0046   beta 0.0500 
+vphi           2.0000   1.2222  0.1122   gamm 1.0000 
+sig            1.5000   0.1048  0.0284   gamm 1.0000 
+eta            0.5000   0.1725  0.0103   beta 0.2000 
+phi_R          0.8500   0.9172  0.0058   gamm 0.2000 
+phi_Pi         1.5000   1.6902  0.0383   gamm 0.2000 
+phi_y          0.5000   1.3321  0.0358   gamm 0.2000 
+rho_z          0.5000   0.7566  0.0074   beta 0.2000 
+rho_eb         0.5000   0.4684  0.0081   beta 0.2000 
+rho_g          0.5000   0.8135  0.0239   beta 0.2000 
+rho_emoney     0.5000   0.1412  0.0083   beta 0.2000 
+
+standard deviation of shocks
+           prior mean     mode    s.d.  prior pstdev
+
+inno_eb        1.0000   4.6037  0.1308   invg 0.5000 
+inno_z         1.0000   0.6688  0.0453   invg 0.5000 
+interest_      1.0000   0.9326  0.0174   invg 0.5000 
+g_             1.0000   1.3545  0.0243   invg 0.5000 
+
+
+Log data density [Laplace approximation] is -318.420543.
+
+Estimation::mcmc: Multiple chains mode.
+Estimation::mcmc: Old mh-files successfully erased!
+Estimation::mcmc: Old metropolis.log file successfully erased!
+Estimation::mcmc: Creation of a new metropolis.log file.
+Estimation::mcmc: Searching for initial values...
+Estimation::mcmc: Initial values found!
+
+Estimation::mcmc: Write details about the MCMC... Ok!
+Estimation::mcmc: Details about the MCMC are available in CK08_estRTM_q8/metropolis\CK08_estRTM_q8_mh_history_0.mat
+
+
+Estimation::mcmc: Number of mh files: 1 per block.
+Estimation::mcmc: Total number of generated files: 2.
+Estimation::mcmc: Total number of iterations: 20000.
+Estimation::mcmc: Current acceptance ratio per chain:
+                                                       Chain  1: 38.835%
+                                                       Chain  2: 57.02%
+Estimation::mcmc: Total number of MH draws per chain: 20000.
+Estimation::mcmc: Total number of generated MH files: 1.
+Estimation::mcmc: I'll use mh-files 1 to 1.
+Estimation::mcmc: In MH-file number 1 I'll start at line 4001.
+Estimation::mcmc: Finally I keep 16000 draws per chain.
+
+
+
+MCMC Inefficiency factors per block
+Parameter          Block 1     Block 2
+SE_inno_eb         575.989     486.024
+SE_inno_z          218.450     333.377
+SE_interest_       541.084     566.373
+SE_g_              528.313     573.971
+omega              568.816     605.716
+gamma              685.013     540.577
+habit              472.206     414.334
+xi                 528.275     685.352
+wage_index         169.371     106.713
+vtheta             365.195     553.593
+vphi               632.001     661.318
+sig                542.196     537.055
+eta                645.051     523.100
+phi_R              394.527     491.668
+phi_Pi             528.837     425.258
+phi_y              564.511     621.015
+rho_z              544.437     583.217
+rho_eb             624.775     554.123
+rho_g              302.924     365.453
+rho_emoney         580.696     669.321
+
+
+
+Convergence diagnostics results for chain 1.
+
+Geweke (1992) Convergence Tests, based on means of draws 4000 to 7200 vs 12000 to 20000 for chain 1.
+p-values are for Chi2-test for equality of means.
+Parameter            Post. Mean        Post. Std   p-val No Taper   p-val 4% Taper   p-val 8% Taper  p-val 15% Taper
+SE_inno_eb                4.721            0.303            0.246            0.937            0.952            0.960
+SE_inno_z                 0.676            0.046            0.000            0.001            0.005            0.007
+SE_interest_              0.919            0.040            0.177            0.917            0.939            0.953
+SE_g_                     1.338            0.038            0.000            0.000            0.000            0.000
+omega                     0.650            0.014            0.000            0.000            0.000            0.000
+gamma                     0.491            0.067            0.000            0.000            0.000            0.000
+habit                     0.958            0.017            0.069            0.868            0.903            0.924
+xi                        0.252            0.050            0.000            0.135            0.255            0.343
+wage_index                0.997            0.004            0.000            0.000            0.003            0.012
+vtheta                    0.074            0.008            0.000            0.146            0.260            0.357
+vphi                      1.243            0.302            0.000            0.000            0.000            0.000
+sig                       0.168            0.067            0.000            0.727            0.798            0.842
+eta                       0.133            0.050            0.000            0.000            0.000            0.000
+phi_R                     0.918            0.009            0.000            0.319            0.438            0.513
+phi_Pi                    1.628            0.096            0.000            0.000            0.000            0.000
+phi_y                     1.328            0.106            0.000            0.000            0.000            0.001
+rho_z                     0.775            0.021            0.000            0.089            0.205            0.318
+rho_eb                    0.455            0.025            0.000            0.037            0.120            0.224
+rho_g                     0.825            0.031            0.000            0.000            0.001            0.002
+rho_emoney                0.135            0.023            0.000            0.004            0.028            0.069
+
+
+
+
+Convergence diagnostics results for chain 2.
+
+Geweke (1992) Convergence Tests, based on means of draws 4000 to 7200 vs 12000 to 20000 for chain 2.
+p-values are for Chi2-test for equality of means.
+Parameter            Post. Mean        Post. Std   p-val No Taper   p-val 4% Taper   p-val 8% Taper  p-val 15% Taper
+SE_inno_eb                4.248            0.330            0.000            0.000            0.000            0.000
+SE_inno_z                 0.738            0.063            0.000            0.000            0.000            0.000
+SE_interest_              0.940            0.043            0.000            0.633            0.716            0.766
+SE_g_                     1.310            0.049            0.000            0.005            0.034            0.094
+omega                     0.691            0.027            0.000            0.005            0.032            0.070
+gamma                     0.398            0.027            0.000            0.215            0.339            0.427
+habit                     0.943            0.017            0.000            0.000            0.000            0.003
+xi                        0.360            0.134            0.000            0.000            0.000            0.000
+wage_index                0.993            0.007            0.000            0.118            0.165            0.154
+vtheta                    0.063            0.012            0.000            0.560            0.661            0.726
+vphi                      2.604            0.685            0.000            0.000            0.000            0.000
+sig                       0.217            0.061            0.000            0.000            0.002            0.010
+eta                       0.097            0.051            0.000            0.687            0.759            0.803
+phi_R                     0.926            0.012            0.000            0.000            0.000            0.000
+phi_Pi                    1.731            0.075            0.000            0.020            0.052            0.086
+phi_y                     1.600            0.167            0.000            0.000            0.000            0.000
+rho_z                     0.798            0.038            0.000            0.003            0.025            0.058
+rho_eb                    0.510            0.029            0.000            0.000            0.000            0.000
+rho_g                     0.809            0.036            0.000            0.205            0.297            0.366
+rho_emoney                0.142            0.046            0.000            0.000            0.000            0.000
+
+
+Univariate convergence diagnostic, Brooks and Gelman (1998):
+    Parameter 1...  Done! 
+    Parameter 2...  Done! 
+    Parameter 3...  Done! 
+    Parameter 4...  Done! 
+    Parameter 5...  Done! 
+    Parameter 6...  Done! 
+    Parameter 7...  Done! 
+    Parameter 8...  Done! 
+    Parameter 9...  Done! 
+    Parameter 10...  Done! 
+    Parameter 11...  Done! 
+    Parameter 12...  Done! 
+    Parameter 13...  Done! 
+    Parameter 14...  Done! 
+    Parameter 15...  Done! 
+    Parameter 16...  Done! 
+    Parameter 17...  Done! 
+    Parameter 18...  Done! 
+    Parameter 19...  Done! 
+    Parameter 20...  Done! 
+
+marginal density: I'm computing the posterior mean and covariance...  Done!
+marginal density: I'm computing the posterior log marginal density (modified harmonic mean)... Done!
+
+
+ESTIMATION RESULTS
+
+Log data density (Modified Harmonic Mean) is -293.527680.
+parameters
+             prior mean   post. mean        90% HPD interval    prior       pstdev
+
+omega             0.500       0.6757      0.6251      0.7199     beta       0.2000
+gamma             0.500       0.4465      0.3548      0.5695     beta       0.2000
+habit             0.500       0.9471      0.9204      0.9741     beta       0.2000
+xi                0.500       0.3199      0.1591      0.5504     beta       0.2000
+wage_index        0.500       0.9946      0.9868      1.0000     unif       0.2887
+vtheta            0.100       0.0669      0.0466      0.0830     beta       0.0500
+vphi              2.000       2.0365      0.8272      3.3436     gamm       1.0000
+sig               1.500       0.2057      0.1134      0.3110     gamm       1.0000
+eta               0.500       0.0999      0.0332      0.1851     beta       0.2000
+phi_R             0.850       0.9236      0.9057      0.9430     gamm       0.2000
+phi_Pi            1.500       1.6723      1.5030      1.8565     gamm       0.2000
+phi_y             0.500       1.4848      1.1955      1.8715     gamm       0.2000
+rho_z             0.500       0.7919      0.7369      0.8409     beta       0.2000
+rho_eb            0.500       0.4859      0.4182      0.5433     beta       0.2000
+rho_g             0.500       0.8155      0.7607      0.8710     beta       0.2000
+rho_emoney        0.500       0.1332      0.0779      0.1978     beta       0.2000
+
+standard deviation of shocks
+             prior mean   post. mean        90% HPD interval    prior       pstdev
+
+inno_eb           1.000       4.4666      3.7912      5.1982     invg       0.5000
+inno_z            1.000       0.7140      0.6045      0.8134     invg       0.5000
+interest_         1.000       0.9289      0.8604      1.0007     invg       0.5000
+g_                1.000       1.3189      1.2404      1.3947     invg       0.5000
+
+MODEL SUMMARY
+
+  Number of variables:         28
+  Number of stochastic shocks: 4
+  Number of state variables:   10
+  Number of jumpers:           7
+  Number of static variables:  12
+
+
+MATRIX OF COVARIANCE OF EXOGENOUS SHOCKS
+Variables      inno_eb     inno_z  interest_         g_
+inno_eb      19.950437   0.000000   0.000000   0.000000
+inno_z        0.000000   0.509863   0.000000   0.000000
+interest_     0.000000   0.000000   0.862925   0.000000
+g_            0.000000   0.000000   0.000000   1.739553
+
+POLICY AND TRANSITION FUNCTIONS
+                                   y               c              Pi               R          lambda               w           wstar           Jstar          deltaW          deltaF       Deltastar               h              mc               m               n               u               v               s               q              xL               z               g              eb          emoney            yobs            cobs            robs           piobs
+c(-1)                       0.474344        0.736047       -0.010275        0.053786        0.820362        0.008520        0.007103        1.313149       -0.163600        0.244505        0.905044        0.479135        0.013311        0.624281               0               0        0.917885        0.624281       -0.293604        0.013311               0               0               0               0        0.474344        0.736047        0.053786       -0.010275
+R(-1)                      -0.467423       -0.716050       -0.053325        0.870630        2.783402        0.024702        0.001609        0.488729       -0.079679        0.409601       -0.000552       -0.472145        0.019981      -10.219390               0               0      -15.025641      -10.219390        4.806251        0.019981               0               0               0               0       -0.467423       -0.716050        0.870630       -0.053325
+w(-1)                       0.343829        0.526848        0.933191        0.038987       -2.047942        0.084827        0.099363        0.320211       -1.244480       -0.254484       -0.669785        0.347302        0.088300        7.378518               0               0       10.848687        7.378518       -3.470169        0.088300               0               0               0               0        0.343829        0.526848        0.038987        0.933191
+m(-1)                      -0.000007       -0.000439       -0.000812               0        0.001707        0.000220       -0.000258       -0.014191       -0.025876       -0.004641       -0.035425       -0.067577       -0.000456       -0.678366        0.066894       -0.602047       -0.714259       -0.076318        0.035893       -0.000456               0               0               0               0       -0.000007       -0.000439               0       -0.000812
+n(-1)                      -0.000098       -0.006125       -0.011324       -0.000011        0.023809        0.003067       -0.003594       -0.197954       -0.360937       -0.064741       -0.494150       -0.942630       -0.006359       -9.462516        0.933106       -8.397953       -9.963188       -1.064563        0.500672       -0.006359               0               0               0               0       -0.000098       -0.006125       -0.000011       -0.011324
+z(-1)                      -0.061533       -0.092835       -0.364207       -0.006977        0.360865        0.348634        0.336069        1.071409       -0.652648        0.204671        0.214090       -0.862056       -0.451889       -2.827219               0               0       -4.156881       -2.827219        1.329661       -0.451889        0.791902               0               0               0       -0.061533       -0.092835       -0.006977       -0.364207
+g(-1)                       0.239815       -0.067283       -0.000548        0.027193        0.261541        0.000872        0.001133        0.379986        0.111647        0.096462        0.395172        0.242238        0.003294        0.218122               0               0        0.320706        0.218122       -0.102584        0.003294               0        0.815514               0               0        0.239815       -0.067283        0.027193       -0.000548
+eb(-1)                     -0.103618       -0.159274       -0.002353       -0.011749        0.619125       -0.002325       -0.006099        0.016755        0.638033        0.057456        0.597332       -0.104664       -0.003371       -1.703831               0               0       -2.505154       -1.703831        0.801324       -0.003371               0               0        0.485859               0       -0.103618       -0.159274       -0.011749       -0.002353
+emoney(-1)                 -0.075504       -0.115642       -0.008961        0.124677        0.449520        0.004260        0.000467        0.084175       -0.039505        0.068549       -0.023878       -0.076266        0.003497       -1.674333               0               0       -2.461783       -1.674333        0.787450        0.003497               0               0               0        0.133238       -0.075504       -0.115642        0.124677       -0.008961
+Pi(-1)                      0.277333        0.424982        0.920757        0.159159       -1.651973        0.087782        0.099047        0.386052       -1.248749       -0.196468       -0.666229        0.280134        0.090583        5.925460               0               0        8.712245        5.925460       -2.786786        0.090583               0               0               0               0        0.277333        0.424982        0.159159        0.920757
+inno_eb                    -0.077629       -0.119327       -0.001763       -0.008802        0.463842       -0.001742       -0.004569        0.012552        0.478008        0.043046        0.447514       -0.078413       -0.002526       -1.276492               0               0       -1.876835       -1.276492        0.600343       -0.002526               0               0        0.364000               0       -0.077629       -0.119327       -0.008802       -0.001763
+inno_z                     -0.053219       -0.080291       -0.314995       -0.006035        0.312105        0.301526        0.290660        0.926640       -0.564462        0.177016        0.185162       -0.745575       -0.390829       -2.445205               0               0       -3.595203       -2.445205        1.149997       -0.390829        0.684900               0               0               0       -0.053219       -0.080291       -0.006035       -0.314995
+interest_                  -0.141670       -0.216984       -0.016814        0.233936        0.843450        0.007993        0.000876        0.157941       -0.074124        0.128620       -0.044803       -0.143101        0.006562       -3.141610               0               0       -4.619131       -3.141610        1.477521        0.006562               0               0               0        0.250000       -0.141670       -0.216984        0.233936       -0.016814
+g_                          0.294066       -0.082504       -0.000672        0.033344        0.320707        0.001069        0.001390        0.465947        0.136904        0.118284        0.484568        0.297037        0.004040        0.267465               0               0        0.393256        0.267465       -0.125791        0.004040               0        1.000000               0               0        0.294066       -0.082504        0.033344       -0.000672
+
+
+THEORETICAL MOMENTS
+VARIABLE          MEAN  STD. DEV.   VARIANCE
+y               0.0000     1.1438     1.3082
+c               0.0000     1.8238     3.3262
+Pi              0.0000     0.4179     0.1746
+R               0.0000     0.6091     0.3711
+lambda          0.0000     2.7683     7.6636
+w               0.0000     0.3471     0.1205
+wstar           0.0000     0.3384     0.1145
+Jstar           0.0000     2.3703     5.6184
+deltaW          0.0000     2.7858     7.7604
+deltaF          0.0000     0.4849     0.2351
+Deltastar       0.0000     2.4531     6.0179
+h               0.0000     0.9938     0.9876
+mc              0.0000     0.4638     0.2151
+m               0.0000     7.4932    56.1483
+n               0.0000     0.7859     0.6177
+u               0.0000     7.0732    50.0299
+v               0.0000    10.7406   115.3601
+s               0.0000     9.0259    81.4672
+q               0.0000     4.2450    18.0196
+xL              0.0000     0.4638     0.2151
+z               0.0000     0.8009     0.6414
+g               0.0000     2.2790     5.1937
+eb              0.0000     1.8601     3.4602
+emoney          0.0000     0.2343     0.0549
+yobs            0.0000     1.1438     1.3082
+cobs            0.0000     1.8238     3.3262
+robs            0.0000     0.6091     0.3711
+piobs           0.0000     0.4179     0.1746
+
+
+
+VARIANCE DECOMPOSITION (in percent)
+               inno_eb     inno_z  interest_         g_
+y                43.07       4.83      31.79      20.31
+c                40.29       4.52      29.70      25.48
+Pi                0.22      94.41       5.33       0.04
+R                33.23      17.38      41.04       8.35
+lambda           74.58       2.02      16.08       7.32
+w                 0.49      99.26       0.22       0.03
+wstar             0.72      99.09       0.17       0.03
+Jstar            40.02      21.11      22.28      16.60
+deltaW           90.76       4.45       1.99       2.79
+deltaF           48.15      12.46      16.56      22.83
+Deltastar        77.68       3.27       6.97      12.08
+h                17.33      52.96       5.53      24.18
+mc                0.35      99.48       0.13       0.04
+m                73.64       6.96      17.89       1.51
+n                50.49       7.31      37.51       4.68
+u                50.49       7.31      37.51       4.68
+v                69.82       7.02      21.13       2.04
+s                56.15       7.22      32.72       3.91
+q                56.15       7.22      32.72       3.91
+xL                0.35      99.48       0.13       0.04
+z                 0.00     100.00       0.00       0.00
+g                 0.00       0.00       0.00     100.00
+eb              100.00       0.00       0.00       0.00
+emoney            0.00       0.00     100.00       0.00
+yobs             43.07       4.83      31.79      20.31
+cobs             40.29       4.52      29.70      25.48
+robs             33.23      17.38      41.04       8.35
+piobs             0.22      94.41       5.33       0.04
+
+
+
+MATRIX OF CORRELATIONS
+Variables            y          c         Pi          R     lambda          w      wstar      Jstar     deltaW     deltaF  Deltastar          h         mc          m          n          u          v          s          q         xL          z          g         eb     emoney       yobs       cobs       robs      piobs
+y               1.0000     0.7681     0.0402    -0.1054    -0.1860     0.0466     0.0669     0.7647    -0.5795     0.3264     0.0162     0.5222     0.0426     0.0428     0.7996    -0.7996     0.2916     0.6622    -0.6622     0.0426     0.0020     0.2972    -0.5061    -0.1436     1.0000     0.7681    -0.1054     0.0402
+c               0.7681     1.0000     0.0472    -0.2696    -0.3272     0.0463     0.0676     0.6318    -0.6637     0.0592    -0.1549     0.2234     0.0341     0.0680     0.8350    -0.8350     0.3284     0.7108    -0.7108     0.0341     0.0031    -0.3832    -0.4888    -0.1381     0.7681     1.0000    -0.2696     0.0472
+Pi              0.0402     0.0472     1.0000     0.2700    -0.0202    -0.9103    -0.9083    -0.3560     0.1301    -0.3019    -0.1366     0.6747     0.9453     0.0644     0.1652    -0.1652     0.1172     0.1829    -0.1829     0.9453    -0.9336    -0.0141    -0.0252    -0.0432     0.0402     0.0472     0.2700     1.0000
+R              -0.1054    -0.2696     0.2700     1.0000     0.4585    -0.1786    -0.2048     0.0701    -0.1044     0.4401    -0.1378     0.2678     0.2858    -0.3501    -0.2446     0.2446    -0.4349    -0.4823     0.4823     0.2858    -0.2396     0.2524    -0.1974     0.4032    -0.1054    -0.2696     1.0000     0.2700
+lambda         -0.1860    -0.3272    -0.0202     0.4585     1.0000     0.0126    -0.0359     0.2682     0.6043     0.7870     0.7899    -0.1000     0.0107    -0.8530    -0.1434     0.1434    -0.9194    -0.8206     0.8206     0.0107    -0.0020     0.2234     0.6758     0.3089    -0.1860    -0.3272     0.4585    -0.0202
+w               0.0466     0.0463    -0.9103    -0.1786     0.0126     1.0000     0.9987     0.4864    -0.2592     0.3712     0.1022    -0.6858    -0.9853    -0.0913    -0.0880     0.0880    -0.1209    -0.1448     0.1448    -0.9853     0.9955     0.0001    -0.0458     0.0224     0.0466     0.0463    -0.1786    -0.9103
+wstar           0.0669     0.0676    -0.9083    -0.2048    -0.0359     0.9987     1.0000     0.4811    -0.2892     0.3377     0.0697    -0.6715    -0.9848    -0.0469    -0.0758     0.0758    -0.0716    -0.0983     0.0983    -0.9848     0.9948    -0.0026    -0.0795     0.0018     0.0669     0.0676    -0.2048    -0.9083
+Jstar           0.7647     0.6318    -0.3560     0.0701     0.2682     0.4864     0.4811     1.0000    -0.4248     0.7649     0.3326     0.0575    -0.3795    -0.3855     0.6014    -0.6014    -0.2091     0.1513    -0.1513    -0.3795     0.4313     0.1639    -0.2060     0.0531     0.7647     0.6318     0.0701    -0.3560
+deltaW         -0.5795    -0.6637     0.1301    -0.1044     0.6043    -0.2592    -0.2892    -0.4248     1.0000     0.0841     0.7085    -0.1532     0.1549    -0.3680    -0.4439     0.4439    -0.5149    -0.6533     0.6533     0.1549    -0.2039     0.1541     0.9421    -0.0191    -0.5795    -0.6637    -0.1044     0.1301
+deltaF          0.3264     0.0592    -0.3019     0.4401     0.7870     0.3712     0.3377     0.7649     0.0841     1.0000     0.6370    -0.0106    -0.2875    -0.7209     0.1549    -0.1549    -0.6914    -0.4770     0.4770    -0.2875     0.3272     0.3868     0.2254     0.2641     0.3264     0.0592     0.4401    -0.3019
+Deltastar       0.0162    -0.1549    -0.1366    -0.1378     0.7899     0.1022     0.0697     0.3326     0.7085     0.6370     1.0000    -0.1163    -0.1340    -0.6478     0.0465    -0.0465    -0.6501    -0.5014     0.5014    -0.1340     0.1204     0.2569     0.8263    -0.0225     0.0162    -0.1549    -0.1378    -0.1366
+h               0.5222     0.2234     0.6747     0.2678    -0.1000    -0.6858    -0.6715     0.0575    -0.1532    -0.0106    -0.1163     1.0000     0.7365     0.2889     0.2330    -0.2330     0.3685     0.4224    -0.4224     0.7365    -0.7113     0.4194    -0.3515    -0.1360     0.5222     0.2234     0.2678     0.6747
+mc              0.0426     0.0341     0.9453     0.2858     0.0107    -0.9853    -0.9848    -0.3795     0.1549    -0.2875    -0.1340     0.7365     1.0000     0.0499     0.1560    -0.1560     0.0995     0.1637    -0.1637     1.0000    -0.9970     0.0090    -0.0418     0.0139     0.0426     0.0341     0.2858     0.9453
+m               0.0428     0.0680     0.0644    -0.3501    -0.8530    -0.0913    -0.0469    -0.3855    -0.3680    -0.7209    -0.6478     0.2889     0.0499     1.0000    -0.2331     0.2331     0.9536     0.6475    -0.6475     0.0499    -0.0649    -0.0425    -0.5232    -0.4000     0.0428     0.0680    -0.3501     0.0644
+n               0.7996     0.8350     0.1652    -0.2446    -0.1434    -0.0880    -0.0758     0.6014    -0.4439     0.1549     0.0465     0.2330     0.1560    -0.2331     1.0000    -1.0000     0.0706     0.5901    -0.5901     0.1560    -0.1256    -0.0925    -0.2966    -0.0388     0.7996     0.8350    -0.2446     0.1652
+u              -0.7996    -0.8350    -0.1652     0.2446     0.1434     0.0880     0.0758    -0.6014     0.4439    -0.1549    -0.0465    -0.2330    -0.1560     0.2331    -1.0000     1.0000    -0.0706    -0.5901     0.5901    -0.1560     0.1256     0.0925     0.2966     0.0388    -0.7996    -0.8350     0.2446    -0.1652
+v               0.2916     0.3284     0.1172    -0.4349    -0.9194    -0.1209    -0.0716    -0.2091    -0.5149    -0.6914    -0.6501     0.3685     0.0995     0.9536     0.0706    -0.0706     1.0000     0.8470    -0.8470     0.0995    -0.1055    -0.0722    -0.6285    -0.4223     0.2916     0.3284    -0.4349     0.1172
+s               0.6622     0.7108     0.1829    -0.4823    -0.8206    -0.1448    -0.0983     0.1513    -0.6533    -0.4770    -0.5014     0.4224     0.1637     0.6475     0.5901    -0.5901     0.8470     1.0000    -1.0000     0.1637    -0.1523    -0.1078    -0.6667    -0.3625     0.6622     0.7108    -0.4823     0.1829
+q              -0.6622    -0.7108    -0.1829     0.4823     0.8206     0.1448     0.0983    -0.1513     0.6533     0.4770     0.5014    -0.4224    -0.1637    -0.6475    -0.5901     0.5901    -0.8470    -1.0000     1.0000    -0.1637     0.1523     0.1078     0.6667     0.3625    -0.6622    -0.7108     0.4823    -0.1829
+xL              0.0426     0.0341     0.9453     0.2858     0.0107    -0.9853    -0.9848    -0.3795     0.1549    -0.2875    -0.1340     0.7365     1.0000     0.0499     0.1560    -0.1560     0.0995     0.1637    -0.1637     1.0000    -0.9970     0.0090    -0.0418     0.0139     0.0426     0.0341     0.2858     0.9453
+z               0.0020     0.0031    -0.9336    -0.2396    -0.0020     0.9955     0.9948     0.4313    -0.2039     0.3272     0.1204    -0.7113    -0.9970    -0.0649    -0.1256     0.1256    -0.1055    -0.1523     0.1523    -0.9970     1.0000     0.0000     0.0000     0.0000     0.0020     0.0031    -0.2396    -0.9336
+g               0.2972    -0.3832    -0.0141     0.2524     0.2234     0.0001    -0.0026     0.1639     0.1541     0.3868     0.2569     0.4194     0.0090    -0.0425    -0.0925     0.0925    -0.0722    -0.1078     0.1078     0.0090     0.0000     1.0000     0.0000     0.0000     0.2972    -0.3832     0.2524    -0.0141
+eb             -0.5061    -0.4888    -0.0252    -0.1974     0.6758    -0.0458    -0.0795    -0.2060     0.9421     0.2254     0.8263    -0.3515    -0.0418    -0.5232    -0.2966     0.2966    -0.6285    -0.6667     0.6667    -0.0418     0.0000     0.0000     1.0000     0.0000    -0.5061    -0.4888    -0.1974    -0.0252
+emoney         -0.1436    -0.1381    -0.0432     0.4032     0.3089     0.0224     0.0018     0.0531    -0.0191     0.2641    -0.0225    -0.1360     0.0139    -0.4000    -0.0388     0.0388    -0.4223    -0.3625     0.3625     0.0139     0.0000     0.0000     0.0000     1.0000    -0.1436    -0.1381     0.4032    -0.0432
+yobs            1.0000     0.7681     0.0402    -0.1054    -0.1860     0.0466     0.0669     0.7647    -0.5795     0.3264     0.0162     0.5222     0.0426     0.0428     0.7996    -0.7996     0.2916     0.6622    -0.6622     0.0426     0.0020     0.2972    -0.5061    -0.1436     1.0000     0.7681    -0.1054     0.0402
+cobs            0.7681     1.0000     0.0472    -0.2696    -0.3272     0.0463     0.0676     0.6318    -0.6637     0.0592    -0.1549     0.2234     0.0341     0.0680     0.8350    -0.8350     0.3284     0.7108    -0.7108     0.0341     0.0031    -0.3832    -0.4888    -0.1381     0.7681     1.0000    -0.2696     0.0472
+robs           -0.1054    -0.2696     0.2700     1.0000     0.4585    -0.1786    -0.2048     0.0701    -0.1044     0.4401    -0.1378     0.2678     0.2858    -0.3501    -0.2446     0.2446    -0.4349    -0.4823     0.4823     0.2858    -0.2396     0.2524    -0.1974     0.4032    -0.1054    -0.2696     1.0000     0.2700
+piobs           0.0402     0.0472     1.0000     0.2700    -0.0202    -0.9103    -0.9083    -0.3560     0.1301    -0.3019    -0.1366     0.6747     0.9453     0.0644     0.1652    -0.1652     0.1172     0.1829    -0.1829     0.9453    -0.9336    -0.0141    -0.0252    -0.0432     0.0402     0.0472     0.2700     1.0000
+
+
+
+COEFFICIENTS OF AUTOCORRELATION
+Order              1        2        3        4        5
+y             0.8455   0.6430   0.4411   0.2629   0.1181
+c             0.9210   0.7736   0.6061   0.4442   0.3012
+Pi            0.8398   0.7117   0.6092   0.5272   0.4617
+R             0.9070   0.7728   0.6289   0.4892   0.3621
+lambda        0.4417   0.1390  -0.0241  -0.1082  -0.1460
+w             0.7833   0.6142   0.4818   0.3781   0.2968
+wstar         0.7874   0.6200   0.4883   0.3845   0.3027
+Jstar         0.8372   0.6489   0.4693   0.3139   0.1882
+deltaW        0.6133   0.3680   0.2182   0.1256   0.0671
+deltaF        0.6442   0.3753   0.1831   0.0508  -0.0359
+Deltastar     0.4414   0.1552   0.0305  -0.0113  -0.0150
+h             0.5928   0.4531   0.3569   0.2668   0.1834
+mc            0.7980   0.6368   0.5077   0.4044   0.3217
+m             0.1032  -0.0867  -0.1116  -0.1020  -0.0868
+n             0.7844   0.5276   0.3111   0.1448   0.0237
+u             0.7844   0.5276   0.3111   0.1448   0.0237
+v             0.2156   0.0146  -0.0419  -0.0613  -0.0686
+s             0.6179   0.3774   0.2077   0.0844  -0.0034
+q             0.6179   0.3774   0.2077   0.0844  -0.0034
+xL            0.7980   0.6368   0.5077   0.4044   0.3217
+z             0.7919   0.6271   0.4966   0.3933   0.3114
+g             0.8155   0.6651   0.5424   0.4423   0.3607
+eb            0.4859   0.2361   0.1147   0.0557   0.0271
+emoney        0.1332   0.0178   0.0024   0.0003   0.0000
+yobs          0.8455   0.6430   0.4411   0.2629   0.1181
+cobs          0.9210   0.7736   0.6061   0.4442   0.3012
+robs          0.9070   0.7728   0.6289   0.4892   0.3621
+piobs         0.8398   0.7117   0.6092   0.5272   0.4617
+Total computing time : 0h33m34s
+Note: warning(s) encountered in MATLAB/Octave code

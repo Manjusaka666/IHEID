@@ -1,5 +1,5 @@
 %% loading the data from file
-[dataQ,datadate,raw] = xlsread('SW_Data4HW2025.xlsx','Sheet10'); %% NB: Your data may be in a Sheet with a different name !!
+[dataQ,datadate,raw] = xlsread('SW_Data4HW.xlsx','Sheet1'); %% NB: Your data may be in a Sheet with a different name !!
 % CK08-US data  in logged per capita terms   : c i y h pi rw r
 timeline=(1965.0:0.25:2024.75)'; %% Data are from 1965Q1 until 2024Q4
 lambda = 1600;              % HP smoothing parameter for quarterly data	 
@@ -10,6 +10,8 @@ lambda = 1600;              % HP smoothing parameter for quarterly data
 	piobs=demean(dataQ(:,5));
 	rwobs = (dataQ(:,6))-one_sided_hp_filter(dataQ(:,6), lambda);  
 	robs=demean(dataQ(:,7));
-	
 
-	
+function y = demean(x)
+mu = mean(x,'omitnan');
+y  = x - mu;
+end

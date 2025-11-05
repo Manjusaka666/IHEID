@@ -1,0 +1,779 @@
+\documentclass[a4paper,12pt]{article}
+
+\usepackage[top = 2.5cm, bottom = 2.5cm, left = 2.5cm, right = 2.5cm]{geometry} 
+
+% Unfortunately, LaTeX has a hard time interpreting German Umlaute. The following two lines and packages should help. If it doesn't work for you please let me know.
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{pifont}
+% \usepackage{ctex}
+\usepackage{amsthm, amsmath, amssymb, mathrsfs,mathtools}
+
+% Defining a new theorem style without italics
+\newtheoremstyle{nonitalic}% name
+  {\topsep}% Space above
+  {\topsep}% Space below
+  {\upshape}% Body font
+  {}% Indent amount
+  {\bfseries}% Theorem head font
+  {.}% Punctuation after theorem head
+  {.5em}% Space after theorem head
+  {}% Theorem head spec (can be left empty, meaning 'normal`)
+  
+\theoremstyle{nonitalic}
+% Define new 'solution' environment
+\newtheorem{innercustomsol}{Solution}
+\newenvironment{solution}[1]
+  {\renewcommand\theinnercustomsol{#1}\innercustomsol}
+  {\endinnercustomsol}
+
+% Custom counter for the solutions
+\newcounter{solutionctr}
+\renewcommand{\thesolutionctr}{(\alph{solutionctr})}
+
+% Environment for auto-numbering with custom format
+\newenvironment{autosolution}
+  {\stepcounter{solutionctr}\begin{solution}{\thesolutionctr}}
+  {\end{solution}}
+
+
+\newtheorem{problem}{Problem}
+
+\usepackage{color}
+
+% The following two packages - multirow and booktabs - are needed to create nice looking tables.
+\usepackage{multirow} % Multirow is for tables with multiple rows within one cell.
+\usepackage{booktabs} % For even nicer tables.
+\usepackage{threeparttable} % <-- 添加：提供 threeparttable 环境及 tablenotes
+
+% As we usually want to include some plots (.pdf files) we need a package for that.
+\usepackage{graphicx} 
+\usepackage{subfigure}
+\usepackage{hyperref}
+% \usepackage{subcaption}
+
+% The default setting of LaTeX is to indent new paragraphs. This is useful for articles. But not really nice for homework problem sets. The following command sets the indent to 0.
+\usepackage{setspace}
+\setlength{\parindent}{0in}
+\usepackage{longtable}
+
+% Package to place figures where you want them.
+\usepackage{float}
+\usepackage{placeins}
+
+% The fancyhdr package let's us create nice headers.
+\usepackage{fancyhdr}
+
+\usepackage{fancyvrb}
+
+\usepackage{enumitem}
+
+%Code environment 
+\usepackage{listings} % Required for insertion of code
+\usepackage{xcolor} % Required for custom colors
+\usepackage{tcolorbox}
+\usepackage{subcaption}
+\usepackage{tabularx}
+\usepackage{makecell}
+
+\newtcolorbox{note}[1]{%
+  colback=white,      % 背景白色
+  title=#1,           % 标题从参数获取
+  fontupper=\color{blue},  % 内部文本蓝色
+  boxrule=1pt,        % 边框宽度
+  arc=3pt,             % 圆角（可选）
+  coltitle=white
+}
+
+% ---------- Listings setup ----------
+\definecolor{codebg}{RGB}{250,250,250}
+\definecolor{dkgray}{RGB}{64,64,64}
+\definecolor{dkblue}{RGB}{0,0,140}
+\definecolor{dkgreen}{RGB}{0,100,0}
+\definecolor{maroon}{RGB}{128,0,0}
+\definecolor{purplec}{RGB}{106,13,173}
+
+\lstdefinestyle{code}{
+  backgroundcolor=\color{codebg},
+  basicstyle=\ttfamily\small,
+  breaklines=true,
+  columns=fullflexible,
+  keepspaces=true,
+  keywordstyle=\color{dkblue}\bfseries,
+  stringstyle=\color{maroon},
+  commentstyle=\itshape\color{dkgreen},
+  numberstyle=\scriptsize\color{dkgray},
+  numbers=left,
+  numbersep=8pt,
+  frame=single,
+  framerule=0.3pt,
+  rulecolor=\color{dkgray},
+  showstringspaces=false,
+  tabsize=2,
+  upquote=true
+}
+
+% Dynare is Matlab-like; define a language based on Matlab with some added keywords
+\lstdefinelanguage{Dynare}{
+  morekeywords={
+    var,varexo,parameters,model,end,initval,steady_state_model,shocks,
+    periods,stoch_simul,check,steady,resid,log,exp,stderr,varexo_det,
+    ramsey\_policy,planner\_objective,osr,osr\_params,estimated\_params,
+    varobs,estimation,identification,shocks,init,values,planner\_discount,
+    simul,verbatim,save\_params\_and\_steady\_state,trend\_vars,units,
+    deterministic\_trends,steady\_state\_operator,estimated\_params\_bounds
+  },
+  sensitive=true,
+  morecomment=\[l\]\%,      % Dynare/Matlab-style comments
+  morestring=\[b\]',       % strings
+}
+
+\lstdefinelanguage{MatlabX}{
+  language=Matlab,
+  morekeywords={dynare},
+}
+
+\lstset{style=code}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 3. Header (and Footer)
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% To make our document nice we want a header and number the pages in the footer.
+
+\pagestyle{fancy} % With this command we can customize the header style.
+
+\fancyhf{} % This makes sure we do not have other information in our header or footer.
+
+\lhead{\footnotesize Demystifying DSGE Models}% \lhead puts text in the top left corner. \footnotesize sets our font to a smaller size.
+
+%\rhead works just like \lhead (you can also use \chead)
+\rhead{\footnotesize Jingle Fu} %<---- Fill in our lastnames.
+
+% Similar commands work for the footer (\lfoot, \cfoot and \rfoot).
+% We want to put our page number in the center.
+\cfoot{\footnotesize \thepage}
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\begin{document}
+
+
+\thispagestyle{empty} % This command disables the header on the first page. 
+
+\begin{tabular}{p{15.5cm}} % This is a simple tabular environment to align our text nicely 
+{\large \bf Demystifying DSGE Models} \\
+The Graduate Institute, Fall 2025, John D.A. Cuddy\\
+\hline % \hline produces horizontal lines.
+\\
+\end{tabular} % Our tabular environment ends here.
+
+\vspace*{0.3cm} % Now we want to add some vertical space in between the line and our title.
+
+\begin{center} % Everything within the center environment is centered.
+	{\Large \bf PS5 Solutions} % <---- Don't forget to put in the right number
+	\vspace{2mm}
+	
+        % our NAMES GO HERE
+	{\bf Jingle Fu} % <---- Fill in our names here!
+		
+\end{center}  
+
+\vspace{0.4cm}
+\setstretch{1.2}
+
+
+\section*{Q1.}
+
+As in the original code, CK present the steady state (levels) and the log-linearized model.
+In the linearized system, the variables are $\hat{x}_t$ around steady state, so $\hat{x}_t=0$ in steady state by definition.
+To form the steady-state table comparable to CK (2008) Table 2, I report the levels of the variables in the steady state,
+by constructing the level variables from the log-deviations based on their Appendix~A definitions.
+
+\begin{table}[h!]
+  \centering
+  \begin{threeparttable}
+    \caption{RTM steady state: this run vs. CK (2008) Table 2}
+    \label{tab:ck-rtm-ss}
+    \begin{tabular}{lccc}
+      \hline\hline
+      Object & Symbol & This run & CK Table 2 (target) \\
+      \hline
+      Output (level)              & $y$                  & 1.0000 & 1.0000 \\
+      Consumption share           & $c/y$                & 0.6439 & $\approx$0.644 \\
+      Wage per employee           & $wh$                 & 0.9562 & $\approx$0.956 \\
+      Unemployment rate           & $u$                  & 0.0588 & 0.0588 \\
+      Worker-finding prob. (mo)   & $q$                  & 0.3306 & 0.3306 \\
+      Job-finding prob. (mo)      & $s$                  & 0.4802 & 0.4802 \\
+      Vacancy share (labor force) & $v$                  & 0.0854 & $\approx$0.0854 \\
+      Vacancy cost share (\%)     & $100\cdot kv/y$      & 0.0432 & $\approx$0.043 \\
+      Fixed-cost rev. share       & $F/(x^Lzh^\alpha)$   & 0.00949& $\approx$0.0095 \\
+      Wholesale profit share      & $CC/y$               & 0.09091& 0.09091 \\
+      Labor-sector profit share   & $CL\cdot n/y$        & 0.00046& $\approx$0.0005 \\
+      Firm value                  & $J$                  & 0.01533& $\approx$0.015 \\
+      Worker surplus              & $D$                  & 0.35905& $\approx$0.359 \\
+      \hline\hline
+    \end{tabular}
+    \begin{tablenotes}[flushleft]
+    \footnotesize
+    \item Notes: Model frequency is monthly. The vacancy cost share is reported in percent.
+    With $\varepsilon{=}11$, $CC/y=1-\frac{\varepsilon-1}{\varepsilon}=1/11=0.0909$. Calibration matches CK (2008) Table~2.
+    \end{tablenotes}
+  \end{threeparttable}
+\end{table}
+\FloatBarrier
+
+My steady-state results are all consistent with the steady-state block and CK's calibration, as shown in Table~\ref{tab:ck-rtm-ss}.
+
+
+\section*{Q2.}
+
+In the RTM wage block, the wage law of motion blends the lagged aggregate wage with the newly optimized wage.
+A higher $\gamma $ implies longer average contracts and a higher weight on lagged wages.
+Consequently, nominal and real wages adapt more slowly to the policy-induced disinflation,
+and the economy adjusts more through quantities—vacancies, hours, and employment—than through the real wage margin.
+The resulting dynamics are visible in the IRFs: after a 100 bp tightening, output, vacancies, and hours fall, while unemployment rises;
+these real-side responses are largest and most persistent under 12-month contracts, smallest under 2-month contracts,
+with the 5-month case in between. The longer contract shifts the burden of adjustment away from wages and into job creation,
+consistent with the ``resuscitated wage channel.''
+
+The nominal side comoves accordingly.
+Because the Taylor rule is highly persistent (as seen in the very large first-order autocorrelation of the policy rate),
+the disinflation is more protracted when wages are stickier: the price Phillips curve inherits persistence from the wage block via marginal cost.
+In our panels, inflation falls on impact in all cases, but decays slowest with 12-month contracts,
+while the 2-month case exhibits the sharpest near-term movement and the quickest return.
+The cross-equation correlations in the log are consistent with this pattern:
+the policy rate is positively correlated with unemployment and negatively with vacancies,
+while inflation is positively associated with wage inflation and hours;
+these signs rationalize the comovements observed in the figure.
+
+On the labor cost side, the real wage per hour drops the least when contracts are long (12-month) and the most when contracts are short (2-month);
+this is the mirror image of the quantity adjustments above.
+Wage inflation displays the same ranking: the immediate compression in wage inflation is strongest under 2-month contracts and most muted—yet longer-lived—under 12-month contracts.
+As a result, labor-sector profits contract more under longer contracts, reflecting both weaker hiring (vacancies) and reduced hours,
+which together depress the flow surplus of a filled job.
+The model's unconditional moments corroborate the persistence implied by these IRFs:
+unemployment, hours, and wages all exhibit large first-order autocorrelations, which,
+when coupled with a persistent policy process, prolong the real effects of a tightening.
+
+From a quantitative perspective, even without reading exact peak numbers off the figures,
+the ordering across contract lengths is unambiguous in each panel.
+Moreover, the relative persistence mirrors the policy and transition structure:
+the policy rule's smoothing (visible in the near-unit AR of the nominal rate) sustains the disinflationary environment,
+and the wage law with higher $\gamma $ transmits that persistence more strongly into quantities.
+The log's policy/transition matrix elements confirm that state dependence flows through the wage and employment stock:
+employment and matches carry large negative loadings into unemployment and vacancies,
+while lagged wages propagate into current wages and (via marginal cost) into inflation.
+This algebraic structure exactly underpins the visual ranking across the three contract lengths in the IRFs.
+
+Finally, note that all three runs are linearized around the same steady state.
+The zero steady state printed for the hat variables is by construction;
+what differs across the three IRF sets is the dynamic mapping, governed by $\gamma $,
+from the same shock to wages, marginal cost, and the job-creation condition.
+Hence, the substantive conclusions of Q2 concern propagation and persistence, not steady-state levels.
+The logs reaffirm that the solution is well-determined and the shock calibration corresponds to a 100 bp policy surprise,
+which is the correct magnitude to compare with the stylized Figure-1 experiment.
+
+\begin{table}[h!]
+  \centering
+  \begin{threeparttable}
+    \caption{Qualitative ordering of IRF amplitudes and persistence across contract lengths}
+    \label{tab:ordering}
+    \begin{tabular}{lccc}
+      \hline\hline
+      Variable & 2 months & 5 months & 12 months \\
+      \hline
+      Output $y$ (peak drop; persistence)        & smallest; shortest & medium; medium & largest; longest \\
+      Unemployment $u$ (rise; persistence)       & smallest; shortest & medium; medium & largest; longest \\
+      Vacancies $v$ (drop; persistence)          & smallest; shortest & medium; medium & largest; longest \\
+      Hours $h$ (drop; persistence)              & smallest; shortest & medium; medium & largest; longest \\
+      Real wage $w$ (on-impact fall)             & largest            & medium         & smallest \\
+      Inflation $\pi$ (fall; persistence)        & largest; shortest  & medium; medium & smallest; longest \\
+      Wage inflation $\pi_w$ (fall; persistence) & largest; shortest  & medium; medium & smallest; longest \\
+      \hline\hline
+    \end{tabular}
+    \begin{tablenotes}[flushleft]
+    \footnotesize
+    \item Notes: Ordering read directly from the three IRF sets (2m, 5m, 12m).
+    It reflects the RTM wage mechanism: higher $\gamma$ (longer contracts) reduces on-impact wage flexibility,
+    transferring adjustment to vacancies, hours, and employment.
+    Persistence rises with $\gamma$ because sluggish wages feed into marginal cost and,
+    via the NK Phillips curve and the persistent Taylor rule,
+    prolong both disinflation and real-side slack.
+    \end{tablenotes}
+  \end{threeparttable}
+\end{table}
+\FloatBarrier
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.9\textwidth]{CK08_fig1.pdf}
+    \caption{IRFs: RTM with 2-month wage contracts}
+    \label{fig:ck08-fig1}
+\end{figure}
+\FloatBarrier
+
+
+
+\section*{Q3.}
+
+\textcolor{blue}{A possible mistake}
+
+When trying to replicate Christoffel \& Kuester (2008) Fig.~2, I found probably a mistake in the original code from the professor, which I stated as below.
+
+In CK08's linearized surplus-sharing condition, the (log-linear) bargaining-power shock
+\(\widehat{\eta}_t\) enters \emph{additively} with constant coefficient:
+\[
+\underbrace{\widehat J^{\,*}_t + \widehat{dW}_t}_{\text{reset-time LHS}}
+\;=\;
+\underbrace{\widehat \Delta_t^{\, *} + \widehat{dF}_t}_{\text{reset-time RHS}}
+\;-\;\frac{1}{1-\eta}\,\widehat{\eta}_t .
+\tag{1}
+\]
+Under efficient bargaining (EB), where \(\widehat{dW}_t=\widehat{dF}_t\), this reduces to
+\[
+\widehat J^{\,*}_t \;=\; \widehat \Delta_t^{\, *} \;-\;\frac{1}{1-\eta}\,\widehat{\eta}_t .
+\tag{2}
+\]
+These are the EB replacements of the reset-time sharing FOC in the linearized system used for
+Fig.\ 2 of CK08.
+
+\paragraph{Why the original EB code is wrong.}
+In the original EB \texttt{.mod} file, the shock was embedded in the denominator and multiplied by a deviation variable (schematically):
+\[
+J^{*}_t \;=\; \Delta^{*}_t \;-\;\frac{1}{\,1-(\eta+\texttt{inno\_eta}_t)\,}\,n_t .
+\tag{3}
+\]
+A first-order (Dynare) linearization around the steady state \(n=0\) yields
+\[
+\frac{n_t}{1-(\eta+\texttt{inno\_eta}_t)}
+\;\approx\;
+\frac{n_t}{1-\eta}
+\;+\;
+\frac{n_t\,\texttt{inno\_eta}_t}{(1-\eta)^2},
+\]
+and the cross term \(n_t\cdot\texttt{inno\_eta}_t\) is \emph{second order} and thus dropped. Hence
+\(\partial/\partial\,\texttt{inno\_eta}_t\big|_{\text{SS}}=0\): the shock has \emph{no first-order effect} anywhere in the EB system.
+
+\paragraph{Fix (EB).}
+Implement the EB condition with the shock as an additive term:
+\[
+J^{*}_t \;=\; \Delta^{*}_t \;-\;\frac{1}{1-\eta}\,\texttt{inno\_eta}_t ,
+\tag{4}
+\]
+which matches the linearized EB equation (2) and ensures \(\texttt{inno\_eta}_t\) affects the model at first order.
+
+\begin{quote}
+In the \texttt{.mod} file, we change the EB wage block from
+% \begin{lstlisting}[language=Dynare]
+\texttt{$Jstar = Deltastar - (1/(1 - (eta + inno\_eta)))*n;$}
+% \end{lstlisting}
+to
+% \begin{lstlisting}[language=Dynare]
+\texttt{$Jstar = Deltastar - (1/(1-eta))*inno\_eta;$}
+% \end{lstlisting}
+\end{quote}
+
+And also to generate comparable IRFs, we set the same shock for RTM code as well.
+
+Our replication cleanly reproduces the core identification in Christoffel \& Kuester (2008):
+when nominal wages are fully flexible $(\gamma=0)$, a bargaining-power shock is (to a first-order approximation) an \emph{intra-match redistribution} under EB,
+but it acquires small \emph{aggregate} traction under RTM.
+
+First, under \textbf{Efficient Bargaining (EB)}, the Dynare log shows that the innovation to bargaining power $(\varepsilon_{\eta})$ loads only on the wage block:
+in the policy/transition mapping for $(y,u,w,\pi)$, the EB log prints non-zero responses exclusively in the $w$ column,
+with zeros in the output, unemployment, and inflation columns. 
+Econometrically, this is the neutrality of $\eta$ for quantities at first order:
+the wage-hours pair solves a joint surplus maximization,
+so the shift in bargaining weight re-splits surplus without disturbing the vacancy and hours conditions that pin down $y$, $u$, and $\pi$. 
+
+Second, under \textbf{Right-to-Manage (RTM)}, the firm sets hours given the negotiated wage;
+hence the wage becomes a marginal-cost shifter, with knock-on effects on labor demand, price-setting, and the resource constraint. 
+In our RTM log, the \texttt{inno\_eta} row displays small but non-zero loadings in the $y$ and $\pi$ columns (and typically in $w$, by construction),
+while the $u$ column can also move through the matching block. 
+
+Figure \ref{fig:ck08-fig2-eb-tfp} therefore matches the qualitative message of the original paper's Fig.~2:
+the bargaining-power shock under EB shows a pronounced increase in the real wage with negligible quantity responses,
+whereas under RTM the same shock produces modest declines in output and modest increases in unemployment together with a short-lived uptick in inflation,
+because the higher wage raises marginal cost and reduces hours/vacancy posting. 
+The alignment with the paper's design choices—monthly frequency, a one-time $\eta$ jump from 0.5 to 0.6,
+identical calibration targets across regimes, and $\gamma=0$ in both cases—is explicit in the original caption and reflected in our replication. 
+
+From a policy perspective, these patterns speak directly to the ``wage channel'' that the paper seeks to resuscitate:
+with fully flexible wages, EB largely insulates activity and prices from redistributive bargaining shocks,
+making this class of disturbances less relevant for stabilization;
+under RTM, the wage enters marginal cost and thus the New Keynesian Phillips mechanism,
+imparting small but non-zero aggregate effects. 
+
+In practice, the case for sizable unemployment fluctuations from wage disturbances requires nominal wage frictions $(\gamma>0)$,
+a point Christoffel \& Kuester emphasize by contrasting flexible-wage baselines with sticky-wage variants elsewhere in the paper. 
+Our flexible-wage replication thus correctly delivers muted quantity responses under EB and slightly larger—yet still limited—responses under RTM,
+consistent with the theoretical separation between surplus sharing and efficient hours choice under EB, and the firm's labor-demand margin under RTM.
+
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.9\textwidth]{CK08_Fig2_EB_TFP.pdf}
+    \caption{Increase in bargaining power—right-to-manage vs. efficient bargaining.}
+    \caption*{The panels report percent deviations from steady state at a monthly frequency following a one-time increase in workers' bargaining power from $0.5$ to $0.6$ at $t=0$. Horizon: 20 months. 
+    For comparability, nominal wage rigidity is switched off in both models ($\gamma=0$), and the EB calibration uses the same steady-state targets as in the RTM case.
+    Consistent with the model solution, the bargaining-power innovation loads only on the real wage under EB,
+    whereas under RTM the same innovation raises marginal costs and inflation and, via the policy rule,
+    depresses output and vacancies and increases unemployment.}
+    \label{fig:ck08-fig2-eb-tfp}
+\end{figure}
+\FloatBarrier
+
+
+
+\section*{Q4.}
+
+The three configurations isolate how \emph{per-match fixed costs} ($F$), summarized by the proportionality factor $A$,
+govern the amplification of monetary disturbances in an RTM model with search and matching.
+Conceptually, fixed costs depress steady-state labour profits and thereby make the \emph{percentage} fluctuation of profits very sensitive to a given movement in wages per employee.
+This is the core mechanism emphasized by Christoffel \& Kuester: ``accounting for fixed costs associated with maintaining an existing job greatly magnifies profit fluctuations for any given degree of wage fluctuations,''
+which in turn strengthens the hiring channel and the fluctuations of unemployment and vacancies.
+
+The impulse response functions (IRFs) demonstrate this mechanism clearly.
+For output ($y$), unemployment ($u$), vacancies ($v$), and hours ($h$), the magnitude and persistence of the response increase monotonically with $A$:
+the black (baseline, $A=17.92$) line shows the deepest output contraction, the largest rise in unemployment, and the strongest drop in vacancies;
+the red (no fixed costs, $A=1$) line shows the smallest real effects;
+and the green (intermediate, $A=10$) lies in between.
+This ranking is exactly what the fixed-cost mechanism predicts:
+a given policy-induced tightening reduces hiring more when job-related profits are small in steady state and highly elastic in percentage terms.
+
+Regarding inflation ($\pi$) and wage dynamics, inflation falls on impact in all cases,
+but the depth of the disinflation is slightly larger and the decay somewhat more persistent when $A$ is high.
+Intuitively, under RTM, the wage affects marginal costs directly;
+stronger contractions in hours and vacancies (high $A$) feed back into price-setting through the Phillips curve,
+making disinflation marginally more pronounced and persistent. This reflects the ``wage channel'' working in tandem with hiring frictions.
+
+For labour profits ($C^L$), the effect of $A$ is starkest.
+Comparing our two ``Q4 variants,'' the mapping from technology or policy states into $C^L$ scales up almost proportionally with the target $A$.
+In the policy/transition block, the coefficient on $z(-1)$ feeding into $C^L$ is roughly ten times larger in the $A=10$ file than in the low-$A$ file ($-7.28$ vs $-0.73$),
+which is exactly the calibration goal behind the $A$-factor: it multiplies percentage profit movements for given wage/production responses.
+This directly explains why the vacancy and unemployment IRFs widen as $A$ rises.
+
+The dynamics of the nominal rate ($R$) mainly reflect the policy rule's smoothing and the joint response of $\pi$ and $y$.
+Since the rule is unchanged across runs, differences are second-order and arise because higher $A$ slightly raises the real-side slack and disinflation,
+altering the feedback terms in the Taylor rule.
+
+For a monetary authority focused on inflation stabilization with a secondary mandate on real activity,
+the fixed-cost margin is a structural amplifier of policy transmission via the labour market.
+In economies or sectors where maintaining a match entails sizable fixed overheads (health insurance, overhead services, IT, space),
+a tightening that modestly compresses wages can precipitate large percentage swings in profits,
+thereby curtailing vacancies and raising unemployment more than in low-$F$ settings.
+This is precisely why the paper's RTM calibration uses a positive $\Phi$:
+it restores realistic volatility in unemployment \emph{without} relying on implausibly sticky new-hire wages.
+Our results replicate that logic: raising $A$ from $1$ to $10$ to $\sim 18$ progressively strengthens the hiring channel and deepens real-side responses to an identical monetary shock.
+
+At the same time, note that $A$ does \emph{not} substantially alter the slope of the price Phillips curve;
+it operates mainly through the profit--vacancy condition. Thus the inflation differences are smaller than the real differences—a pattern also obtained in the IRFs.
+This has an operational implication: given the same inflation objective,
+a central bank facing a high-$A$ labour market may see larger employment costs of disinflation and may optimally choose more gradualism or state-contingent communication to temper vacancy collapses while still achieving the price objective.
+
+\begin{figure}[t]
+  \centering
+  % Replace the filename if needed
+  \includegraphics[width=0.9\textwidth]{CK08_fig4.pdf}
+  \caption{Impulse responses to a monetary policy shock—the role of fixed costs}
+  \caption*{\textit{Notes:} Percentage deviations from steady state after a one-percentage-point monetary policy shock.
+  Black solid = RTM benchmark with fixed costs $\Phi_y=0.00863$ ($A=17.92$); red dashed = no fixed costs, $\Phi_y=0$ ($A=1$);
+  green dash-dotted = intermediate case $\Phi_y=0.008182$ ($A=10$).
+  The policy shock variance is $0.01$ in all runs.
+  The value $\Phi_y=0.008182$ is required to achieve $A=10$; using $0.0087$ (as stated under the original figure) would miss the target.
+  The provided RTM baseline file is calibrated at $\Phi_y=0.00863$ for $A=17.92$.}
+  \label{fig:ck08-fig4}
+\end{figure}
+
+\pagebreak
+
+\section*{\textcolor{blue}{Notes for Q6-Q8}}
+
+\begin{quote}\color{blue}
+While running the code for Q6 to Q8 from professor, I encountered non-positive Hessian matrix problem,
+thus the results are not robust and that Q8 will end with an error. Hence, I revised the original code \texttt{mode\_compute=4} to \texttt{mode\_compute=6},
+which uses csminwel with BFGS + strong line search that accumulates curvature information and corrects directions,
+so it can escape saddles and flat plateaus where simpler methods stall.
+It tends to converge to a true local maximum with a negative-definite Hessian,
+which is especially helpful in ill-conditioned settings like CK08 (many parameters, few observations, poor scaling).
+\end{quote}
+
+\begin{quote}\color{blue}
+However, after revising the code to \texttt{mode\_compute=6},
+I found out that it would give me different results each time I run the estimation.
+After searching on the Dynare forum, I found Johannes Pfeifer's reply to a same question,
+saying that this likely occurred because the algorithm did not reach the true posterior mode due to insufficient iterations,
+as the algorithm uses random starting points. But it will converge to almost the same mode if given enough iterations.
+Therefore I increased the iteration number from 10000 to 20000.
+After this change, repeated runs produce consistent results.
+\end{quote}
+
+\section*{Q6.}
+
+\textbf{Preferences and labor supply.}
+Risk aversion collapses to a very low posterior mode ($\sigma=0.1048$), implying a higher IES near $1/\sigma\approx 9.54$.
+Consumption is therefore more rate-sensitive,
+while external habit is extremely high ($h=0.9731$), restoring sluggishness and hump-shapes in spending.
+The inverse Frisch elasticity declines relative to CK08 ($\varphi=1.2222$ vs.\ $2$).
+Taken together, the preference block points to strongly rate-sensitive but heavily habit-smoothed consumption,
+with labor supply more elastic than in CK08 though not excessively so.
+
+\textbf{Matching and bargaining.}
+The matching elasticity falls markedly ($\xi=0.1870$) and worker bargaining power is low ($\eta=0.1725$), shifting surplus away from wages.
+The quarterly separation rate is below the CK08 quarterly analogue ($\vartheta=0.0792<0.0873$), implying longer job spells.
+This configuration mutes wage pressure arising from bargaining and reallocates adjustment away from job destruction toward other margins.
+
+\textbf{Nominal rigidities and indexation.}
+Price stickiness is moderate at the quarterly decision interval ($\omega=0.6430$, expected non-reset duration $\approx 1/(1-0.6430)=2.80$ quarters),
+whereas wage stickiness is lower ($\gamma=0.4431$, duration $\approx 1.79$ quarters).
+Crucially, wage \emph{indexation is full} ($\iota_w=1.0000$).
+Even with relatively flexible wages in the Calvo sense, full indexation transmits past inflation into wage dynamics,
+sustaining inflation persistence through the wage Phillips curve while permitting faster real-wage adjustment to shocks.
+
+\textbf{Policy rule and exogenous persistence.}
+The Taylor rule is more inertial and more aggressive on activity than CK08: $(\rho_R,\phi_\pi,\phi_y)=(0.9172,1.6902,1.3321)$.
+The high output coefficient implies sizable feedback of real activity into the policy rate alongside strong inflation stabilization.
+Technology persistence is moderate at the quarterly frequency ($\rho_z=0.7566$), closer to conventional values than earlier high-persistence estimates,
+while risk-premium persistence is low ($\rho_{eb}=0.4684$) and government spending persistence is high ($\rho_g=0.8135$).
+Money-growth shock persistence is small ($\rho_m=0.1412$),
+indicating that nominal dynamics are dominated by the rule and by structural rigidities rather than serially correlated money shocks.
+
+\textbf{Policy-relevant synthesis.}
+Relative to CK08, the updated posterior supports:
+
+(i) extremely high consumption smoothing via habits alongside very high IES;
+
+(ii) weaker matching elasticity and low worker bargaining power with slightly lower separations;
+
+(iii) moderate price stickiness, relatively flexible wages, but \emph{full} wage indexation that preserves inflation persistence;
+
+(iv) a policy rule that is highly inertial, strongly anti-inflationary, and unusually responsive to activity.
+
+The overall configuration downplays the classic CK08 “wage channel” based on wage rigidity,
+replacing it with \emph{indexation-driven} persistence on the nominal side and a policy mix that stabilizes inflation without requiring large,
+persistent real adjustments.
+
+\begin{table}[h!]
+\centering
+\begin{threeparttable}
+  \caption{Deep Parameters: CK08 Calibration vs.\ Q6 Posterior Modes (1977Q1--2018Q4)}
+  \label{tab:q6_deep}
+  \footnotesize
+  \setlength{\tabcolsep}{6pt}
+  \begin{tabular}{l l l c c}
+    \toprule
+    \multicolumn{1}{c}{Symbol} & \multicolumn{1}{c}{Description} & \multicolumn{1}{c}{Dynare name} & \multicolumn{1}{c}{CK08 (calibr.)} & \multicolumn{1}{c}{Q6 (post.\ mode)} \\
+    \midrule
+    \multicolumn{5}{l}{\textit{Preferences}}\\
+    $\sigma$ & Relative risk aversion (IES$=1/\sigma$) & \texttt{sig}   & 1.50 & 0.1048 \\
+    $h$      & External habit persistence               & \texttt{habit} & 0.70 & 0.9731 \\
+    $\varphi$ & Inverse Frisch elasticity               & \texttt{vphi}  & 2.00 & 1.2222 \\
+    \multicolumn{5}{l}{\textit{Matching / bargaining / nominal rigidities}}\\
+    $\xi$       & Matching elasticity wrt unemployment     & \texttt{xi}         & 0.50 & 0.1870 \\
+    $\eta$      & Workers' bargaining power                & \texttt{eta}        & 0.50 & 0.1725 \\
+    $\vartheta$ & Separation rate (quarterly)              & \texttt{vtheta}     & 0.09\tnote{a} & 0.0792 \\
+    $\omega$    & Calvo probability (prices)               & \texttt{omega}      & 0.4\tnote{b} & 0.6430 \\
+    $\gamma$    & Calvo probability (wages)                & \texttt{gamma}      & 0.5 & 0.4431 \\
+    $\iota_w$   & Wage indexation degree                   & \texttt{wage\_index}& 0 & 1.0000 \\
+    \multicolumn{5}{l}{\textit{Policy rule \& exogenous persistence (context)}}\\
+    $\rho_R$    & Interest-rate smoothing                  & \texttt{phi\_R}     & 0.85 & 0.9172 \\
+    $\phi_\pi$  & Response to inflation                    & \texttt{phi\_Pi}    & 1.50 & 1.6902 \\
+    $\phi_y$    & Response to (detrended) output           & \texttt{phi\_y}     & 0.50 & 1.3321 \\
+    $\rho_z$    & TFP persistence (quarterly)              & \texttt{rho\_z}     & 0.6712 & 0.7566 \\
+    $\rho_{eb}$ & Risk-premium (preference) persistence    & \texttt{rho\_eb}    & 0.90 & 0.4684 \\
+    $\rho_{g}$  & Government spending persistence          & \texttt{rho\_g}     & 0.7912 & 0.8135 \\
+    $\rho_{m}$  & Money-growth shock persistence           & \texttt{rho\_emoney}& 0 & 0.1412 \\
+    \bottomrule
+  \end{tabular}
+  \begin{tablenotes}[flushleft]
+  \footnotesize
+  \item \textit{Notes:} CK08 calibrations are from their Table~1. Preferences: $\sigma{=}1.5$, $v_\phi{=}2$, habit $=0.70$.
+  Matching/bargaining: $\xi{=}0.5$, $\eta{=}0.5$, monthly separation $W{=}0.03$, and monthly Calvo parameters $\gamma{=}\omega{=}0.80$
+  (five-month contracts; prices and wages share the same stickiness).
+  Policy: $(\phi_\pi,\phi_y,\phi_R){=}(1.5,0.5,0.85)$ at a quarterly frequency.
+  \item[a] CK08 set a \emph{monthly} separation rate $\vartheta=0.03$; the quarterly analogue is $1-(1-0.03)^3\approx0.0873$, we set it to 0.09.
+  \item[b] Oour calibration column for nominal rigidities uses a quarterly decision probability convention;
+  this implies a lower per-quarter Calvo parameter (about $0.40$) relative to CK08's month-based inputs.
+  Our Q6 estimates are directly from the quarterly estimation.
+  \end{tablenotes}
+\end{threeparttable}
+\end{table}
+\FloatBarrier
+
+
+\section*{Q7.}
+
+Relative to Q6, introducing hours reverses the nominal-rigidity split: \emph{price stickiness declines} while \emph{wage stickiness rises}.
+The price Calvo falls from $\omega=0.6430$ (Q6) to $0.4942$ (Q7), implying an expected non-reset duration of $\approx1.98$ quarters,
+whereas the wage Calvo increases from $\gamma=0.4431$ to $0.7331$ (duration $\approx3.74$ quarters).
+Wage indexation remains high but drops from full indexation to $\iota_w=0.7229$.
+Habits remain very strong but ease slightly ($h:~0.9731\to0.9378$).
+Risk aversion stays extremely low ($\sigma\simeq0.10$), and the inverse Frisch elasticity halves ($\varphi:~1.22\to0.63$), implying a more elastic labor supply.
+
+\textbf{Identification logic with hours.}
+Observing hours shifts the burden of matching the joint dynamics of $\{\pi,h,y,c\}$ toward the wage block:
+with a more elastic labor supply and higher wage Calvo,
+hours variability is reconciled with inflation persistence via \emph{wage rigidity plus indexation}, rather than via slow price adjustment.
+On the search side, the matching elasticity moves sharply upward ($\xi:~0.19\to 0.74$) and separations increase ($\vartheta:~0.079\to0.162$),
+producing stronger sensitivity of matches to labor-market tightness and shorter job spells.
+Bargaining power rises from a very low level ($\eta:~0.173\to 0.277$) but remains below the symmetric CK08 benchmark.
+
+\textbf{Persistence re-allocation.}
+Technology becomes more persistent ($\rho_z:~0.757\to0.892$) once hours replace the rate.
+Policy shifts to a \emph{highly inertial and hawkish} stance: $(\rho_R,\phi_\pi,\phi_y)=(0.967,\,2.539,\,0.215)$ versus Q6 $(0.917,\,1.690,\,1.332)$,
+i.e., much stronger emphasis on inflation, markedly less on output, and greater smoothing.
+Money-shock persistence rises ($\rho_m:~0.141\to0.379$), while risk-premium and spending persistence nudge higher and slightly lower, respectively.
+
+\textbf{Implications for the CK08 wage channel.}
+The configuration with \emph{stickier wages}, \emph{high indexation}, and \emph{less sticky prices} strengthens the CK08 wage channel:
+inflation persistence and marginal-cost dynamics are now anchored primarily in wage setting rather than in prices.
+Given the higher $\xi$ and $\vartheta$, adjustment relies more on wage inertia and matching flows, with less need for prolonged price contracts.
+
+\textbf{Policy interpretation.}
+With hours observed, the posterior supports a regime in which monetary policy reacts very forcefully to inflation and places little weight on the output gap,
+while smoothing remains high.
+Combined with elevated wage rigidity and indexation, this policy mix stabilizes inflation without requiring extreme price stickiness,
+allowing quantities and wages to bear more of the adjustment margin.
+The net effect is a model tilted toward a \emph{wage-dominant} nominal propagation mechanism once hours are included in the observable set.
+
+
+\begin{table}[h!]
+\centering
+\begin{threeparttable}
+  \caption{Deep Parameters: Q6 vs.\ Q7 Posterior Modes (1977Q1--2018Q4)}
+  \label{tab:q7_deep}
+  \footnotesize
+  \setlength{\tabcolsep}{6pt}
+  \begin{tabular}{l l l c c}
+    \toprule
+    \multicolumn{1}{c}{Symbol} & \multicolumn{1}{c}{Description} & \multicolumn{1}{c}{Dynare name} & \multicolumn{1}{c}{Q6 (post.\ mode)} & \multicolumn{1}{c}{Q7 (with \textit{labobs})} \\
+    \midrule
+    \multicolumn{5}{l}{\textit{Preferences}}\\
+    $\sigma$     & Relative risk aversion (IES$=1/\sigma$) & \texttt{sig}   & 0.1048 & 0.1015 \\
+    $h$          & External habit persistence               & \texttt{habit} & 0.9731 & 0.9378 \\
+    $\varphi$    & Inverse Frisch elasticity                & \texttt{vphi}  & 1.2222 & 0.6252 \\
+    \multicolumn{5}{l}{\textit{Matching / bargaining / nominal rigidities}}\\
+    $\xi$        & Matching elasticity wrt unemployment     & \texttt{xi}          & 0.1870 & 0.7427 \\
+    $\eta$       & Workers' bargaining power                & \texttt{eta}         & 0.1725 & 0.2766 \\
+    $\vartheta$  & Separation rate (quarterly)              & \texttt{vtheta}      & 0.0792 & 0.1616 \\
+    $\omega$     & Calvo probability (prices)               & \texttt{omega}       & 0.6430 & 0.4942 \\
+    $\gamma$     & Calvo probability (wages)                & \texttt{gamma}       & 0.4431 & 0.7331 \\
+    $\iota_w$    & Wage indexation degree                   & \texttt{wage\_index} & 1.0000 & 0.7229 \\
+    \multicolumn{5}{l}{\textit{Policy rule \& exogenous persistence (context)}}\\
+    $\rho_R$     & Interest-rate smoothing                  & \texttt{phi\_R}     & 0.9172 & 0.9673 \\
+    $\phi_\pi$   & Response to inflation                    & \texttt{phi\_Pi}    & 1.6902 & 2.5387 \\
+    $\phi_y$     & Response to (detrended) output           & \texttt{phi\_y}     & 1.3321 & 0.2150 \\
+    $\rho_z$     & TFP persistence (quarterly)              & \texttt{rho\_z}     & 0.7566 & 0.8922 \\
+    $\rho_{eb}$  & Risk-premium (preference) persistence    & \texttt{rho\_eb}    & 0.4684 & 0.5955 \\
+    $\rho_{g}$   & Government spending persistence          & \texttt{rho\_g}     & 0.8135 & 0.7826 \\
+    $\rho_{m}$   & Money-growth shock persistence           & \texttt{rho\_emoney}& 0.1412 & 0.3790 \\
+    \bottomrule
+  \end{tabular}
+  \begin{tablenotes}[flushleft]
+  \footnotesize
+  \item \textit{Notes:} Policy at the quarterly frequency uses $(\phi_\pi,\phi_y,\phi_R){=}(1.5,0.5,0.85)$.
+  Q7 column reports posterior \emph{modes} from our result with observables $(y,c,\pi,h)$ and one-sided HP for levels.
+  Relative to the benchmark with the short rate observable,
+  substituting hours re-allocates nominal inertia from wages to prices,
+  strengthens policy inertia, and brings $\rho_z$ closer to conventional quarterly values.
+  \end{tablenotes}
+\end{threeparttable}
+\end{table}
+% \FloatBarrier
+
+
+
+\section*{Q8.}
+
+\textbf{Nominal rigidities.}
+Full Bayes shifts the price block modestly upward relative to the Q6 mode: $\omega$ increases from $0.6430$ to a mean $0.6757$ (90\% HPD $[0.6251,0.7199]$).
+Wage rigidity is essentially unchanged on average, at a mean $\gamma=0.4465$ ($[0.3548,0.5695]$) versus the Q6 mode $0.4431$.
+With near-\emph{full} wage indexation ($\iota_w=0.9946$; upper HPD bound at $1.0000$),
+inflation persistence in the nominal side is maintained primarily through indexation rather than unusually large Calvo hazards.
+In terms of CK08's monthly five-month benchmark, the quarterly mapping remains: price rigidity moderately high;
+wage rigidity moderate; wage indexation almost complete.
+
+\textbf{Preferences.}
+The posterior mean risk aversion rises relative to the Q6 mode but remains very low in absolute terms ($\sigma=0.2057$; $[0.1134,0.3110]$), implying a high IES.
+Habit remains extremely strong ($h=0.9471$; $[0.9204,0.9741]$).
+The inverse Frisch elasticity shifts \emph{up} to a mean of $2.0365$ ($[0.8272,3.3436]$) from $1.2222$ at the Q6 mode,
+pointing to a less elastic labor supply on average—tempering hours' volatility while leaving consumption persistence governed by habits.
+
+\textbf{Matching and bargaining.}
+Relative to the Q6 modes, the posterior mean moves toward a steeper response of matches to unemployment ($\xi=0.3199$ vs.\ $0.1870$) but lower worker bargaining power ($\eta=0.0999$ vs.\ $0.1725$).
+Quarterly separations edge down ($\vartheta=0.0669$ vs.\ $0.0792$), lengthening average job spells.
+Taken together, labor-market adjustment leans more on vacancy tightness and less on bargaining,
+consistent with a wage block where persistence is delivered by indexation.
+
+\textbf{Monetary policy.}
+The inflation coefficient remains clearly active but drifts slightly \emph{down} in mean ($\phi_\pi=1.6723$ vs.\ $1.6902$ in Q6),
+while interest-rate smoothing rises ($\rho_R=0.9236$ vs.\ $0.9172$) and the output weight increases meaningfully ($\phi_y=1.4848$ vs.\ $1.3321$).
+This configuration is consistent with the nominal side:
+modestly stickier prices and nearly full wage indexation can be stabilized with an active yet smoothed rule that puts greater weight on activity.
+
+\textbf{Shock persistence.}
+Technology becomes somewhat more persistent ($\rho_z=0.7919$; $[0.7369,0.8409]$) than at the Q6 mode ($0.7566$) but remains well below the very-high values seen in earlier samples.
+Risk-premium and government-spending persistence are close to Q6.
+Money-growth shock persistence is small ($\rho_m=0.1332$), indicating that serial correlation in policy shocks plays a limited role relative to the rule and structural frictions.
+
+\textbf{Bottom line.}
+Relative to the Q6 modes, full Bayes primarily
+
+(i) nudges price stickiness higher while keeping wage stickiness similar,
+
+(ii) confirms near-full wage indexation,
+
+(iii) raises inverse Frisch curvature and keeps risk aversion low with very strong habits,
+
+(iv) tilts the labor market toward stronger tightness elasticity but weaker bargaining, and
+
+(v) supports a policy rule that is active, smoother, and more responsive to activity.
+
+The overall propagation remains \emph{wage-indexation-driven} on the nominal side,
+with prices moderately sticky and wages moderately sticky but highly indexed—features that align with persistent inflation dynamics without requiring extreme real adjustments.
+
+
+\begin{table}[h!]
+\centering
+\begin{threeparttable}
+  \caption{Deep Parameters: Q6 (mode) vs.\ Q8 (RWMH posterior mean)}
+  \label{tab:q8_vs_q6_params}
+  \footnotesize
+  \setlength{\tabcolsep}{6pt}
+  \begin{tabular}{l l l c c}
+    \toprule
+    \multicolumn{1}{c}{Symbol} & \multicolumn{1}{c}{Description} & \multicolumn{1}{c}{Dynare name} & \multicolumn{1}{c}{Q6 (mode)} & \multicolumn{1}{c}{Q8 (mean; 90\% HPD)} \\
+    \midrule
+    \multicolumn{5}{l}{\textit{Preferences}}\\
+    $\sigma$     & Relative risk aversion (IES$=1/\sigma$) & \texttt{sig}   & 0.1048 & 0.2057 \,[0.1134,\,0.3110] \\
+    $h$          & External habit persistence               & \texttt{habit} & 0.9731 & 0.9471 \,[0.9204,\,0.9741] \\
+    $\varphi$    & Inverse Frisch elasticity                & \texttt{vphi}  & 1.2222 & 2.0365 \,[0.8272,\,3.3436] \\
+    \addlinespace[2pt]
+    \multicolumn{5}{l}{\textit{Matching / bargaining / nominal rigidities}}\\
+    $\xi$        & Matching elasticity wrt unemployment     & \texttt{xi}          & 0.1870 & 0.3199 \,[0.1591,\,0.5504] \\
+    $\eta$       & Workers' bargaining power                & \texttt{eta}         & 0.1725 & 0.0999 \,[0.0332,\,0.1851] \\
+    $\vartheta$  & Separation rate (quarterly)              & \texttt{vtheta}      & 0.0792 & 0.0669 \,[0.0466,\,0.0830] \\
+    $\omega$     & Calvo probability (prices)               & \texttt{omega}       & 0.6430 & 0.6757 \,[0.6251,\,0.7199] \\
+    $\gamma$     & Calvo probability (wages)                & \texttt{gamma}       & 0.4431 & 0.4465 \,[0.3548,\,0.5695] \\
+    $\iota_w$    & Wage indexation degree                   & \texttt{wage\_index} & 1.0000 & 0.9946 \,[0.9868,\,1.0000] \\
+    \addlinespace[2pt]
+    \multicolumn{5}{l}{\textit{Policy rule \& exogenous persistence (context)}}\\
+    $\rho_R$     & Interest-rate smoothing                  & \texttt{phi\_R}      & 0.9172 & 0.9236 \,[0.9057,\,0.9430] \\
+    $\phi_\pi$   & Response to inflation                    & \texttt{phi\_Pi}     & 1.6902 & 1.6723 \,[1.5030,\,1.8565] \\
+    $\phi_y$     & Response to (detrended) output           & \texttt{phi\_y}      & 1.3321 & 1.4848 \,[1.1955,\,1.8715] \\
+    $\rho_z$     & TFP persistence (quarterly)              & \texttt{rho\_z}      & 0.7566 & 0.7919 \,[0.7369,\,0.8409] \\
+    $\rho_{eb}$  & Risk-premium (preference) persistence    & \texttt{rho\_eb}     & 0.4684 & 0.4859 \,[0.4182,\,0.5433] \\
+    $\rho_{g}$   & Government spending persistence          & \texttt{rho\_g}      & 0.8135 & 0.8155 \,[0.7607,\,0.8710] \\
+    $\rho_{m}$   & Money-growth shock persistence           & \texttt{rho\_emoney} & 0.1412 & 0.1332 \,[0.0779,\,0.1978] \\
+    \bottomrule
+  \end{tabular}
+  \begin{tablenotes}[flushleft]
+    \footnotesize
+    \item \textit{Notes:} We report CK08's commonly used benchmark values for nominal rigidities and preferences.
+    ``Q6(mode)'' are posterior modes from a Laplace approximation.
+    ``Q8(mean)'' are RWMH posterior means with 90\% HPD intervals from two chains.
+  \end{tablenotes}
+\end{threeparttable}
+\end{table}
+
+
+
+\end{document}
