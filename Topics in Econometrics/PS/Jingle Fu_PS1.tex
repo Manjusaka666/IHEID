@@ -1,0 +1,672 @@
+\documentclass[a4paper,12pt]{article} % This defines the style of your paper
+
+\usepackage[top = 2.5cm, bottom = 2.5cm, left = 2.5cm, right = 2.5cm]{geometry} 
+
+% Unfortunately, LaTeX has a hard time interpreting German Umlaute. The following two lines and packages should help. If it doesn't work for you please let me know.
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{pifont}
+% \usepackage{ctex}
+\usepackage{amsthm, amsmath, amssymb, mathrsfs,mathtools}
+
+% Defining a new theorem style without italics
+\newtheoremstyle{nonitalic}% name
+  {\topsep}% Space above
+  {\topsep}% Space below
+  {\upshape}% Body font
+  {}% Indent amount
+  {\bfseries}% Theorem head font
+  {.}% Punctuation after theorem head
+  {.5em}% Space after theorem head
+  {}% Theorem head spec (can be left empty, meaning ‘normal`)
+  
+\theoremstyle{nonitalic}
+% Define new 'solution' environment
+\newtheorem{innercustomsol}{Solution}
+\newenvironment{solution}[1]
+  {\renewcommand\theinnercustomsol{#1}\innercustomsol}
+  {\endinnercustomsol}
+
+% Custom counter for the solutions
+\newcounter{solutionctr}
+\renewcommand{\thesolutionctr}{(\alph{solutionctr})}
+
+% Environment for auto-numbering with custom format
+\newenvironment{autosolution}
+  {\stepcounter{solutionctr}\begin{solution}{\thesolutionctr}}
+  {\end{solution}}
+
+
+\newtheorem{problem}{Problem}
+\usepackage{color}
+
+% The following two packages - multirow and booktabs - are needed to create nice looking tables.
+\usepackage{multirow} % Multirow is for tables with multiple rows within one cell.
+\usepackage{booktabs} % For even nicer tables.
+
+% As we usually want to include some plots (.pdf files) we need a package for that.
+\usepackage{graphicx} 
+\usepackage{subfigure}
+
+
+% The default setting of LaTeX is to indent new paragraphs. This is useful for articles. But not really nice for homework problem sets. The following command sets the indent to 0.
+\usepackage{setspace}
+\setlength{\parindent}{0in}
+\usepackage{longtable}
+
+% Package to place figures where you want them.
+\usepackage{float}
+
+% The fancyhdr package let's us create nice headers.
+\usepackage{fancyhdr}
+
+\usepackage{fancyvrb}
+
+%Code environment 
+\usepackage{listings} % Required for insertion of code
+\usepackage{xcolor} % Required for custom colors
+
+% Define colors for code listing
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+
+% Code listing style named "mystyle"
+\lstdefinestyle{mystyle}{
+    backgroundcolor=\color{backcolour},   
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{magenta},
+    numberstyle=\tiny\color{codegray},
+    stringstyle=\color{codepurple},
+    basicstyle=\ttfamily\footnotesize, % Change to serif font
+    breakatwhitespace=false,         
+    breaklines=true,                 
+    captionpos=b,                    
+    keepspaces=true,                 
+    numbers=left,                    
+    numbersep=5pt,                  
+    showspaces=false,                
+    showstringspaces=false,
+    showtabs=false,                  
+    tabsize=2
+}
+
+\lstset{style=mystyle}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 3. Header (and Footer)
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% To make our document nice we want a header and number the pages in the footer.
+
+\pagestyle{fancy} % With this command we can customize the header style.
+
+\fancyhf{} % This makes sure we do not have other information in our header or footer.
+
+\lhead{\footnotesize EI035 Econometrics II}% \lhead puts text in the top left corner. \footnotesize sets our font to a smaller size.
+
+%\rhead works just like \lhead (you can also use \chead)
+\rhead{\footnotesize Jingle Fu} %<---- Fill in your lastnames.
+
+% Similar commands work for the footer (\lfoot, \cfoot and \rfoot).
+% We want to put our page number in the center.
+\cfoot{\footnotesize \thepage}
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\begin{document}
+
+
+\thispagestyle{empty} % This command disables the header on the first page. 
+
+\begin{tabular}{p{15.5cm}} % This is a simple tabular environment to align your text nicely 
+  {\large \bf EI035 Econometrics II}                 \\
+  The Graduate Institute, Spring 2025, Marko Mlikota \\
+  \hline % \hline produces horizontal lines.
+  \\
+\end{tabular} % Our tabular environment ends here.
+
+\vspace*{0.3cm} % Now we want to add some vertical space in between the line and our title.
+
+\begin{center} % Everything within the center environment is centered.
+  {\Large \bf PS1 Solutions} % <---- Don't forget to put in the right number
+  \vspace{2mm}
+
+  % YOUR NAMES GO HERE
+  {\bf Jingle Fu} % <---- Fill in your names here!
+
+\end{center}
+
+\vspace{0.4cm}
+\setstretch{1.2}
+
+
+\section*{Problem 1: Bayesian inference in a stationary AR(1)}
+
+% \begin{autosolution}
+%   \
+
+\paragraph{Model.}
+We observe a stationary AR(1) initialized in the infinite past,
+\begin{equation*}
+  y_t=\phi\,y_{t-1}+u_t,\qquad u_t\stackrel{\text{i.i.d.}}{\sim}\mathcal N(0,1),\quad |\phi|<1,
+\end{equation*}
+with prior $\phi\sim \text{Unif}(-1,1)$.
+% Let $Y_{1:T}=(y_1,\dots,y_T)'$ and define the sufficient statistics
+% \begin{equation*}
+%   S_{yy}=\sum_{t=1}^T y_t^2,\qquad S_{y y_-}=\sum_{t=1}^T y_t y_{t-1},\qquad S_{y_-y_-}=\sum_{t=1}^T y_{t-1}^2.
+% \end{equation*}
+
+\subsection*{(a) Conditional and unconditional likelihoods}
+From the model \( y_t \mid y_{t-1}, \phi \sim \mathcal{N} (\phi y_{t-1}, 1) \), we have:
+\[
+  p(y_t \mid y_{t-1}, \phi)
+  = (2\pi)^{-1/2} \exp\left\{-\frac{1}{2}(y_t - \phi y_{t-1})^2\right\}.
+\]
+Given the Markov property of the AR(1) process,
+the joint density of the sample conditional on \( y_0 \) is the product of the conditional densities:
+\[
+  \begin{aligned}
+    p(Y_{1:T} \mid \phi, y_0)
+     & = \prod_{t=1}^{T} p(y_t \mid y_{t-1}, \phi)        \\
+     & = \prod_{t=1}^{T} (2\pi)^{-1/2}
+    \exp\left\{-\frac{1}{2}(y_t - \phi y_{t-1})^2\right\} \\
+     & = (2\pi)^{-T/2}
+    \exp\left\{-\frac{1}{2} \sum_{t=1}^{T} (y_t - \phi y_{t-1})^2\right\}.
+  \end{aligned}
+\]
+
+The unconditional likelihood treats \( y_0 \) as a random variable.
+Since the process is stationary (\(|\phi| < 1\)) and initialized in the infinite past, the unconditional distribution is:
+\[
+  y_0 \mid \phi \sim \mathcal{N} \left(0, \frac{1}{1 - \phi^2}\right).
+\]
+Thus,
+\[
+  p(y_0 \mid \phi)
+  = \left(\frac{1 - \phi^2}{2\pi}\right)^{1/2}
+  \exp\left\{-\frac{1}{2}(1 - \phi^2) y_0^2\right\}.
+\]
+
+The unconditional likelihood is then:
+\[
+  \begin{aligned}
+    p(Y_{1:T}, y_0 \mid \phi)
+     & = p(Y_{1:T} \mid \phi, y_0)\, p(y_0 \mid \phi) \\
+     & = (2\pi)^{-T/2}
+    \exp\left\{-\frac{1}{2} \sum_{t=1}^{T} (y_t - \phi y_{t-1})^2\right\}
+    \left(\frac{1 - \phi^2}{2\pi}\right)^{1/2}
+    \exp\left\{-\frac{1}{2}(1 - \phi^2) y_0^2\right\} \\
+     & = (2\pi)^{-(T+1)/2} (1 - \phi^2)^{1/2}
+    \exp\left\{-\frac{1}{2} \left[
+      \sum_{t=1}^{T} (y_t - \phi y_{t-1})^2
+      + (1 - \phi^2) y_0^2
+      \right]\right\}.
+  \end{aligned}
+\]
+
+\subsection*{(b) Posterior (conditional likelihood + uniform prior)}
+The posterior is proportional to the likelihood times the prior:
+\[
+  p(\phi \mid Y_{1:T}, y_0)
+  \propto p(Y_{1:T} \mid \phi, y_0)\, p(\phi).
+\]
+Substituting the expressions:
+\begin{align*}
+  p(\phi \mid Y_{1:T}, y_0)
+   & \propto
+  \left[
+    (2\pi)^{-T/2}
+    \exp\left\{-\frac{1}{2}
+    \sum_{t=1}^{T} (y_t - \phi y_{t-1})^2\right\}
+    \right]
+  \left[
+    \frac{1}{2} \mathbf{1}\{-1 < \phi < 1\}
+  \right]                     \\
+   & \propto
+  \exp\left\{-\frac{1}{2}
+  \sum_{t=1}^{T} (y_t - \phi y_{t-1})^2\right\}
+  \mathbf{1}\{-1 < \phi < 1\} \\
+   & \propto
+  \exp\left\{
+  -\frac{1}{2} \left[
+    \left(\sum_{t} y_{t- 1}^2\right) \phi ^2
+    - 2 \left(\sum_{t} y_t y_{t-1}\right) \phi\right]
+  \right\}
+  \mathbf{1}\{-1 < \phi < 1\}.
+\end{align*}
+
+% Expand the sum in the exponent:
+% \[
+%   \begin{aligned}
+%     \sum_{t=1}^{T} (y_t - \phi y_{t-1})^2
+%      & = \sum_{t=1}^{T} \left(y_t^2 - 2\phi y_t y_{t-1}
+%     + \phi^2 y_{t-1}^2\right)                           \\
+%      & = \sum y_t^2 - 2\phi \sum y_t y_{t-1}
+%     + \phi^2 \sum y_{t-1}^2.
+%   \end{aligned}
+% \]
+% Define:
+% \[
+%   S_{yy} = \sum_{t=1}^{T} y_t^2, \quad
+%   S_{y-1y-1} = \sum_{t=1}^{T} y_{t-1}^2, \quad
+%   S_{yy-1} = \sum_{t=1}^{T} y_t y_{t-1}.
+% \]
+% Then,
+% \[
+%   p(\phi \mid Y_{1:T}, y_0)
+%   \propto
+%   -\frac{1}{2} \left[
+%     \phi^2 S_{y-1y-1}
+%     - 2\phi S_{yy-1}
+%     + S_{yy}
+%     \right].
+% \]
+% This is a quadratic in \( \phi \). We can complete the square:
+% \[
+%   \begin{aligned}
+%     \phi^2 S_{y-1y-1} - 2\phi S_{yy-1}
+%      & = S_{y-1y-1} \left(
+%     \phi^2 - 2\phi \frac{S_{yy-1}}{S_{y-1y-1}}
+%     \right)                \\
+%      & = S_{y-1y-1} \left[
+%       \left(\phi - \frac{S_{yy-1}}{S_{y-1y-1}} \right)^2
+%       - \left(\frac{S_{yy-1}}{S_{y-1y-1}}\right)^2
+%       \right].
+%   \end{aligned}
+% \]
+% Thus, the exponent is:
+% \[
+%   -\frac{1}{2} S_{y-1y-1}
+%   \left(\phi - \frac{S_{yy-1}}{S_{y-1y-1}} \right)^2
+%   + \text{terms independent of } \phi.
+% \]
+Let:
+\[
+  \hat{\phi}_{ML}  = \frac{\sum_{t = 1}^{T} y_{t-1} y_t}{\sum_{t = 1}^{T} y_{t-1}^2}, \quad
+  V = \frac{1}{\sum_{t = 1}^{T} y_{t-1}^2}.
+\]
+Then the posterior is proportional to:
+\begin{align*}
+  p(\phi \mid Y_{1:T}, y_0)
+   & \propto
+  \exp\left\{
+  -\frac{1}{2V} (\phi - \hat{\phi}_{ML} )^2
+  \right\} \mathbf{1}\{-1 < \phi < 1\}.
+\end{align*}
+
+The full normalized posterior density is:
+\[
+  p(\phi \mid Y_{1:T}, y_0)
+  = \frac{
+    \frac{1}{\sqrt{2\pi V}}
+    \exp\left\{
+    -\frac{1}{2V} (\phi - \hat{\phi}_{ML} )^2
+    \right\}
+    \mathbf{1}\{-1 < \phi < 1\}
+  }{
+    \int_{-1}^{1}
+    \frac{1}{\sqrt{2\pi V}}
+    \exp\left\{
+    -\frac{1}{2V} (x - \hat{\phi}_{ML} )^2
+    \right\} dx
+  }.
+\]
+The denominator is the probability that a
+\(\mathcal{N} (\hat{\phi}_{ML} , V)\) random variable falls in \((-1,1)\),
+which we can write as:
+\[
+  P ( - 1 < \phi < 1) = \Phi\left( \frac{1 - \hat{\phi}_{ML} }{\sqrt{V}} \right)
+  - \Phi\left( \frac{-1 - \hat{\phi}_{ML} }{\sqrt{V}} \right),
+\]
+where \( \Phi(\cdot) \) is the standard Normal CDF.
+
+Then the posterior density is:
+\[
+  p(\phi \mid Y_{1:T}, y_0)
+  = \frac{
+    \frac{1}{\sqrt{2\pi V}}
+    \exp\left\{
+    -\frac{1}{2V} (\phi - \hat{\phi}_{ML} )^2
+    \right\}
+  }{
+    \Phi\left( \frac{1 - \hat{\phi}_{ML} }{\sqrt{V}} \right)
+    - \Phi\left( \frac{-1 - \hat{\phi}_{ML} }{\sqrt{V}} \right)
+  }
+  \mathbf{1}\{-1 < \phi < 1\}.
+\]
+
+If we used an improper prior \( p(\phi) \propto c \), the posterior would be:
+\[
+  p(\phi \mid Y_{1:T}, y_0)
+  \propto
+  \exp\left\{
+  -\frac{1}{2V} (\phi - \hat{\phi}_{ML} )^2
+  \right\},
+\]
+which is the kernel of an \emph{unrestricted}
+\(\mathcal{N}(\hat{\phi}_{ML}, V)\) distribution.
+% Our proper uniform prior \(\mathbf{1}\{-1 < \phi < 1\}\)
+% simply truncates this Normal distribution to the stationary region.
+% This incorporates the domain knowledge that \( |\phi| < 1 \).
+
+\subsection*{(c) 95\% credible set under $|\phi|<1$}
+We are given:
+\[
+  \hat{\phi}_{ML}  = 0.95, \qquad
+  \sum y_t y_{t-1} = 20.
+\]
+From the definition:
+\[
+  \hat{\phi}_{ML}
+  = \frac{\sum_{t=1}^{T} y_t y_{t-1}}{\sum_{t=1}^{T} y_{t-1}^2}
+  \quad \Rightarrow \quad
+  \sum_{t=1}^{T} y_{t-1}^2
+  = \frac{\sum_{t=1}^{T} y_t y_{t-1}}{\hat{\phi}_{ML} }
+  = \frac{20}{0.95}
+  \approx 21.0526.
+\]
+The posterior variance is:
+\[
+  V = \frac{1}{\sum_{t=1}^{T} y_{t-1}^2}
+  \approx \frac{1}{21.0526}
+  \approx 0.0475.
+\]
+So the posterior is
+\(\phi \mid Y \sim \mathcal{N} (0.95, 0.0475)\)
+truncated to \((-1, 1)\).
+
+A 95\% credible set is an interval \([a, b]\) such that:
+\[
+  \mathbb{P}(a \leq \phi \leq b \mid Y) = 0.95.
+\]
+% For a unimodal and symmetric posterior (like the truncated Normal, especially when the mean is near the center),
+% the Highest Posterior Density (HPD) interval is the shortest such interval.
+Since our posterior is a truncated Normal and the mean (0.95) is close to the upper truncation point (1),
+the HPD interval will not be symmetric.
+
+% We want to find \( a \) such that:
+% \[
+%   \mathbb{P}(\phi \geq a \mid Y) = 0.95.
+% \]
+% This is equivalent to the 5th percentile of the posterior.
+Let \( F_{\text{TN}}^{-1} \) be the inverse CDF of the truncated Normal. Then:
+\[
+  a = F_{\text{TN}}^{-1}(0.05), \qquad
+  b = 1,
+\]
+since the density is decreasing beyond the mean towards 1.
+
+Let \( \mu = 0.95 \),
+\( \sigma = \sqrt{V} \approx \sqrt{0.0475} \approx 0.2179 \).
+The CDF of the truncated Normal is:
+\[
+  F_{\text{TN}}(x)
+  = \frac{
+    \Phi\left( \frac{x - \mu}{\sigma} \right)
+    - \Phi\left( \frac{-1 - \mu}{\sigma} \right)
+  }{
+    \Phi\left( \frac{1 - \mu}{\sigma} \right)
+    - \Phi\left( \frac{-1 - \mu}{\sigma} \right)
+  }.
+\]
+We want \( F_{\text{TN}}(a) = 0.05 \).
+
+First, compute the denominator (normalization constant):
+\[
+  \Phi\left( \frac{1 - 0.95}{0.2179} \right)
+  - \Phi\left( \frac{-1 - 0.95}{0.2179} \right)
+  = \Phi(0.2294) - \Phi(-8.947)
+  \approx 0.5907 - 0
+  = 0.5907.
+\]
+Now,
+\[
+  F_{\text{TN}}(a)
+  = \frac{
+    \Phi\left( \frac{a - 0.95}{0.2179} \right) - 0
+  }{
+    0.5907
+  }
+  = 0.05
+  \quad \Rightarrow \quad
+  \Phi\left( \frac{a - 0.95}{0.2179} \right)
+  = 0.05 \times 0.5907
+  \approx 0.02954.
+\]
+Then
+\[
+  \frac{a - 0.95}{0.2179}
+  = \Phi^{-1}(0.02954)
+  \approx -1.89
+  \quad \Rightarrow \quad
+  a \approx 0.95 - 1.89 \times 0.2179
+  \approx 0.538.
+\]
+Thus, the 95\% credible set is approximately
+\[
+  [0.538, 1].
+\]
+
+\subsection*{(d) Impact of using the unconditional likelihood}
+If we use the unconditional likelihood \( p(Y_{1:T}, y_0 \mid \phi) \), the posterior becomes:
+\[
+  p(\phi \mid Y_{1:T}, y_0)
+  \propto
+  p(Y_{1:T}, y_0 \mid \phi)\, p(\phi).
+\]
+Substituting the expression from part (a):
+\[
+  p(\phi \mid Y_{1:T}, y_0)
+  \propto
+  (1 - \phi^2)^{1/2}
+  \exp\left\{
+  -\frac{1}{2} \left[
+    \sum_{t=1}^{T} (y_t - \phi y_{t-1})^2
+    + (1 - \phi^2) y_0^2
+    \right]
+  \right\}
+  \mathbf{1}\{-1 < \phi < 1\}.
+\]
+The term \( (1 - \phi^2)^{1/2} \) and the extra term
+\( (1 - \phi^2) y_0^2 \) in the exponent mean the posterior is no longer a truncated Normal distribution.
+The kernel is not a simple exponential of a quadratic in \( \phi \). This makes analytical derivation of the posterior impossible.
+We would have to resort to numerical methods (e.g., importance sampling, MCMC) to approximate the posterior distribution.
+In large $T$, the additional term is $O_p(1)$ and differences vanish asymptotically.
+
+% \end{autosolution}
+
+
+
+\section*{Problem 2: Bayesian model selection in a Gaussian LM}
+
+\begin{autosolution}
+  \
+
+  Data: $y = X_k\beta_k + u$, with $u\sim\mathcal N(0,I_n)$ and prior $\beta_k\sim\mathcal N(0,I_k)$.
+  We consider nested models $M_k$ using the first $k$ columns of $X$ for $k=1,\dots,10$.
+  The marginal likelihood is
+  \begin{equation*}
+    p(y\mid M_k)=\mathcal N\!\big(y\mid 0,\;I_n+X_kX_k'\big).
+  \end{equation*}
+  Using determinant and Woodbury identities leads to the numerically stable form
+  \begin{equation*}
+    \log p(y\mid M_k)= -\tfrac n2\log(2\pi)-\tfrac12\log\!\big|I_k+X_k'X_k\big|
+    -\tfrac12\Big(y'y - y'X_k\,(I_k+X_k'X_k)^{-1}X_k'y\Big).
+  \end{equation*}
+  With equal model priors, posterior model probabilities are proportional to $p(y\mid M_k)$.
+
+  Following the instruction to do a \emph{thin QR} on a Gaussian design matrix \(Z\) and use the \(Q\) factor as \(X\), the \(k\) columns of \(X_k\) are orthonormal:
+  \[
+    X_k' X_k = I_k.
+  \]
+  Plugging this into the marginal likelihood yields a transparent model-comparison score:
+  \[
+    \log p(y \mid M_k)
+    = \text{const}
+    \;+\; \underbrace{\tfrac14 \sum_{j=1}^k (x_j' y)^2}_{\text{fit gain}}
+    \;-\; \underbrace{\tfrac{k}{2} \log 2}_{\text{Occam penalty}}.
+  \]
+  Thus, moving from model \(k-1\) to model \(k\) changes the score by
+  \[
+    \Delta_k
+    = \tfrac14 (x_k' y)^2
+    - \tfrac12 \log 2.
+  \]
+
+  % Under the \emph{null column} (\(\beta_j = 0\)), we have
+  % \[
+  %   x_j' y \sim \mathcal{N}(0,1),
+  %   \quad\Rightarrow\quad
+  %   \mathbb{E}[\Delta_k]
+  %   = \frac14 \cdot 1
+  %   - \frac12 \log 2
+  %   \approx -0.0966 < 0.
+  % \]
+
+  % Under a \emph{true column} with \(\beta_j = 0.5\), we have
+  % \[
+  %   x_j' y \sim \mathcal{N}(0.5,1),
+  %   \quad\Rightarrow\quad
+  %   \mathbb{E}[\Delta_k]
+  %   = \frac14 (1 + 0.5^2)
+  %   - \frac12 \log 2
+  %   \approx -0.0316 < 0.
+  % \]
+
+  % \paragraph{Simulation protocol.}
+  % For each $n\in\{50,100,500\}$:
+  % (i) Generate $Z\sim\mathcal N(0,1)^{n\times 10}$ and compute a \emph{thin QR} to obtain $X$ with orthonormal columns;
+  % (ii) Set the true coefficient vector $\beta=(0.5,0.5,0.5,0.5,0,\dots,0)$ ($k_0=4$);
+  % (iii) Repeat $M=1000$ times: draw $y = X\beta + \varepsilon$ with $\varepsilon\sim\mathcal N(0,I)$,
+  % compute $\log p(y\mid M_k)$ for $k=1,\dots,10$, convert to posterior model probabilities, record the top model and average posteriors.
+  % We report selection frequencies and average posterior probabilities for each $k$.
+
+  % \paragraph{Asymptotic intuition.}
+  % A Laplace/BIC expansion gives $\log p(y\mid M_k)\approx \log L(\hat\beta_k)-\tfrac{k}{2}\log n+O(1)$.
+  % Underspecified models lose exponentially fast in $n$; overspecified models suffer a $\tfrac{k}{2}\log n$ penalty.
+  % With fixed $k_{\max}$, posterior mass concentrates on $M_{k_0}$ as $n\to\infty$.
+
+  \input{PS1_avg_posterior.tex}
+  \input{PS1_freq_selected.tex}
+
+
+  % \textbf{Key implication.}
+  % With a unit-variance prior \(\beta \sim \mathcal{N}(0, I)\) and orthonormal \(X\),
+  % the expected gain from adding a regressor is negative on average \emph{even when it is truly relevant} (here \(\beta_j = 0.5\) is too small relative to the Occam factor \(\tfrac12 \log 2\)).
+  % Hence, the Bayes factor systematically favors smaller \(k\).
+  % This matches the simulation tables: both the posterior mass and the winning-model frequency decline with \(k\), and \(k = 1\) wins most often.
+
+  \textbf{Asymptotic behavior of the posterior model probabilities.}
+
+  With this particular design (thin-QR \(X\) so that \(X' X = I\) for every \(n\),
+  and a prior \(\beta \sim \mathcal{N}(0, I)\) that does \emph{not} scale with \(n\)):
+
+  \begin{itemize}
+    \item The fit term \(\frac14 \sum_{j=1}^k (x_j' y)^2\) is \(O_p(1)\), because each projection \(x_j' y\) has variance \(1\) regardless of \(n\) (the columns are unit-norm).
+    \item The penalty term \(\tfrac{k}{2} \log 2\) is constant in \(n\).
+  \end{itemize}
+
+  Therefore, as \(n \to \infty\), the posterior model probabilities do \emph{not} concentrate on the true \(k_0\);
+  instead, they converge to a stable distribution dominated by small \(k\),
+  which explains the near-invariance you observe going from \(n=50\) to \(n=500\).
+  Equivalently, increasing \(n\) does not add information per column when the columns remain orthonormal with unit length;
+  the projections determining the Bayes factors remain \(O_p(1)\).
+
+  % This is a version of the classic Lindley--Bartlett (Occam) phenomenon with a fixed-variance Normal prior:
+  % unless the prior variance (or the regressor scaling) grows with \(n\),
+  % the marginal likelihood can keep favoring simpler models, even in the presence of modest signal.
+
+  \begin{lstlisting}[language=R, caption=R code for Problem 2]
+    set.seed(2025)
+    
+    log_marglik <- function(y, X) {
+        n <- nrow(X); K <- ncol(X)
+        yty <- sum(y*y)
+        out <- numeric(K)
+        for (k in 1:K) {
+            Xk <- X[, 1:k, drop=FALSE]
+            Sk <- diag(k) + crossprod(Xk) # I_k + X'X
+            L  <- chol(Sk)
+            logdet <- 2*sum(log(diag(L)))
+            v <- forwardsolve(t(L), crossprod(Xk, y))  # L z = X' y
+            w <- backsolve(L, v)  # L' w = z => w = S^{-1} X' y
+            quad <- sum((Xk %*% w) * y)  # y' X S^{-1} X' y
+            out[k] <- -0.5*n*log(2*pi) - 0.5*(yty - quad) - 0.5*logdet
+          }
+        out
+      }
+    
+    run_once <- function(n, kmax=10, k0=4, M=1000) {
+        Z <- matrix(rnorm(n*kmax), n, kmax)
+        qrZ <- qr(Z)
+        X <- qr.Q(qrZ)  # thin Q with orthonormal columns
+        beta <- c(rep(0.5, k0), rep(0, kmax-k0))
+        mu <- as.vector(X %*% beta)
+        counts <- integer(kmax)
+        post_sum <- numeric(kmax)
+        for (m in 1:M) {
+            y <- mu + rnorm(n)
+            lml <- log_marglik(y, X)
+            w <- exp(lml - max(lml))
+            post <- w / sum(w)
+            kstar <- which.max(post)
+            counts[kstar] <- counts[kstar] + 1
+            post_sum <- post_sum + post
+          }
+        data.frame(k=1:kmax,
+        freq_selected=counts,
+        avg_posterior=post_sum/M,
+        freq_selected_share=counts/M)
+      }
+    
+    res50  <- run_once(50,  kmax=10, k0=4, M=1000)
+    res100 <- run_once(100, kmax=10, k0=4, M=1000)
+    res500 <- run_once(500, kmax=10, k0=4, M=1000)
+    
+    library(tidyverse)
+    library(knitr)
+    
+    res50$N  <- 50
+    res100$N <- 100
+    res500$N <- 500
+    res_all <- bind_rows(res50, res100, res500)
+    
+    # 1) Average posterior probability
+    avg_table <- res_all %>%
+    select(k, N, avg_posterior) %>%
+    pivot_wider(names_from = N, names_prefix = "N=", values_from = avg_posterior) %>%
+    arrange(k)
+    
+    avg_latex <- knitr::kable(
+    avg_table,
+    format = "latex",
+    booktabs = TRUE,
+    caption = "Average posterior probability by $k$ and sample size",
+    digits = 3,
+    label = "tab:avg_posterior"
+    )
+    
+    # 2) Selection frequency (share)
+    freq_table <- res_all %>%
+    select(k, N, freq_selected_share) %>%
+    pivot_wider(names_from = N, names_prefix = "N=", values_from = freq_selected_share) %>%
+    arrange(k)
+    
+    freq_latex <- knitr::kable(
+    freq_table,
+    format = "latex",
+    booktabs = TRUE,
+    caption = "Selection frequency (share) by $k$ and sample size",
+    digits = 3,
+    label = "tab:freq_selected"
+    )
+    
+    writeLines(as.character(avg_latex), con = "PS1_avg_posterior.tex")
+    writeLines(as.character(freq_latex), con = "PS1_freq_selected.tex")
+  \end{lstlisting}
+
+\end{autosolution}
+
+
+\end{document}
+

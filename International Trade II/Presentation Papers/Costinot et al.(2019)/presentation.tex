@@ -1,0 +1,1294 @@
+% \documentclass{beamer}
+% \usetheme{Boadilla}
+% \usecolortheme{dolphin}
+% \usefonttheme{professionalfonts}
+% \usepackage[utf8]{inputenc}
+% \usepackage{amsmath}
+
+% \title[The More We Die, The More We Sell?]{The More We Die, The More We Sell? A Simple Test of the Home-Market Effect}
+% \author{Arnaud Costinot, Dave Donaldson, Margaret Kyle, Heidi Williams}
+% \institute{The Quarterly Journal of Economics (2019)}
+% \date{\today}
+
+% \begin{document}
+
+% % --- TITLE SLIDE ---
+% \begin{frame}
+%     \titlepage
+%     \begin{center}
+%         \vspace{1cm}
+%         \small{Presentation and Critical Analysis by: An International Trade Researcher}
+%     \end{center}
+% \end{frame}
+
+% % --- MOTIVATION ---
+% \begin{frame}{Motivation \& Research Question}
+%     \textbf{A Foundational Idea in International Trade:}
+%     \begin{itemize}
+%         \item The \textbf{Home-Market Effect} (Linder, 1961; Krugman, 1980): Countries with large domestic demand for a product tend to become net exporters of that product.
+%         \item This is a core prediction of \textbf{New Trade Theory}, which emphasizes increasing returns to scale.
+%     \end{itemize}
+%     \textbf{The Key Empirical Challenge:}
+%     \begin{itemize}
+%         \item \textbf{Endogeneity.} How to isolate the \textit{causal} effect of demand?
+%         \item Previous tests used expenditure shares, but expenditure is an equilibrium outcome affected by both supply and demand. This leads to biased and inconclusive results.
+%     \end{itemize}
+%     \textbf{This Paper's Research Question:}
+%     \begin{block}{Question}
+%         Can we find a clean, exogenous source of variation in home demand to provide a definitive test of the home-market effect?
+%     \end{block}
+% \end{frame}
+
+% % --- CONTRIBUTION & STRATEGY ---
+% \begin{frame}{Contribution: A Novel Identification Strategy}
+%     The paper's core innovation is its empirical strategy, applied to the global pharmaceutical industry.
+
+%     \begin{columns}[T]
+%         \begin{column}{0.5\textwidth}
+%             \textbf{Step 1: Predict Disease}
+%             \begin{itemize}
+%                 \item Use a country's exogenous \textbf{demographic composition} (age, gender).
+%                 \item Combine with global disease prevalence rates for each demographic group.
+%             \end{itemize}
+%         \end{column}
+%         \begin{column}{0.5\textwidth}
+%             \textbf{Step 2: Predict Demand}
+%             \begin{itemize}
+%                 \item This creates a \textbf{“Predicted Disease Burden” (PDB)} for each country and disease.
+%                 \item PDB serves as a plausibly \textbf{exogenous demand shifter} for drugs treating that disease.
+%             \end{itemize}
+%         \end{column}
+%     \end{columns}
+
+%     \begin{alertblock}{The Logic}
+%         Demographics $\rightarrow$ Predicted Disease $\rightarrow$ Exogenous Home Demand for Drugs
+%     \end{alertblock}
+
+%     This allows for the first clean test of the home-market effect's causal claim.
+% \end{frame}
+
+% % --- THEORETICAL FRAMEWORK ---
+% \begin{frame}{Theoretical Framework: Weak vs. Strong Effects}
+%     The authors build a model to derive two precise, testable hypotheses. Bilateral sales from exporter \textit{i} to importer \textit{j} are modeled as:
+
+%     \begin{center}
+%         $ \ln(x_{ij}^n) = \text{Fixed Effects} + \beta_M \ln(\text{Demand}_j^n) + \beta_x \ln(\text{Demand}_i^n) + \varepsilon_{ij}^n $
+%     \end{center}
+
+%     \begin{enumerate}
+%         \item \textbf{Weak Home-Market Effect: $ \beta_x > 0 $}
+%               \begin{itemize}
+%                   \item A larger home demand in the exporting country (\textit{i}) increases its foreign sales.
+%                   \item \textbf{Crucial Insight:} This effect is only possible with \textbf{economies of scale} (a downward-sloping supply curve). Without them, higher home demand would raise prices and \textit{reduce} exports.
+%               \end{itemize}
+
+%         \item \textbf{Strong Home-Market Effect: $ \beta_x > \beta_M $}
+%               \begin{itemize}
+%                   \item The boost to exports from home demand is larger than the boost to imports from foreign demand.
+%                   \item This implies the country becomes a \textbf{net exporter}.
+%                   \item Requires \textit{sufficiently strong} economies of scale.
+%               \end{itemize}
+%     \end{enumerate}
+% \end{frame}
+
+% % --- DATA ---
+% \begin{frame}{Data Sources}
+%     The analysis links two main datasets for a 2012 cross-section:
+
+%     \begin{block}{Bilateral Sales Data}
+%         \textbf{IMS MIDAS Dataset}
+%         \begin{itemize}
+%             \item Comprehensive data on pharmaceutical sales for 56 countries.
+%             \item Covers $>$20,000 molecules from $~$2,650 firms.
+%             \item Authors match firms to headquarter countries to get origin-destination sales flow.
+%         \end{itemize}
+%     \end{block}
+
+%     \begin{block}{Demand Shifter Data}
+%         \begin{itemize}
+%             \item \textbf{WHO Global Burden of Disease (GBD):} Disease incidence by demographic group (age/gender).
+%             \item \textbf{U.S. Census Bureau:} Population data for each demographic group in each country.
+%         \end{itemize}
+%         $\rightarrow$ Together, these are used to construct the \textbf{Predicted Disease Burden (PDB)}.
+%     \end{block}
+% \end{frame}
+
+% % --- BASELINE RESULTS ---
+% \begin{frame}{Baseline Results (Table III)}
+%     The regression estimates confirm the theory's predictions.
+
+%     \begin{center}
+%         \textbf{Dependent Variable: Log(Bilateral Sales)}
+%         \begin{tabular}{lc}
+%             \hline
+%             \textbf{Variable}                 & \textbf{Coefficient (Std. Err.)} \\
+%             \hline
+%             Log(PDB, destination) ($\beta_M$) & 0.545 (0.107)                    \\
+%             Log(PDB, origin) ($\beta_x$)      & \textbf{0.928 (0.123)}           \\
+%             \hline
+%             Observations                      & 19,150                           \\
+%             \hline
+%         \end{tabular}
+%     \end{center}
+
+%     \begin{alertblock}{Test 1: Weak Home-Market Effect ($\beta_x > 0$)}
+%         The coefficient on origin PDB is 0.928 and highly significant. \\ \textbf{Result: The weak HME is strongly supported.}
+%     \end{alertblock}
+
+%     \begin{exampleblock}{Test 2: Strong Home-Market Effect ($\beta_x > \beta_M$)}
+%         An F-test rejects the null hypothesis that $\beta_x \le \beta_M$ (p-value = 0.018). \\ \textbf{Result: The strong HME is also supported.}
+%     \end{exampleblock}
+
+%     These results are robust to dozens of sensitivity checks.
+% \end{frame}
+
+% % --- STRUCTURAL RESULTS ---
+% \begin{frame}{Mechanism: Disentangling Supply \& Demand}
+%     Is the effect driven by economies of scale (as theory predicts) or something else (e.g., inelastic demand)? The authors use an IV strategy to estimate the structural elasticities.
+
+%     \begin{columns}[T]
+%         \begin{column}{0.5\textwidth}
+%             \textbf{Demand Elasticity ($ \varepsilon^x $)}
+%             \begin{itemize}
+%                 \item Estimated using trade distance and price data.
+%                 \item Result: $ \varepsilon^x \approx 6.2 $
+%                 \item \textbf{Conclusion:} Demand is highly elastic. This is \textit{not} driving the result.
+%             \end{itemize}
+%         \end{column}
+%         \begin{column}{0.5\textwidth}
+%             \textbf{Supply Elasticity ($ \varepsilon^s $)}
+%             \begin{itemize}
+%                 \item Estimated using PDB as an instrument for total sales.
+%                 \item Result: $ \varepsilon^s \approx -7.8 $
+%                 \item \textbf{Conclusion:} The supply curve is strongly \textbf{downward-sloping}.
+%             \end{itemize}
+%         \end{column}
+%     \end{columns}
+
+%     \begin{alertblock}{The Verdict}
+%         The paper provides direct evidence that the home-market effect is driven by substantial \textbf{industry-level economies of scale}.
+%     \end{alertblock}
+% \end{frame}
+
+% % --- CONCLUSION ---
+% \begin{frame}{Conclusion}
+%     \begin{itemize}
+%         \item This paper provides the most convincing empirical evidence to date in favor of the \textbf{home-market effect}.
+
+%         \item Its novel identification strategy, using demographic structure to predict exogenous demand, solves a long-standing challenge in the field.
+
+%         \item The findings confirm the central mechanism of \textbf{New Trade Theory}: a large home market fosters economies of scale, which in turn drives export performance.
+
+%         \item In short: \textbf{The more we (are predicted to) die at home, the more we sell abroad.}
+%     \end{itemize}
+% \end{frame}
+
+% % --- CRITICAL ANALYSIS ---
+% \begin{frame}{Critical Analysis \& Discussion}
+%     This is an outstanding paper, but there are areas for future research.
+
+%     \begin{block}{Generalizability}
+%         The findings are from a single, unique industry (pharmaceuticals). Would the effect be as strong in sectors with lower fixed costs or different regulatory structures?
+%     \end{block}
+
+%     \begin{block}{Exports vs. FDI}
+%         The sales data combine exports and sales by foreign affiliates. The underlying economies of scale may differ (production vs. R\&D). Future work could try to disentangle these channels.
+%     \end{block}
+
+%     \begin{block}{Static Analysis}
+%         The cross-sectional design captures the effect at one point in time. A panel analysis, though difficult, could reveal the dynamic evolution of the home-market effect as demographics and industries change.
+%     \end{block}
+% \end{frame}
+
+% %------------------------------------------------
+
+% \begin{frame}{Motivation: The Home-Market Effect Puzzle}
+%     \begin{block}{A Core Idea in ``New Trade Theory''}
+%         The Home-Market Effect (HME), hypothesized by Linder (1961) and formalized by Krugman (1980), posits that countries with large domestic demand for a product tend to become net exporters of it.
+%     \end{block}
+
+%     \begin{alertblock}{A Major Empirical Challenge}
+%         Testing this is notoriously difficult due to endogeneity.
+%         \begin{itemize}
+%             \item Standard demand proxies (e.g., national expenditure) are equilibrium outcomes.
+%             \item A positive supply shock can increase both domestic expenditure and exports, creating a spurious correlation.
+%             \item \textbf{Key Question:} How can we isolate an exogenous shock to home demand?
+%         \end{itemize}
+%     \end{alertblock}
+% \end{frame}
+
+% %------------------------------------------------
+
+% \begin{frame}{This Paper's Contribution: A Novel Identification Strategy}
+%     \begin{block}{The Core Idea}
+%         Use a country's exogenous demographic structure as a predictor for its demand for specific pharmaceuticals.
+%         \begin{itemize}
+%             \item This is a spatial analogue to the time-series strategy of Acemoglu \& Linn (2004).
+%             \item It creates a plausibly exogenous demand shifter: the \textbf{Predicted Disease Burden (PDB)}.
+%         \end{itemize}
+%     \end{block}
+
+%     \begin{exampleblock}{The PDB Instrument}
+%         For each country $i$ and disease $n$, the PDB is constructed as:
+%         $$ (PDB)_{i}^{n}=\sum_{a,g}\left[\text{pop}_{iag}\times\left(\frac{\sum_{k\ne i}\text{burden}_{kag}^{n}}{\sum_{k\ne i}\text{pop}_{kag}}\right)\right] $$
+%         \begin{itemize}
+%             \item $\text{pop}_{iag}$: Population of age-gender group $(a,g)$ in country $i$.
+%             \item The ratio is the average disease burden for group $(a,g)$ in the \textit{rest of the world} ($k \neq i$).
+%             \item This "leave-one-out" construction enhances exogeneity.
+%         \end{itemize}
+%     \end{exampleblock}
+% \end{frame}
+
+% %------------------------------------------------
+
+% \begin{frame}{Sources of Variation for the PDB Instrument}
+%     \begin{columns}[c]
+%         \column{0.5\textwidth}
+%         \textbf{Variation in Demographics Across Countries}
+%         \begin{figure}
+%             \includegraphics[width=\textwidth]{example-image-a}
+%             \caption{Share of population under age 60 varies dramatically (e.g., Japan vs. UAE). Based on Figure IV in Costinot et al. (2019).}
+%         \end{figure}
+
+%         \column{0.5\textwidth}
+%         \textbf{Variation in Disease Profile Across Demographics}
+%         \begin{figure}
+%             \includegraphics[width=\textwidth]{example-image-b}
+%             \caption{Share of global disease burden borne by population under 60 varies by disease (e.g., Alzheimer's vs. Whooping Cough). Based on Figure V.}
+%         \end{figure}
+%     \end{columns}
+% \end{frame}
+
+% %------------------------------------------------
+
+% \begin{frame}{The Theoretical Mechanism: Why Scale Economies are Key}
+%     \begin{columns}[c]
+%         \column{0.33\textwidth}
+%         \textbf{No HME (Neoclassical)}
+%         \begin{figure}
+%             \includegraphics[width=\textwidth]{example-image-c}
+%             \caption{Higher home demand $\rightarrow$ Higher Price $\rightarrow$ Lower Exports. Based on Figure I.}
+%         \end{figure}
+
+%         \column{0.33\textwidth}
+%         \textbf{Weak HME}
+%         \begin{figure}
+%             \includegraphics[width=\textwidth]{example-image-a}
+%             \caption{With scale economies, higher demand $\rightarrow$ Lower Price $\rightarrow$ Higher Exports ($\beta_X > 0$). Based on Figure II.}
+%         \end{figure}
+
+%         \column{0.33\textwidth}
+%         \textbf{Strong HME}
+%         \begin{figure}
+%             \includegraphics[width=\textwidth]{example-image-b}
+%             \caption{With strong scale economies, Exports rise more than Imports ($\beta_X > \beta_M$). Based on Figure III.}
+%         \end{figure}
+%     \end{columns}
+%     \begin{alertblock}{}
+%         A home-market effect requires a downward-sloping industry supply curve, i.e., increasing returns to scale.
+%     \end{alertblock}
+% \end{frame}
+
+% %------------------------------------------------
+
+% \begin{frame}{Empirical Strategy: Baseline Specification}
+%     The paper tests the HME by estimating a gravity-style equation:
+%     \begin{block}{Equation (16)}
+%         $$ \ln x_{ij}^{n}=\delta_{ij}+\delta^{n}+\tilde{\beta}_{M}\ln(PDB)_{j}^{n}+\tilde{\beta}_{X}\ln(PDB)_{i}^{n}+\tilde{\epsilon}_{ij}^{n} $$
+%     \end{block}
+%     \begin{itemize}
+%         \item $x_{ij}^{n}$: Bilateral sales from origin $i$ to destination $j$ for disease $n$.
+%         \item $(PDB)_{i}^{n}$: Predicted Disease Burden in the origin (exporter).
+%         \item $(PDB)_{j}^{n}$: Predicted Disease Burden in the destination (importer).
+%         \item $\delta_{ij}$: Origin-Destination fixed effects (absorbs distance, etc.).
+%         \item $\delta^{n}$: Disease fixed effects (absorbs global disease size).
+%     \end{itemize}
+%     \begin{exampleblock}{Hypothesis Tests}
+%         \begin{itemize}
+%             \item \textbf{Weak HME}: Test if $\tilde{\beta}_X > 0$.
+%             \item \textbf{Strong HME}: Test if $\tilde{\beta}_X > \tilde{\beta}_M$.
+%         \end{itemize}
+%     \end{exampleblock}
+% \end{frame}
+
+% % %------------------------------------------------
+
+% \begin{frame}{Robustness of the Main Finding}
+%     The main result is robust to a wide array of alternative explanations and specifications.
+%     \begin{itemize}
+%         \item \textbf{Controlling for Confounders (Table IV):} Results hold after controlling for interactions between disease characteristics and country characteristics like GDP per capita.
+%         \item \textbf{Supply-Side Stories (Table V):}
+%               \begin{itemize}
+%                   \item The effect remains when controlling for US NIH subsidies.
+%                   \item The weak HME is present even when looking only at \textbf{generic drugs}, where R\&D-related scale economies should be weaker.
+%               \end{itemize}
+%         \item \textbf{Spatial Correlation of Demand (Table VI):} Results are not driven by demand in neighboring countries.
+%         \item \textbf{Pricing-to-Market (Table VII):} The weak HME holds within the EU, where parallel trade limits price discrimination.
+%         \item \textbf{Zero Trade Flows (Table VIII):} Results are robust to using PPML estimation, which includes observations with zero sales.
+%     \end{itemize}
+% \end{frame}
+
+% %------------------------------------------------
+
+% \begin{frame}{Structural Results: Quantifying Economies of Scale}
+%     The paper goes beyond the reduced-form test to estimate the structural supply elasticity ($\epsilon^s$).
+%     \begin{block}{IV Strategy}
+%         \begin{itemize}
+%             \item \textbf{Goal:} Estimate the elasticity of the industry supply curve.
+%             \item \textbf{Problem:} Total sales (scale) is endogenous to supply shocks.
+%             \item \textbf{Solution:} Instrument for a country's total sales in a disease category ($\ln r_i^n$) with the exogenous demand shifter ($\ln(PDB)_i^n$).
+%         \end{itemize}
+%     \end{block}
+
+%     \begin{exampleblock}{Key Structural Finding (Table X)}
+%         The IV estimation yields a supply elasticity of:
+%         $$\epsilon^s = -7.833$$
+%         \begin{itemize}
+%             \item The negative sign provides direct evidence of a \textbf{downward-sloping supply curve}, confirming the existence of significant industry-level economies of scale.
+%             \item This magnitude is about 25\% smaller than the benchmark prediction from a standard Krugman (1980) model.
+%         \end{itemize}
+%     \end{exampleblock}
+% \end{frame}
+
+% %------------------------------------------------
+
+% \begin{frame}{Conclusion \& Critical Assessment}
+%     \begin{block}{Summary of Contributions}
+%         \begin{itemize}
+%             \item Provides a simple, powerful, and credible test of the home-market effect.
+%             \item Solves a major identification problem using a novel demographically-driven instrument (PDB).
+%             \item Finds strong evidence for both weak and strong HME in the global pharmaceutical industry.
+%             \item Quantifies the underlying economies of scale, finding $\epsilon^s = -7.833$.
+%         \end{itemize}
+%     \end{block}
+
+%     \begin{alertblock}{Points for Discussion \& Future Research}
+%         \begin{itemize}
+%             \item \textbf{External Validity:} The pharmaceutical industry is an ideal setting for HME. Would these results generalize to industries with weaker scale economies?
+%             \item \textbf{FDI vs. Exports:} The data combine exports and sales from local affiliates. Is this a "production HME" or a "headquarters HME" (driven by R\&D/marketing)?
+%             \item \textbf{The "Black Box" of Scale:} The test confirms the existence of scale economies but not their source (e.g., R\&D spillovers, love-of-variety). The welfare implications depend on the source.
+%         \end{itemize}
+%     \end{alertblock}
+% \end{frame}
+
+% %------------------------------------------------
+
+% \begin{frame}
+%     \begin{center}
+%         \Huge Thank You
+%     \end{center}
+% \end{frame}
+
+% \end{document}
+
+% \documentclass{beamer}
+% \usetheme{Boadilla}
+% \usecolortheme{dolphin}
+% \usefonttheme{professionalfonts}
+% \usepackage[utf8]{inputenc}
+% \usepackage{amsmath}
+
+% \title[The More We Die, The More We Sell?]{The More We Die, The More We Sell? A Simple Test of the Home-Market Effect}
+% \author{Arnaud Costinot, Dave Donaldson, Margaret Kyle, Heidi Williams}
+% \institute{The Quarterly Journal of Economics (2019)}
+% \date{\today}
+
+% \begin{document}
+
+% % --- TITLE SLIDE ---
+% \begin{frame}
+%     \titlepage
+%     \begin{center}
+%         \vspace{1cm}
+%         \small{Presentation and Critical Analysis by: An International Trade Researcher}
+%     \end{center}
+% \end{frame}
+
+% % --- MOTIVATION ---
+% \begin{frame}{Motivation \& Research Question}
+%     \textbf{A Foundational Idea in International Trade:}
+%     \begin{itemize}
+%         \item The \textbf{Home-Market Effect} (Linder, 1961; Krugman, 1980): Countries with large domestic demand for a product tend to become net exporters of that product.
+%         \item This is a core prediction of \textbf{New Trade Theory}, which emphasizes increasing returns to scale.
+%     \end{itemize}
+%     \textbf{The Key Empirical Challenge:}
+%     \begin{itemize}
+%         \item \textbf{Endogeneity.} How to isolate the \textit{causal} effect of demand?
+%         \item Previous tests used expenditure shares, but expenditure is an equilibrium outcome affected by both supply and demand. This leads to biased and inconclusive results.
+%     \end{itemize}
+%     \textbf{This Paper's Research Question:}
+%     \begin{block}{Question}
+%         Can we find a clean, exogenous source of variation in home demand to provide a definitive test of the home-market effect?
+%     \end{block}
+% \end{frame}
+
+% % --- CONTRIBUTION & STRATEGY ---
+% \begin{frame}{Contribution: A Novel Identification Strategy}
+%     The paper's core innovation is its empirical strategy, applied to the global pharmaceutical industry.
+
+%     \begin{columns}[T]
+%         \begin{column}{0.5\textwidth}
+%             \textbf{Step 1: Predict Disease}
+%             \begin{itemize}
+%                 \item Use a country's exogenous \textbf{demographic composition} (age, gender).
+%                 \item Combine with global disease prevalence rates for each demographic group.
+%             \end{itemize}
+%         \end{column}
+%         \begin{column}{0.5\textwidth}
+%             \textbf{Step 2: Predict Demand}
+%             \begin{itemize}
+%                 \item This creates a \textbf{“Predicted Disease Burden” (PDB)} for each country and disease.
+%                 \item PDB serves as a plausibly \textbf{exogenous demand shifter} for drugs treating that disease.
+%             \end{itemize}
+%         \end{column}
+%     \end{columns}
+
+%     \begin{alertblock}{The Logic}
+%         Demographics $\rightarrow$ Predicted Disease $\rightarrow$ Exogenous Home Demand for Drugs
+%     \end{alertblock}
+
+%     This allows for the first clean test of the home-market effect's causal claim.
+% \end{frame}
+
+% % --- THEORETICAL FRAMEWORK ---
+% \begin{frame}{Theoretical Framework: Weak vs. Strong Effects}
+%     The authors build a model to derive two precise, testable hypotheses. Bilateral sales from exporter \textit{i} to importer \textit{j} are modeled as:
+
+%     \begin{center}
+%         $ \ln(x_{ij}^n) = \text{Fixed Effects} + \beta_M \ln(\text{Demand}_j^n) + \beta_x \ln(\text{Demand}_i^n) + \varepsilon_{ij}^n $
+%     \end{center}
+
+%     \begin{enumerate}
+%         \item \textbf{Weak Home-Market Effect: $ \beta_x > 0 $}
+%               \begin{itemize}
+%                   \item A larger home demand in the exporting country (\textit{i}) increases its foreign sales.
+%                   \item \textbf{Crucial Insight:} This effect is only possible with \textbf{economies of scale} (a downward-sloping supply curve). Without them, higher home demand would raise prices and \textit{reduce} exports.
+%               \end{itemize}
+
+%         \item \textbf{Strong Home-Market Effect: $ \beta_x > \beta_M $}
+%               \begin{itemize}
+%                   \item The boost to exports from home demand is larger than the boost to imports from foreign demand.
+%                   \item This implies the country becomes a \textbf{net exporter}.
+%                   \item Requires \textit{sufficiently strong} economies of scale.
+%               \end{itemize}
+%     \end{enumerate}
+% \end{frame}
+
+% % --- DATA ---
+% \begin{frame}{Data Sources}
+%     The analysis links two main datasets for a 2012 cross-section:
+
+%     \begin{block}{Bilateral Sales Data}
+%         \textbf{IMS MIDAS Dataset}
+%         \begin{itemize}
+%             \item Comprehensive data on pharmaceutical sales for 56 countries.
+%             \item Covers $>$20,000 molecules from $~$2,650 firms.
+%             \item Authors match firms to headquarter countries to get origin-destination sales flow.
+%         \end{itemize}
+%     \end{block}
+
+%     \begin{block}{Demand Shifter Data}
+%         \begin{itemize}
+%             \item \textbf{WHO Global Burden of Disease (GBD):} Disease incidence by demographic group (age/gender).
+%             \item \textbf{U.S. Census Bureau:} Population data for each demographic group in each country.
+%         \end{itemize}
+%         $\rightarrow$ Together, these are used to construct the \textbf{Predicted Disease Burden (PDB)}.
+%     \end{block}
+% \end{frame}
+
+% % --- BASELINE RESULTS ---
+% \begin{frame}{Baseline Results (Table III)}
+%     The regression estimates confirm the theory's predictions.
+
+%     \begin{center}
+%         \textbf{Dependent Variable: Log(Bilateral Sales)}
+%         \begin{tabular}{lc}
+%             \hline
+%             \textbf{Variable}                 & \textbf{Coefficient (Std. Err.)} \\
+%             \hline
+%             Log(PDB, destination) ($\beta_M$) & 0.545 (0.107)                    \\
+%             Log(PDB, origin) ($\beta_x$)      & \textbf{0.928 (0.123)}           \\
+%             \hline
+%             Observations                      & 19,150                           \\
+%             \hline
+%         \end{tabular}
+%     \end{center}
+
+%     \begin{alertblock}{Test 1: Weak Home-Market Effect ($\beta_x > 0$)}
+%         The coefficient on origin PDB is 0.928 and highly significant. \\ \textbf{Result: The weak HME is strongly supported.}
+%     \end{alertblock}
+
+%     \begin{exampleblock}{Test 2: Strong Home-Market Effect ($\beta_x > \beta_M$)}
+%         An F-test rejects the null hypothesis that $\beta_x \le \beta_M$ (p-value = 0.018). \\ \textbf{Result: The strong HME is also supported.}
+%     \end{exampleblock}
+
+%     These results are robust to dozens of sensitivity checks.
+% \end{frame}
+
+% % --- STRUCTURAL RESULTS ---
+% \begin{frame}{Mechanism: Disentangling Supply \& Demand}
+%     Is the effect driven by economies of scale (as theory predicts) or something else (e.g., inelastic demand)? The authors use an IV strategy to estimate the structural elasticities.
+
+%     \begin{columns}[T]
+%         \begin{column}{0.5\textwidth}
+%             \textbf{Demand Elasticity ($ \varepsilon^x $)}
+%             \begin{itemize}
+%                 \item Estimated using trade distance and price data.
+%                 \item Result: $ \varepsilon^x \approx 6.2 $
+%                 \item \textbf{Conclusion:} Demand is highly elastic. This is \textit{not} driving the result.
+%             \end{itemize}
+%         \end{column}
+%         \begin{column}{0.5\textwidth}
+%             \textbf{Supply Elasticity ($ \varepsilon^s $)}
+%             \begin{itemize}
+%                 \item Estimated using PDB as an instrument for total sales.
+%                 \item Result: $ \varepsilon^s \approx -7.8 $
+%                 \item \textbf{Conclusion:} The supply curve is strongly \textbf{downward-sloping}.
+%             \end{itemize}
+%         \end{column}
+%     \end{columns}
+
+%     \begin{alertblock}{The Verdict}
+%         The paper provides direct evidence that the home-market effect is driven by substantial \textbf{industry-level economies of scale}.
+%     \end{alertblock}
+% \end{frame}
+
+% % --- CONCLUSION ---
+% \begin{frame}{Conclusion}
+%     \begin{itemize}
+%         \item This paper provides the most convincing empirical evidence to date in favor of the \textbf{home-market effect}.
+
+%         \item Its novel identification strategy, using demographic structure to predict exogenous demand, solves a long-standing challenge in the field.
+
+%         \item The findings confirm the central mechanism of \textbf{New Trade Theory}: a large home market fosters economies of scale, which in turn drives export performance.
+
+%         \item In short: \textbf{The more we (are predicted to) die at home, the more we sell abroad.}
+%     \end{itemize}
+% \end{frame}
+
+% % --- CRITICAL ANALYSIS ---
+% \begin{frame}{Critical Analysis \& Discussion}
+%     This is an outstanding paper, but there are areas for future research.
+
+%     \begin{block}{Generalizability}
+%         The findings are from a single, unique industry (pharmaceuticals). Would the effect be as strong in sectors with lower fixed costs or different regulatory structures?
+%     \end{block}
+
+%     \begin{block}{Exports vs. FDI}
+%         The sales data combine exports and sales by foreign affiliates. The underlying economies of scale may differ (production vs. R\&D). Future work could try to disentangle these channels.
+%     \end{block}
+
+%     \begin{block}{Static Analysis}
+%         The cross-sectional design captures the effect at one point in time. A panel analysis, though difficult, could reveal the dynamic evolution of the home-market effect as demographics and industries change.
+%     \end{block}
+% \end{frame}
+
+% %------------------------------------------------
+
+% \begin{frame}{Motivation: The Home-Market Effect Puzzle}
+%     \begin{block}{A Core Idea in ``New Trade Theory''}
+%         The Home-Market Effect (HME), hypothesized by Linder (1961) and formalized by Krugman (1980), posits that countries with large domestic demand for a product tend to become net exporters of it.
+%     \end{block}
+
+%     \begin{alertblock}{A Major Empirical Challenge}
+%         Testing this is notoriously difficult due to endogeneity.
+%         \begin{itemize}
+%             \item Standard demand proxies (e.g., national expenditure) are equilibrium outcomes.
+%             \item A positive supply shock can increase both domestic expenditure and exports, creating a spurious correlation.
+%             \item \textbf{Key Question:} How can we isolate an exogenous shock to home demand?
+%         \end{itemize}
+%     \end{alertblock}
+% \end{frame}
+
+% %------------------------------------------------
+
+% \begin{frame}{This Paper's Contribution: A Novel Identification Strategy}
+%     \begin{block}{The Core Idea}
+%         Use a country's exogenous demographic structure as a predictor for its demand for specific pharmaceuticals.
+%         \begin{itemize}
+%             \item This is a spatial analogue to the time-series strategy of Acemoglu \& Linn (2004).
+%             \item It creates a plausibly exogenous demand shifter: the \textbf{Predicted Disease Burden (PDB)}.
+%         \end{itemize}
+%     \end{block}
+
+%     \begin{exampleblock}{The PDB Instrument}
+%         For each country $i$ and disease $n$, the PDB is constructed as:
+%         $$ (PDB)_{i}^{n}=\sum_{a,g}\left[\text{pop}_{iag}\times\left(\frac{\sum_{k\ne i}\text{burden}_{kag}^{n}}{\sum_{k\ne i}\text{pop}_{kag}}\right)\right] $$
+%         \begin{itemize}
+%             \item $\text{pop}_{iag}$: Population of age-gender group $(a,g)$ in country $i$.
+%             \item The ratio is the average disease burden for group $(a,g)$ in the \textit{rest of the world} ($k \neq i$).
+%             \item This "leave-one-out" construction enhances exogeneity.
+%         \end{itemize}
+%     \end{exampleblock}
+% \end{frame}
+
+% %------------------------------------------------
+
+% \begin{frame}{Sources of Variation for the PDB Instrument}
+%     \begin{columns}[c]
+%         \column{0.5\textwidth}
+%         \textbf{Variation in Demographics Across Countries}
+%         \begin{figure}
+%             \includegraphics[width=\textwidth]{example-image-a}
+%             \caption{Share of population under age 60 varies dramatically (e.g., Japan vs. UAE). Based on Figure IV in Costinot et al. (2019).}
+%         \end{figure}
+
+%         \column{0.5\textwidth}
+%         \textbf{Variation in Disease Profile Across Demographics}
+%         \begin{figure}
+%             \includegraphics[width=\textwidth]{example-image-b}
+%             \caption{Share of global disease burden borne by population under 60 varies by disease (e.g., Alzheimer's vs. Whooping Cough). Based on Figure V.}
+%         \end{figure}
+%     \end{columns}
+% \end{frame}
+
+% %------------------------------------------------
+
+% \begin{frame}{The Theoretical Mechanism: Why Scale Economies are Key}
+%     \begin{columns}[c]
+%         \column{0.33\textwidth}
+%         \textbf{No HME (Neoclassical)}
+%         \begin{figure}
+%             \includegraphics[width=\textwidth]{example-image-c}
+%             \caption{Higher home demand $\rightarrow$ Higher Price $\rightarrow$ Lower Exports. Based on Figure I.}
+%         \end{figure}
+
+%         \column{0.33\textwidth}
+%         \textbf{Weak HME}
+%         \begin{figure}
+%             \includegraphics[width=\textwidth]{example-image-a}
+%             \caption{With scale economies, higher demand $\rightarrow$ Lower Price $\rightarrow$ Higher Exports ($\beta_X > 0$). Based on Figure II.}
+%         \end{figure}
+
+%         \column{0.33\textwidth}
+%         \textbf{Strong HME}
+%         \begin{figure}
+%             \includegraphics[width=\textwidth]{example-image-b}
+%             \caption{With strong scale economies, Exports rise more than Imports ($\beta_X > \beta_M$). Based on Figure III.}
+%         \end{figure}
+%     \end{columns}
+%     \begin{alertblock}{}
+%         A home-market effect requires a downward-sloping industry supply curve, i.e., increasing returns to scale.
+%     \end{alertblock}
+% \end{frame}
+
+% %------------------------------------------------
+
+% \begin{frame}{Empirical Strategy: Baseline Specification}
+%     The paper tests the HME by estimating a gravity-style equation:
+%     \begin{block}{Equation (16)}
+%         $$ \ln x_{ij}^{n}=\delta_{ij}+\delta^{n}+\tilde{\beta}_{M}\ln(PDB)_{j}^{n}+\tilde{\beta}_{X}\ln(PDB)_{i}^{n}+\tilde{\epsilon}_{ij}^{n} $$
+%     \end{block}
+%     \begin{itemize}
+%         \item $x_{ij}^{n}$: Bilateral sales from origin $i$ to destination $j$ for disease $n$.
+%         \item $(PDB)_{i}^{n}$: Predicted Disease Burden in the origin (exporter).
+%         \item $(PDB)_{j}^{n}$: Predicted Disease Burden in the destination (importer).
+%         \item $\delta_{ij}$: Origin-Destination fixed effects (absorbs distance, etc.).
+%         \item $\delta^{n}$: Disease fixed effects (absorbs global disease size).
+%     \end{itemize}
+%     \begin{exampleblock}{Hypothesis Tests}
+%         \begin{itemize}
+%             \item \textbf{Weak HME}: Test if $\tilde{\beta}_X > 0$.
+%             \item \textbf{Strong HME}: Test if $\tilde{\beta}_X > \tilde{\beta}_M$.
+%         \end{itemize}
+%     \end{exampleblock}
+% \end{frame}
+
+% % %------------------------------------------------
+
+% \begin{frame}{Robustness of the Main Finding}
+%     The main result is robust to a wide array of alternative explanations and specifications.
+%     \begin{itemize}
+%         \item \textbf{Controlling for Confounders (Table IV):} Results hold after controlling for interactions between disease characteristics and country characteristics like GDP per capita.
+%         \item \textbf{Supply-Side Stories (Table V):}
+%               \begin{itemize}
+%                   \item The effect remains when controlling for US NIH subsidies.
+%                   \item The weak HME is present even when looking only at \textbf{generic drugs}, where R\&D-related scale economies should be weaker.
+%               \end{itemize}
+%         \item \textbf{Spatial Correlation of Demand (Table VI):} Results are not driven by demand in neighboring countries.
+%         \item \textbf{Pricing-to-Market (Table VII):} The weak HME holds within the EU, where parallel trade limits price discrimination.
+%         \item \textbf{Zero Trade Flows (Table VIII):} Results are robust to using PPML estimation, which includes observations with zero sales.
+%     \end{itemize}
+% \end{frame}
+
+% %------------------------------------------------
+
+% \begin{frame}{Structural Results: Quantifying Economies of Scale}
+%     The paper goes beyond the reduced-form test to estimate the structural supply elasticity ($\epsilon^s$).
+%     \begin{block}{IV Strategy}
+%         \begin{itemize}
+%             \item \textbf{Goal:} Estimate the elasticity of the industry supply curve.
+%             \item \textbf{Problem:} Total sales (scale) is endogenous to supply shocks.
+%             \item \textbf{Solution:} Instrument for a country's total sales in a disease category ($\ln r_i^n$) with the exogenous demand shifter ($\ln(PDB)_i^n$).
+%         \end{itemize}
+%     \end{block}
+
+%     \begin{exampleblock}{Key Structural Finding (Table X)}
+%         The IV estimation yields a supply elasticity of:
+%         $$\epsilon^s = -7.833$$
+%         \begin{itemize}
+%             \item The negative sign provides direct evidence of a \textbf{downward-sloping supply curve}, confirming the existence of significant industry-level economies of scale.
+%             \item This magnitude is about 25\% smaller than the benchmark prediction from a standard Krugman (1980) model.
+%         \end{itemize}
+%     \end{exampleblock}
+% \end{frame}
+
+% %------------------------------------------------
+
+% \begin{frame}{Conclusion \& Critical Assessment}
+%     \begin{block}{Summary of Contributions}
+%         \begin{itemize}
+%             \item Provides a simple, powerful, and credible test of the home-market effect.
+%             \item Solves a major identification problem using a novel demographically-driven instrument (PDB).
+%             \item Finds strong evidence for both weak and strong HME in the global pharmaceutical industry.
+%             \item Quantifies the underlying economies of scale, finding $\epsilon^s = -7.833$.
+%         \end{itemize}
+%     \end{block}
+
+%     \begin{alertblock}{Points for Discussion \& Future Research}
+%         \begin{itemize}
+%             \item \textbf{External Validity:} The pharmaceutical industry is an ideal setting for HME. Would these results generalize to industries with weaker scale economies?
+%             \item \textbf{FDI vs. Exports:} The data combine exports and sales from local affiliates. Is this a "production HME" or a "headquarters HME" (driven by R\&D/marketing)?
+%             \item \textbf{The "Black Box" of Scale:} The test confirms the existence of scale economies but not their source (e.g., R\&D spillovers, love-of-variety). The welfare implications depend on the source.
+%         \end{itemize}
+%     \end{alertblock}
+% \end{frame}
+
+% %------------------------------------------------
+
+% \begin{frame}
+%     \begin{center}
+%         \Huge Thank You
+%     \end{center}
+% \end{frame}
+
+% \end{document}
+
+\documentclass[11pt]{beamer}
+\usetheme{Boadilla}
+\usecolortheme{dolphin}
+\usefonttheme{professionalfonts}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath, booktabs}
+\usepackage{graphicx}
+\usepackage{hyperref}
+
+\title[The More We Die, The More We Sell?]{The More We Die, The More We Sell? \\ A Simple Test of the Home-Market Effect}
+\author{Arnaud Costinot, Dave Donaldson, Margaret Kyle, Heidi Williams}
+\institute{The Quarterly Journal of Economics (2019)}
+\date{\today}
+
+\begin{document}
+
+% --- TITLE SLIDE ---
+\begin{frame}
+    \titlepage
+    \begin{center}
+        \vspace{0.5cm}
+        \small{Presented by: Jingle Fu}
+    \end{center}
+\end{frame}
+
+% --- INTRODUCTION ---
+\begin{frame}{Introduction: The Home-Market Effect Puzzle}
+    The Home-Market Effect (HME) stands as one of the central predictions of New Trade Theory:
+
+    \begin{itemize}
+        \item Countries tend to export products for which they have large domestic markets (Linder, 1961; Krugman, 1980)
+        \item This arises from economies of scale: larger home markets enable firms to achieve lower average costs
+        \item The theoretical intuition is compelling, but empirical verification has proven remarkably difficult
+    \end{itemize}
+
+
+    \textbf{The Fundamental Identification Challenge:}
+
+    Traditional demand measures (expenditure shares) are equilibrium outcomes simultaneously determined by both supply and demand forces. A positive correlation between home demand and exports could reflect:
+
+    \begin{itemize}
+        \item True causal effect of demand on exports (the HME)
+        \item Reverse causality: productive advantages lead to both domestic sales and exports
+        \item Omitted variables affecting both supply and demand
+    \end{itemize}
+\end{frame}
+
+% --- RESEARCH QUESTION ---
+\begin{frame}{Research Question and Contribution}
+    \textbf{Core Research Question:}
+
+    Can we find a credible source of exogenous variation in home demand to provide a definitive causal test of the home-market effect?
+
+    \textbf{This Paper's Contribution:}
+
+    \begin{itemize}
+        \item Develops a novel identification strategy using demographic variation to predict disease burdens
+        \item Provides the first credible test of the causal mechanism behind the HME
+        \item Quantifies the role of economies of scale in driving the effect
+        \item Distinguishes between "weak" and "strong" versions of the HME
+    \end{itemize}
+
+    The paper focuses on the global pharmaceutical industry, where the link between demographics, disease prevalence, and drug demand is particularly clear.
+\end{frame}
+
+% --- THEORETICAL FRAMEWORK ---
+\begin{frame}{Theoretical Framework: A General Approach}
+    The authors develop a flexible theoretical model that nests various market structures:
+
+    \begin{itemize}
+        \item \textbf{Demand}: Nested structure across diseases and countries of origin
+        \item \textbf{Supply}: Industry-level supply curve $s_i^n = \eta_i^n s(p_i^n)$ with elasticity $\varepsilon^s$
+        \item \textbf{Key Insight}: The HME requires $\varepsilon^s < 0$ (economies of scale)
+        \item \textbf{Market Structures}: Model accommodates perfect competition, monopolistic competition, endogenous innovation, and regulated markets
+    \end{itemize}
+
+    Through log-linearization around a symmetric equilibrium, the model yields a testable equation for bilateral sales:
+    \[
+        \ln(x_{ij}^n) = \delta_{ij} + \delta^n + \beta_M \ln(\theta_j^n) + \beta_X \ln(\theta_i^n) + \varepsilon_{ij}^n
+    \]
+    where $x_{ij}^n$ represents sales from country $i$ to country $j$ for drugs treating disease $n$.
+\end{frame}
+
+% --- HYPOTHESES ---
+\begin{frame}{Testable Hypotheses}
+    The theoretical framework generates two precise, testable predictions:
+
+    \textbf{Hypothesis 1: Weak Home-Market Effect}
+
+    \begin{itemize}
+        \item Prediction: $\beta_X > 0$
+        \item Interpretation: Higher home demand increases a country's exports
+        \item Economic intuition: With economies of scale, larger home markets reduce average costs, making firms more competitive abroad
+        \item Crucial implication: $\beta_X > 0$ \emph{only} occurs when $\varepsilon^s < 0$ (economies of scale present)
+    \end{itemize}
+
+    \textbf{Hypothesis 2: Strong Home-Market Effect}
+
+    \begin{itemize}
+        \item Prediction: $\beta_X > \beta_M$
+        \item Interpretation: The export boost from home demand exceeds the import boost from foreign demand
+        \item Economic intuition: Country becomes a net exporter in the product category
+        \item Requires sufficiently strong economies of scale
+    \end{itemize}
+\end{frame}
+
+% --- IDENTIFICATION STRATEGY ---
+\begin{frame}{Identification Strategy: The Core Innovation}
+    The paper's most important contribution is solving the endogeneity problem through a novel instrument:
+
+    \textbf{Predicted Disease Burden (PDB)}
+    \[
+        (PDB)_{i}^{n} = \sum_{\text{age }a,\ \text{gender }g} \left[\text{pop}_{iag} \times \left(\frac{\sum_{k \neq i} \text{burden}_{kag}^{n}}{\sum_{k \neq i} \text{pop}_{kag}}\right)\right]
+    \]
+    measures the average disease burden per capita from disease $n$ for gender $g$ and age group $a$.
+    \textbf{Construction Details:}
+
+    \begin{itemize}
+        \item Uses country $i$'s demographic composition (age and gender distribution)
+        \item Combines with global disease prevalence patterns for each demographic group
+        \item "Leave-one-out" construction: excludes country $i$ itself when calculating global disease rates
+        \item Creates a plausibly exogenous predictor of disease-specific drug demand
+    \end{itemize}
+
+    % \textbf{Identifying Assumption}: PDB is uncorrelated with supply-side capabilities $\eta_i^n$ after controlling for fixed effects.
+\end{frame}
+
+% --- IDENTIFICATION JUSTIFICATION ---
+\begin{frame}{Why This Identification Strategy Works}
+
+    \textbf{Exogeneity Justification:}
+
+    \begin{itemize}
+        \item Demographic composition is predetermined and slow-moving
+        \item Global disease patterns are largely exogenous to any single country's economic conditions
+        \item "Leave-one-out" construction prevents mechanical correlation with country-specific factors
+        \item Instrument relevance: demographics strongly predict disease burdens, which drive drug demand
+    \end{itemize}
+
+\end{frame}
+
+\begin{frame}{Sources of Variation for the PDB Instrument}
+    \begin{columns}[c]
+        \column{0.5\textwidth}
+        \textbf{Variation in Demographics Across Countries}
+        \begin{figure}
+            \includegraphics[width=\textwidth]{image-a.jpeg}
+            \caption{Share of population under age 60 varies dramatically.
+                Based on Figure IV in Costinot et al. (2019).}
+        \end{figure}
+
+        \column{0.5\textwidth}
+        \textbf{Variation in Disease Profile Across Demographics}
+        \begin{figure}
+            \includegraphics[width=\textwidth]{image-b.jpeg}
+            \caption{\footnotesize {The labeled global burden of disease (GBD) codes correspond to the following diseases:
+                    U087: Alzheimer's disease and other dementia;
+                    U078: other neoplasms;
+                    U089: multiple sclerosis;
+                    U086: alcohol use disorders;
+                    and U012: whooping cough.}}
+        \end{figure}
+    \end{columns}
+\end{frame}
+
+% --- DATA SOURCES ---
+\begin{frame}{Data Sources and Measurement}
+
+    \textbf{Pharmaceutical Sales Data (IMS MIDAS, 2012)}
+
+    \begin{itemize}
+        \item Comprehensive global pharmaceutical sales data
+        \item 56 countries, covering over 20,000 molecules
+        \item Bilateral sales flows between country pairs
+        \item Origin country defined as firm headquarters location
+        \item Drugs classified by ATC codes, mapped to specific diseases
+        \item Important limitation: combines both exports and sales by foreign affiliates
+    \end{itemize}
+
+    \textbf{Disease Burden and Demographic Data}
+
+    \begin{itemize}
+        \item WHO Global Burden of Disease: DALYs by disease, age, gender, and country
+        \item U.S. Census Bureau International Database: Population by age and gender for each country
+        \item Hand-coded mapping from ATC drug classifications to WHO disease categories
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Baseline Model}
+    \begin{block}{Equation (15) \& (16)}
+        $$ \ln \theta _i^n = \gamma \ln(PDB)_{j}^{n} + \gamma_i^n $$
+        $$ \ln x_{ij}^{n}=\delta_{ij}+\delta^{n}+\tilde{\beta}_{M}\ln(PDB)_{j}^{n}+\tilde{\beta}_{X}\ln(PDB)_{i}^{n}+\tilde{\epsilon}_{ij}^{n} $$
+    \end{block}
+    \begin{itemize}
+        \item $x_{ij}^{n}$: Bilateral sales from origin $i$ to destination $j$ for disease $n$.
+        \item $(PDB)_{i}^{n}$: Predicted Disease Burden in the origin (exporter).
+        \item $(PDB)_{j}^{n}$: Predicted Disease Burden in the destination (importer).
+        \item $\delta_{ij}$: Origin-Destination fixed effects (absorbs distance, etc.).
+        \item $\delta^{n}$: Disease fixed effects (absorbs global disease size).
+    \end{itemize}
+\end{frame}
+
+% --- BASELINE RESULTS ---
+\begin{frame}{Baseline Results: Evidence for Home-Market Effect}
+
+    \begin{center}
+        \small
+        \begin{tabular}{lcc}
+            \toprule
+            \textbf{Variable}                                  & \textbf{Coefficient}                            & \textbf{(Std. Err.)} \\
+            \midrule
+            $\ln(\text{PDB, destination})$ ($\tilde{\beta}_M$) & 0.545                                           & (0.107)              \\
+            $\ln(\text{PDB, origin})$ ($\tilde{\beta}_X$)      & 0.928                                           & (0.123)              \\
+            \midrule
+            Observations                                       & \multicolumn{2}{c}{19,150}                                             \\
+            Fixed Effects                                      & \multicolumn{2}{c}{Origin×Destination, Disease}                        \\
+            \bottomrule
+        \end{tabular}
+    \end{center}
+
+    \textbf{Hypothesis Test 1: Weak Home-Market Effect}
+
+    \begin{itemize}
+        \item Null hypothesis: $\tilde{\beta}_X \leq 0$
+        \item Result: $\tilde{\beta}_X = 0.928$, p-value $< 0.001$
+        \item Interpretation: Strong evidence that home demand increases exports
+        \item Economic significance: 10\% increase in home PDB associated with 9.3\% increase in exports
+    \end{itemize}
+
+    \textbf{Hypothesis Test 2: Strong Home-Market Effect}
+
+    \begin{itemize}
+        \item Null hypothesis: $\tilde{\beta}_X \leq \tilde{\beta}_M$
+        \item Result: F-test p-value = 0.018
+        \item Interpretation: Evidence that countries become net exporters
+    \end{itemize}
+\end{frame}
+
+% --- ECONOMIC INTERPRETATION ---
+\begin{frame}{Economic Interpretation of Baseline Results}
+
+    \textbf{What Do These Coefficients Mean?}
+
+    The positive and significant $\tilde{\beta}_X$ provides the credible causal evidence for the home-market effect. This means:
+
+    \begin{itemize}
+        \item Countries systematically export more of drugs for which they have higher \emph{exogenous} home demand
+        \item This pattern cannot be explained by supply-side advantages alone
+        \item The effect is economically substantial and statistically robust
+    \end{itemize}
+
+    \textbf{Why is This Evidence Causal?}
+
+    \begin{itemize}
+        \item PDB provides exogenous variation in demand uncorrelated with supply conditions
+        \item Extensive fixed effects structure controls for confounding factors
+        \item The identification strategy breaks the fundamental endogeneity problem that plagued previous tests
+    \end{itemize}
+
+    \textbf{Policy Implication}: Countries may develop export advantages in industries where they have large domestic markets, supporting strategic trade policy arguments.
+\end{frame}
+
+% --- ROBUSTNESS CHECKS ---
+\begin{frame}{Robustness Checks: Addressing Alternative Explanations}
+
+    % The paper conducts extensive robustness checks to rule out competing explanations:
+
+    \textbf{Supply-Side Confounds}
+
+    \begin{itemize}
+        \item Controls for GDP per capita interacted with disease characteristics
+        \item Restricts sample to generic drugs (where R\&D advantages matter less)
+        \item Focuses on poorer countries
+              % (less likely to have advanced pharmaceutical sectors)
+              % \item Result: Weak HME remains strong and significant
+    \end{itemize}
+
+    \begin{figure}[h!]
+        \centering
+        \includegraphics[width=0.6\textwidth]{Tab4.png}
+    \end{figure}
+\end{frame}
+
+\begin{frame}
+    \begin{figure}[h!]
+        \centering
+        \includegraphics[width=0.8\textwidth]{Tab5.png}
+    \end{figure}
+\end{frame}
+
+\begin{frame}
+
+    \textbf{Spatial Correlation Concerns}
+
+    \begin{itemize}
+        \item Controls for disease burden in neighboring countries
+        \item Restricts to country pairs that are geographically distant
+        \item Result: No evidence that spatial correlation drives the results
+    \end{itemize}
+
+    \begin{figure}[h!]
+        \centering
+        \includegraphics[width=0.8\textwidth]{Tab6.png}
+    \end{figure}
+\end{frame}
+
+\begin{frame}
+
+    \textbf{Market Structure and Regulation}
+
+    \begin{itemize}
+        \item Examines EU markets separately (less price discrimination)
+        \item Controls for US NIH research funding
+        \item Uses PPML to account for zero trade flows
+        \item Result: HME patterns persist across specifications
+    \end{itemize}
+
+    \begin{figure}[h!]
+        \centering
+        \includegraphics[width=0.7\textwidth]{Tab7.png}
+    \end{figure}
+\end{frame}
+
+% --- MECHANISM ANALYSIS ---
+\begin{frame}{Mechanism Analysis: Disentangling Scale Economies}
+
+    A key question: Is the HME driven by economies of scale (as theory predicts) or could alternative mechanisms explain the results?
+
+    \textbf{Estimating Demand Elasticity}
+
+    \begin{itemize}
+        \item Method: Uses gravity equation combined with micro-level price data
+        \item Estimates how trade costs affect both quantities and prices
+        \item Result: $\varepsilon^x \approx 6.22$ (demand is highly elastic)
+        \item Implication: Inelastic demand cannot explain the HME findings
+    \end{itemize}
+
+    \textbf{Estimating Supply Elasticity}
+
+    \begin{itemize}
+        \item Method: Uses PDB as instrument for total production scale
+        \item Estimates relationship between scale and producer prices
+        \item Result: $\varepsilon^s \approx -7.83$ (strong economies of scale)
+        \item Implication: Supply curve is downward sloping, confirming scale economies
+    \end{itemize}
+
+    \textbf{Conclusion}: The HME is indeed driven by substantial industry-level economies of scale, exactly as predicted by theory.
+\end{frame}
+
+% --- STRUCTURAL RESULTS ---
+\begin{frame}{Structural Results: Quantitative Assessment}
+
+    The estimated supply elasticity of $\varepsilon^s \approx -7.83$ provides several important insights:
+
+    \textbf{Magnitude of Scale Economies}
+
+    \begin{itemize}
+        \item The negative sign confirms downward-sloping supply (increasing returns)
+        \item The magnitude indicates substantial scale economies in pharmaceuticals
+        \item Comparison: About 25\% smaller than Krugman's (1980) benchmark prediction ($\varepsilon^s = -\varepsilon^x$)
+        \item Suggests real-world scale economies are large but not as extreme as in simplest models
+    \end{itemize}
+
+    \textbf{Welfare Implications}
+
+    \begin{itemize}
+        \item Scale economies create potential gains from trade through lower average costs
+        \item Home-market effects can shape comparative advantage and specialization patterns
+        \item Trade policy that expands market access can yield efficiency benefits
+    \end{itemize}
+
+    % \textbf{Industry Characteristics}: The findings align with known features of pharmaceuticals:
+    % high fixed R\&D costs, significant scale economies in production and distribution.
+\end{frame}
+
+% --- CRITICAL ASSESSMENT ---
+\begin{frame}{Critical Assessment: Strengths of the Paper}
+
+    \textbf{Methodological Innovation}
+
+    \begin{itemize}
+        \item Solves the fundamental endogeneity problem that plagued previous HME tests
+        \item PDB instrument is plausible, and well-justified
+        \item Theoretical framework is general and accommodates multiple market structures
+    \end{itemize}
+
+    \textbf{Empirical Rigor}
+
+    \begin{itemize}
+        \item Comprehensive robustness checks address most plausible alternatives
+              % \item Goes beyond reduced-form to estimate structural parameters
+        \item Clear distinction between weak and strong HME provides nuanced test
+    \end{itemize}
+
+    % \textbf{Substantive Contribution}
+
+    % \begin{itemize}
+    %     \item Provides the most credible evidence to date for the home-market effect
+    %     \item Quantifies the role of scale economies in driving international trade patterns
+    %     \item Demonstrates the continued relevance of New Trade Theory insights
+    % \end{itemize}
+
+    This paper likely represents the definitive empirical test of the home-market effect in the pharmaceutical industry.
+\end{frame}
+
+% --- LIMITATIONS ---
+\begin{frame}{Critical Assessment: Limitations and Questions}
+
+    \textbf{External Validity Concerns}
+
+    \begin{itemize}
+        \item Single-industry focus (pharmaceuticals) limits generalizability
+        \item Pharmaceuticals have unusual characteristics: high regulation, patents, inelastic demand in some cases
+        \item Would similar patterns hold in industries with weaker scale economies?
+    \end{itemize}
+
+    \textbf{Measurement Issues}
+
+    \begin{itemize}
+        \item Sales data combine exports and foreign affiliate sales
+        \item Cannot distinguish between "production HME" and "headquarters HME"
+        \item Where exactly do the scale economies operate: production, R\&D, or marketing?
+    \end{itemize}
+
+    \textbf{Strong HME Evidence}
+
+    \begin{itemize}
+        \item Evidence for strong HME ($\beta_X > \beta_M$) is less robust than for weak HME
+        \item Statistical significance disappears in some specifications
+        \item Suggests the strong version may be context-dependent
+    \end{itemize}
+
+    % \textbf{Black Box of Scale Economies}: While the paper confirms scale economies exist,
+    % it doesn't identify their precise micro-foundations.
+\end{frame}
+
+% --- POLICY IMPLICATIONS ---
+\begin{frame}{Policy Implications and Extensions}
+
+    \textbf{Trade Policy Implications}
+
+    \begin{itemize}
+        \item Supports the theoretical possibility of ``import protection as export promotion''
+        \item Industrial policy may be effective in sectors with significant scale economies
+        \item However: Welfare effects depend on market structure and policy details
+        \item Strategic trade policy arguments gain some empirical support
+    \end{itemize}
+\end{frame}
+
+\begin{frame}
+
+    \textbf{Industrial Organization}
+
+    \begin{itemize}
+        \item Scale economies appear to operate at the industry level rather than firm level
+        \item Has implications for antitrust policy in innovation-intensive industries
+        \item Suggests potential tradeoffs between competition and efficiency
+    \end{itemize}
+
+    \textbf{Development Economics}
+
+    \begin{itemize}
+        \item Countries may develop comparative advantage based on domestic market characteristics
+        \item Demographic transitions could shape future export specialization patterns
+              % \item Has implications for long-run development strategies
+    \end{itemize}
+\end{frame}
+
+% % --- RESEARCH AGENDA ---
+% \begin{frame}{Future Research Agenda}
+
+%     \textbf{Generalizability Tests}
+
+%     \begin{itemize}
+%         \item Apply similar identification strategies to other industries
+%         \item Test whether HME patterns vary with industry characteristics
+%         \item Examine how scale economy sources affect the strength of HME
+%     \end{itemize}
+
+%     \textbf{Micro-Foundations}
+
+%     \begin{itemize}
+%         \item Disentangle different sources of scale economies: R\&D, production, marketing
+%         \item Examine firm-level dynamics behind industry-level patterns
+%         \item Use richer data on production location vs. headquarters location
+%     \end{itemize}
+
+%     \textbf{Dynamic Extensions}
+
+%     \begin{itemize}
+%         \item Panel analysis of how HME evolves over time
+%         \item Study how demographic changes affect future comparative advantage
+%         \item Examine path dependence in export specialization patterns
+%     \end{itemize}
+
+%     \textbf{Methodological Extensions}
+
+%     \begin{itemize}
+%         \item Develop instruments for other industries and contexts
+%         \item Incorporate general equilibrium effects more explicitly
+%         \item Bridge to quantitative trade models for counterfactual analysis
+%     \end{itemize}
+% \end{frame}
+
+% --- CONCLUSION ---
+% \begin{frame}{Conclusion}
+
+%     \textbf{Summary of Contributions}
+
+%     \begin{itemize}
+%         \item Provides the first credible causal evidence for the home-market effect
+%         \item Develops an innovative identification strategy that solves the fundamental endogeneity problem
+%         \item Quantifies the role of scale economies in driving the effect
+%         \item Demonstrates the continued relevance of New Trade Theory for understanding real-world trade patterns
+%     \end{itemize}
+
+%     \textbf{Broader Significance}
+
+%     \begin{itemize}
+%         \item Shows how clever empirical strategies can resolve long-standing theoretical puzzles
+%         \item Demonstrates the value of industry-specific studies for testing general theories
+%         \item Provides a template for testing other economic theories with identification challenges
+%     \end{itemize}
+
+%     % \textbf{Final Assessment}: This paper represents a methodological breakthrough in international trade empirics and provides compelling evidence for one of the field's central theoretical predictions.
+% \end{frame}
+
+\end{document}
