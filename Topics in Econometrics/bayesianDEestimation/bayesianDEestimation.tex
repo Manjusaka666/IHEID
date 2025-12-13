@@ -1,0 +1,155 @@
+\documentclass[12pt,a4paper]{article}
+
+\usepackage[margin=3cm]{geometry}
+\usepackage{setspace}
+\setstretch{1.25}
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+
+\usepackage{amsmath,amssymb,mathtools}
+\usepackage{booktabs}
+\usepackage{enumitem}
+\usepackage{microtype}
+\usepackage[hidelinks]{hyperref}
+\usepackage{fancyhdr}
+
+\pagestyle{empty}
+
+\begin{document}
+
+\begin{center}
+{\Large \textbf{Forecasting Horse Races and ``Belief Distortions'':\\
+A Hierarchical Bayesian VAR Study with Sentiment Signals}}\\[2pt]
+% {\normalsize Term Paper Proposal --- Topics in Econometrics (EI137)}\\
+% {\normalsize Geneva Graduate Institute (IHEID)}\\[2pt]
+{\normalsize \textit{Jingle Fu}}\\
+{\normalsize \today}
+\end{center}
+
+% --- Section 1: Motivation ---
+\section*{1. Research Question and Motivation}
+% Vector Autoregressions (VARs) face a fundamental trade-off between information content and parameter proliferation.
+% While Hierarchical BVARs addresses overfitting,
+% it remains an open question whether the resulting forecasts exhibit systematic biases akin to human ``behavioral'' anomalies.
+Recent literature on Diagnostic Expectations (DE) suggests that economic agents overreact to news,
+whereas information rigidity models predict underreaction. This project investigates two precise questions:
+% \begin{enumerate}
+%     \item \textbf{Forecasting Performance:} Does expanding the information set of a hierarchical BVAR to include forward-looking financial prices and consumer sentiment reduce Root Mean Squared Forecast Error (RMSFE) relative to smaller baselines?
+%     \item \textbf{Behavioral Diagnostics:} Do the resulting forecast revisions predict forecast errors?
+%     Specifically, does the inclusion of sentiment shift the ``Coibion-Gorodnichenko'' coefficient ($\beta$) towards negative values (implying overreaction) or positive values (implying rigidity),
+%     thereby locating the algorithm on the behavioral spectrum?
+% \end{enumerate}
+
+\textit{1. Does expanding the information set of a hierarchical BVAR to include forward-looking financial prices and consumer sentiment reduce Root Mean Squared Forecast Error (RMSFE) relative to smaller baselines?}
+
+\textit{2. Whether adding sentiment changes the Coibion-Gorodnichenko(CG) error-revision coefficient in a direction consistent with diagnostic overreaction.}
+% --- Section 2: Data ---
+\section*{2. Data}
+
+I use monthly U.S. macroeconomic series from the FRED-MD database, covering the period \textbf{1985M1--2019M12}.
+The sample ends in 2019 to avoid COVID-19 outliers that would require complex volatility modeling beyond the scope of this term paper.
+To ensure consistent evaluation, variables are estimated in log-levels (to preserve cointegration) but evaluated in growth rates.
+The analysis compares three nested information sets:
+\begin{itemize}[leftmargin=*]
+    \item \textbf{Small Model (Baseline):} Industrial Production (INDPRO), Consumer Price Index (CPIAUCSL), Unemployment Rate (UNRATE), and Federal Funds Rate (FEDFUNDS).
+    \item \textbf{Medium Model (Financial Extension):} Adds the 10-Year Treasury Yield (GS10) and S\&P 500 Index (S\&P500) to capture forward-looking financial cycles.
+    \item \textbf{Full Model (Sentiment Extension):} Adds the University of Michigan Consumer Sentiment Index (UMCSENT) to test the marginal predictive power of ``soft'' data.
+\end{itemize}
+
+
+% --- Section 3: Econometric Framework ---
+\section*{3. Econometric Framework}
+The core methodology relies on a reduced-form VAR estimated with a Minnesota-style Normal-Inverse-Wishart prior.
+\begin{enumerate}
+    \item \textbf{Hierarchical BVAR:} Let $y_t$ be the vector of endogenous variables. We estimate three nested BVAR systems with $p=12$ lags:
+    \begin{equation}
+        y_t^{Small, Medium, Full} = c + \sum_{\ell=1}^{p} B_{\ell} y_{t-\ell} + u_t, \quad u_t \sim \mathcal{N}(0, \Sigma)
+    \end{equation}
+    across three distinct information sets.
+    Shrinkage is selected endogenously by treating $\lambda $ as a hyperparameter with a hyperprior and choosing it by marginal likelihood.
+    We compute RMSFE for $h = {1,3,12}$ and report RMSFE ratios relative to the benchmark, together with Diebold-Mariano tests for pairwise comparisons.
+    Benchmarks are a random-walk-type forecast and an AR(1) forecast defined on the same evaluation transforms used for the BVAR outputs.
+    % \begin{itemize}
+    %     \item \textbf{Model 1: Baseline (Small) BVAR.} Focuses on standard real activity and price data. The vector of endogenous variables is:
+    %     \begin{equation}
+    %         Y_t^{Small} = [\text{INDPRO}_t, \text{CPI}_t, \text{UNRATE}_t, \text{FEDFUNDS}_t]'
+    %     \end{equation}
+    %     \item \textbf{Model 2: Financial (Medium) BVAR.} Augments the baseline with forward-looking financial indicators to capture market expectations:
+    %     \begin{equation}
+    %         Y_t^{Med} = [Y_t^{Small'}, \text{GS10}_t, \text{S\&P500}_t]'
+    %     \end{equation}
+    %     \item \textbf{Model 3: Sentiment (Full) BVAR.} Further expands the system to test if ``soft'' sentiment data reduces forecast errors or introduces behavioral bias:
+    %     \begin{equation}
+    %         Y_t^{Full} = [Y_t^{Med'}, \text{UMCSENT}_t]'
+    %     \end{equation}
+    % \end{itemize}
+
+    \item \textbf{Identification of ``Behavioral'' Bias:} 
+    Let $z_{t+h}$ denote the realized growth rate of a target variable ($z \in \{\text{INDPRO}, \text{CPI}\}$) at horizon $h$.
+    Let $\hat{z}_{t+h|t}^{(m)}$ denote the forecast generated by Model $m \in \{\text{Small, Med, Full}\}$ at time $t$.
+    To test the efficiency of the algorithmic forecasts, I estimate the following regression linking ex-post forecast errors to forecast revisions:
+    \begin{equation}
+        (z_{t+h} - \hat{z}_{t+h|t}^{(m)}) = \alpha_h + \beta_h (\hat{z}_{t+h|t}^{(m)} - \hat{z}_{t+h|t-1}^{(m)}) + \varepsilon_{t+h}
+    \end{equation}
+    where the term in the first parenthesis represents the forecast error and the term in the second parenthesis represents the forecast revision.
+    Since the forecast horizon $h$ creates overlapping observations, inference on $\beta_h$ relies on Newey-West HAC standard errors.
+\end{enumerate}
+
+
+% --- Section 4: Interpretation ---
+\section*{4. Interpretation and Expected Results}
+% The analysis will be conducted using a recursive pseudo-out-of-sample scheme (2001--2019).
+% \begin{itemize}
+%     \item \textbf{The Horse Race:} 
+%     \item \textbf{The Diagnostic:} By comparing $\beta_h$ across the three nested models, we can isolate the marginal effect of sentiment.
+%     A coefficient $\beta_h = 0$ implies rational expectations (null hypothesis);
+%     $\beta_h > 0$ indicates information rigidity (underreaction);
+%     and $\beta_h < 0$ indicates diagnostic expectations (overreaction).
+%     The key empirical object is the change in $\beta_h$ when adding sentiment (Medium-Finance vs Medium-Finance+Sentiment), which might connect to diagnostic expectations.
+% \end{itemize}
+First, We verify whether the Hierarchical BVAR outperforms AR(1) benchmarks.
+The key test is whether the \textit{Full Model} lowers RMSFE for real activity variables at short horizons ($h=1, 3$) (and at long horizens $h=12$).
+Then, by comparing $\beta_h$ across the three nested models, we can isolate the marginal effect of sentiment.
+The key empirical object is the change in $\beta_h$ when adding sentiment (Medium-Finance vs Medium-Finance+Sentiment), which might connect to diagnostic expectations.
+% % --- Section 5: Preliminary Structure ---
+% \section*{5. Preliminary Structure of the Term Paper}
+% The final paper will be approximately 15--20 pages (including appendix) and structured as follows:
+
+% \begin{enumerate}[leftmargin=*, label=\textbf{\arabic*}.]
+%     \item \textbf{Introduction}
+%     \begin{itemize}
+%         \item \textbf{Motivation:} Briefly discuss the tension between ``black box'' machine learning methods in macroeconomics and the need for economic interpretability through the lens of behavioral diagnostics.
+%         \item \textbf{Research Questions:} Explicitly state the two goals: (1) assessing the forecasting value of sentiment in a BVAR, and (2) testing whether this induces overreaction.
+%         \item \textbf{Contribution:} Highlight the novelty of applying human-behavioral tests (Coibion-Gorodnichenko) to machine-learning forecasts.
+%     \end{itemize}
+
+%     \item \textbf{Data and Experimental Design}
+%     \begin{itemize}
+%         \item \textbf{Data Description:} Detail the FRED-MD dataset selection, the rationale for the 1985--2019 sample period, and the specific transformations (log-levels for estimation vs. growth rates for evaluation).
+%         \item \textbf{Forecasting Scheme:} Define the recursive expanding window approach and the specific forecast horizons ($h=1, 3, 12$) chosen for the analysis.
+%         \item \textbf{Model Specifications:} Clearly define the variables included in the Small, Medium, and Full information sets.
+%     \end{itemize}
+
+%     \item \textbf{Econometric Methodology}
+%     \begin{itemize}
+%         \item \textbf{The BVAR Model:} Present the VAR likelihood and the structure of the Conjugate Normal-Inverse-Wishart prior (Minnesota prior).
+%         \item \textbf{Hierarchical Selection (GLP):} Explain the mechanism for selecting optimal shrinkage hyperparameters ($\lambda$) via Marginal Likelihood maximization, avoiding ad-hoc choices.
+%         \item \textbf{Behavioral Diagnostic Test:} Derive the Coibion-Gorodnichenko (CG) regression equation. Discuss the econometric issues arising from overlapping forecast horizons and the use of Newey-West HAC standard errors to correct for serial correlation.
+%     \end{itemize}
+
+%     \item \textbf{Empirical Results}
+%     \begin{itemize}
+%         \item \textbf{Forecasting Horse Race:} Present a table of RMSFE ratios relative to the AR(1) benchmark. Discuss whether the inclusion of financial and sentiment variables improves accuracy for specific targets (INDPRO, CPI) or horizons.
+%         \item \textbf{Algorithmic Behavior Analysis:} Present the estimates of the $\beta_h$ coefficients for each model. Analyze the shift in $\beta_h$ when moving from the Medium to the Full model. Does the algorithm become more ``rigid'' or more ``volatile'' when fed with sentiment data?
+%         \item \textbf{Robustness Checks:} Briefly discuss sensitivity to lag length ($p=12$ vs. $p=6$) or alternative evaluation metrics (e.g., Mean Absolute Error).
+%     \end{itemize}
+
+%     \item \textbf{Conclusion}
+%     \begin{itemize}
+%         \item Summarize the main findings regarding the trade-off between forecast accuracy and behavioral consistency.
+%         \item Discuss limitations (e.g., the exclusion of the COVID-19 period) and potential avenues for future research, such as time-varying parameters.
+%     \end{itemize}
+% \end{enumerate}
+
+\end{document}

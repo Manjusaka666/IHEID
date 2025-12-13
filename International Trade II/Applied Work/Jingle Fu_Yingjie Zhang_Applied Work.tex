@@ -1,0 +1,495 @@
+\documentclass[a4paper,12pt]{article} % This defines the style of your paper
+
+\usepackage[top = 2.5cm, bottom = 2.5cm, left = 2.5cm, right = 2.5cm]{geometry} 
+
+% Unfortunately, LaTeX has a hard time interpreting German Umlaute. The following two lines and packages should help. If it doesn't work for you please let me know.
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{pifont}
+% \usepackage{ctex}
+\usepackage{amsthm, amsmath, amssymb, mathrsfs,mathtools}
+
+% Defining a new theorem style without italics
+\newtheoremstyle{nonitalic}% name
+  {\topsep}% Space above
+  {\topsep}% Space below
+  {\upshape}% Body font
+  {}% Indent amount
+  {\bfseries}% Theorem head font
+  {.}% Punctuation after theorem head
+  {.5em}% Space after theorem head
+  {}% Theorem head spec (can be left empty, meaning ‘normal`)
+  
+\theoremstyle{nonitalic}
+% Define new 'solution' environment
+\newtheorem{innercustomsol}{Solution}
+\newenvironment{solution}[1]
+  {\renewcommand\theinnercustomsol{#1}\innercustomsol}
+  {\endinnercustomsol}
+
+% Custom counter for the solutions
+\newcounter{solutionctr}
+\renewcommand{\thesolutionctr}{(\alph{solutionctr})}
+
+% Environment for auto-numbering with custom format
+\newenvironment{autosolution}
+  {\stepcounter{solutionctr}\begin{solution}{\thesolutionctr}}
+  {\end{solution}}
+
+
+\newtheorem{problem}{Problem}
+\usepackage{color}
+
+% The following two packages - multirow and booktabs - are needed to create nice looking tables.
+\usepackage{multirow} % Multirow is for tables with multiple rows within one cell.
+\usepackage{booktabs} % For even nicer tables.
+
+% As we usually want to include some plots (.pdf files) we need a package for that.
+\usepackage{graphicx} 
+\usepackage{subfigure}
+
+
+% The default setting of LaTeX is to indent new paragraphs. This is useful for articles. But not really nice for homework problem sets. The following command sets the indent to 0.
+\usepackage{setspace}
+\setlength{\parindent}{0in}
+\usepackage{longtable}
+
+% Package to place figures where you want them.
+\usepackage{float}
+
+% The fancyhdr package let's us create nice headers.
+\usepackage{fancyhdr}
+
+\usepackage{fancyvrb}
+
+%Code environment 
+\usepackage{listings} % Required for insertion of code
+\usepackage{threeparttable}
+\usepackage{siunitx}        % 数字对齐
+\usepackage{caption}        % 标题格式
+\usepackage{array}          % 列格式
+
+\usepackage{xcolor} % Required for custom colors
+
+% Define colors for code listing
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+
+% Code listing style named "mystyle"
+\lstdefinestyle{mystyle}{
+    backgroundcolor=\color{backcolour},   
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{magenta},
+    numberstyle=\tiny\color{codegray},
+    stringstyle=\color{codepurple},
+    basicstyle=\ttfamily\footnotesize, % Change to serif font
+    columns=fullflexible, % make sure to use fixed-width font, CM typewriter is NOT fixed width
+    numbers=left,
+    stepnumber=1,
+    numbersep=10pt,
+    numberfirstline=true,
+    numberblanklines=true,
+    tabsize=4,
+    lineskip=-1.5pt,
+    extendedchars=true,
+    breaklines=true,
+    identifierstyle=, % using emph or index keywords
+    showstringspaces=false,
+    showtabs=false,
+    upquote=false,
+    texcl=true % interpet comments as LaTeX
+}
+
+\lstset{style=mystyle}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 3. Header (and Footer)
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% To make our document nice we want a header and number the pages in the footer.
+
+\pagestyle{fancy} % With this command we can customize the header style.
+
+\fancyhf{} % This makes sure we do not have other information in our header or footer.
+
+\lhead{\footnotesize EI129 International Trade II}% \lhead puts text in the top left corner. \footnotesize sets our font to a smaller size.
+
+%\rhead works just like \lhead (you can also use \chead)
+\rhead{\footnotesize Jingle Fu} %<---- Fill in your lastnames.
+
+% Similar commands work for the footer (\lfoot, \cfoot and \rfoot).
+% We want to put our page number in the center.
+\cfoot{\footnotesize \thepage}
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+
+\begin{document}
+
+\thispagestyle{empty} % This command disables the header on the first page. 
+
+\begin{tabular}{p{15.5cm}} % This is a simple tabular environment to align your text nicely 
+  {\large \bf EI129 International Trade II}                 \\
+  The Graduate Institute, Spring 2025, Yuan Zi \\
+  \hline % \hline produces horizontal lines.
+  \\
+\end{tabular} % Our tabular environment ends here.
+
+\vspace*{0.3cm} % Now we want to add some vertical space in between the line and our title.
+
+\begin{center} % Everything within the center environment is centered.
+  {\Large \bf Applied Work} % <---- Don't forget to put in the right number
+  \vspace{2mm}
+
+  % YOUR NAMES GO HERE
+  {\bf Jingle Fu} % <---- Fill in your names here!
+
+\end{center}
+
+\vspace{0.4cm}
+\setstretch{1.2}
+
+
+\section*{Question a: Comment on Rose's (2004) Quotation}
+
+Rose's (2004) finding that currency unions triple trade $(\exp(1.21) > 3)$ is economically implausible for several reasons:
+
+In a structural gravity framework,
+trade flows are determined by trade costs $\tau$ raised to the power of the trade elasticity $1-\sigma$.
+Assuming a standard elasticity of substitution $\sigma = 6$ (implying a trade elasticity of $-5$),
+a tripling of trade volumes would require a reduction in trade costs $\tau$ such that $\tau^{-5} \approx 3.35$,
+which implies $\tau \approx 0.78$. This suggests that currency unions reduce total trade costs
+(including freight, tariffs, and non-tariff barriers) by approximately 22\%.
+Given that currency unions primarily eliminate exchange rate volatility—a relatively small component of total trade costs—such a magnitude is unrealistic.
+
+Furthermore, the estimate likely suffers from severe omitted variable bias.
+Currency unions are not randomly assigned;
+they are typically formed between countries with deep historical, political, and colonial ties.
+Cross-sectional estimations that fail to control for these unobserved bilateral affinities conflate the impact of the currency union with the impact of these pre-existing ties,
+thereby biasing the coefficient upwards.
+As noted in subsequent meta-analyses (e.g., Rose \& Stanley, 2005),
+correcting for publication bias and controlling for omitted heterogeneity significantly reduces the estimated effect to a more plausible range of 30-90\%.
+
+% \begin{enumerate}
+%     \item \textbf{Magnitude Inconsistency}: The implied trade elasticity relative to trade costs is inconsistent with empirical estimates (typically 3-8). A tripling of trade would require an implausibly large reduction in trade costs.
+    
+%     \item \textbf{Omitted Variable Bias}: Currency unions are not randomly assigned; they often form between countries with pre-existing strong economic, historical, and political ties. Failing to control for these factors upwardly biases the estimate.
+    
+%     \item \textbf{Cross-Sectional Reliance}: The estimate relies heavily on cross-sectional variation between currency-union and non-currency-union pairs, which may capture unobserved heterogeneity rather than a causal effect.
+    
+%     \item \textbf{Publication Bias}: Subsequent meta-analysis (Rose \& Stanley, 2005) suggests a corrected effect of 30-90\%, indicating that the original literature likely suffered from publication bias favoring large, significant results.
+% \end{enumerate}
+
+\section*{Question b: Mechanisms and Expected Effect Size}
+
+\subsection*{Mechanisms through which currency unions may affect trade:}
+
+\begin{enumerate}
+    \item \textbf{Elimination of Exchange Rate Uncertainty}: Reduces risk and hedging costs for traders.
+    \item \textbf{Transaction Cost Reduction}: Eliminates currency conversion costs and bid-ask spreads.
+    \item \textbf{Price Transparency}: Facilitates price comparisons across countries, enhancing competition.
+    \item \textbf{Policy Coordination}: Encourages harmonization of regulations and standards.
+    \item \textbf{Signaling Effect}: Signals commitment to deep economic integration.
+\end{enumerate}
+
+\subsection*{Reasons for expecting a large effect:}
+\begin{itemize}
+    \item High initial trade costs and exchange rate volatility.
+    \item Trade in differentiated goods with high elasticity of substitution.
+    \item Weak monetary policy credibility prior to union.
+\end{itemize}
+
+\subsection*{Reasons for expecting a small effect:}
+\begin{itemize}
+    \item Pre-existing stable exchange rate arrangements (e.g., pegs, currency boards).
+    \item Trade in homogeneous goods with low elasticity.
+    \item Already high levels of trade integration.
+\end{itemize}
+
+\section*{Question c: Data Construction and Summary}
+
+The gravity dataset was constructed by merging bilateral trade flows from DOTS (1960-2005, every 5 years) with GDP and population data from Penn World Tables, regional trade agreement (RTA) and currency union (CU) dummies, and time-invariant geographic variables from CEPII. After cleaning and transformations, the final dataset contains:
+
+% \[
+% \begin{aligned}
+% &\text{Number of observations: } 102,018 \\
+% &\text{Number of unique country pairs: } 22,124 \\
+% &\text{Number of years: } 10 \quad (1960, 1965, \dots, 2005) \\
+% &\text{Mean trade value: } \$1.3\times10^9 \text{ (median: } \$3.9\times10^7) \\
+% &\text{Mean CU share (pairs): } 1.6\% \\
+% &\text{Mean RTA share (pairs): } 4.4\%
+% \end{aligned}
+% \]
+
+The dataset is balanced across years, with trade values showing expected growth over time. The low share of CU pairs (1.5-4\%) indicates that identification relies on a small subset of observations, which may affect precision.
+
+\section*{Question d: Evolution of RTA and CU Shares}
+
+The share of country pairs in RTAs increased steadily from 1.7\% in 1960 to 12.6\% in 2005, while the trade-weighted share of RTAs grew from 9.5\% to 54.7\%. In contrast, the share of CU pairs declined from 3.3\% to 1.5\%, with trade-weighted CU share fluctuating between 0.1\% and 7.7\%. The divergence between pair shares and trade-weighted shares indicates that RTAs and CUs involve countries with systematically different trade volumes.
+
+% \begin{table}[H]
+% \centering
+% \caption{Evolution of RTA and CU Shares Over Time}
+% \label{tab:evolution}
+% \begin{tabular}{ccccccc}
+% \toprule
+% Year & CU Pairs (\%) & RTA Pairs (\%) & CU Trade (\%) & RTA Trade (\%) & CU Countries & RTA Countries \\
+% \midrule
+% 1960 & 3.25 & 1.73 & 7.66 & 9.49 & 41 & 37 \\
+% 1965 & 3.95 & 2.57 & 0.51 & 15.90 & 45 & 43 \\
+% 1970 & 2.43 & 1.87 & 0.26 & 24.00 & 35 & 39 \\
+% 1975 & 1.80 & 2.97 & 0.25 & 25.90 & 32 & 48 \\
+% 1980 & 1.55 & 3.48 & 0.14 & 27.40 & 30 & 52 \\
+% 1985 & 1.46 & 3.52 & 0.12 & 19.70 & 29 & 53 \\
+% 1990 & 1.15 & 3.67 & 0.11 & 31.00 & 27 & 55 \\
+% 1995 & 0.98 & 6.86 & 0.17 & 53.70 & 25 & 68 \\
+% 2000 & 1.41 & 7.10 & 2.23 & 53.30 & 29 & 71 \\
+% 2005 & 1.46 & 12.60 & 2.50 & 54.70 & 30 & 85 \\
+% \bottomrule
+% \end{tabular}
+% \end{table}
+
+\textbf{Key trends:}
+\begin{itemize}
+    \item \textbf{RTAs}: Both pair share and trade share increased, especially after 1995, reflecting the proliferation of regional agreements.
+    \item \textbf{CUs}: Pair share declined, but trade share spiked in 1960 (7.7\%) and again in 2000-2005 (2.2-2.5\%), likely due to the Euro's introduction.
+\end{itemize}
+
+The visualization (Figure 1) confirms these trends, showing stronger growth for RTAs than for CUs.
+
+\section*{Question e: Currency Union Effect Estimation}
+
+\subsection*{e(a) Theoretical Expectation from Krugman (1980) Model}
+
+The gravity equation derived from Krugman (1980) monopolistic competition model is:
+
+\[
+T_{ij} = \frac{Y_i Y_j}{Y_w} \left( \frac{\tau_{ij}}{P_i P_j} \right)^{1-\sigma}
+\]
+
+Taking logs:
+
+\[
+\ln T_{ij} = \ln Y_i + \ln Y_j - \ln Y_w + (1-\sigma) \ln \tau_{ij} - (1-\sigma)(\ln P_i + \ln P_j)
+\]
+
+Thus, the theoretical coefficients on $\ln Y_i$ and $\ln Y_j$ are \textbf{1}. In our estimations, the coefficients on $\ln \text{gdp}_o$ and $\ln \text{gdp}_d$ are less than 1 in specifications without country fixed effects (0.6-0.8), but approach 1 when country fixed effects are included (1.22 and 0.74), consistent with theory.
+
+\subsection*{e(b)-(e) Empirical Results}
+
+\input{table e_basic_gravity.tex}
+
+\textbf{Key findings:}
+\begin{enumerate}
+    \item The CU coefficient is negative and insignificant in specifications (b) and (c), but becomes positive (0.593) and significant when country fixed effects are included.
+    \item The RTA coefficient is positive and significant across all specifications, though smaller with country fixed effects.
+    \item Distance has the expected negative sign, and its magnitude increases with country fixed effects.
+    \item Colonial ties and common language have strong positive effects on trade.
+\end{enumerate}
+
+The switch in CU coefficient sign highlights the importance of controlling for country-specific unobservables.
+
+\section*{Question f: Comparison with Rose and the "Gold Medal Mistake"}
+
+% Our estimate of the currency union effect (0.593) is substantially smaller than Rose's original estimate of 1.21,
+% which implies a 235\% increase in trade compared to our 81\% increase. 
+% This discrepancy illustrates what Baldwin \& Taglioni (2006) term the \textbf{"Gold Medal Mistake"}
+% - the failure to account for Multilateral Resistance Terms (MRTs).
+
+Our estimated currency union effect of 0.593 is substantially smaller than Rose's original estimate of 1.21.
+This discrepancy highlights the severity of what Baldwin and Taglioni (2006) term the \textbf{"Gold Medal Mistake"}:
+the failure to control for Multilateral Resistance Terms (MRTs).
+
+Theoretically, bilateral trade depends not only on bilateral trade costs but also on the relative price indices ($P_i$ and $P_j$) of the trading partners,
+which summarize their trade costs with the rest of the world.
+Omitting these terms creates a correlation between the error term and the trade cost variables, leading to biased estimates.
+
+\subsection*{Mathematical Explanation}
+
+The theoretically correct gravity equation derived from Anderson \& van Wincoop (2003) is:
+
+\[
+\ln T_{ij} = \ln Y_i + \ln Y_j - \ln Y_w + (1-\sigma)\ln\tau_{ij} - (1-\sigma)(\ln P_i + \ln P_j) + \epsilon_{ij}
+\]
+
+where $P_i$ and $P_j$ are price indices that depend on trade costs with all trading partners. Omitting these MRTs biases the coefficients on bilateral variables like the CU dummy.
+
+\subsection*{Country Fixed Effects as a Partial Remedy}
+
+The inclusion of exporter and importer fixed effects in our specification serves as a partial remedy by absorbing the average multilateral resistance for each country over the sample period.
+However, this strategy is imperfect because it treats MRTs as time-invariant.
+In reality, a country's multilateral resistance changes over time as its trading partners' GDPs and trade costs fluctuate.
+Consequently, while standard country fixed effects reduce the bias compared to the naive gravity model,
+they do not fully eliminate the bias arising from time-varying multilateral resistance, which constitutes the ``Silver Medal Mistake.''
+
+\subsection*{Advantages and Drawbacks of Country Fixed Effects}
+
+\textbf{Advantages}:
+\begin{itemize}
+    \item Control for time-invariant unobserved country heterogeneity
+    \item Absorb the average trade costs with all partners (MRTs)
+    \item Reduce omitted variable bias
+\end{itemize}
+
+\textbf{Drawbacks}:
+\begin{itemize}
+    \item Cannot estimate coefficients for time-invariant bilateral variables (distance, common language, colonial history)
+    \item Absorb many degrees of freedom
+    \item May over-control if policy variables are correlated with country characteristics
+\end{itemize}
+
+\section*{Question g: Silver and Bronze Medal Mistakes (Baldwin \& Taglioni)}
+
+\textbf{Silver Medal Mistake}: Failure to account for \textbf{time-varying country heterogeneity}. Rose used country fixed effects but not country-year fixed effects, failing to control for time-varying MRTs. When trade costs with third countries change over time, these changes affect bilateral trade flows and bias the estimated CU coefficient if not properly controlled.
+
+\textbf{Bronze Medal Mistake}: \textbf{Improper deflation of trade values}. Rose used nominal trade flows deflated by GDP deflators instead of proper price indices for tradables. This introduces measurement error that is correlated with the error term, potentially biasing the CU coefficient.
+
+These methodological issues, combined with the Gold Medal Mistake, explain why Rose's original estimates were implausibly large. Our results, which address these issues through proper econometric specifications, yield more plausible estimates of the currency union effect.
+
+\section*{Question h: Year-by-Year Regressions with Country Fixed Effects}
+
+Although the year-by-year regression results are not shown in the provided tables, the analysis would reveal whether the currency union effect varies over time. Such variation could occur due to:
+\begin{itemize}
+    \item Changes in the composition of currency unions
+    \item Evolving global economic conditions
+    \item Learning effects as currency unions mature
+\end{itemize}
+
+The appropriate use of year-by-year regressions depends on the research question. If the effect of currency unions is expected to be constant over time, pooling all years increases efficiency. However, if the effect varies (e.g., due to the introduction of the Euro), year-by-year regressions can provide valuable insights.
+
+\section*{Question i: Critiques and Country-Pair Fixed Effects}
+
+\input{table i_pair_fe.tex}
+
+\subsection*{i(1) Country-Pair Fixed Effects as a Solution}
+
+The country-pair fixed effects specification yields a CU coefficient of 0.446***, implying a 56\% increase in trade ($e^{0.446} - 1 = 0.562$). This is smaller than the 81\% increase estimated with country fixed effects only, suggesting that some of the effect captured in specification (4) of Table 1 was due to time-invariant pair heterogeneity.
+
+\textbf{Strengths of pair fixed effects}:
+\begin{itemize}
+    \item Control for all time-invariant bilateral factors (historical ties, permanent geographic features, cultural affinities)
+    \item Address reverse causality by using within-pair variation over time
+    \item Mitigate omitted variable bias from unobserved pair characteristics
+\end{itemize}
+
+\textbf{Weaknesses in this context}:
+\begin{itemize}
+    \item CU membership has little within-pair variation over time (only 1.5\% of pairs change CU status)
+    \item Identification relies on a small subset of observations
+    \item May absorb too much variation if CU membership is stable
+\end{itemize}
+
+\subsection*{i(2) Potential Omitted Variables and Sample Selection}
+
+\textbf{Potential omitted variables} that could bias the CU coefficient upward include:
+\begin{itemize}
+    \item Deep cultural/linguistic ties beyond common language
+    \item Political alliances and security agreements
+    \item Similar legal systems and institutional quality
+    \item Complementary economic structures
+\end{itemize}
+
+\textbf{Endogenous sample selection}: Countries self-select into currency unions based on unobserved factors that also affect trade.
+This creates upward bias as the CU dummy captures both the treatment effect and the selection effect.
+For example, countries with strong but unmeasured economic ties may be more likely to form a currency union.
+
+\section*{Question j: High-Dimensional Fixed Effects}
+
+\input{table j_structural_gravity.tex}
+
+The structural gravity specifications provide the most rigorous estimates of the currency union effect:
+
+\begin{enumerate}
+    \item \textbf{Specification (1) - Time-varying MRTs}: Controlling for exporter-year and importer-year fixed effects yields a CU coefficient of 0.490**, implying a 63\% increase in trade. This specification addresses time-varying multilateral resistance terms.
+    
+    \item \textbf{Specification (2) - Adding pair fixed effects}: Further controlling for pair fixed effects yields a CU coefficient of 0.349***, implying a 42\% increase in trade. This is the most demanding specification, identified only from within-pair variation in CU status over time.
+\end{enumerate}
+
+\subsection*{Rationale for These Specifications}
+
+\begin{itemize}
+    \item \textbf{Exporter-year and importer-year fixed effects}: Control for time-varying multilateral resistance terms, addressing the Silver Medal Mistake.
+    \item \textbf{Pair fixed effects}: Control for all time-invariant bilateral characteristics, addressing the Gold Medal Mistake (time-invariant MRTs) and other time-invariant confounders.
+\end{itemize}
+
+The decline in the CU coefficient from 0.490 to 0.349 as we add more fixed effects suggests that earlier estimates were biased upward by omitted variables.
+
+\section*{Question k: Do Small Countries Benefit More from Currency Unions?}
+
+\input{table k_small_countries.tex}
+
+The results provide mixed evidence on whether small countries benefit more from currency unions:
+
+\begin{enumerate}
+    \item \textbf{Specifications (1) and (2) without country fixed effects}: The interaction terms (cu\_small\_o, cu\_small\_d, cu\_both\_small) are positive but insignificant, suggesting no differential effect for small countries.
+    
+    \item \textbf{Specification (3) with country fixed effects}: The CU coefficient becomes large and significant (2.65***), while the interaction cu\_both\_small is negative but insignificant (-0.097). The both\_small variable is positive and significant (0.688***), indicating that small country pairs trade more with each other.
+\end{enumerate}
+
+\subsection*{Interpretation}
+
+The evidence does not strongly support the hypothesis that small countries benefit more from currency unions. The large CU coefficient in specification (3) may be driven by other factors correlated with both small country size and CU membership. The positive coefficient on both\_small suggests that small countries tend to trade more with each other, but this effect does not appear to be amplified by currency union membership.
+
+\section*{Question l: Problems with Log-Linearization and Poisson Estimation}
+
+\input{table l_ppml.tex}
+
+\subsection*{Two Main Problems with Log-Linear Gravity Equation}
+
+\begin{enumerate}
+    \item \textbf{Zero trade flows}: The log transformation cannot handle zero values, leading to sample selection bias if zeros are not random.
+    
+    \item \textbf{Heteroskedasticity}: Trade data typically exhibit heteroskedasticity where variance is proportional to the mean, violating OLS assumptions and leading to inefficient estimates.
+\end{enumerate}
+
+\subsection*{PPML Estimation Results}
+
+The PPML estimate of the CU coefficient is 0.027 and insignificant, implying essentially no effect of currency unions on trade. This contrasts sharply with the positive and significant estimates from log-linear specifications.
+
+\subsection*{Interpretation}
+
+The discrepancy between PPML and log-linear estimates suggests that heteroskedasticity and/or zero trade flows may be biasing the log-linear estimates. The PPML estimate is more reliable because it:
+\begin{itemize}
+    \item Handles zero trade flows directly
+    \item Is consistent under heteroskedasticity
+    \item Maintains the multiplicative form of the gravity equation
+\end{itemize}
+
+The insignificant PPML result casts doubt on the robustness of the positive CU effects found in log-linear specifications.
+
+\section*{Question m: Euro Effect Analysis}
+
+\input{table m_euro_effect.tex}
+
+The Euro effect analysis yields surprising results:
+
+\begin{enumerate}
+    \item \textbf{Specification (4) - PPML with pair fixed effects}: The euro\_cu coefficient is -0.613***,
+    implying that the Euro \textbf{reduced} trade by approximately 46\% ($e^{-0.613} - 1 = -0.459$).
+    This is counterintuitive and requires careful interpretation.
+    
+    \item \textbf{Specification (3) - OLS with full fixed effects}:
+    The euro\_cu coefficient is -0.007 and insignificant, suggesting no significant Euro effect.
+\end{enumerate}
+
+\subsection*{Possible Explanations for the Negative Euro Effect}
+
+\begin{itemize}
+    \item \textbf{Substitution effect}: The Euro may have diverted trade from non-Eurozone partners to Eurozone partners,
+    leaving total trade unchanged or reduced.
+    
+    \item \textbf{Measurement issues}: The euro\_cu dummy may be capturing other factors correlated with Euro adoption.
+    
+    \item \textbf{Timing}: The analysis period (1960-2005) includes only a few years after Euro introduction (1999),
+    which may be insufficient to capture long-term effects.
+    
+    \item \textbf{Aggregation bias}: The Euro effect may vary across sectors or country pairs,
+    and the aggregate effect may mask heterogeneity.
+\end{itemize}
+
+\subsection*{Comparison with General CU Effect}
+
+The negative/insignificant Euro effect contrasts with the positive general CU effect, suggesting that the Euro may not have generated the same trade benefits as other currency unions. This could be because Eurozone countries were already highly integrated before adopting the common currency, leaving less room for additional trade creation.
+
+\end{document}

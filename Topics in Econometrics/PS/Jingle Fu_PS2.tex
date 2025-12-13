@@ -80,19 +80,25 @@
     numberstyle=\tiny\color{codegray},
     stringstyle=\color{codepurple},
     basicstyle=\ttfamily\footnotesize, % Change to serif font
-    breakatwhitespace=false,         
-    breaklines=true,                 
-    captionpos=b,                    
-    keepspaces=true,                 
-    numbers=left,                    
-    numbersep=5pt,                  
-    showspaces=false,                
+    columns=fullflexible, % make sure to use fixed-width font, CM typewriter is NOT fixed width
+    numbers=left,
+    stepnumber=1,
+    numbersep=10pt,
+    numberfirstline=true,
+    numberblanklines=true,
+    tabsize=4,
+    lineskip=-1.5pt,
+    extendedchars=true,
+    breaklines=true,
+    identifierstyle=, % using emph or index keywords
     showstringspaces=false,
-    showtabs=false,                  
-    tabsize=2
+    showtabs=false,
+    upquote=false,
+    texcl=true % interpet comments as LaTeX
 }
 
 \lstset{style=mystyle}
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % 3. Header (and Footer)
@@ -189,7 +195,7 @@ Because $y_{i,t-1}$ embeds $\alpha_i$, the estimation error $\hat\alpha_i-\alpha
   \mathrm{Cov}\!\big(y_{i,t-1},\,\hat{\alpha}_i-\alpha_i\big)
   \;\neq\; 0 \quad\text{for fixed $T$}.
 \]
-Thus, as $n\to\infty$ with $T$ fixed, the FE estimator $\hat\rho$ has an $O(1/T)$ Nickell bias.
+Thus, as $n\to\infty$ with $T$ fixed, the FE estimator $\hat\rho$ has an $O(1/T)$ bias.
 In contrast, the CRE--Bayesian route treats $\alpha_i$ hierarchically so that inference on $(\phi,\rho)$ does not suffer from the IPP.
 
 % This happens because the estimation error of $\alpha_i$ (which does not vanish as $N \to \infty$) is correlated with the regressor $y_{it-1}$ (since $y_{it-1}$ contains $\alpha_i$).
@@ -269,29 +275,10 @@ Note that:
   \sum_{t=1}^T \tilde y_{it} = \mathbf 1^\top \tilde{\mathbf y}_i.
 \]
 Let $\boldsymbol \mu\equiv \phi y_{i0}\mathbf 1$ and
-% . We write
-% \[
-%   \sum_{t=1}^T \tilde y_{it}^2 + \phi^2 y_{i0}^2 - \frac{\big(\sum_{t=1}^T \tilde y_{it} + \phi y_{i0}\big)^2}{T+1}
-% \]
-% in the form of $(\tilde{\mathbf y}_i-\boldsymbol \mu)^\top \boldsymbol \Omega^{-1} (\tilde{\mathbf y}_i- \boldsymbol \mu)$.
-% Let:
 \[
   \boldsymbol \Omega \equiv I_T + \mathbf 1 \mathbf 1^\top \Rightarrow\, \boldsymbol \Omega^{-1} = I_T - \frac{1}{T+1} \mathbf 1 \mathbf 1^\top, \quad
   |\boldsymbol \Omega| = (1+T)\cdot 1^{T-1} = T + 1.
 \]
-% We directly \textbf{verify} its inverse and determinant:
-
-% \begin{itemize}
-%   \item First, conjecture $\boldsymbol\Omega^{-1}=I_T-\alpha\,\mathbf 1\mathbf 1^\top$. Since $\boldsymbol\Omega$ is a rank-1 perturbation in the direction of $\mathbf 1$, this structure holds. Multiplying back:
-%         \[
-%           \begin{aligned}
-%             \boldsymbol\Omega\boldsymbol\Omega^{-1}
-%              & =(I_T+\mathbf 1\mathbf 1^\top)(I_T-\alpha\,\mathbf 1\mathbf 1^\top)                                                                   \\
-%              & =I_T-\alpha\,\mathbf 1\mathbf 1^\top+\mathbf 1\mathbf 1^\top-\alpha\,\mathbf 1\underbrace{\mathbf 1^\top\mathbf 1}_{=T}\mathbf 1^\top \\
-%              & =I_T+\big(1-\alpha-\alpha T\big)\mathbf 1\mathbf 1^\top.
-%           \end{aligned}
-%         \]
-%         To equate this to $I_T$, we require $1-\alpha-\alpha T=0\Rightarrow \alpha=\frac{1}{T+1}$. Thus:
 
 \begin{align*}
   \mathcal{Q} & = \sum_{t=1}^T \tilde y_{it}^2 + \phi^2y_{i0}^2 - \frac{\big(\sum_{t=1}^T \tilde y_{it} + \phi y_{i0} \big)^2}{T+1}                            \\
@@ -323,12 +310,6 @@ Therefore:
   = (2\pi)^{-T/2} |\boldsymbol \Omega|^{-1/2}
   \exp \Big( -\tfrac12 (\tilde{\mathbf y}_i - \boldsymbol \mu)^\top \boldsymbol \Omega^{-1} (\tilde{\mathbf y}_i - \boldsymbol \mu) \Big).
 \]
-% where
-% \[
-%   \boldsymbol\Omega=I_T+\mathbf 1\mathbf 1^\top,\quad
-%   \boldsymbol\Omega^{-1}=I_T-\frac{1}{T+1}\mathbf 1\mathbf 1^\top,\quad
-%   |\boldsymbol\Omega|=T+1.
-% \]
 
 \subsection*{(c) Consistency of $(\phi, \rho)$}
 The sample log-likelihood is:
@@ -372,14 +353,14 @@ Thus:
   =\sum_i \big[-(\mathbf L_i\mathbf y_i)\big]^\top\Big(I-\tfrac{1}{T+1}\mathbf 1\mathbf 1^\top\Big)
   (\tilde{\mathbf y}_i-\phi y_{i0}\mathbf 1)=0.
 \]
-These two \textbf{moment equations} have an \textbf{expectation} of 0 at the true values $(\phi_0,\rho_0)$. As $n\to\infty$ with fixed $T$,
-the sample average score converges to its expectation,
-and provided the information matrix is non-degenerate (positive definite),
-the Maximum Likelihood estimator is consistent.
+These two \textbf{moment equations} have an \textbf{expectation} of 0 at the true values $(\phi_0,\rho_0)$.
+As $n\to\infty$, the average log-likelihood converges by the Law of Large Numbers to its expectation,
+which is uniquely maximized at the true parameter values $(\phi_0,\rho_0)$.
+This avoids the incidental parameter problem because the individual effects $\alpha_i$ have been integrated out.
 
 \subsection*{(d) Estimation of $\alpha_i$}
 In a Bayesian (or Correlated Random Effects) framework, since we cannot estimate $\alpha_i$ consistently (it does not converge to a point),
-we estimate its \textbf{conditional posterior distribution} or its \textbf{conditional expectation (BLUP)} given the data.
+we estimate its conditional posterior distribution or its conditional expectation given the data.
 
 The posterior kernel is:
 \begin{align*}
@@ -415,490 +396,509 @@ then plug them into the above expression to get $\hat{\alpha}_i$.
 \end{align*}
 
 \subsection*{(a) Autocovariance Function for $y_t$}
-Assuming stationarity ($|\phi| < 1$), the variance of the state $s_t$ is $\text{Var}(s_t) = \frac{1}{1-\phi^2}$.
-The covariance of the state is $\gamma_k^s = E[s_t s_{t-k}] = \phi^k \frac{1}{1-\phi^2}$.
-
-For $y_t$:
-
-\textbf{Variance ($\gamma_0$):}
-\begin{equation*}
-  \gamma_0 = E[(\lambda s_t + u_t)^2] = \lambda^2 \text{Var}(s_t) + \text{Var}(u_t) = \frac{\lambda^2}{1-\phi^2} + 1
-\end{equation*}
-
-\textbf{Autocovariance ($\gamma_k, k \ge 1$):}
+Assuming stationarity ($|\phi| < 1$), the state process $s_t$ has the following autocovariance function:
 \begin{align*}
-  \gamma_k & = E[y_t y_{t-k}] = E[(\lambda s_t + u_t)(\lambda s_{t-k} + u_{t-k})] \\
-           & = \lambda^2 E[s_t s_{t-k}] = \lambda^2 \frac{\phi^k}{1-\phi^2}
+  \gamma_s(0) & = \mathrm{Var}(s_t) = \frac{1}{1-\phi^2},                                                    \\
+  \gamma_s(h) & = \mathrm{Cov}(s_t, s_{t-h}) = \phi^h \gamma_s(0) = \frac{\phi^h}{1-\phi^2}, \quad h \geq 1.
 \end{align*}
-Since $u_t$ is independent of $s_{t-k}$, $u_{t-k}$, and $s_t$ (for $k \ge 1$).
 
+For the observed process $y_t = \lambda s_t + u_t$, with $u_t \sim \mathrm{iid}N(0,1)$ independent of $\{\varepsilon_t\}$ (and hence of $\{s_t\}$), the autocovariance function is:
+\begin{align*}
+  \gamma_y(0) & = \mathrm{Var}(y_t) = \mathrm{Var}(\lambda s_t + u_t) = \lambda^2\mathrm{Var}(s_t) + \mathrm{Var}(u_t)                                                                                                                  \\
+              & = \lambda^2 \frac{1}{1-\phi^2} + 1 = \frac{\lambda^2}{1-\phi^2} + 1,                                                                                                                                                    \\[6pt]
+  \gamma_y(h) & = \mathrm{Cov}(y_t, y_{t-h}) = \mathrm{Cov}(\lambda s_t + u_t, \lambda s_{t-h} + u_{t-h})                                                                                                                               \\
+              & = \lambda^2 \mathrm{Cov}(s_t, s_{t-h}) + \underbrace{\lambda\mathrm{Cov}(s_t, u_{t-h})}_{=0} + \underbrace{\lambda\mathrm{Cov}(u_t, s_{t-h})}_{=0} + \underbrace{\mathrm{Cov}(u_t, u_{t-h})}_{=0 \text{ for } h \neq 0} \\
+              & = \lambda^2 \gamma_s(h) = \frac{\lambda^2 \phi^h}{1-\phi^2}, \quad h \geq 1.
+\end{align*}
+
+Thus, the autocovariance function of $y_t$ is:
 \[
-  s_t=\sum_{j=0}^\infty \phi^j\varepsilon_{t-j}
-  \Rightarrow \mathbb E[s_t]=0,\
-  \mathbb V[s_t]=\sum_{j\ge0}\phi^{2j}=\frac{1}{1-\phi^2},
+  \gamma_y(h) =
+  \begin{cases}
+    \dfrac{\lambda^2}{1-\phi^2} + 1,    & h = 0,    \\[10pt]
+    \dfrac{\lambda^2 \phi^h}{1-\phi^2}, & h \geq 1.
+  \end{cases}
 \]
-\[
-  \mathrm{Cov}(s_t,s_{t-k})
-  =\sum_{j\ge0}\sum_{\ell\ge0}\phi^{j+\ell}\,\mathrm{Cov}(\varepsilon_{t-j},\varepsilon_{t-k-\ell})
-  =\sum_{j\ge0}\phi^{j+k+j}=\frac{\phi^k}{1-\phi^2}.
-\]
-\[
-  y_t=\lambda s_t+u_t\ \perp\ s_t
-  \Rightarrow
-  \gamma_0=\mathbb V[y_t]=\lambda^2\mathbb V[s_t]+1
-  =1+\frac{\lambda^2}{1-\phi^2},
-\]
-\[
-  \gamma_k=\mathrm{Cov}(y_t,y_{t-k})
-  =\lambda^2\mathrm{Cov}(s_t,s_{t-k})
-  =\frac{\lambda^2\phi^k}{1-\phi^2}\quad(k\ge1).
-\]
+% Assuming stationarity ($|\phi| < 1$), the variance of the state $s_t$ is $\text{Var}(s_t) = \frac{1}{1-\phi^2}$.
+% The covariance of the state is $\gamma_k^s = E[s_t s_{t-k}] = \phi^k \frac{1}{1-\phi^2}$.
+
+% For $y_t$:
+
+% \textbf{Variance ($\gamma_0$):}
+% \begin{equation*}
+%   \gamma_0 = E[(\lambda s_t + u_t)^2] = \lambda^2 \text{Var}(s_t) + \text{Var}(u_t) = \frac{\lambda^2}{1-\phi^2} + 1
+% \end{equation*}
+
+% \textbf{Autocovariance ($\gamma_k, k \ge 1$):}
+% \begin{align*}
+%   \gamma_k & = E[y_t y_{t-k}] = E[(\lambda s_t + u_t)(\lambda s_{t-k} + u_{t-k})] \\
+%            & = \lambda^2 E[s_t s_{t-k}] = \lambda^2 \frac{\phi^k}{1-\phi^2}
+% \end{align*}
+% Since $u_t$ is independent of $s_{t-k}$, $u_{t-k}$, and $s_t$ (for $k \ge 1$).
+
+% \[
+%   s_t=\sum_{j=0}^\infty \phi^j\varepsilon_{t-j}
+%   \Rightarrow \mathbb E[s_t]=0,\
+%   \mathbb V[s_t]=\sum_{j\ge0}\phi^{2j}=\frac{1}{1-\phi^2},
+% \]
+% \[
+%   \mathrm{Cov}(s_t,s_{t-k})
+%   =\sum_{j\ge0}\sum_{\ell\ge0}\phi^{j+\ell}\,\mathrm{Cov}(\varepsilon_{t-j},\varepsilon_{t-k-\ell})
+%   =\sum_{j\ge0}\phi^{j+k+j}=\frac{\phi^k}{1-\phi^2}.
+% \]
+% \[
+%   y_t=\lambda s_t+u_t\ \perp\ s_t
+%   \Rightarrow
+%   \gamma_0=\mathbb V[y_t]=\lambda^2\mathbb V[s_t]+1
+%   =1+\frac{\lambda^2}{1-\phi^2},
+% \]
+% \[
+%   \gamma_k=\mathrm{Cov}(y_t,y_{t-k})
+%   =\lambda^2\mathrm{Cov}(s_t,s_{t-k})
+%   =\frac{\lambda^2\phi^k}{1-\phi^2}\quad(k\ge1).
+% \]
 
 \subsection*{(b) Identification}
 We have two unknown parameters $(\lambda, \phi)$ and we observe the autocovariances of $y$.
 
-\begin{enumerate}
-  \item From $\gamma_1 = \frac{\lambda^2 \phi}{1-\phi^2}$ and $\gamma_0 = \frac{\lambda^2}{1-\phi^2} + 1$, notice that $\gamma_0 - 1 = \frac{\lambda^2}{1-\phi^2}$.
-  \item Thus, $\frac{\gamma_1}{\gamma_0 - 1} = \phi$.
-  \item Once $\phi$ is identified, $\lambda^2 = (\gamma_0 - 1)(1-\phi^2)$.
-\end{enumerate}
+For $h \geq 2$, the autocovariance ratio identifies $\phi$:
+\[
+  \frac{\gamma_y(h)}{\gamma_y(h-1)} = \frac{\lambda^2\phi^h/(1-\phi^2)}{\lambda^2\phi^{h-1}/(1-\phi^2)} = \phi.
+\]
 
-\textbf{Result:} The coefficients are identified (up to the sign of $\lambda$, as only $\lambda^2$ enters the second moments).
+Given $\phi$, we can recover $\lambda^2$ from $\gamma_y(1)$:
+\[
+  \lambda^2 = \gamma_y(1)\frac{1-\phi^2}{\phi}.
+\]
+However, the sign of $\lambda$ cannot be determined because the autocovariance function depends only on $\lambda^2$.
+The models with parameters $(\lambda,\phi)$ and $(-\lambda,\phi)$ produce identical second-order moments and are therefore observationally equivalent.
+
+So, the coefficients are identified (up to the sign of $\lambda$, as only $\lambda^2$ enters the second moments).
 
 \subsection*{(c) ARMA Representation}
-From the state equation: $(1 - \phi L)s_t = \varepsilon_t \implies s_t = \frac{\varepsilon_t}{1 - \phi L}$.
-Substitute into measurement equation:
-\begin{equation*}
-  y_t = \lambda \frac{\varepsilon_t}{1 - \phi L} + u_t
-\end{equation*}
-Multiply by $(1 - \phi L)$:
+From the state equation: $(1-\phi L)s_t = \varepsilon_t \implies s_t = \frac{\varepsilon_t}{1-\phi L}$.
+Substitute into the measurement equation:
+\[
+  y_t = \lambda \frac{\varepsilon_t}{1-\phi L} + u_t.
+\]
+Multiply by $(1-\phi L)$:
 \begin{align*}
-  (1 - \phi L)y_t\;  & = \lambda \varepsilon_t + (1 - \phi L)u_t    \\
-  y_t - \phi y_{t-1} & = \lambda \varepsilon_t + u_t - \phi u_{t-1}
+  (1-\phi L)y_t      & = \lambda \varepsilon_t + (1-\phi L)u_t       \\
+  y_t - \phi y_{t-1} & = \lambda \varepsilon_t + u_t - \phi u_{t-1}.
 \end{align*}
+
 Let the RHS be $w_t$. Since $w_t$ is a sum of MA processes, it is an MA(1) process $w_t = \nu_t + \theta \nu_{t-1}$.
-The LHS is AR(1). Thus, $y_t$ follows an \textbf{ARMA(1,1)} process.
+The LHS is AR(1). Thus, $y_t$ follows an ARMA(1,1) process.
 Parameters $(\phi_{AR}, \theta_{MA}, \sigma^2_\nu)$ are functions of $(\lambda, \phi, 1, 1)$.
 $\phi_{AR} = \phi$.
 
 \[
-  (1-\phi L)y_t=\lambda\varepsilon_t+u_t-\phi u_{t-1}=:w_t.
+  (1-\phi L)y_t = \lambda\varepsilon_t + u_t - \phi u_{t-1} =: w_t.
 \]
+
 Calculate the second moments of $w_t$:
+\begin{align*}
+  \gamma_0^w & = \mathbb{V}[w_t] = \lambda^2 + \mathbb{V}[u_t] + \phi^2\mathbb{V}[u_{t-1}] = \lambda^2 + 1 + \phi^2, \\
+  \gamma_1^w & = \mathrm{Cov}(w_t, w_{t-1}) = \mathrm{Cov}(-\phi u_{t-1}, u_{t-1}) = -\phi.
+\end{align*}
+
+For an MA(1) process: $w_t = v_t + \theta v_{t-1}$, where $v_t \sim \mathcal{N}(0, \sigma_v^2)$:
 \[
-  \gamma_0^w=\mathbb V[w_t]=\lambda^2+\mathbb V[u_t]+\phi^2\mathbb V[u_{t-1}]
-  =\lambda^2+1+\phi^2,
+  \gamma_0^w = (1+\theta^2)\sigma_v^2, \quad \gamma_1^w = \theta\sigma_v^2.
 \]
-\[
-  \gamma_1^w=\mathrm{Cov}(w_t,w_{t-1})
-  =\mathrm{Cov}(-\phi u_{t-1},u_{t-1})=-\phi.
-\]
-For an MA(1) process: $w_t=v_t+\theta v_{t-1}$, where $v_t\sim\mathcal N(0,\sigma_v^2)$:
-\[
-  \gamma_0^w=(1+\theta^2)\sigma_v^2,\quad \gamma_1^w=\theta\sigma_v^2.
-\]
+
 Matching the equations:
 \[
-  \theta\sigma_v^2=-\phi,\quad (1+\theta^2)\sigma_v^2=\lambda^2+1+\phi^2
+  \theta\sigma_v^2 = -\phi, \quad (1+\theta^2)\sigma_v^2 = \lambda^2 + 1 + \phi^2
 \]
 \[
-  \Rightarrow -\phi(1+\theta^2)=\theta(\lambda^2+1+\phi^2)
-  \Rightarrow \boxed{\ \phi\theta^2+(\lambda^2+1+\phi^2)\theta+\phi=0\ }.
-\]
-\[
-  \sigma_v^2=-\frac{\phi}{\theta},\quad \text{choosing the root where }|\theta|<1.
+  \Rightarrow -\phi(1+\theta^2) = \theta(\lambda^2 + 1 + \phi^2) \Rightarrow \ \phi\theta^2 + (\lambda^2+1+\phi^2)\theta + \phi = 0.
 \]
 
-\hrulefill
-
-\subsection*{(i) Allowing Correlation: $\mathrm{Cov}(u_t,\varepsilon_t)=\rho$}
-
-\textbf{Decomposition Method} (Moving the correlation to the measure in one step):
+% Solving this quadratic equation for $\theta$:
+% \[
+%   \theta = \frac{-(\lambda^2+1+\phi^2) \pm \sqrt{(\lambda^2+1+\phi^2)^2 - 4\phi^2}}{2\phi}.
+% \]
+Choosing the root that satisfies the invertibility condition $|\theta|<1$:
 \[
-  u_t=\rho\,\varepsilon_t+\eta_t,\qquad \eta_t\sim\mathcal N(0,,1-\rho^2),\ \eta_t\perp \varepsilon_s\ \forall s.
-\]
-Thus:
-\[
-  y_t=\lambda s_t+\rho\varepsilon_t+\eta_t.
-\]
-
-\paragraph{ACF (Term-by-term)}
-\[
-  \mathrm{Cov}(s_t,u_t)=\mathrm{Cov}\Big(\sum_{j\ge0}\phi^j\varepsilon_{t-j},\ \rho\varepsilon_t+\eta_t\Big)=\rho,
-\]
-\[
-  \gamma_0=\mathbb V[y_t]
-  =\lambda^2\mathbb V[s_t]+\mathbb V[u_t]+2\lambda\,\mathrm{Cov}(s_t,u_t)
-  =\frac{\lambda^2}{1-\phi^2}+1+2\lambda\rho,
-\]
-\[
-  \gamma_1=\mathrm{Cov}(y_t,y_{t-1})
-  =\lambda^2\frac{\phi}{1-\phi^2}+\lambda\,\phi\rho,
-  \qquad
-  \gamma_k=\frac{\lambda^2\phi^k}{1-\phi^2}\ (k\ge2).
+  \theta = \begin{cases}
+    \dfrac{-(\lambda^2+1+\phi^2) + \sqrt{(\lambda^2+1+\phi^2)^2 - 4\phi^2}}{2\phi}, & \phi > 0, \\[10pt]
+    \dfrac{-(\lambda^2+1+\phi^2) - \sqrt{(\lambda^2+1+\phi^2)^2 - 4\phi^2}}{2\phi}, & \phi < 0.
+  \end{cases}
 \]
 
-\paragraph{Equivalent ARMA(1,1) (Explicitly writing $w_t$)}
+The innovation variance is:
 \[
-  (1-\phi L)y_t
-  =(\lambda+\rho)\varepsilon_t+\eta_t-\phi\rho\,\varepsilon_{t-1}-\phi\,\eta_{t-1}
-  =:w_t.
-\]
-Second moments:
-\[
-  \gamma_0^w
-  =\underbrace{(\lambda+\rho)^2+\phi^2\rho^2}_{\text{from }\varepsilon}
-  +\underbrace{(1-\rho^2)(1+\phi^2)}_{\text{from }\eta}
-  =\lambda^2+1+\phi^2+2\lambda\rho,
-\]
-\[
-  \gamma_1^w
-  =\mathrm{Cov}(-\phi\rho\,\varepsilon_{t-1}-\phi\eta_{t-1},\ (\lambda+\rho)\varepsilon_{t-1}+\eta_{t-1})
-  =-\phi\big(\rho(\lambda+\rho)+(1-\rho^2)\big)
-  =-\phi(1+\lambda\rho).
-\]
-Matching with MA(1) moments:
-\[
-  \theta\sigma_v^2=\gamma_1^w=-\phi(1+\lambda\rho),\quad
-  (1+\theta^2)\sigma_v^2=\gamma_0^w=\lambda^2+1+\phi^2+2\lambda\rho,
-\]
-\[
-  \Rightarrow\ -\phi(1+\lambda\rho)(1+\theta^2)=\theta(\lambda^2+1+\phi^2+2\lambda\rho),
-\]
-\[
-  \Rightarrow\ \boxed{\ \phi(1+\lambda\rho)\theta^2+(\lambda^2+1+\phi^2+2\lambda\rho)\theta+\phi(1+\lambda\rho)=0\ },
-\]
-\[
-  \sigma_v^2=-\frac{\phi(1+\lambda\rho)}{\theta},\quad |\theta|<1.
+  \sigma_v^2 = -\frac{\phi}{\theta}.
 \]
 
-\subsection*{(d) - (h) Code Implementation}
-Below is the Python code for the Kalman Filter, plotting, and optimization. Following that are the R and Julia translations.
+Thus, $y_t$ follows an ARMA(1,1) process:
+\[
+  y_t = \phi y_{t-1} + v_t + \theta v_{t-1}, \quad v_t \sim \mathcal{N}(0, \sigma_v^2),
+\]
+with $\theta$ given above and $\sigma_v^2 = -\phi/\theta$.
+
+\subsection*{(d) \& (e) Kalman Filter Implementation and Plotting (All codes using Julia)}
 
 \begin{lstlisting}[language=R]
-  set.seed(2025)
+  using Random
+  using Distributions
+  using Plots
+  using Optim
+  using Statistics
   
-  simulate_ssm <- function(T=100, lam=1.0, phi=0.8, rho=0.0, seed=NULL){
-    if(!is.null(seed)) set.seed(seed)
-    
-    Sigma <- matrix(c(1, rho, rho, 1), 2, 2)
-    eps_u <- MASS::mvrnorm(T, mu=c(0,0), Sigma=Sigma)
-    eps <- eps_u[,1]
-    u <- eps_u[,2]
-    
-    s <- numeric(T)
-    s[1] <- rnorm(1, 0, sqrt(1/(1-phi^2)))
-    
-    for(t in 2:T){
-      s[t] <- phi * s[t-1] + eps[t]
-    }
-    
-    y <- lam * s + u
-    list(s=s, y=y, eps=eps, u=u)
-  }
+  # ==============================================================================
+  # 1. Definitions of Functions
+  # ==============================================================================
   
-  kalman_filter <- function(y, lam, phi, rho=0.0){
-    Tn <- length(y)
-
-    m_pred <- P_pred <- m_filt <- P_filt <- loglik_t <- numeric(Tn)
-
-    m_prev <- 0.0
-    P_prev <- 1/(1-phi^2)
-    
-    for(t in 1:Tn){
-      m_t_pred <- phi * m_prev
-      P_t_pred <- phi^2 * P_prev + 1.0
-      v_t <- y[t] - lam * m_t_pred
-      F_t <- lam^2 * P_t_pred + 1.0 + 2 * lam * rho 
-
-      K_t <- (lam * P_t_pred + rho) / F_t
-
-      m_t_filt <- m_t_pred + K_t * v_t
-      P_t_filt <- P_t_pred - K_t * (lam * P_t_pred + rho)
-
-      m_pred[t] <- m_t_pred    # E[s_t|Y_{1:t-1}]
-      P_pred[t] <- P_t_pred    # V[s_t|Y_{1:t-1}]
-      m_filt[t] <- m_t_filt    # E[s_t|Y_{1:t}]
-      P_filt[t] <- P_t_filt    # V[s_t|Y_{1:t}]
-
-      loglik_t[t] <- -0.5*(log(2*pi) + log(F_t) + v_t^2/F_t)
-      
-      m_prev <- m_t_filt
-      P_prev <- P_t_filt
-    }
-    
-    list(m_pred=m_pred, P_pred=P_pred, 
-         m_filt=m_filt, P_filt=P_filt, 
-         loglik_t=loglik_t)
-  }
-
-  loglik_ssm <- function(y, lam, phi, rho=0.0){
-    sum(kalman_filter(y, lam, phi, rho)$loglik_t)
-  }
+  # Kalman filter result struct
+  struct KFResult
+  s_pred::Vector{Float64}
+  P_pred::Vector{Float64}
+  s_filt::Vector{Float64}
+  P_filt::Vector{Float64}
+  ll_inc::Vector{Float64}
+  total_ll::Float64
+  end
   
-  # =========================
-  # (d)-(e)
-  # =========================
-
-  lam_true <- 0.9
-  phi_true <- 0.7
-  T_val <- 100
+  # Simulation function
+  function simulate_ss(T::Int, lambda::Float64, phi::Float64)
+  y = zeros(T)
+  s = zeros(T)
   
-  sim <- simulate_ssm(T=T_val, lam=lam_true, phi=phi_true, rho=0.0, seed=42)
-  y <- sim$y
-  s <- sim$s
-
-  out_true <- kalman_filter(y, lam=lam_true, phi=phi_true, rho=0.0)
-
-  out_wrong <- kalman_filter(y, lam=0.5, phi=0.3, rho=0.0)
- 
-  tgrid <- 1:T_val
-  se_pred <- sqrt(out_true$P_pred)
-
-  plot(tgrid, s, type="l", lwd=2, col=1,
-       ylab="State", xlab="Time",
-       main="True vs Filtered States",
-       ylim=range(s, out_true$m_pred, out_wrong$m_pred))
-  lines(tgrid, out_true$m_pred, col="blue", lwd=1.5)
-  lines(tgrid, out_true$m_pred + 1.96*se_pred, col="blue", lty=2, lwd=1)
-  lines(tgrid, out_true$m_pred - 1.96*se_pred, col="blue", lty=2, lwd=1)
-  lines(tgrid, out_wrong$m_pred, col="red", lwd=1.5, lty=3)
-  legend("topleft", 
-         c("True state s_t", 
-           "Filtered E[s_t|Y_{1:t-1}] (true params)",
-           "95% prediction bands",
-           "Filtered (wrong params)"),
-         col=c(1, "blue", "blue", "red"),
-         lty=c(1,1,2,3), lwd=c(2,1.5,1,1.5),
-         bty="n", cex=0.8)
-
-  plot(tgrid, exp(out_true$loglik_t), type="l", lwd=2, col="blue",
-       ylab="Likelihood increment p(y_t|Y_{1:t-1})",
-       xlab="Time", main="Likelihood Increments")
-  lines(tgrid, exp(out_wrong$loglik_t), col="red", lwd=1.5, lty=2)
-  legend("topright", c("True parameters", "Wrong parameters"),
-         col=c("blue", "red"), lty=1:2, lwd=2:1.5, bty="n")
+  # Initial state
+  s_curr = rand(Normal(0, sqrt(1 / (1 - phi^2))))
+  
+  dist_u = Normal(0, 1)
+  dist_eps = Normal(0, 1)
+  
+  for t in 1:T
+  s[t] = phi * s_curr + rand(dist_eps)
+  y[t] = lambda * s[t] + rand(dist_u)
+  s_curr = s[t]
+  end
+  return s, y
+  end
+  
+  # Kalman filter
+  function kalman_filter(Y::Vector{Float64}, lambda::Float64, phi::Float64)
+  T = length(Y)
+  
+  s_pred = zeros(T)
+  P_pred = zeros(T)
+  s_filt = zeros(T)
+  P_filt = zeros(T)
+  ll_inc = zeros(T)
+  
+  # Initialization
+  s_p = 0.0
+  P_p = 1.0 / (1.0 - phi^2)
+  
+  log_2pi = log(2 * \pi)
+  
+  for t in 1:T
+  # Prediction
+  if t > 1
+  s_p = phi * s_filt[t-1]
+  P_p = phi^2 * P_filt[t-1] + 1.0
+  end
+  
+  s_pred[t] = s_p
+  P_pred[t] = P_p
+  
+  # Update
+  v = Y[t] - lambda * s_p
+  F = lambda^2 * P_p + 1.0
+  K = P_p * lambda / F
+  
+  s_filt[t] = s_p + K * v
+  P_filt[t] = P_p * (1.0 - K * lambda)
+  
+  # Log-likelihood increment
+  ll_inc[t] = -0.5 * (log_2pi + log(F) + v^2 / F)
+  end
+  
+  return KFResult(s_pred, P_pred, s_filt, P_filt, ll_inc, sum(ll_inc))
+  end
+  
+  # ==============================================================================
+  # 2. Execution and Plotting
+  # ==============================================================================
+  
+  # Parameters
+  const TRUE_LAM = 1.0
+  const TRUE_PHI = 0.8
+  Random.seed!(2025)
+  
+  # --- Part (d) \& (e): Simulation and Plotting ---
+  s_true, y_sample = simulate_ss(100, TRUE_LAM, TRUE_PHI)
+  
+  function plot_kf(s_true, res::KFResult, title_tag)
+  # Calculate error bands
+  bands = 1.96 .* sqrt.(res.P_pred)
+  upper = res.s_pred .+ bands
+  lower = res.s_pred .- bands
+  
+  p1 = plot(s_true, label="True State", color=:black, lw=1.5,
+  title="State Prediction $title_tag")
+    plot!(p1, res.s_pred, label="Pred E[s|t-1]", color=:blue, lw=1.5)
+    plot!(p1, upper, fillrange=lower, fillalpha=0.2, color=:blue, label="95% CI", linealpha=0)
+  
+    p2 = plot(exp.(res.ll_inc), label="Likelihood", color=:green,
+    title="Likelihood Increments $title_tag")
+  
+  plot(p1, p2, layout=(2,1), size=(800, 600))
+  end
+  
+  # (i) True parameters
+  kf_true = kalman_filter(y_sample, TRUE_LAM, TRUE_PHI)
+  display(plot_kf(s_true, kf_true, "(True Params)"))
+  
+  # (ii) Wrong parameters
+  kf_wrong = kalman_filter(y_sample, TRUE_LAM, 0.2)
+  display(plot_kf(s_true, kf_wrong, "(Wrong Phi=0.2)"))
 \end{lstlisting}
+
+\begin{figure}[h!]
+  \centering
+  \begin{minipage}
+    {0.45\textwidth}
+    \centering
+    \includegraphics[width=\textwidth]{P2_e_true.png}
+    \caption{(i) True Parameters: $\lambda=1$, $\phi=0.8$}
+    \label{fig:kf_true}
+  \end{minipage}
+  \hfill
+  \begin{minipage}
+    {0.45\textwidth}
+    \centering
+    \includegraphics[width=\textwidth]{P2_e_wrong.png}
+    \caption{(ii) Wrong Parameters: $\lambda=1$, $\phi=0.2$}
+    \label{fig:kf_wrong}
+  \end{minipage}
+\end{figure}
+
+The comparative analysis of the State-Space model simulations reveals the critical role of parameter consistency in filtering and inference.
+In the first scenario, where the filter is initialized with the true data-generating parameters ($\lambda=1.0, \phi=0.8$),
+the predicted state expectation $\mathbb{E}[s_t | Y_{1:t-1}]$ exhibits a high degree of correlation with the true state trajectory.
+The filter successfully captures the persistence of the underlying process,
+as the coefficient $\phi=0.8$ implies significant memory in the state transition equation $s_t = \phi s_{t-1} + \epsilon_t$.
+Consequently, the one-step-ahead predictions effectively project current information into the future,
+resulting in a tracking error that behaves as a stationary white noise process consistent with theoretical expectations.
+
+Conversely, the second scenario employs a misspecified parameter ($\phi=0.2$),
+leading to a severe degradation in filter performance.
+Visually, the predicted state trajectory appears overly smoothed and rapidly mean-reverting,
+failing to track the excursions of the true state away from zero.
+This phenomenon occurs because the misspecified model assumes a near-white noise process with minimal persistence.
+As a result, the filter attributes observed deviations largely to transient measurement noise $u_t$ rather than structural shocks $\epsilon_t$,
+causing the predicted state to revert prematurely to the unconditional mean of zero.
+This highlights the bias in state extraction introduced by underestimating the autoregressive parameter.
+
+Furthermore, the discrepancy in the confidence intervals (shaded regions) illustrates the impact of misspecification on uncertainty quantification.
+The width of the error bands is determined by the steady-state variance of the state, given by $\sigma^2_s = (1-\phi^2)^{-1}$.
+The true model correctly estimates a larger unconditional variance ($\approx 2.78$),
+producing wide confidence intervals that encompass the true realizations.
+The misspecified model, however, implies a much lower variance ($\approx 1.04$),
+resulting in "overconfident" narrow bands that are frequently violated by the true state.
+This underestimation of risk leads to substantial drops in the likelihood function whenever the true state realizes a value outside these narrow bounds,
+empirically demonstrating why Maximum Likelihood Estimation favors the parameter set that correctly balances prediction error against predicted uncertainty.
+
+\subsection*{(f) \& (g) Grid Search for MLE of $\phi$}
 
 \begin{lstlisting}[language=R]
+  T_sizes = [50, 100, 500]
+  phi_grid = range(0.01, 0.99, length=100)
   
-  # =========================
-  # (f)
-  # =========================
-
-  phi_grid <- seq(0.01, 0.99, length.out=200)
-  ll_grid <- sapply(phi_grid, function(p) loglik_ssm(y, lam=lam_true, phi=p))
+  p_tmp = plot(xlabel="Phi", ylabel="Log-Likelihood",
+              title="Log-likelihood vs Phi for different T",
+              legend=:right, grid=true)
   
-  phi_hat_grid <- phi_grid[which.max(ll_grid)]
-  cat(sprintf("Grid search MLE: \phi_hat = %.4f (true \phi = %.2f)\n", 
-  phi_hat_grid, phi_true))
+  colors = [:red, :blue, :green]
+  for (i, T_val) in enumerate(T_sizes)
+    _, y_T = simulate_ss(T_val, TRUE_LAM, TRUE_PHI)
+    ll_vals = [kalman_filter(y_T, TRUE_LAM, p).total_ll for p in phi_grid]
+    
+    plot!(p_tmp, phi_grid, ll_vals,
+          linewidth=2, color=colors[i],
+          label="T=$T_val")
+  end
   
-  plot(phi_grid, ll_grid, type="l", lwd=2,
-  xlab="\phi", ylab="Log-likelihood",
-  main="Profile Log-likelihood for \phi")
-  abline(v=phi_true, col="green", lty=2, lwd=1.5)
-  abline(v=phi_hat_grid, col="red", lty=3, lwd=1.5)
-  legend("topright", c("Log-likelihood", "True \phi", "MLE \phi"),
-  col=c(1, "green", "red"), lty=c(1,2,3), lwd=c(2,1.5,1.5), bty="n")
+  vline!(p_tmp, [TRUE_PHI], linewidth=1.5, linestyle=:dash, color=:black, label="True Phi")
+  
+  savefig(p_tmp, "P2_g_combined.png")
+  display(p_tmp)
 \end{lstlisting}
 
+\begin{figure}[h!]
+  \centering
+  \includegraphics[width=0.85\textwidth]{P2_g_combined.png}
+  \caption{Log-likelihood vs Phi for different T}
+  \label{fig:ll_combined}
+\end{figure}
+
+\subsection*{(h) Numerical Optimization for MLE of $\phi$}
 \begin{lstlisting}[language=R]
+  using Optim, Printf
+
+  open("P2_h.tex", "w") do f
+      write(f, "\\begin{table}[htbp]\n")
+      write(f, "\\centering\n")
+      write(f, "\\caption{Comparison of Maximum Likelihood Estimates via Grid Search and Gradient-Based Optimization}\n")
+      write(f, "\\label{tab:mle_comparison}\n")
+      write(f, "\\begin{tabular}{cccc}\n")
+      write(f, "\\toprule\n")
+      write(f, "Sample Size & Grid Search MLE & Gradient Optimization MLE & Max Log-Likelihood \\\\\n")
+      write(f, "\\midrule\n")
   
-# =========================
-# (g)
-# =========================
-
-sample_sizes <- c(50, 100, 500)
-colors <- c("red", "blue", "green")
-
-plot(phi_grid, ll_grid, type="n",
-     xlab="\phi", ylab="Log-likelihood",
-     main="Log-likelihood for Different Sample Sizes",
-     ylim=c(-1000, 0))
-
-for (i in 1:length(sample_sizes)) {
-  T_i <- sample_sizes[i]
-  sim_i <- simulate_ssm(T=T_i, lam=lam_true, phi=phi_true, seed=100+T_i)
-  ll_i <- sapply(phi_grid, function(p) loglik_ssm(sim_i$y, lam=lam_true, phi=p))
-  lines(phi_grid, ll_i, col=colors[i], lwd=1.5)
-}
-
-legend("bottomleft", legend=paste0("T=", sample_sizes),
-       col=colors, lty=1, lwd=1.5, bty="n")
+      for T_val in T_sizes
+          Random.seed!(2025)
+          _, y = simulate_ss(T_val, TRUE_LAM, TRUE_PHI)
+  
+          # ---------- 1) Grid Search ----------
+          ll_vals = [kalman_filter(y, TRUE_LAM, p).total_ll for p in phi_grid]
+          best_idx = argmax(ll_vals)
+          grid_est = phi_grid[best_idx]
+          grid_ll = ll_vals[best_idx]
+  
+          # ---------- 2) Gradient-based (LBFGS) ----------
+          nll_vec(\theta::Vector) = -kalman_filter(y, TRUE_LAM, \theta[1]).total_ll
+  
+          function bounded_nll(\theta::Vector)
+              if \theta[1] <= 0.0 || \theta[1] >= 1.0
+                  return Inf
+              end
+              return nll_vec(\theta)
+          end
+  
+          # Use grid estimate as initial guess
+          initial_guess = [grid_est]
+  
+          # Use LBFGS optimization
+          res = optimize(bounded_nll, initial_guess, LBFGS())
+  
+          optim_est = Optim.minimizer(res)[1]
+          max_ll = -Optim.minimum(res)
+  
+          write(f, Printf.@sprintf("%d & %.3f & %.3f & %.1f \\\\\n",
+              T_val, grid_est, optim_est, max_ll))
+      end
+  
+      write(f, "\\bottomrule\n")
+      write(f, "\\end{tabular}\n")
+      write(f, "\\end{table}\n")
+  end
 \end{lstlisting}
 
-\begin{lstlisting}[language=R]
-  # =========================
-  # (h)
-  # =========================
-  
-  neg_loglik <- function(phi) {
-      if(phi <= 0 || phi >= 1) return(Inf)
-      -loglik_ssm(y, lam=lam_true, phi=phi)
-    }
-  
-  opt_result <- optimize(neg_loglik, interval=c(0.01, 0.99))
-  phi_hat_opt <- opt_result$minimum
-  
-  cat(sprintf("Numerical optimization:\n"))
-  cat(sprintf("  \phi_hat (optim) = %.6f\n", phi_hat_opt))
-  cat(sprintf("  \phi_hat (grid)  = %.6f\n", phi_hat_grid))
-  cat(sprintf("  Difference    = %.6f\n", abs(phi_hat_opt - phi_hat_grid)))
-  cat(sprintf("  Log-lik at opt = %.4f\n", -opt_result$objective))
-\end{lstlisting}
+\input{P2_h.tex}
 
-\begin{lstlisting}[language=R]
-  
-# =========================
-# (i)-(j)
-# =========================
-
-rho_val <- 0.5
-sim_corr <- simulate_ssm(T=100, lam=lam_true, phi=phi_true, rho=rho_val, seed=123)
-
-acf_y <- acf(sim_corr$y, lag.max=10, plot=FALSE)
-cat("\nSample autocovariances (with correlation):\n")
-for(k in 0:3) {
-  cat(sprintf("\gamma [%d] = %.4f\n", k, acf_y$acf[k+1]*var(sim_corr$y)))
-}
-
-kf_corr <- kalman_filter(sim_corr$y, lam=lam_true, phi=phi_true, rho=rho_val)
-
-kf_wrong <- kalman_filter(sim_corr$y, lam=lam_true, phi=phi_true, rho=0.0)
-
-plot(tgrid, sim_corr$s, type="l", lwd=2, col=1,
-     ylab="State", xlab="Time",
-     main="KF with Correlated Errors",
-     ylim=range(sim_corr$s, kf_corr$m_pred, kf_wrong$m_pred))
-lines(tgrid, kf_corr$m_pred, col="blue", lwd=1.5)
-lines(tgrid, kf_wrong$m_pred, col="red", lwd=1.5, lty=2)
-legend("topleft", 
-       c("True state", "KF with correct rho", "KF assuming rho=0"),
-       col=c(1, "blue", "red"), lty=c(1,1,2), lwd=c(2,1.5,1.5),
-       bty="n", cex=0.8)
-
-ll_corr <- sum(kf_corr$loglik_t)
-ll_wrong <- sum(kf_wrong$loglik_t)
-cat(sprintf("\nLog-likelihood comparison:\n"))
-cat(sprintf("  With correct rho=%.2f: %.4f\n", rho_val, ll_corr))
-cat(sprintf("  Assuming rho=0:        %.4f\n", ll_wrong))
-cat(sprintf("  Difference:            %.4f\n", ll_corr - ll_wrong))
-
-par(mfrow=c(1,1))
-\end{lstlisting}
+The gradient-based optimization yields estimates that are virtually identical to those obtained via grid search.
+The negligible differences between the two sets of estimates indicate that the log-likelihood surface is well-behaved and unimodal within the stationarity bounds,
+allowing both methods to converge to the same local optimum.
+This agreement validates the reliability of the gradient-based approach as an efficient alternative to grid search,
+particularly beneficial in higher-dimensional parameter spaces where computational costs become prohibitive for exhaustive search methods.
 
 
-\subsection*{(i) Correlated Errors}
-Suppose $\text{Cov}(u_t, \varepsilon_t) = \rho$.
+\subsection*{(i) Correlated Errors: $\mathrm{Cov}(u_t,\varepsilon_t)=\rho$}
 
-\textbf{Autocovariance:}
-$\gamma_0 = \lambda^2 Var(s_t) + Var(u_t) + 2\lambda Cov(s_t, u_t)$.
-Since $s_t = \phi s_{t-1} + \varepsilon_t$, $Cov(s_t, u_t) = Cov(\varepsilon_t, u_t) = \rho$.
-\begin{equation*}
-  \gamma_0 = \frac{\lambda^2}{1-\phi^2} + 1 + 2\lambda\rho
-\end{equation*}
+\paragraph{Autocovariance Function}
+Let $u_t$ and $\varepsilon_t$ be jointly normal with $\mathrm{Cov}(u_t,\varepsilon_t)=\rho$. The autocovariance function of $y_t$ becomes:
+\begin{align*}
+  \gamma_y(0) & = \mathbb{V} [\lambda s_t + u_t] = \lambda^2 \mathbb{V} [s_t] +  \mathbb{V} [u_t] + 2\lambda\mathrm{Cov}(s_t,u_t) \\
+              & = \frac{\lambda^2}{1-\phi^2} + 1 + 2\lambda\rho,                                                                  \\
+  \gamma_y(1) & = \mathrm{Cov}(y_t,y_{t-1}) = \lambda^2\mathrm{Cov}(s_t,s_{t-1}) + \lambda\mathrm{Cov}(s_t,u_{t-1})               \\
+              & = \frac{\lambda^2\phi}{1-\phi^2} + \lambda\phi\rho,                                                               \\
+  \gamma_y(h) & = \lambda^2\mathrm{Cov}(s_t,s_{t-h}) = \frac{\lambda^2\phi^h}{1-\phi^2}, \quad h \geq 2.
+\end{align*}
 
-$\gamma_1 = E[(\lambda s_t + u_t)(\lambda s_{t-1} + u_{t-1})]$.
-$E[u_t s_{t-1}] = 0$, $E[u_t u_{t-1}] = 0$.
-$E[s_t u_{t-1}] = E[(\phi s_{t-1} + \varepsilon_t)u_{t-1}] = \phi Cov(s_{t-1}, u_{t-1}) = \phi \rho$.
-\begin{equation*}
-  \gamma_1 = \lambda^2 \phi Var(s_t) + \lambda E[s_t u_{t-1}] = \lambda^2 \frac{\phi}{1-\phi^2} + \lambda \phi \rho
-\end{equation*}
+\paragraph{Identification}
+The parameters are not fully identified. For $h \geq 2$, the ratio $\gamma_y(h)/\gamma_y(h-1) = \phi$ still identifies $\phi$.
+Given $\phi$, we have two equations from $\gamma_y(0)$ and $\gamma_y(1)$:
+\begin{align*}
+  \gamma_y(0) & = \frac{\lambda^2}{1-\phi^2} + 1 + 2\lambda\rho,    \\
+  \gamma_y(1) & = \frac{\lambda^2\phi}{1-\phi^2} + \lambda\phi\rho.
+\end{align*}
 
-\textbf{Identification:} Yes, if moments differ, though the mapping is more complex.
+These equations determine $\lambda^2$ and $\rho$, but $\lambda$ is identified only up to sign.
+If $(\lambda,\rho)$ satisfies these equations, then $(-\lambda,-\rho)$ also satisfies them.
+Thus, the parameter sets $(\lambda,\phi,\rho)$ and $(-\lambda,\phi,-\rho)$ are observationally equivalent.
 
-\textbf{ARMA:} Still ARMA(1,1) because it is the sum of two correlated processes, one AR(1) and one White Noise. The spectral density will maintain the rational form.
+\paragraph{ARMA(1,1) Representation}
+Applying $(1-\phi L)$ to $y_t$:
+\[
+  (1-\phi L)y_t = \lambda(1-\phi L)s_t + (1-\phi L)u_t = \lambda\varepsilon_t + u_t - \phi u_{t-1}.
+\]
+Let $w_t = \lambda\varepsilon_t + u_t - \phi u_{t-1}$. Then $y_t = \phi y_{t-1} + w_t$, where $w_t$ has autocovariances:
+\begin{align*}
+  \gamma_w(0) & =  \mathbb{V} [\lambda\varepsilon_t + u_t - \phi u_{t-1}] = \lambda^2 + 1 + \phi^2 + 2\lambda\rho, \\
+  \gamma_w(1) & = \mathrm{Cov}(w_t,w_{t-1}) = -\phi(1+\lambda\rho),                                                \\
+  \gamma_w(h) & = 0, \quad h \geq 2.
+\end{align*}
+Thus $w_t$ is MA(1): $w_t = \nu_t + \theta\nu_{t-1}$ with $\nu_t \sim \mathrm{WN}(0,\sigma_\nu^2)$, where $\theta$ and $\sigma_\nu^2$ satisfy:
+\[
+  \sigma_\nu^2(1+\theta^2) = \lambda^2 + 1 + \phi^2 + 2\lambda\rho, \quad
+  \sigma_\nu^2\theta = -\phi(1+\lambda\rho).
+\]
+Solving these yields the ARMA(1,1) representation $y_t = \phi y_{t-1} + \nu_t + \theta\nu_{t-1}$.
+
 
 \subsection*{(j) Generalized Kalman Filter with Correlation}
-If $E[u_t \varepsilon_t] = \rho \neq 0$, the innovation in the measurement ($u_t$) contains information about the innovation in the state ($\varepsilon_t$).
-Standard KF Prediction step ($s_{t|t-1} \to s_{t+1|t}$) must change.
-The posterior of the state $s_t$ given $y_t$ updates as usual, but when predicting $s_{t+1} = \phi s_t + \varepsilon_t$, we must note that $\varepsilon_t$ is correlated with the measurement error $u_t$ contained in $y_t$.
 
-\textbf{Modified Algorithm:}
-
-\begin{enumerate}
-  \item \textbf{State Prediction:} $s_{t|t-1}$ (Same)
-  \item \textbf{Measurement Prediction:} $y_{t|t-1} = \lambda s_{t|t-1}$. Error $v_t = y_t - y_{t|t-1}$.
-  \item \textbf{Covariance of Innovation:}
-        \begin{equation*}
-          Cov(s_{t+1}, y_t | t-1) = E[(\phi(s_t - s_{t|t-1}) + \varepsilon_t)(\lambda(s_t - s_{t|t-1}) + u_t)] = \phi \lambda P_{t|t-1} + \rho
-        \end{equation*}
-        \textit{(Note the addition of $\rho$)}.
-  \item \textbf{Kalman Gain:}
-        \begin{equation*}
-          K_t = (\phi \lambda P_{t|t-1} + \rho) F_t^{-1}
-        \end{equation*}
-  \item \textbf{State Update (Predict next step directly):}
-        \begin{align*}
-          s_{t+1|t} & = \phi s_{t|t-1} + K_t v_t            \\
-          P_{t+1|t} & = \phi^2 P_{t|t-1} + 1 - K_t F_t K_t'
-        \end{align*}
-        \textit{(The standard KF separates update $t|t$ and predict $t+1|t$, but with correlation it is often cleaner to write the one-step ahead recursion directly).}
-\end{enumerate}
-
-
-Given $Y_{1:t-1}$, denote:
+Let $\mathrm{Cov}(\varepsilon_t,u_t) = \rho$. Given information up to $t-1$, denote:
 \[
-  m_{t|t-1}=\mathbb E[s_t\mid Y_{1:t-1}],\quad
-  P_{t|t-1}=\mathbb V[s_t\mid Y_{1:t-1}].
-\]
-State and Observation:
-\[
-  s_t=\phi s_{t-1}+\varepsilon_t,\quad y_t=\lambda s_t+u_t,\quad \mathrm{Cov}(\varepsilon_t,u_t)=\rho.
+  m_{t-1|t-1} = \mathbb{E}[s_{t-1} \mid Y_{1:t-1}], \quad
+  P_{t-1|t-1} = \mathbb{V}[s_{t-1} \mid Y_{1:t-1}].
 \]
 
-\paragraph{1) Prediction:}
+\paragraph{Prediction Step:}
 \[
-  m_{t|t-1}=\phi\,m_{t-1|t-1},\qquad
-  P_{t|t-1}=\phi^2 P_{t-1|t-1}+1.
+  m_{t|t-1} = \phi\,m_{t-1|t-1}, \quad
+  P_{t|t-1} = \phi^2 P_{t-1|t-1} + 1.
 \]
 
-\paragraph{2) Innovation and its Variance (Explicit term-wise covariance):}
+\paragraph{Innovation:}
+The forecast error for $y_t$ is:
 \[
-  v_t\equiv y_t-\lambda m_{t|t-1}=\lambda(s_t-m_{t|t-1})+u_t.
+  v_t = y_t - \lambda m_{t|t-1}.
 \]
-Thus:
+Its conditional variance is:
+\begin{align*}
+  F_t & = \mathbb{V}[v_t \mid Y_{1:t-1}]                                                         \\
+      & = \mathbb{V}[\lambda(s_t - m_{t|t-1}) + u_t \mid Y_{1:t-1}]                              \\
+      & = \lambda^2 P_{t|t-1} + 1 + 2\lambda\,\mathrm{Cov}(s_t - m_{t|t-1}, u_t \mid Y_{1:t-1}).
+\end{align*}
+Since $s_t - m_{t|t-1} = \phi(s_{t-1} - m_{t-1|t-1}) + \varepsilon_t$ and $s_{t-1} - m_{t-1|t-1}$ is uncorrelated with $u_t$, we have:
 \[
-  \begin{aligned}
-    F_t & =\mathbb V[v_t\mid Y_{1:t-1}]
-    =\mathbb V[\lambda(s_t-m_{t|t-1})+u_t]                                                              \\
-        & =\lambda^2\,\mathbb V[s_t-m_{t|t-1}]+\mathbb V[u_t]+2\lambda\,\mathrm{Cov}(s_t-m_{t|t-1},u_t) \\
-        & =\lambda^2 P_{t|t-1}+1+2\lambda\,\mathrm{Cov}(s_t,u_t).
-  \end{aligned}
+  \mathrm{Cov}(s_t - m_{t|t-1}, u_t \mid Y_{1:t-1}) = \mathrm{Cov}(\varepsilon_t, u_t) = \rho.
 \]
-Also:
+Thus,
 \[
-  \mathrm{Cov}(s_t,u_t)=\mathrm{Cov}(\phi s_{t-1}+\varepsilon_t,\ u_t)
-  =\mathrm{Cov}(\varepsilon_t,u_t)=\rho,
-\]
-So:
-\[
-  \boxed{\ F_t=\lambda^2 P_{t|t-1}+1+2\lambda\rho\ }.
+  F_t = \lambda^2 P_{t|t-1} + 1 + 2\lambda\rho.
 \]
 
-\paragraph{3) Gain (Using ``Cross-Covariance / Innovation Variance''):}
+\paragraph{Kalman Gain:}
+The covariance between the state and the innovation is:
+\begin{align*}
+  \mathrm{Cov}(s_t, v_t \mid Y_{1:t-1})
+   & = \mathrm{Cov}(s_t, \lambda(s_t - m_{t|t-1}) + u_t \mid Y_{1:t-1})                \\
+   & = \lambda\,\mathbb{V}[s_t \mid Y_{1:t-1}] + \mathrm{Cov}(s_t, u_t \mid Y_{1:t-1}) \\
+   & = \lambda P_{t|t-1} + \rho.
+\end{align*}
+The Kalman gain is then:
 \[
-  \begin{aligned}
-    K_t
-     & =\frac{\mathrm{Cov}(s_t,v_t\mid Y_{1:t-1})}{F_t}
-    =\frac{\mathrm{Cov}(s_t,\lambda(s_t-m_{t|t-1})+u_t)}{F_t}               \\
-     & =\frac{\lambda\,\mathbb V[s_t-m_{t|t-1}]+\mathrm{Cov}(s_t,u_t)}{F_t}
-    =\boxed{\ \frac{\lambda P_{t|t-1}+\rho}{F_t}\ }.
-  \end{aligned}
+  K_t = \frac{\mathrm{Cov}(s_t, v_t \mid Y_{1:t-1})}{F_t} = \frac{\lambda P_{t|t-1} + \rho}{F_t}.
 \]
 
-\paragraph{4) Update:}
-\[
-  m_{t|t}=m_{t|t-1}+K_t v_t,\qquad
-  P_{t|t}=P_{t|t-1}-K_t\,\mathrm{Cov}(s_t,v_t\mid Y_{1:t-1})
-  =P_{t|t-1}-K_t(\lambda P_{t|t-1}+\rho).
-\]
+\paragraph{Update Step:}
+\begin{align*}
+  m_{t|t} & = m_{t|t-1} + K_t v_t,                                   \\
+  P_{t|t} & = P_{t|t-1} - K_t\,\mathrm{Cov}(s_t, v_t \mid Y_{1:t-1}) \\
+          & = P_{t|t-1} - K_t(\lambda P_{t|t-1} + \rho).
+\end{align*}
 
-\paragraph{5) Log-Likelihood Increment:}
+\paragraph{Log-Likelihood Increment:}
 \[
-  \log p(y_t\mid Y_{1:t-1})
-  =-\tfrac12\Big(\log 2\pi+\log F_t+\frac{v_t^2}{F_t}\Big).
+  \log p(y_t \mid Y_{1:t-1}) = -\frac{1}{2}\left(\log(2\pi) + \log F_t + \frac{v_t^2}{F_t}\right).
 \]
 
 \end{document}
-
