@@ -9,39 +9,38 @@
     \begin{threeparttable}
         \footnotesize
         \begin{tabular}{lcc}
-                \toprule
-                                         & \multicolumn{2}{c}{ln\_trade}                 \\
-                                         & Full Controls                 & Pair FE       \\
-                                         & (1)                           & (2)           \\
-                \midrule
-                ln\_dist                 & -1.24$^{***}$                 &               \\
-                                         & (0.050)                       &               \\
-                contig                   & 0.432$^{***}$                 &               \\
-                                         & (0.108)                       &               \\
-                comlang\_off             & 0.526$^{***}$                 &               \\
-                                         & (0.070)                       &               \\
-                colony                   & 1.27$^{***}$                  &               \\
-                                         & (0.102)                       &               \\
-                curcol                   & -1.12$^{*}$                   &               \\
-                                         & (0.571)                       &               \\
-                smctry                   & 0.473$^{***}$                 &               \\
-                                         & (0.157)                       &               \\
-                cu                       & 1.94$^{***}$                  & 0.045         \\
-                                         & (0.679)                       & (0.408)       \\
-                rta                      & 0.625$^{***}$                 & 0.427$^{***}$ \\
-                                         & (0.137)                       & (0.066)       \\
-                cu $\times$ ln\_gdp\_avg & -0.185$^{**}$                 & 0.038         \\
-                                         & (0.079)                       & (0.050)       \\
-                \midrule
-                Observations             & 100,578                       & 101,343       \\
-                R$^2$                    & 0.730                         & 0.894         \\
-                Within R$^2$             & 0.309                         & 0.003         \\
-                \midrule
-                exp\_year fixed effects  & \checkmark                    & \checkmark    \\
-                imp\_year fixed effects  & \checkmark                    & \checkmark    \\
-                pair\_id fixed effects   &                               & \checkmark    \\
-                \bottomrule
-            \end{tabular}
+            \toprule
+                                     & \multicolumn{2}{c}{ln\_trade}                  \\
+                                     & Full Controls                 & Pair FE        \\
+                                     & (1)                           & (2)            \\
+            \midrule
+            ln\_dist                 & -1.238$^{***}$                &                \\
+                                     & (0.0170)                      &                \\
+            contig                   & 0.4316$^{***}$                &                \\
+                                     & (0.0749)                      &                \\
+            comlang\_off             & 0.5264$^{***}$                &                \\
+                                     & (0.0321)                      &                \\
+            colony                   & 1.265$^{***}$                 &                \\
+                                     & (0.0700)                      &                \\
+            curcol                   & -1.124                        &                \\
+                                     & (0.8079)                      &                \\
+            smctry                   & 0.4734$^{***}$                &                \\
+                                     & (0.1116)                      &                \\
+            cu                       & 1.937$^{***}$                 & 0.0455         \\
+                                     & (0.3184)                      & (0.2791)       \\
+            rta                      & 0.6253$^{***}$                & 0.4272$^{***}$ \\
+                                     & (0.0432)                      & (0.0306)       \\
+            cu $\times$ ln\_gdp\_avg & -0.1848$^{***}$               & 0.0383         \\
+                                     & (0.0401)                      & (0.0314)       \\
+            \midrule
+            Observations             & 100,578                       & 101,343        \\
+            R$^2$                    & 0.73048                       & 0.89443        \\
+            \midrule
+            exp\_year fixed effects  & \checkmark                    & \checkmark     \\
+            imp\_year fixed effects  & \checkmark                    & \checkmark     \\
+            pair\_id fixed effects   &                               & \checkmark     \\
+            \bottomrule
+        \end{tabular}
         \begin{tablenotes}
             \footnotesize
             \item Interaction term `cu:ln\_gdp\_avg' shows whether currency unions have larger effects in country pairs with larger average GDP.

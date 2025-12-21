@@ -205,18 +205,27 @@ correcting for publication bias and controlling for omitted heterogeneity signif
 The gravity dataset was constructed by merging bilateral trade flows from DOTS (1960-2005, every 5 years) with GDP and population data from Penn World Tables,
 regional trade agreement (RTA) and currency union (CU) dummies,
 and time-invariant geographic variables from CEPII.
-After cleaning and transformations, the final dataset contains:
+After cleaning and transformations, the final dataset contains (Table \ref{tab:summary}):
 
 \input{summary_stats.tex}
 
 \section*{Question d: Evolution of RTA and CU Shares}
 
-The share of country pairs in RTAs increased steadily from 1.7\% in 1960 to 12.6\% in 2005, while the trade-weighted share of RTAs grew from 9.5\% to 54.7\%. In contrast, the share of CU pairs declined from 3.3\% to 1.5\%, with trade-weighted CU share fluctuating between 0.1\% and 7.7\%.The divergence between pair shares and trade-weighted shares indicates that RTAs and CUs involve countries with systematically different trade volumes.
+The share of country pairs in RTAs increased steadily from 2.77\% in 1960 to
+7.64\% in 2005, while the trade-weighted share of RTAs grew from 9.5\% to 54.7\%.
+In contrast, the share of CU pairs declined from 3.70\% to 1.43\%,
+with trade-weighted CU share fluctuating between 0.1\% (in the 1980s) and 7.7\% (1960).
+
+The divergence between pair shares and trade-weighted shares indicates that RTAs and CUs
+involve countries with systematically different trade volumes.
 
 \textbf{Key trends:}
 \begin{itemize}
-    \item \textbf{RTAs}: Both pair share and trade share increased, especially after 1995, reflecting the proliferation of regional agreements.
-    \item \textbf{CUs}: Pair share declined, but trade share spiked in 1960 (7.7\%) and again in 2000-2005 (2.2-2.5\%), likely due to the Euro's introduction.
+    \item \textbf{RTAs}: Both pair share and trade share increased, especially after 1995,
+          reflecting the proliferation of regional agreements.
+    \item \textbf{CUs}: Pair share declined steadily, but trade share spiked in 1960
+          (7.66\%, reflecting post-colonial arrangements like the CFA franc zone) and
+          again in 2000-2005 (2.2-2.5\%), coinciding with the Euro's introduction.
 \end{itemize}
 
 The visualization (Figure 1) confirms these trends, showing stronger growth for RTAs than for CUs.
@@ -224,17 +233,35 @@ The visualization (Figure 1) confirms these trends, showing stronger growth for 
 \begin{figure}[h!]
     \centering
     \subfigure[Pair share]{%
-        \includegraphics[width=0.48\textwidth]{d.png}%
+        \includegraphics[width=0.48\textwidth]{d_2.png}%
         \label{fig:rta_cu_shares_a}
     }
     \hfill
     \subfigure[Trade-weighted share]{%
-        \includegraphics[width=0.48\textwidth]{d_2.png}%
+        \includegraphics[width=0.48\textwidth]{d.png}%
         \label{fig:rta_cu_shares_b}
     }
     \caption{Evolution of RTA and CU Shares (1960-2005)}
     \label{fig:rta_cu_shares}
 \end{figure}
+
+\begin{itemize}
+    \item \textbf{Figure \ref{fig:rta_cu_shares_a} (Pair shares)}: Shows that RTA
+          participation nearly tripled over the period, while CU membership more than
+          halved. The lines intersect around 1975, after which RTAs surpass CUs.
+
+    \item \textbf{Figure \ref{fig:rta_cu_shares_b} (Trade-weighted shares)}: Demonstrates
+          a \textit{dramatic divergence} between the two measures. By 2005, RTAs account
+          for over half of world trade, while CU trade share remains below 5\%. The sharp
+          drop in CU trade share in the 1970s-1980s reflects the breakup of colonial
+          currency arrangements.
+
+    \item \textbf{Key insight}: The large gap between pair shares ($\sim$7\%) and
+          trade-weighted shares ($\sim$55\%) for RTAs in 2005 indicates that RTAs
+          disproportionately involve large trading nations, while CUs cluster among
+          smaller economies.
+\end{itemize}
+
 
 
 \section*{Question e: Currency Union Effect Estimation}
@@ -289,7 +316,7 @@ The switch in CU coefficient sign highlights the importance of controlling for c
 
 \section*{Question f: Comparison with Rose and the ``Gold Medal Mistake''}
 
-Our estimated currency union effect of 0.593 is substantially smaller than Rose's original estimate of 1.21.
+Our estimated currency union effect of 0.641 is substantially smaller than Rose's original estimate of 1.21.
 This discrepancy highlights the severity of what Baldwin and Taglioni (2006) term the \textbf{``Gold Medal Mistake''}:
 the failure to control for Multilateral Resistance Terms (MRTs).
 
@@ -348,35 +375,37 @@ Table 2 presents the results of year-by-year regressions with country fixed effe
 The results show a strong positive effect of currency unions from 1960 to 1990,
 with coefficients ranging from 0.60 to 1.45. However,
 the effect declines sharply after 1995,
-becoming statistically insignificant in 2000 (0.008) and 2005 (0.215).
+becoming statistically zero in 2000 (0.008, insignificant) and marginally significant
+in 2005 (0.215*, significant only at the 10\% level).
 This suggests that the trade-promoting effect of currency unions may have diminished in recent decades,
 or that the introduction of the Euro (which dominates the recent CU observations) has different characteristics than earlier unions.
 
-Such variation could occur due to:
-\begin{itemize}
-    \item Changes in the composition of currency unions
-    \item Evolving global economic conditions
-    \item Learning effects as currency unions mature
-\end{itemize}
+\begin{figure}[h!]
+    \centering
+    \includegraphics[width=0.7\textwidth]{h.png}
+    \caption{Year-by-Year CU Coefficients with Country Fixed Effects}
+    \label{fig:yearly_cu_coefficients}
+\end{figure}
+\FloatBarrier
 
 This pattern suggests that:
 \begin{enumerate}
     \item \textbf{Composition effect}: Early CUs (e.g., CFA franc zone, OECS) involved
           small, post-colonial economies with limited prior trade. The large effects may
-          reflect \textit{specific institutional arrangements} rather than the causal
+          reflect specific institutional arrangements rather than the causal
           impact of currency unions per se.
 
     \item \textbf{Euro's different nature}: The Euro, introduced in 1999-2002, dominates
           the recent CU observations. Its smaller (or null) effect may be because:
           \begin{itemize}
-              \item Eurozone members were \textbf{already highly integrated} through the
+              \item Eurozone members were already highly integrated through the
                     Single Market and prior exchange rate mechanisms (ERM).
               \item The Euro eliminated fewer barriers than traditional CUs.
           \end{itemize}
 
     \item \textbf{Methodological lesson}: Using country fixed effects year-by-year is more
           appropriate than pooling all years with a single CU coefficient, as the effect
-          is clearly \textbf{heterogeneous across time}.
+          is clearly heterogeneous across time.
 \end{enumerate}
 
 \section*{Question i: Critiques and Country-Pair Fixed Effects}
@@ -387,7 +416,7 @@ This pattern suggests that:
 
 The country-pair fixed effects specification yields a CU coefficient of 0.660,
 implying a 93\% increase in trade ($e^{0.660} - 1 = 0.93$).
-This is slightly larger than the **0.641** estimate with country fixed effects,
+This is slightly larger than the 0.641 estimate with country fixed effects,
 suggesting that controlling for unobserved bilateral heterogeneity reinforces the positive CU effect in the static panel setting.
 
 \textbf{Strengths of pair fixed effects}:
@@ -439,12 +468,12 @@ in the literature:
               \item Monetary policy shocks, exchange rate regimes
           \end{itemize}
 
-          This addresses Baldwin \& Taglioni's \textbf{"Silver Medal Mistake"}.
+          This addresses Baldwin \& Taglioni's \textbf{``Silver Medal Mistake''}.
 
     \item \textbf{Specification (2) — Adding pair FE:}
           CU coefficient = 0.308***, implying a 36\% increase in trade.
 
-          The \textbf{dramatic drop from 0.660 (Table 2) to 0.308} illustrates that:
+          The \textbf{dramatic drop from 0.633 to 0.308 (Table \ref{tab:j_structural_gravity})} illustrates that:
           \begin{itemize}
               \item Previous pair FE estimates \textit{without} country-year FE were
                     \textbf{upward biased} due to correlated time-varying shocks.
@@ -461,29 +490,33 @@ in the literature:
     \item \textbf{Pair fixed effects}: Control for all time-invariant bilateral characteristics, addressing the Gold Medal Mistake (time-invariant MRTs) and other time-invariant confounders.
 \end{itemize}
 
-The decline in the CU coefficient from 0.490 to 0.349 as we add more fixed effects suggests that earlier estimates were biased upward by omitted variables.
+The decline in the CU coefficient from 0.633 to 0.308 as we add pair fixed effects to
+the time-varying MRT specification suggests that earlier estimates were biased upward
+by omitted time-invariant bilateral characteristics.
 
 \section*{Question k: Do Small Countries Benefit More from Currency Unions?}
 
 \input{table k_small_countries.tex}
 
-The results provide mixed evidence on whether small countries benefit more from currency unions:
+The results suggest \textbf{weak and inconsistent} evidence that small countries benefit
+more from currency unions:
 
-\begin{enumerate}
-    \item \textbf{Specifications (1) and (2) without country fixed effects}: To test if small countries benefit more, we interact the CU dummy with the average log GDP of the pair ($cu \times ln\_gdp\_avg$).
-          In Specification (1) (Full Controls), the interaction term is negative and significant (-0.185).
-          This implies that the trade-creating effect of currency unions decreases as the size of the countries increases—supporting the hypothesis that small countries benefit more.
-          However, in Specification (2) with Pair Fixed Effects,
-          the interaction becomes positive but statistically insignificant (0.038).
-          This suggests that once we control for time-invariant pair characteristics,
-          there is no robust evidence that country size modulates the currency union effect.
-\end{enumerate}
+\begin{itemize}
+    \item In specification (1) with full geographic controls, the negative interaction
+          (-0.185***) supports the hypothesis: smaller countries experience larger CU
+          effects. Economically, this makes sense as smaller economies face higher
+          transaction costs and may benefit more from eliminating exchange rate risk.
 
-\subsection*{Interpretation}
+    \item However, once we control for pair fixed effects (specification 2), the
+          interaction becomes positive but insignificant (0.038). This suggests the
+          size heterogeneity observed in specification (1) may reflect \textit{selection}:
+          pairs of small countries are more likely to both form CUs and have special bilateral
+          characteristics that we cannot observe.
 
-The evidence does not strongly support the hypothesis that small countries benefit more from currency unions.
-The large CU coefficient in specification (3) may be driven by other factors correlated with both small country size and CU membership.
-The positive coefficient on both\_small suggests that small countries tend to trade more with each other, but this effect does not appear to be amplified by currency union membership.
+    \item The baseline CU effect in specification (2) is also insignificant (0.045),
+          reinforcing the fragility of the currency union effect when using the most
+          demanding identification strategy.
+\end{itemize}
 
 \section*{Question l: Problems with Log-Linearization and Poisson Estimation}
 
@@ -518,13 +551,17 @@ The positive coefficient on both\_small suggests that small countries tend to tr
 
 \subsection*{PPML Estimation Results}
 
-The PPML estimate of the CU coefficient is -0.122 and statistically insignificant.
-This confirms that when accounting for zero trade flows and heteroskedasticity,
-the currency union effect disappears, casting doubt on the robustness of the log-linear results.
+The PPML estimate of the CU coefficient is -0.122** (standard error 0.0508) and
+statistically significant at the 5\% level. This indicates that when
+accounting for zero trade flows and heteroskedasticity, currency unions are
+associated with a 12\% reduction in trade ($e^{-0.122} - 1 \approx -0.115$),
+contradicting the positive effects found in log-linear specifications.
 
 \subsection*{Interpretation}
 
-The discrepancy between PPML and log-linear estimates suggests that heteroskedasticity and/or zero trade flows may be biasing the log-linear estimates.
+The discrepancy between PPML and log-linear  estimates casts doubt on the robustness of the positive CU effects found in log-linear specifications,
+and suggests that heteroskedasticity and/or zero trade flows may be biasing the log-linear estimates.
+
 The PPML estimate is more reliable because:
 \begin{itemize}
     \item \textbf{Zero flows matter:} PPML includes 196,999 observations vs. about 120,000
@@ -540,8 +577,6 @@ The PPML estimate is more reliable because:
           heteroskedasticity, not genuine trade creation.
 \end{itemize}
 
-The insignificant PPML result casts doubt on the robustness of the positive CU effects found in log-linear specifications.
-
 \section*{Question m: Euro Effect Analysis}
 
 \input{table m_euro_effect.tex}
@@ -549,16 +584,38 @@ The insignificant PPML result casts doubt on the robustness of the positive CU e
 The analysis distinguishes between the Eurozone and other currency unions. The results show:
 
 \begin{enumerate}
-    \item \textbf{Euro Effect}: The coefficient for the Euro dummy is -0.135***,
-          and statistically insignificant.
+    \item \textbf{Euro Effect}: The coefficient for the Euro dummy is -0.135***
+          (standard error 0.0513) and statistically significant at the 1\% level.
+          This implies that the Euro is associated with a 13\% reduction in trade
+          ($e^{-0.135} - 1 \approx -0.126$) among member countries, after controlling
+          for pair fixed effects and year effects.
 
-    \item \textbf{Other CUs}:
-          The coefficient for other currency unions is 0.496 and significant at the 5\% level.
+    \item \textbf{Other CUs}: The coefficient for other currency unions is 0.496***
+          (significant at the 1\% level), implying a 64\% increase in trade
+          ($e^{0.496} - 1 = 0.642$).
 \end{enumerate}
 
 This suggests that while traditional currency unions (often post-colonial or small-state associations) are associated with higher trade,
-the introduction of the Euro has not led to a statistically significant increase in trade among its members (controlling for RTAs and pair heterogeneity).
-The ``negative'' point estimate, though insignificant,
-aligns with the literature suggesting that the Euro's trade effect is either small or elusive when proper econometric controls are applied.
+the introduction of the Euro has reduced trade among its members (controlling for RTAs and pair heterogeneity).
+Possible explanations:
+
+\begin{itemize}
+    \item \textbf{Already-integrated baseline}: Eurozone members had achieved deep
+          integration through the Single Market (1992) and ERM. The Euro added little
+          marginal value, and our specification may attribute trade growth to other
+          factors (captured by year FE).
+
+    \item \textbf{Trade diversion}: The Euro may have led to more trade with
+          non-Eurozone partners (especially emerging markets), reducing the share of
+          intra-Eurozone trade.
+
+    \item \textbf{Short time horizon}: Our data end in 2005, only 6 years post-Euro.
+          Some studies (Glick \& Rose 2016) find that CU effects emerge gradually.
+
+    \item \textbf{Specification stringency}: With pair FE + year FE + PPML, we impose
+          the highest identification bar. This guards against false positives but may
+          miss true small effects.
+\end{itemize}
+
 
 \end{document}
