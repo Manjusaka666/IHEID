@@ -120,7 +120,7 @@
 \lhead{\footnotesize EI129 International Trade II}% \lhead puts text in the top left corner. \footnotesize sets our font to a smaller size.
 
 %\rhead works just like \lhead (you can also use \chead)
-\rhead{\footnotesize Jingle Fu} %<---- Fill in your lastnames.
+\rhead{\footnotesize Jingle Fu \& Yingjie Zhang} %<---- Fill in your lastnames.
 
 % Similar commands work for the footer (\lfoot, \cfoot and \rfoot).
 % We want to put our page number in the center.
@@ -145,7 +145,7 @@
     \vspace{2mm}
 
     % YOUR NAMES GO HERE
-    {\bf Jingle Fu} % <---- Fill in your names here!
+    {\bf Jingle Fu, Yingjie Zhang} % <---- Fill in your names here!
 
 \end{center}
 
@@ -228,7 +228,7 @@ involve countries with systematically different trade volumes.
           again in 2000-2005 (2.2-2.5\%), coinciding with the Euro's introduction.
 \end{itemize}
 
-The visualization (Figure 1) confirms these trends, showing stronger growth for RTAs than for CUs.
+The visualization (Figure \ref{fig:rta_cu_shares}) confirms these trends, showing stronger growth for RTAs than for CUs.
 
 \begin{figure}[h!]
     \centering
@@ -319,6 +319,7 @@ The switch in CU coefficient sign highlights the importance of controlling for c
 Our estimated currency union effect of 0.641 is substantially smaller than Rose's original estimate of 1.21.
 This discrepancy highlights the severity of what Baldwin and Taglioni (2006) term the \textbf{``Gold Medal Mistake''}:
 the failure to control for Multilateral Resistance Terms (MRTs).
+While Rose included country fixed effects, he failed to include time-varying country fixed effects.
 
 Theoretically, bilateral trade depends not only on bilateral trade costs but also on the relative price indices ($P_i$ and $P_j$) of the trading partners,
 which summarize their trade costs with the rest of the world.
@@ -360,15 +361,21 @@ they do not fully eliminate the bias arising from time-varying multilateral resi
 
 \section*{Question g: Silver and Bronze Medal Mistakes}
 
-\textbf{Silver Medal Mistake}: Failure to account for \textbf{time-varying country heterogeneity}. Rose used country fixed effects but not country-year fixed effects, failing to control for time-varying MRTs. When trade costs with third countries change over time, these changes affect bilateral trade flows and bias the estimated CU coefficient if not properly controlled.
+\textbf{Silver Medal Mistake}: \textbf{Averaging bilateral trade}. Rose estimates the gravity equation on the average of bilateral exports and imports (e.g., the log of the average trade flow).
+Baldwin and Taglioni (2006) argue this is a mistake because exports and imports are distinct economic processes driven by different factors.
+Mathematically, the log of the average is not equal to the average of the logs $\log \left( \frac{x + y}{2} \right) \neq \frac{1}{2} \left( \log x + \log y \right)$, creating an estimation bias.
+The correct approach is to use uni-directional trade flows $X_{ij}$ and $X_{ji}$ as separate observations.
 
-\textbf{Bronze Medal Mistake}: \textbf{Improper deflation of trade values}. Rose used nominal trade flows deflated by GDP deflators instead of proper price indices for tradables. This introduces measurement error that is correlated with the error term, potentially biasing the CU coefficient.
+\textbf{Bronze Medal Mistake}: \textbf{Improper deflation of trade values}. Rose used nominal trade flows deflated by GDP deflators instead of proper price indices for tradables.
+Baldwin and Taglioni point out that the standard gravity equation is a derivation of optimal expenditure allocation in nominal terms.
+There is no theoretical basis for deflating bilateral trade by a common US price index, which creates spurious correlations.
+The correct approach is to use nominal trade values and include time fixed effects to absorb global inflation and trends.
 
 These methodological issues, combined with the Gold Medal Mistake, explain why Rose's original estimates were implausibly large. Our results, which address these issues through proper econometric specifications, yield more plausible estimates of the currency union effect.
 
 \section*{Question h: Year-by-Year Regressions with Country Fixed Effects}
 
-Table 2 presents the results of year-by-year regressions with country fixed effects.
+Table \ref{tab:h_yearly_cu} presents the results of year-by-year regressions with country fixed effects.
 
 \input{table h_yearly_cu.tex}
 
@@ -581,41 +588,41 @@ The PPML estimate is more reliable because:
 
 \input{table m_euro_effect.tex}
 
-The analysis distinguishes between the Eurozone and other currency unions. The results show:
+To robustly identify the effect of the Euro,
+we estimate three specifications comparing the Euro to other currency unions.
+The results (Table \ref{tab:m_euro_effect}) illustrate the critical importance of econometric methodology:
 
 \begin{enumerate}
-    \item \textbf{Euro Effect}: The coefficient for the Euro dummy is -0.135***
-          (standard error 0.0513) and statistically significant at the 1\% level.
-          This implies that the Euro is associated with a 13\% reduction in trade
-          ($e^{-0.135} - 1 \approx -0.126$) among member countries, after controlling
-          for pair fixed effects and year effects.
+    \item \textbf{Column (3) OLS with HDFE}: When collecting for Multilateral Resistance Terms (MRTs) but using OLS,
+          we find a large, positive Euro effect (0.439***), suggesting a 55\% increase in trade.
+          However, as discussed in Question l, this estimate is likely biased upward due to sample selection (omitting zeros) and heteroskedasticity.
 
-    \item \textbf{Other CUs}: The coefficient for other currency unions is 0.496***
-          (significant at the 1\% level), implying a 64\% increase in trade
-          ($e^{0.496} - 1 = 0.642$).
+    \item \textbf{Column (1) PPML with Pair FE}: When addressing zeros/heteroskedasticity using PPML but failing to control for time-varying MRTs (only Year FE),
+          we find a significant negative Euro effect (-0.135***).
+          This suggests that omitting price index changes biases the estimate downward.
+
+    \item \textbf{Column (2) PPML with HDFE (Preferred Specification)}: When we simultaneously address all three major econometric challenges
+          --(i) endogeneity (Pair FE), (ii) multilateral resistance (Exp-Year/Imp-Year FE), and (iii) heteroskedasticity/zeros (PPML)—the Euro coefficient vanishes (-0.001, s.e. 0.043).
 \end{enumerate}
 
-This suggests that while traditional currency unions (often post-colonial or small-state associations) are associated with higher trade,
-the introduction of the Euro has reduced trade among its members (controlling for RTAs and pair heterogeneity).
-Possible explanations:
-
+Our preferred specification (Column 2) indicates that the introduction of the Euro had no statistically significant effect on trade volumes (-0.001).
+This contrasts sharply with:
 \begin{itemize}
-    \item \textbf{Already-integrated baseline}: Eurozone members had achieved deep
-          integration through the Single Market (1992) and ERM. The Euro added little
-          marginal value, and our specification may attribute trade growth to other
-          factors (captured by year FE).
-
-    \item \textbf{Trade diversion}: The Euro may have led to more trade with
-          non-Eurozone partners (especially emerging markets), reducing the share of
-          intra-Eurozone trade.
-
-    \item \textbf{Short time horizon}: Our data end in 2005, only 6 years post-Euro.
-          Some studies (Glick \& Rose 2016) find that CU effects emerge gradually.
-
-    \item \textbf{Specification stringency}: With pair FE + year FE + PPML, we impose
-          the highest identification bar. This guards against false positives but may
-          miss true small effects.
+    \item The large positive effect of ``Other CUs'' (0.677*** in Col 2),
+          which are mostly small, developing economies.
+    \item The positive effect of RTAs (0.175*** in Col 2).
 \end{itemize}
+
+Why has the Euro not boosted trade?
+\begin{itemize}
+    \item \textbf{High Integration Baseline}: Eurozone countries were already deeply integrated via the Single Market and ERM.
+          The marginal transaction cost reduction from the single currency was likely too small to generate visible trade creation in the short run (1999-2005).
+    \item \textbf{Mature Economies}: Unlike post-colonial CUs involving small economies with high transaction costs, Eurozone members are advanced economies with sophisticated financial hedging instruments,
+          making exchange rate volatility less of a barrier.
+\end{itemize}
+
+This result shows that, after correcting for all econometric biases,
+the trade effects of the Euro are economically small or non-existent.
 
 
 \end{document}

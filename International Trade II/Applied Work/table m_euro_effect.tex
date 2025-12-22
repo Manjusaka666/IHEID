@@ -8,29 +8,33 @@
     \label{tab:m_euro_effect}
     \begin{threeparttable}
         \footnotesize
-        \begin{tabular}{lc}
+        \begin{tabular}{lccc}
             \toprule
-                                   & trade              \\
-                                   & PPML               \\
-                                   & (1)                \\
+                                    & \multicolumn{2}{c}{trade} & ln\_trade                       \\
+                                    & PPML (Pair+Year FE)       & PPML (HDFE)    & OLS (HDFE)     \\
+                                    & (1)                       & (2)            & (3)            \\
+                                    & Poisson                   & Poisson        & OLS            \\
             \midrule
-            euro                   & -0.1346$^{\ast**}$ \\
-                                   & (0.0513)           \\
-            other\_cu              & 0.4960$^{***}$     \\
-                                   & (0.1758)           \\
-            rta                    & 0.2607$^{***}$     \\
-                                   & (0.0716)           \\
-            \midrule
-            Observations           & 197,020            \\
-            Pseudo R$^2$           & 0.98399            \\
-            \midrule
-            pair\_id fixed effects & \checkmark         \\
-            year fixed effects     & \checkmark         \\
+            euro                    & -0.1346$^{***}$           & -0.0010        & 0.4391$^{***}$ \\
+                                    & (0.0513)                  & (0.0433)       & (0.0690)       \\
+            other\_cu               & 0.4960$^{***}$            & 0.6766$^{***}$ & 0.2581$^{***}$ \\
+                                    & (0.1758)                  & (0.1467)       & (0.0818)       \\
+            rta                     & 0.2607$^{***}$            & 0.1749$^{***}$ & 0.4522$^{***}$ \\
+                                    & (0.0716)                  & (0.0343)       & (0.0298)       \\
+            \\
+            Observations            & 197,020                   & 191,850        & 120,150        \\
+            R$^2$                   &                           &                & 0.88967        \\
+            Pseudo R$^2$            & 0.98399                   & 0.99335        & 0.43090        \\
+            \\
+            pair\_id fixed effects  & $\checkmark$              & $\checkmark$   & $\checkmark$   \\
+            year fixed effects      & $\checkmark$              &                &                \\
+            exp\_year fixed effects &                           & $\checkmark$   & $\checkmark$   \\
+            imp\_year fixed effects &                           & $\checkmark$   & $\checkmark$   \\
             \bottomrule
         \end{tabular}
         \begin{tablenotes}
             \footnotesize
-            \item PPML estimation with country-pair and year fixed effects. Euro zone includes initial 11 members (1999) plus Greece (2001).
+            \item Columns (1)-(2) use PPML on trade levels; column (3) uses OLS on log(trade). HDFE specifications control for time-varying multilateral resistance terms via exporter-year and importer-year fixed effects, plus pair fixed effects for unobserved bilateral heterogeneity. Euro zone includes initial 11 members (1999) plus Greece (2001).
             \item Standard errors clustered by exporter-importer pair in parentheses.
             \item Significance levels: * p < 0.10, ** p < 0.05, *** p < 0.01.
         \end{tablenotes}
