@@ -19,22 +19,32 @@ cat("Step 1: Configuring hierarchical priors...\n\n")
 
 # Set up Minnesota prior with hierarchical hyperparameter selection
 setup_hierarchical_priors <- function() {
+    lambda_mode <- getOption("bayesian_de.lambda_mode", 0.2)
+    lambda_sd <- getOption("bayesian_de.lambda_sd", 0.4)
+    lambda_min <- getOption("bayesian_de.lambda_min", 1e-4)
+    lambda_max <- getOption("bayesian_de.lambda_max", 5)
+
+    alpha_mode <- getOption("bayesian_de.alpha_mode", 2)
+    alpha_sd <- getOption("bayesian_de.alpha_sd", 0.25)
+    alpha_min <- getOption("bayesian_de.alpha_min", 1)
+    alpha_max <- getOption("bayesian_de.alpha_max", 3)
+
     priors <- bv_priors(
         hyper = "auto", # Automatic hierarchical selection
         mn = bv_mn(
             # Overall tightness (lambda): data-driven selection
             lambda = bv_lambda(
-                mode = 0.7, # Looser prior mode to allow richer dynamics
-                sd = 0.8, # Wider hyperprior
-                min = 1e-3, # Lower bound
-                max = 10 # Upper bound
+                mode = lambda_mode,
+                sd = lambda_sd,
+                min = lambda_min,
+                max = lambda_max
             ),
-            # Lag decay (alpha): slower decay to preserve medium-run effects
+            # Lag decay (alpha): paper baseline is approximately 1/ℓ^2 (alpha≈2)
             alpha = bv_alpha(
-                mode = 1.2,
-                sd = 0.8,
-                min = 0.5,
-                max = 5
+                mode = alpha_mode,
+                sd = alpha_sd,
+                min = alpha_min,
+                max = alpha_max
             ),
             # Cross-variable shrinkage (psi)
             # In BVAR 1.0.5, psi needs length = number of variables when mode is numeric.
@@ -60,7 +70,8 @@ setup_hierarchical_priors <- function() {
     )
 
     cat("  ✓ Hierarchical priors configured:\n")
-    cat("    - Minnesota prior with automatic lambda selection\n")
+    cat(sprintf("    - Minnesota: lambda ~ Gamma(mode=%.3f, sd=%.3f) with bounds [%.4f, %.2f]\n", lambda_mode, lambda_sd, lambda_min, lambda_max))
+    cat(sprintf("    - Minnesota: alpha fixed at %.3f (bounds [%.2f, %.2f])\n", alpha_mode, alpha_min, alpha_max))
     cat("    - Sum-of-coefficients prior (unit-root accommodation)\n")
     cat("    - Dummy-initial-observation prior\n\n")
 
@@ -76,8 +87,8 @@ priors_config <- setup_hierarchical_priors()
 cat("Step 2: Configuring MCMC parameters...\n")
 
 mcmc_config <- list(
-    n_draw = 10000, # Total MCMC draws
-    n_burn = 5000, # Burn-in period
+    n_draw = getOption("bayesian_de.n_draw", 10000L), # Total MCMC draws
+    n_burn = getOption("bayesian_de.n_burn", 5000L), # Burn-in period
     n_thin = 1, # Thinning (1 = no thinning)
     verbose = FALSE # Suppress iteration output
 )

@@ -1,0 +1,27 @@
+\begin{table}[h!]
+\centering
+\small
+\caption{Root Mean Squared Forecast Errors}
+\label{tab:rmsfe}
+\begin{tabular}{@{}lcccc@{}}
+\toprule
+model & variable & h1 & h3 & h12 \\
+\midrule
+Small & CPI & 3.482 & 2.671 & 1.341 \\
+Small & INDPRO & 7.633 & 5.536 & 5.084 \\
+Medium & CPI & 3.474 & 2.683 & 1.375 \\
+Medium & INDPRO & 7.322 & 5.077 & 4.817 \\
+Full & CPI & 3.542 & 2.670 & 1.312 \\
+Full & INDPRO & 7.534 & 5.245 & 4.610 \\
+\bottomrule
+\end{tabular}
+\vspace{0.5em}
+\begin{minipage}{\textwidth}
+\footnotesize
+\textit{Notes:}
+RMSFE (in percentage points for inflation and growth rates).\\
+Sample period: 2001M1--2019M12 (230 forecast origins).\\
+Forecast horizons: $h = \{1, 3, 12\}$ months ahead.\\
+Models: Small (INDPRO, CPI, UNRATE, FEDFUNDS), Medium (+ GS10, SP500), Full (+ UMCSENT).\\
+\end{minipage}
+\end{table}

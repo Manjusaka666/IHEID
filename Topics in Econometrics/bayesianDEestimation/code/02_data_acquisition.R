@@ -52,19 +52,20 @@ cat("Step 2: Defining variable lists...\n")
 
 # Variable metadata
 variables_metadata <- tribble(
-    ~model,    ~var_name,    ~fred_code,   ~transformation,  ~description,
-    "small",   "INDPRO",     "INDPRO",     "log",            "Industrial Production Index",
-    "small",   "CPIAUCSL",   "CPIAUCSL",   "log",            "Consumer Price Index",
-    "small",   "UNRATE",     "UNRATE",     "level",          "Unemployment Rate",
-    "small",   "FEDFUNDS",   "FEDFUNDS",   "level",          "Federal Funds Rate",
-    "medium",  "GS10",       "GS10",       "level",          "10-Year Treasury Yield",
-    "medium",  "SP500",      "^GSPC",      "log",            "S&P 500 Index",
-    "full",    "UMCSENT",    "UMCSENT",    "level",          "U. Michigan Consumer Sentiment"
+    ~model,    ~var_name,      ~fred_code,     ~transformation,  ~description,
+    "small",   "INDPRO",       "INDPRO",       "log",            "Industrial Production Index",
+    "small",   "CPIAUCSL",     "CPIAUCSL",     "log",            "Consumer Price Index",
+    "small",   "UNRATE",       "UNRATE",       "level",          "Unemployment Rate",
+    "small",   "FEDFUNDS",     "FEDFUNDS",     "level",          "Federal Funds Rate",
+    "medium",  "GS10",         "GS10",         "level",          "10-Year Treasury Yield",
+    "medium",  "SP500",        "^GSPC",        "log",            "S&P 500 Index",
+    "medium",  "DCOILWTICO",   "DCOILWTICO",   "log",            "WTI Crude Oil Prices",
+    "full",    "UMCSENT",      "UMCSENT",      "level",          "U. Michigan Consumer Sentiment"
 )
 
 # Cumulative variable sets
 small_vars <- c("INDPRO", "CPIAUCSL", "UNRATE", "FEDFUNDS")
-medium_vars <- c(small_vars, "GS10", "SP500")
+medium_vars <- c(small_vars, "GS10", "SP500", "DCOILWTICO")
 full_vars <- c(medium_vars, "UMCSENT")
 
 cat(sprintf("  Small model: %d variables\n", length(small_vars)))

@@ -206,6 +206,52 @@ tryCatch(
     }
 )
 
+# ------------------------------------------------------------------------------
+# Phase 9-11: Robustness Suite (Optional)
+# ------------------------------------------------------------------------------
+cat("\n")
+cat("=============================================================================\n")
+cat("  PHASE 9-11: ROBUSTNESS SUITE (OPTIONAL)\n")
+cat("=============================================================================\n\n")
+cat("? Run robustness checks + robustness figures + rolling diagnostics? (y/n): ")
+run_robustness <- readline()
+if (tolower(run_robustness) == "y") {
+    tryCatch(
+        {
+            source("code/09_robustness_checks.R")
+            cat("\n? Phase 9 complete.\n")
+        },
+        error = function(e) {
+            cat(sprintf("\n? Error in Phase 9: %s\n", e$message))
+            stop("Pipeline halted due to error in Phase 9.")
+        }
+    )
+
+    tryCatch(
+        {
+            source("code/10_robustness_visualization.R")
+            cat("\n? Phase 10 complete.\n")
+        },
+        error = function(e) {
+            cat(sprintf("\n? Error in Phase 10: %s\n", e$message))
+            stop("Pipeline halted due to error in Phase 10.")
+        }
+    )
+
+    tryCatch(
+        {
+            source("code/11_error_decomposition_and_rolling_rmsfe.R")
+            cat("\n? Phase 11 complete.\n")
+        },
+        error = function(e) {
+            cat(sprintf("\n? Error in Phase 11: %s\n", e$message))
+            stop("Pipeline halted due to error in Phase 11.")
+        }
+    )
+} else {
+    cat("  Skipping robustness suite.\n\n")
+}
+
 # ==============================================================================
 # Completion Summary
 # ==============================================================================
@@ -243,8 +289,7 @@ cat("\n")
 
 cat("Next Steps:\n")
 cat("  1. Review results in results/tables/\n")
-cat("  2. Create visualizations (08_visualization.R - TO BE IMPLEMENTED)\n")
-cat("  3. Integrate findings into ForecastingHorseRace.tex\n")
+cat("  2. Integrate findings into ForecastingHorseRace.tex\n")
 cat("\n")
 
 cat("Log saved to:", log_file, "\n\n")

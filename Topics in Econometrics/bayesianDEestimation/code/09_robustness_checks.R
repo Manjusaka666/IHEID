@@ -33,8 +33,18 @@ cat("  Data loaded.\n\n")
 priors_config <- bv_priors(
     hyper = "auto",
     mn = bv_mn(
-        lambda = bv_lambda(mode = 0.7, sd = 0.8, min = 0.01, max = 10),
-        alpha = bv_alpha(mode = 1.2, sd = 0.8, min = 0.5, max = 5),
+        lambda = bv_lambda(
+            mode = getOption("bayesian_de.lambda_mode", 0.2),
+            sd = getOption("bayesian_de.lambda_sd", 0.4),
+            min = getOption("bayesian_de.lambda_min", 0.01),
+            max = getOption("bayesian_de.lambda_max", 5)
+        ),
+        alpha = bv_alpha(
+            mode = getOption("bayesian_de.alpha_mode", 2),
+            sd = getOption("bayesian_de.alpha_sd", 0.25),
+            min = getOption("bayesian_de.alpha_min", 1),
+            max = getOption("bayesian_de.alpha_max", 3)
+        ),
         psi = bv_psi(mode = "auto")
     ),
     soc = bv_soc(mode = 1, sd = 1, min = 0.01, max = 50),

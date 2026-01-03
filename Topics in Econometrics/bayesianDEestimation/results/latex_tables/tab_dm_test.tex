@@ -1,0 +1,58 @@
+\begin{table}[h!]
+\centering
+\small
+\caption{Diebold--Mariano Test Results}
+\label{tab:dm_test}
+\begin{tabular}{@{}lccccc@{}}
+\toprule
+model & variable & horizon & benchmark & t-statistic & p-value \\
+\midrule
+Small & CPI & h=1 & RW & -3.118*** & 0.002 \\
+Small & CPI & h=1 & AR1 & 2.466** & 0.014 \\
+Small & CPI & h=3 & RW & -1.629 & 0.105 \\
+Small & CPI & h=3 & AR1 & -1.346 & 0.180 \\
+Small & CPI & h=12 & RW & -1.619 & 0.107 \\
+Small & CPI & h=12 & AR1 & -0.701 & 0.484 \\
+Small & INDPRO & h=1 & RW & -1.095 & 0.275 \\
+Small & INDPRO & h=1 & AR1 & -1.168 & 0.244 \\
+Small & INDPRO & h=3 & RW & -0.160 & 0.873 \\
+Small & INDPRO & h=3 & AR1 & 1.529 & 0.128 \\
+Small & INDPRO & h=12 & RW & 1.075 & 0.284 \\
+Small & INDPRO & h=12 & AR1 & -0.366 & 0.715 \\
+Medium & CPI & h=1 & RW & -3.047*** & 0.003 \\
+Medium & CPI & h=1 & AR1 & 1.914* & 0.057 \\
+Medium & CPI & h=3 & RW & -1.514 & 0.131 \\
+Medium & CPI & h=3 & AR1 & -1.440 & 0.151 \\
+Medium & CPI & h=12 & RW & -1.574 & 0.117 \\
+Medium & CPI & h=12 & AR1 & -0.669 & 0.504 \\
+Medium & INDPRO & h=1 & RW & -1.661* & 0.098 \\
+Medium & INDPRO & h=1 & AR1 & -1.755* & 0.081 \\
+Medium & INDPRO & h=3 & RW & -0.637 & 0.525 \\
+Medium & INDPRO & h=3 & AR1 & 0.948 & 0.344 \\
+Medium & INDPRO & h=12 & RW & 0.768 & 0.443 \\
+Medium & INDPRO & h=12 & AR1 & -0.408 & 0.683 \\
+Full & CPI & h=1 & RW & -2.267** & 0.024 \\
+Full & CPI & h=1 & AR1 & 1.538 & 0.125 \\
+Full & CPI & h=3 & RW & -1.343 & 0.181 \\
+Full & CPI & h=3 & AR1 & -1.726* & 0.086 \\
+Full & CPI & h=12 & RW & -1.528 & 0.128 \\
+Full & CPI & h=12 & AR1 & -1.033 & 0.303 \\
+Full & INDPRO & h=1 & RW & -1.587 & 0.114 \\
+Full & INDPRO & h=1 & AR1 & -1.341 & 0.181 \\
+Full & INDPRO & h=3 & RW & -0.747 & 0.456 \\
+Full & INDPRO & h=3 & AR1 & 0.833 & 0.406 \\
+Full & INDPRO & h=12 & RW & 0.553 & 0.581 \\
+Full & INDPRO & h=12 & AR1 & -0.394 & 0.694 \\
+\bottomrule
+\end{tabular}
+\vspace{0.5em}
+\begin{minipage}{\textwidth}
+\footnotesize
+\textit{Notes:}
+Diebold--Mariano test for equal predictive accuracy against random walk benchmark.\\
+Null hypothesis: Equal mean squared forecast error.\\
+Test statistic computed using Newey--West HAC variance estimator.\\
+Negative $t$-statistics indicate the model has lower MSFE than the benchmark.\\
+*** p<0.01, ** p<0.05, * p<0.1\\
+\end{minipage}
+\end{table}

@@ -203,22 +203,32 @@ cat("Step 7: Creating forecast vs actual plots...\n")
 aligned_data <- readRDS("results/forecasts/aligned_forecasts_actuals.rds")
 
 # Helper function to create forecast vs actual plot
-create_forecast_plot <- function(data, horizon, horizon_col_forecast, horizon_col_actual, y_label) {
+create_forecast_plot <- function(data, horizon, horizon_col_forecast, horizon_col_actual, y_label, x_axis = c("target", "origin")) {
+    x_axis <- match.arg(x_axis)
+    target_col <- paste0("target_date_h", horizon)
+
     forecast_ts <- data %>%
+        mutate(origin_date = as.Date(origin_date)) %>%
         mutate(
-            origin_date = as.Date(origin_date),
-            target_date = as.Date(as.yearmon(origin_date) + horizon / 12, frac = 1)
+            target_date = if (target_col %in% names(data)) {
+                as.Date(.data[[target_col]])
+            } else {
+                as.Date(as.yearmon(origin_date) + horizon / 12, frac = 1)
+            }
+        ,
+        plot_date = if (x_axis == "target") target_date else origin_date
         ) %>%
         filter(!is.na(!!sym(horizon_col_actual)))
-    
-    ggplot(forecast_ts, aes(x = target_date)) +
+
+    ggplot(forecast_ts, aes(x = plot_date)) +
         geom_line(aes(y = !!sym(horizon_col_actual), color = "Actual"), linewidth = 0.8) +
         geom_line(aes(y = !!sym(horizon_col_forecast), color = "BVAR Forecast"), 
                   linewidth = 0.8, alpha = 0.7) +
         scale_color_manual(values = c("Actual" = "black", "BVAR Forecast" = "#E41A1C")) +
         labs(
             title = sprintf("CPI Inflation: BVAR Forecast vs Realized (h=%d)", horizon),
-            x = "Date",
+            subtitle = if (x_axis == "target") "x-axis uses target date (t+h)" else "x-axis uses origin date (t)",
+            x = if (x_axis == "target") "Target date (t+h)" else "Origin date (t)",
             y = y_label,
             color = ""
         ) +
@@ -226,10 +236,87 @@ create_forecast_plot <- function(data, horizon, horizon_col_forecast, horizon_co
         theme(legend.position = "bottom")
 }
 
-# Generate plots for all horizons
-p6_h1 <- create_forecast_plot(aligned_data$cpi_small, 1, "h1_forecast", "h1_actual", "Annualized 1-month inflation (%)")
-p6_h3 <- create_forecast_plot(aligned_data$cpi_small, 3, "h3_forecast", "h3_actual", "Annualized 3-month inflation (%)")
-p6_h12 <- create_forecast_plot(aligned_data$cpi_small, 12, "h12_forecast", "h12_actual", "Year-over-year inflation (%)")
+# Alternative diagnostic plot: forecast is dated at origin t, realized is dated at target t+h.
+# This SHOULD look horizontally shifted by h months; it is not meant for pointwise comparison,
+# but helps visually confirm what "origin date" vs "target date" means in the pseudo-OOS setup.
+create_forecast_plot_staggered <- function(data, horizon, horizon_col_forecast, horizon_col_actual, y_label) {
+    target_col <- paste0("target_date_h", horizon)
+
+    ts <- data %>%
+        mutate(origin_date = as.Date(origin_date)) %>%
+        mutate(
+            target_date = if (target_col %in% names(data)) {
+                as.Date(.data[[target_col]])
+            } else {
+                as.Date(as.yearmon(origin_date) + horizon / 12, frac = 1)
+            }
+        ) %>%
+        filter(!is.na(!!sym(horizon_col_actual)))
+
+    df_long <- bind_rows(
+        ts %>%
+            transmute(date = origin_date, value = !!sym(horizon_col_forecast), series = "Forecast (made at t)"),
+        ts %>%
+            transmute(date = target_date, value = !!sym(horizon_col_actual), series = "Realized (at t+h)")
+    ) %>%
+        mutate(series = factor(series, levels = c("Realized (at t+h)", "Forecast (made at t)")))
+
+    ggplot(df_long, aes(x = date, y = value, color = series)) +
+        geom_line(linewidth = 0.8) +
+        scale_color_manual(values = c("Realized (at t+h)" = "black", "Forecast (made at t)" = "#E41A1C")) +
+        labs(
+            title = sprintf("Forecast Timing Diagnostic (h=%d)", horizon),
+            subtitle = "Black series is dated at realization (t+h); red series is dated at forecast origin (t)",
+            x = "Calendar date",
+            y = y_label,
+            color = ""
+        ) +
+        theme_minimal(base_size = 11) +
+        theme(legend.position = "bottom")
+}
+
+# Generate plots for all horizons (default: CPI + Small; can override via options)
+fig6_variable <- getOption("bayesian_de.fig6_variable", "CPI")
+fig6_model <- getOption("bayesian_de.fig6_model", "Small")
+
+fig6_prefix <- if (toupper(fig6_variable) == "INDPRO") "indpro" else "cpi"
+fig6_key <- paste0(fig6_prefix, "_", tolower(fig6_model))
+if (!(fig6_key %in% names(aligned_data))) {
+    fig6_key <- "cpi_small"
+}
+fig6_df <- aligned_data[[fig6_key]]
+cat(sprintf("  Fig6 uses variable=%s, model=%s (%s)\n", fig6_variable, fig6_model, fig6_key))
+
+cat("  Fig6 alignment spot-check (first 5 rows):\n")
+for (h in c(1, 3, 12)) {
+    tcol <- paste0("target_date_h", h)
+    if (tcol %in% names(fig6_df)) {
+        tmp <- fig6_df %>%
+            transmute(origin_date = as.Date(origin_date), target_date = as.Date(.data[[tcol]])) %>%
+            head(5)
+        cat(sprintf("    h=%d:\n", h))
+        print(tmp, row.names = FALSE)
+    }
+}
+cat("\n")
+
+if (toupper(fig6_variable) == "INDPRO") {
+    y_h1 <- "Annualized 1-month IP growth (%)"
+    y_h3 <- "Annualized 3-month IP growth (%)"
+    y_h12 <- "Annualized 12-month IP growth (%)"
+} else {
+    y_h1 <- "Annualized 1-month inflation (%)"
+    y_h3 <- "Annualized 3-month inflation (%)"
+    y_h12 <- "Year-over-year inflation (%)"
+}
+
+p6_h1 <- create_forecast_plot(fig6_df, 1, "h1_forecast", "h1_actual", y_h1, x_axis = "target")
+p6_h3 <- create_forecast_plot(fig6_df, 3, "h3_forecast", "h3_actual", y_h3, x_axis = "target")
+p6_h12 <- create_forecast_plot(fig6_df, 12, "h12_forecast", "h12_actual", y_h12, x_axis = "target")
+
+p6_diag_h1 <- create_forecast_plot_staggered(fig6_df, 1, "h1_forecast", "h1_actual", y_h1)
+p6_diag_h3 <- create_forecast_plot_staggered(fig6_df, 3, "h3_forecast", "h3_actual", y_h3)
+p6_diag_h12 <- create_forecast_plot_staggered(fig6_df, 12, "h12_forecast", "h12_actual", y_h12)
 
 ggsave("results/figures/fig6a_forecast_vs_actual_h1.png", p6_h1, width = 10, height = 5, dpi = 300)
 ggsave("results/figures/fig6b_forecast_vs_actual_h3.png", p6_h3, width = 10, height = 5, dpi = 300)
@@ -238,6 +325,14 @@ ggsave("results/figures/fig6c_forecast_vs_actual_h12.png", p6_h12, width = 10, h
 cat("  ✓ Saved: fig6a_forecast_vs_actual_h1.png\n")
 cat("  ✓ Saved: fig6b_forecast_vs_actual_h3.png\n")
 cat("  ✓ Saved: fig6c_forecast_vs_actual_h12.png\n\n")
+
+ggsave("results/figures/fig6d_timing_diagnostic_h1.png", p6_diag_h1, width = 10, height = 5, dpi = 300)
+ggsave("results/figures/fig6e_timing_diagnostic_h3.png", p6_diag_h3, width = 10, height = 5, dpi = 300)
+ggsave("results/figures/fig6f_timing_diagnostic_h12.png", p6_diag_h12, width = 10, height = 5, dpi = 300)
+
+cat("  ✓ Saved: fig6d_timing_diagnostic_h1.png\n")
+cat("  ✓ Saved: fig6e_timing_diagnostic_h3.png\n")
+cat("  ✓ Saved: fig6f_timing_diagnostic_h12.png\n\n")
 
 # ------------------------------------------------------------------------------
 # Figure 7: CG Regression Scatter Plots (All Horizons)
@@ -303,9 +398,13 @@ cat("  6a-c. Forecast vs Actual (h=1, 3, 12):\n")
 cat("     - fig6a_forecast_vs_actual_h1.png\n")
 cat("     - fig6b_forecast_vs_actual_h3.png\n")
 cat("     - fig6c_forecast_vs_actual_h12.png\n")
+cat("  6d-f. Timing diagnostic:\n")
+cat("     - fig6d_timing_diagnostic_h1.png\n")
+cat("     - fig6e_timing_diagnostic_h3.png\n")
+cat("     - fig6f_timing_diagnostic_h12.png\n")
 cat("  7a-c. CG Regression Scatter Plots (h=1, 3, 12):\n")
 cat("     - fig7a_cg_scatter_h1.png\n")
 cat("     - fig7b_cg_scatter_h3.png\n")
 cat("     - fig7c_cg_scatter_h12.png\n\n")
-cat("Total: 12 publication-quality figures\n")
+cat("Total: 14 publication-quality figures\n")
 cat("All figures saved to: results/figures/\n\n")

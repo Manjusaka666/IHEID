@@ -35,7 +35,7 @@ format_threeline_table <- function(df,
 
     # Start table
     latex_code <- c(
-        "\\begin{table}[htbp]",
+        "\\begin{table}[h!]",
         "\\centering",
         size,
         sprintf("\\caption{%s}", caption),
@@ -236,6 +236,16 @@ format_cg_table <- function(cg_df) {
     caption <- "Coibion--Gorodnichenko Regression Results"
     label <- "tab:cg_regression"
 
+    cg_formatted <- cg_df %>%
+        mutate(
+            term = paste(model, variable, horizon, sep = " "),
+            estimate = beta,
+            std.error = se,
+            statistic = t_stat,
+            p.value = p_value
+        ) %>%
+        select(term, estimate, std.error, statistic, p.value)
+
     notes <- c(
         "OLS regression of forecast errors on forecast revisions: $(y_{t+h} - \\hat{y}_{t+h|t}) = \\alpha_h + \\beta_h (\\hat{y}_{t+h|t} - \\hat{y}_{t+h|t-1}) + \\varepsilon_{t+h}$.",
         "Standard errors are Newey--West HAC-robust with lag truncation parameter equal to the forecast horizon.",
@@ -245,7 +255,7 @@ format_cg_table <- function(cg_df) {
     )
 
     format_threeline_table(
-        df = cg_df,
+        df = cg_formatted,
         caption = caption,
         label = label,
         notes = notes,
@@ -262,6 +272,19 @@ format_dm_table <- function(dm_df) {
     caption <- "Diebold--Mariano Test Results"
     label <- "tab:dm_test"
 
+    dm_with_stars <- dm_df %>%
+        mutate(
+            stars = case_when(
+                p_value < 0.01 ~ "***",
+                p_value < 0.05 ~ "**",
+                p_value < 0.1 ~ "*",
+                TRUE ~ ""
+            ),
+            statistic_display = sprintf("%.3f%s", statistic, stars)
+        ) %>%
+        select(model, variable, horizon, benchmark, statistic_display, p_value) %>%
+        rename(`t-statistic` = statistic_display, `p-value` = p_value)
+
     notes <- c(
         "Diebold--Mariano test for equal predictive accuracy against random walk benchmark.",
         "Null hypothesis: Equal mean squared forecast error.",
@@ -271,7 +294,7 @@ format_dm_table <- function(dm_df) {
     )
 
     format_threeline_table(
-        df = dm_df,
+        df = dm_with_stars,
         caption = caption,
         label = label,
         notes = notes,

@@ -101,7 +101,7 @@ create_estimation_matrix <- function(df, vars, metadata) {
 }
 
 small_vars <- c("INDPRO", "CPIAUCSL", "UNRATE", "FEDFUNDS")
-medium_vars <- c(small_vars, "GS10", "SP500")
+medium_vars <- c(small_vars, "GS10", "SP500", "DCOILWTICO")
 full_vars <- c(medium_vars, "UMCSENT")
 
 data_small_est <- create_estimation_matrix(df_small, small_vars, variables_metadata)
@@ -156,13 +156,13 @@ eval_small <- compute_eval_transforms_julia(
 
 eval_medium <- compute_eval_transforms_julia(
     data_medium_est,
-    log_vars = c("INDPRO", "CPIAUCSL", "SP500"),
+    log_vars = c("INDPRO", "CPIAUCSL", "SP500", "DCOILWTICO"),
     level_vars = c("UNRATE", "FEDFUNDS", "GS10")
 )
 
 eval_full <- compute_eval_transforms_julia(
     data_full_est,
-    log_vars = c("INDPRO", "CPIAUCSL", "SP500"),
+    log_vars = c("INDPRO", "CPIAUCSL", "SP500", "DCOILWTICO"),
     level_vars = c("UNRATE", "FEDFUNDS", "GS10", "UMCSENT")
 )
 
@@ -200,7 +200,7 @@ cat("  ✓ Saved to data/processed/\n\n")
 
 cat("=== Data Transformation Summary ===\n\n")
 cat("Estimation-ready data (for BVAR input):\n")
-cat("  - Log-levels: INDPRO, CPIAUCSL, SP500\n")
+cat("  - Log-levels: INDPRO, CPIAUCSL, SP500, DCOILWTICO\n")
 cat("  - Levels: UNRATE, FEDFUNDS, GS10, UMCSENT\n\n")
 
 cat("Evaluation transforms (for forecast accuracy):\n")

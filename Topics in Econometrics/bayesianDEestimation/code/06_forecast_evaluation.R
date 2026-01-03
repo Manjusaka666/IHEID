@@ -197,6 +197,9 @@ align_forecast_actual <- function(forecast_df, data_est, var_name, is_log = TRUE
     
     forecast_df <- forecast_df %>%
         mutate(
+            target_date_h1 = as.Date(NA),
+            target_date_h3 = as.Date(NA),
+            target_date_h12 = as.Date(NA),
             h1_actual = NA_real_,
             h3_actual = NA_real_,
             h12_actual = NA_real_
@@ -206,6 +209,16 @@ align_forecast_actual <- function(forecast_df, data_est, var_name, is_log = TRUE
         origin_idx <- as.integer(forecast_df$origin_idx[i])
         if (is.na(origin_idx)) {
             next
+        }
+
+        if (origin_idx + 1 <= nrow(data_est)) {
+            forecast_df$target_date_h1[i] <- as.Date(index(data_est)[origin_idx + 1])
+        }
+        if (origin_idx + 3 <= nrow(data_est)) {
+            forecast_df$target_date_h3[i] <- as.Date(index(data_est)[origin_idx + 3])
+        }
+        if (origin_idx + 12 <= nrow(data_est)) {
+            forecast_df$target_date_h12[i] <- as.Date(index(data_est)[origin_idx + 12])
         }
         
         # Base level at origin (time t) - SAME as used for forecasts

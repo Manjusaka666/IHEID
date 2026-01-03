@@ -1,0 +1,40 @@
+\begin{table}[h!]
+\centering
+\small
+\caption{Coibion--Gorodnichenko Regression Results}
+\label{tab:cg_regression}
+\begin{tabular}{@{}lcccc@{}}
+\toprule
+term & estimate & std.error & statistic & p.value \\
+\midrule
+Small CPI h=1 & 2.4083 & 1.1820 & 2.0375 & 0.0428 \\
+Small CPI h=3 & 0.6837 & 0.7595 & 0.9002 & 0.3690 \\
+Small CPI h=12 & -0.5593 & 0.2998 & -1.8658 & 0.0634 \\
+Small INDPRO h=1 & 0.7665 & 0.5953 & 1.2877 & 0.1992 \\
+Small INDPRO h=3 & 0.8633 & 0.4804 & 1.7970 & 0.0737 \\
+Small INDPRO h=12 & 0.1143 & 0.4971 & 0.2299 & 0.8184 \\
+Medium CPI h=1 & 1.9173 & 0.6703 & 2.8606 & 0.0046 \\
+Medium CPI h=3 & 0.5806 & 0.5064 & 1.1465 & 0.2529 \\
+Medium CPI h=12 & -0.5482 & 0.2670 & -2.0532 & 0.0413 \\
+Medium INDPRO h=1 & 0.6204 & 0.5064 & 1.2251 & 0.2219 \\
+Medium INDPRO h=3 & 0.7987 & 0.4144 & 1.9273 & 0.0553 \\
+Medium INDPRO h=12 & 0.3052 & 0.4824 & 0.6327 & 0.5276 \\
+Full CPI h=1 & 0.8520 & 0.4452 & 1.9136 & 0.0570 \\
+Full CPI h=3 & 0.2564 & 0.5871 & 0.4368 & 0.6627 \\
+Full CPI h=12 & -0.6366 & 0.3195 & -1.9921 & 0.0476 \\
+Full INDPRO h=1 & 0.3201 & 0.3793 & 0.8439 & 0.3997 \\
+Full INDPRO h=3 & 0.2736 & 0.4115 & 0.6647 & 0.5069 \\
+Full INDPRO h=12 & 0.2291 & 0.4400 & 0.5206 & 0.6032 \\
+\bottomrule
+\end{tabular}
+\vspace{0.5em}
+\begin{minipage}{\textwidth}
+\footnotesize
+\textit{Notes:}
+OLS regression of forecast errors on forecast revisions: $(y_{t+h} - \hat{y}_{t+h|t}) = \alpha_h + \beta_h (\hat{y}_{t+h|t} - \hat{y}_{t+h|t-1}) + \varepsilon_{t+h}$.\\
+Standard errors are Newey--West HAC-robust with lag truncation parameter equal to the forecast horizon.\\
+Under rational expectations, $\beta_h = 0$. Positive values indicate under-reaction (sticky information),\\
+while negative values suggest over-reaction consistent with diagnostic expectations.\\
+Sample: 2001M1--2019M12. Variables: CPI (annualized inflation), INDPRO (industrial production growth).\\
+\end{minipage}
+\end{table}

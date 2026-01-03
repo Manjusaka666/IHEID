@@ -23,13 +23,28 @@ data_small <- readRDS("data/processed/data_small_estimation.rds")
 data_medium <- readRDS("data/processed/data_medium_estimation.rds")
 data_full <- readRDS("data/processed/data_full_estimation.rds")
 
+# MCMC settings (exposed as options for experimentation)
+n_draw <- getOption("bayesian_de.n_draw", 10000L)
+n_burn <- getOption("bayesian_de.n_burn", 5000L)
+
 # Prior configuration with sd parameters for proper hierarchical optimization
 # Increased min values for numerical stability (avoids singular matrix issues)
+lambda_mode <- getOption("bayesian_de.lambda_mode", 0.2)
+lambda_sd <- getOption("bayesian_de.lambda_sd", 0.4)
+lambda_min <- getOption("bayesian_de.lambda_min", 0.01)
+lambda_max <- getOption("bayesian_de.lambda_max", 5)
+
+alpha_mode <- getOption("bayesian_de.alpha_mode", 2)
+alpha_sd <- getOption("bayesian_de.alpha_sd", 0.25)
+alpha_min <- getOption("bayesian_de.alpha_min", 1)
+alpha_max <- getOption("bayesian_de.alpha_max", 3)
+
 priors_config <- bv_priors(
     hyper = "auto",
     mn = bv_mn(
-        lambda = bv_lambda(mode = 0.7, sd = 0.8, min = 0.01, max = 10),  # looser shrinkage
-        alpha = bv_alpha(mode = 1.2, sd = 0.8, min = 0.5, max = 5),      # slower lag decay
+        lambda = bv_lambda(mode = lambda_mode, sd = lambda_sd, min = lambda_min, max = lambda_max),
+        # Paper baseline implies lag-decay around 1/ℓ^2 (alpha≈2); in BVAR 1.0.5 alpha is fixed (not optimized).
+        alpha = bv_alpha(mode = alpha_mode, sd = alpha_sd, min = alpha_min, max = alpha_max),
         # In BVAR 1.0.5, psi must match the number of variables if mode is numeric.
         # Use auto mode to ensure valid dimensions across model sizes.
         psi = bv_psi(mode = "auto")                                       # cross-variable shrinkage
@@ -37,6 +52,9 @@ priors_config <- bv_priors(
     soc = bv_soc(mode = 1, sd = 1, min = 0.01, max = 50),
     sur = bv_sur(mode = 1, sd = 1, min = 0.01, max = 50)
 )
+
+cat(sprintf("  Priors: lambda(mode=%.3f, sd=%.3f, min=%.3f, max=%.2f); alpha(mode=%.2f)\n\n", lambda_mode, lambda_sd, lambda_min, lambda_max, alpha_mode))
+cat(sprintf("  MCMC: n_draw=%d, n_burn=%d\n\n", n_draw, n_burn))
 
 cat("  ✓ Data and priors loaded.\n\n")
 
@@ -66,6 +84,13 @@ cat(sprintf("  Final forecast origin: %s\n", data_dates[final_idx]))
 # Forecast origins (expanding window)
 forecast_origins <- (initial_idx + 1):final_idx
 n_origins <- length(forecast_origins)
+
+max_origins <- getOption("bayesian_de.max_origins", NA_integer_)
+if (is.finite(max_origins) && max_origins > 0 && max_origins < n_origins) {
+    forecast_origins <- forecast_origins[1:max_origins]
+    n_origins <- length(forecast_origins)
+    cat(sprintf("  Debug: limiting origins to first %d\n", n_origins))
+}
 
 cat(sprintf("  Number of forecast origins: %d\n", n_origins))
 cat(sprintf(
@@ -126,8 +151,8 @@ forecast_at_origin <- function(origin_idx, data_full, lags, priors_config) {
             bvar_fit <- suppressWarnings(bvar(
                 data = train_matrix,
                 lags = lags,
-                n_draw = 10000,
-                n_burn = 5000,
+                n_draw = n_draw,
+                n_burn = n_burn,
                 priors = priors_config,
                 mh = bv_mh(),
                 verbose = FALSE
@@ -171,7 +196,8 @@ forecast_at_origin <- function(origin_idx, data_full, lags, priors_config) {
                 hyper_means <- colMeans(bvar_fit$hyper)
                 hyperparams <- list(
                     lambda = if ("lambda" %in% names(hyper_means)) hyper_means["lambda"] else NA,
-                    alpha = if ("alpha" %in% names(hyper_means)) hyper_means["alpha"] else NA,
+                    # In BVAR 1.0.5, alpha is not part of the optimized hyper vector; record the fixed setting.
+                    alpha = alpha_mode,
                     psi = if ("psi" %in% names(hyper_means)) hyper_means["psi"] else NA,
                     soc = if ("soc" %in% names(hyper_means)) hyper_means["soc"] else NA,
                     sur = if ("sur" %in% names(hyper_means)) hyper_means["sur"] else NA,
@@ -243,6 +269,9 @@ cat("  Exporting data and functions to workers...\n")
 clusterExport(cl, varlist = c(
     "forecast_at_origin",
     "priors_config",
+    "n_draw",
+    "n_burn",
+    "alpha_mode",
     "data_small",
     "data_medium",
     "data_full"
@@ -277,9 +306,17 @@ run_model_forecasts <- function(model_name, data, lags = 12) {
     )
 
     if (length(existing_checkpoints) > 0) {
-        cat("  Found existing checkpoints. Resume? (y/n): ")
-        response <- readline()
-        if (tolower(response) == "y") {
+        resume_opt <- getOption("bayesian_de.resume_checkpoints", NA_character_)
+        response <- NA_character_
+        if (is.character(resume_opt) && tolower(resume_opt) %in% c("y", "n")) {
+            response <- tolower(resume_opt)
+            cat(sprintf("  Found existing checkpoints. Resume? (y/n): %s (from option)\n", response))
+        } else {
+            cat("  Found existing checkpoints. Resume? (y/n): ")
+            response <- tolower(readline())
+        }
+
+        if (response == "y") {
             # Load latest checkpoint
             latest_checkpoint <- existing_checkpoints[length(existing_checkpoints)]
             results <- readRDS(latest_checkpoint)

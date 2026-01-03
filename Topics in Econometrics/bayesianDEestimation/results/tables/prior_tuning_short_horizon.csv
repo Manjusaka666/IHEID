@@ -1,0 +1,13 @@
+"config","variable","horizon","rmsfe","rank"
+"alpha2_looser_lambda_min005","CPI","h=1",4.63783783798779,1
+"alpha2_default_lambda","CPI","h=1",4.6783179703285,2
+"alpha15_looser_dynamics","CPI","h=1",4.69073251008144,3
+"alpha2_looser_lambda_min005","CPI","h=3",3.98688514508768,1
+"alpha2_default_lambda","CPI","h=3",4.01268746584864,2
+"alpha15_looser_dynamics","CPI","h=3",4.04612280889657,3
+"alpha15_looser_dynamics","INDPRO","h=1",11.0086312880383,1
+"alpha2_looser_lambda_min005","INDPRO","h=1",11.0432729900151,2
+"alpha2_default_lambda","INDPRO","h=1",11.0849300046148,3
+"alpha15_looser_dynamics","INDPRO","h=3",8.70809949329538,1
+"alpha2_looser_lambda_min005","INDPRO","h=3",8.71469978080186,2
+"alpha2_default_lambda","INDPRO","h=3",8.74250864110414,3
