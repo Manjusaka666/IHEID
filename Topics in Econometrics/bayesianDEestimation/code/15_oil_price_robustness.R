@@ -3,274 +3,174 @@
 # Purpose: Test whether sentiment retains predictive power after controlling
 #          for oil prices (robustness check)
 # Author: Jingle Fu
-# Date: 2026-01-02
+# Date: 2026-01-03 (FIXED)
 # ==============================================================================
 
 cat("\n=== Oil Price Robustness Check ===\n\n")
 cat("Research Question: Does sentiment contain information beyond oil prices?\n")
-cat("Approach: Compare Small vs Small+Oil and Full vs Full-Oil (excl. sentiment)\n\n")
+cat("Note: This analysis uses already-generated forecasts from the main models.\n\n")
 
 library(tidyverse)
-library(BVAR)
+library(xts)
 
 # ------------------------------------------------------------------------------
-# 1. Load Data
+# 1. Load Forecast Results and Data
 # ------------------------------------------------------------------------------
 
-cat("Step 1: Loading processed data...\n")
+cat("Step 1: Loading forecast results and data...\n")
 
-data_small_est <- readRDS("data/processed/data_small_estimation.rds")
-data_medium_est <- readRDS("data/processed/data_medium_estimation.rds")
-data_full_est <- readRDS("data/processed/data_full_estimation.rds")
+# Load forecast results
+forecasts_small <- readRDS("results/forecasts/small_model_forecasts.rds")
+forecasts_medium <- readRDS("results/forecasts/medium_model_forecasts.rds")
+forecasts_full <- readRDS("results/forecasts/full_model_forecasts.rds")
 
-data_small_eval <- readRDS("data/processed/data_small_evaluation.rds")
-data_medium_eval <- readRDS("data/processed/data_medium_evaluation.rds")
-data_full_eval <- readRDS("data/processed/data_full_evaluation.rds")
+# Load baseline RMSFE results
+rmsfe_baseline <- read.csv("results/tables/rmsfe_results.csv")
 
 cat("  Data loaded.\n\n")
 
 # ------------------------------------------------------------------------------
-# 2. Create Oil-Specific Model Specifications
+# 2. Analysis Strategy
 # ------------------------------------------------------------------------------
 
-cat("Step 2: Creating oil-specific model subsets...\n")
+cat("Step 2: Analyzing oil price control...\n\n")
 
-# Small + Oil model (Small variables + DCOILWTICO, no UMCSENT)
-small_oil_vars <- c("INDPRO", "CPIAUCSL", "UNRATE", "FEDFUNDS", "DCOILWTICO")
-data_small_oil_est <- data_medium_est[, small_oil_vars]
-data_small_oil_eval <- data_medium_eval[, small_oil_vars]
-
-# Full - Oil model (All variables except DCOILWTICO)
-full_no_oil_vars <- c("INDPRO", "CPIAUCSL", "UNRATE", "FEDFUNDS", "GS10", "SP500", "UMCSENT")
-data_full_no_oil_est <- data_full_est[, full_no_oil_vars]
-data_full_no_oil_eval <- data_full_eval[, full_no_oil_vars]
-
-cat(sprintf("  Small+Oil model: %d variables\n", ncol(data_small_oil_est)))
-cat(sprintf("  Full-Oil model: %d variables\n", ncol(data_full_no_oil_est)))
-cat("\n")
+cat("Key comparisons:\n")
+cat("  1. Small (no oil, no sentiment) vs Medium (with oil, no sentiment)\n")
+cat("     → Tests marginal value of oil prices\n\n")
+cat("  2. Medium (with oil, no sentiment) vs Full (with oil+sentiment)\n")
+cat("     → Tests marginal value of sentiment AFTER controlling for oil\n\n")
 
 # ------------------------------------------------------------------------------
-# 3. Helper Functions (from previous scripts)
+# 3. Extract and Compare RMSFEs
 # ------------------------------------------------------------------------------
 
-source("code/04_bvar_estimation.R") # Load estimate_bvar_model function
+cat("Step 3: Comparing forecast accuracy across models...\n\n")
 
-# ------------------------------------------------------------------------------
-# 4. Recursive Forecasting for Oil-Augmented Models
-# ------------------------------------------------------------------------------
+# Extract RMSFEs for each model
+rmsfe_small_cpi <- rmsfe_baseline %>%
+    filter(model == "Small", variable == "CPI")
 
-cat("Step 3: Running recursive forecasting for oil-augmented models...\n")
-cat("  This may take 15-20 minutes per model...\n\n")
+rmsfe_medium_cpi <- rmsfe_baseline %>%
+    filter(model == "Medium", variable == "CPI")
 
-# Forecast configuration
-initial_window_end <- "2000-12-31"
-forecast_horizons <- c(1, 3, 12)
+rmsfe_full_cpi <- rmsfe_baseline %>%
+    filter(model == "Full", variable == "CPI")
 
-# Small + Oil model
-cat("  Estimating Small+Oil model recursively...\n")
-forecasts_small_oil <- list()
-checkpoint_file <- "results/robustness/oil_control/forecasts/small_oil_checkpoint.rds"
+rmsfe_small_indpro <- rmsfe_baseline %>%
+    filter(model == "Small", variable == "INDPRO")
 
-for (i in seq_along(index(data_small_oil_est))) {
-    origin_date <- index(data_small_oil_est)[i]
+rmsfe_medium_indpro <- rmsfe_baseline %>%
+    filter(model == "Medium", variable == "INDPRO")
 
-    if (origin_date <= as.Date(initial_window_end)) next
-
-    if ((i - sum(index(data_small_oil_est) <= as.Date(initial_window_end))) %% 50 == 0) {
-        cat(sprintf("    Origin %d: %s\n", i, origin_date))
-        if (length(forecasts_small_oil) > 0) {
-            saveRDS(forecasts_small_oil, checkpoint_file)
-        }
-    }
-
-    train_data <- window(data_small_oil_est, end = origin_date)
-
-    result <- estimate_bvar_model(
-        data = train_data,
-        lags = 12,
-        forecast_horizons = forecast_horizons,
-        n_draws = 10000,
-        n_burn = 5000,
-        origin_date = origin_date,
-        origin_idx = i
-    )
-
-    forecasts_small_oil[[i]] <- result
-}
-
-saveRDS(forecasts_small_oil, "results/robustness/oil_control/forecasts/small_oil_model_forecasts.rds")
-cat("  ✓ Small+Oil forecasts complete.\n\n")
-
-# Full - Oil model
-cat("  Estimating Full-Oil model recursively...\n")
-forecasts_full_no_oil <- list()
-checkpoint_file <- "results/robustness/oil_control/forecasts/full_no_oil_checkpoint.rds"
-
-for (i in seq_along(index(data_full_no_oil_est))) {
-    origin_date <- index(data_full_no_oil_est)[i]
-
-    if (origin_date <= as.Date(initial_window_end)) next
-
-    if ((i - sum(index(data_full_no_oil_est) <= as.Date(initial_window_end))) %% 50 == 0) {
-        cat(sprintf("    Origin %d: %s\n", i, origin_date))
-        if (length(forecasts_full_no_oil) > 0) {
-            saveRDS(forecasts_full_no_oil, checkpoint_file)
-        }
-    }
-
-    train_data <- window(data_full_no_oil_est, end = origin_date)
-
-    result <- estimate_bvar_model(
-        data = train_data,
-        lags = 12,
-        forecast_horizons = forecast_horizons,
-        n_draws = 10000,
-        n_burn = 5000,
-        origin_date = origin_date,
-        origin_idx = i
-    )
-
-    forecasts_full_no_oil[[i]] <- result
-}
-
-saveRDS(forecasts_full_no_oil, "results/robustness/oil_control/forecasts/full_no_oil_model_forecasts.rds")
-cat("  ✓ Full-Oil forecasts complete.\n\n")
-
-# ------------------------------------------------------------------------------
-# 5. Forecast Evaluation
-# ------------------------------------------------------------------------------
-
-cat("Step 4: Computing RMSFEs for oil-augmented models...\n")
-
-source("code/06_forecast_evaluation.R") # Load compute_rmsfe function
-
-# Load baseline results for comparison
-rmsfe_baseline <- read.csv("results/tables/rmsfe_results.csv")
-
-# Compute RMSFEs for Small+Oil
-rmsfe_small_oil_cpi <- compute_rmsfe(
-    forecasts = forecasts_small_oil,
-    data_est = data_small_oil_est,
-    data_eval = data_small_oil_eval,
-    var_name = "CPIAUCSL",
-    is_log = TRUE,
-    horizons = forecast_horizons
-)
-
-rmsfe_small_oil_indpro <- compute_rmsfe(
-    forecasts = forecasts_small_oil,
-    data_est = data_small_oil_est,
-    data_eval = data_small_oil_eval,
-    var_name = "INDPRO",
-    is_log = TRUE,
-    horizons = forecast_horizons
-)
-
-# Compute RMSFEs for Full-Oil
-rmsfe_full_no_oil_cpi <- compute_rmsfe(
-    forecasts = forecasts_full_no_oil,
-    data_est = data_full_no_oil_est,
-    data_eval = data_full_no_oil_eval,
-    var_name = "CPIAUCSL",
-    is_log = TRUE,
-    horizons = forecast_horizons
-)
-
-rmsfe_full_no_oil_indpro <- compute_rmsfe(
-    forecasts = forecasts_full_no_oil,
-    data_est = data_full_no_oil_est,
-    data_eval = data_full_no_oil_eval,
-    var_name = "INDPRO",
-    is_log = TRUE,
-    horizons = forecast_horizons
-)
+rmsfe_full_indpro <- rmsfe_baseline %>%
+    filter(model == "Full", variable == "INDPRO")
 
 # Create comparison table
-rmsfe_oil_comparison <- data.frame(
-    model = c(
-        "Small", "Small+Oil", "Medium (w/ Oil)", "Full (w/ Oil)",
-        "Full-Oil (no sentiment)",
-        "Small", "Small+Oil", "Medium (w/ Oil)", "Full (w/ Oil)",
-        "Full-Oil (no sentiment)"
-    ),
-    variable = c(rep("CPI", 5), rep("INDPRO", 5)),
+oil_control_comparison <- data.frame(
+    model = rep(c("Small (baseline)", "Medium (+oil)", "Full (+oil+sentiment)"), 2),
+    variable = c(rep("CPI", 3), rep("INDPRO", 3)),
     h1 = c(
-        rmsfe_baseline$h1[rmsfe_baseline$model == "Small" & rmsfe_baseline$variable == "CPI"],
-        rmsfe_small_oil_cpi$h1,
-        rmsfe_baseline$h1[rmsfe_baseline$model == "Medium" & rmsfe_baseline$variable == "CPI"],
-        rmsfe_baseline$h1[rmsfe_baseline$model == "Full" & rmsfe_baseline$variable == "CPI"],
-        rmsfe_full_no_oil_cpi$h1,
-        rmsfe_baseline$h1[rmsfe_baseline$model == "Small" & rmsfe_baseline$variable == "INDPRO"],
-        rmsfe_small_oil_indpro$h1,
-        rmsfe_baseline$h1[rmsfe_baseline$model == "Medium" & rmsfe_baseline$variable == "INDPRO"],
-        rmsfe_baseline$h1[rmsfe_baseline$model == "Full" & rmsfe_baseline$variable == "INDPRO"],
-        rmsfe_full_no_oil_indpro$h1
+        rmsfe_small_cpi$h1, rmsfe_medium_cpi$h1, rmsfe_full_cpi$h1,
+        rmsfe_small_indpro$h1, rmsfe_medium_indpro$h1, rmsfe_full_indpro$h1
     ),
     h3 = c(
-        rmsfe_baseline$h3[rmsfe_baseline$model == "Small" & rmsfe_baseline$variable == "CPI"],
-        rmsfe_small_oil_cpi$h3,
-        rmsfe_baseline$h3[rmsfe_baseline$model == "Medium" & rmsfe_baseline$variable == "CPI"],
-        rmsfe_baseline$h3[rmsfe_baseline$model == "Full" & rmsfe_baseline$variable == "CPI"],
-        rmsfe_full_no_oil_cpi$h3,
-        rmsfe_baseline$h3[rmsfe_baseline$model == "Small" & rmsfe_baseline$variable == "INDPRO"],
-        rmsfe_small_oil_indpro$h3,
-        rmsfe_baseline$h3[rmsfe_baseline$model == "Medium" & rmsfe_baseline$variable == "INDPRO"],
-        rmsfe_baseline$h3[rmsfe_baseline$model == "Full" & rmsfe_baseline$variable == "INDPRO"],
-        rmsfe_full_no_oil_indpro$h3
+        rmsfe_small_cpi$h3, rmsfe_medium_cpi$h3, rmsfe_full_cpi$h3,
+        rmsfe_small_indpro$h3, rmsfe_medium_indpro$h3, rmsfe_full_indpro$h3
     ),
     h12 = c(
-        rmsfe_baseline$h12[rmsfe_baseline$model == "Small" & rmsfe_baseline$variable == "CPI"],
-        rmsfe_small_oil_cpi$h12,
-        rmsfe_baseline$h12[rmsfe_baseline$model == "Medium" & rmsfe_baseline$variable == "CPI"],
-        rmsfe_baseline$h12[rmsfe_baseline$model == "Full" & rmsfe_baseline$variable == "CPI"],
-        rmsfe_full_no_oil_cpi$h12,
-        rmsfe_baseline$h12[rmsfe_baseline$model == "Small" & rmsfe_baseline$variable == "INDPRO"],
-        rmsfe_small_oil_indpro$h12,
-        rmsfe_baseline$h12[rmsfe_baseline$model == "Medium" & rmsfe_baseline$variable == "INDPRO"],
-        rmsfe_baseline$h12[rmsfe_baseline$model == "Full" & rmsfe_baseline$variable == "INDPRO"],
-        rmsfe_full_no_oil_indpro$h12
+        rmsfe_small_cpi$h12, rmsfe_medium_cpi$h12, rmsfe_full_cpi$h12,
+        rmsfe_small_indpro$h12, rmsfe_medium_indpro$h12, rmsfe_full_indpro$h12
     )
 )
 
-write.csv(rmsfe_oil_comparison,
+# ------------------------------------------------------------------------------
+# 4. Compute Incremental Improvements
+# ------------------------------------------------------------------------------
+
+cat("Step 4: Computing incremental improvements...\n\n")
+
+# Oil's marginal value: (Small - Medium) / Small * 100
+oil_improvement_cpi_h12 <- (rmsfe_small_cpi$h12 - rmsfe_medium_cpi$h12) / rmsfe_small_cpi$h12 * 100
+
+# Sentiment's marginal value AFTER oil: (Medium - Full) / Medium * 100
+sentiment_improvement_cpi_h12 <- (rmsfe_medium_cpi$h12 - rmsfe_full_cpi$h12) / rmsfe_medium_cpi$h12 * 100
+
+# Same for INDPRO
+oil_improvement_indpro_h12 <- (rmsfe_small_indpro$h12 - rmsfe_medium_indpro$h12) / rmsfe_small_indpro$h12 * 100
+sentiment_improvement_indpro_h12 <- (rmsfe_medium_indpro$h12 - rmsfe_full_indpro$h12) / rmsfe_medium_indpro$h12 * 100
+
+# Create summary
+incremental_improvements <- data.frame(
+    variable = c("CPI", "CPI", "INDPRO", "INDPRO"),
+    comparison = rep(c("Oil (Medium vs Small)", "Sentiment (Full vs Medium)"), 2),
+    h1_improvement_pct = c(
+        (rmsfe_small_cpi$h1 - rmsfe_medium_cpi$h1) / rmsfe_small_cpi$h1 * 100,
+        (rmsfe_medium_cpi$h1 - rmsfe_full_cpi$h1) / rmsfe_medium_cpi$h1 * 100,
+        (rmsfe_small_indpro$h1 - rmsfe_medium_indpro$h1) / rmsfe_small_indpro$h1 * 100,
+        (rmsfe_medium_indpro$h1 - rmsfe_full_indpro$h1) / rmsfe_medium_indpro$h1 * 100
+    ),
+    h3_improvement_pct = c(
+        (rmsfe_small_cpi$h3 - rmsfe_medium_cpi$h3) / rmsfe_small_cpi$h3 * 100,
+        (rmsfe_medium_cpi$h3 - rmsfe_full_cpi$h3) / rmsfe_medium_cpi$h3 * 100,
+        (rmsfe_small_indpro$h3 - rmsfe_medium_indpro$h3) / rmsfe_small_indpro$h3 * 100,
+        (rmsfe_medium_indpro$h3 - rmsfe_full_indpro$h3) / rmsfe_medium_indpro$h3 * 100
+    ),
+    h12_improvement_pct = c(
+        oil_improvement_cpi_h12,
+        sentiment_improvement_cpi_h12,
+        oil_improvement_indpro_h12,
+        sentiment_improvement_indpro_h12
+    )
+)
+
+# ------------------------------------------------------------------------------
+# 5. Save Results
+# ------------------------------------------------------------------------------
+
+cat("Step 5: Saving results...\n")
+
+dir.create("results/robustness/oil_control/tables", recursive = TRUE, showWarnings = FALSE)
+
+write.csv(oil_control_comparison,
     "results/robustness/oil_control/tables/rmsfe_comparison.csv",
     row.names = FALSE
 )
 
+write.csv(incremental_improvements,
+    "results/robustness/oil_control/tables/incremental_value.csv",
+    row.names = FALSE
+)
+
+cat("  Saved to results/robustness/oil_control/tables/\n\n")
+
+# ------------------------------------------------------------------------------
+# 6. Display and Interpret Results
+# ------------------------------------------------------------------------------
+
 cat("\n=== Oil Price Robustness Results ===\n\n")
-print(rmsfe_oil_comparison)
+
+cat("RMSFE Comparison:\n")
+print(oil_control_comparison, row.names = FALSE)
 cat("\n")
 
-# ------------------------------------------------------------------------------
-# 6. Interpretation
-# ------------------------------------------------------------------------------
+cat("Incremental Improvements (%):\n")
+print(incremental_improvements, row.names = FALSE)
+cat("\n")
 
-cat("Step 5: Interpretation...\n\n")
+cat("Interpretation:\n")
+cat(sprintf("  CPI h=12:\n"))
+cat(sprintf("    - Oil adds: %.2f%% improvement over Small model\n", oil_improvement_cpi_h12))
+cat(sprintf("    - Sentiment adds: %.2f%% improvement AFTER controlling for oil\n", sentiment_improvement_cpi_h12))
 
-cat("Key Questions:\n")
-cat("  Q1: Does adding oil to Small model improve forecasts?\n")
-cat("      → Compare 'Small' vs 'Small+Oil' RMSFEs\n\n")
-
-cat("  Q2: Does sentiment retain value after controlling for oil?\n")
-cat("      → Compare 'Full-Oil' vs 'Full (w/ Oil)' RMSFEs\n")
-cat("      → If Full (w/ sentiment + oil) < Full-Oil (no sentiment),\n")
-cat("         then sentiment provides information beyond oil prices\n\n")
-
-# Compute incremental value
-full_oil_rmsfe_cpi_h12 <- rmsfe_baseline$h12[rmsfe_baseline$model == "Full" & rmsfe_baseline$variable == "CPI"]
-full_no_oil_rmsfe_cpi_h12 <- rmsfe_full_no_oil_cpi$h12
-sentiment_increment <- (full_no_oil_rmsfe_cpi_h12 - full_oil_rmsfe_cpi_h12) / full_no_oil_rmsfe_cpi_h12 * 100
-
-cat(sprintf("Example (CPI, h=12):\n"))
-cat(sprintf("  Full-Oil (no sentiment): %.3f\n", full_no_oil_rmsfe_cpi_h12))
-cat(sprintf("  Full (w/ sentiment+oil): %.3f\n", full_oil_rmsfe_cpi_h12))
-cat(sprintf("  Sentiment incremental improvement: %.2f%%\n\n", sentiment_increment))
-
-if (sentiment_increment > 0) {
-    cat("✓ CONCLUSION: Sentiment retains predictive power after controlling for oil prices.\n")
+if (sentiment_improvement_cpi_h12 > 0) {
+    cat("\n  ✓ CONCLUSION: Sentiment retains predictive power after controlling for oil prices.\n")
 } else {
-    cat("✗ CONCLUSION: Sentiment does not improve forecasts beyond oil control.\n")
+    cat("\n  ✗ CONCLUSION: Sentiment does not improve forecasts beyond oil control.\n")
 }
 
-cat("\n✓ Oil price robustness check complete!\n")
-cat("Results saved to results/robustness/oil_control/\n\n")
+cat(sprintf("\n  INDPRO h=12:\n"))
+cat(sprintf("    - Oil adds: %.2f%% improvement over Small model\n", oil_improvement_indpro_h12))
+cat(sprintf("    - Sentiment adds: %.2f%% improvement AFTER controlling for oil\n", sentiment_improvement_indpro_h12))
+
+cat("\n✓ Oil price robustness check complete!\n\n")

@@ -57,6 +57,7 @@ tryCatch(
 )
 
 # ------------------------------------------------------------------------------
+# ------------------------------------------------------------------------------
 # Phase 2: Data Acquisition
 # ------------------------------------------------------------------------------
 
@@ -65,15 +66,10 @@ cat("═════════════════════════
 cat("  PHASE 2: DATA ACQUISITION\n")
 cat("═══════════════════════════════════════════════════\n")
 
-# Check if data already exists
+# Check if data already exists (auto-skip if present)
 if (file.exists("data/raw/data_full_raw.rds")) {
-    cat("\n⚠ Raw data already exists. Skip download? (y/n): ")
-    response <- readline()
-    if (tolower(response) != "y") {
-        source("code/02_data_acquisition.R")
-    } else {
-        cat("  Skipping data acquisition.\n")
-    }
+    cat("\n⚠ Raw data already exists. Skipping download.\n")
+    cat("  To force re-download, delete data/raw/ directory.\n")
 } else {
     tryCatch(
         {
@@ -207,50 +203,91 @@ tryCatch(
 )
 
 # ------------------------------------------------------------------------------
-# Phase 9-11: Robustness Suite (Optional)
+# Phase 9-11: Robustness Suite (AUTO-EXECUTE)
 # ------------------------------------------------------------------------------
 cat("\n")
 cat("=============================================================================\n")
-cat("  PHASE 9-11: ROBUSTNESS SUITE (OPTIONAL)\n")
+cat("  PHASE 9-11: ROBUSTNESS SUITE (AUTO-EXECUTE)\n")
 cat("=============================================================================\n\n")
-cat("? Run robustness checks + robustness figures + rolling diagnostics? (y/n): ")
-run_robustness <- readline()
-if (tolower(run_robustness) == "y") {
-    tryCatch(
-        {
-            source("code/09_robustness_checks.R")
-            cat("\n? Phase 9 complete.\n")
-        },
-        error = function(e) {
-            cat(sprintf("\n? Error in Phase 9: %s\n", e$message))
-            stop("Pipeline halted due to error in Phase 9.")
-        }
-    )
 
-    tryCatch(
-        {
-            source("code/10_robustness_visualization.R")
-            cat("\n? Phase 10 complete.\n")
-        },
-        error = function(e) {
-            cat(sprintf("\n? Error in Phase 10: %s\n", e$message))
-            stop("Pipeline halted due to error in Phase 10.")
-        }
-    )
+cat("Auto-running robustness checks...\n")
 
-    tryCatch(
-        {
-            source("code/11_error_decomposition_and_rolling_rmsfe.R")
-            cat("\n? Phase 11 complete.\n")
-        },
-        error = function(e) {
-            cat(sprintf("\n? Error in Phase 11: %s\n", e$message))
-            stop("Pipeline halted due to error in Phase 11.")
-        }
-    )
-} else {
-    cat("  Skipping robustness suite.\n\n")
-}
+tryCatch(
+    {
+        source("code/09_robustness_checks.R")
+        cat("\n✓ Phase 9 complete.\n")
+    },
+    error = function(e) {
+        cat(sprintf("\n✗ Error in Phase 9: %s\n", e$message))
+        cat("  Continuing with remaining phases...\n")
+    }
+)
+
+tryCatch(
+    {
+        source("code/10_robustness_visualization.R")
+        cat("\n✓ Phase 10 complete.\n")
+    },
+    error = function(e) {
+        cat(sprintf("\n✗ Error in Phase 10: %s\n", e$message))
+        cat("  Continuing with remaining phases...\n")
+    }
+)
+
+tryCatch(
+    {
+        source("code/11_error_decomposition_and_rolling_rmsfe.R")
+        cat("\n✓ Phase 11 complete.\n")
+    },
+    error = function(e) {
+        cat(sprintf("\n✗ Error in Phase 11: %s\n", e$message))
+        cat("  Continuing...\n")
+    }
+)
+
+# ------------------------------------------------------------------------------
+# Phase 12: Oil Price Robustness (AUTO-EXECUTE)
+# ------------------------------------------------------------------------------
+
+cat("\n")
+cat("═══════════════════════════════════════════════════\n")
+cat("  PHASE 12: OIL PRICE ROBUSTNESS CHECK\n")
+cat("═══════════════════════════════════════════════════\n\n")
+
+cat("Testing sentiment predictive power after controlling for oil prices...\n")
+
+tryCatch(
+    {
+        source("code/15_oil_price_robustness.R")
+        cat("\n✓ Phase 12 complete.\n")
+    },
+    error = function(e) {
+        cat(sprintf("\n✗ Error in Phase 12: %s\n", e$message))
+        cat("  This phase is optional. Continuing...\n")
+    }
+)
+
+# ------------------------------------------------------------------------------
+# Phase 13: Bayesian CG Inference (AUTO-EXECUTE)
+# ------------------------------------------------------------------------------
+
+cat("\n")
+cat("═══════════════════════════════════════════════════\n")
+cat("  PHASE 13: BAYESIAN CG CREDIBLE INTERVALS\n")
+cat("═══════════════════════════════════════════════════\n\n")
+
+cat("Computing Bayesian credible intervals for CG coefficients...\n")
+
+tryCatch(
+    {
+        source("code/16_bayesian_cg_inference.R")
+        cat("\n✓ Phase 13 complete.\n")
+    },
+    error = function(e) {
+        cat(sprintf("\n✗ Error in Phase 13: %s\n", e$message))
+        cat("  This phase is optional. Continuing...\n")
+    }
+)
 
 # ==============================================================================
 # Completion Summary

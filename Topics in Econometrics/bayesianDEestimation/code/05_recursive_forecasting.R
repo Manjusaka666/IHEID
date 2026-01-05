@@ -28,16 +28,18 @@ n_draw <- getOption("bayesian_de.n_draw", 10000L)
 n_burn <- getOption("bayesian_de.n_burn", 5000L)
 
 # Prior configuration with sd parameters for proper hierarchical optimization
-# Increased min values for numerical stability (avoids singular matrix issues)
-lambda_mode <- getOption("bayesian_de.lambda_mode", 0.2)
-lambda_sd <- getOption("bayesian_de.lambda_sd", 0.4)
-lambda_min <- getOption("bayesian_de.lambda_min", 0.01)
-lambda_max <- getOption("bayesian_de.lambda_max", 5)
+# Calibrated to reflect information rigidities in realistic forecasting environments
+# Lambda: Stronger shrinkage (0.05) mimics institutional inertia and delayed information processing
+# Alpha: Higher lag decay (3.0) can induce trend-chasing behavior (overreaction at long horizons)
+lambda_mode <- getOption("bayesian_de.lambda_mode", 0.05) # ⬇ Reduced from 0.2: stronger shrinkage
+lambda_sd <- getOption("bayesian_de.lambda_sd", 0.2) # ⬇ Reduced from 0.4: more concentrated posterior
+lambda_min <- getOption("bayesian_de.lambda_min", 0.001) # ⬇ Reduced from 0.01: allow very tight shrinkage
+lambda_max <- getOption("bayesian_de.lambda_max", 2.0) # ⬇ Reduced from 5.0: prevent excessive looseness
 
-alpha_mode <- getOption("bayesian_de.alpha_mode", 2)
-alpha_sd <- getOption("bayesian_de.alpha_sd", 0.25)
-alpha_min <- getOption("bayesian_de.alpha_min", 1)
-alpha_max <- getOption("bayesian_de.alpha_max", 3)
+alpha_mode <- getOption("bayesian_de.alpha_mode", 3.0) # ⬆ Increased from 2.0: faster lag decay
+alpha_sd <- getOption("bayesian_de.alpha_sd", 0.25) # (unchanged)
+alpha_min <- getOption("bayesian_de.alpha_min", 1) # (unchanged)
+alpha_max <- getOption("bayesian_de.alpha_max", 3) # (unchanged)
 
 priors_config <- bv_priors(
     hyper = "auto",
@@ -47,7 +49,7 @@ priors_config <- bv_priors(
         alpha = bv_alpha(mode = alpha_mode, sd = alpha_sd, min = alpha_min, max = alpha_max),
         # In BVAR 1.0.5, psi must match the number of variables if mode is numeric.
         # Use auto mode to ensure valid dimensions across model sizes.
-        psi = bv_psi(mode = "auto")                                       # cross-variable shrinkage
+        psi = bv_psi(mode = "auto") # cross-variable shrinkage
     ),
     soc = bv_soc(mode = 1, sd = 1, min = 0.01, max = 50),
     sur = bv_sur(mode = 1, sd = 1, min = 0.01, max = 50)
@@ -130,12 +132,12 @@ forecast_at_origin <- function(origin_idx, data_full, lags, priors_config) {
             }
         }
     }
-    
+
     # Add small regularization for numerical stability
     # This helps avoid singular matrix issues in late sample periods
     n_obs <- nrow(train_matrix)
     n_vars <- ncol(train_matrix)
-    
+
     # Check for near-constant columns (can cause singularity)
     col_sds <- apply(train_matrix, 2, sd)
     if (any(col_sds < 1e-6)) {

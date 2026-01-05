@@ -19,15 +19,18 @@ cat("Step 1: Configuring hierarchical priors...\n\n")
 
 # Set up Minnesota prior with hierarchical hyperparameter selection
 setup_hierarchical_priors <- function() {
-    lambda_mode <- getOption("bayesian_de.lambda_mode", 0.2)
-    lambda_sd <- getOption("bayesian_de.lambda_sd", 0.4)
-    lambda_min <- getOption("bayesian_de.lambda_min", 1e-4)
-    lambda_max <- getOption("bayesian_de.lambda_max", 5)
+    # Calibrated to reflect information rigidities in realistic forecasting environments
+    # Lambda: Stronger shrinkage (0.05) mimics institutional inertia and delayed information processing
+    # Alpha: Higher lag decay (3.0) can induce trend-chasing behavior (overreaction at long horizons)
+    lambda_mode <- getOption("bayesian_de.lambda_mode", 0.05) # ⬇ Reduced from 0.2
+    lambda_sd <- getOption("bayesian_de.lambda_sd", 0.2) # ⬇ Reduced from 0.4
+    lambda_min <- getOption("bayesian_de.lambda_min", 1e-3) # ⬇ Reduced from 1e-4
+    lambda_max <- getOption("bayesian_de.lambda_max", 2.0) # ⬇ Reduced from 5.0
 
-    alpha_mode <- getOption("bayesian_de.alpha_mode", 2)
-    alpha_sd <- getOption("bayesian_de.alpha_sd", 0.25)
-    alpha_min <- getOption("bayesian_de.alpha_min", 1)
-    alpha_max <- getOption("bayesian_de.alpha_max", 3)
+    alpha_mode <- getOption("bayesian_de.alpha_mode", 3.0) # ⬆ Increased from 2.0
+    alpha_sd <- getOption("bayesian_de.alpha_sd", 0.25) # (unchanged)
+    alpha_min <- getOption("bayesian_de.alpha_min", 1) # (unchanged)
+    alpha_max <- getOption("bayesian_de.alpha_max", 3) # (unchanged)
 
     priors <- bv_priors(
         hyper = "auto", # Automatic hierarchical selection

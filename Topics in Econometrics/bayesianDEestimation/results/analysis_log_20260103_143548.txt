@@ -1,0 +1,782 @@
+Analysis started at: 2026-01-03 14:35:48 
+
+
+═══════════════════════════════════════════════════
+  PHASE 1: ENVIRONMENT SETUP
+═══════════════════════════════════════════════════
+
+=== Initializing R-Julia Hybrid Environment ===
+
+✓ CRAN mirror set to https://cloud.r-project.org
+Step 1: Loading R packages...
+✓ All R packages loaded successfully.
+
+Step 2: Initializing Julia via JuliaCall...
+✓ Julia initialized successfully.
+  Julia version: 1.12.2
+  Julia threads: 12
+
+Step 3: Setting up Julia packages...
+  Checking DataFrames.jl...
+  Checking CSV.jl...
+  Checking Statistics.jl...
+✓ Julia packages loaded successfully.
+
+Step 4: Loading Julia transformation functions...
+✓ Loaded julia/transformation_functions.jl
+
+Step 5: Configuring R parallel computing...
+  Total cores: 20
+  Cores for parallel: 20
+
+Step 6: Verifying directory structure...
+✓ Directory structure verified.
+
+=== Environment Setup Complete ===
+
+Configuration Summary:
+  R version: R version 4.5.2 (2025-10-31 ucrt)
+  Julia version: 1.12.2
+  R parallel cores: 20
+  Julia threads: 12
+  Working directory: E:/IHEID Economics/IHEID/Topics in Econometrics/bayesianDEestimation
+
+✓ Ready to proceed with data acquisition and analysis.
+
+Session info saved to results/session_info.txt
+
+
+✓ Phase 1 complete.
+
+═══════════════════════════════════════════════════
+  PHASE 2: DATA ACQUISITION
+═══════════════════════════════════════════════════
+
+⚠ Raw data already exists. Skipping download.
+  To force re-download, delete data/raw/ directory.
+
+═══════════════════════════════════════════════════
+  PHASE 3: DATA TRANSFORMATION
+═══════════════════════════════════════════════════
+
+=== Starting Data Transformation ===
+
+Step 1: Loading raw data...
+  Small: 420 obs × 4 vars
+  Medium: 420 obs × 7 vars
+  Full: 420 obs × 8 vars
+
+Step 2: Applying transformations for BVAR estimation...
+  (Log-levels for prices/quantities, levels for rates/indices)
+
+  INDPRO: log transformation
+  CPIAUCSL: log transformation
+  UNRATE: level (no transformation)
+  FEDFUNDS: level (no transformation)
+  INDPRO: log transformation
+  CPIAUCSL: log transformation
+  UNRATE: level (no transformation)
+  FEDFUNDS: level (no transformation)
+  GS10: level (no transformation)
+  SP500: log transformation
+  DCOILWTICO: log transformation
+  INDPRO: log transformation
+  CPIAUCSL: log transformation
+  UNRATE: level (no transformation)
+  FEDFUNDS: level (no transformation)
+  GS10: level (no transformation)
+  SP500: log transformation
+  DCOILWTICO: log transformation
+  UMCSENT: level (no transformation)
+
+Step 3: Creating estimation-ready matrices...
+  ✓ Small estimation matrix: 420 × 4
+  ✓ Medium estimation matrix: 420 × 7
+  ✓ Full estimation matrix: 420 × 8
+
+Step 4: Computing evaluation transforms using Julia...
+  (Annualized growth rates for forecast evaluation)
+
+  ✓ Evaluation transforms computed.
+    Generated 12 series from small model
+    Generated 21 series from medium model
+    Generated 24 series from full model
+
+Step 5: Saving processed data...
+  ✓ Saved to data/processed/
+
+=== Data Transformation Summary ===
+
+Estimation-ready data (for BVAR input):
+  - Log-levels: INDPRO, CPIAUCSL, SP500, DCOILWTICO
+  - Levels: UNRATE, FEDFUNDS, GS10, UMCSENT
+
+Evaluation transforms (for forecast accuracy):
+  - *_mom: Annualized month-over-month growth (1200 × Δlog)
+  - *_yoy: Year-over-year growth (100 × Δ12log)
+  - *_diff: Level change (Δ1)
+  - *_diff12: 12-month level change (Δ12)
+
+✓ Data transformation complete!
+Next step: Run 04_bvar_estimation.R
+
+
+✓ Phase 3 complete.
+
+═══════════════════════════════════════════════════
+  PHASE 4: BVAR ESTIMATION SETUP
+═══════════════════════════════════════════════════
+
+=== Hierarchical BVAR Estimation Setup ===
+
+Step 1: Configuring hierarchical priors...
+
+  ✓ Hierarchical priors configured:
+    - Minnesota: lambda ~ Gamma(mode=0.050, sd=0.200) with bounds [0.0010, 2.00]
+    - Minnesota: alpha fixed at 3.000 (bounds [1.00, 3.00])
+    - Sum-of-coefficients prior (unit-root accommodation)
+    - Dummy-initial-observation prior
+
+Step 2: Configuring MCMC parameters...
+  Total draws: 10000
+  Burn-in: 5000
+  Effective draws: 5000
+
+Step 3: Defining BVAR estimation function...
+
+Step 4: Testing BVAR estimation on full sample...
+  (This verifies the setup before recursive forecasting)
+
+Data loaded. Estimating small model on full sample...
+✓ Estimation successful!
+Step 5: Optimal hyperparameters from test estimation:
+
+Minnesota Prior:
+  Hyperparameters auto-optimized via marginal likelihood
+Minnesota Prior (Posterior Means):
+  Lambda (tightness): 1.1331
+
+Other Priors (Posterior Means):
+  SOC (sum-of-coef): 0.4875
+  SUR (dummy-init-obs): 0.7492
+
+  Log-marginal likelihood (final): 3597.97
+✓ Test estimation complete!
+  BVAR setup verified and ready for recursive forecasting.
+
+Step 6: Generating test forecasts (h=1,3,12)...
+✓ Forecast generated.
+  Forecast dimensions: 5000 horizons × 13 variables
+
+Example: CPI forecasts (log-level):
+  h=1:  4.6217
+  h=3:  4.6189
+  h=12: 4.6238
+
+Step 7: Saving test estimation results...
+  ✓ Saved to results/diagnostics/
+
+=== BVAR Estimation Setup Complete ===
+
+Key points:
+  ✓ Hierarchical priors configured with automatic hyperparameter selection
+  ✓ MCMC settings: 10000 draws with 5000 burn-in
+  ✓ Test estimation successful on full sample
+  ✓ Optimal lambda: 1.1331
+
+✓ Phase 4 complete.
+
+═══════════════════════════════════════════════════
+  PHASE 5: RECURSIVE FORECASTING
+═══════════════════════════════════════════════════
+
+⚠ WARNING: This phase will take 30-45 minutes.
+  Progress will be checkpointed every 50 origins.
+
+
+=== Starting Recursive Forecasting (Parallelized) ===
+
+  Progress will be saved with checkpoints every 50 origins.
+
+Step 1: Loading data and configuration...
+  Priors: lambda(mode=0.050, sd=0.200, min=0.001, max=2.00); alpha(mode=3.00)
+
+  MCMC: n_draw=10000, n_burn=5000
+
+  ✓ Data and priors loaded.
+
+Step 2: Defining forecast origins...
+  Initial training window: 1985M1 - 2000-12-31 (192 obs)
+  Final forecast origin: 2019-11-30
+  Number of forecast origins: 227
+  Forecast period: 2001-01 to 2019-11
+
+
+Step 3: Setting up parallel forecasting function...
+  ✓ Forecasting function defined.
+
+Step 4: Initializing parallel cluster...
+  Cluster created with 20 workers.
+  Exporting data and functions to workers...
+  ✓ Cluster initialized.
+
+╔════════════════════════════════════════════════════╗
+║  RECURSIVE FORECASTING: ALL MODELS                 ║
+╚════════════════════════════════════════════════════╝
+
+═══ Forecasting SMALL Model ═══
+  Variables: 4
+  Forecast origins: 227
+  Using 20 parallel workers
+
+  Starting parallel forecasting...
+  Progress:
+    Batch 1/5: Origins 1-50... Done.
+      [Checkpoint saved: 50/227 origins]
+    Batch 2/5: Origins 51-100... Done.
+      [Checkpoint saved: 100/227 origins]
+    Batch 3/5: Origins 101-150... Done.
+      [Checkpoint saved: 150/227 origins]
+    Batch 4/5: Origins 151-200... Done.
+      [Checkpoint saved: 200/227 origins]
+    Batch 5/5: Origins 201-227... Done.
+      [Checkpoint saved: 227/227 origins]
+
+  ✓ SMALL model complete in 10.8 minutes
+  Average time per origin: 2.9 seconds
+
+═══ Forecasting MEDIUM Model ═══
+  Variables: 7
+  Forecast origins: 227
+  Using 20 parallel workers
+
+  Starting parallel forecasting...
+  Progress:
+    Batch 1/5: Origins 1-50... Done.
+      [Checkpoint saved: 50/227 origins]
+    Batch 2/5: Origins 51-100... Done.
+      [Checkpoint saved: 100/227 origins]
+    Batch 3/5: Origins 101-150... Done.
+      [Checkpoint saved: 150/227 origins]
+    Batch 4/5: Origins 151-200... Done.
+      [Checkpoint saved: 200/227 origins]
+    Batch 5/5: Origins 201-227... Done.
+      [Checkpoint saved: 227/227 origins]
+
+  ✓ MEDIUM model complete in 21.8 minutes
+  Average time per origin: 5.8 seconds
+
+═══ Forecasting FULL Model ═══
+  Variables: 8
+  Forecast origins: 227
+  Using 20 parallel workers
+
+  Starting parallel forecasting...
+  Progress:
+    Batch 1/5: Origins 1-50... Done.
+      [Checkpoint saved: 50/227 origins]
+    Batch 2/5: Origins 51-100... Done.
+      [Checkpoint saved: 100/227 origins]
+    Batch 3/5: Origins 101-150... Done.
+      [Checkpoint saved: 150/227 origins]
+    Batch 4/5: Origins 151-200... Done.
+      [Checkpoint saved: 200/227 origins]
+    Batch 5/5: Origins 201-227... Done.
+      [Checkpoint saved: 227/227 origins]
+
+  ✓ FULL model complete in 263.2 minutes
+  Average time per origin: 69.6 seconds
+
+Step 6: Cleaning up parallel cluster...
+  ✓ Cluster stopped.
+
+Step 7: Saving final results...
+  ✓ Saved to results/forecasts/
+
+═══════════════════════════════════════════════════
+  RECURSIVE FORECASTING COMPLETE
+═══════════════════════════════════════════════════
+
+Summary:
+  Total forecast origins: 227
+  Forecast horizons: h = 1, 3, 12
+  Successful runs (Small): 227/227
+  Successful runs (Medium): 227/227
+  Successful runs (Full): 227/227
+
+Average hyperparameters:
+  Small  - Lambda: 0.8813, Alpha: 3.0000
+  Medium - Lambda: 0.7207, Alpha: 3.0000
+  Full   - Lambda: 0.4639, Alpha: 3.0000
+
+✓ Next step: Run 06_forecast_evaluation.R
+
+
+✓ Phase 5 complete.
+
+═══════════════════════════════════════════════════
+  PHASE 6: FORECAST EVALUATION
+═══════════════════════════════════════════════════
+
+=== Forecast Evaluation ===
+
+Step 1: Loading forecasts and evaluation data...
+  Forecasts loaded: 227 origins per model
+
+Step 2: Transforming BVAR forecasts to growth rates...
+  Processing Small model...
+  Processing Medium model...
+  Processing Full model...
+  ✓ Forecasts transformed to growth rates for all models.
+
+Step 3: Aligning forecasts with realized values...
+  ✓ Forecasts aligned with actuals for all models.
+
+Step 4: Computing RMSFE for all models and horizons...
+
+RMSFE Results (All Models):
+   model variable       h1       h3      h12
+1  Small      CPI 3.468477 2.642833 1.304641
+2  Small   INDPRO 7.648971 5.558079 4.997794
+3 Medium      CPI 2.982091 2.499884 1.349151
+4 Medium   INDPRO 7.315025 4.965935 4.370747
+5   Full      CPI 3.128230 2.538172 1.330343
+6   Full   INDPRO 7.423878 5.087278 4.387401
+
+Step 5: Computing Random Walk benchmarks...
+
+Random Walk RMSFE (Benchmark):
+  variable       h1       h3      h12
+1      CPI 4.056634 3.267106 2.380577
+2   INDPRO 8.012348 5.679765 4.293546
+
+Step 5.5: Computing AR(1) benchmarks (evaluation growth rates)...
+
+AR(1) RMSFE (Benchmark):
+  variable       h1       h3      h12
+1      CPI 3.226223 2.932742 1.534712
+2   INDPRO 8.116537 4.787677 6.677762
+
+Step 6: Computing relative RMSFE vs benchmarks...
+
+Relative RMSFE (< 1 = Better than benchmark):
+
+vs Random Walk:
+   model variable rel_h1_rw rel_h3_rw rel_h12_rw
+1  Small      CPI 0.8550137 0.8089218  0.5480355
+2  Small   INDPRO 0.9546478 0.9785755  1.1640247
+3 Medium      CPI 0.7351147 0.7651677  0.5667327
+4 Medium   INDPRO 0.9129690 0.8743205  1.0179807
+5   Full      CPI 0.7711394 0.7768868  0.5588319
+6   Full   INDPRO 0.9265546 0.8956846  1.0218597
+
+vs AR(1):
+   model variable rel_h1_ar1 rel_h3_ar1 rel_h12_ar1
+1  Small      CPI  1.0750891  0.9011477   0.8500885
+2  Small   INDPRO  0.9423933  1.1609134   0.7484234
+3 Medium      CPI  0.9243288  0.8524052   0.8790907
+4 Medium   INDPRO  0.9012495  1.0372326   0.6545227
+5   Full      CPI  0.9696261  0.8654603   0.8668354
+6   Full   INDPRO  0.9146607  1.0625775   0.6570167
+
+Relative RMSFE interpretation (lower is better):
+  CPI h1 vs RW: best = Medium (0.735)
+  CPI h3 vs RW: best = Medium (0.765)
+  CPI h12 vs RW: best = Small (0.548)
+  INDPRO h1 vs RW: best = Medium (0.913)
+  INDPRO h3 vs RW: best = Medium (0.874)
+  INDPRO h12 vs RW: best = Medium (1.018)
+
+Step 7: Diebold-Mariano tests...
+
+=== DM Test vs Benchmarks (H0: Equal accuracy) ===
+
+DM test summary (first 12 rows):
+ model variable horizon benchmark  statistic    p_value
+ Small      CPI     h=1        RW -3.1457034 0.00187954
+ Small      CPI     h=1       AR1  2.1488332 0.03271061
+ Small      CPI     h=3        RW -1.6469399 0.10097254
+ Small      CPI     h=3       AR1 -1.5961751 0.11185951
+ Small      CPI    h=12        RW -1.6332678 0.10387624
+ Small      CPI    h=12       AR1 -0.8536546 0.39424645
+ Small   INDPRO     h=1        RW -1.0782657 0.28206473
+ Small   INDPRO     h=1       AR1 -1.1490611 0.25174543
+ Small   INDPRO     h=3        RW -0.1626213 0.87096325
+ Small   INDPRO     h=3       AR1  1.5585029 0.12052577
+ Small   INDPRO    h=12        RW  1.2221291 0.22299699
+ Small   INDPRO    h=12       AR1 -0.3648035 0.71561666
+
+DM tests vs benchmarks (significant at 5%):
+  Small CPI h=1: better than RW (t=-3.15, p=0.002)
+  Small CPI h=1: worse than AR1 (t=2.15, p=0.033)
+  Medium CPI h=1: better than RW (t=-4.49, p=0.000)
+  Medium CPI h=1: better than AR1 (t=-2.17, p=0.031)
+  Medium CPI h=3: better than RW (t=-2.57, p=0.011)
+  Medium CPI h=3: better than AR1 (t=-2.24, p=0.026)
+  Full CPI h=1: better than RW (t=-4.53, p=0.000)
+  Full CPI h=3: better than RW (t=-2.06, p=0.040)
+  Full CPI h=3: better than AR1 (t=-2.39, p=0.018)
+
+
+DM model comparison summary (first 12 rows):
+ model_a model_b variable horizon  statistic     p_value
+   Small  Medium      CPI     h=1  2.5150514 0.012597139
+   Small  Medium      CPI     h=3  1.5404098 0.124871934
+   Small  Medium      CPI    h=12 -0.7453322 0.456884909
+   Small  Medium   INDPRO     h=1  2.4479140 0.015130768
+   Small  Medium   INDPRO     h=3  1.9378783 0.053895006
+   Small  Medium   INDPRO    h=12  1.9634604 0.050881855
+   Small    Full      CPI     h=1  3.2244452 0.001448815
+   Small    Full      CPI     h=3  1.5473955 0.123179548
+   Small    Full      CPI    h=12 -0.3787589 0.705240683
+   Small    Full   INDPRO     h=1  1.2633915 0.207750278
+   Small    Full   INDPRO     h=3  1.0963159 0.274117779
+   Small    Full   INDPRO    h=12  1.7633594 0.079260372
+
+DM model comparisons (significant at 5%):
+  Small vs Medium CPI h=1: worse than (t=2.52, p=0.013)
+  Small vs Medium INDPRO h=1: worse than (t=2.45, p=0.015)
+  Small vs Full CPI h=1: worse than (t=3.22, p=0.001)
+
+
+Step 8: Saving evaluation results...
+  ✓ Saved to results/tables/ and results/forecasts/
+
+✓ Forecast evaluation complete!
+Next step: Run 07_cg_regression.R
+
+
+✓ Phase 6 complete.
+
+═══════════════════════════════════════════════════
+  PHASE 7: COIBION-GORODNICHENKO REGRESSION
+═══════════════════════════════════════════════════
+
+=== Coibion-Gorodnichenko Regression Analysis ===
+
+Step 1: Loading forecast results...
+  Data loaded.
+
+Step 2: Computing forecast revisions...
+  Revision = F_{t+h|t} - F_{t+h|t-1}
+
+  Forecast revisions computed.
+
+Step 3: Merging forecast errors with revisions...
+Step 4: Estimating CG regressions...
+  Regression: (Actual - Forecast) = alpha + beta * (Forecast_t - Forecast_{t-1}) + eps
+  Using Newey-West HAC standard errors
+
+
+=== CG Regression Results (Small Model) ===
+
+ variable horizon       beta        se     t_stat    p_value n_obs
+      CPI     h=1  2.2608450 1.1942352  1.8931322 0.05969602   215
+      CPI     h=3  0.6916927 0.7986557  0.8660712 0.38742559   215
+      CPI    h=12 -0.5177949 0.3213185 -1.6114695 0.10855822   215
+   INDPRO     h=1  0.7183869 0.5611849  1.2801251 0.20189353   215
+   INDPRO     h=3  0.8922865 0.4815990  1.8527584 0.06530034   215
+   INDPRO    h=12  0.1448703 0.4422787  0.3275542 0.74357044   215
+
+Step 5: Interpretation of beta coefficients:
+
+h=1:
+Model:  Small CPI 
+  beta = 2.2608 (SE = 1.1942)
+  95% CI: [-0.0799, 4.6015]
+  -> Not significantly different from 0 (rational expectations)
+
+Model:  Small INDPRO 
+  beta = 0.7184 (SE = 0.5612)
+  95% CI: [-0.3815, 1.8183]
+  -> Not significantly different from 0 (rational expectations)
+
+Model:  Medium CPI 
+  beta = 0.7086 (SE = 0.2840)
+  95% CI: [0.1520, 1.2653]
+  -> beta > 0: Under-reaction to news (sticky information)
+
+Model:  Medium INDPRO 
+  beta = 0.2663 (SE = 0.4916)
+  95% CI: [-0.6973, 1.2299]
+  -> Not significantly different from 0 (rational expectations)
+
+Model:  Full CPI 
+  beta = 0.9257 (SE = 0.3188)
+  95% CI: [0.3009, 1.5505]
+  -> beta > 0: Under-reaction to news (sticky information)
+
+Model:  Full INDPRO 
+  beta = 0.1078 (SE = 0.3465)
+  95% CI: [-0.5714, 0.7869]
+  -> Not significantly different from 0 (rational expectations)
+
+h=3:
+Model:  Small CPI 
+  beta = 0.6917 (SE = 0.7987)
+  95% CI: [-0.8737, 2.2571]
+  -> Not significantly different from 0 (rational expectations)
+
+Model:  Small INDPRO 
+  beta = 0.8923 (SE = 0.4816)
+  95% CI: [-0.0516, 1.8362]
+  -> Not significantly different from 0 (rational expectations)
+
+Model:  Medium CPI 
+  beta = 0.5602 (SE = 0.3204)
+  95% CI: [-0.0678, 1.1881]
+  -> Not significantly different from 0 (rational expectations)
+
+Model:  Medium INDPRO 
+  beta = 0.5983 (SE = 0.3637)
+  95% CI: [-0.1146, 1.3113]
+  -> Not significantly different from 0 (rational expectations)
+
+Model:  Full CPI 
+  beta = 0.6894 (SE = 0.3729)
+  95% CI: [-0.0415, 1.4202]
+  -> Not significantly different from 0 (rational expectations)
+
+Model:  Full INDPRO 
+  beta = 0.1889 (SE = 0.3630)
+  95% CI: [-0.5226, 0.9005]
+  -> Not significantly different from 0 (rational expectations)
+
+h=12:
+Model:  Small CPI 
+  beta = -0.5178 (SE = 0.3213)
+  95% CI: [-1.1476, 0.1120]
+  -> Not significantly different from 0 (rational expectations)
+
+Model:  Small INDPRO 
+  beta = 0.1449 (SE = 0.4423)
+  95% CI: [-0.7220, 1.0117]
+  -> Not significantly different from 0 (rational expectations)
+
+Model:  Medium CPI 
+  beta = -0.0841 (SE = 0.2065)
+  95% CI: [-0.4889, 0.3207]
+  -> Not significantly different from 0 (rational expectations)
+
+Model:  Medium INDPRO 
+  beta = 0.3184 (SE = 0.5292)
+  95% CI: [-0.7188, 1.3556]
+  -> Not significantly different from 0 (rational expectations)
+
+Model:  Full CPI 
+  beta = -0.0272 (SE = 0.2111)
+  95% CI: [-0.4410, 0.3865]
+  -> Not significantly different from 0 (rational expectations)
+
+Model:  Full INDPRO 
+  beta = 0.2237 (SE = 0.4925)
+  95% CI: [-0.7415, 1.1890]
+  -> Not significantly different from 0 (rational expectations)
+
+Step 6: Saving CG regression results...
+  Saved to results/tables/ and results/forecasts.
+
+
+=== Testing for Overreaction: DeltaBeta_h = beta_Full - beta_Small ===
+
+
+DeltaBeta_h = beta_Full - beta_Small:
+ variable horizon   beta_full beta_small   delta_beta  se_delta      t_stat
+      CPI     h=1  0.92574375  2.2608450 -1.335101241 1.2360489 -1.08013623
+      CPI     h=3  0.68938739  0.6916927 -0.002305299 0.8814158 -0.00261545
+      CPI    h=12 -0.02724829 -0.5177949  0.490546594 0.3844636  1.27592454
+   INDPRO     h=1  0.10776441  0.7183869 -0.610622447 0.6595436 -0.92582575
+   INDPRO     h=3  0.18891327  0.8922865 -0.703373254 0.6031044 -1.16625464
+   INDPRO    h=12  0.22373039  0.1448703  0.078860141 0.6619285  0.11913696
+   p_value                  interpretation
+ 0.2813030 More overreaction in Full model
+ 0.9979156 More overreaction in Full model
+ 0.2033718 Less overreaction in Full model
+ 0.3555843 More overreaction in Full model
+ 0.2448157 More overreaction in Full model
+ 0.9052791 Less overreaction in Full model
+
+Interpretation:
+  CPI h=1: DeltaBeta = -1.3351 (p = 0.281, not significant)
+  CPI h=3: DeltaBeta = -0.0023 (p = 0.998, not significant)
+  CPI h=12: DeltaBeta = 0.4905 (p = 0.203, not significant)
+  INDPRO h=1: DeltaBeta = -0.6106 (p = 0.356, not significant)
+  INDPRO h=3: DeltaBeta = -0.7034 (p = 0.245, not significant)
+  INDPRO h=12: DeltaBeta = 0.0789 (p = 0.905, not significant)
+
+Saved to results/tables/delta_beta_overreaction_test.csv
+
+
+Next Steps:
+  2. Run 08_visualization.R to create figures
+
+✓ Phase 7 complete.
+
+═══════════════════════════════════════════════════
+  PHASE 8: VISUALIZATION
+═══════════════════════════════════════════════════
+
+
+=== Generating Visualization ===
+
+Step 1: Loading analysis results...
+  ✓ Data loaded.
+
+Step 2: Creating RMSFE comparison plot...
+  ✓ Saved: fig1_rmsfe_comparison.png
+
+Step 3: Creating relative RMSFE plot...
+  ✓ Saved: fig2_relative_rmsfe.png
+
+Step 4: Creating CG regression coefficient plot...
+  ✓ Saved: fig3_cg_coefficients.png
+
+Step 5: Creating Δβ_h plot...
+  ✓ Saved: fig4_delta_beta_overreaction.png
+
+Step 6: Creating hyperparameter evolution plot...
+  ✓ Saved: fig5_lambda_evolution.png
+
+Step 7: Creating forecast vs actual plots...
+  Fig6 uses variable=CPI, model=Small (cpi_small)
+  Fig6 alignment spot-check (first 5 rows):
+    h=1:
+ origin_date target_date
+  2001-01-31  2001-02-28
+  2001-02-28  2001-03-31
+  2001-03-31  2001-04-30
+  2001-04-30  2001-05-31
+  2001-05-31  2001-06-30
+    h=3:
+ origin_date target_date
+  2001-01-31  2001-04-30
+  2001-02-28  2001-05-31
+  2001-03-31  2001-06-30
+  2001-04-30  2001-07-31
+  2001-05-31  2001-08-31
+    h=12:
+ origin_date target_date
+  2001-01-31  2002-01-31
+  2001-02-28  2002-02-28
+  2001-03-31  2002-03-31
+  2001-04-30  2002-04-30
+  2001-05-31  2002-05-31
+
+  ✓ Saved: fig6a_forecast_vs_actual_h1.png
+  ✓ Saved: fig6b_forecast_vs_actual_h3.png
+  ✓ Saved: fig6c_forecast_vs_actual_h12.png
+
+  ✓ Saved: fig6d_timing_diagnostic_h1.png
+  ✓ Saved: fig6e_timing_diagnostic_h3.png
+  ✓ Saved: fig6f_timing_diagnostic_h12.png
+
+Step 8: Creating CG regression scatter plots...
+  ✓ Saved: fig7a_cg_scatter_h1.png
+  ✓ Saved: fig7b_cg_scatter_h3.png
+  ✓ Saved: fig7c_cg_scatter_h12.png
+
+═══════════════════════════════════════════════════
+  VISUALIZATION COMPLETE
+═══════════════════════════════════════════════════
+
+Generated figures:
+  1. fig1_rmsfe_comparison.png - Forecast accuracy comparison
+  2. fig2_relative_rmsfe.png - Performance vs. RW benchmark
+  3. fig3_cg_coefficients.png - CG regression coefficients (all models)
+  4. fig4_delta_beta_overreaction.png - Overreaction test (Δβ_h)
+  5. fig5_lambda_evolution.png - Hyperparameter dynamics
+  6a-c. Forecast vs Actual (h=1, 3, 12):
+     - fig6a_forecast_vs_actual_h1.png
+     - fig6b_forecast_vs_actual_h3.png
+     - fig6c_forecast_vs_actual_h12.png
+  6d-f. Timing diagnostic:
+     - fig6d_timing_diagnostic_h1.png
+     - fig6e_timing_diagnostic_h3.png
+     - fig6f_timing_diagnostic_h12.png
+  7a-c. CG Regression Scatter Plots (h=1, 3, 12):
+     - fig7a_cg_scatter_h1.png
+     - fig7b_cg_scatter_h3.png
+     - fig7c_cg_scatter_h12.png
+
+Total: 14 publication-quality figures
+All figures saved to: results/figures/
+
+
+✓ Phase 8 complete.
+
+=============================================================================
+  PHASE 9-11: ROBUSTNESS SUITE (AUTO-EXECUTE)
+=============================================================================
+
+Auto-running robustness checks...
+
+=== Robustness Checks ===
+
+Step 1: Loading estimation data...
+  Data loaded.
+
+
+========================================
+Scenario: lag6
+========================================
+
+  Forecast origins: 227
+
+Forecasting SMALL model (lags=6)...
+  Done in 5.3 minutes (0 failures)
+
+Forecasting MEDIUM model (lags=6)...
+  Done in 8.6 minutes (0 failures)
+
+Forecasting FULL model (lags=6)...
+  Done in 11.6 minutes (0 failures)
+
+Relative RMSFE interpretation (vs RW):
+  CPI rel_h1: best = Medium (0.735)
+  CPI rel_h3: best = Medium (0.760)
+  CPI rel_h12: best = Small (0.545)
+  INDPRO rel_h1: best = Medium (0.910)
+  INDPRO rel_h3: best = Medium (0.865)
+  INDPRO rel_h12: best = Medium (1.008)
+
+  Results saved to:  results/robustness/lag6 
+
+========================================
+Scenario: window1995
+========================================
+
+  Forecast origins: 287
+
+Forecasting SMALL model (lags=12)...
+  Done in 11.3 minutes (0 failures)
+
+Forecasting MEDIUM model (lags=12)...
+  Done in 31.2 minutes (0 failures)
+
+Forecasting FULL model (lags=12)...
+  Done in 34.4 minutes (0 failures)
+
+Relative RMSFE interpretation (vs RW):
+  CPI rel_h1: best = Medium (0.733)
+  CPI rel_h3: best = Medium (0.736)
+  CPI rel_h12: best = Small (0.549)
+  INDPRO rel_h1: best = Medium (0.889)
+  INDPRO rel_h3: best = Medium (0.822)
+  INDPRO rel_h12: best = Medium (0.948)
+
+  Results saved to:  results/robustness/window1995 
+
+Robustness checks complete.
+
+
+✓ Phase 9 complete.
+
+=== Robustness Visualization ===
+
+  Saved: results/figures/fig_robustness_relative_rmsfe_rw.png
+  Saved: results/figures/fig_robustness_relative_rmsfe_ar1.png
+
+Robustness visualization complete.
+
+
+✓ Phase 10 complete.
