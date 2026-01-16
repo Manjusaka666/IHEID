@@ -1,0 +1,161 @@
+\begin{thebibliography}{}
+
+\bibitem [\protect \citeauthoryear {%
+Clark%
+\ \BBA {} McCracken%
+}{%
+Clark%
+\ \BBA {} McCracken%
+}{%
+{\protect \APACyear {2001}}%
+}]{%
+ClarkMcCracken2001}
+\APACinsertmetastar {%
+ClarkMcCracken2001}%
+\begin{APACrefauthors}%
+Clark, T\BPBI E.%
+\BCBT {}\ \BBA {} McCracken, M\BPBI W.%
+\end{APACrefauthors}%
+\unskip\
+\newblock
+\APACrefYearMonthDay{2001}{}{}.
+\newblock
+{\BBOQ}\APACrefatitle {Tests of Equal Forecast Accuracy and Encompassing for Nested Models} {Tests of equal forecast accuracy and encompassing for nested models}.{\BBCQ}
+\newblock
+\APACjournalVolNumPages{Journal of Econometrics}{105}{1}{85--110}.
+\newblock
+\begin{APACrefDOI} \doi{10.1016/S0304-4076(01)00083-9} \end{APACrefDOI}
+\PrintBackRefs{\CurrentBib}
+
+\bibitem [\protect \citeauthoryear {%
+Clark%
+\ \BBA {} West%
+}{%
+Clark%
+\ \BBA {} West%
+}{%
+{\protect \APACyear {2007}}%
+}]{%
+ClarkWest2007}
+\APACinsertmetastar {%
+ClarkWest2007}%
+\begin{APACrefauthors}%
+Clark, T\BPBI E.%
+\BCBT {}\ \BBA {} West, K\BPBI D.%
+\end{APACrefauthors}%
+\unskip\
+\newblock
+\APACrefYearMonthDay{2007}{}{}.
+\newblock
+{\BBOQ}\APACrefatitle {Approximately Normal Tests for Equal Predictive Accuracy in Nested Models} {Approximately normal tests for equal predictive accuracy in nested models}.{\BBCQ}
+\newblock
+\APACjournalVolNumPages{Journal of Econometrics}{138}{1}{291--311}.
+\newblock
+\begin{APACrefDOI} \doi{10.1016/j.jeconom.2006.05.023} \end{APACrefDOI}
+\PrintBackRefs{\CurrentBib}
+
+\bibitem [\protect \citeauthoryear {%
+Coibion%
+\ \BBA {} Gorodnichenko%
+}{%
+Coibion%
+\ \BBA {} Gorodnichenko%
+}{%
+{\protect \APACyear {2015}}%
+}]{%
+CG2015}
+\APACinsertmetastar {%
+CG2015}%
+\begin{APACrefauthors}%
+Coibion, O.%
+\BCBT {}\ \BBA {} Gorodnichenko, Y.%
+\end{APACrefauthors}%
+\unskip\
+\newblock
+\APACrefYearMonthDay{2015}{}{}.
+\newblock
+{\BBOQ}\APACrefatitle {Information rigidity and the expectations formation process: A simple framework and new facts} {Information rigidity and the expectations formation process: A simple framework and new facts}.{\BBCQ}
+\newblock
+\APACjournalVolNumPages{American Economic Review}{105}{8}{2644--2678}.
+\newblock
+\begin{APACrefDOI} \doi{10.1257/aer.20110306} \end{APACrefDOI}
+\PrintBackRefs{\CurrentBib}
+
+\bibitem [\protect \citeauthoryear {%
+Giannone%
+, Lenza%
+\BCBL {}\ \BBA {} Primiceri%
+}{%
+Giannone%
+\ \protect \BOthers {.}}{%
+{\protect \APACyear {2015}}%
+}]{%
+GLP2015}
+\APACinsertmetastar {%
+GLP2015}%
+\begin{APACrefauthors}%
+Giannone, D.%
+, Lenza, M.%
+\BCBL {}\ \BBA {} Primiceri, G\BPBI E.%
+\end{APACrefauthors}%
+\unskip\
+\newblock
+\APACrefYearMonthDay{2015}{}{}.
+\newblock
+{\BBOQ}\APACrefatitle {Prior selection for vector autoregressions} {Prior selection for vector autoregressions}.{\BBCQ}
+\newblock
+\APACjournalVolNumPages{Review of Economics and Statistics}{97}{2}{436--451}.
+\newblock
+\begin{APACrefDOI} \doi{10.1162/REST_a_00483} \end{APACrefDOI}
+\PrintBackRefs{\CurrentBib}
+
+\bibitem [\protect \citeauthoryear {%
+Kuschnig%
+\ \BBA {} Vashold%
+}{%
+Kuschnig%
+\ \BBA {} Vashold%
+}{%
+{\protect \APACyear {2021}}%
+}]{%
+KuschnigVashold2021}
+\APACinsertmetastar {%
+KuschnigVashold2021}%
+\begin{APACrefauthors}%
+Kuschnig, N.%
+\BCBT {}\ \BBA {} Vashold, L.%
+\end{APACrefauthors}%
+\unskip\
+\newblock
+\APACrefYearMonthDay{2021}{}{}.
+\newblock
+{\BBOQ}\APACrefatitle {BVAR: Bayesian vector autoregressions with hierarchical prior selection in R} {Bvar: Bayesian vector autoregressions with hierarchical prior selection in r}.{\BBCQ}
+\newblock
+\APACjournalVolNumPages{Journal of Statistical Software}{100}{14}{1--27}.
+\newblock
+\begin{APACrefDOI} \doi{10.18637/jss.v100.i14} \end{APACrefDOI}
+\PrintBackRefs{\CurrentBib}
+
+\bibitem [\protect \citeauthoryear {%
+Sims%
+}{%
+Sims%
+}{%
+{\protect \APACyear {1980}}%
+}]{%
+Sims1980}
+\APACinsertmetastar {%
+Sims1980}%
+\begin{APACrefauthors}%
+Sims, C\BPBI A.%
+\end{APACrefauthors}%
+\unskip\
+\newblock
+\APACrefYearMonthDay{1980}{}{}.
+\newblock
+{\BBOQ}\APACrefatitle {Macroeconomics and reality} {Macroeconomics and reality}.{\BBCQ}
+\newblock
+\APACjournalVolNumPages{Econometrica}{48}{1}{1--48}.
+\PrintBackRefs{\CurrentBib}
+
+\end{thebibliography}

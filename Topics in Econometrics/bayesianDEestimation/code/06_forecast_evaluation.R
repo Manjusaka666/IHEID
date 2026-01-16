@@ -636,6 +636,101 @@ cat("\n")
 cat("\n")
 
 # ------------------------------------------------------------------------------
+# 7.5 Clark-West (2007) MSPE-adjusted Tests for Nested Models
+# ------------------------------------------------------------------------------
+
+cat("Step 7.5: Clark-West (2007) tests for nested models...\n")
+
+clark_west_test <- function(f_small, f_large, actual, horizon = 1) {
+    # Clark-West adjusted loss differential for nested models:
+    # e1 = y - f1 (smaller), e2 = y - f2 (larger)
+    # d_t = e1^2 - (e2^2 - (f2 - f1)^2)
+
+    valid <- !is.na(f_small) & !is.na(f_large) & !is.na(actual)
+    if (sum(valid) < 10) {
+        return(list(
+            n = sum(valid),
+            estimate = NA_real_,
+            se_hac = NA_real_,
+            t_stat = NA_real_,
+            p_one_sided = NA_real_,
+            lag = horizon
+        ))
+    }
+
+    y <- actual[valid]
+    f1 <- f_small[valid]
+    f2 <- f_large[valid]
+
+    e1 <- y - f1
+    e2 <- y - f2
+    d <- e1^2 - (e2^2 - (f2 - f1)^2)
+
+    cw_reg <- lm(d ~ 1)
+    lag <- max(1, horizon) # overlap-adjusted; common choice is h-1 or h
+    cw_ct <- coeftest(cw_reg, vcov = NeweyWest(cw_reg, lag = lag))
+
+    estimate <- as.numeric(cw_ct[1, "Estimate"])
+    se_hac <- as.numeric(cw_ct[1, "Std. Error"])
+    t_stat <- as.numeric(cw_ct[1, "t value"])
+
+    # One-sided p-value: H1 = E[d] > 0 (larger model improves MSPE)
+    df <- max(1, sum(valid) - 1)
+    p_one_sided <- pt(t_stat, df = df, lower.tail = FALSE)
+
+    list(
+        n = sum(valid),
+        estimate = estimate,
+        se_hac = se_hac,
+        t_stat = t_stat,
+        p_one_sided = p_one_sided,
+        lag = lag
+    )
+}
+
+cw_pairs <- list(
+    c("Small", "Medium"),
+    c("Medium", "Full")
+)
+
+cw_results <- list()
+
+for (pair in cw_pairs) {
+    model_small <- models[[pair[1]]]
+    model_large <- models[[pair[2]]]
+
+    for (var_label in names(var_map)) {
+        df_small <- if (var_label == "CPI") model_small$cpi else model_small$indpro
+        df_large <- if (var_label == "CPI") model_large$cpi else model_large$indpro
+
+        for (h in horizons) {
+            f1 <- df_small[[paste0("h", h, "_forecast")]]
+            f2 <- df_large[[paste0("h", h, "_forecast")]]
+            y <- df_small[[paste0("h", h, "_actual")]]
+
+            cw <- clark_west_test(f1, f2, y, horizon = h)
+            cw_results[[length(cw_results) + 1]] <- data.frame(
+                smaller_model = pair[1],
+                larger_model = pair[2],
+                variable = var_label,
+                horizon = paste0("h=", h),
+                n_obs = cw$n,
+                estimate = cw$estimate,
+                se_hac = cw$se_hac,
+                t_stat = cw$t_stat,
+                p_value_one_sided = cw$p_one_sided,
+                nw_lag = cw$lag
+            )
+        }
+    }
+}
+
+cw_results <- bind_rows(cw_results)
+cat("\nClark-West test summary:\n")
+print(cw_results, row.names = FALSE)
+cat("\n")
+
+# ------------------------------------------------------------------------------
 # 8. Save Results
 # ------------------------------------------------------------------------------
 
@@ -653,6 +748,7 @@ write.csv(relative_rmsfe, "results/tables/relative_rmsfe_combined.csv", row.name
 write.csv(relative_rmsfe_legacy, "results/tables/relative_rmsfe.csv", row.names = FALSE)
 write.csv(dm_results, "results/tables/dm_test_results.csv", row.names = FALSE)
 write.csv(dm_model_results, "results/tables/dm_model_comparison.csv", row.names = FALSE)
+write.csv(cw_results, "results/tables/clark_west_tests.csv", row.names = FALSE)
 
 # Save all aligned forecasts and actuals
 saveRDS(

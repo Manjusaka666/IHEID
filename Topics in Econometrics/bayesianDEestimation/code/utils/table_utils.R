@@ -301,3 +301,50 @@ format_dm_table <- function(dm_df) {
         digits = 3
     )
 }
+
+
+#' Format Clark-West (2007) MSPE-adjusted test results (nested models)
+#'
+#' @param cw_df Data frame with Clark-West test results
+#' @return Character vector of LaTeX code
+format_clark_west_table <- function(cw_df) {
+    caption <- "Clark--West (2007) MSPE-Adjusted Tests for Nested Models"
+    label <- "tab:clark_west"
+
+    cw_with_stars <- cw_df %>%
+        mutate(
+            stars = case_when(
+                p_value_one_sided < 0.01 ~ "***",
+                p_value_one_sided < 0.05 ~ "**",
+                p_value_one_sided < 0.1 ~ "*",
+                TRUE ~ ""
+            ),
+            t_statistic = sprintf("%.3f%s", t_stat, stars),
+            `p-value` = sprintf("%.3f", p_value_one_sided)
+        ) %>%
+        select(smaller_model, larger_model, variable, horizon, t_statistic, `p-value`, n_obs, nw_lag) %>%
+        rename(
+            `Smaller` = smaller_model,
+            `Larger` = larger_model,
+            `t-stat` = t_statistic,
+            `N` = n_obs,
+            `NW lag` = nw_lag
+        )
+
+    notes <- c(
+        "Clark--West (2007) MSPE-adjusted test for equal forecast accuracy in nested models.",
+        "For smaller-model forecast error $e_{1t}=y_t-f_{1t}$ and larger-model error $e_{2t}=y_t-f_{2t}$, the adjusted loss differential is",
+        "$d_t = e_{1t}^2 - \\left(e_{2t}^2 - (f_{2t}-f_{1t})^2\\right)$. The test regresses $d_t$ on a constant.",
+        "Newey--West HAC standard errors use lag truncation equal to the forecast horizon (overlap adjustment).",
+        "One-sided p-values reported for the alternative that the larger model improves MSPE.",
+        "*** p<0.01, ** p<0.05, * p<0.1"
+    )
+
+    format_threeline_table(
+        df = cw_with_stars,
+        caption = caption,
+        label = label,
+        notes = notes,
+        digits = 3
+    )
+}
