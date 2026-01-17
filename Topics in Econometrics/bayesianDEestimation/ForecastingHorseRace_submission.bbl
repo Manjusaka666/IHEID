@@ -1,6 +1,58 @@
 \begin{thebibliography}{}
 
 \bibitem [\protect \citeauthoryear {%
+Ba{\'n}bura%
+, Giannone%
+\BCBL {}\ \BBA {} Reichlin%
+}{%
+Ba{\'n}bura%
+\ \protect \BOthers {.}}{%
+{\protect \APACyear {2010}}%
+}]{%
+BanburaGLP2010}
+\APACinsertmetastar {%
+BanburaGLP2010}%
+\begin{APACrefauthors}%
+Ba{\'n}bura, M.%
+, Giannone, D.%
+\BCBL {}\ \BBA {} Reichlin, L.%
+\end{APACrefauthors}%
+\unskip\
+\newblock
+\APACrefYearMonthDay{2010}{}{}.
+\newblock
+{\BBOQ}\APACrefatitle {Large Bayesian vector autoregressions} {Large bayesian vector autoregressions}.{\BBCQ}
+\newblock
+\APACjournalVolNumPages{Journal of Applied Econometrics}{25}{1}{71--92}.
+\PrintBackRefs{\CurrentBib}
+
+\bibitem [\protect \citeauthoryear {%
+Bordalo%
+, Gennaioli%
+\BCBL {}\ \BBA {} Shleifer%
+}{%
+Bordalo%
+\ \protect \BOthers {.}}{%
+{\protect \APACyear {2020}}%
+}]{%
+Bordalo2020}
+\APACinsertmetastar {%
+Bordalo2020}%
+\begin{APACrefauthors}%
+Bordalo, P.%
+, Gennaioli, N.%
+\BCBL {}\ \BBA {} Shleifer, A.%
+\end{APACrefauthors}%
+\unskip\
+\newblock
+\APACrefYearMonthDay{2020}{}{}.
+\newblock
+{\BBOQ}\APACrefatitle {Memory, attention, and choice} {Memory, attention, and choice}.{\BBCQ}
+\newblock
+\APACjournalVolNumPages{Quarterly Journal of Economics}{135}{2}{1009--1064}.
+\PrintBackRefs{\CurrentBib}
+
+\bibitem [\protect \citeauthoryear {%
 Clark%
 \ \BBA {} McCracken%
 }{%
@@ -61,6 +113,31 @@ Coibion%
 Coibion%
 \ \BBA {} Gorodnichenko%
 }{%
+{\protect \APACyear {2012}}%
+}]{%
+CoibionGorodnichenko2012}
+\APACinsertmetastar {%
+CoibionGorodnichenko2012}%
+\begin{APACrefauthors}%
+Coibion, O.%
+\BCBT {}\ \BBA {} Gorodnichenko, Y.%
+\end{APACrefauthors}%
+\unskip\
+\newblock
+\APACrefYearMonthDay{2012}{}{}.
+\newblock
+{\BBOQ}\APACrefatitle {Information rigidity and monetary policy} {Information rigidity and monetary policy}.{\BBCQ}
+\newblock
+\APACjournalVolNumPages{Journal of Monetary Economics}{59}{S}{S1--S18}.
+\PrintBackRefs{\CurrentBib}
+
+\bibitem [\protect \citeauthoryear {%
+Coibion%
+\ \BBA {} Gorodnichenko%
+}{%
+Coibion%
+\ \BBA {} Gorodnichenko%
+}{%
 {\protect \APACyear {2015}}%
 }]{%
 CG2015}
@@ -79,6 +156,28 @@ Coibion, O.%
 \APACjournalVolNumPages{American Economic Review}{105}{8}{2644--2678}.
 \newblock
 \begin{APACrefDOI} \doi{10.1257/aer.20110306} \end{APACrefDOI}
+\PrintBackRefs{\CurrentBib}
+
+\bibitem [\protect \citeauthoryear {%
+Estrella%
+}{%
+Estrella%
+}{%
+{\protect \APACyear {1998}}%
+}]{%
+Estrella1998}
+\APACinsertmetastar {%
+Estrella1998}%
+\begin{APACrefauthors}%
+Estrella, A.%
+\end{APACrefauthors}%
+\unskip\
+\newblock
+\APACrefYearMonthDay{1998}{}{}.
+\newblock
+{\BBOQ}\APACrefatitle {Economic signals from the yield curve} {Economic signals from the yield curve}.{\BBCQ}
+\newblock
+\APACjournalVolNumPages{Economic Commentary}{}{}{}.
 \PrintBackRefs{\CurrentBib}
 
 \bibitem [\protect \citeauthoryear {%
@@ -156,6 +255,31 @@ Sims, C\BPBI A.%
 {\BBOQ}\APACrefatitle {Macroeconomics and reality} {Macroeconomics and reality}.{\BBCQ}
 \newblock
 \APACjournalVolNumPages{Econometrica}{48}{1}{1--48}.
+\PrintBackRefs{\CurrentBib}
+
+\bibitem [\protect \citeauthoryear {%
+Stock%
+\ \BBA {} Watson%
+}{%
+Stock%
+\ \BBA {} Watson%
+}{%
+{\protect \APACyear {2002}}%
+}]{%
+StockWatson2002}
+\APACinsertmetastar {%
+StockWatson2002}%
+\begin{APACrefauthors}%
+Stock, J\BPBI H.%
+\BCBT {}\ \BBA {} Watson, M\BPBI W.%
+\end{APACrefauthors}%
+\unskip\
+\newblock
+\APACrefYearMonthDay{2002}{}{}.
+\newblock
+{\BBOQ}\APACrefatitle {Macroeconomic forecasting using diffusion indexes} {Macroeconomic forecasting using diffusion indexes}.{\BBCQ}
+\newblock
+\APACjournalVolNumPages{Journal of Business \& Economic Statistics}{20}{2}{147--162}.
 \PrintBackRefs{\CurrentBib}
 
 \end{thebibliography}
