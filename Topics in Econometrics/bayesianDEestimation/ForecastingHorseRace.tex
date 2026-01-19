@@ -64,9 +64,12 @@
 \pagestyle{plain}
 
 \begin{abstract}
-    This paper asks whether consumer sentiment adds incremental predictive content for U.S.\ inflation and industrial production once standard macro aggregates and financial prices are already included, and whether sentiment alters forecast-revision patterns consistent with informational frictions. Using monthly data (1985M1--2019M12) and an expanding-window pseudo out-of-sample design (origins 2001M1--2019M11), we estimate hierarchical Bayesian VARs under three nested information sets: \emph{Small} (core macro), \emph{Medium} (+ financial variables and oil), and \emph{Full} (+ sentiment). Forecast accuracy is evaluated by RMSFE at horizons $h \in \{1,3,12\}$, and forecast revisions are assessed via the \cite{CG2015} error-on-revision regression.
+    Does consumer sentiment add predictive content for inflation and real activity once standard macro aggregates and financial prices are already included?
+    I answer this question with a transparent horse race across nested information sets in a hierarchical Bayesian VAR, paired with a revision-based diagnostic of forecast updating following \citet{CG2015}.
 
-    Two results summarize the evidence. First, all BVAR specifications substantially improve on a no-change benchmark for inflation, but sentiment delivers little incremental reduction in inflation RMSFE once financial variables are included: the best long-horizon inflation performance is attained by the baseline macro specification. Second, the revision diagnostic shows sizeable short-horizon underreaction and long-horizon overreaction for inflation; richer information sets move long-horizon coefficients toward the rational-expectations benchmark, while short-horizon underreaction remains economically meaningful. Because the information sets are nested, statistical inference on accuracy differences relies on nested-model-robust procedures; we report Clark--West adjusted MSPE tests as robustness and emphasize the magnitude and stability of RMSFE differences as primary evidence.
+    The point-forecast evidence shows that richer information sets can improve accuracy, but sentiment's incremental contribution to RMSFE is limited once financial variables are already in the information set (Table~\ref{tab:rmsfe}; Figure~\ref{fig:relrmsfe}).
+    The revision diagnostic, by contrast, indicates systematic patterns in forecast updating, and the information set can shift these patterns even when point accuracy changes little (Table~\ref{tab:cg_regression}).
+    Because the competing specifications are nested, I treat standard equal-accuracy tests as suggestive and use nested-model-robust adjustments as a robustness check \citep{ClarkMcCracken2001,ClarkWest2007} (Appendix Table~\ref{tab:clark_west}).
 \end{abstract}
 \noindent\textit{Keywords:} Bayesian VAR; hierarchical shrinkage; forecasting; consumer sentiment; forecast revisions.\\
 \noindent\textit{JEL codes:} C11; C53; E37.
@@ -80,11 +83,17 @@
 \section{Introduction}
 
 \ifsubmission
-This paper studies a practical forecasting question: does consumer sentiment add incremental predictive content for inflation and industrial production once conventional macro aggregates and financial prices are already included? I address this question using a transparent horse race across three nested information sets within a hierarchical Bayesian VAR, complemented by a revision-based diagnostic of forecast updating following \cite{CG2015}.
+This paper studies a practical forecasting question: does consumer sentiment add incremental predictive content for inflation and real activity once conventional macro aggregates and financial prices are already included? I organize the answer around two objects that matter to forecasting practice: \emph{forecast accuracy} (how close point forecasts are to realizations) and \emph{forecast discipline} (whether the forecasting system revises in an internally coherent way, rather than exhibiting systematic updating patterns).
 
-The analysis uses monthly U.S.\ data and a recursive pseudo out-of-sample design. Forecast accuracy is summarized by RMSFE at a small set of horizons, and revision dynamics are summarized by the error-on-revision regression with Newey--West HAC standard errors.
+\paragraph{Contributions and headline evidence.}
+\begin{itemize}[leftmargin=*]
+    \item \textbf{Design: nested information sets in a hierarchical BVAR.} I run a horse race across nested information sets---macro only; macro plus financial prices; and macro plus financial prices plus sentiment---within a hierarchical Bayesian VAR that selects regularization strength from the data rather than fixing it by hand.
+    \item \textbf{Accuracy versus discipline.} Sentiment's incremental contribution to point-forecast accuracy is limited once financial variables are included, which is economically consistent with information overlap between sentiment and forward-looking prices (Table~\ref{tab:rmsfe}; Figure~\ref{fig:relrmsfe}). At the same time, a revision-based diagnostic following \citet{CG2015} shows systematic updating patterns, and the information set can shift these patterns even when RMSFE moves little (Table~\ref{tab:cg_regression}).
+    \item \textbf{Inference discipline under nesting.} Because the specifications are nested, standard equal-accuracy tests can be distorted; I therefore emphasize magnitudes and stability and report a nested-model-robust adjustment as a robustness check \citep{ClarkMcCracken2001,ClarkWest2007} (Appendix Table~\ref{tab:clark_west}).
+\end{itemize}
 
-The headline findings are disciplined. For inflation, all BVAR specifications improve markedly on a no-change benchmark, but sentiment adds little incremental reduction in RMSFE once the medium information set is included (and the smallest model attains the best long-horizon inflation RMSFE). For industrial production, adding financial variables improves short-horizon forecasts, while long-horizon accuracy remains difficult. Because the information sets are nested, I treat standard equal-accuracy tests as suggestive and report nested-model-robust Clark--West adjusted MSPE tests as robustness.
+\paragraph{Related literature (organized around the paper's contribution).}
+First, the revision diagnostic connects to work that uses forecast revisions to study expectation updating and informational frictions \citep{CG2015}; here, the emphasis is diagnostic for a model-based forecasting system rather than a structural claim about beliefs. Second, the question of whether confidence or sentiment forecasts macro outcomes has a long history, with mixed findings once alternative information is accounted for; this paper focuses on the incremental role of sentiment \emph{conditional on} macro and financial information. Third, the inflation-forecasting literature emphasizes that simple benchmarks can be hard to beat and that forecast gains can be horizon- and period-dependent \citep{StockWatson2002}. Fourth, the hierarchical BVAR framework follows the prior-selection approach of \citet{GLP2015} and the broader large-BVAR forecasting tradition \citep{BanburaGLP2010}.
 \else
 
 Building an effective macroeconomic forecasting model requires balancing two fundamental tensions. First, incorporating additional information can in principle improve predictions by capturing forward-looking signals, but in finite samples it increases parameter uncertainty and can worsen forecast performance unless regularization is sufficiently aggressive. Second, even if a model fits historical data well, its forecast revisions may exhibit systematic biases that reveal whether the underlying probability updates are well-calibrated or subject to cognitive frictions. This paper investigates both dimensions simultaneously: whether soft information (consumer sentiment) contains incremental predictive value for key macro targets once one already conditions on standard aggregates and financial prices, and whether sentiment helps align the model's updating behavior with rational expectations.
@@ -99,18 +108,22 @@ The analysis is deliberately focused on internal consistency and transparent imp
 
 % Paragraph on empirical hypotheses
 \paragraph{Empirical hypotheses.}
-We structure our investigation around two complementary hypotheses. \emph{First}, if sentiment contains genuine information about inflation persistence, then adding it should improve forecast accuracy primarily at longer horizons ($h=3$ and especially $h=12$), where low-frequency dynamics dominate, while having limited incremental value at very short horizons. Conversely, financial variables should matter more at short horizons where they encode near-term cyclical pressures. \emph{Second}, if richer information sets discipline internal updating, then revisions should become less systematically related to subsequent forecast errors in the \cite{CG2015} regression (coefficients closer to zero), with the most plausible improvements at long horizons where trend extrapolation is a risk.
+We structure our investigation around two complementary hypotheses. \emph{First}, if sentiment contains incremental information about persistent components of the economy, then it should matter more when the forecast problem is dominated by low-frequency dynamics, whereas financial prices should matter more when the forecast problem is dominated by near-term cyclical conditions. \emph{Second}, if richer information sets discipline internal updating in the forecasting system, then revisions should be less systematically related to subsequent forecast errors in the \citet{CG2015} diagnostic.
 \fi
 % --- Section 2: Data ---
 \section{Data}
+\label{sec:data}
 
 \ifsubmission
-The dataset comprises monthly U.S.\ series ending before the COVID-19 period. The information sets are nested: \emph{Small} includes industrial production, CPI, unemployment, and the federal funds rate; \emph{Medium} adds the 10-year Treasury yield, the S\&P 500, and oil prices; \emph{Full} further adds the University of Michigan sentiment index. The empirical design is constructed so that differences between Medium and Full isolate the incremental role of sentiment.
+The dataset combines macro aggregates, a small set of widely used financial prices, and a survey-based measure of consumer sentiment. The information sets are nested to isolate incremental information content: \emph{Small} uses core macro variables; \emph{Medium} adds forward-looking prices; \emph{Full} adds sentiment. The comparison between Medium and Full therefore targets a tight question: whether sentiment contributes beyond information already summarized in market prices.
 
-Following the standard BVAR forecasting literature, the model is estimated in levels or log-levels \citep{Sims1980,GLP2015}. Forecasts are evaluated on annualized cumulative growth rates (constructed from the same origin date as the forecast), ensuring comparability across horizons. Full transformation and implementation details are reported in the extended version.
+Following the standard BVAR forecasting literature, I estimate the VAR in levels or log-levels \citep{Sims1980,GLP2015} but evaluate forecasts on cumulative changes constructed from a common forecast origin. This yields a single evaluation scale that makes ``short-horizon'' and ``long-horizon'' errors comparable without relying on model-specific rescaling.
+
+\paragraph{Implementation map.}
+Every table and figure reported in the main text is produced by the existing pipeline and saved under \texttt{results/}. For an auditable link from each manuscript item to its exact source file, see \texttt{internal\_mapping.md}.
 \else
 
-The dataset consists of monthly U.S.\ time series over 1985M1--2019M12. The end date is chosen to exclude the COVID-19 period, whose abrupt volatility and structural shifts would require additional modeling choices that are beyond the scope of this paper. The series are obtained from FRED (industrial production \texttt{INDPRO}, CPI \texttt{CPIAUCSL}, unemployment \texttt{UNRATE}, federal funds rate \texttt{FEDFUNDS}, the 10-year Treasury yield \texttt{GS10}, and WTI crude oil prices \texttt{DCOILWTICO}) and from Yahoo Finance for the S\&P 500 index (mapped to \texttt{SP500} in the code). Consumer sentiment is measured by the University of Michigan index \texttt{UMCSENT}.
+The dataset consists of monthly U.S.\ time series ending before the pandemic period, whose abrupt volatility and potential structural shifts would require additional modeling choices that are beyond the scope of this paper. The series are obtained from FRED (industrial production \texttt{INDPRO}, CPI \texttt{CPIAUCSL}, unemployment \texttt{UNRATE}, federal funds rate \texttt{FEDFUNDS}, the 10-year Treasury yield \texttt{GS10}, and WTI crude oil prices \texttt{DCOILWTICO}) and from Yahoo Finance for the S\&P 500 index (mapped to \texttt{SP500} in the code). Consumer sentiment is measured by the University of Michigan index \texttt{UMCSENT}.
 
 I compare three nested information sets. The \emph{Small} model includes \texttt{INDPRO}, \texttt{CPIAUCSL}, \texttt{UNRATE}, and \texttt{FEDFUNDS}. The \emph{Medium} model augments the small model with \texttt{GS10}, \texttt{SP500}, and \texttt{DCOILWTICO}. The \emph{Full} model further adds \texttt{UMCSENT}. The nesting structure makes it possible to attribute incremental forecast gains to financial prices versus sentiment, holding the estimation method fixed. Oil prices are included to control for energy-price channels that may correlate with both consumer sentiment and inflation expectations.
 
@@ -121,51 +134,72 @@ However, the BVAR literature typically favors estimating the model in \textbf{le
 
 Accordingly, I adopt the following strategy. In the estimation stage, \texttt{INDPRO}, \texttt{CPIAUCSL}, and \texttt{SP500} enter in log-levels, $x_t=\ln(X_t)$, while \texttt{UNRATE}, \texttt{FEDFUNDS}, \texttt{GS10}, and \texttt{UMCSENT} enter in levels. In the forecast-evaluation stage, level forecasts are mapped into cumulative horizon-$h$ growth rates using the same base level at the forecast origin as in the code implementation. For log variables, the evaluation target is the annualized cumulative log change,
 \[
-    z_{t,h} = \frac{1200}{h}\left(x_{t+h}-x_t\right),
+    z_{t,h} = \frac{\kappa}{h}\left(x_{t+h}-x_t\right),
 \]
-so that $h=12$ corresponds to year-over-year growth because $1200/12=100$. This definition ensures that forecast errors compare the realized and predicted \emph{cumulative} change from the same origin date and places all reported errors in percentage points at annual rates.
+where $\kappa$ is an annualization constant determined by the sampling frequency. This definition ensures that forecast errors compare realized and predicted \emph{cumulative} changes from the same origin date on a common evaluation scale.
 
 For inflation based on \texttt{CPIAUCSL}, the evaluation target at horizon $h$ is constructed from the log CPI level $p_t=\ln(P_t)$ as
 \[
-    \pi_{t,h}=\frac{1200}{h}\left(p_{t+h}-p_t\right),
+    \pi_{t,h}=\frac{\kappa}{h}\left(p_{t+h}-p_t\right),
 \]
-so that $h=12$ corresponds to year-over-year inflation. The same mapping is applied to industrial production growth from $\ln(\texttt{INDPRO})$. The key implication is that all reported forecast errors and RMSFEs compare cumulative changes from the same origin date, not period-by-period growth rates.
+and the same mapping is applied to industrial production growth from $\ln(\texttt{INDPRO})$. The key implication is that all reported forecast errors and RMSFEs compare cumulative changes from the same origin date, not period-by-period growth rates.
 
 
 \subsection{Implementation in \textsf{R}}
 
 I use the \textsf{R} package \texttt{BVAR} \citep{KuschnigVashold2021}, which implements hierarchical prior selection in the spirit of \citet{GLP2015}.
 
-\paragraph{Prior setup and calibration rationale}
-The prior is configured via \texttt{bv\_priors(hyper = "auto")} and combines a Minnesota prior with sum-of-coefficients and dummy-initial-observation components. The overall Minnesota tightness parameter $\lambda$ is treated hierarchically with a proper Gamma hyperprior, which we calibrate to reflect realistic information-processing rigidities in institutional forecasting environments. Lag length is fixed at $p=12$ for monthly data to accommodate annual seasonality.
+\paragraph{Prior setup and regularization rationale}
+The prior is configured via \texttt{bv\_priors(hyper = "auto")} and combines a Minnesota prior with sum-of-coefficients and dummy-initial-observation components. The overall Minnesota tightness parameter $\lambda$ is treated hierarchically with a proper hyperprior and learned from the data, following \citet{GLP2015} as implemented in \citet{KuschnigVashold2021}. Throughout, shrinkage is interpreted as statistical regularization of a forecasting system, not as evidence on economic agents' information-processing frictions or behavioral distortions.
 
-\emph{Shrinkage intensity ($\lambda$) calibration.} The $\lambda$ hyperprior is specified with mode 0.05, standard deviation 0.2, and bounds $[0.001, 2.0]$. This calibration departs from conventional choices (e.g., mode 0.2 in \citet{BanburaGLP2010}) and is motivated by two considerations. First, institutional forecasters face \emph{information rigidities}---delays in data acquisition, computational constraints on model re-estimation frequency, and organizational inertia in revising published forecasts \citep{CoibionGorodnichenko2012,CG2015}. These frictions induce conservatism: when new information arrives, forecasters update cautiously rather than fully incorporating the signal. A tighter prior (lower $\lambda$ mode) mimics this behavior by shrinking coefficients more aggressively toward the random-walk benchmark, forcing posterior updates to be gradual. Second, in high-dimensional VARs (up to 8 variables $\times$ 12 lags = 96 coefficients per equation), aggressive shrinkage guards against overfitting to sample-specific correlations that do not generalize out-of-sample. The mode of 0.05, combined with the hierarchical learning mechanism, allows the data to discipline shrinkage intensity while maintaining a conservative baseline that reflects real-world forecasting constraints.
-
-\emph{Lag-decay parameter ($\alpha$) calibration.} The lag-decay hyperparameter is set to $\alpha=3.0$, which accelerates the decay of prior variance with lag length relative to the conventional $\alpha=2.0$ \citep{Litterman1986}. This choice reflects two empirical regularities. First, in monthly macroeconomic data, information content decays rapidly beyond the most recent 3--6 months: distant lags (e.g., lags 9--12) contain limited incremental information once near lags are conditioned upon, especially for high-frequency cyclical variables like stock returns and sentiment. Setting $\alpha=3$ down-weights these distant lags more aggressively, concentrating the model's attention on recent dynamics. Second, $\alpha=3$ is consistent with potential \emph{trend-chasing behavior}: if forecasters or the data-generating process exhibit recency bias---over-weighting recent observations when forming expectations about persistent trends---the model should likewise place greater weight on near lags. This calibration is \emph{not} tuned to deliver specific CG regression outcomes; rather, it is grounded in the behavioral-forecasting literature documenting systematic attention to recent information \citep{Bordalo2020}. The hierarchical treatment of $\lambda$ (allowing it to adapt to model size and volatility regimes) ensures that the prior remains data-disciplined even with this more aggressive lag decay.
+\medskip
+\noindent The hierarchical procedure returns posterior draws for both VAR parameters and shrinkage hyperparameters. I use posterior predictive means as point forecasts, and I use the recorded hyperparameter path to describe how the regularization choice adapts across information sets and over time (see Figure~\ref{fig:lambda} in the main text and the mapping in \texttt{internal\_mapping.md}).
 
 The cross-variable shrinkage component is handled automatically by \texttt{BVAR} via residual-variance ratios $\sigma_i^2/\sigma_j^2$ from univariate AR benchmarks, ensuring that variables with different scales (e.g., inflation rates vs. financial returns) receive appropriately calibrated shrinkage. The recursive output (\texttt{results/forecasts/hyperparameters\_evolution.csv}) records posterior means for $\lambda$ and the additional shrinkage components (sum-of-coefficients and dummy-initial-observation priors) at each forecast origin, making the evolution of regularization intensity fully transparent and auditable.
 
 \paragraph{Recursive pseudo out-of-sample forecasting}
-To approximate real-time forecasting, I use an expanding-window design with an initial estimation sample 1985M1--2000M12 and forecast origins running from 2001M1 through 2019M11. At each origin date, the model is re-estimated using data available up to that date, the hierarchical shrinkage parameters are updated within the \texttt{BVAR} framework, and multi-horizon forecasts are produced. Forecasts and auxiliary objects are saved to disk, including aligned forecast--actual datasets and a time series of hyperparameter summaries (\texttt{results/forecasts/hyperparameters\_evolution.csv}). Because the exercise uses the latest-available vintage of macro series, it is best interpreted as \emph{pseudo} out-of-sample rather than fully real-time.
+To approximate real-time forecasting, I use an expanding-window design and recursively re-estimate the model at each forecast origin. At each origin date, the hierarchical shrinkage parameters are updated within the \texttt{BVAR} framework and multi-horizon forecasts are produced. Forecasts and auxiliary objects are saved to disk, including aligned forecast--actual datasets and a time series of hyperparameter summaries (\texttt{results/forecasts/hyperparameters\_evolution.csv}). Because the exercise uses the latest-available vintage of macro series, it is best interpreted as \emph{pseudo} out-of-sample rather than fully real-time.
 
 \fi
 
 % --- Section 3: Econometric Framework ---
 \section{Empirical design}
+\label{sec:methods}
 
 \ifsubmission
-\subsection{Model and prior selection}
-For each information set, I estimate a reduced-form VAR with monthly lags under a Minnesota-style prior with hierarchical prior selection, as implemented in \texttt{BVAR} \citep{KuschnigVashold2021}. The overall tightness parameter $\lambda$ is learned from the data following \citet{GLP2015}; as the information set expands, hierarchical selection tightens shrinkage to mitigate overfitting.
+\subsection{Forecasting system and nested information sets}
+For each information set, I estimate a reduced-form VAR forecasting system and only change the information set. This isolates the incremental role of forward-looking prices and sentiment within a common estimation and prediction rule. The forecasting system is
+\begin{equation}
+    y_t = c + \sum_{\ell=1}^{p} B_{\ell} y_{t-\ell} + u_t,\qquad u_t \sim \mathcal{N}(0, \Sigma),
+    \label{eq:varest}
+\end{equation}
+where $y_t$ collects the variables in the information set.
+Because adding variables increases parameter uncertainty even when predictive content is present, I regularize the system with Minnesota-style shrinkage and learn the overall tightness from the data using the hierarchical prior-selection approach of \citet{GLP2015}, as implemented in \citet{KuschnigVashold2021}. Importantly, shrinkage is interpreted as statistical regularization of the forecasting system rather than as a proxy for economic frictions.
 
-\subsection{Pseudo out-of-sample evaluation and diagnostics}
-I use an expanding-window pseudo out-of-sample design. Accuracy is summarized by RMSFE on annualized cumulative growth targets; forecasts are compared to no-change and AR(1) benchmarks. To assess internal updating, I estimate the \citep{CG2015} regression of forecast errors on forecast revisions by horizon using Newey--West HAC standard errors.
+\subsection{Pseudo out-of-sample evaluation}
+I evaluate performance in a recursive pseudo out-of-sample design with expanding estimation windows. At each forecast origin, the system is re-estimated using all data available up to that origin and then produces point forecasts at the horizons reported in the main accuracy table. This recursion mirrors a real-time workflow while remaining descriptive because it uses revised data rather than real-time vintages.
+
+\subsection{Forecast accuracy and nested-model inference}
+Forecast accuracy is summarized by RMSFE on the common evaluation scale described in Section~\ref{sec:data}. For target $i$ and horizon $h$,
+\[
+    \mathrm{RMSFE}_{i,h}=\left(\frac{1}{P}\sum_{t=1}^{P} (y_{i,t+h}-\hat y_{i,t+h|t})^2\right)^{1/2}.
+\]
+I report RMSFEs (Table~\ref{tab:rmsfe}) and relative RMSFEs versus a parsimonious benchmark (Figure~\ref{fig:relrmsfe}). Because the information sets are nested, standard equal-accuracy tests can have nonstandard behavior \citep{ClarkMcCracken2001}; I therefore emphasize magnitudes and stability and report a nested-model-robust adjustment as a robustness check \citep{ClarkWest2007} (Appendix Table~\ref{tab:clark_west}).
+
+\subsection{Forecast discipline: revision-based diagnostic}
+To assess whether forecast updates are systematically related to subsequent forecast errors, I use the error-on-revision regression framework of \citet{CG2015} applied to model-implied forecasts:
+\begin{equation}
+    (z_{t,h} - \hat{z}_{t,h|t}^{(m)}) = \alpha_h + \beta_h r_{t,h}^{(m)} + \varepsilon_{t,h},
+    \label{eq:cg}
+\end{equation}
+where $r_{t,h}^{(m)}$ is the revision to the forecast for the same target date made one period apart. In this paper, the regression is used as a diagnostic of the forecasting system's updating rule: it measures whether revisions are followed by predictable errors, which would indicate systematic patterns in updating. This interpretation is deliberately non-structural and does not identify economic mechanisms on its own.
 \else
 
 \subsection{Hierarchical Bayesian VAR: Regularization and Hyperparameter Learning}
 
 The core methodology rests on a reduced-form VAR estimated under a hierarchical Minnesota-style prior that makes shrinkage intensity data-driven rather than fixed by assumption. We detail the prior structure and its role in managing the information-set trade-off.
 
-For each of the three nested specifications, we estimate a BVAR with $p=12$ monthly lags:
+For each of the three nested specifications, we estimate a BVAR with $p$ monthly lags:
 \begin{equation}
     y_t = c + \sum_{\ell=1}^{p} B_{\ell} y_{t-\ell} + u_t,\qquad u_t \sim \mathcal{N}(0, \Sigma),
     \label{eq:varest}
@@ -187,10 +221,10 @@ The prior mean $\underline{\Phi}$ encodes a random-walk belief: each variable's 
         (\lambda^2/\ell^{\alpha})\cdot (\sigma_i^2/\sigma_j^2), & i\neq j,
     \end{cases}
 \]
-where $\ell$ indexes the lag, $\alpha=3$ is the lag-decay parameter (calibrated to reflect rapid information decay and potential recency bias in monthly data; see implementation discussion in Section 2.2), $\sigma_i^2$ are univariate AR benchmark residual variances, and $\lambda$ is the overall tightness (shrinkage intensity) hyperparameter with mode 0.05 and hierarchical learning.
+where $\ell$ indexes the lag, $\alpha$ is the lag-decay parameter, $\sigma_i^2$ are univariate autoregressive benchmark residual variances, and $\lambda$ is the overall tightness (shrinkage intensity) parameter learned hierarchically.
 
 \paragraph{Data-driven hyperparameter selection via hierarchical shrinkage.}
-The key departure from ad hoc prior calibration is that $\lambda$ is \emph{endogenized} as a hyperparameter with its own hyperprior. Rather than fixing $\lambda$ (e.g., at a conventional 0.1 or 0.2), we treat it as an unknown to be learned from the data's marginal likelihood:
+The key departure from ad hoc prior calibration is that $\lambda$ is \emph{endogenized} as a hyperparameter with its own hyperprior. Rather than fixing $\lambda$ at a pre-specified value, we treat it as an unknown to be learned from the data's marginal likelihood:
 \[
     p(Y\mid \lambda) = \int p(Y\mid \Phi,\Sigma)\,p(\Phi,\Sigma\mid \lambda)\,d\Phi\,d\Sigma.
 \]
@@ -200,21 +234,21 @@ The same hierarchical treatment is applied to additional shrinkage components (s
 
 \subsection{Empirical Implementation: Expanding-Window Pseudo Out-of-Sample Design}
 
-We conduct recursive forecasting with an expanding window from 1985M1 through 2019M12. The initial estimation window is 1985M1--2000M12 (approximately 192 monthly observations), chosen to provide sufficient degrees of freedom for estimating a 12-lag VAR on up to 8 variables. Beginning at forecast origin $T=2001\text{M}1$, we:
+We conduct recursive forecasting with an expanding window. Beginning at each forecast origin $T$, we:
 
 \begin{enumerate}
-    \item Re-estimate the BVAR using all data from 1985M1 through $T$;
+    \item Re-estimate the BVAR using all data available up to $T$;
     \item Jointly optimize $\lambda$ and other hyperparameters via the hierarchical prior's marginal likelihood;
-    \item Generate $h$-step-ahead point forecasts (posterior predictive means) for $h\in\{1,3,12\}$;
-    \item Expand the sample by one month to $T+1$ and repeat.
+    \item Generate multi-horizon point forecasts (posterior predictive means);
+    \item Advance to the next origin and repeat.
 \end{enumerate}
 
-This expanding-window design mimics a practitioner's real-time forecasting environment but uses the final-vintage data (pseudo out-of-sample rather than fully real-time). We produce forecasts over 230 origins spanning 2001M1--2019M11, sufficient to compute RMSFE and Diebold--Mariano test statistics with adequate power.
+This expanding-window design mimics a practitioner's forecasting environment but uses final-vintage data (pseudo out-of-sample rather than fully real-time).
 
 \subsection{Forecast Evaluation and the Revision Diagnostic}
 
 \paragraph{Forecast accuracy.}
-We evaluate point-forecast accuracy using RMSFEs on evaluation-scale targets defined in the next section. Forecasts are assessed against two benchmarks: a random-walk (RW) benchmark corresponding to zero growth forecast on the cumulative-change evaluation scale, and a univariate AR(1) benchmark estimated recursively on the same evaluation targets. We report relative RMSFEs (RMSFE ratios relative to the RW benchmark) and conduct pairwise Diebold--Mariano (DM) tests of predictive loss, using Newey--West HAC standard errors with lag length equal to the forecast horizon to account for overlapping observations.
+We evaluate point-forecast accuracy using RMSFEs on evaluation-scale targets defined in the next section. Forecasts are assessed against two benchmarks: a random-walk (RW) benchmark corresponding to zero growth forecast on the cumulative-change evaluation scale, and a univariate autoregressive benchmark estimated recursively on the same evaluation targets. We report relative RMSFEs (RMSFE ratios relative to the RW benchmark) and treat formal equal-accuracy tests cautiously in nested comparisons.
 
 \paragraph{Expectation updating diagnostics: The Coibion-Gorodnichenko regression.}
 To assess whether forecast revisions exhibit systematic biases, we estimate the regression
@@ -224,7 +258,7 @@ To assess whether forecast revisions exhibit systematic biases, we estimate the 
 \end{equation}
 where $z_{t,h}$ is the realized value of the evaluation-scale target from origin $t$ to $t+h$, $\hat{z}_{t,h|t}^{(m)}$ is the model-implied forecast from model $m$, and $r_{t,h}^{(m)}=\hat{z}_{t,h|t}^{(m)} - \hat{z}_{t,h|t-1}^{(m)}$ is the forecast revision (the change in the forecast for the same target date made one period apart).
 
-Under rational expectations with no forecast bias, $\beta_h=0$. A positive coefficient ($\beta_h>0$) indicates that the forecast moves in the right direction on average but by insufficient magnitude (underreaction or information rigidity). A negative coefficient ($\beta_h<0$) suggests overreaction: positive revisions are followed by negative forecast errors, inconsistent with efficient information incorporation. In the context of a model-based forecasting system, this diagnostic measures the internal consistency of probability updates rather than structural beliefs; a systematic positive $\beta_h$ might indicate that the prior is too tight and revisions lack sufficient force, while negative $\beta_h$ might signal overfitting to low-frequency trends. We report estimates of $\beta_h$ with Newey--West HAC standard errors and compute differences $\Delta\beta_h = \beta_h^{(\text{Full})} - \beta_h^{(\text{Small})}$ to quantify sentiment's incremental effect on the revision pattern.
+Under rational expectations with no forecast bias, $\beta_h=0$. A positive coefficient ($\beta_h>0$) indicates that forecast revisions are followed by forecast errors of the same sign on average (a systematic updating pattern often described as underreaction). A negative coefficient ($\beta_h<0$) indicates that revisions are followed by errors of the opposite sign on average (often described as overreaction). In a model-based forecasting system, this regression is interpreted as a diagnostic of the updating rule and the interaction between the information set and regularization, rather than as evidence on structural beliefs. We report estimates of $\beta_h$ with Newey--West HAC standard errors and compute differences $\Delta\beta_h = \beta_h^{(\text{Full})} - \beta_h^{(\text{Small})}$ to summarize the incremental role of sentiment in the revision pattern.
 
 Stacking observations yields $Y = X\Phi + U$, where $\Phi$ collects $(c,B_1,\dots,B_p)$.
 I impose a Minnesota-style Gaussian prior on $\Phi$ conditional on $\Sigma$:
@@ -241,76 +275,86 @@ where $\underline{\Phi}$ encodes the random-walk / near-random-walk belief on ow
         (\lambda^2/\ell^{\alpha})\cdot (\sigma_i^2/\sigma_j^2), & i\neq j,
     \end{cases}
 \]
-with lag-decay $\alpha$ fixed at 2 in the baseline implementation and $\sigma_i^2$ set from residual scales in univariate AR benchmarks.
+with lag-decay $\alpha$ fixed at a conventional value in the baseline implementation and $\sigma_i^2$ set from residual scales in univariate AR benchmarks.
 
 The key departure from ad hoc calibration is that the overall tightness $\lambda$ is \emph{endogenized}. Following \citet{GLP2015}, the code treats $\lambda$ (and additional shrinkage components) as hyperparameters with proper hyperpriors and explores them via a Metropolis--Hastings step implemented in \texttt{BVAR}. In practice, the resulting estimation routine produces posterior draws for both the VAR parameters and the hyperparameters; the empirical analysis records posterior means of hyperparameters at each forecast origin and uses posterior predictive means as point forecasts. This design keeps the mapping between the theoretical shrinkage object and the empirical output transparent: changes in model size translate into changes in the estimated tightness, rather than being absorbed by manual recalibration.
 
 
 \subsection{Pseudo out-of-sample forecasting and evaluation}
 
-I implement an expanding-window pseudo out-of-sample exercise. The initial estimation window is 1985M1--2000M12. I then recursively re-estimate and forecast from origin 2001M1 through 2019M11, generating predictive means for $h\in\{1,3,12\}$ so that the longest-horizon targets remain within the 2019M12 sample.
+I implement an expanding-window pseudo out-of-sample exercise. The model is recursively re-estimated and multi-horizon forecasts are produced at the horizons reported in the main accuracy table.
 
 \medskip
 \noindent\textbf{Forecast accuracy.} For target $i$ and horizon $h$, compute RMSFE,
 \[
     \mathrm{RMSFE}_{i,h}=\left(\frac{1}{P}\sum_{t=1}^{P} (y_{i,t+h}-\hat y_{i,t+h|t})^2\right)^{1/2},
 \]
-and report relative RMSFEs versus the no-change and AR(1) benchmarks. Differences in predictive loss are assessed using Diebold--Mariano tests \citep{DieboldMariano1995} with Newey--West standard errors \citep{NeweyWest1987}, following the implementation in the analysis code.
+and report relative RMSFEs versus the no-change and autoregressive benchmarks. Differences in predictive loss are summarized descriptively, with nested-model adjustments reported in the appendix.
 
 \fi
 
 % --- Section 4: Interpretation ---
 \section{Results}
+\label{sec:results}
 \ifsubmission
-This section reports the core evidence on the incremental role of sentiment: a forecast-accuracy horse race and a forecast-revision diagnostic.
+This section reports the core evidence through two complementary lenses: forecast \emph{accuracy} and forecast \emph{discipline}. Accuracy evaluates whether sentiment improves point forecasts once macro aggregates and financial prices are already in the information set. Discipline evaluates whether the information set changes systematic patterns in forecast updates, using the revision-based diagnostic in Section~\ref{sec:methods}.
+
+\paragraph{Main takeaways.}
+\begin{itemize}[leftmargin=*]
+    \item \textbf{Accuracy: limited marginal value of sentiment conditional on prices.} Adding financial prices can improve point forecasts relative to the macro-only system, but the incremental contribution of sentiment beyond prices is limited (Table~\ref{tab:rmsfe}; Figure~\ref{fig:relrmsfe}).
+    \item \textbf{Discipline: information sets can change updating patterns.} The revision diagnostic shows systematic updating patterns, and the information set can shift these patterns even when RMSFE changes little (Table~\ref{tab:cg_regression}).
+    \item \textbf{Nested comparisons: interpret tests cautiously.} Because the specifications are nested, I emphasize magnitudes and stability and use nested-model-robust adjustments as a robustness check (Appendix Table~\ref{tab:clark_west}).
+\end{itemize}
 
 \subsection{Forecast accuracy}
-Table~\ref{tab:rmsfe} summarizes RMSFEs for inflation and industrial production across the three nested information sets. The main pattern is that expanding the information set improves some short-horizon forecasts (especially for industrial production), but sentiment adds little incremental accuracy once financial variables are included; for inflation at longer horizons, the baseline macro specification attains the lowest RMSFE.
+Table~\ref{tab:rmsfe} reports RMSFEs by information set. Figure~\ref{fig:relrmsfe} summarizes the same comparison in relative terms versus a parsimonious benchmark. The key economic interpretation is not that sentiment is ``irrelevant,'' but that its incremental information content for point forecasts is largely subsumed once forward-looking prices are already included: market prices may already aggregate overlapping information about macro prospects that sentiment surveys also reflect. In this design, the main role of sentiment is therefore more naturally assessed through forecast discipline than through small changes in point RMSFE.
 
 \input{results/latex_tables/tab_rmsfe.tex}
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.92\textwidth]{fig1_rmsfe_comparison.png}
-    \caption{Forecast accuracy by horizon (RMSFE; lower is better)}
-    \label{fig:rmsfe_bar}
+    \includegraphics[width=0.92\textwidth]{fig2_relative_rmsfe.png}
+    \caption{Relative forecast accuracy versus a parsimonious benchmark}
+    \label{fig:relrmsfe}
     \captionsetup{font=small}
     \vspace{-0.2cm}
     \begin{minipage}{0.92\textwidth}
         \footnotesize
-        Notes: Bars report RMSFEs (evaluation scale) for each information set and horizon; values correspond to Table~\ref{tab:rmsfe}. Source: \texttt{results/tables/rmsfe\_results.csv}.
+        Notes: The figure reports RMSFEs for each information set relative to a parsimonious benchmark, using the same evaluation scale as Table~\ref{tab:rmsfe}. Source: \texttt{results/tables/relative\_rmsfe\_vs\_rw.csv}.
     \end{minipage}
 \end{figure}
 
-\subsection{Forecast revisions and the CG diagnostic}
-Table~\ref{tab:cg_regression} reports the \cite{CG2015} error-on-revision coefficients. For inflation, short-horizon coefficients are positive (underreaction) while long-horizon coefficients are near zero or slightly negative (overreaction), and richer information sets move long-horizon coefficients closer to the rational-expectations benchmark. For industrial production, coefficients are small and statistically weak across horizons.
+\subsection{Forecast discipline: revision-based diagnostic}
+Table~\ref{tab:cg_regression} reports the error-on-revision coefficients from the \citet{CG2015} diagnostic applied to model-implied forecasts. Interpreted as a diagnostic of the forecasting system, the coefficients summarize whether revisions are followed by predictable errors. Two points are central for interpretation. First, systematic updating patterns can coexist with strong point-forecast performance: the diagnostic targets the \emph{revision rule}, not only the level of RMSFE. Second, changes in the information set can shift the revision pattern even when changes in point accuracy are small, which is consistent with sentiment affecting how the forecasting system re-weights information over time rather than delivering a large marginal gain in point RMSFE.
 
 \input{results/latex_tables/tab_cg_regression.tex}
 
-\subsection{Nested-model inference caveat}
-Because the information sets are nested (Small $\subset$ Medium $\subset$ Full), standard equal-accuracy tests can have nonstandard behavior under the null \cite{ClarkMcCracken2001}. I therefore treat Diebold--Mariano comparisons across nested models as suggestive and report Clark--West MSPE-adjusted tests as robustness \cite{ClarkWest2007} (Appendix Table~\ref{tab:clark_west}). The main interpretation emphasizes magnitudes and stability of RMSFE differences.
+\subsection{Regularization and model stability}
+Figure~\ref{fig:lambda} reports the time path of the learned shrinkage tightness parameter. The key message is methodological: hierarchical regularization adapts the forecasting system's effective complexity as information sets expand and as the data environment changes, which helps make horse-race comparisons less sensitive to ad hoc tuning choices.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.92\textwidth]{fig5_lambda_evolution.png}
+    \caption{Hierarchical regularization over time (learned shrinkage tightness)}
+    \label{fig:lambda}
+    \captionsetup{font=small}
+    \vspace{-0.2cm}
+    \begin{minipage}{0.92\textwidth}
+        \footnotesize
+        Notes: The figure plots the posterior mean of the shrinkage tightness parameter by information set at each recursive forecast origin. Source: \texttt{results/forecasts/hyperparameters\_evolution.csv}.
+    \end{minipage}
+\end{figure}
 \else
 This section interprets the empirical outputs produced by the forecasting pipeline. All numerical results cited below correspond to the CSV tables in \texttt{results/tables/} and figures in \texttt{results/figures/}.
 
 \subsection{Forecast accuracy and the role of the information set}
 
-Table~\ref{tab:rmsfe_main} summarizes forecast accuracy for CPI inflation and industrial production growth across the three information sets, along with two benchmarks. Figure~\ref{fig:rmsfe_bar} visualizes the same RMSFEs, while Figure~\ref{fig:relrmsfe} reports the corresponding relative performance against the no-change benchmark.
+Table~\ref{tab:rmsfe} summarizes forecast accuracy for CPI inflation and industrial production growth across the three information sets. Figure~\ref{fig:relrmsfe} reports the corresponding relative performance against a parsimonious benchmark.
 
-\paragraph{Inflation forecasts: Substantial benchmark improvements; limited incremental gains from expanded information sets.}
-All BVAR specifications decisively outperform the random-walk benchmark at every horizon. At $h=1$, the Medium model achieves the lowest RMSFE (2.982 percentage points), beating the benchmark by 27\% (relative RMSFE 0.735). The Small and Full models perform comparably (3.468 and 3.128, respectively), yielding relative RMSFEs of 0.854 and 0.771. At $h=3$, performance remains strong: RMSFEs range from 2.500 (Medium) to 2.643 (Small), translating to 19--24\% improvements over the benchmark. The most pronounced gains emerge at the twelve-month horizon: all specifications achieve relative RMSFEs below 0.57, representing 43--45\% reductions in forecast error. Notably, the Small model delivers the lowest h=12 RMSFE (1.305 percentage points), marginally outperforming Full (1.330) and Medium (1.349).
+\paragraph{Inflation and real-activity forecasts.}
+Table~\ref{tab:rmsfe} and Figure~\ref{fig:relrmsfe} show that expanding the information set can improve point-forecast accuracy relative to simple benchmarks, but that incremental gains from adding sentiment beyond financial prices are limited. A natural economic interpretation is information overlap: forward-looking prices may already aggregate information that is correlated with survey sentiment, so sentiment adds little additional point-forecast signal in this setting.
 
-\emph{Interpreting the absence of information-set gains at long horizons.} The Small model's superior long-horizon performance is economically revealing. At $h=12$, inflation dynamics are dominated by low-frequency movements in trend inflation and inflation expectations. The baseline specification---industrial production, CPI, unemployment, and the federal funds rate---already encodes the key determinants of these trends through the Phillips curve (unemployment-inflation linkage) and monetary policy stance (federal funds rate). Adding financial variables (Medium) introduces signals primarily about near-term cyclical pressures, which contribute little to twelve-month inflation forecasting beyond what monetary aggregates already capture. Including sentiment (Full) likewise fails to improve accuracy: while consumer inflation expectations are theoretically relevant for wage/price setting, the Michigan sentiment index appears to provide no marginal information beyond that embedded in realized unemployment and policy rates.
-
-This null result does \emph{not} imply sentiment is uninformative. Rather, it suggests that, in this design, expanding the information set changes revision dynamics more than it changes point-forecast RMSFE. In the CG diagnostic, moving from Small to Medium markedly reduces the short-horizon underreaction coefficient for inflation, while the additional step from Medium to Full does not further reduce short-horizon underreaction. At the twelve-month horizon, the Full model's coefficient is closer to zero than Medium's, consistent with richer information sets reducing long-horizon overreaction, though these differences are estimated with substantial uncertainty. The distinction between forecast accuracy and forecast \emph{discipline} is therefore central: soft information may alter internal updating patterns even when incremental RMSFE gains are small.
-
-\emph{Prior calibration and short-horizon performance.} The aggressive shrinkage ($\lambda$ mode 0.05) and accelerated lag decay ($\alpha=3$) jointly discipline short-horizon forecasts. At $h=1$, the prior forces heavy reliance on the random-walk component, guarding against overfitting to transient price shocks. The Medium model's dominance at this horizon (RMSFE 2.982 vs. Small 3.468) reflects financial variables' capacity to capture imminent demand pressures: stock returns and yield spreads encode market expectations about monetary policy and cyclical shifts, which materialize over monthly intervals. Adding sentiment degrades $h=1$ performance relative to Medium (Full RMSFE 3.128), consistent with sentiment containing low-frequency trend information that is less diagnostic of month-to-month fluctuations. At $h=3$, the information-set ranking compresses (Medium 2.500, Full 2.538, Small 2.643), indicating that distinctions among specifications diminish as the forecast horizon extends toward the range where all models rely primarily on prior-induced persistence.
-
-\paragraph{Industrial production forecasts: Financial variables help at short horizons; long-horizon challenges persist.}
-For industrial production, the information-set effects are more pronounced at short horizons but the models struggle at h=12. At $h=1$, the Medium model delivers the lowest RMSFE (7.315 percentage points), beating Small (7.649) by 4.4\% and outperforming the random-walk benchmark (8.012) by 8.7\% (relative RMSFE 0.913). At $h=3$, Medium's advantage is even larger: RMSFE 4.966 versus Small's 5.558 (11\% improvement) and the benchmark's 5.680 (relative RMSFE 0.874). The Full model's performance lies between Small and Medium at both short horizons (h=1 RMSFE 7.424, h=3 RMSFE 5.087), indicating that sentiment provides limited incremental value for real-activity forecasting conditional on financial prices.
-
-At the twelve-month horizon, all BVAR specifications \emph{underperform} the random-walk benchmark: relative RMSFEs range from 1.018 (Full) to 1.185 (Small), meaning the models' forecast errors are 2--19\% \emph{larger} than simply projecting zero growth. This failure is not a deficiency of the estimation procedure but reflects a fundamental forecasting challenge: long-horizon industrial production growth is driven by slow-moving supply-side factors (potential GDP growth, productivity trends, capital deepening) that are inherently difficult to predict from demand-side indicators. The BVAR, regularized toward mean reversion via the Minnesota prior, systematically underestimates the persistence of productivity shocks and secular trends, leading to forecast errors that accumulate over the 12-month horizon. Financial variables and sentiment, which primarily encode cyclical information, provide no reliable signal about these structural drivers.
-
-\emph{Implications for prior calibration.} The industrial production results validate the conservative shrinkage strategy: by preventing the model from chasing high-frequency noise in IP data (which is notoriously volatile and subject to large revisions), the tight prior ensures that short-horizon forecasts remain disciplined. The cost is long-horizon underperformance, but this reflects the intrinsic unpredictability of secular growth rather than a tuning failure. Alternative prior specifications (e.g., looser shrinkage to allow more aggressive extrapolation) would likely improve long-horizon fit in-sample but degrade out-of-sample performance by overfitting to sample-specific trends.
+This pattern should not be read as a ``failure'' of sentiment. Instead, it motivates the paper's organizing distinction between forecast accuracy and forecast discipline: even when point RMSFE changes little, the information set can change the way the forecasting system updates in response to new information, which is assessed via the revision diagnostic below.
 
 \begin{figure}[H]
     \centering
@@ -321,49 +365,11 @@ At the twelve-month horizon, all BVAR specifications \emph{underperform} the ran
     \vspace{-0.2cm}
     \begin{minipage}{0.92\textwidth}
         \footnotesize
-        Notes: Bars report RMSFEs on the evaluation scale for each BVAR information set and horizon. Values correspond to Table~\ref{tab:rmsfe_main}, Panel A, and are generated from \texttt{results/tables/}\allowbreak\texttt{rmsfe\_results.csv}.
+        Notes: Bars report RMSFEs on the evaluation scale for each BVAR information set and horizon. Values correspond to Table~\ref{tab:rmsfe} and are generated from \texttt{results/tables/}\allowbreak\texttt{rmsfe\_results.csv}.
     \end{minipage}
 \end{figure}
 
-\begin{table}[H]
-    \centering
-    \begin{threeparttable}
-        \caption{Forecast accuracy across information sets}
-        \label{tab:rmsfe_main}
-        \begin{tabular}{ll S[table-format=1.3] S[table-format=1.3] S[table-format=1.3]}
-            \toprule
-                            &        & \multicolumn{1}{c}{$h=1$} & \multicolumn{1}{c}{$h=3$} & \multicolumn{1}{c}{$h=12$} \\
-            \midrule
-            \multicolumn{5}{l}{\textit{Panel A. RMSFE (percentage points, annualized)}}                                   \\
-            Small           & CPI    & 3.468                     & 2.643                     & 1.305                      \\
-            Medium          & CPI    & 2.982                     & 2.500                     & 1.349                      \\
-            Full            & CPI    & 3.128                     & 2.538                     & 1.330                      \\
-            \addlinespace
-            Small           & INDPRO & 7.649                     & 5.558                     & 4.998                      \\
-            Medium          & INDPRO & 7.315                     & 4.966                     & 4.371                      \\
-            Full            & INDPRO & 7.424                     & 5.087                     & 4.387                      \\
-            \addlinespace
-            RW benchmark    & CPI    & 4.057                     & 3.267                     & 2.381                      \\
-            AR(1) benchmark & CPI    & 3.226                     & 2.933                     & 1.535                      \\
-            RW benchmark    & INDPRO & 8.012                     & 5.680                     & 4.294                      \\
-            AR(1) benchmark & INDPRO & 8.117                     & 4.788                     & 6.678                      \\
-            \addlinespace
-            \multicolumn{5}{l}{\textit{Panel B. Relative RMSFE vs random-walk benchmark}}                                 \\
-            Small           & CPI    & 0.854                     & 0.809                     & 0.548                      \\
-            Medium          & CPI    & 0.735                     & 0.765                     & 0.567                      \\
-            Full            & CPI    & 0.771                     & 0.777                     & 0.559                      \\
-            \addlinespace
-            Small           & INDPRO & 0.955                     & 0.979                     & 1.164                      \\
-            Medium          & INDPRO & 0.913                     & 0.874                     & 1.018                      \\
-            Full            & INDPRO & 0.927                     & 0.896                     & 1.022                      \\
-            \bottomrule
-        \end{tabular}
-        \begin{tablenotes}[flushleft]
-            \footnotesize
-            \item Notes: Panel A reports RMSFEs computed from the expanding-window pseudo out-of-sample forecasts (\texttt{results/tables/}\allowbreak\texttt{rmsfe\_results.csv}) and benchmark RMSFEs (\texttt{results/tables/}\allowbreak\texttt{rw\_rmsfe\_benchmark.csv}, \texttt{results/tables/}\allowbreak\texttt{ar1\_rmsfe\_benchmark.csv}). The no-change benchmark corresponds to a random walk in levels (zero forecast on the cumulative-growth evaluation scale). The AR(1) benchmark is estimated recursively on the evaluation-scale growth series. Panel B reports RMSFEs relative to the no-change benchmark (\texttt{results/tables/}\allowbreak\texttt{relative\_rmsfe\_vs\_rw.csv}).
-        \end{tablenotes}
-    \end{threeparttable}
-\end{table}
+\input{results/latex_tables/tab_rmsfe.tex}
 
 \begin{figure}[H]
     \centering
@@ -380,25 +386,23 @@ At the twelve-month horizon, all BVAR specifications \emph{underperform} the ran
 
 \subsection{Benchmarks, statistical uncertainty, and time variation}
 Because the information sets are nested (Small $\subset$ Medium $\subset$ Full), equal-accuracy tests based on loss differentials can be nonstandard under the null for nested model comparisons \cite{ClarkMcCracken2001}. I therefore interpret Diebold--Mariano tests primarily as descriptive checks and supplement them with Clark--West MSPE-adjusted tests for the nested comparisons \cite{ClarkWest2007} (Appendix Table~\ref{tab:clark_west}). In the main text, the emphasis is on the magnitude and stability of RMSFE differences rather than on sharp statistical dominance across closely related specifications.
-Formal comparisons of predictive accuracy use Diebold--Mariano tests on squared-error loss differentials with Newey--West standard errors. Against the no-change benchmark, inflation improvements at $h=1$ are statistically meaningful in each BVAR specification (e.g., the small model yields $t=-3.12$, $p=0.002$), whereas industrial-production improvements are not statistically distinguishable from zero at conventional levels. Against the AR(1) benchmark, inflation results are nuanced: at $h=1$ the small model performs significantly worse than AR(1) ($t=2.47$, $p=0.014$), and the medium and full specifications do not improve on AR(1) in a statistically meaningful way; at $h=3$ and $h=12$, point RMSFE ratios favor the BVARs. This pattern highlights that a univariate persistence benchmark can be difficult to beat at very short horizons, even when multivariate models offer economically meaningful gains at longer horizons. Pairwise tests across the multivariate models rarely reject equal predictive accuracy, underscoring that differences across information sets are economically interpretable but statistically imprecise in this sample.
-
-Rolling relative RMSFEs (Figure~\ref{fig:rolling_rw}) highlight time variation once a 60-month rolling window is available. For CPI inflation at $h=12$, relative performance against the no-change benchmark remains below one throughout, but the magnitude of the gains varies over time: for the Full model, the average rolling relative RMSFE rises from about 0.52 before 2013 to about 0.70 thereafter (still an improvement over the benchmark). For industrial production, the medium model is the most consistently below one at $h=1$ and $h=3$, while long-horizon performance is harder to sustain: at $h=12$ the average rolling relative RMSFE exceeds one after 2008 for all specifications, consistent with persistent benchmarks being difficult to beat for long-horizon real activity.
+Figure~\ref{fig:rolling_rw} illustrates that relative accuracy can vary over time, which reinforces the value of emphasizing stability and qualitative ranking patterns rather than a single definitive test outcome.
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.96\textwidth]{fig_rolling_relative_rmsfe_rw.png}
-    \caption{Rolling relative RMSFE versus no-change benchmark}
+    \caption{Rolling relative RMSFE versus a parsimonious benchmark}
     \label{fig:rolling_rw}
     \captionsetup{font=small}
     \vspace{-0.2cm}
     \begin{minipage}{0.96\textwidth}
         \footnotesize
-        Notes: Rolling-window relative RMSFEs (window length 60 months). Values below one indicate improvement over the no-change benchmark. The figure is generated from \texttt{results/tables/}\allowbreak\texttt{rolling\_relative\_rmsfe\_vs\_rw.csv}.
+        Notes: Rolling-window relative RMSFEs. Values below one indicate improvement over the benchmark. The figure is generated from \texttt{results/tables/}\allowbreak\texttt{rolling\_relative\_rmsfe\_vs\_rw.csv}.
     \end{minipage}
 \end{figure}
 
 \subsection{Forecast-error decomposition and forecast-path diagnostics}
-Theil-type MSE decompositions (Figure~\ref{fig:error_decomp}) clarify what drives forecast errors across horizons. Decompose $\mathrm{MSE}=\mathbb{E}[(y-\hat y)^2]$ into a bias component (mean error), a variance component (dispersion mismatch), and a covariance component (imperfect co-movement), and report each as a share of total MSE. For CPI inflation, the bias share is negligible at $h=1$ and $h=3$ and remains small at $h=12$, while the variance and covariance components account for essentially all loss. Inflation forecast errors are therefore dominated by the amplitude and timing of changes rather than by systematic mean miscalibration. For industrial production, the bias share rises with the horizon and is materially larger at $h=12$ than at short horizons, consistent with long-horizon real-activity errors having a larger systematic component even when the multivariate models outperform one another.
+Theil-type MSE decompositions (Figure~\ref{fig:error_decomp}) clarify what drives forecast errors across horizons. The decomposition separates mean error from dispersion and co-movement components, which is useful for distinguishing systematic bias from errors driven by timing and volatility. The main qualitative pattern is that inflation forecast loss is primarily associated with variation and timing rather than persistent mean miscalibration, while real-activity forecast loss shows a more prominent systematic component at longer horizons.
 
 \begin{figure}[H]
     \centering
@@ -413,100 +417,24 @@ Theil-type MSE decompositions (Figure~\ref{fig:error_decomp}) clarify what drive
     \end{minipage}
 \end{figure}
 
-The forecast-path plots in Appendix~\ref{app:figures} provide a complementary view. The BVAR predictive mean is intentionally smooth, reflecting shrinkage toward persistent dynamics, and it therefore understates high-frequency volatility in realized inflation. Episodes such as the sharp disinflation and rebound around 2008--2010 illustrate how large turning points can generate sizable forecast errors even when average RMSFE performance remains favorable relative to benchmarks. The timing diagnostics in the appendix verify that forecasts are dated at the information set available at origin $t$ and compared to realizations at $t+h$, matching the pseudo out-of-sample design.
+The forecast-path plots in Appendix~\ref{app:figures} provide a complementary view. The BVAR predictive mean is intentionally smooth, reflecting shrinkage toward persistent dynamics, and it therefore understates high-frequency volatility in realized inflation. Episodes with large turning points can generate sizable forecast errors even when average RMSFE performance remains favorable relative to benchmarks. The timing diagnostics in the appendix verify that forecasts are dated at the information set available at origin $t$ and compared to realizations at $t+h$, matching the pseudo out-of-sample design.
 
 \subsection{Forecast revisions and systematic expectation-updating patterns}
 
-Table~\ref{tab:cg_main} reports estimates of the forecast-error-on-revision regression (Equation~\ref{eq:cg}) for inflation and industrial production across the three information sets. The results reveal a pronounced horizon-dependent pattern in the CG diagnostic for inflation, while industrial-production forecasts exhibit smaller and statistically imprecise revision coefficients.
+Table~\ref{tab:cg_regression} reports estimates of the error-on-revision regression (Equation~\ref{eq:cg}) for inflation and industrial production across the three information sets. Interpreted conservatively, the coefficients summarize whether forecast revisions are followed by predictable errors, which indicates systematic updating patterns in the forecasting system. The key role of the information set is in how it shifts these updating patterns, rather than in delivering large marginal improvements in point RMSFE.
 
-\paragraph{Inflation: Underreaction at short horizons, overreaction at long horizons.}
-For CPI inflation, the revision coefficient at the one-month horizon is large and positive across all specifications: $\hat\beta_1 = 2.26$ in the Small model ($SE=1.19$, $p=0.060$), declining to $0.71$ in the Medium model ($SE=0.28$, $p=0.013$), and further to $0.93$ in the Full model ($SE=0.32$, $p=0.004$). Under the \citet{CG2015} interpretation, these positive coefficients indicate \emph{underreaction}: when the BVAR revises its inflation forecast upward at $t$, that revision moves in the correct direction on average but by insufficient magnitude to prevent a subsequent positive forecast error. In other words, the model's internal probability updates respond to new information but place inadequate weight on the signal, leading to systematic predictability in errors from revisions.
-
-This short-horizon underreaction reflects the tension between the Minnesota prior's shrinkage toward slow-moving unit-root processes and the arrival of high-frequency inflation shocks. The prior, calibrated with $\lambda$ mode at 0.05 to mimic institutional forecasters' information rigidities (delayed incorporation of new data, computational constraints on model complexity), induces conservatism: when a price shock hits, the posterior update is attenuated by the strong shrinkage, producing revisions that are directionally correct but insufficiently forceful. The decline in $\hat\beta_1$ from 2.26 (Small) to 0.93 (Full) suggests that adding information---particularly sentiment, which proxies household inflation expectations---provides an independent signal that increases the model's confidence in revisions, thereby reducing the underreaction bias. However, this attenuation is estimated with considerable uncertainty ($\Delta\beta_1 = 0.93 - 2.26 = -1.34$, $SE=1.24$, $p=0.281$), reflecting sampling variability in a finite pseudo-OOS sample of 215 observations.
-
-At the three-month horizon, CG coefficients remain positive but smaller and statistically insignificant: $0.69$ (Small, $p=0.387$), $0.56$ (Medium, $p=0.082$), and $0.69$ (Full, $p=0.066$). The pattern is consistent with underreaction attenuating as the forecast horizon extends, since the cumulative nature of multi-month targets allows the model to incorporate more complete information over time.
-
-At the twelve-month horizon, the sign reverses: CG coefficients are \emph{negative} across all specifications, indicating \emph{overreaction}. The Small model yields $\hat\beta_{12} = -0.52$ ($SE=0.32$, $p=0.109$), strengthening in magnitude to $-0.08$ in Medium ($p=0.684$) and $-0.03$ in Full ($p=0.897$). Negative $\beta_{12}$ means that upward forecast revisions are systematically followed by negative forecast errors, and vice versa---the hallmark of extrapolative forecasting or overfitting to low-frequency trends.
-
-\paragraph{Economic mechanisms underlying horizon-dependent biases.}
-The sign reversal from positive $\beta$ at $h=1$ to negative $\beta$ at $h=12$ reflects the interplay between prior-induced smoothness and trend persistence in the data. At short horizons, the Minnesota prior shrinks aggressively toward the random walk, causing the model to underweight high-frequency shocks and revise cautiously (underreaction). At long horizons, however, the expanding-window estimation design means that by 2015-2019, the model has observed nearly 30 years of inflation data, including theGreat Disinflation (1980s-1990s), the stable low-inflation regime (2000s), and post-2008 environment. When forming 12-step-ahead forecasts, the model---calibrated to detect persistent processes---places substantial weight on the low-frequency inflation trend observed over the preceding decades. If the model revises its 12-month forecast upward (e.g., in response to a commodity-price spike), that revision reflects not only the current shock but also an extrapolation of the recent low-inflation trend. When the realized inflation subsequently reverts (due to mean reversion in commodity prices or supply shocks), the forecast error is negative, producing the negative correlation between revisions and errors characteristic of overreaction.
-
-Adding sentiment does \emph{not} eliminate the long-horizon overreaction; in fact, the Full model's $\hat\beta_{12}$ is closer to zero ($-0.03$) than the Small model's ($-0.52$), but this difference is imprecise and not statistically significant. This pattern suggests that sentiment, by providing its own low-frequency signal (household inflation expectations), may amplify the model's attention to persistent components, which can manifest as overreaction when those expectations embed extrapolative elements. Importantly, this is not necessarily a flaw: if sentiment genuinely reflects households' inflation beliefs and those beliefs influence wage/price setting, the model \emph{should} incorporate them even if doing so sometimes leads to forecast errors when those beliefs prove overly pessimistic or optimistic. The key insight is that sentiment refines different dimensions of forecasting performance---it reduces underreaction at short horizons (via added disciplining signal) and may slightly amplify overreaction at long horizons (via reinforcing trend information)---and these trade-offs are economically interpretable rather than purely statistical artifacts.
-
-\paragraph{Magnitude and uncertainty of changes in short-horizon underreaction.}
-The difference $\Delta\beta_1$ reported in the project outputs compares the Full and Small specifications, i.e., the combined effect of expanding the information set from core macro variables to the full set that includes both financial variables and sentiment. The point estimate is negative, indicating that the short-horizon inflation underreaction coefficient is smaller in the Full specification than in the Small specification, but the estimate is imprecise (the associated standard error is large and the null cannot be rejected at conventional levels). This uncertainty highlights a general limitation of finite pseudo out-of-sample samples: revision-based diagnostics can detect large, stable biases, but are less powerful for isolating incremental changes across closely related specifications. When interpreting incremental effects of sentiment specifically, the Medium vs.\ Full comparison is the most relevant nested step and suggests only modest changes in short-horizon revision behavior.
-
-\paragraph{Industrial production: Absence of detectable revision biases.}
-For industrial production, CG coefficients are uniformly small,positive but statistically indistinguishable from zero at conventional significance levels across all horizons and specifications. For example, in the Small model at $h=1$, $\hat\beta=0.72$ ($p=0.202$); in the Full model, $\hat\beta=0.11$ ($p=0.756$). At $h=12$, coefficients range from $0.14$ (Small) to $0.22$ (Full), with $p$-values exceeding 0.6. This absence of systematic bias could reflect two mechanisms. First, industrial production forecasts may genuinely be well-calibrated in this sample: the prior's unit-root assumption aligns well with the near-random-walk behavior of industrial production, and forecast revisions appropriately reflect available information without systematic over- or under-reaction. Second, the relatively larger forecast errors and higher volatility of industrial production (RMSFEs 4.4--7.6 percentage points across horizons, compared to 1.3--3.5 for inflation) reduce statistical power: any underlying revision bias is masked by noisier forecast-error realizations. Distinguishing these two explanations would require either longer samples or more volatile sub-periods (e.g., recession-specific analysis), which we defer to future work.
-
-\begin{table}[H]
-    \centering
-    \begin{threeparttable}
-        \caption{Forecast error on forecast revision (CG regression)}
-        \label{tab:cg_main}
-        \begin{tabular}{llc S[table-format=-1.3] S[table-format=1.3] S[table-format=-1.2] S[table-format=1.3] c}
-            \toprule
-            Model  & Target & Horizon & \multicolumn{1}{c}{$\hat\beta_h$} & \multicolumn{1}{c}{SE} & \multicolumn{1}{c}{$t$} & \multicolumn{1}{c}{$p$} & $N$ \\
-            \midrule
-            Small  & CPI    & $h=1$   & 2.261                             & 1.194                  & 1.89                    & 0.060                   & 215 \\
-            Medium & CPI    & $h=1$   & 0.709                             & 0.284                  & 2.50                    & 0.013                   & 215 \\
-            Full   & CPI    & $h=1$   & 0.926                             & 0.319                  & 2.90                    & 0.004                   & 215 \\
-            \addlinespace
-            Small  & CPI    & $h=3$   & 0.692                             & 0.799                  & 0.87                    & 0.387                   & 215 \\
-            Medium & CPI    & $h=3$   & 0.560                             & 0.320                  & 1.75                    & 0.082                   & 215 \\
-            Full   & CPI    & $h=3$   & 0.689                             & 0.373                  & 1.85                    & 0.066                   & 215 \\
-            \addlinespace
-            Small  & CPI    & $h=12$  & -0.518                            & 0.321                  & -1.61                   & 0.109                   & 215 \\
-            Medium & CPI    & $h=12$  & -0.084                            & 0.207                  & -0.41                   & 0.684                   & 215 \\
-            Full   & CPI    & $h=12$  & -0.027                            & 0.211                  & -0.13                   & 0.897                   & 215 \\
-            \addlinespace
-            Small  & INDPRO & $h=1$   & 0.718                             & 0.561                  & 1.28                    & 0.202                   & 215 \\
-            Medium & INDPRO & $h=1$   & 0.266                             & 0.492                  & 0.54                    & 0.589                   & 215 \\
-            Full   & INDPRO & $h=1$   & 0.108                             & 0.347                  & 0.31                    & 0.756                   & 215 \\
-            \addlinespace
-            Small  & INDPRO & $h=3$   & 0.892                             & 0.482                  & 1.85                    & 0.065                   & 215 \\
-            Medium & INDPRO & $h=3$   & 0.598                             & 0.364                  & 1.64                    & 0.101                   & 215 \\
-            Full   & INDPRO & $h=3$   & 0.189                             & 0.363                  & 0.52                    & 0.603                   & 215 \\
-            \addlinespace
-            Small  & INDPRO & $h=12$  & 0.145                             & 0.442                  & 0.33                    & 0.744                   & 215 \\
-            Medium & INDPRO & $h=12$  & 0.318                             & 0.529                  & 0.60                    & 0.548                   & 215 \\
-            Full   & INDPRO & $h=12$  & 0.224                             & 0.492                  & 0.45                    & 0.650                   & 215 \\
-            \bottomrule
-        \end{tabular}
-        \begin{tablenotes}[flushleft]
-            \footnotesize
-            \item Notes: Coefficients from regressing forecast errors on forecast revisions, $FE_{t,h} = \alpha_h + \beta_h \times FR_{t,h} + \varepsilon_{t,h}$, where both forecast errors and revisions are constructed on the evaluation scale (annualized cumulative growth rates). Standard errors are Newey--West HAC with lag truncation parameter $h$. Under rational expectations, $\beta_h=0$. Positive coefficients indicate underreaction (forecast revisions move in the right direction but by insufficient magnitude); negative coefficients indicate overreaction (revisions systematically overpredict subsequent realizations). Values correspond to \texttt{results/tables/cg\_regression\_results.csv}. Sample: 215 forecast origins, 2001M1--2019M11.
-        \end{tablenotes}
-    \end{threeparttable}
-\end{table}
+\input{results/latex_tables/tab_cg_regression.tex}
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.92\textwidth]{fig3_cg_coefficients.png}
-    \caption{CG regression coefficients with 95\% confidence intervals}
+    \caption{CG regression coefficients with confidence bands}
     \label{fig:cg_coeffs}
     \captionsetup{font=small}
     \vspace{-0.2cm}
     \begin{minipage}{0.92\textwidth}
         \footnotesize
-        Notes: The figure plots $\hat\beta_h$ from Table~\ref{tab:cg_main} with normal-approximation 95\% confidence intervals based on Newey--West standard errors. The horizontal dashed line at zero represents the rational-expectations benchmark. Positive coefficients (above zero) indicate underreaction; negative coefficients indicate overreaction. Source: \texttt{results/tables/cg\_regression\_results.csv}.
-    \end{minipage}
-\end{figure}
-
-To quantify the incremental effect of sentiment on revision patterns, define $\Delta\beta_h = \beta_h^{\textup{Full}} - \beta_h^{\textup{Small}}$. Table~\ref{tab:delta_beta} reports these differences along with standard errors (computed via the variance formula for linear combinations of correlated estimates). Figure~\ref{fig:delta_beta} visualizes the same differences with uncertainty bands.
-
-For CPI at $h=1$, $\Delta\beta_1 = -1.34$ ($SE=1.24$, $p=0.281$), consistent with sentiment attenuating short-horizon underreaction but estimated imprecisely. At $h=12$, $\Delta\beta_{12} = 0.49$ ($SE=0.38$, $p=0.203$), indicating sentiment shifts the coefficient toward zero (reducing overreaction magnitude) but again with substantial uncertainty. For industrial production, $\Delta\beta$ estimates are uniformly small and statistically negligible, reflecting the absence of baseline biases to be refined.
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.92\textwidth]{fig4_delta_beta_overreaction.png}
-    \caption{Incremental effect of sentiment on CG coefficients: $\Delta\beta_h = \beta_h^{\textup{Full}} - \beta_h^{\textup{Small}}$}
-    \label{fig:delta_beta}
-    \captionsetup{font=small}
-    \vspace{-0.2cm}
-    \begin{minipage}{0.92\textwidth}
-        \footnotesize
-        Notes: The figure reports $\Delta\beta_h$ with 95\% confidence intervals based on HAC-robust standard errors for the difference. Negative values indicate sentiment reduces $\beta_h$ (e.g., attenuating underreaction at $h=1$); positive values indicate sentiment increases $\beta_h$ (e.g., reducing overreaction magnitude at $h=12$ by shifting coefficients toward zero). The wide confidence bands reflect sampling uncertainty in finite pseudo-OOS samples. Source: \texttt{results/tables/delta\_beta\_overreaction\_test.csv}.
+        Notes: The figure plots the estimated coefficients from Table~\ref{tab:cg_regression} with uncertainty bands based on Newey--West standard errors. Source: \texttt{results/tables/cg\_regression\_results.csv}.
     \end{minipage}
 \end{figure}
 
@@ -514,102 +442,34 @@ For CPI at $h=1$, $\Delta\beta_1 = -1.34$ ($SE=1.24$, $p=0.281$), consistent wit
 
 A key virtue of the hierarchical prior approach is that it makes the shrinkage intensity $\lambda$ endogenous to model size, allowing us to observe how the data-generating process adjusts regularization as the information set expands. Table~\ref{tab:lambda_evolution} and Figure~\ref{fig:lambda} document this variation.
 
-\begin{table}[H]
-    \centering
-    \begin{threeparttable}
-        \caption{Posterior mean of shrinkage parameter $\lambda$ by model and forecast origin (selected origins)}
-        \label{tab:lambda_evolution}
-        \begin{tabular}{lSSS}
-            \toprule
-            Period                      & \multicolumn{1}{c}{Small} & \multicolumn{1}{c}{Medium} & \multicolumn{1}{c}{Full} \\
-            \midrule
-            2001--2005 (average)        & 0.669                     & 0.597                      & 0.368                    \\
-            2006--2008 (pre-crisis)     & 0.713                     & 0.643                      & 0.430                    \\
-            2008--2010 (Great Recession) & 0.874                    & 0.754                      & 0.489                    \\
-            2011--2015 (recovery)       & 0.976                     & 0.787                      & 0.503                    \\
-            2016--2019 (late sample)    & 1.135                     & 0.816                      & 0.541                    \\
-            Overall average             & 0.881                     & 0.721                      & 0.464                    \\
-            \bottomrule
-        \end{tabular}
-        \begin{tablenotes}[flushleft]
-            \footnotesize
-            \item Notes: Values are posterior means of $\lambda$ from the hierarchical MCMC, averaged over forecast origins in each subperiod. Source: \texttt{results/forecasts/hyperparameters\_evolution.csv}.
-        \end{tablenotes}
-    \end{threeparttable}
-\end{table}
-
-\emph{Interpretation of model-size dependence of shrinkage.} The systematic pattern is striking: as the information set grows from Small (4 variables) to Medium (6 variables) to Full (7 variables), the posterior-mean $\lambda$ declines from 0.881 to 0.721 to 0.464. Because smaller $\lambda$ corresponds to tighter Minnesota shrinkage, this pattern implies that the hierarchical procedure automatically tightens the prior as the model becomes more parameter-rich, mitigating overfitting risk and improving comparability across specifications.
-
-The time variation is also informative. Posterior-mean $\lambda$ rises during the 2008--2010 crisis period and increases further in the late sample, consistent with the data favoring looser shrinkage when the linear VAR requires additional flexibility (either because volatility is elevated or because fit deteriorates under persistent regime changes). The key point is not a specific ``crisis spike'' date, but that the hierarchical procedure makes regularization time-varying and transparent, rather than fixed by assumption.
-
-\paragraph{Implications for forecast discipline.} These patterns have practical implications. Using a fixed $\lambda$ would mechanically impose the same tightness across specifications, despite very different parameter counts; hierarchical selection instead adjusts tightness by model size and over time, making comparisons across information sets less sensitive to arbitrary prior choices.
+\paragraph{Interpretation of hierarchical regularization.}
+Figure~\ref{fig:lambda} highlights that the hierarchical procedure adapts shrinkage as the information set expands and as the data environment changes. The key message is methodological: regularization is chosen by the forecasting system in a data-driven way, which improves comparability across information sets and reduces sensitivity to ad hoc tuning.
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.92\textwidth]{fig5_lambda_evolution.png}
-    \caption{Evolution of hierarchical tightness parameter $\lambda$ over forecast origins}
+    \caption{Evolution of learned shrinkage tightness}
     \label{fig:lambda}
     \captionsetup{font=small}
     \vspace{-0.2cm}
     \begin{minipage}{0.92\textwidth}
         \footnotesize
-        Notes: The figure plots posterior means of $\lambda$ at each recursive forecast origin from 2001M1 to 2019M11 for each model specification. $\lambda$ is elevated during the 2008--2010 crisis window and increases further in the late sample. Source: \texttt{results/forecasts/hyperparameters\_evolution.csv}.
+        Notes: The figure plots posterior means of $\lambda$ at each recursive forecast origin for each model specification. Source: \texttt{results/forecasts/hyperparameters\_evolution.csv}.
     \end{minipage}
 \end{figure}
 
 \subsection{Robustness}
-Two robustness exercises vary (i) the lag length from $p=12$ to $p=6$ and (ii) the initial training window endpoint from 2000M12 to 1995M12, keeping the rest of the design unchanged. The qualitative implications are stable. The medium specification remains the strongest performer for industrial production at short horizons, and the full specification remains competitive for inflation. The alternative initial-window design yields the lowest twelve-month inflation RMSFE for the full model (1.286). Appendix Table~\ref{tab:robustness} and Appendix Figure~\ref{fig:robustness_rw} summarize these results.
-\fi
-
-\ifsubmission
-% (Omitted in submission build; limitations summarized in the conclusion.)
-\else
-\section{Limitations and future research directions}
-
-\subsection{Data and identification boundaries}
-
-Our analysis uses pseudo out-of-sample forecasts constructed from final-vintage macroeconomic data, not real-time vintages that forecasters would have actually observed. This choice simplifies the analysis and focuses attention on the information content of various data sources, but it sidesteps the practical challenge of nowcasting and data revision that practitioners face. A natural extension would be to re-implement this analysis using FRED-RTDF real-time data, which would reveal whether sentiment's predictive value survives the revision process---i.e., whether sentiment indices themselves are robust to later revision.
-
-The paper is deliberately descriptive and does not attempt to identify causal relationships between sentiment and macro outcomes. Consumer sentiment and macroeconomic conditions are mutually endogenous: households' sentiment responds to current conditions (employment, inflation expectations, asset prices), and in turn, sentiment-driven changes in consumption and savings affect output and inflation. A structural VAR exercise (estimating causal impulse responses via sign or zero restrictions) is beyond the paper's scope, but it would be a valuable complement to clarify the direction of causality and the quantitative magnitude of sentiment's causal effect.
-
-\subsection{Model specification and functional form}
-
-The paper estimates a linear BVAR on all three information sets. Inflation and sentiment may be related through nonlinear channels: for instance, sentiment's predictive content might be stronger during crisis periods (high volatility, low sentiment) than during calm periods. A time-varying parameter VAR (TV-BVAR) or a model with regime-switching could capture this richer dynamic. Similarly, we do not explore whether sentiment is better measured by decomposing the Michigan index into sub-components (current vs. expected conditions) or by combining sentiment with alternative confidence measures (e.g., the Conference Board consumer confidence index).
-
-The evaluation-scale transformation (cumulative growth over $h$ periods from a fixed origin) is standard for forecast evaluation but may mask phenomena visible at other horizons. For instance, one-period-ahead growth-rate forecasts (as opposed to cumulative $h$-period changes) might reveal different roles for sentiment.
-
-\subsection{Limitations of the CG diagnostic for model-based forecasts}
-
-The Coibion-Gorodnichenko regression was originally developed to diagnose biases in survey expectations, where $\beta>0$ can be interpreted as information rigidity or rational inattention by households. When applied to a VAR forecasting model, the interpretation is less direct: $\beta$ measures the model's internal consistency in updating, not a structural behavioral phenomenon. A $\beta=2.4$ coefficient at $h=1$ for the small model means that the model tends to under-weight forecast revisions relative to the magnitude needed to eliminate subsequent errors, but this may reflect not an economic irrationality but a prior specification (the Minnesota prior may be too tight at short horizons) or a genuinely persistent signal that takes time to be incorporated.
-
-\subsection{Concrete proposals for extension}
-
-\begin{enumerate}
-    \item \textbf{Real-time data and nowcasting.} Repeat the analysis using FRED-RTDF real-time data vintages at forecast origin $t$, incorporating realistic delays and revisions. Assess whether sentiment's predictive value is diminished by data uncertainty.
-
-    \item \textbf{Time-varying and nonlinear structures.} Extend to TV-BVAR or Markov-switching BVAR to test whether sentiment's role varies across regimes (e.g., stronger during crisis periods or high-uncertainty environments).
-
-    \item \textbf{Sentiment decomposition.} Decompose the Michigan sentiment index into its major sub-components (current conditions vs. expectations) and evaluate their independent predictive contributions. Explore whether the expectations sub-component better predicts long-horizon inflation.
-
-    \item \textbf{Multivariate sentiment measures.} Combine the Michigan index with other sentiment indicators (Conference Board, stock market-based measures, news-based indices) and evaluate whether a factor model of sentiment improves predictions.
-
-    \item \textbf{Structural identification.} Estimate sign-restricted VAR IRFs to identify the causal response of inflation and production to a structural sentiment shock, holding constant the responses to other shocks.
-
-    \item \textbf{Comparative evaluation against production models.} Benchmark the BVAR's forecasts against professional forecasts from the Survey of Professional Forecasters (SPF) and other real-world prediction systems to assess practical competitive advantage.
-\end{enumerate}
-
+Robustness checks that vary lag length and the training-window choice deliver the same qualitative ranking patterns. Appendix Figures~\ref{fig:robustness_rw} and \ref{fig:robustness_ar1} summarize these comparisons.
 \fi
 
 \section{Conclusion}
 
 \ifsubmission
-I study whether sentiment adds incremental predictive content in a hierarchical BVAR once standard macro aggregates and financial variables are already included. The core evidence is that sentiment adds little incremental improvement in point-forecast accuracy, while revision diagnostics indicate economically meaningful short-horizon underreaction and long-horizon coefficients closer to (or slightly below) zero as the information set expands.
+I study whether sentiment adds incremental predictive content in a hierarchical BVAR once standard macro aggregates and financial prices are already included. The results support a disciplined two-part message: sentiment has limited incremental value for point-forecast RMSFE conditional on prices, but it can shift systematic patterns in forecast updating as measured by the revision diagnostic. Interpreted conservatively, this is consistent with information overlap for point forecasts and a distinct role for sentiment in forecast discipline.
 
-Because the models are nested and the exercise is descriptive (pseudo out-of-sample using final vintages), I emphasize magnitudes and stability of RMSFE differences and report Clark--West MSPE-adjusted tests as robustness. A natural next step is to evaluate the same design with real-time data vintages and alternative sentiment measures.
+Because the specifications are nested and the exercise is descriptive, I emphasize magnitudes and stability and use nested-model-robust adjustments as a robustness check. Limitations and extensions (including real-time vintages and alternative sentiment measures) are collected in the appendix.
 \else
-This paper evaluates the incremental role of consumer sentiment in macro forecasting within a transparent, nested-information-set BVAR horse race, and complements accuracy comparisons with a forecast-revision diagnostic following \cite{CG2015}. The evidence is consistent with a disciplined message: adding financial variables helps some short-horizon forecasts (especially for industrial production), but sentiment adds little incremental improvement in point-forecast RMSFE once financial variables are included; for inflation at long horizons, the baseline macro specification performs best in this sample.
-
-The revision diagnostic shows that inflation forecasts exhibit short-horizon underreaction and long-horizon coefficients near zero or slightly negative, and that richer information sets move long-horizon coefficients toward the rational-expectations benchmark. Because the models are nested, I treat standard equal-accuracy tests as suggestive and report Clark--West MSPE-adjusted tests for nested comparisons \cite{ClarkWest2007}, emphasizing magnitudes and stability rather than sharp claims about statistical dominance \cite{ClarkMcCracken2001}. The main limitation is interpretational: both RMSFE differences and CG coefficients are descriptive summaries of forecast performance rather than causal effects of sentiment. Future work using real-time vintages, broader sentiment measures, and structural identification would sharpen the economic interpretation.
+\emph{(Same as the submission version.)}
 \fi
 
 \label{LastMainTextPage}
@@ -623,20 +483,20 @@ The revision diagnostic shows that inflation forecasts exhibit short-horizon und
 \section{Additional figures and robustness}\label{app:figures}
 
 \paragraph{Nested-model forecast accuracy: Clark--West tests.}
-Table~\ref{tab:clark_west} reports Clark--West MSPE-adjusted tests for nested model comparisons (Small vs.\ Medium; Medium vs.\ Full) at horizons $h\in\{1,3,12\}$; one-sided p-values correspond to the alternative that the larger model improves MSPE. This robustness addresses the nonstandard behavior of standard equal-accuracy tests under nesting.
+Table~\ref{tab:clark_west} reports Clark--West MSPE-adjusted tests for nested model comparisons (Small vs.\ Medium; Medium vs.\ Full) at the horizons reported in the main accuracy table. This robustness addresses the nonstandard behavior of standard equal-accuracy tests under nesting.
 
 \input{results/latex_tables/clark_west_tests.tex}
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.96\textwidth]{fig_rolling_relative_rmsfe_ar1.png}
-    \caption{Rolling relative RMSFE versus AR(1) benchmark}
+    \caption{Rolling relative RMSFE versus an autoregressive benchmark}
     \label{fig:rolling_ar1}
     \captionsetup{font=small}
     \vspace{-0.2cm}
     \begin{minipage}{0.96\textwidth}
         \footnotesize
-        Notes: Rolling-window relative RMSFEs (window length 60 months). Values below one indicate improvement over the recursively estimated AR(1) benchmark.
+        Notes: Rolling-window relative RMSFEs. Values below one indicate improvement over the recursively estimated autoregressive benchmark.
     \end{minipage}
 \end{figure}
 
@@ -649,169 +509,87 @@ Table~\ref{tab:clark_west} reports Clark--West MSPE-adjusted tests for nested mo
     \vspace{-0.2cm}
     \begin{minipage}{0.96\textwidth}
         \footnotesize
-        Notes: Relative RMSFEs under alternative lag length ($p=6$) and an earlier initial training window end date (1995M12). Values below one indicate improvement over the no-change benchmark.
+        Notes: Relative RMSFEs under an alternative lag length and an earlier training-window choice. Values below one indicate improvement over the no-change benchmark.
     \end{minipage}
 \end{figure}
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.96\textwidth]{fig_robustness_relative_rmsfe_ar1.png}
-    \caption{Robustness: relative RMSFE versus AR(1) benchmark}
+    \caption{Robustness: relative RMSFE versus an autoregressive benchmark}
     \label{fig:robustness_ar1}
     \captionsetup{font=small}
     \vspace{-0.2cm}
     \begin{minipage}{0.96\textwidth}
         \footnotesize
-        Notes: Relative RMSFEs under robustness scenarios, reported against the recursively estimated AR(1) benchmark.
+        Notes: Relative RMSFEs under robustness scenarios, reported against the recursively estimated autoregressive benchmark.
     \end{minipage}
 \end{figure}
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.96\textwidth]{fig6a_forecast_vs_actual_h1.png}
-    \caption{CPI inflation: BVAR forecast versus realized ($h=1$)}
-    \label{fig:cpi_forecast_h1}
-    \captionsetup{font=small}
-    \vspace{-0.2cm}
-    \begin{minipage}{0.96\textwidth}
-        \footnotesize
-        Notes: The x-axis uses the target date ($t+h$). The plotted forecast is the model-implied predictive mean from the baseline specification.
-    \end{minipage}
-\end{figure}
 
-\begin{figure}[H]
-    \centering
+    \medskip
     \includegraphics[width=0.96\textwidth]{fig6b_forecast_vs_actual_h3.png}
-    \caption{CPI inflation: BVAR forecast versus realized ($h=3$)}
-    \label{fig:cpi_forecast_h3}
-    \captionsetup{font=small}
-    \vspace{-0.2cm}
-    \begin{minipage}{0.96\textwidth}
-        \footnotesize
-        Notes: The x-axis uses the target date ($t+h$). The plotted forecast is the model-implied predictive mean from the baseline specification.
-    \end{minipage}
-\end{figure}
 
-\begin{figure}[H]
-    \centering
+    \medskip
     \includegraphics[width=0.96\textwidth]{fig6c_forecast_vs_actual_h12.png}
-    \caption{CPI inflation: BVAR forecast versus realized ($h=12$)}
-    \label{fig:cpi_forecast_h12}
+    \caption{CPI inflation: forecast versus realized (multiple horizons)}
+    \label{fig:cpi_forecast_paths}
     \captionsetup{font=small}
     \vspace{-0.2cm}
     \begin{minipage}{0.96\textwidth}
         \footnotesize
-        Notes: The x-axis uses the target date ($t+h$). The plotted forecast is the model-implied predictive mean from the baseline specification.
+        Notes: Each panel plots the model-implied predictive mean and the realized target on the evaluation scale. The x-axis uses the target date ($t+h$). Sources: \texttt{results/figures/fig6a\_forecast\_vs\_actual\_h1.png}, \texttt{results/figures/fig6b\_forecast\_vs\_actual\_h3.png}, \texttt{results/figures/fig6c\_forecast\_vs\_actual\_h12.png}.
     \end{minipage}
 \end{figure}
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.96\textwidth]{fig6d_timing_diagnostic_h1.png}
-    \caption{Forecast timing diagnostic ($h=1$)}
-    \label{fig:timing_h1}
-    \captionsetup{font=small}
-    \vspace{-0.2cm}
-    \begin{minipage}{0.96\textwidth}
-        \footnotesize
-        Notes: The black series is dated at the realization ($t+h$); the red forecast series is dated at the forecast origin ($t$).
-    \end{minipage}
-\end{figure}
-
-\begin{figure}[H]
-    \centering
+    \medskip
     \includegraphics[width=0.96\textwidth]{fig6e_timing_diagnostic_h3.png}
-    \caption{Forecast timing diagnostic ($h=3$)}
-    \label{fig:timing_h3}
-    \captionsetup{font=small}
-    \vspace{-0.2cm}
-    \begin{minipage}{0.96\textwidth}
-        \footnotesize
-        Notes: The black series is dated at the realization ($t+h$); the red forecast series is dated at the forecast origin ($t$).
-    \end{minipage}
-\end{figure}
-
-\begin{figure}[H]
-    \centering
+    \medskip
     \includegraphics[width=0.96\textwidth]{fig6f_timing_diagnostic_h12.png}
-    \caption{Forecast timing diagnostic ($h=12$)}
-    \label{fig:timing_h12}
+    \caption{Forecast timing diagnostic (multiple horizons)}
+    \label{fig:timing_diag}
     \captionsetup{font=small}
     \vspace{-0.2cm}
     \begin{minipage}{0.96\textwidth}
         \footnotesize
-        Notes: The black series is dated at the realization ($t+h$); the red forecast series is dated at the forecast origin ($t$).
+        Notes: The black series is dated at the realization ($t+h$); the red forecast series is dated at the forecast origin ($t$). Sources: \texttt{results/figures/fig6d\_timing\_diagnostic\_h1.png}, \texttt{results/figures/fig6e\_timing\_diagnostic\_h3.png}, \texttt{results/figures/fig6f\_timing\_diagnostic\_h12.png}.
     \end{minipage}
 \end{figure}
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.96\textwidth]{fig7a_cg_scatter_h1.png}
-    \caption{Revision diagnostic scatter: CPI ($h=1$)}
-    \label{fig:cg_scatter_h1}
-    \captionsetup{font=small}
-    \vspace{-0.2cm}
-    \begin{minipage}{0.96\textwidth}
-        \footnotesize
-        Notes: Scatter of forecast errors against forecast revisions for CPI inflation in the baseline design. The fitted line corresponds to the \citet{CG2015} regression.
-    \end{minipage}
-\end{figure}
-
-\begin{figure}[H]
-    \centering
+    \medskip
     \includegraphics[width=0.96\textwidth]{fig7b_cg_scatter_h3.png}
-    \caption{Revision diagnostic scatter: CPI ($h=3$)}
-    \label{fig:cg_scatter_h3}
-    \captionsetup{font=small}
-    \vspace{-0.2cm}
-    \begin{minipage}{0.96\textwidth}
-        \footnotesize
-        Notes: Scatter of forecast errors against forecast revisions for CPI inflation in the baseline design. The fitted line corresponds to the \citet{CG2015} regression.
-    \end{minipage}
-\end{figure}
-
-\begin{figure}[H]
-    \centering
+    \medskip
     \includegraphics[width=0.96\textwidth]{fig7c_cg_scatter_h12.png}
-    \caption{Revision diagnostic scatter: CPI ($h=12$)}
-    \label{fig:cg_scatter_h12}
+    \caption{Revision diagnostic scatter (multiple horizons)}
+    \label{fig:cg_scatter}
     \captionsetup{font=small}
     \vspace{-0.2cm}
     \begin{minipage}{0.96\textwidth}
         \footnotesize
-        Notes: Scatter of forecast errors against forecast revisions for CPI inflation in the baseline design. The fitted line corresponds to the \citet{CG2015} regression.
+        Notes: Scatter of forecast errors against forecast revisions for CPI inflation in the baseline design. The fitted line corresponds to the \citet{CG2015} regression. Sources: \texttt{results/figures/fig7a\_cg\_scatter\_h1.png}, \texttt{results/figures/fig7b\_cg\_scatter\_h3.png}, \texttt{results/figures/fig7c\_cg\_scatter\_h12.png}.
     \end{minipage}
 \end{figure}
 
-\begin{table}[H]
-    \centering
-    \begin{threeparttable}
-        \caption{Robustness: RMSFEs under alternative lag length and training window}
-        \label{tab:robustness}
-        \begin{tabular}{l ll S[table-format=1.3] S[table-format=1.3] S[table-format=1.3]}
-            \toprule
-            Scenario                    & Model  & Target & \multicolumn{1}{c}{$h=1$} & \multicolumn{1}{c}{$h=3$} & \multicolumn{1}{c}{$h=12$} \\
-            \midrule
-            $p=6$                       & Small  & CPI    & 3.451                     & 2.639                     & 1.291                      \\
-            $p=6$                       & Medium & CPI    & 3.445                     & 2.641                     & 1.294                      \\
-            $p=6$                       & Full   & CPI    & 3.529                     & 2.673                     & 1.342                      \\
-            $p=6$                       & Small  & INDPRO & 7.582                     & 5.410                     & 4.825                      \\
-            $p=6$                       & Medium & INDPRO & 7.336                     & 5.033                     & 4.621                      \\
-            $p=6$                       & Full   & INDPRO & 7.494                     & 5.173                     & 4.572                      \\
-            \addlinespace
-            Initial window ends 1995M12 & Small  & CPI    & 3.231                     & 2.448                     & 1.323                      \\
-            Initial window ends 1995M12 & Medium & CPI    & 3.216                     & 2.446                     & 1.325                      \\
-            Initial window ends 1995M12 & Full   & CPI    & 3.267                     & 2.431                     & 1.286                      \\
-            Initial window ends 1995M12 & Small  & INDPRO & 7.329                     & 5.204                     & 4.802                      \\
-            Initial window ends 1995M12 & Medium & INDPRO & 7.077                     & 4.803                     & 4.590                      \\
-            Initial window ends 1995M12 & Full   & INDPRO & 7.218                     & 4.930                     & 4.453                      \\
-            \bottomrule
-        \end{tabular}
-        \begin{tablenotes}[flushleft]
-            \footnotesize
-            \item Notes: Values are taken from \texttt{results/robustness/lag6/tables/rmsfe\_results.csv} and \texttt{results/robustness/window1995/tables/rmsfe\_results.csv}.
-        \end{tablenotes}
-    \end{threeparttable}
-\end{table}
+\section{Limitations and future work}\label{app:limits}
+
+\paragraph{Limitations.}
+The results are descriptive and should be interpreted as evidence on incremental information content and forecast-system discipline rather than as causal effects of sentiment. The exercise uses pseudo out-of-sample forecasts based on revised data rather than real-time vintages. More broadly, the conclusions are conditional on the chosen information sets, a linear VAR forecasting system, and the particular regularization scheme; alternative model classes could yield different accuracy--discipline trade-offs.
+
+\paragraph{Extensions (appendix-only).}
+\begin{itemize}[leftmargin=*]
+    \item \textbf{Real-time vintages.} Re-run the same horse race using real-time data vintages at each forecast origin to assess robustness to data revisions and release lags.
+    \item \textbf{State dependence and structural change.} Allow forecast performance and revision patterns to vary across regimes (e.g., high-uncertainty episodes) using time variation or nonlinear structures.
+    \item \textbf{Alternative sentiment measures.} Replace or augment survey sentiment with alternative indicators (text- or media-based measures; confidence indices) to test whether results are specific to a particular proxy.
+    \item \textbf{Density forecasts.} Move beyond point forecasts and evaluate predictive distributions to assess whether sentiment contributes to uncertainty quantification even when RMSFE gains are limited.
+\end{itemize}
 
 \end{document}
