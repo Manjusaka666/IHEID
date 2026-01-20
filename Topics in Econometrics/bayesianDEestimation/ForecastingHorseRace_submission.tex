@@ -545,11 +545,13 @@ Because the forecasts are produced under shrinkage, such patterns can partly ref
 
 \ifsubmission
     I study whether sentiment adds incremental predictive content in a hierarchical BVAR once standard macro aggregates and financial prices are already included.
-    The results support a disciplined message: sentiment has limited incremental value for point-forecast accuracy conditional on prices (Table~\ref{tab:rmsfe}), but it can shift systematic patterns in forecast updating as measured by the revision diagnostic (Table~\ref{tab:cg_regression}).
-    Interpreting these diagnostics requires discipline: coefficients summarize internal consistency of a regularized forecasting system and can partly reflect prior-induced conservatism rather than economic agents' behavior.
-    Because the specifications are nested and the exercise is descriptive, I emphasize magnitudes and stability and treat nested-robust adjustments as robustness checks (Appendix Table~\ref{tab:clark_west}).
+    The results suggest a two-part pattern: sentiment has limited incremental value for point-forecast accuracy conditional on prices (Table~\ref{tab:rmsfe}), consistent with information overlap where forward-looking asset prices may already incorporate signals also present in sentiment indices (Section~\ref{sec:mechanism}).
+    The revision diagnostic indicates that information sets may shift systematic patterns in forecast updating (Table~\ref{tab:cg_regression}), though these estimates are imprecise.
+    When applied to model-implied forecasts from a regularized BVAR, revision-regression coefficients reflect the forecasting system's statistical updating rule under hierarchical shrinkage and can partly reflect prior-induced conservatism, not economic agents' beliefs or information processing.
+    Because the specifications are nested and the exercise is descriptive, I emphasize magnitudes and stability over sharp statistical dominance claims and report nested-robust adjustments as robustness checks (Appendix Table~\ref{tab:clark_west}).
 
-    Future work priorities include real-time data vintages, alternative sentiment measures, and distributional forecast evaluation.
+    This comparison provides no causal identification: sentiment's limited incremental RMSFE may reflect information aggregation by market participants, model misspecification, or unstable forecasting relationships.
+    Future work priorities include real-time data vintages to address revision bias, alternative sentiment measures to test proxy sensitivity, and density forecast evaluation to assess whether sentiment contributes to uncertainty quantification even when point RMSFE gains are limited.
 \else
     This paper evaluates the incremental role of consumer sentiment in macro forecasting within a transparent, nested-information-set BVAR horse race, and complements accuracy comparisons with a forecast-revision diagnostic following \cite{CG2015}. The evidence is consistent with a disciplined message: adding financial variables helps some short-horizon forecasts (especially for industrial production), but sentiment adds little incremental improvement in point-forecast RMSFE once financial variables are included; for inflation at long horizons, the baseline macro specification performs best in this sample.
 
@@ -570,6 +572,7 @@ Because the forecasts are produced under shrinkage, such patterns can partly ref
 Table~\ref{tab:clark_west} reports Clark--West MSPE-adjusted tests for nested model comparisons (Small vs.\ Medium; Medium vs.\ Full). This robustness addresses the nonstandard behavior of standard equal-accuracy tests under nesting.
 
 \InputGeneratedTableNoNotes{results/latex_tables/clark_west_tests.tex}
+{\ footnotesize\textit{Notes:} The Clark--West test adjusts mean squared prediction error comparisons to account for nested model structures \citep{ClarkWest2007}. Under the null hypothesis that the smaller (nested) model is adequate, the test statistic has a standard normal distribution. Because specifications are nested and forecasting relationships may be unstable, results are interpreted as suggestive rather than definitive. Source file: see \texttt{INTERNAL\_MAPPING.md}. \par}
 
 \begin{figure}[H]
     \centering
