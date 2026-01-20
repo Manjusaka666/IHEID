@@ -1,6 +1,31 @@
 \begin{thebibliography}{}
 
 \bibitem [\protect \citeauthoryear {%
+Atkeson%
+\ \BBA {} Ohanian%
+}{%
+Atkeson%
+\ \BBA {} Ohanian%
+}{%
+{\protect \APACyear {2001}}%
+}]{%
+AtkesonOhanian2001}
+\APACinsertmetastar {%
+AtkesonOhanian2001}%
+\begin{APACrefauthors}%
+Atkeson, A.%
+\BCBT {}\ \BBA {} Ohanian, L\BPBI E.%
+\end{APACrefauthors}%
+\unskip\
+\newblock
+\APACrefYearMonthDay{2001}{}{}.
+\newblock
+{\BBOQ}\APACrefatitle {Are Phillips curves useful for forecasting inflation?} {Are phillips curves useful for forecasting inflation?}{\BBCQ}
+\newblock
+\APACjournalVolNumPages{Federal Reserve Bank of Minneapolis Quarterly Review}{25}{1}{2--11}.
+\PrintBackRefs{\CurrentBib}
+
+\bibitem [\protect \citeauthoryear {%
 Ba{\'n}bura%
 , Giannone%
 \BCBL {}\ \BBA {} Reichlin%
@@ -27,29 +52,54 @@ Ba{\'n}bura, M.%
 \PrintBackRefs{\CurrentBib}
 
 \bibitem [\protect \citeauthoryear {%
-Bordalo%
-, Gennaioli%
-\BCBL {}\ \BBA {} Shleifer%
+Bram%
+\ \BBA {} Ludvigson%
 }{%
-Bordalo%
-\ \protect \BOthers {.}}{%
-{\protect \APACyear {2020}}%
+Bram%
+\ \BBA {} Ludvigson%
+}{%
+{\protect \APACyear {1998}}%
 }]{%
-Bordalo2020}
+BramLudvigson1998}
 \APACinsertmetastar {%
-Bordalo2020}%
+BramLudvigson1998}%
 \begin{APACrefauthors}%
-Bordalo, P.%
-, Gennaioli, N.%
-\BCBL {}\ \BBA {} Shleifer, A.%
+Bram, J.%
+\BCBT {}\ \BBA {} Ludvigson, S.%
 \end{APACrefauthors}%
 \unskip\
 \newblock
-\APACrefYearMonthDay{2020}{}{}.
+\APACrefYearMonthDay{1998}{}{}.
 \newblock
-{\BBOQ}\APACrefatitle {Memory, attention, and choice} {Memory, attention, and choice}.{\BBCQ}
+{\BBOQ}\APACrefatitle {Does Consumer Confidence Forecast Household Expenditure? A Sentiment Index Horse Race} {Does consumer confidence forecast household expenditure? a sentiment index horse race}.{\BBCQ}
 \newblock
-\APACjournalVolNumPages{Quarterly Journal of Economics}{135}{2}{1009--1064}.
+\APACjournalVolNumPages{Federal Reserve Bank of New York Economic Policy Review}{4}{2}{59--78}.
+\PrintBackRefs{\CurrentBib}
+
+\bibitem [\protect \citeauthoryear {%
+Carroll%
+, Fuhrer%
+\BCBL {}\ \BBA {} Wilcox%
+}{%
+Carroll%
+\ \protect \BOthers {.}}{%
+{\protect \APACyear {1994}}%
+}]{%
+CarrollFuhrerWilcox1994}
+\APACinsertmetastar {%
+CarrollFuhrerWilcox1994}%
+\begin{APACrefauthors}%
+Carroll, C\BPBI D.%
+, Fuhrer, J\BPBI C.%
+\BCBL {}\ \BBA {} Wilcox, D\BPBI W.%
+\end{APACrefauthors}%
+\unskip\
+\newblock
+\APACrefYearMonthDay{1994}{}{}.
+\newblock
+{\BBOQ}\APACrefatitle {Does Consumer Sentiment Forecast Household Spending? If So, Why?} {Does consumer sentiment forecast household spending? if so, why?}{\BBCQ}
+\newblock
+\APACjournalVolNumPages{American Economic Review}{84}{5}{1397--1408}.
 \PrintBackRefs{\CurrentBib}
 
 \bibitem [\protect \citeauthoryear {%
@@ -113,31 +163,6 @@ Coibion%
 Coibion%
 \ \BBA {} Gorodnichenko%
 }{%
-{\protect \APACyear {2012}}%
-}]{%
-CoibionGorodnichenko2012}
-\APACinsertmetastar {%
-CoibionGorodnichenko2012}%
-\begin{APACrefauthors}%
-Coibion, O.%
-\BCBT {}\ \BBA {} Gorodnichenko, Y.%
-\end{APACrefauthors}%
-\unskip\
-\newblock
-\APACrefYearMonthDay{2012}{}{}.
-\newblock
-{\BBOQ}\APACrefatitle {Information rigidity and monetary policy} {Information rigidity and monetary policy}.{\BBCQ}
-\newblock
-\APACjournalVolNumPages{Journal of Monetary Economics}{59}{S}{S1--S18}.
-\PrintBackRefs{\CurrentBib}
-
-\bibitem [\protect \citeauthoryear {%
-Coibion%
-\ \BBA {} Gorodnichenko%
-}{%
-Coibion%
-\ \BBA {} Gorodnichenko%
-}{%
 {\protect \APACyear {2015}}%
 }]{%
 CG2015}
@@ -156,28 +181,6 @@ Coibion, O.%
 \APACjournalVolNumPages{American Economic Review}{105}{8}{2644--2678}.
 \newblock
 \begin{APACrefDOI} \doi{10.1257/aer.20110306} \end{APACrefDOI}
-\PrintBackRefs{\CurrentBib}
-
-\bibitem [\protect \citeauthoryear {%
-Estrella%
-}{%
-Estrella%
-}{%
-{\protect \APACyear {1998}}%
-}]{%
-Estrella1998}
-\APACinsertmetastar {%
-Estrella1998}%
-\begin{APACrefauthors}%
-Estrella, A.%
-\end{APACrefauthors}%
-\unskip\
-\newblock
-\APACrefYearMonthDay{1998}{}{}.
-\newblock
-{\BBOQ}\APACrefatitle {Economic signals from the yield curve} {Economic signals from the yield curve}.{\BBCQ}
-\newblock
-\APACjournalVolNumPages{Economic Commentary}{}{}{}.
 \PrintBackRefs{\CurrentBib}
 
 \bibitem [\protect \citeauthoryear {%
@@ -236,6 +239,28 @@ Kuschnig, N.%
 \PrintBackRefs{\CurrentBib}
 
 \bibitem [\protect \citeauthoryear {%
+Ludvigson%
+}{%
+Ludvigson%
+}{%
+{\protect \APACyear {2004}}%
+}]{%
+Ludvigson2004}
+\APACinsertmetastar {%
+Ludvigson2004}%
+\begin{APACrefauthors}%
+Ludvigson, S\BPBI C.%
+\end{APACrefauthors}%
+\unskip\
+\newblock
+\APACrefYearMonthDay{2004}{}{}.
+\newblock
+{\BBOQ}\APACrefatitle {Consumer Confidence and Consumer Spending} {Consumer confidence and consumer spending}.{\BBCQ}
+\newblock
+\APACjournalVolNumPages{Journal of Economic Perspectives}{18}{2}{29--50}.
+\PrintBackRefs{\CurrentBib}
+
+\bibitem [\protect \citeauthoryear {%
 Sims%
 }{%
 Sims%
@@ -264,22 +289,22 @@ Stock%
 Stock%
 \ \BBA {} Watson%
 }{%
-{\protect \APACyear {2002}}%
+{\protect \APACyear {2007}}%
 }]{%
-StockWatson2002}
+StockWatson2007}
 \APACinsertmetastar {%
-StockWatson2002}%
+StockWatson2007}%
 \begin{APACrefauthors}%
 Stock, J\BPBI H.%
 \BCBT {}\ \BBA {} Watson, M\BPBI W.%
 \end{APACrefauthors}%
 \unskip\
 \newblock
-\APACrefYearMonthDay{2002}{}{}.
+\APACrefYearMonthDay{2007}{}{}.
 \newblock
-{\BBOQ}\APACrefatitle {Macroeconomic forecasting using diffusion indexes} {Macroeconomic forecasting using diffusion indexes}.{\BBCQ}
+{\BBOQ}\APACrefatitle {Why has {U.S.} inflation become harder to forecast?} {Why has {U.S.} inflation become harder to forecast?}{\BBCQ}
 \newblock
-\APACjournalVolNumPages{Journal of Business \& Economic Statistics}{20}{2}{147--162}.
+\APACjournalVolNumPages{Journal of Money, Credit and Banking}{39}{s1}{3--33}.
 \PrintBackRefs{\CurrentBib}
 
 \end{thebibliography}
