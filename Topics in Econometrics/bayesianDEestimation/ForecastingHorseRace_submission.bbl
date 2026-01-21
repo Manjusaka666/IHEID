@@ -52,6 +52,58 @@ Ba{\'n}bura, M.%
 \PrintBackRefs{\CurrentBib}
 
 \bibitem [\protect \citeauthoryear {%
+Bordalo%
+, Gennaioli%
+\BCBL {}\ \BBA {} Shleifer%
+}{%
+Bordalo%
+\ \protect \BOthers {.}}{%
+{\protect \APACyear {2018}}%
+}]{%
+BordaloGennaioliShleifer2018}
+\APACinsertmetastar {%
+BordaloGennaioliShleifer2018}%
+\begin{APACrefauthors}%
+Bordalo, P.%
+, Gennaioli, N.%
+\BCBL {}\ \BBA {} Shleifer, A.%
+\end{APACrefauthors}%
+\unskip\
+\newblock
+\APACrefYearMonthDay{2018}{}{}.
+\newblock
+{\BBOQ}\APACrefatitle {Diagnostic Expectations and Credit Cycles} {Diagnostic expectations and credit cycles}.{\BBCQ}
+\newblock
+\APACjournalVolNumPages{American Economic Review}{}{}{}.
+\PrintBackRefs{\CurrentBib}
+
+\bibitem [\protect \citeauthoryear {%
+Bordalo%
+, Gennaioli%
+\BCBL {}\ \BBA {} Shleifer%
+}{%
+Bordalo%
+\ \protect \BOthers {.}}{%
+{\protect \APACyear {2020}}%
+}]{%
+BordaloGennaioliShleifer2020JEP}
+\APACinsertmetastar {%
+BordaloGennaioliShleifer2020JEP}%
+\begin{APACrefauthors}%
+Bordalo, P.%
+, Gennaioli, N.%
+\BCBL {}\ \BBA {} Shleifer, A.%
+\end{APACrefauthors}%
+\unskip\
+\newblock
+\APACrefYearMonthDay{2020}{}{}.
+\newblock
+{\BBOQ}\APACrefatitle {Diagnostic Expectations and the Macroeconomy} {Diagnostic expectations and the macroeconomy}.{\BBCQ}
+\newblock
+\APACjournalVolNumPages{Journal of Economic Perspectives}{}{}{}.
+\PrintBackRefs{\CurrentBib}
+
+\bibitem [\protect \citeauthoryear {%
 Bram%
 \ \BBA {} Ludvigson%
 }{%
@@ -181,6 +233,28 @@ Coibion, O.%
 \APACjournalVolNumPages{American Economic Review}{105}{8}{2644--2678}.
 \newblock
 \begin{APACrefDOI} \doi{10.1257/aer.20110306} \end{APACrefDOI}
+\PrintBackRefs{\CurrentBib}
+
+\bibitem [\protect \citeauthoryear {%
+Croushore%
+}{%
+Croushore%
+}{%
+{\protect \APACyear {2005}}%
+}]{%
+Croushore2005}
+\APACinsertmetastar {%
+Croushore2005}%
+\begin{APACrefauthors}%
+Croushore, D.%
+\end{APACrefauthors}%
+\unskip\
+\newblock
+\APACrefYearMonthDay{2005}{}{}.
+\newblock
+{\BBOQ}\APACrefatitle {Do Consumer Confidence Indexes Help Forecast Consumer Spending in Real Time?} {Do consumer confidence indexes help forecast consumer spending in real time?}{\BBCQ}
+\newblock
+\APACjournalVolNumPages{Journal of Business \& Economic Statistics}{}{}{}.
 \PrintBackRefs{\CurrentBib}
 
 \bibitem [\protect \citeauthoryear {%
