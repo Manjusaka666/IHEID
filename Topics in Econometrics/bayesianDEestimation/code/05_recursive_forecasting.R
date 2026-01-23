@@ -31,23 +31,21 @@ n_burn <- getOption("bayesian_de.n_burn", 5000L)
 # Calibrated to reflect information rigidities in realistic forecasting environments
 # Lambda: Stronger shrinkage (0.05) mimics institutional inertia and delayed information processing
 # Alpha: Higher lag decay (3.0) can induce trend-chasing behavior (overreaction at long horizons)
-lambda_mode <- getOption("bayesian_de.lambda_mode", 0.05) # ⬇ Reduced from 0.2: stronger shrinkage
-lambda_sd <- getOption("bayesian_de.lambda_sd", 0.2) # ⬇ Reduced from 0.4: more concentrated posterior
-lambda_min <- getOption("bayesian_de.lambda_min", 0.001) # ⬇ Reduced from 0.01: allow very tight shrinkage
-lambda_max <- getOption("bayesian_de.lambda_max", 2.0) # ⬇ Reduced from 5.0: prevent excessive looseness
+lambda_mode <- getOption("bayesian_de.lambda_mode", 0.05)
+lambda_sd <- getOption("bayesian_de.lambda_sd", 0.2)
+lambda_min <- getOption("bayesian_de.lambda_min", 0.001)
+lambda_max <- getOption("bayesian_de.lambda_max", 2.0)
 
-alpha_mode <- getOption("bayesian_de.alpha_mode", 3.0) # ⬆ Increased from 2.0: faster lag decay
-alpha_sd <- getOption("bayesian_de.alpha_sd", 0.25) # (unchanged)
-alpha_min <- getOption("bayesian_de.alpha_min", 1) # (unchanged)
-alpha_max <- getOption("bayesian_de.alpha_max", 3) # (unchanged)
+alpha_mode <- getOption("bayesian_de.alpha_mode", 3.0)
+alpha_sd <- getOption("bayesian_de.alpha_sd", 0.25)
+alpha_min <- getOption("bayesian_de.alpha_min", 1)
+alpha_max <- getOption("bayesian_de.alpha_max", 3)
 
 priors_config <- bv_priors(
     hyper = "auto",
     mn = bv_mn(
         lambda = bv_lambda(mode = lambda_mode, sd = lambda_sd, min = lambda_min, max = lambda_max),
-        # Paper baseline implies lag-decay around 1/ℓ^2 (alpha≈2); in BVAR 1.0.5 alpha is fixed (not optimized).
         alpha = bv_alpha(mode = alpha_mode, sd = alpha_sd, min = alpha_min, max = alpha_max),
-        # In BVAR 1.0.5, psi must match the number of variables if mode is numeric.
         # Use auto mode to ensure valid dimensions across model sizes.
         psi = bv_psi(mode = "auto") # cross-variable shrinkage
     ),
@@ -192,13 +190,11 @@ forecast_at_origin <- function(origin_idx, data_full, lags, priors_config) {
             )
 
             # Extract optimal hyperparameters (posterior means)
-            # In BVAR 1.0.5, bvar_fit$hyper is a matrix (n_draw x n_params)
             # Need to compute column means
             if (is.matrix(bvar_fit$hyper)) {
                 hyper_means <- colMeans(bvar_fit$hyper)
                 hyperparams <- list(
                     lambda = if ("lambda" %in% names(hyper_means)) hyper_means["lambda"] else NA,
-                    # In BVAR 1.0.5, alpha is not part of the optimized hyper vector; record the fixed setting.
                     alpha = alpha_mode,
                     psi = if ("psi" %in% names(hyper_means)) hyper_means["psi"] else NA,
                     soc = if ("soc" %in% names(hyper_means)) hyper_means["soc"] else NA,
@@ -234,26 +230,6 @@ forecast_at_origin <- function(origin_idx, data_full, lags, priors_config) {
 }
 
 cat("  ✓ Forecasting function defined.\n\n")
-
-# ------------------------------------------------------------------------------
-# 3.5. Pre-Flight Test (Single Origin)
-# ------------------------------------------------------------------------------
-
-# cat("Step 3.5: Running pre-flight test on first origin...\n")
-
-# # Test first origin in main process to catch errors early
-# test_result <- forecast_at_origin(
-#     origin_idx = forecast_origins[1],
-#     data_full = data_small,
-#     lags = 12,
-#     priors_config = priors_config
-# )
-
-# if (!test_result$success) {
-#     stop(sprintf("✗ Pre-flight test FAILED!\nError: %s\nFix this error before parallel execution.", test_result$error_msg))
-# } else {
-#     cat("  ✓ Pre-flight test passed. Proceeding with parallel execution...\n\n")
-# }
 
 # ------------------------------------------------------------------------------
 # 4. Set Up Parallel Computing

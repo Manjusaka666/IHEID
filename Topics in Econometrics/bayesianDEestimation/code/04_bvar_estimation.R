@@ -22,15 +22,15 @@ setup_hierarchical_priors <- function() {
     # Calibrated to reflect information rigidities in realistic forecasting environments
     # Lambda: Stronger shrinkage (0.05) mimics institutional inertia and delayed information processing
     # Alpha: Higher lag decay (3.0) can induce trend-chasing behavior (overreaction at long horizons)
-    lambda_mode <- getOption("bayesian_de.lambda_mode", 0.05) # ⬇ Reduced from 0.2
-    lambda_sd <- getOption("bayesian_de.lambda_sd", 0.2) # ⬇ Reduced from 0.4
-    lambda_min <- getOption("bayesian_de.lambda_min", 1e-3) # ⬇ Reduced from 1e-4
-    lambda_max <- getOption("bayesian_de.lambda_max", 2.0) # ⬇ Reduced from 5.0
+    lambda_mode <- getOption("bayesian_de.lambda_mode", 0.05)
+    lambda_sd <- getOption("bayesian_de.lambda_sd", 0.2)
+    lambda_min <- getOption("bayesian_de.lambda_min", 1e-3)
+    lambda_max <- getOption("bayesian_de.lambda_max", 2.0)
 
-    alpha_mode <- getOption("bayesian_de.alpha_mode", 3.0) # ⬆ Increased from 2.0
-    alpha_sd <- getOption("bayesian_de.alpha_sd", 0.25) # (unchanged)
-    alpha_min <- getOption("bayesian_de.alpha_min", 1) # (unchanged)
-    alpha_max <- getOption("bayesian_de.alpha_max", 3) # (unchanged)
+    alpha_mode <- getOption("bayesian_de.alpha_mode", 3.0)
+    alpha_sd <- getOption("bayesian_de.alpha_sd", 0.25)
+    alpha_min <- getOption("bayesian_de.alpha_min", 1)
+    alpha_max <- getOption("bayesian_de.alpha_max", 3)
 
     priors <- bv_priors(
         hyper = "auto", # Automatic hierarchical selection
@@ -50,7 +50,6 @@ setup_hierarchical_priors <- function() {
                 max = alpha_max
             ),
             # Cross-variable shrinkage (psi)
-            # In BVAR 1.0.5, psi needs length = number of variables when mode is numeric.
             # Use auto mode to match dimensions consistently across models.
             psi = bv_psi(mode = "auto")
             # Cross-variable shrinkage (psi): not used in standard setup

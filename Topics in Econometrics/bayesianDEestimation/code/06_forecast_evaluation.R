@@ -81,7 +81,6 @@ compute_growth_series <- function(data_est, var_name, horizon, is_log = TRUE) {
 
 # Extract and transform forecasts for key variables
 # Uses CUMULATIVE growth rates from base period t for all horizons
-# This ensures comparability between forecast and actual values
 extract_forecasts_transformed <- function(forecast_results, data_est, var_name, is_log = TRUE) {
     var_idx_default <- which(colnames(data_est) == var_name)
 
@@ -129,8 +128,8 @@ extract_forecasts_transformed <- function(forecast_results, data_est, var_name, 
             # h=3: 3-month average annualized = 400 * (F_{t+3} - A_t)
             # h=12: 12-month (YoY) = 100 * (F_{t+12} - A_t)
             h1_growth <- 1200 * (all_fcast[1] - base_t0)
-            h3_growth <- 400 * (all_fcast[3] - base_t0)     # 1200/3
-            h12_growth <- 100 * (all_fcast[12] - base_t0)   # 1200/12 = 100
+            h3_growth <- 400 * (all_fcast[3] - base_t0) # 1200/3
+            h12_growth <- 100 * (all_fcast[12] - base_t0) # 1200/12 = 100
 
             data.frame(
                 origin_date = origin_date,
@@ -145,8 +144,8 @@ extract_forecasts_transformed <- function(forecast_results, data_est, var_name, 
                 origin_date = origin_date,
                 origin_idx = origin_idx,
                 h1_forecast = all_fcast[1] - base_t0,
-                h3_forecast = (all_fcast[3] - base_t0) / 3,     # Average per period
-                h12_forecast = (all_fcast[12] - base_t0) / 12   # Average per period
+                h3_forecast = (all_fcast[3] - base_t0) / 3, # Average per period
+                h12_forecast = (all_fcast[12] - base_t0) / 12 # Average per period
             )
         }
     })
@@ -194,7 +193,7 @@ align_forecast_actual <- function(forecast_df, data_est, var_name, is_log = TRUE
     if (nrow(forecast_df) == 0) {
         return(forecast_df)
     }
-    
+
     forecast_df <- forecast_df %>%
         mutate(
             target_date_h1 = as.Date(NA),
@@ -220,13 +219,13 @@ align_forecast_actual <- function(forecast_df, data_est, var_name, is_log = TRUE
         if (origin_idx + 12 <= nrow(data_est)) {
             forecast_df$target_date_h12[i] <- as.Date(index(data_est)[origin_idx + 12])
         }
-        
+
         # Base level at origin (time t) - SAME as used for forecasts
         base_level <- coredata(data_est)[origin_idx, var_idx]
         if (is.na(base_level)) {
             next
         }
-        
+
         if (is_log) {
             # Compute CUMULATIVE growth rates (same definition as forecasts)
             # h=1: 1200 * (A_{t+1} - A_t)
@@ -234,13 +233,13 @@ align_forecast_actual <- function(forecast_df, data_est, var_name, is_log = TRUE
                 level_h1 <- coredata(data_est)[origin_idx + 1, var_idx]
                 forecast_df$h1_actual[i] <- 1200 * (level_h1 - base_level)
             }
-            
+
             # h=3: 400 * (A_{t+3} - A_t)
             if (origin_idx + 3 <= nrow(data_est)) {
                 level_h3 <- coredata(data_est)[origin_idx + 3, var_idx]
                 forecast_df$h3_actual[i] <- 400 * (level_h3 - base_level)
             }
-            
+
             # h=12: 100 * (A_{t+12} - A_t) = YoY
             if (origin_idx + 12 <= nrow(data_est)) {
                 level_h12 <- coredata(data_est)[origin_idx + 12, var_idx]
@@ -767,4 +766,3 @@ cat("  ✓ Saved to results/tables/ and results/forecasts/\n\n")
 
 cat("✓ Forecast evaluation complete!\n")
 cat("Next step: Run 07_cg_regression.R\n\n")
-
