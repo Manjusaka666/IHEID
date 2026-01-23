@@ -1,4 +1,20 @@
-Manuscript mapping: Table~\ref{tab:rmsfe} -> results/latex_tables/tab_rmsfe.tex; Figure~\ref{fig:relrmsfe} -> results/figures/fig2_relative_rmsfe.png; Table~\ref{tab:cg_regression} -> results/latex_tables/tab_cg_regression.tex; Figure~\ref{fig:cg_coeff} -> results/figures/fig3_cg_coefficients.png; Figure~\ref{fig:lambda} -> results/figures/fig5_lambda_evolution.png. Appendix items: Table~\ref{tab:clark_west} -> results/latex_tables/clark_west_tests.tex; Figure~\ref{fig:rolling_ar1} -> results/figures/fig_rolling_relative_rmsfe_ar1.png; Figure~\ref{fig:robustness_rw} -> results/figures/fig_robustness_relative_rmsfe_rw.png; Figure~\ref{fig:robustness_ar1} -> results/figures/fig_robustness_relative_rmsfe_ar1.png; Figure~\ref{fig:cpi_forecast_paths} -> results/figures/fig6a_forecast_vs_actual_h1.png, results/figures/fig6b_forecast_vs_actual_h3.png, results/figures/fig6c_forecast_vs_actual_h12.png; Figure~\ref{fig:timing_diag} -> results/figures/fig6d_timing_diagnostic_h1.png, results/figures/fig6e_timing_diagnostic_h3.png, results/figures/fig6f_timing_diagnostic_h12.png; Figure~\ref{fig:cg_scatter} -> results/figures/fig7a_cg_scatter_h1.png, results/figures/fig7b_cg_scatter_h3.png, results/figures/fig7c_cg_scatter_h12.png.
+Manuscript mapping:
+- Figure~\ref{fig:key_series} -> results/figures/fig0_key_series.png
+- Table~\ref{tab:summary_stats} -> results/latex_tables/tab_summary_stats.tex
+- Table~\ref{tab:rmsfe} -> results/latex_tables/tab_rmsfe.tex
+- Figure~\ref{fig:relrmsfe} -> results/figures/fig2_relative_rmsfe.png
+- Table~\ref{tab:cg_regression} -> results/latex_tables/tab_cg_regression.tex
+- Figure~\ref{fig:cg_coeff} -> results/figures/fig3_cg_coefficients.png
+- Figure~\ref{fig:lambda} -> results/figures/fig5_lambda_evolution.png
+
+Appendix items:
+- Table~\ref{tab:clark_west} -> results/latex_tables/clark_west_tests.tex
+- Figure~\ref{fig:rolling_ar1} -> results/figures/fig_rolling_relative_rmsfe_ar1.png
+- Figure~\ref{fig:robustness_rw} -> results/figures/fig_robustness_relative_rmsfe_rw.png
+- Figure~\ref{fig:robustness_ar1} -> results/figures/fig_robustness_relative_rmsfe_ar1.png
+- Figure~\ref{fig:cpi_forecast_paths} -> results/figures/fig6a_forecast_vs_actual_h1.png; results/figures/fig6b_forecast_vs_actual_h3.png; results/figures/fig6c_forecast_vs_actual_h12.png
+- Figure~\ref{fig:timing_diag} -> results/figures/fig6d_timing_diagnostic_h1.png; results/figures/fig6e_timing_diagnostic_h3.png; results/figures/fig6f_timing_diagnostic_h12.png
+- Figure~\ref{fig:cg_scatter} -> results/figures/fig7a_cg_scatter_h1.png; results/figures/fig7b_cg_scatter_h3.png; results/figures/fig7c_cg_scatter_h12.png
 
 Lambda prior settings and hierarchical shrinkage are defined in code/04_bvar_estimation.R via setup_hierarchical_priors, lambda_mode, lambda_sd, lambda_min, lambda_max, and bv_lambda, with recursive extraction and storage in code/05_recursive_forecasting.R via extract_hyperparams and hyperparams_all to results/forecasts/hyperparameters_evolution.csv.
 

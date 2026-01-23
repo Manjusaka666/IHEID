@@ -335,28 +335,6 @@ Ludvigson, S\BPBI C.%
 \PrintBackRefs{\CurrentBib}
 
 \bibitem [\protect \citeauthoryear {%
-Sims%
-}{%
-Sims%
-}{%
-{\protect \APACyear {1980}}%
-}]{%
-Sims1980}
-\APACinsertmetastar {%
-Sims1980}%
-\begin{APACrefauthors}%
-Sims, C\BPBI A.%
-\end{APACrefauthors}%
-\unskip\
-\newblock
-\APACrefYearMonthDay{1980}{}{}.
-\newblock
-{\BBOQ}\APACrefatitle {Macroeconomics and reality} {Macroeconomics and reality}.{\BBCQ}
-\newblock
-\APACjournalVolNumPages{Econometrica}{48}{1}{1--48}.
-\PrintBackRefs{\CurrentBib}
-
-\bibitem [\protect \citeauthoryear {%
 Stock%
 \ \BBA {} Watson%
 }{%
