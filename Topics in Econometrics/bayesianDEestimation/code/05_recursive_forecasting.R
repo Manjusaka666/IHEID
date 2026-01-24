@@ -26,6 +26,7 @@ data_full <- readRDS("data/processed/data_full_estimation.rds")
 # MCMC settings (exposed as options for experimentation)
 n_draw <- getOption("bayesian_de.n_draw", 10000L)
 n_burn <- getOption("bayesian_de.n_burn", 5000L)
+base_seed <- getOption("bayesian_de.seed", 2025L)
 
 # Prior configuration with sd parameters for proper hierarchical optimization
 # Calibrated to reflect information rigidities in realistic forecasting environments
@@ -113,7 +114,16 @@ cat("Step 3: Setting up parallel forecasting function...\n")
 #' @param lags Number of lags
 #' @param priors_config Prior configuration
 #' @return List with forecasts and metadata
-forecast_at_origin <- function(origin_idx, data_full, lags, priors_config) {
+forecast_at_origin <- function(origin_idx, data_full, lags, priors_config, model_name, base_seed) {
+    model_offset <- switch(tolower(model_name),
+        "small" = 0L,
+        "medium" = 100000L,
+        "full" = 200000L,
+        0L
+    )
+    seed_val <- as.integer(base_seed) + model_offset + as.integer(origin_idx)
+    set.seed(seed_val)
+
     # Extract training window (expanding)
     train_data <- data_full[1:origin_idx, ]
 
@@ -242,6 +252,10 @@ cl <- makeCluster(n_cores, type = "PSOCK")
 
 cat(sprintf("  Cluster created with %d workers.\n", n_cores))
 
+# Ensure reproducible parallel RNG streams
+seed_value <- getOption("bayesian_de.seed", 2025L)
+clusterSetRNGStream(cl, iseed = seed_value)
+
 # Export required objects and libraries to cluster
 cat("  Exporting data and functions to workers...\n")
 clusterExport(cl, varlist = c(
@@ -334,7 +348,9 @@ run_model_forecasts <- function(model_name, data, lags = 12) {
             fun = forecast_at_origin,
             data_full = data,
             lags = lags,
-            priors_config = priors_config
+            priors_config = priors_config,
+            model_name = model_name,
+            base_seed = base_seed
         )
 
         # Append to results

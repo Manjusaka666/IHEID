@@ -1,4 +1,4 @@
-Analysis started at: 2026-01-16 19:26:03 
+Analysis started at: 2026-01-24 12:40:58 
 
 
 ═══════════════════════════════════════════════════
@@ -9,10 +9,3 @@ Analysis started at: 2026-01-16 19:26:03
 
 ✓ CRAN mirror set to https://cloud.r-project.org
 Step 1: Loading R packages...
-✓ All R packages loaded successfully.
-
-Step 2: Initializing Julia via JuliaCall...
-
-✗ Error in Phase 1: Error happens when you try to execute command ENV["R_HOME"] = "D:/R/R-4.5.2";Base.include(Main,"D:/R/R-4.5.2/library/JuliaCall/julia/setup.jl") in Julia.
-                        To have more helpful error messages,
-                        you could considering running the command in Julia directly 

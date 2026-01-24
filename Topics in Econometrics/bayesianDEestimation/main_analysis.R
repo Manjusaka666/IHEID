@@ -23,6 +23,14 @@ if (!file.exists("code/01_setup_environment.R")) {
     stop("Please run this script from the project root directory.")
 }
 
+# ----------------------------------------------------------------------
+# Reproducibility (Global RNG)
+# ----------------------------------------------------------------------
+# Use a parallel-safe RNG and a fixed global seed for full pipeline reproducibility.
+RNGkind(kind = "L'Ecuyer-CMRG")
+set.seed(2025)
+options(bayesian_de.seed = 2025L)
+
 # Track execution time
 start_time <- Sys.time()
 

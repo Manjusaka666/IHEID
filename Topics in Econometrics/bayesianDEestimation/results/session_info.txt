@@ -5,6 +5,11 @@ Running under: Windows 11 x64 (build 26200)
 Matrix products: default
   LAPACK version 3.12.1
 
+Random number generation:
+ RNG:     L'Ecuyer-CMRG 
+ Normal:  Inversion 
+ Sample:  Rejection 
+ 
 locale:
 [1] LC_COLLATE=Chinese (Simplified)_China.utf8 
 [2] LC_CTYPE=Chinese (Simplified)_China.utf8   

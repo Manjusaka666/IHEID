@@ -54,6 +54,7 @@ priors_config <- bv_priors(
 n_draw <- getOption("bayesian_de.n_draw", 10000)
 n_burn <- getOption("bayesian_de.n_burn", 5000)
 n_cores <- getOption("bayesian_de.n_cores", max(1, detectCores() - 2))
+base_seed <- getOption("bayesian_de.seed", 2025L)
 
 final_forecast_date <- as.Date("2019-11-30")
 
@@ -103,7 +104,16 @@ extract_point_forecast <- function(fcast, var_names) {
     all_horizons
 }
 
-forecast_at_origin <- function(origin_idx, data_full, lags, priors_config, n_draw, n_burn) {
+forecast_at_origin <- function(origin_idx, data_full, lags, priors_config, n_draw, n_burn, model_name, base_seed) {
+    model_offset <- switch(tolower(model_name),
+        "small" = 0L,
+        "medium" = 100000L,
+        "full" = 200000L,
+        0L
+    )
+    seed_val <- as.integer(base_seed) + model_offset + as.integer(origin_idx)
+    set.seed(seed_val)
+
     train_data <- data_full[1:origin_idx, ]
     train_matrix <- coredata(train_data)
 
@@ -168,7 +178,9 @@ run_model_forecasts <- function(model_name, data, lags, forecast_origins, output
         lags = lags,
         priors_config = priors_config,
         n_draw = n_draw,
-        n_burn = n_burn
+        n_burn = n_burn,
+        model_name = model_name,
+        base_seed = base_seed
     )
 
     end_time <- Sys.time()
@@ -403,6 +415,8 @@ for (scenario in scenarios) {
     cat(sprintf("  Forecast origins: %d\n", length(forecast_origins)))
 
     cl <- makeCluster(n_cores, type = "PSOCK")
+    seed_value <- getOption("bayesian_de.seed", 2025L)
+    clusterSetRNGStream(cl, iseed = seed_value)
     clusterExport(cl, varlist = c(
         "forecast_at_origin",
         "extract_point_forecast",
