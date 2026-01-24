@@ -254,7 +254,9 @@ Croushore, D.%
 \newblock
 {\BBOQ}\APACrefatitle {Do Consumer Confidence Indexes Help Forecast Consumer Spending in Real Time?} {Do consumer confidence indexes help forecast consumer spending in real time?}{\BBCQ}
 \newblock
-\APACjournalVolNumPages{Journal of Business \& Economic Statistics}{}{}{}.
+\APACjournalVolNumPages{The North American Journal of Economics and Finance}{16}{3}{435--450}.
+\newblock
+\begin{APACrefDOI} \doi{10.1016/j.najef.2005.05.002} \end{APACrefDOI}
 \PrintBackRefs{\CurrentBib}
 
 \bibitem [\protect \citeauthoryear {%

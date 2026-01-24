@@ -27,10 +27,8 @@
 \captionsetup{font=small, labelfont=bf, justification=justified, singlelinecheck=false}
 
 \newif\ifsubmission
-% Standalone submission source: always compile submission branch.
 \submissiontrue
 
-% Helpers: suppress generated notes, then inject manuscript notes inside the float.
 \newcommand{\TableNotes}[1]{%
     \begingroup%
     \captionsetup{font=footnotesize}%
@@ -53,21 +51,20 @@
 }
 
 \begin{document}
-% Title page (unnumbered)
 \hypersetup{pageanchor=false}
 \begin{titlepage}
     \centering
     \vspace*{1.5cm}
     {\Large Geneva Graduate Institute (IHEID)\par}
     \vspace{0.4cm}
-    {\large Topics in Econometrics\par}
+    {\large Topics in Econometrics (EI137)\par}
     \vspace{0.2cm}
     {\large Term Paper\par}
     \vspace{1.0cm}
 
-    {\LARGE\bfseries The Incremental Predictive Power of Consumer Sentiment in Macroeconomic Forecasting\par}
+    {\LARGE\bfseries Forecasting Horse Races and ``Belief Distortions'':\par}
     \vspace{0.25cm}
-    {\large Evidence from a Hierarchical Bayesian VAR and Forecast-Revision Diagnostics\par}
+    {\large Hierarchical Bayesian VAR Study with Sentiment Signals\par}
 
     \vfill
 
@@ -77,101 +74,92 @@
 \end{titlepage}
 \hypersetup{pageanchor=true}
 
-% Abstract page (roman numbering allowed before Introduction)
 \pagenumbering{roman}
 \setcounter{page}{1}
 \pagestyle{plain}
 
 \begin{abstract}
-    Does consumer sentiment add predictive content for inflation and real activity once macro aggregates and financial prices are already included?
-    I address this question using a hierarchical Bayesian VAR with nested information sets, recursive pseudo out-of-sample forecasting, and a revision-based diagnostic of forecast updating following \citet{CG2015}.
-    Point-forecast evidence shows that sentiment yields only marginal gains in accuracy once financial prices are included.
-    The revision diagnostic reveals that updating patterns vary with the information set, characterizing internal forecast discipline.
-    I interpret the estimated coefficients and shrinkage patterns as conditional predictive relationships within a regularized system.
+    Does consumer sentiment improve forecasts of inflation and real activity beyond the information in macro aggregates and financial prices?
+    I address this question using a hierarchical Bayesian VAR with nested information sets, recursive pseudo out-of-sample forecasting, and a revision-based diagnostic following \citet{CG2015}.
+    Point forecasts indicate marginal accuracy gains at best once financial prices are included.
+    Revision diagnostics reveal updating patterns that vary with the information set, characterizing internal forecast discipline.
+    The estimated coefficients and shrinkage patterns reflect conditional predictive relationships within a regularized system.
 \end{abstract}
 \noindent\textit{Keywords:} Bayesian VAR; hierarchical shrinkage; forecasting; consumer sentiment; forecast revisions.\par
 
 \clearpage
-% Main text starts here (arabic numbering from Introduction)
 \pagenumbering{arabic}
 \setcounter{page}{1}
 
-% --- Section 1: Introduction ---
 \section{Introduction}
 
-How much does consumer sentiment improve forecasts of inflation and output once I account for standard macro aggregates and financial market prices?
-I separate \emph{forecast accuracy} from \emph{forecast discipline} to distinguish added information from the way the model updates under regularization.
+How much does consumer sentiment improve forecasts of inflation and output after accounting for standard macro aggregates and financial market prices?
+I distinguish forecast accuracy from forecast discipline to separate added information from the model's updating behavior under regularization.
 
-The paper compares nested information sets within a hierarchical BVAR with data-driven shrinkage. This design accommodates changes in dimensionality
-without ad hoc tuning \citep{GLP2015,BanburaGLP2010,KuschnigVashold2021}. I report results for point-forecast accuracy and for forecast discipline. The
+I compare nested information sets within a hierarchical BVAR with data-driven shrinkage. This design accommodates changes in dimensionality
+without ad hoc tuning \citep{GLP2015,BanburaGLP2010,KuschnigVashold2021}. I evaluate both point-forecast accuracy and forecast discipline. The
 evidence offers limited support for sentiment's incremental value once financial prices are included, while revision diagnostics reveal updating patterns
-that vary with the information set. With nested models, inference focuses on relative forecasting efficiency and stability across horizons; nested-robust
-Clark-West adjustments are reported in the appendix \citep{ClarkMcCracken2001,ClarkWest2007}. I implement the \citet{CG2015} regression on model-implied
+that vary with the information set. Given the nested structure, I emphasize relative forecasting efficiency and stability across horizons; nested-robust
+Clark-West adjustments appear in the appendix \citep{ClarkMcCracken2001,ClarkWest2007}. I implement the \citet{CG2015} regression on model-implied
 forecasts to diagnose the system's updating rule.
 
-\paragraph{Related literature.}
-The revision diagnostic follows \citet{CG2015} and connects to work on expectations updating, including diagnostic-expectations models; in this setting it
-functions as a diagnostic for forecast updating \citep{BordaloGennaioliShleifer2018,BordaloGennaioliShleifer2020JEP}. Evidence on whether confidence or
+This revision diagnostic builds on \citet{CG2015} and connects to work on expectations updating, including diagnostic-expectations models \citep{BordaloGennaioliShleifer2018,BordaloGennaioliShleifer2020JEP}. Evidence on whether confidence or
 sentiment adds incremental forecasting information is mixed once other indicators are included, and real-time evaluations often find gains that are
 limited or unstable \citep{CarrollFuhrerWilcox1994,BramLudvigson1998,Ludvigson2004,Croushore2005}. The inflation-forecasting literature emphasizes that
 parsimonious benchmarks are difficult to beat and that relationships shift over time, which counsels caution in interpreting small differences
 \citep{AtkesonOhanian2001,StockWatson2007}. Hierarchical BVAR shrinkage provides a disciplined way to compare information sets of different sizes without
 ad hoc tuning, which is central to the design here \citep{GLP2015,BanburaGLP2010,KuschnigVashold2021}.
 
-I interpret the predictive power of sentiment through a signal-extraction lens. Financial prices aggregate dispersed information efficiently and may act
+A signal-extraction framework clarifies sentiment's limited predictive role. Financial prices aggregate dispersed information efficiently and may act
 as a sufficient statistic for future macroeconomic fundamentals. Consumer sentiment surveys, by contrast, contain idiosyncratic noise and measurement
 error. The analysis tests whether, conditional on efficient price discovery, the marginal signal in noisy survey measures is statistically significant for
 point-forecast performance.
 
-% --- Section 2: Data ---
 \section{Data}
 \label{sec:data}
-This section defines the nested information sets and the evaluation scale used in the forecasting comparison.
-The dataset is monthly and spans 1985M1--2019M12, using revised data from FRED and Yahoo Finance. Variables are chosen to capture the macro state (output, inflation, unemployment), the policy stance (short rate), forward-looking market prices (term yield, equity prices, oil), and survey-based sentiment. The information sets are nested to isolate incremental information content. The `Small' set includes core macro variables: Industrial Production (INDPRO), Consumer Price Index (CPIAUCSL), Unemployment Rate (UNRATE), and the Federal Funds Rate (FEDFUNDS). The `Medium' set adds financial prices: the 10-Year Treasury Yield (GS10), the S\&P 500 Index (SP500), and WTI crude oil prices (DCOILWTICO). The `Full' set adds the University of Michigan Consumer Sentiment Index (UMCSENT). The comparison between Medium and Full therefore targets whether sentiment contributes beyond information already summarized in market prices.
 
-Figure~\ref{fig:key_series} plots three core series (standardized) to illustrate co-movement prior to the BVAR analysis.
-Table~\ref{tab:summary_stats} rpresents summary statistics for the key variables..
+The dataset is monthly and spans 1985M1--2019M12, using revised data from FRED and Yahoo Finance. Variables are chosen to capture the macro state (output, inflation, unemployment), the policy stance (short rate), forward-looking market prices (term yield, equity prices, oil), and survey-based sentiment. The information sets are nested to isolate incremental information content. The `Small' set includes core macro variables: Industrial Production (INDPRO), Consumer Price Index (CPIAUCSL), Unemployment Rate (UNRATE), and the Federal Funds Rate (FEDFUNDS). The `Medium' set adds financial prices: the 10-Year Treasury Yield (GS10), the S\&P 500 Index (SP500), and WTI crude oil prices (DCOILWTICO). The `Full' set adds the University of Michigan Consumer Sentiment Index (UMCSENT). The Medium-to-Full comparison therefore tests whether sentiment contributes beyond information already summarized in market prices.
+
+Figure~\ref{fig:key_series} plots three core series to illustrate their co-movement prior to the BVAR analysis.
+Table~\ref{tab:summary_stats} presents summary statistics for the key variables.
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.9\textwidth]{fig0_key_series.png}
     \caption{Key series (standardized): CPI, S\&P 500, and consumer sentiment}
     \label{fig:key_series}
-    \FigNotes{Each series is standardized to mean zero and unit variance over the estimation sample to emphasize co-movement and regime shifts. }
+    \FigNotes{Each series is standardized to mean zero and unit variance over the estimation sample to emphasize co-movement and regime shifts.}
 \end{figure}
 
-\InputGeneratedTableWithNotes{results/latex_tables/tab_summary_stats.tex}{Summary statistics computed from the estimation sample in the full information set. The correlation column reports pairwise correlations with UMCSENT. }
+\InputGeneratedTableWithNotes{results/latex_tables/tab_summary_stats.tex}{Summary statistics computed from the estimation sample in the full information set. The correlation column reports pairwise correlations with UMCSENT.}
 
 Following standard BVAR practice, the model is estimated in levels or log-levels \citep{GLP2015}. Forecasts are evaluated on a common growth-rate scale constructed from model-implied level forecasts, using the same transformation throughout the forecasting system. This structure isolates the incremental role of sentiment while keeping the evaluation scale consistent across information sets.
 For log-level series (CPIAUCSL and INDPRO), the evaluation scale is the cumulative annualized growth rate from the forecast origin,
 \[
     g_{t,h}=\frac{1200}{h}\left(\ell_{t+h}-\ell_{t}\right), \qquad h\in\{1,3,12\},
 \]
-so that $h=1$ uses $1200(\ell_{t+1}-\ell_t)$, $h=3$ uses $400(\ell_{t+3}-\ell_t)$, and $h=12$ uses $100(\ell_{t+12}-\ell_t)$; levels are handled as cumulative changes per period.
+yielding annualized rates of $1200(\ell_{t+1}-\ell_t)$ for $h=1$, $400(\ell_{t+3}-\ell_t)$ for $h=3$, and $100(\ell_{t+12}-\ell_t)$ for $h=12$; levels are handled as cumulative changes per period.
 
-% --- Section 3: Econometric Framework ---
 \section{Empirical design}
 \label{sec:methods}
 
 \subsection{Forecasting system and notation}\label{sec:forecasting_system}
-For each information set, I estimate the same reduced-form VAR and hold the specification fixed across information sets.\footnote{All quantitative evidence is generated by the hierarchical BVAR system described in this section; replication materials are summarized in the appendix.} Let $y_t$ denote the $n \times 1$ vector of endogenous variables observed at time $t$. For the Small information set, $y_t$ stacks the macro variables (INDPRO, CPIAUCSL, UNRATE, FEDFUNDS). For the Medium set, $y_t$ augments the macro block with financial prices (GS10, SP500, DCOILWTICO). For the Full set, $y_t$ further adds UMCSENT. The reduced-form VAR of order $p$ is
+I estimate the same reduced-form VAR specification for each information set, varying only the composition of $y_t$.\footnote{All quantitative evidence is generated by the hierarchical BVAR system described in this section; replication materials are summarized in the appendix.} Let $y_t$ denote the $n \times 1$ vector of endogenous variables observed at time $t$. For the Small information set, $y_t$ stacks the macro variables (INDPRO, CPIAUCSL, UNRATE, FEDFUNDS). For the Medium set, $y_t$ augments the macro block with financial prices (GS10, SP500, DCOILWTICO). For the Full set, $y_t$ further adds UMCSENT. The order-$p$ reduced-form VAR is
 \begin{equation}
     y_t = c + \sum_{\ell=1}^{p} B_{\ell} y_{t-\ell} + u_t,\qquad u_t \sim \mathcal{N}(0, \Sigma),
     \label{eq:varest}
 \end{equation}
-where $c$ is an $n \times 1$ intercept, $B_{\ell}$ are $n \times n$ coefficient matrices, and $\Sigma$ is the reduced-form covariance matrix. In the empirical implementation, $p=12$ to match the monthly data frequency and the code-based lag order.
+where $c$ is an $n \times 1$ intercept, $B_{\ell}$ are $n \times n$ coefficient matrices, and $\Sigma$ is the reduced-form covariance matrix. In the empirical implementation, $p=12$ to match the monthly data frequency.
 
 Stacking observations over $t=1,\dots,T$, define the regressor matrix $X$ with an intercept and lagged $y_t$ terms and the coefficient matrix $\Phi = [c, B_1, \dots, B_p]'$. The reduced-form system can be written as
 \begin{equation}
     Y = X\Phi + U,\qquad \mathrm{vec}(U) \sim \mathcal{N}(0, I_T \otimes \Sigma),
     \label{eq:var_stack}
 \end{equation}
-which implies a Gaussian likelihood for $(\Phi,\Sigma)$.
-This formulation makes explicit that all equations are jointly estimated with a common covariance matrix,
-and it provides the likelihood kernel used for the Bayesian posterior.
+implying a Gaussian likelihood for $(\Phi,\Sigma)$ with joint estimation of all equations.
 
 \subsection{Hierarchical Minnesota prior}\label{sec:prior}
-I regularize the BVAR using a Minnesota prior that shrinks the system toward a parsimonious, univariate benchmark.
+The BVAR is regularized via a Minnesota prior that shrinks the system toward a parsimonious, univariate benchmark.
 For persistent level variables, the prior mean on the first own lag is set to one and all other coefficients are centered at zero;
 for stationary variables, all lag coefficients are centered at zero. The prior on the coefficient matrix takes the standard conjugate form
 \begin{equation}
@@ -188,12 +176,12 @@ with $\sigma_i^2$ denoting a scale estimate for equation $i$, $\alpha$ governing
 and $\psi_{ij}$ applying additional shrinkage to cross-variable lags (normalized to one for own lags in the standard Minnesota design).
 This structure delivers stronger shrinkage on long lags and cross-variable effects while preserving flexibility for own-lag persistence.
 
-Two additional priors further stabilize the system.
+Two additional priors stabilize the system.
 A sum-of-coefficients prior imposes near-unit-root dynamics in levels,
 while a dummy-initial-observation prior anchors the system to initial conditions \citep{GLP2015,BanburaGLP2010,KuschnigVashold2021}.
 These components are implemented alongside the Minnesota prior and are treated as part of the regularization mechanism that stabilizes the system.
 
-The hierarchical approach learns the appropriate degree of shrinkage from the data, rather than relying on pre-tuned hyperparameters.
+The hierarchical approach learns the appropriate degree of shrinkage from the data rather than relying on pre-tuned hyperparameters.
 The global tightness $\lambda$ and lag-decay $\alpha$ are assigned Gamma hyperpriors with bounded support, consistent with the BVAR implementation.
 For example,
 \begin{equation}
@@ -203,32 +191,47 @@ For example,
 with analogous structure for $\alpha$. The hyperparameters are updated via Metropolis--Hastings steps within the posterior sampler,
 so shrinkage adapts to the data rather than being fixed ex ante.
 
-\subsection{Marginal likelihood and hierarchical selection}\label{sec:ml}
-The hierarchical selection logic follows the marginal likelihood principle.
-Conditional on $\lambda$, the likelihood integrates out $\Phi$ and $\Sigma$ under the conjugate prior to yield the marginal data density $p(Y\mid \lambda)$.
-The posterior for $\lambda$ is proportional to this marginal density times the hyperprior,
-and the MCMC draws concentrate on values that balance fit and complexity.
-This data-driven criterion penalizes over-parameterization when the information set expands and thereby stabilizes out-of-sample performance in nested comparisons.
+\begin{table}[H]
+    \centering
+    \caption{Implementation settings and hyperparameter values}
+    \label{tab:implementation}
+    \small
+    \begin{tabular}{lcl}
+        \toprule
+        Parameter                       & Symbol             & Specification                                                                        \\
+        \midrule
+        MCMC draws                      & $S$                & $S = 10,\!000$ (post-burn-in)                                                        \\
+        Burn-in period                  & $B$                & $B = 5,\!000$                                                                        \\
+        Minnesota tightness             & $\lambda$          & $\lambda \sim \text{Gamma}(\text{mode}=0.05, \text{sd}=0.2)$; support $[0.001, 2.0]$ \\
+        Lag decay                       & $\alpha$           & $\alpha \sim \text{Gamma}(\text{mode}=3.0, \text{sd}=0.25)$; support $[1, 3]$        \\
+        Cross-variable shrinkage        & $\psi$             & Automatic determination (BVAR package default)                                       \\
+        Sum-of-coefficients prior       & $\mu_{\text{SOC}}$ & $\text{Gamma}(\text{mode}=1, \text{sd}=1)$; support $[0.01, 50]$                     \\
+        Dummy-initial-observation prior & $\mu_{\text{DIO}}$ & $\text{Gamma}(\text{mode}=1, \text{sd}=1)$; support $[0.01, 50]$                     \\
+        Hyperparameter sampler          &                    & Metropolis--Hastings within Gibbs sampler                                            \\
+        \bottomrule
+    \end{tabular}
+\end{table}
 
-\subsection{Implementation details}
-All estimation and forecasting are implemented in \textsf{R} using the \texttt{BVAR} package \citep{KuschnigVashold2021},
-with custom scripts for the recursive forecasting loop and evaluation.
-The VAR lag order is $p=12$. At each forecast origin, the BVAR is estimated by MCMC with $n_{\text{draw}}=10000$ draws,
-$n_{\text{burn}}=5000$ burn-in iterations, and no thinning. Hyperparameters are updated by Metropolis--Hastings steps.
-The Minnesota prior uses a Gamma hyperprior for $\lambda$ with mode 0.05, standard deviation 0.2, and bounds $[0.001,2.0]$,
-and a Gamma hyperprior for $\alpha$ with mode 3.0, standard deviation 0.25, and bounds $[1,3]$;
-cross-variable shrinkage $\psi$ is set by the package in auto mode.
-The sum-of-coefficients and dummy-initial-observation priors use mode 1 and standard deviation 1 with bounds $[0.01,50]$.
-Forecasts are produced at horizons $h \in \{1,3,12\}$ (with $h=13$ retained internally for revision diagnostics), using an expanding-window recursion.
+\subsection{Marginal likelihood and hierarchical selection}\label{sec:ml}
+Following Giannone--Lenza--Primiceri, I treat $\lambda$ as a hyperparameter selected by the data through the marginal data density (MDD),
+\[
+    p(Y\mid \lambda) = \int p(Y\mid \Phi,\Sigma)\,p(\Phi,\Sigma\mid \lambda)\,d\Phi\,d\Sigma,
+\]
+and use the \texttt{BVAR} package implementation to obtain $\hat\lambda$ (and other prior hyperparameters) via hierarchical prior selection.
+Conjugacy implies that, conditional on $\lambda$, the posterior is Normal--Inverse-Wishart,
+which yields closed-form posterior moments and a tractable posterior predictive distribution for $y_{t+h}$.
+
+We first give $\lambda$ a Gamma hyperprior, $\lambda \sim \mathcal{G}(a,b)$, and based on data $Y$, we compute the best posterior mode $\hat\lambda$ by maximizing $p(Y\mid \lambda)p(\lambda)$ over a grid of $\lambda$ values.
+Then, conditional on $\hat\lambda$, we obtain the posterior of $(\Phi,\Sigma)$ and the predictive distribution of $y_{t+h}$.
 
 \subsection{Convergence and diagnostics}
-Convergence is assessed by visual inspection of hyperparameter trace behavior and by verifying stability of posterior mean shrinkage across origins,
+I assess convergence through visual inspection of hyperparameter trace behavior and by verifying stability of posterior mean shrinkage across origins,
 as summarized in Figure~\ref{fig:lambda}. The hierarchical prior mitigates overfitting as dimensionality changes,
 and the evidence is organized around trace stability and the evolution of posterior mean shrinkage;
 formal effective-sample-size or Geweke diagnostics are reserved for supplementary robustness work.
 
 \subsection{Pseudo out-of-sample evaluation}
-I evaluate performance using a recursive pseudo out-of-sample design with expanding estimation windows.
+I evaluate performance using recursive pseudo out-of-sample forecasts with expanding windows.
 The initial window runs from 1985M1 to 2000M12, so the first forecast origin is 2001M1.
 Origins advance monthly through 2019M11, yielding one-step evaluation targets through 2019M12;
 longer-horizon RMSFEs are computed over the available non-missing targets implied by this alignment.
@@ -237,56 +240,43 @@ This recursion mirrors a real-time workflow and evaluates performance using revi
 offering evidence on forecasting efficiency under final-vintage information.
 
 \subsection{Forecast accuracy and nested-model inference}
-Forecast accuracy is summarized by RMSFE on the common evaluation scale described in Section~\ref{sec:data}. For target $i$ and horizon $h$,
+I summarize forecast accuracy by RMSFE on the common evaluation scale described in Section~\ref{sec:data}. For target $i$ and horizon $h$,
 \[
     \mathrm{RMSFE}_{i,h}=\left(P^{-1}\sum_{t \in \mathcal{T}} (y_{i,t+h}-\hat y_{i,t+h|t})^2\right)^{1/2}.
 \]
-% Table~\ref{tab:rmsfe} report RMSFEs and relative RMSFEs versus a AR(1) benchmark on the evaluation scale (Figure~\ref{fig:relrmsfe}).
-Given nesting, inference emphasizes magnitudes and stability and reports a nested-model-robust Clark--West adjustment(Appendix Table~\ref{tab:clark_west}).
+Given nesting, I emphasize magnitudes and stability and report a nested-model-robust Clark--West adjustment (Appendix Table~\ref{tab:clark_west}).
 
 \subsection{Forecast discipline: revision-based diagnostic}
-To assess whether forecast updates are systematically related to subsequent forecast errors,
-I use the error-on-revision regression framework of \citet{CG2015} applied to model-implied forecasts:
+I assess the systematic relationship between forecast updates and subsequent errors using the error-on-revision regression of \citet{CG2015} applied to model-implied forecasts:
 \begin{equation}
     (z_{t,h} - \hat{z}_{t,h|t}^{(m)}) = \alpha_h + \beta_h r_{t,h}^{(m)} + \varepsilon_{t,h},
     \label{eq:cg}
 \end{equation}
 where $r_{t,h}^{(m)}$ is the revision to the forecast for the same target date made one period apart.
-In this paper, the regression is used as a diagnostic of the forecasting system's updating rule:
+In this paper, the regression serves as a diagnostic of the forecasting system's updating rule:
 it measures whether revisions are followed by predictable errors, indicating systematic patterns in updating.
 Because the forecasts are produced under shrinkage, such patterns reflect prior-induced conservatism, misspecification,
 or instability as components of the updating mechanism.
 
-% --- Section 4: Interpretation ---
 \section{Results}
 \label{sec:results}
 
-% The accuracy results show that adding financial prices is associated with smaller errors than a macro-only information set,
-% while moving from Medium to Full yields limited and unstable incremental evidence for sentiment (Table~\ref{tab:rmsfe}; Figure~\ref{fig:relrmsfe}).
-% The revision diagnostic points to systematic updating patterns that vary with the information set even when point accuracy changes little
-% (Table~\ref{tab:cg_regression}; Figure~\ref{fig:cg_coeff}).
-% Given the nesting structure, the comparisons emphasize conditional evidence on relative forecasting efficiency and stability across horizons,
-% with nested-robust checks reported in the appendix (Table~\ref{tab:clark_west}).
-
-% Accordingly, the discussion focuses on the direction and stability of these patterns under nested inference,
-% and the evaluation uses revised data to characterize performance under final-vintage information.
-
 \subsection{Forecast accuracy}
-Table~\ref{tab:rmsfe} reports RMSFEs by information set,
-and Figure~\ref{fig:relrmsfe} summarizes the same comparison in relative terms versus an AR(1) benchmark on the evaluation scale.
-The comparison between Medium and Full isolates sentiment's incremental contribution conditional on prices,
-while the comparison between Small and Medium captures the incremental content of financial prices.
-The gains from adding sentiment to a model that already includes financial prices are both statistically insignificant and unstable across horizons.
+Table~\ref{tab:rmsfe} presents RMSFEs by information set,
+and Figure~\ref{fig:relrmsfe} summarizes the comparison in relative terms versus an AR(1) benchmark on the evaluation scale.
+The Medium-to-Full comparison isolates sentiment's incremental value conditional on financial prices,
+while the Small-to-Medium comparison captures the incremental content of financial prices.
+Adding sentiment to a price-augmented model yields statistically insignificant gains that are unstable across horizons.
 This is consistent with substantial information overlap between sentiment and forward-looking market prices.
 
-From a signal-to-noise perspective, price-based indicators convey a cleaner view of latent fundamentals than survey sentiment.
+Price-based indicators convey cleaner signals about latent fundamentals than survey sentiment.
 Once prices are included, the remaining independent signal in sentiment is
 small relative to measurement noise, which explains why RMSFE gains are modest even when sentiment correlates with the target.
-In the hierarchical BVAR, this overlap shows up as posterior shrinkage of
+In the hierarchical BVAR, this overlap manifests as posterior shrinkage of
 sentiment coefficients toward zero when the data provide little support for extra explanatory power.
 
-In forecasting practice, adding predictors that duplicate information increases dimensionality without improving accuracy,
-raises estimation variance, and necessitates stronger regularization to maintain
+Redundant predictors increase dimensionality without improving accuracy,
+raise estimation variance, and necessitate stronger regularization to maintain
 stability. The hierarchical prior addresses this by tightening as the information set expands and by regularizing more aggressively when incremental signal is weak.
 
 The improvement from the Small to the Medium model likely reflects information aggregation:
@@ -296,6 +286,7 @@ though the size and stability of the gains differ across targets and horizons.
 
 The Medium-to-Full comparison is a signal-extraction exercise. If sentiment surveys are noisy or collinear with price-based signals,
 their marginal contribution to point-forecast accuracy can be small even when sentiment contains information about future fundamentals.
+
 \InputGeneratedTableWithNotes{results/latex_tables/tab_rmsfe.tex}{RMSFEs are computed from recursive pseudo out-of-sample forecasts on the common evaluation scale described in Section~\ref{sec:data}. Information sets are nested, so interpretation emphasizes incremental information content in a regularized forecasting system.}
 
 \begin{figure}[H]
@@ -303,17 +294,18 @@ their marginal contribution to point-forecast accuracy can be small even when se
     \includegraphics[width=0.92\textwidth]{fig2_relative_rmsfe.png}
     \caption{Relative forecast accuracy versus AR(1) (no-change) benchmark}
     \label{fig:relrmsfe}
-    \FigNotes{Relative RMSFEs versus AR(1) benchmark in growth rates (no-change forecast equals zero on the evaluation scale). }
+    \FigNotes{Relative RMSFEs versus AR(1) benchmark in growth rates (no-change forecast equals zero on the evaluation scale).}
 \end{figure}
 
 \subsection{Forecast discipline: revision-based diagnostic}
-Table~\ref{tab:cg_regression} reports error-on-revision coefficients from the \citet{CG2015} diagnostic applied to model-implied forecasts, and Figure~\ref{fig:cg_coeff} visualizes the same patterns.
+Table~\ref{tab:cg_regression} presents error-on-revision coefficients from the \citet{CG2015} diagnostic applied to model-implied forecasts, and Figure~\ref{fig:cg_coeff} visualizes the same patterns.
 For inflation, the coefficients change sign across horizons; for real activity, estimates are imprecise and the revision--error association is unstable across horizons.
-Interpreted within this model-based diagnostic, $\beta_h=0$ corresponds to an efficient updating benchmark, while statistically detectable deviations indicate that revisions are predictably related to subsequent errors, consistent with underreaction when $\beta_h>0$ and overreaction when $\beta_h<0$. This evidence characterizes how the forecasting system uses its own history in updating.
+Within this diagnostic, $\beta_h=0$ serves as the efficient-updating benchmark, while statistically detectable deviations indicate that revisions are predictably related to subsequent errors, consistent with underreaction when $\beta_h>0$ and overreaction when $\beta_h<0$. This evidence characterizes how the forecasting system uses its own history in updating.
 
-Interpreted as systematic updating behavior, a positive $\beta_h$ indicates conservative updating inertia: revisions incorporate new information only partially, so errors are predictable in the direction of the revision. In a hierarchical BVAR, tighter overall shrinkage pulls coefficients toward persistence and can induce such inertia, especially when the data provide limited independent signal. Conversely, negative $\beta_h$ can arise if the system overreacts to transient signals in the information set. The variation in signs and magnitudes across information sets is therefore consistent with the interaction between data-driven shrinkage and the informational redundancy of the predictors.
+A positive $\beta_h$ indicates conservative updating: revisions incorporate new information only partially, so errors are predictable in the direction of the revision. In a hierarchical BVAR, tighter overall shrinkage pulls coefficients toward persistence and can induce such inertia, especially when the data provide limited independent signal. Conversely, negative $\beta_h$ can arise if the system overreacts to transient signals in the information set. The variation in signs and magnitudes across information sets is therefore consistent with the interaction between data-driven shrinkage and the informational redundancy of the predictors.
 
 The diagnostic characterizes the internal consistency of the updating rule and summarizes how revisions align with subsequent errors. Because forecasts are produced under hierarchical shrinkage, the revision--error association can reflect conservative updating, model misspecification, or shifting data relationships. The analysis therefore emphasizes how the patterns move with the information set and the regularization environment.
+
 \InputGeneratedTableWithNotes{results/latex_tables/tab_cg_regression.tex}{Error-on-revision regression following \citet{CG2015} applied to model-implied forecasts. Within this diagnostic, $\beta_h=0$ is the efficient-updating benchmark; departures from zero imply underreaction or overreaction in the model's updating rule.}
 
 \begin{figure}[H]
@@ -321,11 +313,11 @@ The diagnostic characterizes the internal consistency of the updating rule and s
     \includegraphics[width=0.92\textwidth]{fig3_cg_coefficients.png}
     \caption{Revision diagnostic coefficients across information sets}
     \label{fig:cg_coeff}
-    \FigNotes{Revision diagnostic coefficients from model-implied forecasts; interpreted as internal updating patterns in the regularized system. .}
+    \FigNotes{Revision diagnostic coefficients from model-implied forecasts; interpreted as internal updating patterns in the regularized system.}
 \end{figure}
 
 \subsection{Regularization and model stability}
-Figure~\ref{fig:lambda} reports the evolution of the posterior mean of the hierarchical shrinkage tightness parameter. The key message is methodological: hierarchical regularization adapts the forecasting system's effective complexity as information sets expand and as the data environment changes, which helps make horse-race comparisons less sensitive to ad hoc tuning choices.
+Figure~\ref{fig:lambda} presents the evolution of the posterior mean of the hierarchical shrinkage tightness parameter. The key message is methodological: hierarchical regularization adapts the forecasting system's effective complexity as information sets expand and as the data environment changes, which helps make horse-race comparisons less sensitive to ad hoc tuning choices.
 
 The tightness parameter is a statistical object governing the strength of prior shrinkage. Changes in its posterior mean reflect how strongly the data support deviations from the prior and keep the interpretation of regularization anchored in statistical discipline.
 
@@ -341,7 +333,7 @@ By letting the prior adapt to information set size and data fit, hierarchical sh
 
 \subsection{Economic interpretation and mechanisms}
 \label{sec:mechanism}
-The finding that sentiment adds little to forecast accuracy aligns with a signal-extraction perspective:
+Sentiment's limited contribution aligns with a signal-extraction framework:
 financial prices appear to aggregate dispersed information efficiently,
 leaving sentiment with little independent signal.
 If financial prices efficiently aggregate dispersed information,
@@ -349,22 +341,22 @@ they can act as a sufficient statistic for forward-looking fundamentals within a
 By contrast, survey sentiment reflects dispersed signals filtered through household information-processing costs and measurement error.
 Conditional on prices, the marginal signal in sentiment is therefore difficult to distinguish from noise in point-forecast performance.
 
-Let the macro target be driven by a latent state with additive noise, and treat prices and sentiment as noisy measurements of that state:
+Consider a latent state $s_t$ driving the macro target $y_t$, with prices $p_t$ and sentiment $m_t$ as noisy measurements:
 \[
     y_t = s_t + \varepsilon_t, \qquad p_t = s_t + \nu_t, \qquad m_t = s_t + \eta_t.
 \]
-The key object is each observable's signal-to-noise ratio (SNR).
+The critical quantity is each observable's signal-to-noise ratio (SNR).
 If price-based indicators have a higher SNR than sentiment,
 conditioning on $p_t$ captures most of the forecast-relevant variation in $s_t$.
 The optimal linear weight on $m_t$ given $p_t$ is then small,
 and the residual contribution of sentiment largely reflects measurement noise.
 
-The same signal-extraction logic applies in the hierarchical BVAR.
+This signal-extraction logic carries over to the hierarchical BVAR.
 When the data show that $m_t$ provides little incremental explanatory power once $p_t$ is included,
 the posterior for sentiment coefficients concentrates near zero,
 with Minnesota prior cross-variable shrinkage reinforcing that result.
 Forecasts can therefore show little improvement in RMSFE from adding sentiment even when
-sentiment is correlated with the target, because prices already embed that information.
+sentiment is correlated with the target, because prices already subsume that information.
 
 This interpretation is conditional on the information set and linear specification used here.
 Alternative financial variables, nonlinear dynamics, or distributional forecasting objectives could change the
@@ -380,45 +372,38 @@ the regression is a diagnostic of the updating rule,
 and the evidence is consistent with sentiment affecting the pattern of revisions more than average point accuracy.
 
 \subsection{Limitations}
-The revision regression is a diagnostic tool, and its patterns can arise from shrinkage, misspecification, or structural change.
+Revision patterns may reflect shrinkage, misspecification, or structural change.
 The nested design limits power for incremental comparisons, and alternative sentiment measures, real-time data vintages,
 or density-forecast evaluation could alter the conclusions.
 Overall, the evidence indicates limited and unstable incremental support for sentiment in point-forecast accuracy and revision diagnostics that vary with the information set,
 framed as conditional evidence on relative forecasting efficiency.
 
-% A second limitation is potential state dependence and nonlinearity.
-% In crisis episodes, financial prices may embed transient noise or risk premia,
-% while sentiment may contain incremental signals about labor-market or spending conditions that are not well captured by linear price-based predictors.
-% A linear BVAR may therefore understate sentiment's incremental value in stressed regimes;
-% nonlinear or regime-switching extensions are a natural direction for future work.
-
-A further limitation is that evaluation is performed on revised data,
+Evaluation is performed on revised data,
 with real-time vintage differences left for future work.
 In operational forecasting, macro data arrive with publication lags and are subject to revisions,
 which can change the relative informational value of survey-based measures.
 In such settings, sentiment indicators may become more useful as timely signals,
 so the relative ranking across information sets may differ from the revised-data evidence reported here.
 
-
 \section{Conclusion}
 \label{sec:conclusion}
 
 My central finding establishes a clear hierarchy for linear point forecasting:
-financial prices capture most forward-looking information beyond macro aggregates.
-Consumer sentiment, by contrast, provides only marginal and unstable incremental gains once prices are accounted for..
+financial prices capture the bulk of forward-looking information beyond core macro aggregates.
+Consumer sentiment, by contrast, provides only marginal and unstable incremental gains conditional on financial prices.
 This pattern is consistent with a signal-extraction view and with posterior shrinkage of redundant predictors,
 and it persists under nested-robust checks in Appendix Table~\ref{tab:clark_west},
 which reinforce disciplined interpretation of small differences.
 
-The revision diagnostic provides complementary evidence on internal updating behavior.
+Revision diagnostics complement this finding.
 When $\beta_h$ departs from zero, the system's revisions are predictably related to subsequent errors,
 indicating conservative updating or overreaction relative to an efficient-updating benchmark within the model.
 This frames the evidence in terms of the forecasting rule and its updating mechanism.
 
-From a practical perspective, the results position sentiment surveys as contextual indicators and as inputs for monitoring forecast revisions in price-augmented linear systems,
+These results suggest positioning sentiment surveys as contextual indicators and as inputs for monitoring forecast revisions in price-augmented linear systems,
 framed as forecasting guidance.
 
-Future work can assess state dependence, alternative sentiment measures, real-time data vintages, and density-forecast evaluation.
+Future research should explore state dependence, alternative sentiment measures, real-time data vintages, and density-forecast evaluation.
 These extensions would clarify whether the limited incremental role of sentiment for point forecasts is robust to different data environments and forecasting objectives.
 
 \label{LastMainTextPage}
