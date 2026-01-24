@@ -59,14 +59,14 @@ setup_hierarchical_priors <- function() {
         soc = bv_soc(
             mode = 1,
             sd = 1,
-            min = 1e-4,
+            min = 0.01,
             max = 50
         ),
         # Dummy-initial-observation prior
         sur = bv_sur(
             mode = 1,
             sd = 1,
-            min = 1e-4,
+            min = 0.01,
             max = 50
         )
     )

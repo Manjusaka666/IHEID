@@ -62,7 +62,7 @@
     {\large Term Paper\par}
     \vspace{1.0cm}
 
-    {\LARGE\bfseries Forecasting Horse Races and ``Belief Distortions'':\par}
+    {\LARGE\bfseries Forecasting Horse Races and ``Belief Distortions''\par}
     \vspace{0.25cm}
     {\large Hierarchical Bayesian VAR Study with Sentiment Signals\par}
 
@@ -103,7 +103,7 @@ that vary with the information set. Given the nested structure, I emphasize rela
 Clark-West adjustments appear in the appendix \citep{ClarkMcCracken2001,ClarkWest2007}. I implement the \citet{CG2015} regression on model-implied
 forecasts to diagnose the system's updating rule.
 
-This revision diagnostic builds on \citet{CG2015} and connects to work on expectations updating, including diagnostic-expectations models \citep{BordaloGennaioliShleifer2018,BordaloGennaioliShleifer2020JEP}. Evidence on whether confidence or
+This revision diagnostic connects to work on expectations updating, including diagnostic-expectations models \citep{BordaloGennaioliShleifer2018,Bordalo2020}. Evidence on whether confidence or
 sentiment adds incremental forecasting information is mixed once other indicators are included, and real-time evaluations often find gains that are
 limited or unstable \citep{CarrollFuhrerWilcox1994,BramLudvigson1998,Ludvigson2004,Croushore2005}. The inflation-forecasting literature emphasizes that
 parsimonious benchmarks are difficult to beat and that relationships shift over time, which counsels caution in interpreting small differences
@@ -178,18 +178,29 @@ This structure delivers stronger shrinkage on long lags and cross-variable effec
 
 Two additional priors stabilize the system.
 A sum-of-coefficients prior imposes near-unit-root dynamics in levels,
-while a dummy-initial-observation prior anchors the system to initial conditions \citep{GLP2015,BanburaGLP2010,KuschnigVashold2021}.
+while a dummy-initial-observation prior anchors the system to initial conditions.
+% \citep{GLP2015,BanburaGLP2010,KuschnigVashold2021}.
 These components are implemented alongside the Minnesota prior and are treated as part of the regularization mechanism that stabilizes the system.
 
-The hierarchical approach learns the appropriate degree of shrinkage from the data rather than relying on pre-tuned hyperparameters.
-The global tightness $\lambda$ and lag-decay $\alpha$ are assigned Gamma hyperpriors with bounded support, consistent with the BVAR implementation.
-For example,
+% The hierarchical approach learns the appropriate degree of shrinkage from the data rather than relying on pre-tuned hyperparameters.
+% The global tightness $\lambda$ and lag-decay $\alpha$ are assigned Gamma hyperpriors with bounded support, consistent with the BVAR implementation.
+
+Following Giannone--Lenza--Primiceri, I treat $\lambda$ as a hyperparameter learned from the data through the marginal data density (MDD),
+\[
+    p(Y\mid \lambda) = \int p(Y\mid \Phi,\Sigma)\,p(\Phi,\Sigma\mid \lambda)\,d\Phi\,d\Sigma,
+\]
+and use the \texttt{BVAR} package implementation to sample $\lambda$ (and other prior hyperparameters) via MH-within-Gibbs steps.
+Conjugacy implies that, conditional on $\lambda$, the posterior is Normal--Inverse-Wishart,
+which yields closed-form posterior moments and a tractable posterior predictive distribution for $y_{t+h}$.
+
+We first give $\lambda$ a Gamma hyperprior,
 \begin{equation}
     \lambda \sim \mathrm{Gamma}(a_\lambda,b_\lambda)\ \mathbb{I}(\lambda_{\min}\leq \lambda \leq \lambda_{\max}),
     \label{eq:lambda_hyper}
 \end{equation}
-with analogous structure for $\alpha$. The hyperparameters are updated via Metropolis--Hastings steps within the posterior sampler,
-so shrinkage adapts to the data rather than being fixed ex ante.
+and, conditional on data $Y$, the sampler targets $p(\lambda\mid Y)\propto p(Y\mid \lambda)p(\lambda)$ within the MH-within-Gibbs routine.
+Rather than a plug-in posterior mode, forecasts and diagnostics integrate over the full set of MCMC draws.
+The reported $\lambda$ series (e.g., Figure~\ref{fig:lambda}) uses posterior means at each origin, so shrinkage adapts to the data rather than being fixed ex ante.
 
 \begin{table}[H]
     \centering
@@ -198,31 +209,19 @@ so shrinkage adapts to the data rather than being fixed ex ante.
     \small
     \begin{tabular}{lcl}
         \toprule
-        Parameter                       & Symbol             & Specification                                                                        \\
+        Parameter                       & Symbol             & Specification                                                                                                        \\
         \midrule
-        MCMC draws                      & $S$                & $S=10{,}000$                                                                         \\
-        Burn-in period                  & $B$                & $B=5{,}000$                                                                          \\
-        Minnesota tightness             & $\lambda$          & \shortstack[l]{$\lambda \sim \Gamma(\text{mode}=0.05,\text{sd}=0.2)$\\$\lambda\in[0.001,2.0]$} \\
-        Lag decay                       & $\alpha$           & \shortstack[l]{$\alpha \sim \Gamma(\text{mode}=3.0,\text{sd}=0.25)$\\$\alpha\in[1,3]$} \\
-        Cross-variable shrinkage        & $\psi$             & $\psi_{ij}=\psi_{ij}^{\text{BVAR}}$                                                   \\
-        Sum-of-coefficients prior       & $\mu_{\text{SOC}}$ & \shortstack[l]{$\mu_{\text{SOC}}\sim\Gamma(\text{mode}=1,\text{sd}=1)$\\$\mu_{\text{SOC}}\in[0.01,50]$} \\
-        Dummy-initial-observation prior & $\mu_{\text{DIO}}$ & \shortstack[l]{$\mu_{\text{DIO}}\sim\Gamma(\text{mode}=1,\text{sd}=1)$\\$\mu_{\text{DIO}}\in[0.01,50]$} \\
-        Hyperparameter sampler          &                    & $\text{MH-in-Gibbs}$                                                                  \\
+        MCMC draws                      & $S$                & $S=10{,}000$                                                                                                         \\
+        Burn-in period                  & $B$                & $B=5{,}000$                                                                                                          \\
+        Minnesota tightness             & $\lambda$          & \shortstack[l]{$\lambda \sim \Gamma(m_\lambda,s_\lambda)\,\mathbb{I}[0.001\le\lambda\le2.0]$                         \\$(m_\lambda,s_\lambda)=(0.05,0.2)$} \\
+        Lag decay                       & $\alpha$           & \shortstack[l]{$\alpha \sim \Gamma(m_\alpha,s_\alpha)\,\mathbb{I}[1\le\alpha\le3]$                                   \\$(m_\alpha,s_\alpha)=(3.0,0.25)$} \\
+        Cross-variable shrinkage        & $\psi$             & $\psi_{ij}=\psi_{ij}^{\text{BVAR}}$                                                                                  \\
+        Sum-of-coefficients prior       & $\mu_{\text{SOC}}$ & \shortstack[l]{$\mu_{\text{SOC}}\sim\Gamma(m_{\text{SOC}},s_{\text{SOC}})\,\mathbb{I}[0.01\le\mu_{\text{SOC}}\le50]$ \\$(m_{\text{SOC}},s_{\text{SOC}})=(1,1)$} \\
+        Dummy-initial-observation prior & $\mu_{\text{DIO}}$ & \shortstack[l]{$\mu_{\text{DIO}}\sim\Gamma(m_{\text{DIO}},s_{\text{DIO}})\,\mathbb{I}[0.01\le\mu_{\text{DIO}}\le50]$ \\$(m_{\text{DIO}},s_{\text{DIO}})=(1,1)$} \\
+        Hyperparameter sampler          &                    & $\mathrm{MH}\text{-within-Gibbs}$                                                                                    \\
         \bottomrule
     \end{tabular}
 \end{table}
-
-\subsection{Marginal likelihood and hierarchical selection}\label{sec:ml}
-Following Giannone--Lenza--Primiceri, I treat $\lambda$ as a hyperparameter selected by the data through the marginal data density (MDD),
-\[
-    p(Y\mid \lambda) = \int p(Y\mid \Phi,\Sigma)\,p(\Phi,\Sigma\mid \lambda)\,d\Phi\,d\Sigma,
-\]
-and use the \texttt{BVAR} package implementation to obtain $\hat\lambda$ (and other prior hyperparameters) via hierarchical prior selection.
-Conjugacy implies that, conditional on $\lambda$, the posterior is Normal--Inverse-Wishart,
-which yields closed-form posterior moments and a tractable posterior predictive distribution for $y_{t+h}$.
-
-We first give $\lambda$ a Gamma hyperprior, $\lambda \sim \mathcal{G}(a,b)$, and based on data $Y$, we compute the best posterior mode $\hat\lambda$ by maximizing $p(Y\mid \lambda)p(\lambda)$ over a grid of $\lambda$ values.
-Then, conditional on $\hat\lambda$, we obtain the posterior of $(\Phi,\Sigma)$ and the predictive distribution of $y_{t+h}$.
 
 \subsection{Convergence and diagnostics}
 I assess convergence through visual inspection of hyperparameter trace behavior and by verifying stability of posterior mean shrinkage across origins,
@@ -232,7 +231,8 @@ formal effective-sample-size or Geweke diagnostics are reserved for supplementar
 
 \subsection{Pseudo out-of-sample evaluation}
 I evaluate performance using expanding-window (recursive) pseudo out-of-sample forecasts.
-Here, ``recursive'' refers to re-estimation of the reduced-form VAR as the sample expands; the analysis does not perform structural shock identification, and variable ordering does not enter forecasting or RMSFE calculations.
+% Here, ``recursive'' refers to re-estimation of the reduced-form VAR as the sample expands;
+% the analysis does not perform structural shock identification, and variable ordering does not enter forecasting or RMSFE calculations.
 The initial window runs from 1985M1 to 2000M12, so the first forecast origin is 2001M1.
 This split preserves a long pre-2001 estimation window that includes the 1990s expansion and stabilizes lag dynamics and shrinkage.
 The evaluation period then spans the 2001 downturn, the 2008--09 crisis, and the post-crisis low-rate environment, which are the policy-relevant regimes for forecasting comparison.
@@ -278,8 +278,8 @@ small relative to measurement noise, which helps explain why RMSFE gains are mod
 In the hierarchical BVAR, overlap between sentiment and prices is handled by regularization that can down-weight incremental predictors when the data provide little support for extra explanatory power; the small and unstable gains are consistent with that mechanism.
 
 Redundant predictors increase dimensionality without improving accuracy,
-raise estimation variance, and necessitate stronger regularization to maintain
-stability. The hierarchical prior addresses this by tightening as the information set expands and by regularizing more aggressively when incremental signal is weak.
+raise estimation variance, and necessitate stronger regularization to maintain stability.
+The hierarchical prior addresses this by tightening as the information set expands and by regularizing more aggressively when incremental signal is weak.
 
 The improvement from the Small to the Medium model likely reflects information aggregation:
 financial prices embed forward-looking signals that macro aggregates alone do not fully capture.
@@ -294,9 +294,9 @@ their marginal contribution to point-forecast accuracy can be small even when se
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.92\textwidth]{fig2_relative_rmsfe.png}
-    \caption{Relative forecast accuracy versus AR(1) (no-change) benchmark}
+    \caption{Relative forecast accuracy versus AR(1) benchmark}
     \label{fig:relrmsfe}
-    \FigNotes{Relative RMSFEs versus AR(1) benchmark in growth rates (no-change forecast equals zero on the evaluation scale).}
+    % \FigNotes{Relative RMSFEs versus AR(1) benchmark in growth rates (no-change forecast equals zero on the evaluation scale).}
 \end{figure}
 
 \subsection{Forecast discipline: revision-based diagnostic}
@@ -319,13 +319,23 @@ The diagnostic characterizes the internal consistency of the updating rule and s
 \end{figure}
 
 \subsection{Regularization and model stability}
-Figure~\ref{fig:lambda} presents the evolution of the posterior mean of the hierarchical shrinkage tightness parameter. The key message is methodological: hierarchical regularization adapts the forecasting system's effective complexity as information sets expand and as the data environment changes, which helps make horse-race comparisons less sensitive to ad hoc tuning choices.
+As shown in Figure~\ref{fig:lambda} the posterior mean of the tightness parameter $\lambda$ decreases monotonically from the Small to the Full model.
+This behavior is a direct manifestation of the signal-extraction mechanism:
+the hierarchical prior tightens aggressively when faced with the noisy sentiment variable,
+effectively down-weighting its contribution to preserve forecast efficiency.
+Since $\lambda$ scales prior variances in \eqref{eq:mn_var}, a lower $\lambda$ implies tighter shrinkage,
+so the larger information set is more strongly regularized over the evaluation window.
+All three series increase around 2008--09 and then trend upward,
+suggesting moderately looser regularization over time while preserving the same cross-model ordering.
 
-The ordering across information sets is clear: the Full model has the lowest posterior mean $\lambda$, the Medium model is intermediate, and the Small model is highest. Because $\lambda$ scales prior variances in \eqref{eq:mn_var}, lower $\lambda$ corresponds to tighter shrinkage, so the larger information set is regularized more aggressively throughout the evaluation window. All three series step up around 2008--09 and drift upward afterward, indicating that the data support somewhat looser regularization over time while preserving the relative ordering across models.
 
-The tightness parameter is a statistical object governing the strength of prior shrinkage. Changes in its posterior mean reflect how strongly the data support deviations from the prior and keep the interpretation of regularization anchored in statistical discipline.
+The tightness parameter governs the strength of prior shrinkage.
+Movements in its posterior mean indicate how much the data favor departures from the prior,
+keeping the interpretation of regularization grounded in the model's statistical structure.
 
-By letting the prior adapt to information set size and data fit, hierarchical shrinkage improves comparability across models. It limits the risk that larger information sets appear to perform well simply because they overfit in-sample variation, which is especially important in nested comparisons.
+By letting the prior adapt to information set size and data fit, hierarchical shrinkage improves comparability across models.
+It limits the risk that larger information sets appear to perform well simply because they overfit in-sample variation,
+which is especially important in nested comparisons.
 
 \begin{figure}[H]
     \centering
@@ -359,9 +369,9 @@ This signal-extraction logic carries over to the hierarchical BVAR.
 The prior and likelihood jointly determine how much weight to place on each predictor, so when $m_t$ adds little incremental predictive content beyond $p_t$, the regularized system can assign it little effective weight.
 The limited and unstable RMSFE improvements from adding sentiment are consistent with that signal-extraction interpretation.
 
-This interpretation is tied to the linear information sets and revised-data environment used here, and it should be read as evidence about this forecasting system rather than structural behavior.
-Revision diagnostics can still vary with the information set even when average point accuracy changes little,
-because revisions reflect the system's updating rule and the marginal predictive content of new signals.
+% This interpretation is tied to the linear information sets and revised-data environment used here, and it should be read as evidence about this forecasting system rather than structural behavior.
+% Revision diagnostics can still vary with the information set even when average point accuracy changes little,
+% because revisions reflect the system's updating rule and the marginal predictive content of new signals.
 
 Long-horizon inflation forecasts are dominated by slow-moving trends and persistence, making parsimonious benchmarks competitive.
 Hierarchical shrinkage encourages persistence and can dampen short-run updates,
@@ -370,8 +380,8 @@ The regression is a diagnostic of the updating rule,
 and the evidence is consistent with sentiment affecting the pattern of revisions more than average point accuracy.
 
 \subsection{Limitations}
-Revision patterns reflect how the forecasting system updates under shrinkage and potential structural change.
-The nested design focuses attention on incremental comparisons, and alternative sentiment measures or density-forecast evaluation are natural extensions.
+% Revision patterns reflect how the forecasting system updates under shrinkage and potential structural change.
+% The nested design focuses attention on incremental comparisons, and alternative sentiment measures or density-forecast evaluation are natural extensions.
 Overall, the evidence indicates limited and unstable incremental support for sentiment in point-forecast accuracy and revision diagnostics that vary with the information set,
 framed as conditional evidence on relative forecasting efficiency.
 
@@ -379,8 +389,8 @@ Evaluation is performed on revised data,
 with real-time vintage differences left for future work.
 In operational forecasting, macro data arrive with publication lags and are subject to revisions,
 which can change the relative informational value of survey-based measures.
-In such settings, sentiment indicators may become more useful as timely signals,
-so the relative ranking across information sets may differ from the revised-data evidence reported here.
+% In such settings, sentiment indicators may become more useful as timely signals,
+% so the relative ranking across information sets may differ from the revised-data evidence reported here.
 
 \section{Conclusion}
 \label{sec:conclusion}

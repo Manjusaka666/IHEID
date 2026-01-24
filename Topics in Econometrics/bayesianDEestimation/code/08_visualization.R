@@ -79,8 +79,6 @@ p2 <- ggplot(rel_rmsfe_long, aes(x = horizon, y = rel_rmsfe, color = model, grou
     facet_wrap(~variable) +
     scale_color_brewer(palette = "Set1") +
     labs(
-        title = "Relative Forecast Performance vs. Random Walk",
-        subtitle = "Values < 1 indicate better performance than RW (No-Change Benchmark)",
         x = "Forecast horizon",
         y = "Relative RMSFE",
         color = "Model specification"
@@ -214,16 +212,16 @@ create_forecast_plot <- function(data, horizon, horizon_col_forecast, horizon_co
                 as.Date(.data[[target_col]])
             } else {
                 as.Date(as.yearmon(origin_date) + horizon / 12, frac = 1)
-            }
-        ,
-        plot_date = if (x_axis == "target") target_date else origin_date
+            },
+            plot_date = if (x_axis == "target") target_date else origin_date
         ) %>%
         filter(!is.na(!!sym(horizon_col_actual)))
 
     ggplot(forecast_ts, aes(x = plot_date)) +
         geom_line(aes(y = !!sym(horizon_col_actual), color = "Actual"), linewidth = 0.8) +
-        geom_line(aes(y = !!sym(horizon_col_forecast), color = "BVAR Forecast"), 
-                  linewidth = 0.8, alpha = 0.7) +
+        geom_line(aes(y = !!sym(horizon_col_forecast), color = "BVAR Forecast"),
+            linewidth = 0.8, alpha = 0.7
+        ) +
         scale_color_manual(values = c("Actual" = "black", "BVAR Forecast" = "#E41A1C")) +
         labs(
             title = sprintf("CPI Inflation: BVAR Forecast vs Realized (h=%d)", horizon),
@@ -348,9 +346,11 @@ create_cg_scatter <- function(data, horizon_name, error_col, revision_col, beta_
         geom_smooth(method = "lm", color = "#E41A1C", se = TRUE, linewidth = 1.2) +
         geom_hline(yintercept = 0, linetype = "dashed", alpha = 0.5) +
         geom_vline(xintercept = 0, linetype = "dashed", alpha = 0.5) +
-        annotate("text", x = Inf, y = Inf, 
-                 label = sprintf("beta = %.3f", beta_val),
-                 hjust = 1.1, vjust = 1.5, size = 5, fontface = "bold") +
+        annotate("text",
+            x = Inf, y = Inf,
+            label = sprintf("beta = %.3f", beta_val),
+            hjust = 1.1, vjust = 1.5, size = 5, fontface = "bold"
+        ) +
         labs(
             title = sprintf("Revision diagnostic scatter (CPI, %s)", horizon_name),
             subtitle = "Forecast Error vs. Forecast Revision",
@@ -364,9 +364,15 @@ create_cg_scatter <- function(data, horizon_name, error_col, revision_col, beta_
 
 # Load CG results to get beta values
 cg_results <- read.csv("results/tables/cg_regression_results.csv")
-beta_h1 <- cg_results %>% filter(model == "Small", variable == "CPI", horizon == "h=1") %>% pull(beta)
-beta_h3 <- cg_results %>% filter(model == "Small", variable == "CPI", horizon == "h=3") %>% pull(beta)
-beta_h12 <- cg_results %>% filter(model == "Small", variable == "CPI", horizon == "h=12") %>% pull(beta)
+beta_h1 <- cg_results %>%
+    filter(model == "Small", variable == "CPI", horizon == "h=1") %>%
+    pull(beta)
+beta_h3 <- cg_results %>%
+    filter(model == "Small", variable == "CPI", horizon == "h=3") %>%
+    pull(beta)
+beta_h12 <- cg_results %>%
+    filter(model == "Small", variable == "CPI", horizon == "h=12") %>%
+    pull(beta)
 
 # Generate plots for all horizons
 p7_h1 <- create_cg_scatter(cg_data, "h=1", "h1_error", "h1_revision_growth", beta_h1)
@@ -408,5 +414,3 @@ cat("     - fig7b_cg_scatter_h3.png\n")
 cat("     - fig7c_cg_scatter_h12.png\n\n")
 cat("Total: 14 publication-quality figures\n")
 cat("All figures saved to: results/figures/\n\n")
-
-

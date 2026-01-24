@@ -74,7 +74,7 @@ Bordalo, P.%
 \newblock
 {\BBOQ}\APACrefatitle {Diagnostic Expectations and Credit Cycles} {Diagnostic expectations and credit cycles}.{\BBCQ}
 \newblock
-\APACjournalVolNumPages{American Economic Review}{}{}{}.
+\APACjournalVolNumPages{Journal of Finance}{73}{1}{199-227}.
 \PrintBackRefs{\CurrentBib}
 
 \bibitem [\protect \citeauthoryear {%
@@ -86,9 +86,9 @@ Bordalo%
 \ \protect \BOthers {.}}{%
 {\protect \APACyear {2020}}%
 }]{%
-BordaloGennaioliShleifer2020JEP}
+Bordalo2020}
 \APACinsertmetastar {%
-BordaloGennaioliShleifer2020JEP}%
+Bordalo2020}%
 \begin{APACrefauthors}%
 Bordalo, P.%
 , Gennaioli, N.%
@@ -98,9 +98,9 @@ Bordalo, P.%
 \newblock
 \APACrefYearMonthDay{2020}{}{}.
 \newblock
-{\BBOQ}\APACrefatitle {Diagnostic Expectations and the Macroeconomy} {Diagnostic expectations and the macroeconomy}.{\BBCQ}
+{\BBOQ}\APACrefatitle {Memory, attention, and choice} {Memory, attention, and choice}.{\BBCQ}
 \newblock
-\APACjournalVolNumPages{Journal of Economic Perspectives}{}{}{}.
+\APACjournalVolNumPages{Quarterly Journal of Economics}{135}{3}{1399-1442}.
 \PrintBackRefs{\CurrentBib}
 
 \bibitem [\protect \citeauthoryear {%
@@ -178,7 +178,7 @@ Clark, T\BPBI E.%
 \newblock
 \APACjournalVolNumPages{Journal of Econometrics}{105}{1}{85--110}.
 \newblock
-\begin{APACrefDOI} \doi{10.1016/S0304-4076(01)00083-9} \end{APACrefDOI}
+\begin{APACrefDOI} \doi{10.1016/S0304-4076(01)00071-9} \end{APACrefDOI}
 \PrintBackRefs{\CurrentBib}
 
 \bibitem [\protect \citeauthoryear {%
@@ -310,8 +310,6 @@ Kuschnig, N.%
 {\BBOQ}\APACrefatitle {BVAR: Bayesian vector autoregressions with hierarchical prior selection in R} {Bvar: Bayesian vector autoregressions with hierarchical prior selection in r}.{\BBCQ}
 \newblock
 \APACjournalVolNumPages{Journal of Statistical Software}{100}{14}{1--27}.
-\newblock
-\begin{APACrefDOI} \doi{10.18637/jss.v100.i14} \end{APACrefDOI}
 \PrintBackRefs{\CurrentBib}
 
 \bibitem [\protect \citeauthoryear {%
