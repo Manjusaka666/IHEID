@@ -1,0 +1,61 @@
+		(1)	(2)	(3)	(4)	(5)	(6)	(7)	(8)	(9)	(10)	(11)	(12)
+VARIABLES	LABELS	PPML	PPML	PPML	PPML	PPML	PPML	PPML	PPML	OLS D	OLS D	OLS D	OLS D
+													
+L.n	nonaligned_ipd = L,					0.0136***	0.0048***	0.0135***	0.0048***				
+						(0.002)	(0.001)	(0.002)	(0.001)				
+1o.postwar	postwar = 1, omitted					-	-	-	-	-	-	-	-
+													
+2o.linksipd2	linksipd2 = 2, omitted					-	-			-	-		
+													
+3o.linksipd2	linksipd2 = 3, omitted					-	-			-	-		
+													
+0b.postwar#1b.linksipd2						0.0000	0.0000			0.0000	0.0000		
+						(0.000)	(0.000)			(0.000)	(0.000)		
+0b.postwar#2o.linksipd2						0.0000	0.0000			0.0000	0.0000		
+						(0.000)	(0.000)			(0.000)	(0.000)		
+0b.postwar#3o.linksipd2						0.0000	0.0000			0.0000	0.0000		
+						(0.000)	(0.000)			(0.000)	(0.000)		
+1o.postwar#1b.linksipd2						0.0000	0.0000			0.0000	0.0000		
+						(0.000)	(0.000)			(0.000)	(0.000)		
+1.postwar#2.linksipd2						-0.3614***	-0.1309*			-0.0417*	-0.0540*		
+						(0.071)	(0.074)			(0.025)	(0.028)		
+1.postwar#3.linksipd2						-0.0025	-0.0942			-0.0212	-0.0363		
+						(0.046)	(0.077)			(0.021)	(0.031)		
+btw3_pst2		-0.1059**	-0.1212**										
+		(0.041)	(0.058)										
+una3_pst2		0.0403	0.0043										
+		(0.030)	(0.051)										
+L.total_trade		0.0000*	0.0000***	0.0000**	0.0000***								
+		(0.000)	(0.000)	(0.000)	(0.000)								
+btwalt3_pst2				-0.1562***	-0.1194								
+				(0.053)	(0.089)								
+unaalt3_pst2				0.0207	0.0762								
+				(0.031)	(0.077)								
+2o.linksiea2	linksiea2 = 2, omitted							-	-			-	-
+													
+3o.linksiea2	linksiea2 = 3, omitted							-	-			-	-
+													
+0b.postwar#1b.linksiea2								0.0000	0.0000			0.0000	0.0000
+								(0.000)	(0.000)			(0.000)	(0.000)
+0b.postwar#2o.linksiea2								0.0000	0.0000			0.0000	0.0000
+								(0.000)	(0.000)			(0.000)	(0.000)
+0b.postwar#3o.linksiea2								0.0000	0.0000			0.0000	0.0000
+								(0.000)	(0.000)			(0.000)	(0.000)
+1o.postwar#1b.linksiea2								0.0000	0.0000			0.0000	0.0000
+								(0.000)	(0.000)			(0.000)	(0.000)
+1.postwar#2.linksiea2								-0.6869***	-0.2697**			-0.1841**	-0.1763*
+								(0.114)	(0.137)			(0.078)	(0.101)
+1.postwar#3.linksiea2								0.0129	0.1049			-0.0146	-0.0366
+								(0.041)	(0.071)			(0.034)	(0.042)
+L.total_share	total_share = L,									-0.4083***	-0.3978***	-0.4070***	-0.3973***
+										(0.054)	(0.054)	(0.053)	(0.052)
+													
+Observations		259,840	259,780	284,765	284,706	170,412	152,088	178,464	159,388	235,093	235,059	260,491	260,457
+R-squared										0.222	0.251	0.221	0.249
+Country-pair FE		Y	Y	Y	Y	Y	Y	Y	Y	Y	Y	Y	Y
+Time FE		Y	-	Y	-	Y	-	Y	-	Y	-	Y	-
+Source x Time FE		N	Y	N	Y	N	Y	N	Y	N	Y	N	Y
+Destination x Time FE		N	Y	N	Y	N	Y	N	Y	N	Y	N	Y
+Blocs		Wider	Wider	Narrow	Narrow	Wider	Wider	Narrow	Narrow	Wider	Wider	Narrow	Narrow
+Robust standard errors in parentheses													
+*** p<0.01, ** p<0.05, * p<0.1													

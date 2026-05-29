@@ -1,0 +1,368 @@
+
+use "$input\IFScodes_all.dta", replace
+keep eiscode isocode3char name36char
+drop if name36char==""
+drop if eiscode<=110
+sort name36char 
+merge m:1 name36char using "$input\name36_aggregate.dta"
+drop if _m==2
+drop if aggregates==1
+drop _m aggregates
+rename eiscode ifscode
+sort ifscode
+save temp, replace
+
+** blocs from JDE paper **
+use "$input\Gokmen_TableA3.dta" , clear
+replace ifscode =183  if country=="Monaco"
+replace ifscode =171  if country=="Andorra"
+replace ifscode =147  if country=="Liechtenstein"
+replace ifscode =928  if country=="Cuba"
+replace ifscode =954  if country=="North Korea"
+merge m:1 ifscode using temp
+drop if ifscode==.
+
+replace bloc = 1 if name36=="Belgium-Luxembourg"
+replace bloc = 1 if name36=="Belgium-Luxembourg not specified"
+
+replace bloc = 2 if name36=="Czechoslovakia"
+replace bloc = 2 if name36=="Czechoslovakia not specified"
+replace bloc = 2 if name36=="Eastern Germany"
+replace bloc = 2 if name36=="U.S.S.R."
+replace bloc = 2 if name36=="U.S.S.R. not specified"
+
+
+replace bloc = 3 if name36=="Serbia Montenegro ns"
+replace bloc = 3 if name36=="Serbia and Montenegro"
+replace bloc = 3 if name36=="Montenegro, Republic of"
+replace bloc = 3 if name36=="Kosovo, Republic of"
+replace bloc = 3 if name36=="Yugoslavia not specified"
+replace bloc = 3 if name36=="Yugoslavia, SFR"
+replace bloc = 3 if name36=="Yemen Arab Rep."
+replace bloc = 3 if name36=="Yemen, P.D. Rep."
+rename isocode3char iso3code
+replace iso3code="USSR" if name36=="U.S.S.R."
+replace iso3code="EDEU" if name36=="Eastern Germany"
+drop _merge
+drop if iso3code==""
+drop country
+rename name36char country
+sort iso3code
+save temp, replace
+
+*** merge in with the CEPII trade data
+
+use "$input\TRADHIST_v4.dta", replace
+drop if iso_o==""
+drop if iso_d==""
+* drop if year<1900
+drop if iso_o=="ALASKA"
+drop if iso_d=="ALASKA"
+replace iso_o="CSK" if iso_o=="CZSK"
+replace iso_d="CSK" if iso_d=="CZSK"
+replace iso_o="DEU" if iso_o=="WDEU"
+replace iso_d="DEU" if iso_d=="WDEU"
+replace iso_o="ROU" if iso_o=="ROM"
+replace iso_d="ROU" if iso_d=="ROM"
+replace iso_o="YMN" if iso_o=="YAR"
+replace iso_d="YMN" if iso_d=="YAR"
+
+* cocos islands
+replace iso_o="CCQ" if iso_o=="CCK"
+replace iso_d="CCQ" if iso_d=="CCK"
+
+* Christmas islands
+replace iso_o="CXQ" if iso_o=="CXR"
+replace iso_d="CXQ" if iso_d=="CXR"
+
+* Curacao
+replace iso_o="CRQ" if iso_o=="CUW"
+replace iso_d="CRQ" if iso_d=="CUW"
+
+
+rename iso_o iso3code
+sort iso3code
+merge m:1 iso3code using temp, keepusing(ifscode blocs iso3code country)
+tab _merge
+drop if _m==2
+drop _m
+foreach X in ifscode blocs iso3code country {
+		rename `X' `X'_o
+}
+rename iso3code iso_o
+rename iso_d iso3code
+sort iso3code
+merge m:1 iso3code using temp, keepusing(ifscode blocs iso3code country)
+tab _merge
+drop if _m==2
+drop _m
+foreach X in ifscode blocs iso3code country {
+		rename `X' `X'_d
+}
+rename iso3code iso_d
+
+replace blocs_o = 3 if iso_o=="AUTHUN"
+replace blocs_d = 3 if iso_d=="AUTHUN"
+
+* part of yemen
+replace blocs_o = 3 if iso_o=="ADEN"
+replace blocs_d = 3 if iso_d=="ADEN"
+
+** British India, Portuguese India
+replace blocs_o = 3 if iso_o=="GBRIND" | iso_o=="PRTIND"
+replace blocs_d = 3 if iso_d=="GBRIND" | iso_d=="PRTIND"
+
+** Spanish Morocco
+replace blocs_o = 3 if iso_o=="MARESP" 
+replace blocs_d = 3 if iso_d=="MARESP" 
+
+** Tangiers - part of morocco
+replace blocs_o = 3 if iso_o=="TANGER" 
+replace blocs_d = 3 if iso_d=="TANGER" 
+
+** The various parts of south africa
+replace blocs_o = 3 if iso_o=="ZAFCAP" | iso_o=="ZAFNAT"  | iso_o=="ZAFORA" | iso_o=="ZAFTRA"
+replace blocs_d = 3 if iso_d=="ZAFCAP" | iso_d=="ZAFNAT"  | iso_d=="ZAFORA"  | iso_d=="ZAFTRA"
+
+** British somalia
+replace blocs_o = 3 if iso_o=="GBRSOM" 
+replace blocs_d = 3 if iso_d=="GBRSOM"
+
+** Zanzibar - part of Tanzania
+replace blocs_o = 3 if iso_o=="ZANZ" 
+replace blocs_d = 3 if iso_d=="ZANZ"
+
+** Barbary states - current Morocco, Algiers, Libya
+replace blocs_o = 3 if iso_o=="BARBAR" 
+replace blocs_d = 3 if iso_d=="BARBAR"
+
+
+** Straits settlements became part of Malaysia
+replace blocs_o = 3 if iso_o=="STRAITS" 
+replace blocs_d = 3 if iso_d=="STRAITS"
+
+** French mandate for Syria and Lebanon
+replace blocs_o = 3 if iso_o=="SYRLBN" 
+replace blocs_d = 3 if iso_d=="SYRLBN"
+
+
+** Borneo
+replace blocs_o = 3 if iso_o=="GBRBORNEO" 
+replace blocs_d = 3 if iso_d=="GBRBORNEO"
+
+
+** the Ottoman empire - assign to western bloc because of turkey
+replace blocs_o = 1 if iso_o=="OTTO" 
+replace blocs_d = 1 if iso_d=="OTTO" 
+
+replace blocs_o = 1 if iso_o=="VAT"
+replace blocs_d = 1 if iso_d=="VAT"
+
+replace blocs_o = 1 if iso_o=="TRIEST"
+replace blocs_d = 1 if iso_d=="TRIEST"
+
+replace blocs_o = 1 if iso_o=="SWENOR"
+replace blocs_d = 1 if iso_d=="SWENOR"
+
+replace blocs_o = 1 if iso_o=="ALSLOR"
+replace blocs_d = 1 if iso_d=="ALSLOR"
+
+replace blocs_o = 1 if iso_o=="CANQBCONT"
+replace blocs_d = 1 if iso_d=="CANQBCONT"
+
+replace blocs_o = 1 if iso_o=="NFLD"
+replace blocs_d = 1 if iso_d=="NFLD"
+
+replace blocs_o = 1 if iso_o=="ROME"
+replace blocs_d = 1 if iso_d=="ROME"
+
+replace blocs_o = 1 if iso_o=="SARD"
+replace blocs_d = 1 if iso_d=="SARD"
+
+replace blocs_o = 1 if iso_o=="TUSC"
+replace blocs_d = 1 if iso_d=="TUSC"
+
+replace blocs_o = 1 if iso_o=="UKNLD"
+replace blocs_d = 1 if iso_d=="UKNLD"
+
+replace blocs_o = 1 if iso_o=="2SICIL"
+replace blocs_d = 1 if iso_d=="2SICIL"
+
+replace blocs_o = 1 if iso_o=="AUSNSW"
+replace blocs_d = 1 if iso_d=="AUSNSW"
+
+replace blocs_o = 1 if iso_o=="AUSQUE"
+replace blocs_d = 1 if iso_d=="AUSQUE"
+
+replace blocs_o = 1 if iso_o=="AUSSTH"
+replace blocs_d = 1 if iso_d=="AUSSTH"
+
+replace blocs_o = 1 if iso_o=="AUSTAS"
+replace blocs_d = 1 if iso_d=="AUSTAS"
+
+replace blocs_o = 1 if iso_o=="AUSVIC"
+replace blocs_d = 1 if iso_d=="AUSVIC"
+
+replace blocs_o = 1 if iso_o=="AUSWST"
+replace blocs_d = 1 if iso_d=="AUSWST"
+
+* Madeira - part of Portugal
+replace blocs_o = 1 if iso_o=="MADEIRA"
+replace blocs_d = 1 if iso_d=="MADEIRA"
+
+* Azores - part of Portugal
+replace blocs_o = 1 if iso_o=="AZORES"
+replace blocs_d = 1 if iso_d=="AZORES"
+
+* Canary Islands - part of Spain
+replace blocs_o = 1 if iso_o=="CANARY"
+replace blocs_d = 1 if iso_d=="CANARY"
+
+* LUBECK - city in Germany 
+replace blocs_o = 1 if iso_o=="LUBECK"
+replace blocs_d = 1 if iso_d=="LUBECK"
+
+* Assign Bermuda to western bloc
+replace blocs_o = 1 if iso_o=="BMU"
+replace blocs_d = 1 if iso_d=="BMU"
+
+* Assign Saint Helena (british overseas territory) to western bloc
+replace blocs_o = 1 if iso_o=="SHN"
+replace blocs_d = 1 if iso_d=="SHN"
+
+* Assign Cayman islands (british overseas territory) to western bloc
+replace blocs_o = 1 if iso_o=="CYM"
+replace blocs_d = 1 if iso_d=="CYM"
+
+replace blocs_o = 1 if iso_o=="AUSWST"
+replace blocs_d = 1 if iso_d=="AUSWST"
+
+* Assign Hong Kong to western bloc
+replace blocs_o = 1 if iso_o=="HKG"
+replace blocs_d = 1 if iso_d=="HKG"
+
+* Assign Channel Islands to western bloc
+replace blocs_o = 1 if iso_o=="CHISL"
+replace blocs_d = 1 if iso_d=="CHISL"
+
+* assign Indochina to bloc2
+replace blocs_o = 2 if iso_o=="INDOCHI"
+replace blocs_d = 2 if iso_d=="INDOCHI"
+
+* assign Kwantung leased territory to bloc2
+replace blocs_o = 2 if iso_o=="KWANTU"
+replace blocs_d = 2 if iso_d=="KWANTU"
+
+* MANCHU
+replace blocs_o = 2 if iso_o=="MANCHU" 
+replace blocs_d = 2 if iso_d=="MANCHU" 
+
+* Mecklenburg = part of east germany
+replace blocs_o = 2 if iso_o=="MECKL" 
+replace blocs_d = 2 if iso_d=="MECKL"
+
+gen tradetype = 1 if blocs_o==1 & blocs_d==1
+replace tradetype = 2 if blocs_o==2 & blocs_d==2
+replace tradetype = 3 if blocs_o==3 & blocs_d==3
+replace tradetype = 4 if (blocs_o==1 & blocs_d==2) | (blocs_o==2 & blocs_d==1)
+replace tradetype = 5 if (blocs_o==1 & blocs_d==3) | (blocs_o==3 & blocs_d==1)
+replace tradetype = 6 if (blocs_o==2 & blocs_d==3) | (blocs_o==3 & blocs_d==2)
+
+gen n=1 if FLOW!=.
+
+save "TRADHIST_blocs.dta", replace
+********************************************************************************
+
+drop FLOW_0-GATT_d
+gen l1trade = ln(FLOW+sqrt(1+FLOW^2))
+gen ltrade = ln(FLOW)
+gen FLOW1 = 1+FLOW
+
+gen id_ifs = iso_o+iso_d
+tostring year, gen(yyy)
+gen iso_o_year = iso_o+yyy
+gen iso_d_year = iso_d+yyy
+gen between = 0
+replace between = 1 if tradetype==4
+gen una = 0 
+replace una = 1 if blocs_o==3 | blocs_d==3
+
+encode iso_o, gen(c_o)
+encode iso_d, gen(c_d)
+replace between=. if tradetype==.
+
+gen coldwar = (year>=1947 & year<=1991)
+gen btw_coldwar = between*coldwar
+gen una_coldwar = una*coldwar
+
+forvalue y=1920/1990 {
+		gen d`y' = (year==`y')
+		gen btw_y`y' = between*d`y'
+		gen una_y`y' = una*d`y'
+		drop d`y'
+}
+
+order iso_o-una_coldwar btw* una*
+gen trade = FLOW
+
+encode id_ifs, gen (nid_ifs)
+tsset nid_ifs year
+gen dl1trade = d.l1trade
+gen dltrade = d.ltrade
+drop if year<1920
+drop if year>1990
+
+
+** Regression for Figure 3 **
+	cap drop btwpre
+	gen btwpre = 0
+	replace btwpre = 1 if between==1 & year<=1946
+	cap drop unapre
+	gen unapre = 0
+	replace unapre = 1 if una==1 & year<=1946
+
+ppmlhdfe trade btwpre unapre btw_y1948-btw_y1990 una_y1948-una_y1990 l.trade if year>=1920 & year<1939 | year>1945, absorb(id_ifs iso_o_year iso_d_year) cluster(id_ifs)
+outreg2 using "$tables\data_F3.xls", nocons ctitle(PPML) bdec(4) tdec(4) se excel label append addtext(Country-pair FE, Y, Time FE, -, Source x Time FE, Y, Destination x Time FE, Y, Blocs, Wider)
+
+
+** Regression for Figure S1.2 **
+ppmlhdfe trade l.trade btw_y1920-btw_y1946 btw_y1948-btw_y1990 una_y1920-una_y1946 una_y1948-una_y1990 if year<1939 | year>1945, absorb(id_ifs iso_o_year iso_d_year) cluster(id_ifs)
+	outreg2 using "$tables\data_FS1.2.xls", nocons ctitle(PPML) bdec(4) tdec(4) se excel label append addtext(Country-pair FE, Y, Time FE, -, Source x Time FE, Y, Destination x Time FE, Y, Blocs, Wider)
+	
+
+	
+** Table 1, columns 7-8 **
+
+foreach X in trade  {
+	ppmlhdfe `X' btw_coldwar  una_coldwar l.`X' if year<1939 | year>1945 , absorb(id_ifs year) cluster(id_ifs)
+	outreg2 using "$tables\T1.xls", nocons ctitle(PPML) bdec(4) tdec(4) se excel label append addtext(Country-pair FE, Y, Time FE, Y, Source x Time FE, N, Destination x Time FE, N, Blocs, CW)
+	ppmlhdfe `X' btw_coldwar  una_coldwar l.`X' if year<1939 | year>1945 , absorb(id_ifs iso_o_year iso_d_year) cluster(id_ifs)
+	outreg2 using "$tables\T1.xls", nocons ctitle(PPML) bdec(4) tdec(4) se excel label append addtext(Country-pair FE, Y, Time FE, -, Source x Time FE, Y, Destination x Time FE, Y, Blocs, CW)
+	}
+
+			
+** Table S2.2, Columns 7-8 **
+
+preserve 
+	drop if ifscode_d==111 | ifscode_o==111	
+	foreach X in trade  {
+		ppmlhdfe `X' btw_coldwar  una_coldwar l.`X' if year<1939 | year>1945 , absorb(id_ifs year) cluster(id_ifs)
+		outreg2 using "$tables\TS2.2.xls", nocons ctitle(PPML) bdec(4) tdec(4) se excel label append addtext(Country-pair FE, Y, Time FE, Y, Source x Time FE, N, Destination x Time FE, N, Blocs, CW, Sample, No US)
+		ppmlhdfe `X' btw_coldwar  una_coldwar l.`X' if year<1939 | year>1945 , absorb(id_ifs iso_o_year iso_d_year) cluster(id_ifs)
+		outreg2 using "$tables\TS2.2.xls", nocons ctitle(PPML) bdec(4) tdec(4) se excel label append addtext(Country-pair FE, Y, Time FE, -, Source x Time FE, Y, Destination x Time FE, Y, Blocs, CW, Sample, No US)
+		}
+
+restore 		
+
+preserve 
+	drop if ifscode_d==924 | ifscode_o==924
+	foreach X in trade  {
+		ppmlhdfe `X' btw_coldwar  una_coldwar l.`X' if year<1939 | year>1945 , absorb(id_ifs year) cluster(id_ifs)
+		outreg2 using "$tables\TS2.2.xls", nocons ctitle(PPML) bdec(4) tdec(4) se excel label append addtext(Country-pair FE, Y, Time FE, Y, Source x Time FE, N, Destination x Time FE, N, Blocs, CW, Sample, No CN)
+		ppmlhdfe `X' btw_coldwar  una_coldwar l.`X' if year<1939 | year>1945 , absorb(id_ifs iso_o_year iso_d_year) cluster(id_ifs)
+		outreg2 using "$tables\TS2.2.xls", nocons ctitle(PPML) bdec(4) tdec(4) se excel label append addtext(Country-pair FE, Y, Time FE, -, Source x Time FE, Y, Destination x Time FE, Y, Blocs, CW, Sample, No CN)
+		}
+
+restore 		
+
+

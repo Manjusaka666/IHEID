@@ -1,0 +1,673 @@
+                                                     Journal of International Economics 153 (2025) 104042
+
+
+                                                             Contents lists available at ScienceDirect
+
+
+                                               Journal of International Economics
+                                                     journal homepage: www.elsevier.com/locate/jie
+
+
+Full length articles
+
+Changing global linkages: A new Cold War?✩
+Gita Gopinath a , Pierre-Olivier Gourinchas a,b , Andrea F. Presbitero a,b                                         ,∗,
+
+Petia Topalova a,b
+a
+    International Monetary Fund, United States of America
+b
+    CEPR, United Kingdom
+
+
+
+ARTICLE                  INFO                               ABSTRACT
+
+Dataset link: Data for ‘‘Changing Global Linkag             Global linkages are changing amidst elevated geopolitical tensions and a surge in policies
+es: A New Cold War?’’ (Original data)                       directed at increasing supply chain resilience and national security. Using granular bilateral
+                                                            data, we provide new evidence of trade and investment fragmentation along geopolitical lines
+JEL classification:
+F14
+                                                            and compare it to the early years of the Cold War. Gravity model estimates point to significant
+F60                                                         declines in trade, FDI, and portfolio flows between countries in geopolitically distant blocs since
+I18                                                         the onset of the war in Ukraine, relative to flows between countries in the same bloc. While the
+                                                            extent of fragmentation is still relatively small, the decoupling between the rival geopolitical
+Keywords:
+                                                            blocs during the Cold War suggests it could worsen considerably should geopolitical tensions
+Trade
+                                                            persist and trade restrictive policies intensify. Different from the early years of the Cold War, a
+Foreign direct investment
+Geoeconomics                                                set of nonaligned ‘connector’ countries are rapidly gaining importance and serving as a bridge
+Fragmentation                                               between blocs.
+
+
+
+
+1. Introduction
+
+    Over the past decade, the future of global economic integration has been increasingly challenged. Disillusionment with the
+uneven benefits of trade, fragility of highly specialized global supply chains exposed by the COVID-19 pandemic, and geopolitical
+frictions heightened by the war in Ukraine are all contributing to rethinking commitments to free trade. New technologies have
+also triggered a global race to dominate emerging strategic sectors, like artificial intelligence (AI), renewable energy, and biotech.
+In 2015, the Chinese government announced the ‘Made in China 2025’ initiative, with the goal of upgrading its manufacturing
+industry, reducing its reliance on foreign technology, and raising the domestic content of core components and materials. In 2018,
+the U.S. raised tariffs on a wide range of imports from China. Worldwide, policy measures, which directly or indirectly restrict trade
+flows, have surged.1 Yet, despite these changes in the policy environment and public sentiment, there are no significant changes
+in the extent of globalization, crudely defined as the ratio of global trade to GDP. Since the global financial crisis, when the 2000s
+
+
+  ✩ Shan Chen, Mona Wang and Dennis Zhao provided excellent research assistance. We thank Jesse Schreger (the editor), two anonymous referees, numerous
+colleagues, and participants at the 2023 Asia Economic Policy Conference, the 2024 AEA Conference, the 2024 CEBRA Annual Meeting, the ‘‘Geopolitics and
+international trade and finance: Knowns and unknowns’’ conference (Peterson Institute for International Economics), the 2024 Southern Economic Association
+Annual Meeting, the 2024 European Commission Annual Research Conference, and the Global Challenges International Workshop: ‘‘Industrial Policy and Trade
+Disruption’’ (Bocconi University) for helpful comments and suggestions. The work in this paper is partly supported by the Macroeconomic Policy in Low-Income
+Countries program of the UK’s Foreign, Commonwealth and Development Office (FCDO) and the Macroeconomic Research on Climate Change and Emerging
+Risks in Asia program of the Ministry of Economy and Finance of the Government of Korea. The views expressed here are those of the authors and should not
+be attributed to the International Monetary Fund, its Executive Board, or its management.
+   ∗ Corresponding author at: International Monetary Fund, United States of America.
+     E-mail addresses: ggopinath@imf.org (G. Gopinath), pgourinchas@imf.org (P.-O. Gourinchas), apresbitero@imf.org (A.F. Presbitero), ptopalova@imf.org
+(P. Topalova).
+
+https://doi.org/10.1016/j.jinteco.2024.104042
+Received 30 July 2024; Received in revised form 12 December 2024; Accepted 12 December 2024
+Available online 21 December 2024
+0022-1996/© 2024 Published by Elsevier B.V.
+G. Gopinath et al.                                                                                            Journal of International Economics 153 (2025) 104042
+
+
+
+
+Fig. 1. Globalization and trade fragmentation in the last century and now.
+Notes: Panel A plots global goods trade as a share of global GDP, and goods trade between blocs of countries as a share of global trade. For the Cold War,
+a Western and Eastern blocs are defined following Gokmen (2017). Panel B plots the average trade growth during 2022Q2–2024Q1 minus the average trade
+growth during 2017Q1–2022Q1 within and between blocs. For the current period, bloc definition is based on a hypothetical Western bloc centered around the
+U.S. and Europe and a hypothetical Eastern bloc centered around China and Russia. Sections 2 and 3 provide further details. Bilateral quarterly growth rates
+are computed as the difference in log bilateral trade, which are then aggregated using bilateral nominal trade as weights.
+Source: Fouquin and Hugot (2016); CEPII; Gokmen (2017); Jordà–Schularick–Taylor Macrohistory Database; IMF World Economic Outlook; Trade Data Monitor;
+and authors’ calculations.
+
+
+
+
+hyperglobalization came to an end, the ratio of goods trade to GDP has fluctuated between 41 and 48 percent (Fig. 1, Panel A).
+Foreign direct investment (FDI) has become more subdued: global FDI as a share of GDP declined from around 3.4 before the global
+financial crisis to 2.5 percent thereafter.2
+    A number of studies have argued that underneath the relatively stable aggregate trends, a redirection of trade and investment
+flows across countries is taking place, potentially signaling fragmentation (Aiyar et al., 2023a; Alfaro and Chor, 2023; Freund et al.,
+2024; WTO, 2023). ‘‘Geoeconomic fragmentation,’’ referring to policy-induced changes in the sources and destinations of cross-
+border flows, often guided by strategic considerations, such as national and economic security, may or may not be associated with
+a decline in world trade relative to GDP. This term, along with ‘‘reshoring,’’ ‘‘nearshoring’’ and ‘‘friend-shoring,’’ is increasingly
+mentioned in companies’ earnings calls (Figure S1.1, Panel B). And there is by now robust evidence that the trade tensions between
+the U.S. and China since 2018 have triggered a reallocation of the supply chains that have intertwined the world’s two largest
+economies over the past decades.3 Alfaro and Chor (2023) and Freund et al. (2024) demonstrate that US imports of tariffed products
+from China have decreased, with low-wage countries linked to China’s supply chains and with similar export baskets gaining share in
+US markets (see also Dang et al., 2023; Utar et al., 2023). However, there is little evidence whether the looming ‘‘great reallocation’’
+extends beyond US efforts to de-risk, friendshore and onshore, whether there is broader fragmentation of trade and investment along
+geopolitical lines, and what its output and welfare costs might be.
+    In the absence of a clear theoretical or empirical link between rising geopolitical tensions and global trade patterns, we use the
+change in the share of trade between politically distant groups of countries as a proxy for the extent of geoeconomic fragmentation.4
+In this choice, we are guided by the patterns in global trade observed during the Cold War. The share of trade between the Western-
+centered and USSR-centered blocs declined sharply during World War II (Fig. 1, Panel A).5 During the Cold War, trade between blocs
+
+
+
+   1 See Figure S1.1, Panel A, in the Annex, and Juhász et al. (2024), who argue that the rise in protectionism predates the post-pandemic surge in industrial
+
+policies.
+   2 For a discussion of deglobalization, see, among others, Antràs (2020) and Goldberg and Reed (2023).
+   3 See Fajgelbaum and Khandelwal (2022) and Caliendo and Parro (2023) for a survey of the literature on the economic impacts of the U.S.-China trade
+
+frictions and Bown (2021) for a detailed account of its timeline.
+   4 There is a sizable literature examining the effects of war and sanctions on trade and investment between countries engaged in conflict or their neighbors (see
+
+Glick and Taylor, 2010; Martin, Mayer, and Thoenig, 2008, among others). However, how global trade patterns are affected by a rise in geopolitical tension is
+distinct, and has only recently been tackled by the theoretical literature (Broner et al., 2024; Clayton et al., 2024).
+   5 While it is hard to precisely date the beginning of the Cold War, we follow the literature and use the announcement of the Truman Doctrine in Congress in
+
+March 1947 — which established that the U.S. would provide political, military and economic assistance to all democratic nations under authoritarian threats
+— as its start. Leffler (1984), among others, discusses geopolitical developments at the onset of the Cold War.
+
+
+                                                                                2
+G. Gopinath et al.                                                                           Journal of International Economics 153 (2025) 104042
+
+continued to decline and stayed significantly below trade within blocs until 1990 even though the ratio of global goods trade to
+GDP increased significantly. Against the backdrop of over a century of data, fragmentation is difficult to detect yet in the aggregate
+data. Yet, while geopolitical factors have started playing a growing role in driving trade and investment flows since the U.S.-China
+trade tensions, zooming in on the period after the onset of the war in Ukraine reveals clear signs of fragmentation. While trade
+growth has slowed everywhere since the war in Ukraine, growth between more politically distant blocs slowed more (Fig. 1, Panel
+B). Announced FDI projects within a bloc of countries have also become more common, while investments across blocs have fallen
+sharply.
+    In this paper, we take these emerging prima facie signs of fragmentation as a starting point and uncover a set of novel stylized
+facts, which, taken together, provide support for the argument that trade, investment, and capital flows may be fragmenting along
+geopolitical lines. Our focus is the reorientation of trade, financial and capital flows between geopolitical blocs, which may or may
+not be accompanied by changes in global/aggregate flows. We contrast our findings with the Cold War experience — a notable
+historical example of geopolitical fragmentation — to put our results in context, speculate about the course of fragmentation should
+geopolitical tensions and trade policy restrictions continue intensifying, and highlight the role that nonaligned economies could play
+today — differently from the Cold War — in shaping fragmentation’s macroeconomic effects.
+    First, we find significant reshuffling in countries’ sourcing of imports and FDI. Reallocation across import and FDI sources has
+surged, especially after the onset of the war in Ukraine, reaching levels not seen over the past two decades.
+    Second, we reveal the cracks that are emerging in cross-border flows by estimating gravity models of trade, investment, and
+portfolio flows. After accounting for all country-level shocks and time-invariant factors that may shape the extent of trade and
+investment between country pairs, we document that trade flows and the number of announced FDI projects between a U.S.-centered
+and a China-centered bloc are, respectively, 11 and 12 percent lower than trade and investment between countries within the same
+bloc since the war in Ukraine. Consistent with these results, the shares of portfolio holdings between blocs also declined by 0.5
+percentage point more than those within blocs after the Russian invasion of Ukraine. The shortfall in cross-border flows is both
+economically and statistically significant, though still a fraction of the trade shortfall between rival blocs during the Cold War.
+Importantly, the shortfall is not limited to flows between the U.S. and China. The comparison with the Cold War also highlights a
+different role for nonaligned countries. While during the Cold War, trade with nonaligned economies declined by around 40 percent
+(although not to the same extent as trade between opposing blocs), currently we do not observe any relative reduction in trade and
+investment flows involving nonaligned countries.
+    Third, zooming in on trade between the U.S. and China, we confirm the adverse effects of the US tariffs on Chinese imports,
+and the precipitous decline of China as a source for US imports. Recent data also confirm the emergence of ‘connector’ countries,
+as exports from a set of nonaligned economies are substituting for declining Chinese imports by the U.S., and those economies tend
+to have increased their imports from China. Moreover, combining trade and announced FDI projects data, we establish a strong
+positive correlation between countries’ gain in US import market share and their gain in Chinese outward FDI. While establishing
+the direction of causality is beyond the scope of this paper, this finding adds to the growing anecdotal evidence of Chinese firms
+investing in countries, through which they can access US markets (Bloomberg, 2023; Lopez and Vázquez, 2023). This finding is in
+sharp contrast to the experience during the Cold War. Our analysis suggests that the nonaligned economies at the time did not step
+in to bridge the gap between the Eastern and Western blocs, perhaps reflecting their much lower degree of integration in the global
+marketplace, higher trade barriers and transport costs, and the different nature of traded goods. On the other hand, there is large
+uncertainty about the extent to which the currently nonaligned economies will continue to serve as bridges between geopolitical
+blocs and maintain ties with both sides should geopolitical tensions and rivalry intensify.
+    In sum, we find that fragmentation in trade and investment flows is becoming reality. It is hard to speculate whether it will
+deepen and how longlasting it will be given its recent onset: its evolution will depend on whether geopolitical tensions persist and
+trade restricting policies continue to mount. But our findings also reveal a conundrum: the more cross-border flows are rerouted via
+‘connector’ countries, the less effective the policies driving fragmentation may be in achieving their stated objectives. Policymakers
+have motivated measures that restrict trade either directly or indirectly on the grounds of strengthening the resilience of supply
+chains, de-risking and increasing economic and national security (Bernstein, 2023; Sullivan, 2023; Yellen, 2022). However, the
+reshuffling that is taking place seems to be lengthening supply chains (Qiu et al., 2023), as connector countries are stepping in to
+bridge the gap between rival blocs. This could potentially bring new fragilities, in addition to raising inefficiencies. Moreover, even
+if direct links to less politically aligned partners are severed, exposure may not change substantively if imports and FDI from China
+underpin the exports by more politically aligned trading partners.
+
+Related literature. This study relates to several fast growing strands of literature. First, we contribute to recent studies on the impact
+of geopolitics on global real and financial activity. Clayton et al. (2023) introduce a theoretical framework for the interplay between
+geopolitics and economic competition. Broner et al. (2024) show that, as shifts in power relationships drive international trade, the
+emergence of a multipolar world could unravel globalization and create winners and losers. Aiyar et al. (2023b) provide an overview
+of recent empirical and modeling work on fragmentation, global trade, investment and financial flows. Geopolitical distance between
+country pairs tends to be associated with lower bilateral trade, FDI and financial flows, especially since the U.S.-China trade tensions
+in 2018-2019 (Aiyar et al., 2024; Aiyar and Ohnsorge, 2024; Catalán et al., 2024). While this evidence predates the Russian invasion
+of Ukraine, a related analysis developed contemporaneously with ours by Blanga-Gubbay and Rubínová (2023) and subsequent work
+by Qiu et al. (2024) find that trade has become more sensitive to geopolitical distance since the start of the war in Ukraine. To the
+best of our knowledge, our study is one of the first to present comprehensive and recent evidence of emerging geopolitical fault
+lines globally in trade, investment, and portfolio flows in a common framework, focusing on flows between and within blocs and
+with nonaligned countries.
+
+                                                                    3
+G. Gopinath et al.                                                                                           Journal of International Economics 153 (2025) 104042
+
+    Second, we build on studies that examine the realignment of US import sourcing from China towards other countries using
+product-level (Alfaro and Chor, 2023; Benguria and Saffie, 2024; Fajgelbaum et al., 2024; Freund et al., 2024; Goldberg and Reed,
+2023) and firm-level data (Alfaro et al., 2024; Handley et al., 2024; Utar et al., 2023). We expand this literature in two ways. First, we
+seek broader evidence of fragmentation and supply chain shifts given the surge in trade restrictive measures and elevated geopolitical
+tensions globally, drawing insights from the Cold War era. Second, we examine both trade, investment and portfolio flows in a
+comparable manner, contrary to previous studies that have mostly focused on trade (e.g. Freund et al., 2024; Blanga-Gubbay and
+Rubínová, 2023). We also find robust evidence for both bilateral total and product-level trade of the emergence of ‘connector’
+countries. The finding that fragmentation is occurring in both goods and capital flows in an interrelated manner is novel and brings
+quantitative substance to mounting anecdotal evidence of FDI used to circumvent trade restrictions, and the broader literature on
+horizontal versus vertical FDI (Helpman, 1984; Helpman et al., 2004; Antràs and Yeaple, 2014; Ramondo and Rodriguez-Clare,
+2013; Tintelnot, 2017). Relatedly, Xue (2023) presents complementary evidence on the connection between US tariffs on Chinese
+imports, trade and FDI, and develops a general equilibrium model incorporating trade and FDI diversion.
+    Third, our study also relates to the recent literature on the economic costs of geoeconomic fragmentation (see, among others,
+Javorcik et al., 2024; Aiyar et al., 2023b; Campos et al., 2023; Hakobyan et al., 2023; Panon et al., 2024). This literature simulates
+the impact of fragmentation assuming a sharp increase in trade/FDI/technology diffusion costs between blocs of countries. Our
+study provides estimates of the relative increase in trade/FDI costs between and within blocs, which could guide future modeling
+work towards more realistic fragmentation scenarios.6
+    Finally, our study adds to the literature on the Cold War (see, for example, Schiller, 1955; Gokmen, 2017; Morrow, Siverson,
+and Tabares, 1998). In a related paper, Campos et al. (2024) show that the Cold War had an effect similar to a 48% ad valorem
+tariff and roughly halved East–West trade flows. We contribute to this literature by examining the role of nonaligned economies.
+We are also the first to compare the incipient signs of fragmentation to the experience during the early years of the Cold War.
+
+2. Data
+
+    The analysis relies on annual and monthly data on bilateral trade flows from the Trade Data Monitor (TDM), a private data
+provider. TDM sources trade data at the Harmonized Tariff Schedule (HS) level from government offices and agencies of over 115
+countries, accounting for more than 95 percent of world GDP. A key advantage of TDM over the UN COMTRADE database is its
+timeliness. The Historical Bilateral Trade and Gravity dataset (TRADHIST) by Fouquin and Hugot (2016) allows us to examine
+bilateral trade during the Cold War.
+    FDI data are from fDi Markets, a service from the Financial Times, which tracks over 330,000 announcements of new and
+expansions of existing projects between January 2003 and June 2024 between 186 countries. As the value of capital investment
+is often estimated, our analysis is mostly based on the number of FDI projects. However, we establish the robustness of our main
+results to the use of FDI values—see Annex S3 for a discussion of the fDi Markets data and their reliability.
+    Data on portfolio flows are from the IMF’s Coordinated Portfolio Investment Survey (CPIS), which collects bilateral data on
+countries’ holdings of cross-border portfolio investment (equity or debt) securities, excluding cross-border direct investment or
+reserve assets. The sample covers 84 reporting countries (and 195 counterparts) and with data on portfolio positions at a semi-annual
+basis from 2015 to the end of 2023.
+    Bilateral geopolitical distance, which we use to assign countries to hypothetical blocs, is based on voting patterns at the United
+Nations General Assembly (UNGA). We use the ideal point distance (IPD), estimated with ‘‘constant’’ UNGA agenda, and provided
+by Bailey et al. (2017).7
+
+3. Findings
+
+3.1. Reallocation
+
+    To gauge reallocation across trading and FDI partners, we compute a commonly used measure of structural change — the
+Lilien (1982) Index — using annual bilateral import data and inward FDI for each country since 2000. Underneath the broadly stable
+aggregate trends of trade and FDI, there was a sharp uptick in the extent of reallocation across import and FDI sources, especially after
+Russia’s invasion of Ukraine (Fig. 2). The increase in the trade Lilien index is especially pronounced among advanced economies
+(Table S2.1, panel A). For emerging market and developing economies (EMDEs) where the extent of reallocation is structurally
+higher, the increase is not as noticeable. Compared to the average observed over 2003–2021, import reallocation has increased by
+roughly 15 percent after Russia’s invasion of Ukraine in the full sample, and by almost 40 percent in advanced economies. FDI
+exhibits striking similarity, with reallocation increasing significantly more for advanced economies (Table S2.1, panel B).
+
+
+   6 Fernandez-Villaverde et al. (2024) compute a measure of geopolitical fragmentation based on a broad set of country-level indicators and estimate its GDP
+
+and sectoral output effects. Their measure captures both potential onshoring and deglobalization contrary to the bilateral trade and FDI costs our analysis
+infers. Bonadio et al. (2024) rely on a data-driven approach to measure trade fragmentation, based on changes in trade costs with the U.S. and China over the
+period 2015–23, and use a quantitative trade model to compute the real income effect of the reconfiguration of the global trade costs.
+   7 For more details on the measurement and estimation, see Bailey et al. (2017). The IPD data are available at: https://dataverse.harvard.edu/dataverse/Voeten.
+
+
+
+                                                                               4
+G. Gopinath et al.                                                                                                Journal of International Economics 153 (2025) 104042
+
+
+
+
+Fig. 2. Reallocation across import and FDI sources.
+Notes: The figure plots the estimated coefficients on year indicators along with the 90𝑡ℎ percentile confidence intervals from regressing the Modified Lilien Index
+(MLI) on country and year fixed effects with 2017 the excluded year. The Modified Lilien Index (MLI), often used to measure sectoral shifts in output, is based
+on the standard
+          √∑        deviation of the sectoral growth rates from time period 𝑡 − 1 to 𝑡:
+𝑀 𝐿𝐼 𝑟𝑡 =      𝑆𝑖𝑟𝑡 × (𝑙𝑛(𝑥𝑖𝑟𝑡 ∕𝑥𝑖𝑟𝑡−1 ) − 𝑙𝑛(𝑋𝑟𝑡 ∕𝑋𝑟𝑡−1 ))2
+where 𝑙𝑛(𝑥𝑖𝑟𝑡 ∕𝑥𝑖𝑟𝑡−1 ) is the growth of imports (FDI) from partner 𝑖, in country 𝑟, in time period 𝑡, 𝑙𝑛(𝑋𝑟𝑡 ∕𝑋𝑟𝑡−1 ) is the growth in overall imports (FDI) of country
+𝑟, and 𝑆𝑖𝑟𝑡 = 𝑥𝑖𝑟𝑡 ∕𝑋𝑟𝑡 is the average share of imports (FDI) from partner 𝑖 in total imports (FDI) of country 𝑟. The index equals 0 if there is no structural change
+between 𝑡 − 1 and 𝑡. The higher the value of the index, the greater is the structural change; in other words, the bigger the reallocation of imports (FDI) across
+partners.
+Source: Trade Data Monitor; fDi Markets; and authors’ calculations.
+
+
+
+
+3.2. Fragmentation
+
+    Uncovering the patterns underneath the increase in reallocation of import and FDI sources will occupy researchers for years to
+come as new data on global supply chains, world input–output matrices, and bilateral flows become available. We take a first stab at
+examining whether the re-configuration of trade and investment could be related to geopolitical considerations. We remain agnostic
+about the causal effects of recently announced policy intentions and measures aimed at ‘‘de-risking’’, creating/maintaining strategic
+advantage, and ensuring national or economic security through ‘‘onshoring’’, ‘‘nearshoring’’ or ‘‘friend-shoring.’’ The purpose of
+this exercise is to use a common approach to establish whether there are signs of fragmentation of trade, FDI, and portfolio flows
+between groups of countries that are potentially more geopolitically distant.
+    We define groups of geopolitically aligned countries following recent studies, which use the similarity of countries’ voting patterns
+at the UNGA to capture countries’ bilateral political attitudes towards one another (Aiyar et al., 2024). Countries are divided into
+three groups based on the 2021 Ideal Point Distance: a U.S. leaning bloc, which includes countries in the top quartile in their political
+proximity to the U.S., a China leaning bloc, which includes countries in the top quartile in their political proximity to China, and
+a set of nonaligned countries, comprising the remaining economies. We also consider an alternative, narrower definition of blocs,
+allowing a larger group of nonaligned economies.8
+    To gauge fragmentation, we estimate standard gravity models, the conventional framework for assessing the determinants of
+trade, investment, and portfolio flows, which can be derived from many theoretical models:
+        𝑌𝑠𝑑 𝑡 = 𝛽1 𝐵 𝑒𝑡𝑤𝑒𝑒𝑛 𝐵 𝑙𝑜𝑐𝑠𝑑 × 𝑃 𝑜𝑠𝑡𝑡 + 𝛽2 𝑁 𝑜𝑛𝑎𝑙𝑖𝑔 𝑛𝑒𝑑𝑠𝑑 × 𝑃 𝑜𝑠𝑡𝑡 + 𝛿𝑠𝑑 + 𝜏𝑠𝑡 + 𝜙𝑑 𝑡 + 𝜖𝑠𝑑 𝑡 ,                                                              (1)
+
+where the dependent variable is either: (i) the value of trade between country 𝑠 and country 𝑑 (in USD); (ii) the number or the value
+of announced FDI projects from source country 𝑠 to destination country 𝑑 in period 𝑡; and (iii) the change in the share of portfolio
+assets held by the reporting country 𝑠 in the counterpart country 𝑑 between 𝑡 and 𝑡 − 1. To measure whether flows between blocs
+have changed differentially over time, we include two dummies—a dummy for country pairs in which the two countries belong to
+different blocs, 𝐵 𝑒𝑡𝑤𝑒𝑒𝑛 𝐵 𝑙𝑜𝑐𝑠𝑑 , and a dummy for country pairs in which at least one country is nonaligned, 𝑁 𝑜𝑛𝑎𝑙𝑖𝑔 𝑛𝑒𝑑𝑠𝑑 , leaving
+country pairs in which the two countries are assigned to the same geopolitical bloc as the omitted category. We interact both of these
+dummies with an indicator equal to 1 after Russia’s invasion of Ukraine (from 2022:q1 onward), 𝑃 𝑜𝑠𝑡𝑡 .9 The coefficients on these
+interacted dummies, e.g. 𝛽1 , capture whether trade/FDI/portfolio holdings between countries in the two politically distant blocs in
+the post-war period differs from trade/FDI/portfolio holdings between countries in the same geopolitical bloc (the omitted category).
+The fully-saturated specification, with country-pair (𝛿𝑠𝑑 ), source × year (𝜏𝑠𝑡 ) and destination × year (𝜙𝑑 𝑡 ) fixed effects, accounts for
+all time-invariant country-pair determinants of trade and investment flows between countries (such as geographical and political
+
+
+   8 In this case, a hypothetical Western bloc includes the U.S., Europe, Canada, Australia and New Zealand, and a hypothetical Eastern bloc comprises Belarus,
+
+China, Eritrea, Mali, Nicaragua, Russia, and Syria, with the other countries considered nonaligned.
+   9 We define the 𝑃 𝑜𝑠𝑡 period to start at the onset of the war in Ukraine given the significant increase in reallocation across import and FDI sources described
+                         𝑡
+in Section 3.1 in 2022–23 and the evidence presented in Figure S1.2.
+
+
+                                                                                   5
+G. Gopinath et al.                                                                                               Journal of International Economics 153 (2025) 104042
+
+distance, contiguity, common language, common colonial past, and the like), and the effect of all source- and destination-specific
+time-varying factors and shocks, such as GDP growth, change in country risk, implemented and announced policies affecting all
+partners, and countries’ multilateral resistance terms.
+    We estimate the gravity model using Poisson pseudo-maximum likelihood (PPML), using quarterly data over 2017:q1-2024:q1
+for trade and 2008:q1-2024:q2 for FDI.10 For portfolio holdings, as the dependent variable is the change in the portfolio share,
+we estimate the gravity model with OLS using semiannual data over 2015:s1-2023:s2. Robust standard errors are clustered at the
+country-pair level to account for potential correlation in flows over time at the bilateral level.
+    Table 1 reports the coefficients of interest, 𝛽1 and 𝛽2 , estimated using alternative sets of fixed effects and bloc definitions. Across
+all specifications, there is strong evidence that trade, FDI, and portfolio holdings between blocs have declined relative to trade, FDI,
+and portfolio holdings within blocs after Russia’s invasion of Ukraine (columns 1–6). Focusing on the fully saturated PPML estimates
+using the wider bloc definition (panel A, columns 2 and 4), after the Russian invasion of Ukraine, trade and FDI between blocs
+declined by roughly 11 and 12 percent more than flows within blocs, respectively.11 The shares of portfolio holdings between blocs
+declined by 0.5 percentage point more than those within blocs, which is a relatively large variation given that the average portfolio
+share in the sample (conditional on the share being positive) is 1.5 percent. These patterns are not driven uniquely by the U.S. or
+China. Results are broadly robust to excluding these countries from the sample, although the decline in FDI between blocs and the
+resilience of those with nonaligned countries seems to be driven by Chinese and US flows, respectively (Table S2.2). The FDI results
+are also robust to using the value of the investments (in USD) instead of the count measure (Table S2.3). Overall, these findings are
+consistent with recent evidence showing geopolitical alignment to be an increasingly important driver of trade (Qiu et al., 2024),
+FDI (Aiyar et al., 2024), and cross-border portfolio flows (Catalán et al., 2024). However, our findings further demonstrate that,
+since Russia’s invasion of Ukraine, geopolitical alignments are associated with non-trivial fractures in the global system of trade,
+FDI and portfolio flows.
+    To examine the exact timing of trade fragmentation, we estimate Eq. 1 with a full set of time dummies, interacted with the
+𝐵 𝑒𝑡𝑤𝑒𝑒𝑛 𝐵 𝑙𝑜𝑐𝑠𝑑 and 𝑁 𝑜𝑛𝑎𝑙𝑖𝑔 𝑛𝑒𝑑𝑠𝑑 country-pair indicators, and plot the PPML coefficients along with the 90th percentile confidence
+interval in Figure S1.2. The divergence in trade between blocs compared to trade within blocs clearly began after Russia’s invasion
+in Ukraine (Panel A). In particular, the war acted as a ‘developing agent’ for geoeconomic fragmentation: trade between blocs started
+falling partly because of the collapse of Russia’s trade with the euro area and (to a lesser extent) with the U.S., while trade within
+bloc increased as the share of Russia’s trade with China more than doubled since the invasion (Figure S1.3).
+    To gauge the magnitude of fragmentation along geopolitical lines, we compare the current trade fragmentation with the Cold War
+period—arguably the most prominent example of fragmentation in recent history. Using bilateral annual trade data from 1920–1990
+and a bloc definition centered on a West–East divide as in Gokmen (2017) and Huntington (1998), we estimate Eq. 1 focusing on the
+interaction between the 𝐵 𝑒𝑡𝑤𝑒𝑒𝑛 𝐵 𝑙𝑜𝑐𝑠𝑑 dummy and an indicator that takes on the value of 1 for the Cold War period (1947–1990).
+Columns 7–8 of Table 1 reveal that trade between the rival Western and Eastern blocs declined by two thirds during the Cold War,
+relative to trade within these blocs.12
+    Fig. 3 directly compares the fall in trade between blocs in the current period and during the Cold War. The findings are naturally
+sensitive to the choice of the onset date—in the figure, we use 2022:q1 and 1947 as the beginning of fragmentation during the current
+period and the Cold War, respectively. The chart suggests that the fragmentation observed thus far is not significantly different from
+the experience in the initial years of the Cold War. However, compared to the average ‘‘between-bloc trade shortfall’’ during the
+Cold War (Table 1, columns 1–2 and 7–8, panel A), fragmentation so far is an order of magnitude smaller.
+    This should not foster complacency as trade fragmentation could worsen over time if geopolitical tensions persist and restrictive
+trade policies continue to mount. During the Cold War, trade between blocs did not collapse overnight. It took at least five years for
+trade between blocs to significantly decline compared to flows within blocs, and over a decade to reach a nadir relative to within-bloc
+trade (Fig. 3 and S1.2). Moreover, the size of the ‘‘treatment’’ today vs the Cold War is very different. While the ideological and
+economic rivalry between the U.S. and China is reminiscent of the one between the U.S. and the Soviet Union in the second half of the
+20th century and policymakers are emphatic about the need to ‘‘de-risk’’ and ‘‘friendshore,’’ (Bernstein, 2023; Sullivan, 2023; Yellen,
+2022), we are (and will hopefully remain) very far from the ‘‘Iron Curtain’’ that descended across Europe in 1946 (Churchill, 1946).
+US trade policy towards communist countries intensified over time and consisted of a combination of (i) high tariffs, which were
+brought back to the pre-GATT 1930 level (excluding for some raw materials), (ii) export controls, especially directed at military and
+strategic products, and (iii) specific sanctions, including total embargo to North Korea and China (Cooper, 2010). Viewed through
+that lens, the geopolitical cracks that are emerging in trade and investment data — while still shallow — are a source of concern.
+    On the other hand, the stage on which fragmentation is taking place is fundamentally different (Gopinath, 2024). The economic
+interdependence between countries is much higher today as effective trade costs have declined substantially, both due to reductions
+in policy trade barriers, such as gradually dismantled tariffs, and improvements in shipping, information and communication
+technology. As a result, trade, including in services, has become a much bigger part of economic activity and production is shared
+
+
+  10 Our analysis does not consider domestic trade flows, which are important to estimate the intensive and extensive margins of trade (Yotov, 2022), due
+
+to data constraints. We also focus on fragmentation as reorientation of trade flows across trading partners; onshoring production without discriminating across
+trading partners is not captured in the analysis.
+  11 Given the functional form, the decline in trade between blocs relative to trade within blocs after Russia’s invasion of Ukraine can be computed as (𝑒𝛽 − 1) × 100.
+
+Using the PPML results in columns 2 and 4: (𝑒−0.1212 − 1) × 100 = −11.4% for trade and (𝑒−0.1309 − 1) × 100 = −12.3% for FDI.
+  12 Using the PPML results in column 8: (𝑒−1.11 − 1) × 100 = −67%. This effect is somewhat larger but in the same order of magnitude of the estimates by Campos
+
+et al. (2024) using a quantitative trade model.
+
+
+                                                                                  6
+G. Gopinath et al.                                                                                                                 Journal of International Economics 153 (2025) 104042
+
+Table 1
+Trade, investment and portfolio flows: Between blocs relative to within bloc.
+                                 (1)              (2)                       (3)              (4)                     (5)             (6)                            (7)              (8)
+
+                                 Trade around the Russian                   FDI around the Russian                   Portfolio holdings around the                  Trade during
+                                 invasion of Ukraine                        invasion of Ukraine                      Russian invasion of Ukraine                    the Cold War
+
+                                 Panel A. Wider bloc definition
+
+ Between Bloc × Post War         −0.1059**        −0.1212**                 −0.3614***       −0.1309*                −0.0417*        −0.0540*                       −0.6092***       −1.1076***
+                                 (0.041)          (0.058)                   (0.071)          (0.074)                 (0.025)         (0.028)                        (0.163)          (0.110)
+ Nonaligned × Post War           0.0403           0.0043                    −0.0025          −0.0942                 −0.0212         −0.0363                        −0.2612**        −0.4641**
+                                 (0.030)          (0.051)                   (0.046)          (0.077)                 (0.021)         (0.031)                        (0.110)          (0.235)
+
+ Observations                    259,840          259,780                   170,412          152,088                 235,093         235,059                        766,007          687,736
+
+                                 Panel B. Narrower bloc definition
+
+ Between Bloc × Post War         −0.1562***       −0.1194                   −0.6869***       −0.2697**               −0.1841**       −0.1763*
+                                 (0.053)          (0.089)                   (0.114)          (0.137)                 (0.078)         (0.101)
+ Nonaligned × Post War           0.0207           0.0762                    0.0129           0.1049                  −0.0146         −0.0366
+                                 (0.031)          (0.077)                   (0.041)          (0.071)                 (0.034)         (0.042)
+ Observations                    284,765          284,706                   178,464          159,388                 260,491         260,457
+ Country-pair FE                 Y                Y                         Y                Y                       Y               Y                              Y                Y
+ Time FE                         Y                –                         Y                –                       Y               –                              Y                –
+ Source × Time FE                N                Y                         N                Y                       N               Y                              N                Y
+ Destination × Time FE           N                Y                         N                Y                       N               Y                              N                Y
+
+Notes: The table reports the results of a gravity model using Poisson pseudo-maximum likelihood (PPML, columns 1–4, 7–8) and ordinary least squares (OLS, columns 5-6), where the dependent
+variable is: the bilateral trade in US dollars (columns 1–2 and 7–8); the number of announced FDI projects (columns 3–4); and the change in the share of portfolio assets (columns 5–6). Data are
+quarterly in columns 1–4, semiannual in columns 5–6, and annual in columns 7-8. The sample spans 2017:q1-2024:q1 (columns 1–2), 2008:q1-2024:q2 (columns 3-4), 2015:s1-2023:s2 (columns 5-6)
+and 1920–1990 (excluding World War II, 1939–1945, columns 7–8). The FDI analysis excludes country pairs with less than 5 investment projects over the sample period. The Post War variable
+identifies the period following Russia’s invasion of Ukraine and is equal to 1 from 2022:q1 onwards. The Cold War dummy is equal to 1 for the years 1947–1990. The Between Bloc variable
+equals 1 if the source and destination country do not belong to the same geopolitical bloc, and 0 otherwise. The Nonaligned variable equals 1 if at least one country in the pair is nonaligned.
+In the current period, blocs are centered around the U.S. and China, with a group of countries remaining nonaligned. The wider bloc definition (panel A) uses the Ideal Point Distance (a measure
+based on UNGA voting patterns computed by Bailey et al. (2017)) to assign countries into blocs. The narrower bloc definition (panel B) is based on a hypothetical Western bloc including the
+U.S., Europe, Canada, Australia and New Zealand, and a hypothetical Eastern bloc comprising Belarus, China, Eritrea, Mali, Nicaragua, Russia, and Syria, with the rest considered nonaligned. For
+the Cold War period, we use the bloc definition based on Gokmen (2017). The Western bloc includes Andorra, Australia, Belgium, Canada, Denmark, France, Germany, Greece, Iceland, Israel, Italy,
+Japan, Luxembourg, Malta, Monaco, Netherlands, New Zealand, Norway, Philippines, Portugal, San Marino, South Korea, Spain, Taiwan, Thailand, Türkiye, United Kingdom, United States. The Eastern
+bloc includes Albania, Armenia, Azerbaijan, Belarus, Bulgaria, China, Cuba, Czech Republic, Estonia, Georgia, Hungary, Kazakhstan, Kyrgyzstan, Lao People’s Dem. Rep., Latvia, Lithuania, Moldova,
+Mongolia, North Korea, Poland, Romania, Russia (USSR), Slovakia, Turkmenistan, Ukraine, Uzbekistan, Vietnam. The remaining countries are considered nonaligned. Standard errors in parenthesis are
+clustered at the source–destination pair level.
+*** Denote significance at the 1% level.
+** Denote significance at the 5% level.
+* Denote significance at the 10% level.
+
+
+
+
+Fig. 3. Trade fragmentation: The Cold War and Now.
+Notes: The charts plot the change in global trade between blocs (Panel A) and with nonaligned countries (Panel B) during the Cold War (blue line, with 𝑡0 = 1947)
+and since the Russian invasion of Ukraine (red line, with 𝑡0 = 2021:Q4). For each episode, the charts plot the semi-elasticity of trade for flows (between blocs in
+panel A and with nonaligned countries in panel B), and the associated 90 percent confidence bands, estimated with PPML and a fully saturated gravity model
+as in equation 1 in the main text. The missing category is trade within blocs. The Cold War results are obtained using annual data 1920-1990 — excluding the
+World War II years (1939-1945), and with 1947 as excluded year — and the bloc definition based on Gokmen (2017). The results for the most recent period
+are based on quarterly trade data 2017:Q1-2024:Q1 (with 2021:Q4 as excluded quarter), with the wider bloc definition based on the Ideal Point Distance (a
+measure based on voting pattern in the UNGA computed by Bailey et al. (2017)).
+Source: Trade Data Monitor; Historical Bilateral Trade and Gravity dataset (TRADHIST) prepared by Fouquin and Hugot (2016); and authors’ calculations.
+
+
+
+
+through complex global value chains. In the beginning of the Cold War (1947–1952), global goods trade was only 12 percent of
+GDP, while in 2019–2023, the global goods trade-to-GDP ratio averaged roughly 44 percent. Including services, trade exceeded 60
+percent of global GDP in 2022. Moreover, while trade in primary goods accounted for more than 40 percent of total trade during
+
+                                                                                                   7
+G. Gopinath et al.                                                                                         Journal of International Economics 153 (2025) 104042
+
+1947–1952, it was only 14 percent of cross-country goods flows during 2019–2023, reflecting the rise in trade in intermediates and
+final goods. In other words, despite the extreme levels of fragmentation of trade between blocs during the Cold War, trade within
+blocs flourished reflecting policies and technological advances that effectively reduced trade costs between countries in the same
+geopolitical bloc.
+
+3.3. Connectors
+
+    The role of nonaligned countries may also be fundamentally different today compared to the Cold War. The gravity equations
+already suggest interesting differences. As can be seen in Table 1, columns 7 and 8, during the Cold War, trade with nonaligned
+economies also remained significantly lower (−37 percent) than trade within blocs. In the current period, trade with nonaligned
+economies has kept up with within-bloc trade (Table 1, columns 1 and 2 and Fig. 3, panel B). There is, however, large uncertainty
+about the extent to which the currently nonaligned economies will continue to keep with trade within blocs. When zooming in on
+the most recent quarters (Figure S1.2), one can detect a small but statistically significant decline even in trade with nonaligned
+countries relative to trade between blocs, which may reflect the rising uncertainty regarding the connector role played by the
+unaligned economies as geopolitical tensions intensify.
+    The role of nonaligned economies in the U.S.-China trade tensions has been subject to a number of studies. The surge in trade
+frictions between the U.S. and China and the restrictions imposed since 2018 have significantly hit trade between the two countries.
+China is no longer the largest trading partner to the U.S.: according to the US Census Bureau data, its share of US goods imports has
+fallen by roughly 8 percentage points in 6 years: from 22 percent in 2017 to 14 percent in 2023. China is also no longer a prominent
+destination for outward US FDI, losing rank to emerging markets such as India, Mexico, and UAE in the number of announced FDI
+projects.
+    But there is mounting evidence that direct links between the U.S. and China are simply being replaced by indirect links. As
+China lost market shares in US imports, other countries, specifically Mexico, Canada, a number of Asian economies, most notably
+Vietnam, have gained prominence (Dahlman and Lovely, 2023). Countries that have gained the most in US import shares — such
+as Mexico and Vietnam — have also gained more in China’s export shares (Alfaro and Chor, 2023; Dang et al., 2023; Freund et al.,
+2024; Utar et al., 2023; Kahn et al., 2024). The same countries are also larger recipients of Chinese FDI. While most of this evidence
+is anecdotal or based on specific case studies, Fig. 4 shows that there is a robust and economically sizable association between the
+increase of Chinese presence in a country — measured either through exports (panel A) or the number of announced greenfield
+investment (panel C) — and the increase in trade outward linkages of that country with the U.S. The results shown in panel A
+suggest that a 1 percent increase in the US import share between 2013–17 and 2018–23 is associated with a 1.6 percent higher
+share of Chinese exports over the same period. When looking at FDI the same 1 percent share in import shares is associated with a
+0.7 percent increase in the share of FDI from China.13
+    The strong correlation between the rise in imports from China and a rise in exports to the U.S. also holds at various level of
+disaggregation of products (Figure S1.6 and Table S2.4, panel A) with the correlation declining the more finely the products are
+defined (from 2-digit to 4-digit and 6-digit HS levels). This is to be expected if trade through nonaligned countries comprises both
+re-export of Chinese products and value creation using Chinese inputs. Finally, while not conclusive, two pieces of evidence suggest
+that the observed patterns for unaligned countries do not simply reflect a secular process of fast growing low-cost countries gaining
+share in the global market place. First, the correlation between gains in US import shares and the rise in imports from China at the
+6-digit HS level is particularly strong for products whose imports from China became subject to tariffs in the U.S. in 2018 (Table
+S2.4, column 7). Second, a placebo test in which we perform the same analysis prior to the escalation of U.S.-China trade tensions
+reveals no such correlation (Figure S1.7 and Table S2.4, panel B).
+    In contrast, there is no evidence that nonaligned economies served as connectors between rival blocs during the Cold War. If
+they did, we would expect to see a similar correlation between the extent to which nonaligned economies gained share in Western
+markets’ imports and the extent to which they increased their imports from the Eastern bloc of countries. As shown in Fig. 4, Panel
+B, the two series are completely orthogonal. The severance of direct links between the Western and Eastern bloc during the Cold
+War likely led to a severance of economic exposure, unlike what may be happening today.
+    Why did nonaligned economies not step in as connectors in the 1950s but are doing so currently, at least for now? Rigorously
+disentangling the drivers of the response of nonaligned economies is beyond the scope of this paper, however, some relevant
+differences stand out. To begin with, the nonaligned countries at the time of the Cold War had a much smaller economic footprint.
+In 1950, the Western and Eastern blocs together accounted for roughly 85 percent of global GDP and more than half of the world’s
+population. The nonaligned countries were mostly developing economies, which received foreign aid, technical assistance and
+military equipment motivated by geopolitical considerations (Cooper, 2010). Depending on whether countries choose to associate
+themselves with a particular bloc, the group of nonaligned economies today could have much greater economic heft, in terms of
+market share, and population. Today’s nonaligned economies are also much more integrated into the world marketplace: for the
+median nonaligned economy, the trade-to-GDP ratio was 80 percent in 2019; compared to 40 percent of GDP in 1960. The average
+most favored nation import tariff of the median nonaligned country was 12 percent in 2019 vs 40 percent in 1960, and the median
+nonaligned economy in 2015 had free trade agreements with partners equivalent to one fifth of global GDP, compared to 0 percent
+in 1960.
+
+
+  13 Results are robust to excluding individual countries (e.g. Japan, see Figure S1.4), and controlling for countries’ GDP growth. Those on FDI are robust to
+
+the use of value rather than count data, see Figure S1.5.
+
+
+                                                                              8
+G. Gopinath et al.                                                                                             Journal of International Economics 153 (2025) 104042
+
+
+
+
+Fig. 4. The emergence of connector countries: Now vs the Cold War.
+Notes: All panels include only nonaligned countries. Panel A plots the change in US import shares between 2018–23 and 2013–17 against the change in Chinese
+export shares over the same period. A weighted regression (with the US imports in the pre-period as weights) with robust standard errors gives a slope equal to
+1.634 (p-value = 0.000); n = 57. Panel B plots the change of the Western bloc import shares between 1952–56 and 1934–38 against the change of the Eastern
+bloc export shares over the same period. A weighted regressions (with the Western bloc imports in the pre-period as weights) with robust standard errors gives
+a slope equal to −0.026 (p-value = 0.628); n = 81. Panel C plots the change in US import shares between 2018–23 and 2013–17 against the change in Chinese
+outward FDI over the same period. A weighted regressions (with the US imports in the pre-period as weights) with robust standard errors gives a slope equal
+to 0.727 (p-value = 0.005); n = 45. In all cases, results are robust to: (i) using the Chinese exports (panel A) or FDI (panel B) as weights; (ii) using the weights
+computed in the 2018–23 period; and (iii) excluding outliers (see Figure S1.4). For panels A and C results are robust to controlling for the average real GDP
+growth in period 2018–2023.
+Source: Trade Data Monitor; fDi Markets; and authors’ calculations.
+
+
+
+
+4. Conclusion
+
+    This paper establishes a number of relevant stylized facts about the extent to which geoeconomic fragmentation is reshaping
+global linkages and draws lessons from the historical experience of the Cold War. We find that, like during the Cold War, trade,
+FDI, and portfolio flows between blocs are decreasing, compared to trade, investment and portfolio flows within blocs. While the
+decoupling remains small compared to that earlier episode, it is also in its early stages and could worsen significantly if geopolitical
+tensions persist and restrictive trade policies continue to mount.
+    We also find that increasing geoeconomic fragmentation did not give rise to deglobalization, then or now. But the reason
+is fundamentally different. During the Cold War, active efforts to foster trade integration (within blocs) and technological
+improvements paved the way for a surge in trade. This process became turbocharged once the countries of the former Eastern bloc
+joined the global economy in 1991. Now, global trade and investment have been resilient mostly because flows have been re-routed
+via connector countries. These nonaligned countries could benefit from rising geoeconomic fragmentation. But this finding highlights
+a fundamental conundrum: the global economy is more resilient in part because it is increasingly substituting away from tariffed
+or sanctioned trade. But this substitution does not necessarily increase diversification, resilience, or lessen strategic dependence.
+    The path forward will hinge largely on whether policymakers decide to preserve the gains from an integrated global economy,
+perhaps turning a blind eye to the re-routed flows, or opt instead for more severe forms of decoupling.
+
+Declaration of competing interest
+
+    The authors declare that they have no known competing financial interests or personal relationships that could have appeared
+to influence the work reported in this paper.
+
+Appendix A. Supplementary data
+
+    Supplementary material related to this article can be found online at https://doi.org/10.1016/j.jinteco.2024.104042.
+
+Data availability
+
+
+Data for ‘‘Changing Global Linkages: A New Cold War?’’ (Original data) (Mendeley Data)
+
+
+
+
+                                                                                 9
+G. Gopinath et al.                                                                                              Journal of International Economics 153 (2025) 104042
+
+References
+
+Aiyar, S., Chen, J., Ebeke, C., Garcia-Saltos, R., Gudmundsson, T., Ilyina, A., Kangur, A., Kunaratskul, T., Rodriguez, S., Ruta, M., Schulze, T., Soderberg, G.,
+     Trevino, J.P., 2023a. Geoeconomic Fragmentation and the Future of Multilateralism. 2023/001, IMF Staff Discussion Note.
+Aiyar, S., Malacrino, D., Presbitero, A.F., 2024. Investing in Friends: The Role of Geopolitical Alignment in FDI Flows. Eur. J. Political Econ. 83 (C), 102508.
+Aiyar, S., Ohnsorge, F., 2024. Geoeconomic Fragmentation and ‘Connector’ Countries. CEPR Discussion Papers 19352, CEPR.
+Aiyar, S., Presbitero, A., Ruta, M., 2023b. Geoeconomic Fragmentation: The Economic Risks from a Fractured World Economy. CEPR Press, London and Paris.
+Alfaro, L., Brussevich, M., Minoiu, C., Presbitero, A.F., 2024. Bank Financing of Global Supply Chains. unpublished.
+Alfaro, L., Chor, D., 2023. Global Supply Chains: The Looming ‘‘Great Reallocation’’. NBER Working Paper 31661, National Bureau of Economic Research.
+Antràs, P., 2020. De-Globalisation? Global Value Chains in the Post-COVID-19 Age. NBER Working Paper 28115, National Bureau of Economic Research.
+Antràs, P., Yeaple, S.R., 2014. Multinational Firms and the Structure of International Trade. In: Gopinath, G., Helpman, E., Rogoff, K. (Eds.), In: Handbook of
+     International Economics, vol. 4, Elsevier, pp. 55–130.
+Bailey, M.A., Strezhnev, A., Voeten, E., 2017. Estimating Dynamic State Preferences from United Nations Voting Data. J. Confl. Resolut. 61 (2), 430–456.
+Benguria, F., Saffie, F., 2024. Escaping the trade war: Finance and relational supply chains in the adjustment to trade policy shocks. J. Int. Econ. 152, 103987.
+Bernstein, J., 2023. Remarks by Chair Jared Bernstein at the Economic Policy Institute. Address delivered to the Atlantic Council, September.
+Blanga-Gubbay, M., Rubínová, S., 2023. Is the Global Economy Fragmenting?. Staff Working Paper 2023–10, World Trade Organization.
+Bloomberg, 2023. These Five Countries Are Key Economic ‘Connectors’ in a Fragmenting World. Available at: https://www.bloomberg.com/news/articles/2023-
+     11-02/vietnam-poland-mexico-morocco-benefit-from-us-china-tensions, November 2.
+Bonadio, B., Huo, Z., Kang, E., Levchenko, A., Pandalai-Nayar, N., Toma, H., Topalova, P., 2024. Playing with Blocs: Quantifying Decoupling. EMPCT Working
+     Paper Series 2024/07, University of Texas.
+Bown, C.P., 2021. The US–China trade war and Phase One agreement. J. Policy Model. 43 (4), 805–843.
+Broner, F., Martin, A., Meyer, J., Trebesch, C., 2024. Hegemonic Globalization. Presented at the NBER Summer Institute.
+Caliendo, L., Parro, F., 2023. Lessons from US–China Trade Relations. Annu. Rev. Econ. 15, 513–547.
+Campos, R.G., Estefania-Flores, J., Furceri, D., Timini, J., 2023. Geopolitical fragmentation and trade. J. Comp. Econ. 51 (4), 1289–1315.
+Campos, R.G., Heid, B., Timini, J., 2024. The Economic Consequences of Geopolitical Fragmentation: Evidence from the Cold War. CESifo Working Paper Series
+     11057, CESifo.
+Catalán, M., Fendoglu, S., Tsuruga, T., 2024. A Gravity Model of Geopolitics and Financial Fragmentation. IMF Working paper 2024/196, International Monetary
+     Fund.
+Churchill, W., 1946. Sinews of Peace (The Iron Curtain Speech). Address delivered at Westminster College, Fulton, Missouri, March 5.
+Clayton, C., Maggiori, M., Schreger, J., 2023. A Framework for Geoeconomics. NBER Working Paper 31852, National Bureau of Economic Research.
+Clayton, C., Maggiori, M., Schreger, J., 2024. A Theory of Economic Coercion and Fragmentation. BIS Working Papers 1224, Bank for International Settlements.
+Cooper, R., 2010. Economic aspects of the cold war, 1962–1975. In: Leffler, M.P., Westad, O.A. (Eds.), The Cambridge History of the Cold War. Cambridge
+     University Press, pp. 44–64.
+Dahlman, A., Lovely, M.E., 2023. US-Led Effort to Diversify Indo-Pacific Supply Chains Away from China Runs Counter to Trends. Peterson Institute of International
+     Economics, Blog September 23, 2023.
+Dang, A.H., Krishna, K., Zhao, Y., 2023. Winners and Losers from the U.S.-China Trade War. Working Paper 31922, National Bureau of Economic Research.
+Fajgelbaum, P., Goldberg, P., Kennedy, P., Khandelwal, A.K., Taglioni, D., 2024. The U.S.-China Trade War and Global Reallocations. Am. Econ. Rev. Insights 6
+     (2), 295–312.
+Fajgelbaum, P.D., Khandelwal, A.K., 2022. The economic impacts of the U.S.–China trade war. Annu. Rev. Econ. 14, 205–228.
+Fernandez-Villaverde, J., Mineyama, T., Song, D., 2024. Are We Fragmented Yet? Measuring Geopolitical Fragmentation and Its Causal Effects. NBER Working
+     Paper 32638, National Bureau of Economic Research.
+Fouquin, M., Hugot, J., 2016. Back to the future: International trade costs and the two globalizations. Working Paper 2016-13, CEPII.
+Freund, C., Mattoo, A., Mulabdic, A., Ruta, M., 2024. Is US trade policy reshaping global supply chains? J. Int. Econ. 152, 104011.
+Glick, R., Taylor, A.M., 2010. Collateral Damage: Trade Disruption and the Economic Impact of War. Rev. Econ. Stat. 92 (1), 102–127.
+Gokmen, G., 2017. Clash of civilizations and the impact of cultural differences on trade. J. Dev. Econ. 127, 449–458.
+Goldberg, P.K., Reed, T., 2023. Is the Global Economy Deglobalizing? If So, Why? And What Is Next? Brook. Pap. Econ. Act. 2023 (1), 347–423.
+Gopinath, G., 2024. How Policymakers Should Handle a Fragmenting World.
+Hakobyan, S., Meleshchuk, S., Zymek, R., 2023. Divided We Fall: Differential Exposure to Geopolitical Fragmentation in Trade. IMF Working paper 2023-270,
+     International Monetary Fund.
+Handley, K., Kamal, F., Monarch, R., 2024. Rising Import Tariffs, falling export growth: When modern supply chains meet old-style protectionism. Am. Econ. J.
+     Appl. Econ. (forthcoming).
+Helpman, E., 1984. A Simple Theory of International Trade with Multinational Corporations. J. Polit. Econ. 92 (3), 451–471.
+Helpman, E., Melitz, M., Yeaple, S., 2004. Exports Versus FDI with Heterogeneous Firms. Amer. Econ. Rev. 94 (1), 300–316.
+Huntington, S.P., 1998. The Clash of Civilizations and the Remaking of the World Order. Simon & Schuster.
+Javorcik, B., Kitzmüller, L., Schweiger, H., Yildirim, M., 2024. Economic costs of friendshoring. World Econ. 47 (7), 2871–2908.
+Juhász, R., Lane, N., Rodrik, D., 2024. The New Economics of Industrial Policy. Annu. Rev. Econ. 16, 213–242.
+Kahn, M.E., Liao, W.-C., Zheng, S., 2024. How the US-China Trade War Accelerated Urban Economic Growth and Environmental Progress in Northern Vietnam.
+     Working Paper 33126, National Bureau of Economic Research.
+Leffler, M.P., 1984. The American conception of national security and the beginnings of the cold war, 1945-48. Am. Hist. Rev. 89 (2), 346–381.
+Lilien, D.M., 1982. Sectoral Shifts and Cyclical Unemployment. J. Polit. Econ. 90, 777–793.
+Lopez, C.S., Vázquez, S., 2023. Nearshoring Outlook: Foreign investment, Mexico’s Industrial Parks Association survey. Tech. Rep., BBVA Research.
+Martin, P., Mayer, T., Thoenig, M., 2008. Make trade not war? Rev. Econ. Stud. 75 (3), 865–900.
+Morrow, J., Siverson, R., Tabares, T., 1998. The Political Determinants of International Trade: The Major Powers, 1907–1990. Am. Political Sci. Rev. 92 (3),
+     649–661.
+Panon, L., Lebastard, L., Mancini, M., Borin, A., Essers, D., Linarello, A., Caka, P., Cariola, G., Gentili, E., Padellini, T., Requena, F., 2024. Inputs in distress:
+     geoeconomic fragmentation and firms’ sourcing. Working Paper Series 2992, European Central Bank.
+Qiu, H., Shin, H.S., Zhang, L.S.Y., 2023. Mapping the Realignment of Global Value Chains. BIS, Bulletin 73.
+Qiu, H., Xia, D., Yetman, J., 2024. Deconstructing global trade: the role of geopolitical alignment. BIS Q. Rev. 35–50.
+Ramondo, N., Rodriguez-Clare, A., 2013. Trade, Multinational Production, and the Gains from Openness. J. Polit. Econ. 121 (1), 273–322.
+Schiller, H., 1955. Effects of the Cold War on United States Foreign Trade. Rev. Econ. Stat. 37 (4), 428–430.
+Sullivan, J., 2023. The sources of American Power. Foreign Aff. (November/December), 8–29.
+Tintelnot, F., 2017. Global Production with Export Platforms. Q. J. Econ. 132 (1), 157–209.
+Utar, H., Cebreros Zurita, A., Torres Ruiz, L.B., 2023. The US-China trade war and the relocation of global value chains to Mexico. CESifo Working Paper 10638,
+     CESifo.
+WTO, 2023. World Trade Report 2023 — Re-globalization for a Secure, Inclusive and Sustainable Future. World Trade Organization, Geneva.
+Xue, S., 2023. Trade Wars with FDI Diversion. Princeton University, Unpublished manuscript.
+Yellen, J., 2022. US Treasury Secretary Janet Yellen on the Next Steps for Russia Sanctions and ‘Friend-Shoring’ Supply Chains. Address delivered to the Atlantic
+     Council.
+Yotov, Y.V., 2022. On the role of domestic trade flows for estimating the gravity model of trade. Contemp. Econ. Policy 40 (3), 526–540.
+
+
+
+                                                                                 10
+

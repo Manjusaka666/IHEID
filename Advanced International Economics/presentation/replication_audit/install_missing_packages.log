@@ -1,0 +1,32 @@
+-------------------------------------------------------------------------------
+      name:  <unnamed>
+       log:  E:\IHEID Economics\IHEID\Advanced International Economics\presenta
+> tion\replication_audit\install_missing_packages.log
+  log type:  text
+ opened on:  11 May 2026, 15:25:03
+
+. 
+. foreach pkg in unique ppmlhdfe {
+  2.     capture which `pkg'
+  3.     if _rc {
+  4.         display as text "Installing `pkg'"
+  5.         ssc install `pkg', replace
+  6.     }
+  7. }
+Installing unique
+checking unique consistency and verifying not already installed...
+installing into C:\Users\purga\ado\plus\...
+installation complete.
+Installing ppmlhdfe
+checking ppmlhdfe consistency and verifying not already installed...
+installing into C:\Users\purga\ado\plus\...
+installation complete.
+
+. 
+. log close
+      name:  <unnamed>
+       log:  E:\IHEID Economics\IHEID\Advanced International Economics\presenta
+> tion\replication_audit\install_missing_packages.log
+  log type:  text
+ closed on:  11 May 2026, 15:25:07
+-------------------------------------------------------------------------------

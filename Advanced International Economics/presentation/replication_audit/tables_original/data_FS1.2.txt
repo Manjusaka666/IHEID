@@ -1,0 +1,126 @@
+		(1)
+VARIABLES	LABELS	PPML
+		
+L.total_trade	(mean) total_trade = L,	0.0000***
+		(0.000)
+o.btw3_tm228	btw3_tm228 = o,	-
+		
+btw3_tm229	btw3_tm229	-0.0084
+		(0.041)
+btw3_tm230	btw3_tm230	0.0152
+		(0.043)
+btw3_tm231	btw3_tm231	0.0125
+		(0.042)
+btw3_tm232	btw3_tm232	0.0016
+		(0.034)
+btw3_tm233	btw3_tm233	0.0006
+		(0.037)
+btw3_tm234	btw3_tm234	0.0305
+		(0.035)
+btw3_tm235	btw3_tm235	0.0039
+		(0.024)
+btw3_tm236	btw3_tm236	-0.0262**
+		(0.013)
+btw3_tm237	btw3_tm237	-0.0017
+		(0.024)
+btw3_tm238	btw3_tm238	-0.0085
+		(0.018)
+btw3_tm239	btw3_tm239	-0.0535***
+		(0.012)
+btw3_tm240	btw3_tm240	-0.0673***
+		(0.014)
+btw3_tm241	btw3_tm241	0.0152
+		(0.026)
+btw3_tm242	btw3_tm242	-0.0355*
+		(0.018)
+btw3_tm243	btw3_tm243	-0.0347*
+		(0.018)
+btw3_tm244	btw3_tm244	-0.0634***
+		(0.015)
+btw3_tm245	btw3_tm245	-0.0391***
+		(0.011)
+btw3_tm246	btw3_tm246	-0.0203*
+		(0.011)
+btw3_tm248	btw3_tm248	-0.0052
+		(0.026)
+btw3_tm249	btw3_tm249	-0.0417
+		(0.029)
+btw3_tm250	btw3_tm250	-0.0341
+		(0.040)
+btw3_tm251	btw3_tm251	-0.0958**
+		(0.043)
+btw3_tm252	btw3_tm252	-0.1486***
+		(0.052)
+btw3_tm253	btw3_tm253	-0.1927***
+		(0.052)
+btw3_tm254	btw3_tm254	-0.1772***
+		(0.052)
+btw3_tm255	btw3_tm255	-0.2179***
+		(0.050)
+btw3_tm256	btw3_tm256	-0.1956***
+		(0.051)
+o.una3_tm228	una3_tm228 = o,	-
+		
+una3_tm229	una3_tm229	-0.0119
+		(0.038)
+una3_tm230	una3_tm230	-0.0187
+		(0.039)
+una3_tm231	una3_tm231	-0.0046
+		(0.039)
+una3_tm232	una3_tm232	0.0181
+		(0.032)
+una3_tm233	una3_tm233	-0.0212
+		(0.036)
+una3_tm234	una3_tm234	0.0193
+		(0.032)
+una3_tm235	una3_tm235	-0.0118
+		(0.025)
+una3_tm236	una3_tm236	-0.0037
+		(0.022)
+una3_tm237	una3_tm237	-0.0341
+		(0.026)
+una3_tm238	una3_tm238	-0.0414**
+		(0.020)
+una3_tm239	una3_tm239	-0.0799***
+		(0.019)
+una3_tm240	una3_tm240	-0.0704***
+		(0.018)
+una3_tm241	una3_tm241	-0.0685**
+		(0.029)
+una3_tm242	una3_tm242	-0.0210
+		(0.028)
+una3_tm243	una3_tm243	-0.0784***
+		(0.024)
+una3_tm244	una3_tm244	-0.0626***
+		(0.016)
+una3_tm245	una3_tm245	-0.0327**
+		(0.015)
+una3_tm246	una3_tm246	-0.0256
+		(0.016)
+una3_tm248	una3_tm248	0.0065
+		(0.021)
+una3_tm249	una3_tm249	0.0459*
+		(0.026)
+una3_tm250	una3_tm250	0.0623*
+		(0.035)
+una3_tm251	una3_tm251	0.0212
+		(0.036)
+una3_tm252	una3_tm252	-0.0276
+		(0.041)
+una3_tm253	una3_tm253	-0.0610
+		(0.043)
+una3_tm254	una3_tm254	-0.0400
+		(0.043)
+una3_tm255	una3_tm255	-0.0832**
+		(0.041)
+una3_tm256	una3_tm256	-0.1002**
+		(0.041)
+		
+Observations		259,780
+Country-pair FE		Y
+Time FE		-
+Source x Time FE		Y
+Destination x Time FE		Y
+Blocs		Wider
+Robust standard errors in parentheses		
+*** p<0.01, ** p<0.05, * p<0.1		

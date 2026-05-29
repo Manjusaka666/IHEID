@@ -1,0 +1,32 @@
+		(1)	(2)
+VARIABLES	LABELS	PPML	PPML
+			
+L.size	(sum) size = L,	0.0000	-0.0000
+		(0.000)	(0.000)
+1o.postwar	postwar = 1, omitted	-	-
+			
+2o.linksipd2	linksipd2 = 2, omitted	-	-
+			
+3o.linksipd2	linksipd2 = 3, omitted	-	-
+			
+0b.postwar#1b.linksipd2		0.0000	0.0000
+		(0.000)	(0.000)
+0b.postwar#2o.linksipd2		0.0000	0.0000
+		(0.000)	(0.000)
+0b.postwar#3o.linksipd2		0.0000	0.0000
+		(0.000)	(0.000)
+1o.postwar#1b.linksipd2		0.0000	0.0000
+		(0.000)	(0.000)
+1.postwar#2.linksipd2		-0.7613***	-0.3411**
+		(0.166)	(0.162)
+1.postwar#3.linksipd2		-0.2104*	0.0883
+		(0.112)	(0.236)
+			
+Observations		170,412	152,088
+Country-pair FE		Y	Y
+Time FE		Y	-
+Source x Time FE		N	Y
+Destination x Time FE		N	Y
+Blocs		Wider	Wider
+Robust standard errors in parentheses			
+*** p<0.01, ** p<0.05, * p<0.1			

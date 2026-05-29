@@ -1,0 +1,100 @@
+
+** Figure S1.2, panels A and B **
+** To get the underlying data, look at "GGPT_JIE_trade_.do" and "GGPT_JIE_trade_coldwar" **
+
+import excel "$input\GGPT_tables.xlsx", sheet("chart_trade_2017") firstrow clear
+gen Zero = 0
+gen l_btw = b_btw - 1.645*se_btw
+gen h_btw = b_btw + 1.645*se_btw
+gen l_una = b_una - 1.645*se_una
+gen h_una = b_una + 1.645*se_una
+format %tq tq
+
+			twoway ///
+					(rarea l_btw h_btw tq,  ///
+					fcolor(eltblue%30) lcolor(gs13) lw(none) lpattern(solid)) ///
+					(line b_btw tq, lcolor(blue) ///
+					lpattern(solid) lwidth(thick)) /// 
+					(line Zero tq, lcolor(black)), xsize(6) ///
+					legend(off) xline(248) ///
+					title(" ", color(black) size(medsmall)) ///
+					ytitle("Trade semi-elasticity for flows between blocs", size(medsmall)) ///
+					xtitle(" ", size(medsmall)) ///
+					xlabel(228(4)252 256, angle(0) labsize(small)) ylabel(-.3(.1).2, angle(0) labsize(small) format(%9.1f)) ///
+					graphregion(color(white)) plotregion(color(white))  bgcolor(white) ///
+					text(-0.2 248 "Russia's invasion of Ukraine", size(small) place(w)) 
+		graph export "$charts\FS1.2A.png", as(png) replace
+
+			twoway ///
+					(rarea l_una h_una tq,  ///
+					fcolor(cranberry%20) lcolor(gs13) lw(none) lpattern(solid)) ///
+					(line b_una tq, lcolor(cranberry) ///
+					lpattern(solid) lwidth(thick)) /// 
+					(line Zero tq, lcolor(black)), xsize(6) ///
+					legend(off) xline(248) ///
+					title(" ", color(black) size(medsmall)) ///
+					ytitle("Trade semi-elasticity for flows with nonaligned", size(medsmall)) ///
+					xtitle(" ", size(medsmall)) ///
+					xlabel(228(4)252 256, angle(0) labsize(small)) ylabel(-.3(.1).2, angle(0) labsize(small) format(%9.1f)) ///
+					graphregion(color(white)) plotregion(color(white))  bgcolor(white) ///
+					text(-0.15 248 "Russia's invasion of Ukraine", size(small) place(w)) 
+		graph export "$charts\FS1.2B.png", as(png) replace
+				
+				
+				
+** Figure S1.2, panels C and D **
+** To get the underlying data, look at "GGPT_JIE_trade_coldwar.do" (rows 321-322) 
+
+import excel "$input\GGPT_tables.xlsx", sheet("chart_trade_coldwar") firstrow clear
+gen Zero = 0
+rename b b_btw 
+rename l l_btw 
+rename h h_btw
+rename b_u b_una 
+rename l_u l_una 
+rename h_u h_una
+
+
+cap drop upper
+generate upper = 2.5
+cap drop upper2
+generate upper2 = 0.5
+
+local ww upper y if inrange(y, 1939, 1945), bcolor(gs12%40) base(-2.5)
+local ww2 upper2 y if inrange(y, 1939, 1945), bcolor(gs12%40) base(-2.5)
+
+			twoway  (bar `ww' )  ///
+					(rarea l_btw h_btw y,  ///
+					fcolor(eltblue%30) lcolor(gs13) lw(none) lpattern(solid)) ///
+					(line b_btw y, lcolor(blue) ///
+					lpattern(solid) lwidth(thick)) /// 
+					(line Zero y, lcolor(black)), xsize(6) ///
+					legend(off) xline(1947) ///
+					title(" ", color(black) size(medsmall)) ///
+					ytitle("Trade semi-elasticity for flows between blocs", size(medsmall)) ///
+					xtitle(" ", size(medsmall)) ///
+					xlabel(1920(10)1990, angle(0) labsize(small)) ylabel(-2.5(1)2.5, angle(0) labsize(small) format(%9.1f)) ///
+					graphregion(color(white)) plotregion(color(white))  bgcolor(white) ///
+					text(-2 1938.5 "WW2", size(small) place(e)) ///
+					text(-2 1960 "Cold War", size(small) place(e))
+		graph export "$charts\FS1.2C.png", as(png) replace
+
+			twoway  (bar `ww' ) ///
+					(rarea l_una h_una y,  ///
+					fcolor(cranberry%20) lcolor(gs13) lw(none) lpattern(solid)) ///
+					(line b_una y, lcolor(cranberry) ///
+					lpattern(solid) lwidth(thick)) /// 
+					(line Zero y, lcolor(black)), xsize(6) ///
+					legend(off) xline(1947) ///
+					title(" ", color(black) size(medsmall)) ///
+					ytitle("Trade semi-elasticity for flows with nonaligned", size(medsmall)) ///
+					xtitle(" ", size(medsmall)) ///
+					xlabel(1920(10)1990, angle(0) labsize(small)) ylabel(-2.5(1)2.5, angle(0) labsize(small) format(%9.1f)) ///
+					graphregion(color(white)) plotregion(color(white))  bgcolor(white) ///
+					text(2 1938.5 "WW2", size(small) place(e)) ///
+					text(2 1960 "Cold War", size(small) place(e))
+		graph export "$charts\FS1.2D.png", as(png) replace
+	
+	
+
+	

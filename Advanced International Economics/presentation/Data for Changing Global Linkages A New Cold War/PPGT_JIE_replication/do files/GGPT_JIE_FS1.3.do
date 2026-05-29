@@ -1,0 +1,100 @@
+
+use  "$input/qrtrly_for_fragmentation_updated.dta", clear
+
+tostring time, gen(t00)
+
+gen str ifs1time = substr(ndyad, 1, 3)+t00
+gen str ifs2time = substr(ndyad, 4, 3)+t00
+
+drop t00
+forvalue X = 228/256 {
+	gen tm`X' = (yq==`X')
+
+}
+	foreach y in btw3 una3 btwalt3 unaalt3 btwCM3 unaCM3 {
+	forvalue X = 228/256 {
+		gen `y'_tm`X' = `y'*tm`X'
+	}
+	}
+
+	tsset 
+	
+
+** Figure S1.3 **
+
+preserve 
+keep if (iso_rpt1 =="RUS" & iso_rpt2 =="CHN") | (iso_rpt2 =="RUS" & iso_rpt1 =="CHN")
+sort yq 
+rename total_trade tradeCN
+keep yq tradeCN
+tempfile tradeCN 
+save `tradeCN'
+restore 
+
+preserve 
+keep if (iso_rpt1 =="USA" & iso_rpt2 =="RUS") | (iso_rpt2 =="USA" & iso_rpt1 =="RUS")
+sort yq 
+rename total_trade tradeUS
+keep yq tradeUS
+tempfile tradeUS 
+save `tradeUS'
+restore 
+
+preserve 
+rename iso_rpt1 iso_rpt
+merge m:1 iso_rpt using "$input\blocs.dta", keepusing(ea)
+drop _m
+rename ea ea1 
+rename iso_rpt iso_rpt1
+rename iso_rpt2 iso_rpt
+merge m:1 iso_rpt using "$input\blocs.dta", keepusing(ea)
+drop _m
+rename ea ea2 
+rename iso_rpt iso_rpt2
+keep if (ea1 ==1 & iso_rpt2 =="RUS") | (ea2 ==1 & iso_rpt1 =="RUS")
+sort yq 
+collapse (sum) total_trade, by(yq) 
+rename total_trade tradeEA
+keep yq tradeEA
+tempfile tradeEA
+save `tradeEA'
+restore 
+
+
+preserve
+keep if  iso_rpt2 =="RUS" |  iso_rpt1 =="RUS"
+collapse (sum) total_trade, by(yq)
+sort yq 
+merge 1:1 yq using `tradeCN'
+drop _m
+merge 1:1 yq using `tradeUS'
+drop _m
+merge 1:1 yq using `tradeEA'
+drop _m
+gen shareUS = 100*tradeUS/total_trade
+gen shareCN = 100*tradeCN/total_trade
+gen shareEA = 100*tradeEA/total_trade
+sort yq
+
+cap drop upper
+generate upper = 42
+local cw upper yq if inrange(yq, 248, 256), bcolor(gs12%30) base(0)
+
+
+format yq %tq
+twoway (bar `cw' ) ///
+	(line shareCN shareUS shareEA yq, lw(medthick medthick medthick) lp(solid solid solid) ///
+	lc(blue black cranberry) ytitle("Share of Russia's goods trade with:") xtitle("") xsize(6) ///
+	graphregion(color(white)) plotregion(color(white))  bgcolor(white) ///
+	xlabel(228(4)252 256, angle(0) labsize(small)) ///
+	ylabel(0(10)40, angle(0) labsize(small) format(%9.0f)) ///
+	xline(248, lc(black) lp(dash)) ///
+	text(7 248.5 "Russia's invasion" "of Ukraine", size(small) place(e) color(black)) ///
+	text(18 232 "China", size(medsmall) place(w)  color(blue)) ///
+	text(7 240 "United States", size(medsmall) place(c)  color(black)) ///
+	text(31 245 "Euro area", size(medsmall) place(c)  color(cranberry)) ///
+	legend(off) )
+graph export "$charts\FS1.3.png", as(png) replace		
+	
+	
+	

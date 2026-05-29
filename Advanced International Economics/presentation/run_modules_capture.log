@@ -1,0 +1,3850 @@
+
+  ___  ____  ____  ____  ____ ®
+ /__    /   ____/   /   ____/      18.0
+___/   /   /___/   /   /___/       MP—Parallel Edition
+
+ Statistics and Data Science       Copyright 1985-2023 StataCorp LLC
+                                   StataCorp
+                                   4905 Lakeway Drive
+                                   College Station, Texas 77845 USA
+                                   800-STATA-PC        https://www.stata.com
+                                   979-696-4600        stata@stata.com
+
+Stata license: Single-user 4-core  perpetual
+Serial number: 501806300204
+  Licensed to: Purgatoriofu
+               
+
+Notes:
+      1. Stata is running in batch mode.
+      2. Unicode is supported; see help unicode_advice.
+      3. More than 2 billion observations are allowed; see help obs_advice.
+      4. Maximum number of variables is set to 5,000 but can be increased;
+          see help set_maxvar.
+
+. do "E:\IHEID Economics\IHEID\Advanced International Economics\presentation\re
+> plication_audit\run_modules_capture.do" 
+
+. *****************************************************************************
+> ***
+. *** Module-by-module audit runner. Continues after failures and prints return
+>  codes.
+. *****************************************************************************
+> ***
+. 
+. clear all
+
+. set more off, perm
+(set more preference recorded)
+
+. 
+. global dir "E:\IHEID Economics\IHEID\Advanced International Economics\present
+> ation\Data for Changing Global Linkages A New Cold War\PPGT_JIE_replication"
+
+. global working "$dir\working"
+
+. global input "$dir\data"
+
+. global charts "$dir\charts"
+
+. global tables "$dir\tables"
+
+. 
+. cd "$working"
+E:\IHEID Economics\IHEID\Advanced International Economics\presentation\Data for
+>  Changing Global Linkages A New Cold War\PPGT_JIE_replication\working
+
+. 
+. capture log close _all
+
+. log using "E:\IHEID Economics\IHEID\Advanced International Economics\presenta
+> tion\replication_audit\run_modules_capture.log", text replace
+(file E:\IHEID Economics\IHEID\Advanced International
+    Economics\presentation\replication_audit\run_modules_capture.log not
+    found)
+-------------------------------------------------------------------------------
+      name:  <unnamed>
+       log:  E:\IHEID Economics\IHEID\Advanced International Economics\presenta
+> tion\replication_audit\run_modules_capture.log
+  log type:  text
+ opened on:  11 May 2026, 15:18:35
+
+. 
+. capture noisily do "$dir\do files\GGPT_JIE_packages.do"
+
+.     * *** Add required packages from SSC to this list ***
+.     local ssc_packages unique estout reghdfe ftools binscatter outreg winsor2
+
+.     * *** Add required packages from SSC to this list ***
+. 
+.     if !missing("`ssc_packages'") {
+.         foreach pkg in "`ssc_packages'" {
+  2.         * install using ssc, but avoid re-installing if already present
+.             capture which `pkg'
+  3.             if _rc == 111 {                 
+  4.                dis "Installing `pkg'"
+  5.                quietly ssc install `pkg', replace
+  6.                }
+  7.         }
+.     }
+
+. 
+end of do-file
+
+. display as result "AUDIT_RC packages " _rc
+AUDIT_RC packages 0
+
+. 
+. foreach module in ///
+>     GGPT_JIE_F1 ///
+>     GGPT_JIE_import_lilien.do ///
+>     GGPT_JIE_FDI_lilien.do ///
+>     GGPT_JIE_F3.do ///
+>     GGPT_JIE_F4.do ///
+>     GGPT_JIE_trade_now.do ///
+>     GGPT_JIE_fdi_now.do ///
+>     GGPT_JIE_portfolio_now.do ///
+>     GGPT_JIE_trade_coldwar.do ///
+>     GGPT_JIE_FS1.1.do ///
+>     GGPT_JIE_FS1.2.do ///
+>     GGPT_JIE_FS1.3.do ///
+>     GGPT_JIE_product_level.do ///
+>     GGPT_JIE_data_check.do {
+  2.     display as text "AUDIT_BEGIN `module'"
+  3.     capture noisily do "$dir\do files\\`module'"
+  4.     display as result "AUDIT_RC `module' " _rc
+  5. }
+AUDIT_BEGIN GGPT_JIE_F1
+
+. 
+. ** Figure 1, LHS **
+. import excel "$input\GGPT_tables.xlsx", sheet("dataF1L") firstrow clear
+(5 vars, 197 obs)
+
+. drop y
+
+. 
+. cap drop upper
+
+. generate upper = 50
+
+. local cw upper year if inrange(year, 1947, 1990), bcolor(gs14%30) base(0)
+
+. local ww upper year if inrange(year, 1939, 1945), bcolor(emidblue%20) base(0)
+
+. 
+.                         twoway (bar `cw' ) (bar `ww' )  ///
+>                                         (line Totaltrade year if year>=1920, 
+> lcolor(blue) ///
+>                                         lpattern(solid) lwidth(medthick)) ///
+>  
+>                                         (line betweenCW year if year>=1920, y
+> axis(2) lwidth(medthick) lcolor(red) lp(solid )), xsize(6) ///
+>                                         legend(off) ///
+>                                         title(" ", color(black) size(medsmall
+> )) ///
+>                                         ytitle(" ", size(medsmall)) ///
+>                                         ytitle(" ", size(medsmall) axis(2)) /
+> //
+>                                         xtitle(" ", size(medsmall)) ///
+>                                         xlabel(1920(10)2010 2023, angle(0) la
+> bsize(small)) ///
+>                                         ylabel(0(10)50, angle(0) labsize(smal
+> l) format(%9.0f)) ///
+>                                         ylabel(0(4)24, angle(0) labsize(small
+> ) format(%9.0f) axis(2)) ///
+>                                         graphregion(color(white)) plotregion(
+> color(white))  bgcolor(white) ///
+>                                         text(29 1975 "Global goods trade" "(%
+>  GDP, left axis)", size(small) place(w)  color(blue)) ///
+>                                         text(6 1988 "Goods trade between Cold
+>  War blocs" "(% total trade, right axis)", size(small) place(c)  color(red)) 
+> ///
+>                                         text(45 1938.5 "WW2", size(small) pla
+> ce(e)) ///
+>                                         text(45 1960 "Cold War", size(small) 
+> place(e))
+
+.                                 graph export "$charts/F1L.png", as(png) repla
+> ce
+file E:\IHEID Economics\IHEID\Advanced International
+    Economics\presentation\Data for Changing Global Linkages A New Cold
+    War\PPGT_JIE_replication\charts/F1L.png saved as PNG format
+
+. 
+. 
+. ** Figure 1, RHS **
+. import excel "$input\GGPT_tables.xlsx", sheet("dataF1R") firstrow clear
+(2 vars, 2 obs)
+
+. 
+. graph bar trade, over(type) xsize(4) ///
+>                 bar(1, lc(black) lw(thin) c(midblue%90)) ///
+>                 ylabel(, angle(0) labsize(small) format(%9.1f)) ///
+>                 ytitle("Change in trade growth (percentage points)", size(med
+> small)) 
+
+.         graph export "$charts/F1R.png", as(png) replace
+file E:\IHEID Economics\IHEID\Advanced International
+    Economics\presentation\Data for Changing Global Linkages A New Cold
+    War\PPGT_JIE_replication\charts/F1R.png saved as PNG format
+
+. 
+end of do-file
+AUDIT_RC GGPT_JIE_F1 0
+AUDIT_BEGIN GGPT_JIE_import_lilien.do
+
+. 
+. use "$input\lilien_imports.dta", replace
+
+. cap drop post2020
+
+. gen post2021 = (year>=2021)
+
+. gen post2022 = (year>=2022)
+
+. cap drop d2013_2019
+
+. gen d2013_2020 = (year>=2013 & year<=2020)
+
+. gen d2013_2021 = (year>=2013 & year<=2021)
+
+. gen all = 1
+
+. gen d2000_2007 = (year<2007)
+
+. gen wbl = (bloc3ipd==1)
+
+. gen nwbl = (bloc3ipd!=1)
+
+. gen w2bl = (bloc3iea==1)
+
+. gen nw2bl = (bloc3iea!=1)
+
+. 
+. 
+. ** Figure 2, Panel A **
+. 
+. lab var year y
+
+.         
+. xi: reghdfe ktotal_imports_MLI ib2017.y , absorb(ifs_rpt) cluster(ifs_rpt)
+(MWFE estimator converged in 1 iterations)
+
+HDFE Linear regression                            Number of obs   =      2,639
+Absorbing 1 HDFE group                            F(  22,    141) =       6.15
+Statistics robust to heteroskedasticity           Prob > F        =     0.0000
+                                                  R-squared       =     0.4998
+                                                  Adj R-squared   =     0.4669
+                                                  Within R-sq.    =     0.0400
+Number of clusters (ifs_rpt) =        142         Root MSE        =     1.8383
+
+                              (Std. err. adjusted for 142 clusters in ifs_rpt)
+------------------------------------------------------------------------------
+             |               Robust
+ktotal_i~MLI | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+        year |
+       2001  |   .1230924   .2076634     0.59   0.554     -.287444    .5336289
+       2002  |   .1888572   .1835573     1.03   0.305     -.174023    .5517375
+       2003  |   .4134597   .1966807     2.10   0.037     .0246355    .8022839
+       2004  |   .3669266   .1858817     1.97   0.050    -.0005489     .734402
+       2005  |   .3657325   .1767516     2.07   0.040     .0163067    .7151582
+       2006  |   .6657083   .2886756     2.31   0.023     .0950165      1.2364
+       2007  |   .5258875   .2389044     2.20   0.029     .0535898    .9981852
+       2008  |   .6314132   .2036329     3.10   0.002     .2288449    1.033982
+       2009  |   .7029382   .1808206     3.89   0.000     .3454683    1.060408
+       2010  |   .7239599   .2232728     3.24   0.001     .2825649    1.165355
+       2011  |   .7971933   .1783994     4.47   0.000     .4445098    1.149877
+       2012  |   .7642156   .1731072     4.41   0.000     .4219946    1.106437
+       2013  |   .7268952    .195586     3.72   0.000     .3402351    1.113555
+       2014  |   .5832164   .1820759     3.20   0.002     .2232648    .9431679
+       2015  |   .4078963   .1323057     3.08   0.002      .146337    .6694556
+       2016  |   .3229235   .1375372     2.35   0.020     .0510218    .5948252
+       2018  |  -.0333591   .1300224    -0.26   0.798    -.2904045    .2236863
+       2019  |   .6775708   .2656636     2.55   0.012      .152372     1.20277
+       2020  |   .8994091   .2570051     3.50   0.001     .3913278    1.407491
+       2021  |   .6051045   .2568722     2.36   0.020     .0972857    1.112923
+       2022  |   1.089364    .262106     4.16   0.000     .5711983     1.60753
+       2023  |   1.739435   .2392843     7.27   0.000     1.266387    2.212484
+             |
+       _cons |   2.849007   .1111435    25.63   0.000     2.629284     3.06873
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-----------------------------------------------------+
+ Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------+---------------------------------------|
+     ifs_rpt |       142         142           0    *|
+-----------------------------------------------------+
+* = FE nested within cluster; treated as redundant for DoF computation
+
+. 
+. coefplot, drop (_cons) vert graphregion(color(white)) bgcolor(white) ms(Oh) m
+> c(dknavy) ci(90) ///
+>         ytitle("Estimated coefficient of the MLI (by year, imports)", size(sm
+> all)) ylabel(, labsize(small) angle(0)) ///
+>         xtitle("", size(small)) xlabel( ,labsize(vsmall) angle(90)) title(" "
+> , span size(medlarge)) ///
+>         legend(off) yline(0, lc(red)) xline(16.5, lc(black) lp(dash)) xline(2
+> 0.5, lc(black) lp(dash)) ///
+>         rename(^.*([1-2][0-9][0-9][0-9])\.year\#c\.between$ = \1, regex)
+
+.         graph export "$charts\F2L.png", as(png) replace 
+file E:\IHEID Economics\IHEID\Advanced International
+    Economics\presentation\Data for Changing Global Linkages A New Cold
+    War\PPGT_JIE_replication\charts\F2L.png saved as PNG format
+
+.         
+.         
+. ** Table S2.1, Panel A **
+. 
+.         gen str varlabel = ""
+(2,855 missing values generated)
+
+.         replace varlabel = "2000-2007" if _n==1
+variable varlabel was str1 now str9
+(1 real change made)
+
+.         replace varlabel = "2008-2012" if _n==2
+(1 real change made)
+
+.         replace varlabel = "2013-2021" if _n==3
+(1 real change made)
+
+.         replace varlabel = "2022-2023" if _n==4
+(1 real change made)
+
+.         
+. xi: reghdfe ktotal_imports_MLI d2008_2012 d2013_2021 post2022, absorb(ifs_rpt
+> ) cluster(ifs_rpt)
+(MWFE estimator converged in 1 iterations)
+
+HDFE Linear regression                            Number of obs   =      2,639
+Absorbing 1 HDFE group                            F(   3,    141) =      14.65
+Statistics robust to heteroskedasticity           Prob > F        =     0.0000
+                                                  R-squared       =     0.4906
+                                                  Adj R-squared   =     0.4612
+                                                  Within R-sq.    =     0.0222
+Number of clusters (ifs_rpt) =        142         Root MSE        =     1.8482
+
+                              (Std. err. adjusted for 142 clusters in ifs_rpt)
+------------------------------------------------------------------------------
+             |               Robust
+ktotal_i~MLI | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+  d2008_2012 |   .3387961   .1348062     2.51   0.013     .0722934    .6052988
+  d2013_2021 |   .0735712   .1191282     0.62   0.538    -.1619372    .3090796
+    post2022 |    .989915   .2086541     4.74   0.000     .5774202     1.40241
+       _cons |   3.236807   .0846547    38.24   0.000      3.06945    3.404163
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-----------------------------------------------------+
+ Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------+---------------------------------------|
+     ifs_rpt |       142         142           0    *|
+-----------------------------------------------------+
+* = FE nested within cluster; treated as redundant for DoF computation
+
+.         outreg2 using "$tables\T_S2.1_panelA.xls", nocons ctitle(All) bdec(4)
+>  tdec(4) se excel label replace addtext(Country FE, Y)
+E:\IHEID Economics\IHEID\Advanced International Economics\presentation\Data for
+>  Changing Global Linkages A New Cold War\PPGT_JIE_replication\tables\T_S2.1_p
+> anelA.xls
+dir : seeout
+
+. xi: reghdfe ktotal_imports_MLI d2008_2012 d2013_2021 post2022 if ae==1, absor
+> b(ifs_rpt) cluster(ifs_rpt)
+(MWFE estimator converged in 1 iterations)
+
+HDFE Linear regression                            Number of obs   =        785
+Absorbing 1 HDFE group                            F(   3,     35) =      12.93
+Statistics robust to heteroskedasticity           Prob > F        =     0.0000
+                                                  R-squared       =     0.4467
+                                                  Adj R-squared   =     0.4186
+                                                  Within R-sq.    =     0.1233
+Number of clusters (ifs_rpt) =         36         Root MSE        =     1.0287
+
+                               (Std. err. adjusted for 36 clusters in ifs_rpt)
+------------------------------------------------------------------------------
+             |               Robust
+ktotal_i~MLI | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+  d2008_2012 |   .4303103   .1232001     3.49   0.001     .1802008    .6804199
+  d2013_2021 |    .472797   .1652117     2.86   0.007     .1373994    .8081947
+    post2022 |   1.431819   .2434963     5.88   0.000     .9374954    1.926143
+       _cons |   1.977424    .104011    19.01   0.000      1.76627    2.188577
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-----------------------------------------------------+
+ Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------+---------------------------------------|
+     ifs_rpt |        36          36           0    *|
+-----------------------------------------------------+
+* = FE nested within cluster; treated as redundant for DoF computation
+
+.         outreg2 using "$tables\T_S2.1_panelA.xls", nocons ctitle(AEs) bdec(4)
+>  tdec(4) se excel label append addtext(Country FE, Y)
+E:\IHEID Economics\IHEID\Advanced International Economics\presentation\Data for
+>  Changing Global Linkages A New Cold War\PPGT_JIE_replication\tables\T_S2.1_p
+> anelA.xls
+dir : seeout
+
+. xi: reghdfe ktotal_imports_MLI d2008_2012 d2013_2021 post2022 if emde==1, abs
+> orb(ifs_rpt) cluster(ifs_rpt)
+(MWFE estimator converged in 1 iterations)
+
+HDFE Linear regression                            Number of obs   =      1,854
+Absorbing 1 HDFE group                            F(   3,    105) =       9.81
+Statistics robust to heteroskedasticity           Prob > F        =     0.0000
+                                                  R-squared       =     0.4549
+                                                  Adj R-squared   =     0.4212
+                                                  Within R-sq.    =     0.0156
+Number of clusters (ifs_rpt) =        106         Root MSE        =     2.0992
+
+                              (Std. err. adjusted for 106 clusters in ifs_rpt)
+------------------------------------------------------------------------------
+             |               Robust
+ktotal_i~MLI | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+  d2008_2012 |   .2727077   .1890889     1.44   0.152    -.1022207    .6476361
+  d2013_2021 |  -.1270219    .155228    -0.82   0.415    -.4348104    .1807666
+    post2022 |   .7506929   .2854789     2.63   0.010      .184641    1.316745
+       _cons |   3.804698   .1154421    32.96   0.000     3.575797    4.033598
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-----------------------------------------------------+
+ Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------+---------------------------------------|
+     ifs_rpt |       106         106           0    *|
+-----------------------------------------------------+
+* = FE nested within cluster; treated as redundant for DoF computation
+
+.         outreg2 using "$tables\T_S2.1_panelA.xls", nocons ctitle(EMDEs) bdec(
+> 4) tdec(4) se excel label append addtext(Country FE, Y)
+E:\IHEID Economics\IHEID\Advanced International Economics\presentation\Data for
+>  Changing Global Linkages A New Cold War\PPGT_JIE_replication\tables\T_S2.1_p
+> anelA.xls
+dir : seeout
+
+. xi: reghdfe ktotal_imports_MLI d2008_2012 d2013_2021 post2022 if w2bl==1, abs
+> orb(ifs_rpt) cluster(ifs_rpt)
+(MWFE estimator converged in 1 iterations)
+
+HDFE Linear regression                            Number of obs   =        893
+Absorbing 1 HDFE group                            F(   3,     40) =      17.42
+Statistics robust to heteroskedasticity           Prob > F        =     0.0000
+                                                  R-squared       =     0.4030
+                                                  Adj R-squared   =     0.3727
+                                                  Within R-sq.    =     0.1331
+Number of clusters (ifs_rpt) =         41         Root MSE        =     1.1044
+
+                               (Std. err. adjusted for 41 clusters in ifs_rpt)
+------------------------------------------------------------------------------
+             |               Robust
+ktotal_i~MLI | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+  d2008_2012 |   .3974812   .1200896     3.31   0.002     .1547711    .6401914
+  d2013_2021 |   .2748175   .1643198     1.67   0.102    -.0572852    .6069202
+    post2022 |   1.597279   .2445652     6.53   0.000     1.102994    2.091563
+       _cons |   2.169719   .1035685    20.95   0.000       1.9604    2.379039
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-----------------------------------------------------+
+ Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------+---------------------------------------|
+     ifs_rpt |        41          41           0    *|
+-----------------------------------------------------+
+* = FE nested within cluster; treated as redundant for DoF computation
+
+.         outreg2 using "$tables\T_S2.1_panelA.xls", nocons ctitle(US bloc) bde
+> c(4) tdec(4) se excel label append addtext(Country FE, Y)
+E:\IHEID Economics\IHEID\Advanced International Economics\presentation\Data for
+>  Changing Global Linkages A New Cold War\PPGT_JIE_replication\tables\T_S2.1_p
+> anelA.xls
+dir : seeout
+
+. xi: reghdfe ktotal_imports_MLI d2008_2012 d2013_2021 post2022 if nw2bl==1, ab
+> sorb(ifs_rpt) cluster(ifs_rpt)
+(MWFE estimator converged in 1 iterations)
+
+HDFE Linear regression                            Number of obs   =      1,746
+Absorbing 1 HDFE group                            F(   3,    100) =       5.84
+Statistics robust to heteroskedasticity           Prob > F        =     0.0010
+                                                  R-squared       =     0.4632
+                                                  Adj R-squared   =     0.4296
+                                                  Within R-sq.    =     0.0100
+Number of clusters (ifs_rpt) =        101         Root MSE        =     2.1291
+
+                              (Std. err. adjusted for 101 clusters in ifs_rpt)
+------------------------------------------------------------------------------
+             |               Robust
+ktotal_i~MLI | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+  d2008_2012 |   .2856029   .2000302     1.43   0.156    -.1112514    .6824572
+  d2013_2021 |  -.0621924   .1633599    -0.38   0.704    -.3862938    .2619089
+    post2022 |   .6115834   .2935781     2.08   0.040     .0291327    1.194034
+       _cons |   3.813065    .121478    31.39   0.000     3.572056    4.054074
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-----------------------------------------------------+
+ Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------+---------------------------------------|
+     ifs_rpt |       101         101           0    *|
+-----------------------------------------------------+
+* = FE nested within cluster; treated as redundant for DoF computation
+
+.         outreg2 using "$tables\T_S2.1_panelA.xls", nocons ctitle(Others) bdec
+> (4) tdec(4) se excel label append addtext(Country FE, Y)
+E:\IHEID Economics\IHEID\Advanced International Economics\presentation\Data for
+>  Changing Global Linkages A New Cold War\PPGT_JIE_replication\tables\T_S2.1_p
+> anelA.xls
+dir : seeout
+
+. 
+end of do-file
+AUDIT_RC GGPT_JIE_import_lilien.do 0
+AUDIT_BEGIN GGPT_JIE_FDI_lilien.do
+
+. 
+. global keep "country iso3 imf_income imf_region"
+
+. 
+. 
+. ** Construct the dataset of fDi at the host-source-year level **
+. use "$input\fdimarket.dta", clear
+file E:\IHEID Economics\IHEID\Advanced International
+    Economics\presentation\Data for Changing Global Linkages A New Cold
+    War\PPGT_JIE_replication\data\fdimarket.dta not found
+r(601);
+
+end of do-file
+AUDIT_RC GGPT_JIE_FDI_lilien.do 601
+AUDIT_BEGIN GGPT_JIE_F3.do
+
+. 
+. ** To get the underlying data, look at "GGPT_JIE_trade_now.do" and "GGPT_JIE_
+> trade_coldwar" **
+. 
+. ** Figure 3, panel A **
+. 
+. import excel "$input\GGPT_tables.xlsx", sheet("dataF3A") firstrow clear
+(5 vars, 38 obs)
+
+. gen Zero = 0
+
+. drop if t>36
+(0 observations deleted)
+
+. 
+. gen l_tw = b_tw - 1.645*se_tw
+(27 missing values generated)
+
+. gen h_tw = b_tw + 1.645*se_tw
+(27 missing values generated)
+
+. gen l_cw = b_cw - 1.645*se_cw
+(27 missing values generated)
+
+. gen h_cw = b_cw + 1.645*se_cw
+(27 missing values generated)
+
+. 
+.                         twoway ///
+>                                         (rarea l_tw h_tw t if t>=0,  ///
+>                                         fcolor(cranberry%20) lcolor(gs13) lw(
+> none) lpattern(solid)) ///
+>                                         (rarea l_cw h_cw t if t>=0,  ///
+>                                         fcolor(eltblue%20) lcolor(gs13) lw(no
+> ne) lpattern(solid)) ///
+>                                         (line b_tw t if t>=0, lcolor(cranberr
+> y) ///
+>                                         lpattern(solid) lwidth(thick)) /// 
+>                                         (line b_cw t if t>=0, lcolor(blue) //
+> /
+>                                         lpattern(solid) lwidth(thick)) /// 
+>                                         (line Zero t, lcolor(black)), xsize(6
+> ) ///
+>                                         legend(order(3 4)  lab(3 "Post Russia
+> 's invasion of Ukraine") lab(4 "Cold War (initial year: 1947)") size(small) r
+> ow(4) region(lstyle(none) fcolor(none)) pos(1) ring(0)) ///
+>                                         title(" ", color(black) size(medsmall
+> )) ///
+>                                         ytitle("Trade semi-elasticity for flo
+> ws between blocs", size(medsmall)) ///
+>                                         xtitle("Number of quarters since the 
+> start of the episode", size(medsmall)) ///
+>                                         xlabel(0(4)36, angle(0) labsize(small
+> )) ylabel(, angle(0) labsize(small) format(%9.1f)) ///
+>                                         graphregion(color(white)) plotregion(
+> color(white))  bgcolor(white)
+
+.                                 graph export "$charts/F3A.png", as(png) repla
+> ce
+file E:\IHEID Economics\IHEID\Advanced International
+    Economics\presentation\Data for Changing Global Linkages A New Cold
+    War\PPGT_JIE_replication\charts/F3A.png saved as PNG format
+
+.                                 
+. ** Figure 3, panel B **
+. 
+. import excel "$input\GGPT_tables.xlsx", sheet("dataF3B") firstrow clear
+(5 vars, 38 obs)
+
+. gen Zero = 0
+
+. drop if t>36
+(0 observations deleted)
+
+. 
+. gen l_tw = b_tw - 1.645*se_tw
+(27 missing values generated)
+
+. gen h_tw = b_tw + 1.645*se_tw
+(27 missing values generated)
+
+. gen l_cw = b_cw - 1.645*se_cw
+(27 missing values generated)
+
+. gen h_cw = b_cw + 1.645*se_cw
+(27 missing values generated)
+
+.                                 
+.                         twoway ///
+>                                         (rarea l_tw h_tw t if t>=0,  ///
+>                                         fcolor(cranberry%20) lcolor(gs13) lw(
+> none) lpattern(solid)) ///
+>                                         (rarea l_cw h_cw t if t>=0,  ///
+>                                         fcolor(eltblue%20) lcolor(gs13) lw(no
+> ne) lpattern(solid)) ///
+>                                         (line b_tw t if t>=0, lcolor(cranberr
+> y) ///
+>                                         lpattern(solid) lwidth(thick)) /// 
+>                                         (line b_cw t if t>=0, lcolor(blue) //
+> /
+>                                         lpattern(solid) lwidth(thick)) /// 
+>                                         (line Zero t, lcolor(black)), xsize(6
+> ) ///
+>                                         legend(order(3 4)  lab(3 "Post Russia
+> 's invasion of Ukraine") lab(4 "Cold War (initial year: 1947)") size(small) r
+> ow(4) region(lstyle(none) fcolor(none)) pos(7) ring(0)) ///
+>                                         title(" ", color(black) size(medsmall
+> )) ///
+>                                         ytitle("Trade semi-elasticity for flo
+> ws with nonaligned", size(medsmall)) ///
+>                                         xtitle("Number of quarters since the 
+> start of the episode", size(medsmall)) ///
+>                                         xlabel(0(4)36, angle(0) labsize(small
+> )) ylabel(, angle(0) labsize(small) format(%9.1f)) ///
+>                                         graphregion(color(white)) plotregion(
+> color(white))  bgcolor(white)
+
+.                                 graph export "$charts/F3B.png", as(png) repla
+> ce
+file E:\IHEID Economics\IHEID\Advanced International
+    Economics\presentation\Data for Changing Global Linkages A New Cold
+    War\PPGT_JIE_replication\charts/F3B.png saved as PNG format
+
+.                         
+. *****************************************************************************
+> ***
+. 
+end of do-file
+AUDIT_RC GGPT_JIE_F3.do 0
+AUDIT_BEGIN GGPT_JIE_F4.do
+
+. 
+. *****************************************************************************
+> ***
+. ** Trade chart **
+. 
+. use "$input\imports_annual", clear 
+
+. gen time = .
+(3,552,456 missing values generated)
+
+. replace time = 1 if year >=2013 & year<=2017
+(1,613,520 real changes made)
+
+. replace time = 2 if year >=2018 & year<=2023
+(1,938,936 real changes made)
+
+. drop if time==.
+(0 observations deleted)
+
+. preserve        
+
+.         keep if ifs_rpt==111
+(3,502,157 observations deleted)
+
+.         drop if ifs_ptn==ifs_rpt
+(0 observations deleted)
+
+.         collapse (sum) value , by(time ifs_ptn)
+
+.         bysort time: egen total = sum(value)
+
+.         gen USimportshare = 100*value/total
+
+.         drop total
+
+.         reshape wide value USimportshare, j(time) i(ifs_ptn)
+(j = 1 2)
+
+Data                               Long   ->   Wide
+-----------------------------------------------------------------------------
+Number of observations              384   ->   194         
+Number of variables                   4   ->   5           
+j variable (2 values)              time   ->   (dropped)
+xij variables:
+                                  value   ->   value1 value2
+                          USimportshare   ->   USimportshare1 USimportshare2
+-----------------------------------------------------------------------------
+
+.         rename value1 USimports_pre
+
+.         rename value2 USimports_post
+
+.         rename USimportshare1 USimportshare_pre
+
+.         rename USimportshare2 USimportshare_post
+
+.         rename ifs_ptn ifscode 
+
+.         sort ifscode 
+
+.         save trade_tmp, replace
+(file trade_tmp.dta not found)
+file trade_tmp.dta saved
+
+. restore 
+
+. 
+.         keep if ifs_ptn==924
+(3,499,198 observations deleted)
+
+.         drop if ifs_ptn==ifs_rpt
+(390 observations deleted)
+
+.         collapse (sum) value , by(time ifs_rpt)
+
+.         bysort time: egen total = sum(value)
+
+.         gen CNexportshare = 100*value/total
+
+.         drop total
+
+.         reshape wide value CNexportshare, j(time) i(ifs_rpt)
+(j = 1 2)
+
+Data                               Long   ->   Wide
+-----------------------------------------------------------------------------
+Number of observations              290   ->   147         
+Number of variables                   4   ->   5           
+j variable (2 values)              time   ->   (dropped)
+xij variables:
+                                  value   ->   value1 value2
+                          CNexportshare   ->   CNexportshare1 CNexportshare2
+-----------------------------------------------------------------------------
+
+.         rename value1 CNexports_pre
+
+.         rename value2 CNexports_post
+
+.         rename CNexportshare1 CNexportshare_pre
+
+.         rename CNexportshare2 CNexportshare_post
+
+.         rename ifs_rpt ifscode 
+
+.         sort ifscode 
+
+.         merge 1:1 ifscode using trade_tmp
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                            49
+        from master                         1  (_merge==1)
+        from using                         48  (_merge==2)
+
+    Matched                               146  (_merge==3)
+    -----------------------------------------
+
+.         keep if _m==3 
+(49 observations deleted)
+
+.         drop _m
+
+.  
+. merge 1:1 ifscode using "$input\country_list_use.dta", keepusing($keep)
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                            52
+        from master                         0  (_merge==1)
+        from using                         52  (_merge==2)
+
+    Matched                               146  (_merge==3)
+    -----------------------------------------
+
+.         keep if _m==3 
+(52 observations deleted)
+
+.         drop _m
+
+. merge 1:1 ifscode using "$input\weo_2018_23.dta"
+(variable ifscode was int, now long to accommodate using data's values)
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                           187
+        from master                         0  (_merge==1)
+        from using                        187  (_merge==2)
+
+    Matched                               146  (_merge==3)
+    -----------------------------------------
+
+.         keep if _m==3 
+(187 observations deleted)
+
+.         drop _m
+
+. 
+. rename ifscode ifscode_rpt
+
+. merge m:1 ifscode_rpt using "$input\blocs.dta", keepusing(bloc3iea bloc3ipd)
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                            49
+        from master                         0  (_merge==1)
+        from using                         49  (_merge==2)
+
+    Matched                               146  (_merge==3)
+    -----------------------------------------
+
+.         drop if _m==2
+(49 observations deleted)
+
+.         drop _m
+
+. rename ifscode_rpt ifscode
+
+. 
+. save trade_tmp, replace
+file trade_tmp.dta saved
+
+. 
+. ** 
+. use trade_tmp, clear
+
+. 
+. gen delta_CNexp = CNexportshare_post-CNexportshare_pre
+(4 missing values generated)
+
+. gen delta_USimp = USimportshare_post-USimportshare_pre
+(3 missing values generated)
+
+. 
+.         gen weight = ( USimports_pre)
+(3 missing values generated)
+
+.         replace weight = weight/1000000
+(143 real changes made)
+
+. 
+. ** Figure 4A **
+. reg delta_USimp delta_CNexp [aw=weight] if bloc3ipd==3, rob
+(sum of wgt is 2,818,331.8688715)
+
+Linear regression                               Number of obs     =         57
+                                                F(1, 55)          =      32.72
+                                                Prob > F          =     0.0000
+                                                R-squared         =     0.7149
+                                                Root MSE          =     .67694
+
+------------------------------------------------------------------------------
+             |               Robust
+ delta_USimp | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+ delta_CNexp |   1.634013   .2856647     5.72   0.000     1.061528    2.206497
+       _cons |   .7335804   .2642605     2.78   0.008     .2039905     1.26317
+------------------------------------------------------------------------------
+
+. 
+.         twoway (scatter delta_USimp delta_CNexp [aw=weight] if bloc3ipd==3, m
+> s(oh) ///
+>                         graphregion(color(white)) bgcolor(white) xsize(5) ///
+>                         ytitle("Change in US imports share (2013-2017 vs 2018
+> -2023)", size(small)) ///
+>                         ylabel(,labsize(small) angle(0) format(%9.1f)) ///
+>                         xtitle("Change in Chinese export share (2013-2017 vs 
+> 2018-2023)", size(small)) ///
+>                         xlabel(,labsize(small) angle(0) format(%9.1f)) ///
+>                         legend(off) )  ///
+>                         (lfit delta_USimp delta_CNexp [aw=weight] if bloc3ipd
+> ==3, lcolor(red)) ///
+>                         (scatter delta_USimp delta_CNexp if weight>40000 & bl
+> oc3ipd==3, ms(i) mlabel(iso3) mlabc(black) mlabs(vsmall))
+
+.                 graph export "$charts\F4A.png", as(png) replace
+file E:\IHEID Economics\IHEID\Advanced International
+    Economics\presentation\Data for Changing Global Linkages A New Cold
+    War\PPGT_JIE_replication\charts\F4A.png saved as PNG format
+
+. 
+. ** Figure S1.4A **
+. reg delta_USimp delta_CNexp [aw=weight] if bloc3ipd==3 & ifscode!=158, rob
+(sum of wgt is 2,239,397.9938715)
+
+Linear regression                               Number of obs     =         56
+                                                F(1, 54)          =      11.71
+                                                Prob > F          =     0.0012
+                                                R-squared         =     0.4906
+                                                Root MSE          =     .66388
+
+------------------------------------------------------------------------------
+             |               Robust
+ delta_USimp | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+ delta_CNexp |   3.627974   1.060104     3.42   0.001     1.502594    5.753354
+       _cons |   .0301517   .2627925     0.11   0.909    -.4967155    .5570189
+------------------------------------------------------------------------------
+
+. 
+.         twoway (scatter delta_USimp delta_CNexp [aw=weight] if bloc3ipd==3 & 
+> ifscode!=158, ms(oh) ///
+>                         graphregion(color(white)) bgcolor(white) xsize(5) ///
+>                         ytitle("Change in US imports share (2013-2017 vs 2018
+> -2023)", size(small)) ///
+>                         ylabel(,labsize(small) angle(0) format(%9.1f)) ///
+>                         xtitle("Change in Chinese export share (2013-2017 vs 
+> 2018-2023)", size(small)) ///
+>                         xlabel(,labsize(small) angle(0) format(%9.1f)) ///
+>                         legend(off) )  ///
+>                         (lfit delta_USimp delta_CNexp [aw=weight] if bloc3ipd
+> ==3 & ifscode!=158, lcolor(red)) ///
+>                         (scatter delta_USimp delta_CNexp if weight>40000 & bl
+> oc3ipd==3 & ifscode!=158, ms(i) mlabel(iso3) mlabc(black) mlabs(vsmall))
+
+.                 graph export "$charts\FS1.4A.png", as(png) replace
+file E:\IHEID Economics\IHEID\Advanced International
+    Economics\presentation\Data for Changing Global Linkages A New Cold
+    War\PPGT_JIE_replication\charts\FS1.4A.png saved as PNG format
+
+. 
+.         
+. *****************************************************************************
+> ***
+. ** FDI and trade chart **
+. 
+. global keep "country iso3 imf_income imf_region"
+
+. 
+. ** Construct the dataset of fDi at the host-source-year level **
+. use "$input\fdimarket.dta", clear
+file E:\IHEID Economics\IHEID\Advanced International
+    Economics\presentation\Data for Changing Global Linkages A New Cold
+    War\PPGT_JIE_replication\data\fdimarket.dta not found
+r(601);
+
+end of do-file
+AUDIT_RC GGPT_JIE_F4.do 601
+AUDIT_BEGIN GGPT_JIE_trade_now.do
+
+. 
+. local createdata  = 0
+
+. local createdata_bydyad = 0
+
+. 
+. **** modify t use the blocs data that was created in the reallocation_full_da
+> ta.do
+. if `createdata' {
+. use "$input\Country_blocs_for_modelling", replace
+. keep iso3code ae em lics asia ukr_2022  Bloc_Modelling_4
+. rename iso3code iso3
+. rename lics lidc
+. duplicates drop 
+. ** for a few countries ukr_2022 is missing
+. 
+. replace ukr_2022 = 1 if iso3=="ABW" |  iso3=="KOS" |  iso3=="PRI"
+. replace ukr_2022 = 2 if iso3=="HKG" |  iso3=="MAC" |  iso3=="WBG"
+. sort iso3
+. save tmp, replace
+. 
+. 
+. ** quarterly bilateral from monthly is 
+. 
+. use "\\farchive1\ecn-repo\Users\Trade Data Monitor\DTA\qrtrly_bilateral_from_
+> monthly.dta", clear
+. keep if year==2017
+. append using "\\farchive1\ecn-repo\Users\Trade Data Monitor\DTA\qrtrly_bilate
+> ral_from_monthly_aug_update.dta"
+. 
+. ** just use the file in row 47 to get teh numbers for the results in the CEPR
+>  working paper version (as well as Oct 2023 WEO) **
+. 
+.         drop if ifs_rpt==998
+.         drop if ifs_ptn==998 
+.                 /*  trade where the EU is the trading partners */
+.         rename iso_rpt iso3
+.         sort iso3
+. merge m:1 iso3 using tmp
+.         tab _m
+.         drop if _m==2
+.         drop _m
+.         foreach X in ae em lidc asia ukr_2022 Bloc_Modelling_4 {
+  2.                         rename `X' `X'_rpt
+  3.         }
+.         rename iso3 iso_rpt
+.         rename iso_ptn iso3
+.         sort iso3
+. merge  m:1 iso3 using tmp
+.         tab _m
+.         drop if _m==2
+.         drop _m
+. foreach X in ae em lidc asia ukr_2022 Bloc_Modelling_4 {
+  2.                 rename `X' `X'_ptn
+  3. }
+. rename iso3 iso_ptn
+. 
+. replace ukr_2022_rpt = 1 if iso_rpt=="ABW" |  iso_rpt=="KOS"
+. replace ukr_2022_rpt = 2 if iso_rpt=="HKG" |  iso_rpt=="MAC"
+. 
+. replace ukr_2022_ptn = 1 if iso_ptn=="ABW" |  iso_ptn=="KOS" |  iso_ptn=="PRI
+> "
+. replace ukr_2022_ptn = 2 if iso_ptn=="HKG" |  iso_ptn=="MAC" |  iso_ptn=="WBG
+> "
+. 
+. *** merge in the bloc assignment in FDI chapter
+. 
+. sort iso_rpt
+. rename iso_rpt iso3
+. merge m:1 iso3  using "$input\bloc_assignment_bycountry.dta", keepusing(bloc_
+> assign_baseline)
+.                 rename bloc_assign_baseline rpt_bloc_assign_baseline
+.                 drop if _m==2
+.                 drop _m
+. merge m:1 iso3  using "$input\Country_alignments_to_USA_CHN", keepusing(close
+> *)
+.                 foreach z of varlist close* {
+  2.                     rename `z' rpt_`z'
+  3.                         }
+.             drop if _m==2
+.             drop _m
+. 
+. rename iso3 iso_rpt
+. rename iso_ptn iso3                             
+. merge m:1 iso3 using "$input\bloc_assignment_bycountry.dta", keepusing(bloc_a
+> ssign_baseline)
+.                 rename bloc_assign_baseline ptn_bloc_assign_baseline
+.                 drop if _m==2
+.                 drop _m
+. merge m:1 iso3  using "$input\Country_alignments_to_USA_CHN", keepusing(close
+> *)
+.                 foreach z of varlist close* {
+  2.                     rename `z' ptn_`z'
+  3.                         }
+.             drop if _m==2
+.             drop _m
+.                         rename iso3 iso_ptn     
+. 
+.         
+. *** define new blocs for FDMD   
+. foreach X in ptn rpt {
+  2.                 gen `X'_bl4 = Bloc_Modelling_4_`X'
+  3.                 replace  `X'_bl4 = 3 if Bloc_Modelling_4_`X'==4
+  4.                 replace `X'_bl4 =1 if iso_`X'=="CAN" | iso_`X'=="AUS" | is
+> o_`X'=="NZL"
+  5.                 replace `X'_bl4 =2 if iso_`X'=="BLR" | iso_`X'=="SYR" | is
+> o_`X'=="ERI" | iso_`X'=="NIC" | iso_`X'=="MLI" | iso_`X'=="SYR"
+  6.                 replace `X'_bl4 =3 if iso_`X'=="TUR"    
+  7.                 }
+.         
+.                         
+. ** construct dummies for linkages between and within blocs **
+. ** this is the bloc assignment in the FDI chapter, based on the 8 regions in 
+> GIMF **
+. cap drop linksFDI
+. gen linksFDI = .
+. replace linksFDI = 1 if ptn_bloc_assign_baseline==1 & rpt_bloc_assign_baselin
+> e==1
+. replace linksFDI = 1 if ptn_bloc_assign_baseline==2 & rpt_bloc_assign_baselin
+> e==2
+. replace linksFDI = 2 if ptn_bloc_assign_baseline==1 & rpt_bloc_assign_baselin
+> e==2
+. replace linksFDI = 2 if ptn_bloc_assign_baseline==2 & rpt_bloc_assign_baselin
+> e==1
+. replace linksFDI = 3 if ptn_bloc_assign_baseline==0 & rpt_bloc_assign_baselin
+> e==0
+. replace linksFDI = 3 if ptn_bloc_assign_baseline==0 & rpt_bloc_assign_baselin
+> e!=0
+. replace linksFDI = 3 if ptn_bloc_assign_baseline!=0 & rpt_bloc_assign_baselin
+> e==0
+. 
+. ** this is just CHN vs USA, based on IPD values **
+. 
+. cap drop links2
+. gen links2 = .
+. replace links2 = 1 if ptn_closer2USA_ipd==1 & rpt_closer2USA_ipd==1
+. replace links2 = 1 if ptn_closer2USA_ipd==0 & rpt_closer2USA_ipd==0
+. replace links2 = 2 if ptn_closer2USA_ipd==1 & rpt_closer2USA_ipd==0
+. replace links2 = 2 if ptn_closer2USA_ipd==0 & rpt_closer2USA_ipd==1
+. 
+. 
+. ** this is just CHN vs USA, based on Commodities chapter **
+. 
+. cap drop linksCOM
+. gen linksCOM = .
+. replace linksCOM = 1 if ukr_2022_rpt==1 & ukr_2022_ptn==1
+. replace linksCOM = 1 if ukr_2022_rpt==2 & ukr_2022_ptn==2
+. replace linksCOM = 2 if ukr_2022_rpt==1 & ukr_2022_ptn==2
+. replace linksCOM = 2 if ukr_2022_rpt==2 & ukr_2022_ptn==1
+. 
+.                                 
+. ** This is again US, CHN and non aligned depending on IPD values, country by 
+> country **
+. 
+. cap drop links3
+. gen links3 = .
+. replace links3 = 1 if ptn_closest_qtile_ipd_USA==1 & rpt_closest_qtile_ipd_US
+> A==1
+. replace links3 = 1 if ptn_closest_qtile_ipd_CHN==1 & rpt_closest_qtile_ipd_CH
+> N==1
+. replace links3 = 2 if ptn_closest_qtile_ipd_USA==1 & rpt_closest_qtile_ipd_CH
+> N==1
+. replace links3 = 2 if ptn_closest_qtile_ipd_CHN==1 & rpt_closest_qtile_ipd_US
+> A==1
+. replace links3 = 3 if ptn_closest_qtile_ipd_neither==1 & rpt_closest_qtile_ip
+> d_neither==1
+. replace links3 = 3 if ptn_closest_qtile_ipd_neither==1 & rpt_closest_qtile_ip
+> d_neither==0
+. replace links3 = 3 if ptn_closest_qtile_ipd_neither==0 & rpt_closest_qtile_ip
+> d_neither==1
+. 
+. 
+. * This is 3 blocs using the COMMODITIES chapter 3 bloc scenario **
+. 
+. cap drop linksCM3
+. gen linksCM3 = .
+. replace linksCM3 = 1 if Bloc_Modelling_4_ptn==1 & Bloc_Modelling_4_rpt==1
+. replace linksCM3 = 1 if Bloc_Modelling_4_ptn==2 & Bloc_Modelling_4_rpt==2
+. replace linksCM3 = 2 if Bloc_Modelling_4_ptn==1 & Bloc_Modelling_4_rpt==2
+. replace linksCM3 = 2 if Bloc_Modelling_4_ptn==2 & Bloc_Modelling_4_rpt==1
+. replace linksCM3 = 3 if Bloc_Modelling_4_ptn==1 & Bloc_Modelling_4_rpt>2 & Bl
+> oc_Modelling_4_rpt!=.
+. replace linksCM3 = 3 if Bloc_Modelling_4_ptn==2 & Bloc_Modelling_4_rpt>2 & Bl
+> oc_Modelling_4_rpt!=.
+. replace linksCM3 = 3 if Bloc_Modelling_4_ptn>2 & Bloc_Modelling_4_rpt==1
+. replace linksCM3 = 3 if Bloc_Modelling_4_ptn>2 & Bloc_Modelling_4_rpt==2
+. replace linksCM3 = 3 if Bloc_Modelling_4_ptn>2 & Bloc_Modelling_4_rpt>2
+. 
+. * This is 3 blocs using a slightly larger definition of blocs than the COMMOD
+> ITIES chapter 3 bloc scenario **
+. 
+. cap drop linksalt3
+. gen linksalt3 = .
+. replace linksalt3 = 1 if rpt_bl4==1 & ptn_bl4==1
+. replace linksalt3 = 1 if rpt_bl4==2 & ptn_bl4==2
+. replace linksalt3 = 2 if rpt_bl4==1 & ptn_bl4==2
+. replace linksalt3 = 2 if rpt_bl4==2 & ptn_bl4==1
+. replace linksalt3 = 3 if rpt_bl4==3 | ptn_bl4==3
+. 
+. 
+. label var linksFDI "3 bloc assignment in the FDI chapter, based on the 8 regi
+> ons in GIMF"
+. label var linksCOM "2 bloc assignment in the Commodities chapter, based on th
+> e 2022 UN vote on Ukraine"
+. label var links2 "2 CHN vs USA, based on IPD values"
+. label var links3 "3 US, CHN and non aligned depending on IPD values, country 
+> by country"
+. label var linksCM3 "3 US/EUR, CHN/RUS and all others are non aligned"
+. label var linksalt3 "3 US/EUR/CAN/AUS//NZL, CHN/RUS/BLR/SYR and all others ar
+> e non aligned"
+. 
+. save "overall_tradepartner_change_blocs_qrtrly.dta", replace
+. }
+
+. 
+. **** make sure there is one observation per dyad (2 countries and focus only 
+> on total trade)
+. 
+. if `createdata_bydyad' {
+. use "overall_tradepartner_change_blocs_qrtrly.dta", clear
+. 
+. *** create some trade based on imports and exports
+. 
+. foreach X in us_central_sector Trump_tariffs_sector {
+  2.                 gen trade_`X' = imports_`X'+exports_`X'
+  3. }
+. rename trade_us_central_sector trade_usc 
+. rename trade_Trump_tariffs_sector trade_trmptar 
+. 
+. 
+.         gen time = year*100+quarter
+.         gen yq = yq(year, quarter)
+.         gen pst2  = (time>=202202)
+.         
+.         gen dd1 = min(ifs_rpt, ifs_ptn)
+.         gen dd2 = max(ifs_rpt, ifs_ptn)
+.         
+.         gen dyad = dd1*1000+dd2
+.         
+.         gen btwCOM = (linksCOM==2)      
+.         gen btw2 = (links2==2)  
+.         gen btw3 = (links3==2)  
+.         gen btwFDI = (linksFDI==2)
+.         gen btwCM3 = (linksCM3==2)      
+.         gen btwalt3 = (linksalt3==2)    
+. 
+. 
+.         gen una3 = (links3==3) 
+.         gen unaFDI = (linksFDI==3)
+.         gen unaCM3 = (linksCM3==3) 
+.         gen unaalt3 = (linksalt3==3) 
+. 
+.         replace btwCOM = . if linksCOM==.
+.         replace btw2 = . if links2==.
+.         replace btw3 = . if links3==.
+.         replace btwCM3 = . if linksCM3==.
+.         replace btwFDI = . if linksFDI==.
+.         replace btwalt3 = . if linksalt3==.
+. 
+.         replace una3 = . if links3==.
+.         replace unaFDI = . if linksFDI==.
+.         replace unaCM3=. if linksCM3==.
+.         replace unaalt3=. if linksalt3==.
+. 
+.         foreach X in pst2 {
+  2.                 foreach y in btwCOM btw2 btwFDI btw3 btwCM3 btwalt3 unaFDI
+>  una3 unaCM3 unaalt3 {
+  3.                         gen `y'_`X'=`y'*`X'
+  4.                 }
+  5.         }
+.         
+.         gen trade_nstrg = total_trade*1000000-trade_strg
+.         replace trade_nstrg=0 if trade_nstrg<0 
+.         
+.         local tradelist "total_trade trade_strg trade_nstrg trade_chem trade_
+> mchn trade_arm trade_usc trade_trmptar trade_28 trade_29 trade_30 trade_38 tr
+> ade_84 trade_85 trade_87 trade_88 trade_90 trade_93 "
+.         
+. collapse (mean) `tradelist' , by(dyad time yq pst2 btwCOM* btw2* btwFDI* btw3
+> * btwCM3* btwalt3* unaFDI* una3* unaCM3* unaalt3* year quarter)
+.         tostring dyad, gen(ndyad)
+.         gen ifscode_1 = substr(ndyad, 1, 3)
+.         gen ifscode_2 = substr(ndyad, 4, 3)
+.         
+.         destring ifscode_1, gen(ifscode_rpt)
+.         sort ifscode_rpt
+.         merge m:1 ifscode_rpt using "`blocdata'", keepusing (ifscode_rpt iso_
+> rpt ae emde bloc*)
+.         ** merge characteristics of the dyad 
+.         tab _m
+.         drop if _m!=3
+.         rename ifscode_rpt ifs_code1 
+.         rename iso_rpt iso_rpt1
+.         foreach X in ae emde bloc3iea bloc3ipd  bloc3com {
+  2.                 rename `X' `X'_1 
+  3.         }
+.         drop _m
+.         destring ifscode_2, gen(ifscode_rpt)
+.         sort ifscode_rpt
+.         merge m:1 ifscode_rpt using "`blocdata'", keepusing (ifscode_rpt iso_
+> rpt ae emde bloc*)
+.         ** merge characteristics of the dyad 
+.         tab _m
+.         drop if _m!=3
+.         rename ifscode_rpt ifs_code2 
+.         rename iso_rpt iso_rpt2
+.         foreach X in ae emde bloc3iea bloc3ipd bloc3com {
+  2.                 rename `X' `X'_2
+  3.         }
+.         drop _m
+.         
+.         
+.         tsset dyad yq
+.         
+. foreach X in total_trade trade_strg trade_nstrg trade_chem trade_mchn trade_a
+> rm trade_usc trade_trmptar  trade_28 trade_29 trade_30 trade_38 trade_84 trad
+> e_85 trade_87 trade_88 trade_90 trade_93  {
+  2.                 cap drop ln`X'
+  3.                 cap drop dln`X'
+  4.                 gen ln`X'  = ln(`X'+sqrt(1+`X'^2))
+  5.                 bys dyad: gen dln`X'  = d.ln`X'
+  6.                 }
+.                 
+. *** create dummies for between trade with time 
+. 
+. save qrtrly_for_fragmentation_updated, replace
+. }
+
+. 
+. *****************************************************************************
+> ***
+. use  "$input\qrtrly_for_fragmentation_updated.dta", clear
+
+. 
+. tostring time, gen(t00)
+t00 generated as str6
+
+. 
+. gen str ifs1time = substr(ndyad, 1, 3)+t00
+
+. gen str ifs2time = substr(ndyad, 4, 3)+t00
+
+. 
+. drop t00
+
+. forvalue X = 228/256 {
+  2.         gen tm`X' = (yq==`X')
+  3. 
+. }
+
+.         foreach y in btw3 una3 btwalt3 unaalt3 btwCM3 unaCM3 {
+  2.         forvalue X = 228/256 {
+  3.                 gen `y'_tm`X' = `y'*tm`X'
+  4.         }
+  5.         }
+(27,745 missing values generated)
+(27,745 missing values generated)
+(27,745 missing values generated)
+(27,745 missing values generated)
+(27,745 missing values generated)
+(27,745 missing values generated)
+(27,745 missing values generated)
+(27,745 missing values generated)
+(27,745 missing values generated)
+(27,745 missing values generated)
+(27,745 missing values generated)
+(27,745 missing values generated)
+(27,745 missing values generated)
+(27,745 missing values generated)
+(27,745 missing values generated)
+(27,745 missing values generated)
+(27,745 missing values generated)
+(27,745 missing values generated)
+(27,745 missing values generated)
+(27,745 missing values generated)
+(27,745 missing values generated)
+(27,745 missing values generated)
+(27,745 missing values generated)
+(27,745 missing values generated)
+(27,745 missing values generated)
+(27,745 missing values generated)
+(27,745 missing values generated)
+(27,745 missing values generated)
+(27,745 missing values generated)
+(27,745 missing values generated)
+(27,745 missing values generated)
+(27,745 missing values generated)
+(27,745 missing values generated)
+(27,745 missing values generated)
+(27,745 missing values generated)
+(27,745 missing values generated)
+(27,745 missing values generated)
+(27,745 missing values generated)
+(27,745 missing values generated)
+(27,745 missing values generated)
+(27,745 missing values generated)
+(27,745 missing values generated)
+(27,745 missing values generated)
+(27,745 missing values generated)
+(27,745 missing values generated)
+(27,745 missing values generated)
+(27,745 missing values generated)
+(27,745 missing values generated)
+(27,745 missing values generated)
+(27,745 missing values generated)
+(27,745 missing values generated)
+(27,745 missing values generated)
+(27,745 missing values generated)
+(27,745 missing values generated)
+(27,745 missing values generated)
+(27,745 missing values generated)
+(27,745 missing values generated)
+(27,745 missing values generated)
+
+. 
+. 
+.         tsset 
+
+Panel variable: dyad (unbalanced)
+ Time variable: yq, 228 to 256, but with gaps
+         Delta: 1 unit
+
+. 
+.         cap drop btw3pre 
+
+.         gen btw3pre = 0
+
+.         replace btw3pre = 1 if btw3==1 & yq<=246
+(32,764 real changes made)
+
+.         cap drop una3pre 
+
+.         gen una3pre = 0
+
+.         replace una3pre = 1 if una3==1 & yq<=246
+(127,334 real changes made)
+
+.         
+. ** Regression to get the data for Figure 3 **
+.         ppmlhdfe total_trade l.total_trade btw3pre btw3_tm248-btw3_tm256 una3
+> pre una3_tm248-una3_tm256 if yq<257, absorb(dyad ifs1time ifs2time) cluster(d
+> yad time)
+command ppmlhdfe is unrecognized
+r(199);
+
+end of do-file
+AUDIT_RC GGPT_JIE_trade_now.do 199
+AUDIT_BEGIN GGPT_JIE_fdi_now.do
+
+. 
+. global keep "country iso3 imf_income imf_region"
+
+. 
+. ** Construct the dataset of fDi at the host-source-year level **
+. use "$input\fdimarket.dta", clear
+file E:\IHEID Economics\IHEID\Advanced International
+    Economics\presentation\Data for Changing Global Linkages A New Cold
+    War\PPGT_JIE_replication\data\fdimarket.dta not found
+r(601);
+
+end of do-file
+AUDIT_RC GGPT_JIE_fdi_now.do 601
+AUDIT_BEGIN GGPT_JIE_portfolio_now.do
+
+. 
+. use "$input\database_CPIS_1024.dta", clear
+
+. 
+.         ** assign countries to blocs ** 
+. 
+.         rename ifscode ifscode_rpt
+
+.         merge m:1 ifscode_rpt using "$input\blocs.dta", keepusing(bloc3ipd bl
+> oc3iea)
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                        48,495
+        from master                    48,384  (_merge==1)
+        from using                        111  (_merge==2)
+
+    Matched                           347,112  (_merge==3)
+    -----------------------------------------
+
+.                 rename bloc3iea source_bloc3iea
+
+.                 rename bloc3ipd source_bloc3ipd
+
+.                 keep if _m==3
+(48,495 observations deleted)
+
+.                 drop _m
+
+.                 rename ifscode_rpt ifscode_source
+
+.         rename partnercode ifscode_rpt
+
+.         merge m:1 ifscode_rpt using "$input\blocs.dta", keepusing(bloc3ipd bl
+> oc3iea)
+(label lab_bloc already defined)
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                        71,298
+        from master                    71,298  (_merge==1)
+        from using                          0  (_merge==2)
+
+    Matched                           275,814  (_merge==3)
+    -----------------------------------------
+
+.                 rename bloc3iea destination_bloc3iea
+
+.                 rename bloc3ipd destination_bloc3ipd
+
+.                 keep if _m==3
+(71,298 observations deleted)
+
+.                 drop _m
+
+.         rename ifscode_rpt ifscode_destination
+
+. 
+. cap drop linksiea
+
+. gen linksiea = .
+(275,814 missing values generated)
+
+. replace linksiea = 1 if destination_bloc3iea==1 & source_bloc3iea==1
+(27,864 real changes made)
+
+. replace linksiea = 1 if destination_bloc3iea==2 & source_bloc3iea==2
+(324 real changes made)
+
+. replace linksiea = 2 if destination_bloc3iea==1 & source_bloc3iea==2
+(2,322 real changes made)
+
+. replace linksiea = 2 if destination_bloc3iea==2 & source_bloc3iea==1
+(4,590 real changes made)
+
+. replace linksiea = 3 if destination_bloc3iea==3 & source_bloc3iea==3
+(102,114 real changes made)
+
+. replace linksiea = 3 if destination_bloc3iea==1 & source_bloc3iea==3
+(31,212 real changes made)
+
+. replace linksiea = 3 if destination_bloc3iea==2 & source_bloc3iea==3
+(5,022 real changes made)
+
+. replace linksiea = 3 if destination_bloc3iea==3 & source_bloc3iea==2
+(7,830 real changes made)
+
+. replace linksiea = 3 if destination_bloc3iea==3 & source_bloc3iea==1
+(94,536 real changes made)
+
+. 
+. cap drop linksipd
+
+. gen linksipd = .
+(275,814 missing values generated)
+
+. replace linksipd = 1 if destination_bloc3ipd==1 & source_bloc3ipd==1
+(31,284 real changes made)
+
+. replace linksipd = 1 if destination_bloc3ipd==2 & source_bloc3ipd==2
+(12,708 real changes made)
+
+. replace linksipd = 2 if destination_bloc3ipd==1 & source_bloc3ipd==2
+(12,654 real changes made)
+
+. replace linksipd = 2 if destination_bloc3ipd==2 & source_bloc3ipd==1
+(32,238 real changes made)
+
+. replace linksipd = 3 if destination_bloc3ipd==3 & source_bloc3ipd==3
+(36,054 real changes made)
+
+. replace linksipd = 3 if destination_bloc3ipd==1 & source_bloc3ipd==3
+(19,764 real changes made)
+
+. replace linksipd = 3 if destination_bloc3ipd==2 & source_bloc3ipd==3
+(19,530 real changes made)
+
+. replace linksipd = 3 if destination_bloc3ipd==3 & source_bloc3ipd==2
+(24,300 real changes made)
+
+. replace linksipd = 3 if destination_bloc3ipd==3 & source_bloc3ipd==1
+(60,390 real changes made)
+
+. 
+. egen dyad = group(ifscode_destination ifscode_source)
+
+. gen t = yh(year, half_year)
+
+. format t %th
+
+.  
+. tsset dyad t
+
+Panel variable: dyad (strongly balanced)
+ Time variable: t, 2015h1 to 2023h2
+         Delta: 1 halfyear
+
+. fillin dyad t
+
+. 
+. rename I_A_D_T_T_BP6_USD debt
+
+. rename I_A_E_T_T_BP6_USD equity
+
+. rename I_A_T_T_T_BP6_USD total 
+
+. replace equity = equity/1000000000
+(66,577 real changes made)
+
+. replace debt = debt/1000000000
+(83,617 real changes made)
+
+. 
+. foreach x of varlist debt equity total {
+  2.         replace `x' = 0 if `x'==.
+  3.         replace `x' = 0 if `x'<0
+  4.         bysort ifscode_source t: egen `x'_tot = sum(`x')
+  5.         gen `x'_share = 100*`x'/`x'_tot
+  6.         replace `x'_share = 0 if `x'_tot==0
+  7.         tsset dyad t
+  8.         gen d`x'_share = (`x'_share-l.`x'_share)
+  9.         gen dh`x'_share = ((`x'_share-l.`x'_share)/(.5*`x'_share+.5*l.`x'_
+> share))
+ 10.         replace dh`x'_share = 0 if (.5*`x'_share+.5*l.`x'_share)==0
+ 11.         }
+(100,903 real changes made)
+(126 real changes made)
+(24,058 missing values generated)
+(24,058 real changes made)
+
+Panel variable: dyad (strongly balanced)
+ Time variable: t, 2015h1 to 2023h2
+         Delta: 1 halfyear
+(15,323 missing values generated)
+(190,260 missing values generated)
+(174,937 real changes made)
+(105,078 real changes made)
+(141 real changes made)
+(23,649 missing values generated)
+(23,649 real changes made)
+
+Panel variable: dyad (strongly balanced)
+ Time variable: t, 2015h1 to 2023h2
+         Delta: 1 halfyear
+(15,323 missing values generated)
+(208,343 missing values generated)
+(193,020 real changes made)
+(95,096 real changes made)
+(141 real changes made)
+(23,275 missing values generated)
+(23,275 real changes made)
+
+Panel variable: dyad (strongly balanced)
+ Time variable: t, 2015h1 to 2023h2
+         Delta: 1 halfyear
+(15,323 missing values generated)
+(177,668 missing values generated)
+(162,345 real changes made)
+
+.         
+. bysort dyad: egen linksiea2 = mean(linksiea)
+
+. bysort dyad: egen linksipd2 = mean(linksipd)
+(26,892 missing values generated)
+
+. 
+. gen postwar = 0
+
+. replace postwar=1 if t>=124
+(61,292 real changes made)
+
+. 
+. gen between_iea = 0
+
+. replace between_iea = 1 if linksiea2==2
+(6,912 real changes made)
+
+. replace between_iea = . if linksiea2==.
+(0 real changes made)
+
+. 
+. gen between_ipd = 0
+
+. replace between_ipd = 1 if linksipd2==2
+(44,892 real changes made)
+
+. replace between_ipd = . if linksipd2==.
+(26,892 real changes made, 26,892 to missing)
+
+. 
+. gen nonaligned_ipd = 0
+
+. replace nonaligned_ipd = 1 if linksipd2==3
+(160,038 real changes made)
+
+. replace nonaligned_ipd = . if linksipd2==.
+(26,892 real changes made, 26,892 to missing)
+
+. 
+. bysort dyad: egen sourceifs = max(ifscode_source)
+
+. bysort dyad: egen destinationifs = max(ifscode_destination)
+
+. 
+. 
+. ** Table 1, columns 5-6 **
+. 
+. preserve 
+
+. local time 100
+
+. 
+. local inst total /*debt equity*/
+
+. 
+. foreach in of local inst { 
+  2. local append replace
+  3. 
+.         reghdfe d`in'_share l.`in'_share postwar##i.linksipd2 if t>=`time', a
+> bsorb (dyad t ) cluster(dyad)
+  4.                 outreg2 using "$tables\T1.xls", nocons ctitle(OLS D) bdec(
+> 4) tdec(4) se excel label append addtext(Country-pair FE, Y, Time FE, Y, Sour
+> ce x Time FE, N, Destination x Time FE, N, Blocs, Wider)
+  5.         reghdfe d`in'_share l.`in'_share postwar##i.linksipd2 if t>=`time'
+> , absorb (dyad t#destinationifs t#sourceifs) cluster(dyad)
+  6.                 outreg2 using "$tables\T1.xls", nocons ctitle(OLS D) bdec(
+> 4) tdec(4) se excel label append addtext(Country-pair FE, Y, Time FE, -, Sour
+> ce x Time FE, Y, Destination x Time FE, Y, Blocs, Wider)
+  7.                 
+.         reghdfe d`in'_share l.`in'_share postwar##i.linksiea2 if  t>=`time', 
+> absorb (dyad t ) cluster(dyad)
+  8.                 outreg2 using "$tables\T1.xls", nocons ctitle(OLS D) bdec(
+> 4) tdec(4) se excel label append addtext(Country-pair FE, Y, Time FE, Y, Sour
+> ce x Time FE, N, Destination x Time FE, N, Blocs, Narrow)        
+  9.         reghdfe d`in'_share l.`in'_share postwar##i.linksiea2 if t>=`time'
+> , absorb (dyad t#destinationifs t#sourceifs) cluster(dyad)
+ 10.                 outreg2 using "$tables\T1.xls", nocons ctitle(OLS D) bdec(
+> 4) tdec(4) se excel label append addtext(Country-pair FE, Y, Time FE, -, Sour
+> ce x Time FE, Y, Destination x Time FE, Y, Blocs, Narrow)
+ 11.                 
+. }
+(MWFE estimator converged in 2 iterations)
+note: 1bn.postwar is probably collinear with the fixed effects (all partialled-
+> out values are close to zero; tol = 1.0e-09)
+note: 2bn.linksipd2 is probably collinear with the fixed effects (all partialle
+> d-out values are close to zero; tol = 1.0e-09)
+note: 3bn.linksipd2 is probably collinear with the fixed effects (all partialle
+> d-out values are close to zero; tol = 1.0e-09)
+
+HDFE Linear regression                            Number of obs   =    235,093
+Absorbing 2 HDFE groups                           F(   3,  13828) =      19.09
+Statistics robust to heteroskedasticity           Prob > F        =     0.0000
+                                                  R-squared       =     0.2216
+                                                  Adj R-squared   =     0.1729
+                                                  Within R-sq.    =     0.2068
+Number of clusters (dyad)    =     13,829         Root MSE        =     1.1830
+
+                              (Std. err. adjusted for 13,829 clusters in dyad)
+------------------------------------------------------------------------------
+             |               Robust
+dtotal_share | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+ total_share |
+         L1. |   -.408341    .053989    -7.56   0.000    -.5141669   -.3025152
+             |
+   1.postwar |          0  (omitted)
+             |
+   linksipd2 |
+          2  |          0  (omitted)
+          3  |          0  (omitted)
+             |
+     postwar#|
+   linksipd2 |
+        1 2  |  -.0416599   .0249568    -1.67   0.095    -.0905787    .0072589
+        1 3  |  -.0211826   .0208037    -1.02   0.309    -.0619607    .0195955
+             |
+       _cons |   .2139066   .0283582     7.54   0.000     .1583207    .2694925
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-----------------------------------------------------+
+ Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------+---------------------------------------|
+        dyad |     13829       13829           0    *|
+           t |        17           1          16     |
+-----------------------------------------------------+
+* = FE nested within cluster; treated as redundant for DoF computation
+E:\IHEID Economics\IHEID\Advanced International Economics\presentation\Data for
+>  Changing Global Linkages A New Cold War\PPGT_JIE_replication\tables\T1.xls
+dir : seeout
+(dropped 34 singleton observations)
+(MWFE estimator converged in 5 iterations)
+note: 1bn.postwar is probably collinear with the fixed effects (all partialled-
+> out values are close to zero; tol = 1.0e-09)
+note: 2bn.linksipd2 is probably collinear with the fixed effects (all partialle
+> d-out values are close to zero; tol = 1.0e-09)
+note: 3bn.linksipd2 is probably collinear with the fixed effects (all partialle
+> d-out values are close to zero; tol = 1.0e-09)
+
+HDFE Linear regression                            Number of obs   =    235,059
+Absorbing 3 HDFE groups                           F(   3,  13826) =      18.58
+Statistics robust to heteroskedasticity           Prob > F        =     0.0000
+                                                  R-squared       =     0.2506
+                                                  Adj R-squared   =     0.1874
+                                                  Within R-sq.    =     0.2029
+Number of clusters (dyad)    =     13,827         Root MSE        =     1.1121
+
+                              (Std. err. adjusted for 13,827 clusters in dyad)
+------------------------------------------------------------------------------
+             |               Robust
+dtotal_share | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+ total_share |
+         L1. |  -.3977865    .053541    -7.43   0.000    -.5027341    -.292839
+             |
+   1.postwar |          0  (omitted)
+             |
+   linksipd2 |
+          2  |          0  (omitted)
+          3  |          0  (omitted)
+             |
+     postwar#|
+   linksipd2 |
+        1 2  |  -.0540185    .028165    -1.92   0.055    -.1092256    .0011886
+        1 3  |  -.0363284   .0310517    -1.17   0.242     -.097194    .0245372
+             |
+       _cons |   .2090269   .0278778     7.50   0.000     .1543826    .2636712
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+------------------------------------------------------------+
+        Absorbed FE | Categories  - Redundant  = Num. Coefs |
+--------------------+---------------------------------------|
+               dyad |     13827       13827           0    *|
+   t#destinationifs |      3145           1        3144     |
+        t#sourceifs |      1326          17        1309     |
+------------------------------------------------------------+
+* = FE nested within cluster; treated as redundant for DoF computation
+E:\IHEID Economics\IHEID\Advanced International Economics\presentation\Data for
+>  Changing Global Linkages A New Cold War\PPGT_JIE_replication\tables\T1.xls
+dir : seeout
+(MWFE estimator converged in 2 iterations)
+note: 1bn.postwar is probably collinear with the fixed effects (all partialled-
+> out values are close to zero; tol = 1.0e-09)
+note: 2bn.linksiea2 is probably collinear with the fixed effects (all partialle
+> d-out values are close to zero; tol = 1.0e-09)
+note: 3bn.linksiea2 is probably collinear with the fixed effects (all partialle
+> d-out values are close to zero; tol = 1.0e-09)
+
+HDFE Linear regression                            Number of obs   =    260,491
+Absorbing 2 HDFE groups                           F(   3,  15322) =      20.14
+Statistics robust to heteroskedasticity           Prob > F        =     0.0000
+                                                  R-squared       =     0.2215
+                                                  Adj R-squared   =     0.1728
+                                                  Within R-sq.    =     0.2064
+Number of clusters (dyad)    =     15,323         Root MSE        =     1.1345
+
+                              (Std. err. adjusted for 15,323 clusters in dyad)
+------------------------------------------------------------------------------
+             |               Robust
+dtotal_share | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+ total_share |
+         L1. |  -.4070197   .0527793    -7.71   0.000    -.5104735   -.3035659
+             |
+   1.postwar |          0  (omitted)
+             |
+   linksiea2 |
+          2  |          0  (omitted)
+          3  |          0  (omitted)
+             |
+     postwar#|
+   linksiea2 |
+        1 2  |  -.1840817   .0776107    -2.37   0.018    -.3362079   -.0319554
+        1 3  |  -.0145947   .0337376    -0.43   0.665    -.0807245     .051535
+             |
+       _cons |   .2067131   .0278178     7.43   0.000     .1521869    .2612392
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-----------------------------------------------------+
+ Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------+---------------------------------------|
+        dyad |     15323       15323           0    *|
+           t |        17           1          16     |
+-----------------------------------------------------+
+* = FE nested within cluster; treated as redundant for DoF computation
+E:\IHEID Economics\IHEID\Advanced International Economics\presentation\Data for
+>  Changing Global Linkages A New Cold War\PPGT_JIE_replication\tables\T1.xls
+dir : seeout
+(dropped 34 singleton observations)
+(MWFE estimator converged in 5 iterations)
+note: 1bn.postwar is probably collinear with the fixed effects (all partialled-
+> out values are close to zero; tol = 1.0e-09)
+note: 2bn.linksiea2 is probably collinear with the fixed effects (all partialle
+> d-out values are close to zero; tol = 1.0e-09)
+note: 3bn.linksiea2 is probably collinear with the fixed effects (all partialle
+> d-out values are close to zero; tol = 1.0e-09)
+
+HDFE Linear regression                            Number of obs   =    260,457
+Absorbing 3 HDFE groups                           F(   3,  15320) =      19.15
+Statistics robust to heteroskedasticity           Prob > F        =     0.0000
+                                                  R-squared       =     0.2490
+                                                  Adj R-squared   =     0.1865
+                                                  Within R-sq.    =     0.2030
+Number of clusters (dyad)    =     15,321         Root MSE        =     1.0681
+
+                              (Std. err. adjusted for 15,321 clusters in dyad)
+------------------------------------------------------------------------------
+             |               Robust
+dtotal_share | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+ total_share |
+         L1. |  -.3973003   .0524923    -7.57   0.000    -.5001915   -.2944092
+             |
+   1.postwar |          0  (omitted)
+             |
+   linksiea2 |
+          2  |          0  (omitted)
+          3  |          0  (omitted)
+             |
+     postwar#|
+   linksiea2 |
+        1 2  |  -.1762917    .101203    -1.74   0.082    -.3746615    .0220782
+        1 3  |  -.0365908   .0420956    -0.87   0.385    -.1191031    .0459216
+             |
+       _cons |   .2042774   .0280066     7.29   0.000     .1493812    .2591736
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+------------------------------------------------------------+
+        Absorbed FE | Categories  - Redundant  = Num. Coefs |
+--------------------+---------------------------------------|
+               dyad |     15321       15321           0    *|
+   t#destinationifs |      3315           1        3314     |
+        t#sourceifs |      1394          17        1377     |
+------------------------------------------------------------+
+* = FE nested within cluster; treated as redundant for DoF computation
+E:\IHEID Economics\IHEID\Advanced International Economics\presentation\Data for
+>  Changing Global Linkages A New Cold War\PPGT_JIE_replication\tables\T1.xls
+dir : seeout
+
+.         restore
+
+. 
+. 
+. ** Table S2.2, Columns 5-6 **
+. 
+. preserve 
+
+. local time 100
+
+. 
+. drop if sourceifs==111 | destinationifs==111
+(4,968 observations deleted)
+
+. 
+. local inst total
+
+. 
+. foreach in of local inst { 
+  2. local append replace
+  3. 
+.         reghdfe d`in'_share l.`in'_share postwar##i.linksipd2 if t>=`time', a
+> bsorb (dyad t ) cluster(dyad)
+  4.                 outreg2 using "$tables\TS2.2.xls", nocons ctitle(OLS D) bd
+> ec(4) tdec(4) se excel label append addtext(Country-pair FE, Y, Time FE, Y, S
+> ource x Time FE, N, Destination x Time FE, N, Blocs, Wider, Sample, No US)
+  5.         reghdfe d`in'_share l.`in'_share postwar##i.linksipd2 if t>=`time'
+> , absorb (dyad t#destinationifs t#sourceifs) cluster(dyad)
+  6.                 outreg2 using "$tables\TS2.2.xls", nocons ctitle(OLS D) bd
+> ec(4) tdec(4) se excel label append addtext(Country-pair FE, Y, Time FE, -, S
+> ource x Time FE, Y, Destination x Time FE, Y, Blocs, Wider, Sample, No US)
+  7. 
+. }
+(MWFE estimator converged in 2 iterations)
+note: 1bn.postwar is probably collinear with the fixed effects (all partialled-
+> out values are close to zero; tol = 1.0e-09)
+note: 2bn.linksipd2 is probably collinear with the fixed effects (all partialle
+> d-out values are close to zero; tol = 1.0e-09)
+note: 3bn.linksipd2 is probably collinear with the fixed effects (all partialle
+> d-out values are close to zero; tol = 1.0e-09)
+
+HDFE Linear regression                            Number of obs   =    230,639
+Absorbing 2 HDFE groups                           F(   3,  13566) =      41.68
+Statistics robust to heteroskedasticity           Prob > F        =     0.0000
+                                                  R-squared       =     0.1767
+                                                  Adj R-squared   =     0.1252
+                                                  Within R-sq.    =     0.1566
+Number of clusters (dyad)    =     13,567         Root MSE        =     0.7919
+
+                              (Std. err. adjusted for 13,567 clusters in dyad)
+------------------------------------------------------------------------------
+             |               Robust
+dtotal_share | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+ total_share |
+         L1. |  -.3020076   .0271394   -11.13   0.000    -.3552045   -.2488106
+             |
+   1.postwar |          0  (omitted)
+             |
+   linksipd2 |
+          2  |          0  (omitted)
+          3  |          0  (omitted)
+             |
+     postwar#|
+   linksipd2 |
+        1 2  |  -.0121459   .0161294    -0.75   0.451    -.0437618    .0194701
+        1 3  |   .0033922   .0145831     0.23   0.816    -.0251927     .031977
+             |
+       _cons |   .1050419   .0099868    10.52   0.000     .0854665    .1246174
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-----------------------------------------------------+
+ Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------+---------------------------------------|
+        dyad |     13567       13567           0    *|
+           t |        17           1          16     |
+-----------------------------------------------------+
+* = FE nested within cluster; treated as redundant for DoF computation
+E:\IHEID Economics\IHEID\Advanced International Economics\presentation\Data for
+>  Changing Global Linkages A New Cold War\PPGT_JIE_replication\tables\TS2.2.xl
+> s
+dir : seeout
+(dropped 17 singleton observations)
+(MWFE estimator converged in 5 iterations)
+note: 1bn.postwar is probably collinear with the fixed effects (all partialled-
+> out values are close to zero; tol = 1.0e-09)
+note: 2bn.linksipd2 is probably collinear with the fixed effects (all partialle
+> d-out values are close to zero; tol = 1.0e-09)
+note: 3bn.linksipd2 is probably collinear with the fixed effects (all partialle
+> d-out values are close to zero; tol = 1.0e-09)
+
+HDFE Linear regression                            Number of obs   =    230,622
+Absorbing 3 HDFE groups                           F(   3,  13565) =      35.66
+Statistics robust to heteroskedasticity           Prob > F        =     0.0000
+                                                  R-squared       =     0.1948
+                                                  Adj R-squared   =     0.1267
+                                                  Within R-sq.    =     0.1497
+Number of clusters (dyad)    =     13,566         Root MSE        =     0.7669
+
+                              (Std. err. adjusted for 13,566 clusters in dyad)
+------------------------------------------------------------------------------
+             |               Robust
+dtotal_share | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+ total_share |
+         L1. |  -.3012255   .0291934   -10.32   0.000    -.3584486   -.2440023
+             |
+   1.postwar |          0  (omitted)
+             |
+   linksipd2 |
+          2  |          0  (omitted)
+          3  |          0  (omitted)
+             |
+     postwar#|
+   linksipd2 |
+        1 2  |  -.0323792   .0169884    -1.91   0.057    -.0656788    .0009204
+        1 3  |  -.0268514   .0220191    -1.22   0.223    -.0700119    .0163092
+             |
+       _cons |   .1102732   .0111755     9.87   0.000     .0883677    .1321787
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+------------------------------------------------------------+
+        Absorbed FE | Categories  - Redundant  = Num. Coefs |
+--------------------+---------------------------------------|
+               dyad |     13566       13566           0    *|
+   t#destinationifs |      3128           1        3127     |
+        t#sourceifs |      1309          17        1292     |
+------------------------------------------------------------+
+* = FE nested within cluster; treated as redundant for DoF computation
+E:\IHEID Economics\IHEID\Advanced International Economics\presentation\Data for
+>  Changing Global Linkages A New Cold War\PPGT_JIE_replication\tables\TS2.2.xl
+> s
+dir : seeout
+
+.         restore 
+
+.         
+. preserve 
+
+. local time 100
+
+. 
+. drop if sourceifs==924 | destinationifs==924
+(4,950 observations deleted)
+
+. 
+. local inst total
+
+. 
+. foreach in of local inst { 
+  2. local append replace
+  3. 
+.         reghdfe d`in'_share l.`in'_share postwar##i.linksipd2 if t>=`time', a
+> bsorb (dyad t ) cluster(dyad)
+  4.                 outreg2 using "$tables\TS2.2.xls", nocons ctitle(OLS D) bd
+> ec(4) tdec(4) se excel label append addtext(Country-pair FE, Y, Time FE, Y, S
+> ource x Time FE, N, Destination x Time FE, N, Blocs, Wider, Sample, No CN)
+  5.         reghdfe d`in'_share l.`in'_share postwar##i.linksipd2 if t>=`time'
+> , absorb (dyad t#destinationifs t#sourceifs) cluster(dyad)
+  6.                 outreg2 using "$tables\TS2.2.xls", nocons ctitle(OLS D) bd
+> ec(4) tdec(4) se excel label append addtext(Country-pair FE, Y, Time FE, -, S
+> ource x Time FE, Y, Destination x Time FE, Y, Blocs, Wider, Sample, No CN)
+  7. 
+. }
+(MWFE estimator converged in 2 iterations)
+note: 1bn.postwar is probably collinear with the fixed effects (all partialled-
+> out values are close to zero; tol = 1.0e-09)
+note: 2bn.linksipd2 is probably collinear with the fixed effects (all partialle
+> d-out values are close to zero; tol = 1.0e-09)
+note: 3bn.linksipd2 is probably collinear with the fixed effects (all partialle
+> d-out values are close to zero; tol = 1.0e-09)
+
+HDFE Linear regression                            Number of obs   =    230,656
+Absorbing 2 HDFE groups                           F(   3,  13567) =      18.60
+Statistics robust to heteroskedasticity           Prob > F        =     0.0000
+                                                  R-squared       =     0.2214
+                                                  Adj R-squared   =     0.1727
+                                                  Within R-sq.    =     0.2065
+Number of clusters (dyad)    =     13,568         Root MSE        =     1.1875
+
+                              (Std. err. adjusted for 13,568 clusters in dyad)
+------------------------------------------------------------------------------
+             |               Robust
+dtotal_share | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+ total_share |
+         L1. |  -.4083678   .0546913    -7.47   0.000    -.5155703   -.3011653
+             |
+   1.postwar |          0  (omitted)
+             |
+   linksipd2 |
+          2  |          0  (omitted)
+          3  |          0  (omitted)
+             |
+     postwar#|
+   linksipd2 |
+        1 2  |  -.0421591   .0256518    -1.64   0.100    -.0924401    .0081219
+        1 3  |  -.0212314   .0212967    -1.00   0.319     -.062976    .0205131
+             |
+       _cons |   .2137165   .0286899     7.45   0.000     .1574804    .2699526
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-----------------------------------------------------+
+ Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------+---------------------------------------|
+        dyad |     13568       13568           0    *|
+           t |        17           1          16     |
+-----------------------------------------------------+
+* = FE nested within cluster; treated as redundant for DoF computation
+E:\IHEID Economics\IHEID\Advanced International Economics\presentation\Data for
+>  Changing Global Linkages A New Cold War\PPGT_JIE_replication\tables\TS2.2.xl
+> s
+dir : seeout
+(dropped 34 singleton observations)
+(MWFE estimator converged in 5 iterations)
+note: 1bn.postwar is probably collinear with the fixed effects (all partialled-
+> out values are close to zero; tol = 1.0e-09)
+note: 2bn.linksipd2 is probably collinear with the fixed effects (all partialle
+> d-out values are close to zero; tol = 1.0e-09)
+note: 3bn.linksipd2 is probably collinear with the fixed effects (all partialle
+> d-out values are close to zero; tol = 1.0e-09)
+
+HDFE Linear regression                            Number of obs   =    230,622
+Absorbing 3 HDFE groups                           F(   3,  13565) =      18.02
+Statistics robust to heteroskedasticity           Prob > F        =     0.0000
+                                                  R-squared       =     0.2509
+                                                  Adj R-squared   =     0.1875
+                                                  Within R-sq.    =     0.2027
+Number of clusters (dyad)    =     13,566         Root MSE        =     1.1154
+
+                              (Std. err. adjusted for 13,566 clusters in dyad)
+------------------------------------------------------------------------------
+             |               Robust
+dtotal_share | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+ total_share |
+         L1. |  -.3979823   .0543672    -7.32   0.000    -.5045496    -.291415
+             |
+   1.postwar |          0  (omitted)
+             |
+   linksipd2 |
+          2  |          0  (omitted)
+          3  |          0  (omitted)
+             |
+     postwar#|
+   linksipd2 |
+        1 2  |  -.0570424   .0295028    -1.93   0.053     -.114872    .0007872
+        1 3  |   -.035597   .0315171    -1.13   0.259     -.097375    .0261809
+             |
+       _cons |   .2088828    .028245     7.40   0.000     .1535186     .264247
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+------------------------------------------------------------+
+        Absorbed FE | Categories  - Redundant  = Num. Coefs |
+--------------------+---------------------------------------|
+               dyad |     13566       13566           0    *|
+   t#destinationifs |      3128           1        3127     |
+        t#sourceifs |      1309          17        1292     |
+------------------------------------------------------------+
+* = FE nested within cluster; treated as redundant for DoF computation
+E:\IHEID Economics\IHEID\Advanced International Economics\presentation\Data for
+>  Changing Global Linkages A New Cold War\PPGT_JIE_replication\tables\TS2.2.xl
+> s
+dir : seeout
+
+.         restore 
+
+.         
+. 
+end of do-file
+AUDIT_RC GGPT_JIE_portfolio_now.do 0
+AUDIT_BEGIN GGPT_JIE_trade_coldwar.do
+
+. 
+. use "$input\IFScodes_all.dta", replace
+
+. keep eiscode isocode3char name36char
+
+. drop if name36char==""
+(7 observations deleted)
+
+. drop if eiscode<=110
+(38 observations deleted)
+
+. sort name36char 
+
+. merge m:1 name36char using "$input\name36_aggregate.dta"
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                           185
+        from master                       183  (_merge==1)
+        from using                          2  (_merge==2)
+
+    Matched                               235  (_merge==3)
+    -----------------------------------------
+
+. drop if _m==2
+(2 observations deleted)
+
+. drop if aggregates==1
+(136 observations deleted)
+
+. drop _m aggregates
+
+. rename eiscode ifscode
+
+. sort ifscode
+
+. save temp, replace
+file temp.dta saved
+
+. 
+. ** blocs from JDE paper **
+. use "$input\Gokmen_TableA3.dta" , clear
+
+. replace ifscode =183  if country=="Monaco"
+(1 real change made)
+
+. replace ifscode =171  if country=="Andorra"
+(1 real change made)
+
+. replace ifscode =147  if country=="Liechtenstein"
+(1 real change made)
+
+. replace ifscode =928  if country=="Cuba"
+(1 real change made)
+
+. replace ifscode =954  if country=="North Korea"
+(1 real change made)
+
+. merge m:1 ifscode using temp
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                           101
+        from master                         0  (_merge==1)
+        from using                        101  (_merge==2)
+
+    Matched                               181  (_merge==3)
+    -----------------------------------------
+
+. drop if ifscode==.
+(0 observations deleted)
+
+. 
+. replace bloc = 1 if name36=="Belgium-Luxembourg"
+(1 real change made)
+
+. replace bloc = 1 if name36=="Belgium-Luxembourg not specified"
+(1 real change made)
+
+. 
+. replace bloc = 2 if name36=="Czechoslovakia"
+(1 real change made)
+
+. replace bloc = 2 if name36=="Czechoslovakia not specified"
+(1 real change made)
+
+. replace bloc = 2 if name36=="Eastern Germany"
+(1 real change made)
+
+. replace bloc = 2 if name36=="U.S.S.R."
+(1 real change made)
+
+. replace bloc = 2 if name36=="U.S.S.R. not specified"
+(1 real change made)
+
+. 
+. 
+. replace bloc = 3 if name36=="Serbia Montenegro ns"
+(1 real change made)
+
+. replace bloc = 3 if name36=="Serbia and Montenegro"
+(1 real change made)
+
+. replace bloc = 3 if name36=="Montenegro, Republic of"
+(1 real change made)
+
+. replace bloc = 3 if name36=="Kosovo, Republic of"
+(1 real change made)
+
+. replace bloc = 3 if name36=="Yugoslavia not specified"
+(1 real change made)
+
+. replace bloc = 3 if name36=="Yugoslavia, SFR"
+(1 real change made)
+
+. replace bloc = 3 if name36=="Yemen Arab Rep."
+(1 real change made)
+
+. replace bloc = 3 if name36=="Yemen, P.D. Rep."
+(1 real change made)
+
+. rename isocode3char iso3code
+
+. replace iso3code="USSR" if name36=="U.S.S.R."
+variable iso3code was str3 now str4
+(1 real change made)
+
+. replace iso3code="EDEU" if name36=="Eastern Germany"
+(1 real change made)
+
+. drop _merge
+
+. drop if iso3code==""
+(29 observations deleted)
+
+. drop country
+
+. rename name36char country
+
+. sort iso3code
+
+. save temp, replace
+file temp.dta saved
+
+. 
+. *** merge in with the CEPII trade data
+. 
+. use "$input\TRADHIST_v4.dta", replace
+
+. drop if iso_o==""
+(1,501 observations deleted)
+
+. drop if iso_d==""
+(1,502 observations deleted)
+
+. * drop if year<1900
+. drop if iso_o=="ALASKA"
+(172 observations deleted)
+
+. drop if iso_d=="ALASKA"
+(150 observations deleted)
+
+. replace iso_o="CSK" if iso_o=="CZSK"
+(7,899 real changes made)
+
+. replace iso_d="CSK" if iso_d=="CZSK"
+(7,430 real changes made)
+
+. replace iso_o="DEU" if iso_o=="WDEU"
+(7,076 real changes made)
+
+. replace iso_d="DEU" if iso_d=="WDEU"
+(7,389 real changes made)
+
+. replace iso_o="ROU" if iso_o=="ROM"
+(12,859 real changes made)
+
+. replace iso_d="ROU" if iso_d=="ROM"
+(13,694 real changes made)
+
+. replace iso_o="YMN" if iso_o=="YAR"
+(6,331 real changes made)
+
+. replace iso_d="YMN" if iso_d=="YAR"
+(4,227 real changes made)
+
+. 
+. * cocos islands
+. replace iso_o="CCQ" if iso_o=="CCK"
+(34 real changes made)
+
+. replace iso_d="CCQ" if iso_d=="CCK"
+(25 real changes made)
+
+. 
+. * Christmas islands
+. replace iso_o="CXQ" if iso_o=="CXR"
+(222 real changes made)
+
+. replace iso_d="CXQ" if iso_d=="CXR"
+(270 real changes made)
+
+. 
+. * Curacao
+. replace iso_o="CRQ" if iso_o=="CUW"
+(754 real changes made)
+
+. replace iso_d="CRQ" if iso_d=="CUW"
+(780 real changes made)
+
+. 
+. 
+. rename iso_o iso3code
+
+. sort iso3code
+
+. merge m:1 iso3code using temp, keepusing(ifscode blocs iso3code country)
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                        56,350
+        from master                    56,329  (_merge==1)
+        from using                         21  (_merge==2)
+
+    Matched                         2,442,773  (_merge==3)
+    -----------------------------------------
+
+. tab _merge
+
+   Matching result from |
+                  merge |      Freq.     Percent        Cum.
+------------------------+-----------------------------------
+        Master only (1) |     56,329        2.25        2.25
+         Using only (2) |         21        0.00        2.25
+            Matched (3) |  2,442,773       97.75      100.00
+------------------------+-----------------------------------
+                  Total |  2,499,123      100.00
+
+. drop if _m==2
+(21 observations deleted)
+
+. drop _m
+
+. foreach X in ifscode blocs iso3code country {
+  2.                 rename `X' `X'_o
+  3. }
+
+. rename iso3code iso_o
+
+. rename iso_d iso3code
+
+. sort iso3code
+
+. merge m:1 iso3code using temp, keepusing(ifscode blocs iso3code country)
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                        56,629
+        from master                    56,608  (_merge==1)
+        from using                         21  (_merge==2)
+
+    Matched                         2,442,494  (_merge==3)
+    -----------------------------------------
+
+. tab _merge
+
+   Matching result from |
+                  merge |      Freq.     Percent        Cum.
+------------------------+-----------------------------------
+        Master only (1) |     56,608        2.27        2.27
+         Using only (2) |         21        0.00        2.27
+            Matched (3) |  2,442,494       97.73      100.00
+------------------------+-----------------------------------
+                  Total |  2,499,123      100.00
+
+. drop if _m==2
+(21 observations deleted)
+
+. drop _m
+
+. foreach X in ifscode blocs iso3code country {
+  2.                 rename `X' `X'_d
+  3. }
+
+. rename iso3code iso_d
+
+. 
+. replace blocs_o = 3 if iso_o=="AUTHUN"
+(3,172 real changes made)
+
+. replace blocs_d = 3 if iso_d=="AUTHUN"
+(3,429 real changes made)
+
+. 
+. * part of yemen
+. replace blocs_o = 3 if iso_o=="ADEN"
+(1,545 real changes made)
+
+. replace blocs_d = 3 if iso_d=="ADEN"
+(1,383 real changes made)
+
+. 
+. ** British India, Portuguese India
+. replace blocs_o = 3 if iso_o=="GBRIND" | iso_o=="PRTIND"
+(14,201 real changes made)
+
+. replace blocs_d = 3 if iso_d=="GBRIND" | iso_d=="PRTIND"
+(14,718 real changes made)
+
+. 
+. ** Spanish Morocco
+. replace blocs_o = 3 if iso_o=="MARESP" 
+(735 real changes made)
+
+. replace blocs_d = 3 if iso_d=="MARESP" 
+(597 real changes made)
+
+. 
+. ** Tangiers - part of morocco
+. replace blocs_o = 3 if iso_o=="TANGER" 
+(634 real changes made)
+
+. replace blocs_d = 3 if iso_d=="TANGER" 
+(492 real changes made)
+
+. 
+. ** The various parts of south africa
+. replace blocs_o = 3 if iso_o=="ZAFCAP" | iso_o=="ZAFNAT"  | iso_o=="ZAFORA" |
+>  iso_o=="ZAFTRA"
+(2,037 real changes made)
+
+. replace blocs_d = 3 if iso_d=="ZAFCAP" | iso_d=="ZAFNAT"  | iso_d=="ZAFORA"  
+> | iso_d=="ZAFTRA"
+(2,321 real changes made)
+
+. 
+. ** British somalia
+. replace blocs_o = 3 if iso_o=="GBRSOM" 
+(2,763 real changes made)
+
+. replace blocs_d = 3 if iso_d=="GBRSOM"
+(2,844 real changes made)
+
+. 
+. ** Zanzibar - part of Tanzania
+. replace blocs_o = 3 if iso_o=="ZANZ" 
+(1,113 real changes made)
+
+. replace blocs_d = 3 if iso_d=="ZANZ"
+(1,097 real changes made)
+
+. 
+. ** Barbary states - current Morocco, Algiers, Libya
+. replace blocs_o = 3 if iso_o=="BARBAR" 
+(125 real changes made)
+
+. replace blocs_d = 3 if iso_d=="BARBAR"
+(122 real changes made)
+
+. 
+. 
+. ** Straits settlements became part of Malaysia
+. replace blocs_o = 3 if iso_o=="STRAITS" 
+(1,529 real changes made)
+
+. replace blocs_d = 3 if iso_d=="STRAITS"
+(1,562 real changes made)
+
+. 
+. ** French mandate for Syria and Lebanon
+. replace blocs_o = 3 if iso_o=="SYRLBN" 
+(310 real changes made)
+
+. replace blocs_d = 3 if iso_d=="SYRLBN"
+(172 real changes made)
+
+. 
+. 
+. ** Borneo
+. replace blocs_o = 3 if iso_o=="GBRBORNEO" 
+(937 real changes made)
+
+. replace blocs_d = 3 if iso_d=="GBRBORNEO"
+(700 real changes made)
+
+. 
+. 
+. ** the Ottoman empire - assign to western bloc because of turkey
+. replace blocs_o = 1 if iso_o=="OTTO" 
+(1,494 real changes made)
+
+. replace blocs_d = 1 if iso_d=="OTTO" 
+(1,508 real changes made)
+
+. 
+. replace blocs_o = 1 if iso_o=="VAT"
+(41 real changes made)
+
+. replace blocs_d = 1 if iso_d=="VAT"
+(40 real changes made)
+
+. 
+. replace blocs_o = 1 if iso_o=="TRIEST"
+(499 real changes made)
+
+. replace blocs_d = 1 if iso_d=="TRIEST"
+(385 real changes made)
+
+. 
+. replace blocs_o = 1 if iso_o=="SWENOR"
+(269 real changes made)
+
+. replace blocs_d = 1 if iso_d=="SWENOR"
+(106 real changes made)
+
+. 
+. replace blocs_o = 1 if iso_o=="ALSLOR"
+(235 real changes made)
+
+. replace blocs_d = 1 if iso_d=="ALSLOR"
+(261 real changes made)
+
+. 
+. replace blocs_o = 1 if iso_o=="CANQBCONT"
+(23 real changes made)
+
+. replace blocs_d = 1 if iso_d=="CANQBCONT"
+(17 real changes made)
+
+. 
+. replace blocs_o = 1 if iso_o=="NFLD"
+(1,744 real changes made)
+
+. replace blocs_d = 1 if iso_d=="NFLD"
+(1,436 real changes made)
+
+. 
+. replace blocs_o = 1 if iso_o=="ROME"
+(289 real changes made)
+
+. replace blocs_d = 1 if iso_d=="ROME"
+(256 real changes made)
+
+. 
+. replace blocs_o = 1 if iso_o=="SARD"
+(189 real changes made)
+
+. replace blocs_d = 1 if iso_d=="SARD"
+(178 real changes made)
+
+. 
+. replace blocs_o = 1 if iso_o=="TUSC"
+(161 real changes made)
+
+. replace blocs_d = 1 if iso_d=="TUSC"
+(151 real changes made)
+
+. 
+. replace blocs_o = 1 if iso_o=="UKNLD"
+(11 real changes made)
+
+. replace blocs_d = 1 if iso_d=="UKNLD"
+(11 real changes made)
+
+. 
+. replace blocs_o = 1 if iso_o=="2SICIL"
+(175 real changes made)
+
+. replace blocs_d = 1 if iso_d=="2SICIL"
+(168 real changes made)
+
+. 
+. replace blocs_o = 1 if iso_o=="AUSNSW"
+(744 real changes made)
+
+. replace blocs_d = 1 if iso_d=="AUSNSW"
+(817 real changes made)
+
+. 
+. replace blocs_o = 1 if iso_o=="AUSQUE"
+(430 real changes made)
+
+. replace blocs_d = 1 if iso_d=="AUSQUE"
+(533 real changes made)
+
+. 
+. replace blocs_o = 1 if iso_o=="AUSSTH"
+(565 real changes made)
+
+. replace blocs_d = 1 if iso_d=="AUSSTH"
+(668 real changes made)
+
+. 
+. replace blocs_o = 1 if iso_o=="AUSTAS"
+(394 real changes made)
+
+. replace blocs_d = 1 if iso_d=="AUSTAS"
+(478 real changes made)
+
+. 
+. replace blocs_o = 1 if iso_o=="AUSVIC"
+(617 real changes made)
+
+. replace blocs_d = 1 if iso_d=="AUSVIC"
+(1,050 real changes made)
+
+. 
+. replace blocs_o = 1 if iso_o=="AUSWST"
+(474 real changes made)
+
+. replace blocs_d = 1 if iso_d=="AUSWST"
+(583 real changes made)
+
+. 
+. * Madeira - part of Portugal
+. replace blocs_o = 1 if iso_o=="MADEIRA"
+(689 real changes made)
+
+. replace blocs_d = 1 if iso_d=="MADEIRA"
+(722 real changes made)
+
+. 
+. * Azores - part of Portugal
+. replace blocs_o = 1 if iso_o=="AZORES"
+(672 real changes made)
+
+. replace blocs_d = 1 if iso_d=="AZORES"
+(630 real changes made)
+
+. 
+. * Canary Islands - part of Spain
+. replace blocs_o = 1 if iso_o=="CANARY"
+(1,241 real changes made)
+
+. replace blocs_d = 1 if iso_d=="CANARY"
+(1,018 real changes made)
+
+. 
+. * LUBECK - city in Germany 
+. replace blocs_o = 1 if iso_o=="LUBECK"
+(605 real changes made)
+
+. replace blocs_d = 1 if iso_d=="LUBECK"
+(547 real changes made)
+
+. 
+. * Assign Bermuda to western bloc
+. replace blocs_o = 1 if iso_o=="BMU"
+(16,279 real changes made)
+
+. replace blocs_d = 1 if iso_d=="BMU"
+(15,115 real changes made)
+
+. 
+. * Assign Saint Helena (british overseas territory) to western bloc
+. replace blocs_o = 1 if iso_o=="SHN"
+(15,581 real changes made)
+
+. replace blocs_d = 1 if iso_d=="SHN"
+(7,450 real changes made)
+
+. 
+. * Assign Cayman islands (british overseas territory) to western bloc
+. replace blocs_o = 1 if iso_o=="CYM"
+(1,861 real changes made)
+
+. replace blocs_d = 1 if iso_d=="CYM"
+(1,148 real changes made)
+
+. 
+. replace blocs_o = 1 if iso_o=="AUSWST"
+(0 real changes made)
+
+. replace blocs_d = 1 if iso_d=="AUSWST"
+(0 real changes made)
+
+. 
+. * Assign Hong Kong to western bloc
+. replace blocs_o = 1 if iso_o=="HKG"
+(13,232 real changes made)
+
+. replace blocs_d = 1 if iso_d=="HKG"
+(14,016 real changes made)
+
+. 
+. * Assign Channel Islands to western bloc
+. replace blocs_o = 1 if iso_o=="CHISL"
+(787 real changes made)
+
+. replace blocs_d = 1 if iso_d=="CHISL"
+(738 real changes made)
+
+. 
+. * assign Indochina to bloc2
+. replace blocs_o = 2 if iso_o=="INDOCHI"
+(1,081 real changes made)
+
+. replace blocs_d = 2 if iso_d=="INDOCHI"
+(1,179 real changes made)
+
+. 
+. * assign Kwantung leased territory to bloc2
+. replace blocs_o = 2 if iso_o=="KWANTU"
+(424 real changes made)
+
+. replace blocs_d = 2 if iso_d=="KWANTU"
+(501 real changes made)
+
+. 
+. * MANCHU
+. replace blocs_o = 2 if iso_o=="MANCHU" 
+(538 real changes made)
+
+. replace blocs_d = 2 if iso_d=="MANCHU" 
+(512 real changes made)
+
+. 
+. * Mecklenburg = part of east germany
+. replace blocs_o = 2 if iso_o=="MECKL" 
+(694 real changes made)
+
+. replace blocs_d = 2 if iso_d=="MECKL"
+(638 real changes made)
+
+. 
+. gen tradetype = 1 if blocs_o==1 & blocs_d==1
+(2,400,788 missing values generated)
+
+. replace tradetype = 2 if blocs_o==2 & blocs_d==2
+(23,681 real changes made)
+
+. replace tradetype = 3 if blocs_o==3 & blocs_d==3
+(962,793 real changes made)
+
+. replace tradetype = 4 if (blocs_o==1 & blocs_d==2) | (blocs_o==2 & blocs_d==1
+> )
+(85,439 real changes made)
+
+. replace tradetype = 5 if (blocs_o==1 & blocs_d==3) | (blocs_o==3 & blocs_d==1
+> )
+(566,887 real changes made)
+
+. replace tradetype = 6 if (blocs_o==2 & blocs_d==3) | (blocs_o==3 & blocs_d==2
+> )
+(288,899 real changes made)
+
+. 
+. gen n=1 if FLOW!=.
+(599,487 missing values generated)
+
+. 
+. save "TRADHIST_blocs.dta", replace
+file TRADHIST_blocs.dta saved
+
+. *****************************************************************************
+> ***
+. 
+. drop FLOW_0-GATT_d
+
+. gen l1trade = ln(FLOW+sqrt(1+FLOW^2))
+(599,487 missing values generated)
+
+. gen ltrade = ln(FLOW)
+(1,401,092 missing values generated)
+
+. gen FLOW1 = 1+FLOW
+(599,487 missing values generated)
+
+. 
+. gen id_ifs = iso_o+iso_d
+
+. tostring year, gen(yyy)
+yyy generated as str4
+
+. gen iso_o_year = iso_o+yyy
+
+. gen iso_d_year = iso_d+yyy
+
+. gen between = 0
+
+. replace between = 1 if tradetype==4
+(85,439 real changes made)
+
+. gen una = 0 
+
+. replace una = 1 if blocs_o==3 | blocs_d==3
+(2,120,834 real changes made)
+
+. 
+. encode iso_o, gen(c_o)
+
+. encode iso_d, gen(c_d)
+
+. replace between=. if tradetype==.
+(473,089 real changes made, 473,089 to missing)
+
+. 
+. gen coldwar = (year>=1947 & year<=1991)
+
+. gen btw_coldwar = between*coldwar
+(473,089 missing values generated)
+
+. gen una_coldwar = una*coldwar
+
+. 
+. forvalue y=1920/1990 {
+  2.                 gen d`y' = (year==`y')
+  3.                 gen btw_y`y' = between*d`y'
+  4.                 gen una_y`y' = una*d`y'
+  5.                 drop d`y'
+  6. }
+(473,089 missing values generated)
+(473,089 missing values generated)
+(473,089 missing values generated)
+(473,089 missing values generated)
+(473,089 missing values generated)
+(473,089 missing values generated)
+(473,089 missing values generated)
+(473,089 missing values generated)
+(473,089 missing values generated)
+(473,089 missing values generated)
+(473,089 missing values generated)
+(473,089 missing values generated)
+(473,089 missing values generated)
+(473,089 missing values generated)
+(473,089 missing values generated)
+(473,089 missing values generated)
+(473,089 missing values generated)
+(473,089 missing values generated)
+(473,089 missing values generated)
+(473,089 missing values generated)
+(473,089 missing values generated)
+(473,089 missing values generated)
+(473,089 missing values generated)
+(473,089 missing values generated)
+(473,089 missing values generated)
+(473,089 missing values generated)
+(473,089 missing values generated)
+(473,089 missing values generated)
+(473,089 missing values generated)
+(473,089 missing values generated)
+(473,089 missing values generated)
+(473,089 missing values generated)
+(473,089 missing values generated)
+(473,089 missing values generated)
+(473,089 missing values generated)
+(473,089 missing values generated)
+(473,089 missing values generated)
+(473,089 missing values generated)
+(473,089 missing values generated)
+(473,089 missing values generated)
+(473,089 missing values generated)
+(473,089 missing values generated)
+(473,089 missing values generated)
+(473,089 missing values generated)
+(473,089 missing values generated)
+(473,089 missing values generated)
+(473,089 missing values generated)
+(473,089 missing values generated)
+(473,089 missing values generated)
+(473,089 missing values generated)
+(473,089 missing values generated)
+(473,089 missing values generated)
+(473,089 missing values generated)
+(473,089 missing values generated)
+(473,089 missing values generated)
+(473,089 missing values generated)
+(473,089 missing values generated)
+(473,089 missing values generated)
+(473,089 missing values generated)
+(473,089 missing values generated)
+(473,089 missing values generated)
+(473,089 missing values generated)
+(473,089 missing values generated)
+(473,089 missing values generated)
+(473,089 missing values generated)
+(473,089 missing values generated)
+(473,089 missing values generated)
+(473,089 missing values generated)
+(473,089 missing values generated)
+(473,089 missing values generated)
+(473,089 missing values generated)
+
+. 
+. order iso_o-una_coldwar btw* una*
+
+. gen trade = FLOW
+(599,487 missing values generated)
+
+. 
+. encode id_ifs, gen (nid_ifs)
+
+. tsset nid_ifs year
+
+Panel variable: nid_ifs (unbalanced)
+ Time variable: year, 1827 to 2014, but with gaps
+         Delta: 1 unit
+
+. gen dl1trade = d.l1trade
+(675,055 missing values generated)
+
+. gen dltrade = d.ltrade
+(1,513,447 missing values generated)
+
+. drop if year<1920
+(218,554 observations deleted)
+
+. drop if year>1990
+(915,237 observations deleted)
+
+. 
+. 
+. ** Regression for Figure 3 **
+.         cap drop btwpre
+
+.         gen btwpre = 0
+
+.         replace btwpre = 1 if between==1 & year<=1946
+(8,295 real changes made)
+
+.         cap drop unapre
+
+.         gen unapre = 0
+
+.         replace unapre = 1 if una==1 & year<=1946
+(100,741 real changes made)
+
+. 
+. ppmlhdfe trade btwpre unapre btw_y1948-btw_y1990 una_y1948-una_y1990 l.trade 
+> if year>=1920 & year<1939 | year>1945, absorb(id_ifs iso_o_year iso_d_year) c
+> luster(id_ifs)
+command ppmlhdfe is unrecognized
+r(199);
+
+end of do-file
+AUDIT_RC GGPT_JIE_trade_coldwar.do 199
+AUDIT_BEGIN GGPT_JIE_FS1.1.do
+
+. 
+. ** Figure S1.1, panel A **
+. 
+. ** Import the latest data 
+. ** Get the latest file from here: https://intlmonetaryfund.sharepoint.com/tea
+> ms/SPRHome/SPRXP/SitePages/Trade%20Monitor.aspx
+. 
+. import excel "$input\GGPT_tables.xlsx", sheet("dataFS1.1A") firstrow clear
+(4 vars, 16 obs)
+
+. drop if year==2024
+(1 observation deleted)
+
+. graph bar Goods Investments Services, over (year, label(labsize(medsmall))) s
+> tack xsize(6) ///
+>                 bar(1, lc(black) lw(thin) c(midblue%90)) ///
+>                 bar(2, lc(black) lw(thin) c(gold%90)) ///
+>                 bar(3, lc(black) lw(thin) c(cranberry%90)) ///
+>                 ylabel(, angle(0) labsize(small) format(%9.0f)) ///
+>                 ytitle("Number of harmful restrictions", size(medsmall))  ///
+>                 graphregion(color(white)) plotregion(color(white))  bgcolor(w
+> hite)  ///
+>                 legend(order(1 2 3) lab(3 "Services") lab(2 "Investments") la
+> b(1 "Goods")  size(medsmall) row(3) pos(10) ring(0) region(lstyle(none) fcolo
+> r(none) lcolor(none)))
+
+.                 graph export "$charts\FS1.1A.png", as(png) replace
+file E:\IHEID Economics\IHEID\Advanced International
+    Economics\presentation\Data for Changing Global Linkages A New Cold
+    War\PPGT_JIE_replication\charts\FS1.1A.png saved as PNG format
+
+. 
+.                 
+.                 
+. ** Figure S1.1, panel B **
+.                 
+. ** Import the Caldara Iacoviello and go from monthly to quarterly **
+. ** Get the latest (monthly) dta from here: https://www.matteoiacoviello.com/g
+> pr.htm
+. use "$input\data_gpr_export.dta", clear
+
+. gen q = quarter(dofm(month))
+
+. gen y = year(dofm(month))
+
+. keep month y q GPR
+
+. 
+. gen t =yq(y,q)
+
+. keep if y>=2000
+(1,200 observations deleted)
+
+. collapse (mean) GPR, by(t)
+
+. format %tq t
+
+. save "$input\GPR_q", replace
+file E:\IHEID Economics\IHEID\Advanced International
+    Economics\presentation\Data for Changing Global Linkages A New Cold
+    War\PPGT_JIE_replication\data\GPR_q.dta saved
+
+. 
+. ** Import the fragmentation keyword index **
+. ** Data are from NL Analytics
+. import excel "$input\GGPT_tables.xlsx", sheet("dataFS1.1B") firstrow clear
+(2 vars, 78 obs)
+
+. split period, parse("q")
+variables created as string: 
+period1  period2
+
+. destring period1, gen(y)
+period1: all characters numeric; y generated as int
+(1 missing value generated)
+
+. destring period2, gen(q)
+period2: all characters numeric; q generated as byte
+(1 missing value generated)
+
+. gen t =yq(y,q)
+(1 missing value generated)
+
+. format %tq t
+
+. rename exposure_n FKI
+
+. keep t FKI
+
+. drop if t==.
+(1 observation deleted)
+
+. save "$input\FKI_q.dta", replace
+file E:\IHEID Economics\IHEID\Advanced International
+    Economics\presentation\Data for Changing Global Linkages A New Cold
+    War\PPGT_JIE_replication\data\FKI_q.dta saved
+
+. 
+. ** Chart fragmentation and geopolitical risk **
+. use "$input\GPR_q", clear
+
+. merge 1:1 t using "$input\FKI_q"
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                            22
+        from master                        22  (_merge==1)
+        from using                          0  (_merge==2)
+
+    Matched                                77  (_merge==3)
+    -----------------------------------------
+
+. keep if _m==3
+(22 observations deleted)
+
+. drop _m
+
+. 
+. foreach x of varlist GPR FKI {
+  2.         gen `x'_tmp = `x' if t==220
+  3.         egen `x'_den = max(`x'_tmp)
+  4.         gen `x'_norm = 100*`x'/`x'_den
+  5. }
+(76 missing values generated)
+(76 missing values generated)
+
+. 
+.                 twoway  (line GPR_norm t, lcolor(blue) ///
+>                                 lpattern(solid) lwidth(medthick) xsize(6)) //
+> / 
+>                                 (line FKI_norm t, yaxis(2) lwidth(medthick) l
+> color(red) lp(solid )), ///
+>                                 title(" ", color(black) size(medsmall)) ///
+>                                 ytitle("Geopolitical risk index (2015:q1=100)
+> ", size(medsmall)) ///
+>                                 ytitle("Fragmentation keyword index (2015:q1=
+> 100)", size(medsmall) axis(2)) ///
+>                                 xtitle(" ", size(medsmall)) ///
+>                                 xlabel(#10, angle(0) labsize(small)) ///
+>                                 ylabel(, angle(0) labsize(small) format(%9.0f
+> )) ///
+>                                 ylabel(, angle(0) labsize(small) format(%9.0f
+> ) axis(2)) ///
+>                                 graphregion(color(white)) plotregion(color(wh
+> ite))  bgcolor(white) ///
+>                                 legend(order(1 2) lab(1 "Geopolitical risk in
+> dex") lab(2 "Fragmentation keywork index") size(medsmall) row(2) pos(10) ring
+> (0) region(lstyle(none) fcolor(none) lcolor(none)))
+
+.                 graph export "$charts\FS1.1B.png", as(png) replace
+file E:\IHEID Economics\IHEID\Advanced International
+    Economics\presentation\Data for Changing Global Linkages A New Cold
+    War\PPGT_JIE_replication\charts\FS1.1B.png saved as PNG format
+
+. 
+. 
+end of do-file
+AUDIT_RC GGPT_JIE_FS1.1.do 0
+AUDIT_BEGIN GGPT_JIE_FS1.2.do
+
+. 
+. ** Figure S1.2, panels A and B **
+. ** To get the underlying data, look at "GGPT_JIE_trade_now.do" and "GGPT_JIE_
+> trade_coldwar" **
+. 
+. import excel "$input\GGPT_tables.xlsx", sheet("chart_trade_2017") firstrow cl
+> ear
+(5 vars, 29 obs)
+
+. gen Zero = 0
+
+. gen l_btw = b_btw - 1.645*se_btw
+
+. gen h_btw = b_btw + 1.645*se_btw
+
+. gen l_una = b_una - 1.645*se_una
+
+. gen h_una = b_una + 1.645*se_una
+
+. format %tq tq
+
+. 
+.                         twoway ///
+>                                         (rarea l_btw h_btw tq,  ///
+>                                         fcolor(eltblue%30) lcolor(gs13) lw(no
+> ne) lpattern(solid)) ///
+>                                         (line b_btw tq, lcolor(blue) ///
+>                                         lpattern(solid) lwidth(thick)) /// 
+>                                         (line Zero tq, lcolor(black)), xsize(
+> 6) ///
+>                                         legend(off) xline(248) ///
+>                                         title(" ", color(black) size(medsmall
+> )) ///
+>                                         ytitle("Trade semi-elasticity for flo
+> ws between blocs", size(medsmall)) ///
+>                                         xtitle(" ", size(medsmall)) ///
+>                                         xlabel(228(4)252 256, angle(0) labsiz
+> e(small)) ylabel(-.3(.1).2, angle(0) labsize(small) format(%9.1f)) ///
+>                                         graphregion(color(white)) plotregion(
+> color(white))  bgcolor(white) ///
+>                                         text(-0.2 248 "Russia's invasion of U
+> kraine", size(small) place(w)) 
+
+.                 graph export "$charts\FS1.2A.png", as(png) replace
+file E:\IHEID Economics\IHEID\Advanced International
+    Economics\presentation\Data for Changing Global Linkages A New Cold
+    War\PPGT_JIE_replication\charts\FS1.2A.png saved as PNG format
+
+. 
+.                         twoway ///
+>                                         (rarea l_una h_una tq,  ///
+>                                         fcolor(cranberry%20) lcolor(gs13) lw(
+> none) lpattern(solid)) ///
+>                                         (line b_una tq, lcolor(cranberry) ///
+>                                         lpattern(solid) lwidth(thick)) /// 
+>                                         (line Zero tq, lcolor(black)), xsize(
+> 6) ///
+>                                         legend(off) xline(248) ///
+>                                         title(" ", color(black) size(medsmall
+> )) ///
+>                                         ytitle("Trade semi-elasticity for flo
+> ws with nonaligned", size(medsmall)) ///
+>                                         xtitle(" ", size(medsmall)) ///
+>                                         xlabel(228(4)252 256, angle(0) labsiz
+> e(small)) ylabel(-.3(.1).2, angle(0) labsize(small) format(%9.1f)) ///
+>                                         graphregion(color(white)) plotregion(
+> color(white))  bgcolor(white) ///
+>                                         text(-0.15 248 "Russia's invasion of 
+> Ukraine", size(small) place(w)) 
+
+.                 graph export "$charts\FS1.2B.png", as(png) replace
+file E:\IHEID Economics\IHEID\Advanced International
+    Economics\presentation\Data for Changing Global Linkages A New Cold
+    War\PPGT_JIE_replication\charts\FS1.2B.png saved as PNG format
+
+.                                 
+.                                 
+.                                 
+. ** Figure S1.2, panels C and D **
+. ** To get the underlying data, look at "GGPT_JIE_trade_coldwar.do" (rows 321-
+> 322) 
+. 
+. import excel "$input\GGPT_tables.xlsx", sheet("chart_trade_coldwar") firstrow
+>  clear
+(7 vars, 70 obs)
+
+. gen Zero = 0
+
+. rename b b_btw 
+
+. rename l l_btw 
+
+. rename h h_btw
+
+. rename b_u b_una 
+
+. rename l_u l_una 
+
+. rename h_u h_una
+
+. 
+. 
+. cap drop upper
+
+. generate upper = 2.5
+
+. cap drop upper2
+
+. generate upper2 = 0.5
+
+. 
+. local ww upper y if inrange(y, 1939, 1945), bcolor(gs12%40) base(-2.5)
+
+. local ww2 upper2 y if inrange(y, 1939, 1945), bcolor(gs12%40) base(-2.5)
+
+. 
+.                         twoway  (bar `ww' )  ///
+>                                         (rarea l_btw h_btw y,  ///
+>                                         fcolor(eltblue%30) lcolor(gs13) lw(no
+> ne) lpattern(solid)) ///
+>                                         (line b_btw y, lcolor(blue) ///
+>                                         lpattern(solid) lwidth(thick)) /// 
+>                                         (line Zero y, lcolor(black)), xsize(6
+> ) ///
+>                                         legend(off) xline(1947) ///
+>                                         title(" ", color(black) size(medsmall
+> )) ///
+>                                         ytitle("Trade semi-elasticity for flo
+> ws between blocs", size(medsmall)) ///
+>                                         xtitle(" ", size(medsmall)) ///
+>                                         xlabel(1920(10)1990, angle(0) labsize
+> (small)) ylabel(-2.5(1)2.5, angle(0) labsize(small) format(%9.1f)) ///
+>                                         graphregion(color(white)) plotregion(
+> color(white))  bgcolor(white) ///
+>                                         text(-2 1938.5 "WW2", size(small) pla
+> ce(e)) ///
+>                                         text(-2 1960 "Cold War", size(small) 
+> place(e))
+
+.                 graph export "$charts\FS1.2C.png", as(png) replace
+file E:\IHEID Economics\IHEID\Advanced International
+    Economics\presentation\Data for Changing Global Linkages A New Cold
+    War\PPGT_JIE_replication\charts\FS1.2C.png saved as PNG format
+
+. 
+.                         twoway  (bar `ww' ) ///
+>                                         (rarea l_una h_una y,  ///
+>                                         fcolor(cranberry%20) lcolor(gs13) lw(
+> none) lpattern(solid)) ///
+>                                         (line b_una y, lcolor(cranberry) ///
+>                                         lpattern(solid) lwidth(thick)) /// 
+>                                         (line Zero y, lcolor(black)), xsize(6
+> ) ///
+>                                         legend(off) xline(1947) ///
+>                                         title(" ", color(black) size(medsmall
+> )) ///
+>                                         ytitle("Trade semi-elasticity for flo
+> ws with nonaligned", size(medsmall)) ///
+>                                         xtitle(" ", size(medsmall)) ///
+>                                         xlabel(1920(10)1990, angle(0) labsize
+> (small)) ylabel(-2.5(1)2.5, angle(0) labsize(small) format(%9.1f)) ///
+>                                         graphregion(color(white)) plotregion(
+> color(white))  bgcolor(white) ///
+>                                         text(2 1938.5 "WW2", size(small) plac
+> e(e)) ///
+>                                         text(2 1960 "Cold War", size(small) p
+> lace(e))
+
+.                 graph export "$charts\FS1.2D.png", as(png) replace
+file E:\IHEID Economics\IHEID\Advanced International
+    Economics\presentation\Data for Changing Global Linkages A New Cold
+    War\PPGT_JIE_replication\charts\FS1.2D.png saved as PNG format
+
+.         
+.         
+. 
+.         
+. 
+end of do-file
+AUDIT_RC GGPT_JIE_FS1.2.do 0
+AUDIT_BEGIN GGPT_JIE_FS1.3.do
+
+. 
+. use  "$input/qrtrly_for_fragmentation_updated.dta", clear
+
+. 
+. tostring time, gen(t00)
+t00 generated as str6
+
+. 
+. gen str ifs1time = substr(ndyad, 1, 3)+t00
+
+. gen str ifs2time = substr(ndyad, 4, 3)+t00
+
+. 
+. drop t00
+
+. forvalue X = 228/256 {
+  2.         gen tm`X' = (yq==`X')
+  3. 
+. }
+
+.         foreach y in btw3 una3 btwalt3 unaalt3 btwCM3 unaCM3 {
+  2.         forvalue X = 228/256 {
+  3.                 gen `y'_tm`X' = `y'*tm`X'
+  4.         }
+  5.         }
+(27,745 missing values generated)
+(27,745 missing values generated)
+(27,745 missing values generated)
+(27,745 missing values generated)
+(27,745 missing values generated)
+(27,745 missing values generated)
+(27,745 missing values generated)
+(27,745 missing values generated)
+(27,745 missing values generated)
+(27,745 missing values generated)
+(27,745 missing values generated)
+(27,745 missing values generated)
+(27,745 missing values generated)
+(27,745 missing values generated)
+(27,745 missing values generated)
+(27,745 missing values generated)
+(27,745 missing values generated)
+(27,745 missing values generated)
+(27,745 missing values generated)
+(27,745 missing values generated)
+(27,745 missing values generated)
+(27,745 missing values generated)
+(27,745 missing values generated)
+(27,745 missing values generated)
+(27,745 missing values generated)
+(27,745 missing values generated)
+(27,745 missing values generated)
+(27,745 missing values generated)
+(27,745 missing values generated)
+(27,745 missing values generated)
+(27,745 missing values generated)
+(27,745 missing values generated)
+(27,745 missing values generated)
+(27,745 missing values generated)
+(27,745 missing values generated)
+(27,745 missing values generated)
+(27,745 missing values generated)
+(27,745 missing values generated)
+(27,745 missing values generated)
+(27,745 missing values generated)
+(27,745 missing values generated)
+(27,745 missing values generated)
+(27,745 missing values generated)
+(27,745 missing values generated)
+(27,745 missing values generated)
+(27,745 missing values generated)
+(27,745 missing values generated)
+(27,745 missing values generated)
+(27,745 missing values generated)
+(27,745 missing values generated)
+(27,745 missing values generated)
+(27,745 missing values generated)
+(27,745 missing values generated)
+(27,745 missing values generated)
+(27,745 missing values generated)
+(27,745 missing values generated)
+(27,745 missing values generated)
+(27,745 missing values generated)
+
+. 
+.         tsset 
+
+Panel variable: dyad (unbalanced)
+ Time variable: yq, 228 to 256, but with gaps
+         Delta: 1 unit
+
+.         
+. 
+. ** Figure S1.3 **
+. 
+. preserve 
+
+. keep if (iso_rpt1 =="RUS" & iso_rpt2 =="CHN") | (iso_rpt2 =="RUS" & iso_rpt1 
+> =="CHN")
+(318,495 observations deleted)
+
+. sort yq 
+
+. rename total_trade tradeCN
+
+. keep yq tradeCN
+
+. tempfile tradeCN 
+
+. save `tradeCN'
+file C:\Windows\Temp\ST_84b4_000002.tmp saved as .dta format
+
+. restore 
+
+. 
+. preserve 
+
+. keep if (iso_rpt1 =="USA" & iso_rpt2 =="RUS") | (iso_rpt2 =="USA" & iso_rpt1 
+> =="RUS")
+(318,495 observations deleted)
+
+. sort yq 
+
+. rename total_trade tradeUS
+
+. keep yq tradeUS
+
+. tempfile tradeUS 
+
+. save `tradeUS'
+file C:\Windows\Temp\ST_84b4_000004.tmp saved as .dta format
+
+. restore 
+
+. 
+. preserve 
+
+. rename iso_rpt1 iso_rpt
+
+. merge m:1 iso_rpt using "$input\blocs.dta", keepusing(ea)
+(label lab_bloc already defined)
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                             1
+        from master                         0  (_merge==1)
+        from using                          1  (_merge==2)
+
+    Matched                           318,524  (_merge==3)
+    -----------------------------------------
+
+. drop _m
+
+. rename ea ea1 
+
+. rename iso_rpt iso_rpt1
+
+. rename iso_rpt2 iso_rpt
+
+. merge m:1 iso_rpt using "$input\blocs.dta", keepusing(ea)
+(label lab_bloc already defined)
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                             2
+        from master                         1  (_merge==1)
+        from using                          1  (_merge==2)
+
+    Matched                           318,524  (_merge==3)
+    -----------------------------------------
+
+. drop _m
+
+. rename ea ea2 
+
+. rename iso_rpt iso_rpt2
+
+. keep if (ea1 ==1 & iso_rpt2 =="RUS") | (ea2 ==1 & iso_rpt1 =="RUS")
+(317,975 observations deleted)
+
+. sort yq 
+
+. collapse (sum) total_trade, by(yq) 
+
+. rename total_trade tradeEA
+
+. keep yq tradeEA
+
+. tempfile tradeEA
+
+. save `tradeEA'
+file C:\Windows\Temp\ST_84b4_000006.tmp saved as .dta format
+
+. restore 
+
+. 
+. 
+. preserve
+
+. keep if  iso_rpt2 =="RUS" |  iso_rpt1 =="RUS"
+(314,012 observations deleted)
+
+. collapse (sum) total_trade, by(yq)
+
+. sort yq 
+
+. merge 1:1 yq using `tradeCN'
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                             0
+    Matched                                29  (_merge==3)
+    -----------------------------------------
+
+. drop _m
+
+. merge 1:1 yq using `tradeUS'
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                             0
+    Matched                                29  (_merge==3)
+    -----------------------------------------
+
+. drop _m
+
+. merge 1:1 yq using `tradeEA'
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                             0
+    Matched                                29  (_merge==3)
+    -----------------------------------------
+
+. drop _m
+
+. gen shareUS = 100*tradeUS/total_trade
+
+. gen shareCN = 100*tradeCN/total_trade
+
+. gen shareEA = 100*tradeEA/total_trade
+
+. sort yq
+
+. 
+. cap drop upper
+
+. generate upper = 42
+
+. local cw upper yq if inrange(yq, 248, 256), bcolor(gs12%30) base(0)
+
+. 
+. 
+. format yq %tq
+
+. twoway (bar `cw' ) ///
+>         (line shareCN shareUS shareEA yq, lw(medthick medthick medthick) lp(s
+> olid solid solid) ///
+>         lc(blue black cranberry) ytitle("Share of Russia's goods trade with:"
+> ) xtitle("") xsize(6) ///
+>         graphregion(color(white)) plotregion(color(white))  bgcolor(white) //
+> /
+>         xlabel(228(4)252 256, angle(0) labsize(small)) ///
+>         ylabel(0(10)40, angle(0) labsize(small) format(%9.0f)) ///
+>         xline(248, lc(black) lp(dash)) ///
+>         text(7 248.5 "Russia's invasion" "of Ukraine", size(small) place(e) c
+> olor(black)) ///
+>         text(18 232 "China", size(medsmall) place(w)  color(blue)) ///
+>         text(7 240 "United States", size(medsmall) place(c)  color(black)) //
+> /
+>         text(31 245 "Euro area", size(medsmall) place(c)  color(cranberry)) /
+> //
+>         legend(off) )
+
+. graph export "$charts\FS1.3.png", as(png) replace               
+file E:\IHEID Economics\IHEID\Advanced International
+    Economics\presentation\Data for Changing Global Linkages A New Cold
+    War\PPGT_JIE_replication\charts\FS1.3.png saved as PNG format
+
+.         
+.         
+.         
+. 
+end of do-file
+AUDIT_RC GGPT_JIE_FS1.3.do 0
+AUDIT_BEGIN GGPT_JIE_product_level.do
+
+. 
+. *****************************************************************************
+> ***
+. ** Create datasets at different HS level - please reach out to get the master
+>  Comtrade file as it is too large **
+. /*
+> use "\\farchive1\ecn-repo\Users\APresbitero\Comtrade_bilateral.dta", clear
+> egen tariff = rowmax(tariff_20180706 tariff_20180823 tariff_20180924 tariff_2
+> 0190901)
+> 
+> keep if year>=2013
+> destring commodity, gen(hs)
+> gen t = 1 
+> replace t = 2 if year >= 2018
+> keep reporteriso reporter_code partneriso partner_code flowcode t hs value ta
+> riff
+>  
+> preserve
+>         gen tmp = hs/10000
+>         gen hs2 = floor(tmp)
+>         drop tmp hs
+>         gcollapse (sum) value (mean) tariff, by(reporteriso reporter_code par
+> tneriso partner_code flowcode t hs2)
+>         save tmp2t, replace
+> restore
+> 
+> preserve 
+>         gen tmp = hs/100
+>         gen hs2 = floor(tmp)
+>         drop tmp hs
+>         gcollapse (sum) value (mean) tariff, by(reporteriso reporter_code par
+> tneriso partner_code flowcode t hs2)
+>         save tmp4t, replace
+> restore
+> 
+> preserve 
+>         gen hs2 = hs
+>         drop hs
+>         gcollapse (sum) value (mean) tariff, by(reporteriso reporter_code par
+> tneriso partner_code flowcode t hs2)
+>         save tmp6t, replace
+> restore
+> 
+> 
+> */
+. 
+. 
+. *****************************************************************************
+> ***
+.                                 
+. ** Analysis at the HS2 level **
+.         
+. use "$input\tmp2t", clear
+
+. 
+. preserve
+
+.         keep if flowcode=="M"
+(2,028,915 observations deleted)
+
+.         keep if reporteriso=="USA"
+(2,330,216 observations deleted)
+
+.         bysort hs2 t: egen tot=total(value)
+
+.         gen USimportshare = 100*value/tot
+
+.         drop tot
+
+.         egen id = group(partner_code hs2)
+
+.         reshape wide value USimportshare tariff, j(t) i(id)
+(j = 1 2)
+
+Data                               Long   ->   Wide
+-----------------------------------------------------------------------------
+Number of observations           26,839   ->   14,964      
+Number of variables                  11   ->   13          
+j variable (2 values)                 t   ->   (dropped)
+xij variables:
+                                  value   ->   value1 value2
+                          USimportshare   ->   USimportshare1 USimportshare2
+                                 tariff   ->   tariff1 tariff2
+-----------------------------------------------------------------------------
+
+.         rename value1 USimports_pre
+
+.         rename value2 USimports_post
+
+.         rename USimportshare1 USimportshare_pre
+
+.         rename USimportshare2 USimportshare_post
+
+.         rename partner_code country
+
+.         rename partneriso iso
+
+.         sort hs2 country
+
+.         keep hs2 country US* iso tariff*
+
+.         save tmp_us, replace  
+file tmp_us.dta saved
+
+. restore 
+
+. 
+.         keep if flowcode=="X"
+(2,357,055 observations deleted)
+
+.         keep if reporteriso=="CHN"
+(1,992,200 observations deleted)
+
+.         bysort hs2 t: egen tot=total(value)
+
+.         gen CNexportshare = 100*value/tot
+
+.         drop tot 
+
+.         egen id = group(partner_code hs2)
+
+.         reshape wide value CNexportshare tariff, j(t) i(id)
+(j = 1 2)
+
+Data                               Long   ->   Wide
+-----------------------------------------------------------------------------
+Number of observations           36,715   ->   19,203      
+Number of variables                  11   ->   13          
+j variable (2 values)                 t   ->   (dropped)
+xij variables:
+                                  value   ->   value1 value2
+                          CNexportshare   ->   CNexportshare1 CNexportshare2
+                                 tariff   ->   tariff1 tariff2
+-----------------------------------------------------------------------------
+
+.         rename value1 CNexports_pre
+
+.         rename value2 CNexports_post
+
+.         rename CNexportshare1 CNexportshare_pre
+
+.         rename CNexportshare2 CNexportshare_post
+
+.         rename partner_code country
+
+.         rename partneriso iso
+
+.         sort hs2 country
+
+.         keep hs2 country CN* iso 
+
+.         merge 1:1 hs2 country using tmp_us
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                         6,235
+        from master                     5,237  (_merge==1)
+        from using                        998  (_merge==2)
+
+    Matched                            13,966  (_merge==3)
+    -----------------------------------------
+
+.         keep if _m==3 
+(6,235 observations deleted)
+
+.         drop _m
+
+. 
+. unique iso
+command unique is unrecognized
+r(199);
+
+end of do-file
+AUDIT_RC GGPT_JIE_product_level.do 199
+AUDIT_BEGIN GGPT_JIE_data_check.do
+
+. 
+. global keep "country iso3 imf_income imf_region"
+
+. 
+. ** Construct the dataset of fDi at the host-source-year level **
+. use "$input\fdimarket.dta", clear
+file E:\IHEID Economics\IHEID\Advanced International
+    Economics\presentation\Data for Changing Global Linkages A New Cold
+    War\PPGT_JIE_replication\data\fdimarket.dta not found
+r(601);
+
+end of do-file
+AUDIT_RC GGPT_JIE_data_check.do 601
+
+. 
+. log close
+      name:  <unnamed>
+       log:  E:\IHEID Economics\IHEID\Advanced International Economics\presenta
+> tion\replication_audit\run_modules_capture.log
+  log type:  text
+ closed on:  11 May 2026, 15:24:00
+-------------------------------------------------------------------------------
+
+. 
+end of do-file

@@ -1,0 +1,54 @@
+		(1)
+VARIABLES	LABELS	PPML
+		
+L.total_trade	(mean) total_trade = L,	0.0000***
+		(0.000)
+btw3pre	btw3pre	-0.0163
+		(0.018)
+btw3_tm248	btw3_tm248	-0.0050
+		(0.026)
+btw3_tm249	btw3_tm249	-0.0416
+		(0.029)
+btw3_tm250	btw3_tm250	-0.0341
+		(0.040)
+btw3_tm251	btw3_tm251	-0.0958**
+		(0.043)
+btw3_tm252	btw3_tm252	-0.1487***
+		(0.052)
+btw3_tm253	btw3_tm253	-0.1930***
+		(0.051)
+btw3_tm254	btw3_tm254	-0.1775***
+		(0.052)
+btw3_tm255	btw3_tm255	-0.2182***
+		(0.050)
+btw3_tm256	btw3_tm256	-0.1959***
+		(0.051)
+una3pre	una3pre	-0.0300
+		(0.021)
+una3_tm248	una3_tm248	0.0064
+		(0.022)
+una3_tm249	una3_tm249	0.0460*
+		(0.025)
+una3_tm250	una3_tm250	0.0624*
+		(0.034)
+una3_tm251	una3_tm251	0.0213
+		(0.035)
+una3_tm252	una3_tm252	-0.0275
+		(0.041)
+una3_tm253	una3_tm253	-0.0609
+		(0.042)
+una3_tm254	una3_tm254	-0.0400
+		(0.043)
+una3_tm255	una3_tm255	-0.0831**
+		(0.041)
+una3_tm256	una3_tm256	-0.1002**
+		(0.041)
+		
+Observations		259,780
+Country-pair FE		Y
+Time FE		-
+Source x Time FE		Y
+Destination x Time FE		Y
+Blocs		Wider
+Robust standard errors in parentheses		
+*** p<0.01, ** p<0.05, * p<0.1		

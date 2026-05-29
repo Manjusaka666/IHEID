@@ -1,0 +1,19 @@
+		(1)	(2)	(3)	(4)
+VARIABLES	LABELS	PPML	PPML	PPML	PPML
+					
+btw3_pst2	btw3_pst2	-0.0904**	-0.0864**	-0.1340**	-0.1300**
+		(0.038)	(0.043)	(0.059)	(0.054)
+una3_pst2	una3_pst2	0.0710**	0.0329	0.0453	0.0145
+		(0.031)	(0.042)	(0.028)	(0.041)
+L.total_trade	(mean) total_trade = L,	0.0000***	0.0000***	0.0000	0.0000***
+		(0.000)	(0.000)	(0.000)	(0.000)
+					
+Observations		254,688	254,572	254,660	254,589
+Country-pair FE		Y	Y	Y	Y
+Time FE		Y	-	Y	-
+Source x Time FE		N	Y	N	Y
+Destination x Time FE		N	Y	N	Y
+Blocs		Wider	Wider	Wider	Wider
+Sample		No US	No US	No CN	No CN
+Robust standard errors in parentheses					
+*** p<0.01, ** p<0.05, * p<0.1					

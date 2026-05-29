@@ -1,0 +1,69 @@
+
+  ___  ____  ____  ____  ____ ®
+ /__    /   ____/   /   ____/      18.0
+___/   /   /___/   /   /___/       MP—Parallel Edition
+
+ Statistics and Data Science       Copyright 1985-2023 StataCorp LLC
+                                   StataCorp
+                                   4905 Lakeway Drive
+                                   College Station, Texas 77845 USA
+                                   800-STATA-PC        https://www.stata.com
+                                   979-696-4600        stata@stata.com
+
+Stata license: Single-user 4-core  perpetual
+Serial number: 501806300204
+  Licensed to: Purgatoriofu
+               
+
+Notes:
+      1. Stata is running in batch mode.
+      2. Unicode is supported; see help unicode_advice.
+      3. More than 2 billion observations are allowed; see help obs_advice.
+      4. Maximum number of variables is set to 5,000 but can be increased;
+          see help set_maxvar.
+
+. do "E:\IHEID Economics\IHEID\Advanced International Economics\presentation\re
+> plication_audit\install_missing_packages.do" 
+
+. capture log close _all
+
+. log using "E:\IHEID Economics\IHEID\Advanced International Economics\presenta
+> tion\replication_audit\install_missing_packages.log", text replace
+(file E:\IHEID Economics\IHEID\Advanced International
+    Economics\presentation\replication_audit\install_missing_packages.log not
+    found)
+-------------------------------------------------------------------------------
+      name:  <unnamed>
+       log:  E:\IHEID Economics\IHEID\Advanced International Economics\presenta
+> tion\replication_audit\install_missing_packages.log
+  log type:  text
+ opened on:  11 May 2026, 15:25:03
+
+. 
+. foreach pkg in unique ppmlhdfe {
+  2.     capture which `pkg'
+  3.     if _rc {
+  4.         display as text "Installing `pkg'"
+  5.         ssc install `pkg', replace
+  6.     }
+  7. }
+Installing unique
+checking unique consistency and verifying not already installed...
+installing into C:\Users\purga\ado\plus\...
+installation complete.
+Installing ppmlhdfe
+checking ppmlhdfe consistency and verifying not already installed...
+installing into C:\Users\purga\ado\plus\...
+installation complete.
+
+. 
+. log close
+      name:  <unnamed>
+       log:  E:\IHEID Economics\IHEID\Advanced International Economics\presenta
+> tion\replication_audit\install_missing_packages.log
+  log type:  text
+ closed on:  11 May 2026, 15:25:07
+-------------------------------------------------------------------------------
+
+. 
+end of do-file

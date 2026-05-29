@@ -1,0 +1,562 @@
+
+********************************************************************************
+** Create datasets at different HS level - please reach out to get the master Comtrade file as it is too large **
+/*
+use "\\farchive1\ecn-repo\Users\APresbitero\Comtrade_bilateral.dta", clear
+egen tariff = rowmax(tariff_20180706 tariff_20180823 tariff_20180924 tariff_20190901)
+
+keep if year>=2013
+destring commodity, gen(hs)
+gen t = 1 
+replace t = 2 if year >= 2018
+keep reporteriso reporter_code partneriso partner_code flowcode t hs value tariff
+ 
+preserve
+	gen tmp = hs/10000
+	gen hs2 = floor(tmp)
+	drop tmp hs
+	gcollapse (sum) value (mean) tariff, by(reporteriso reporter_code partneriso partner_code flowcode t hs2)
+	save tmp2t, replace
+restore
+
+preserve 
+	gen tmp = hs/100
+	gen hs2 = floor(tmp)
+	drop tmp hs
+	gcollapse (sum) value (mean) tariff, by(reporteriso reporter_code partneriso partner_code flowcode t hs2)
+	save tmp4t, replace
+restore
+
+preserve 
+	gen hs2 = hs
+	drop hs
+	gcollapse (sum) value (mean) tariff, by(reporteriso reporter_code partneriso partner_code flowcode t hs2)
+	save tmp6t, replace
+restore
+
+
+*/
+
+
+********************************************************************************
+				
+** Analysis at the HS2 level **
+	
+use "$input\tmp2t", clear
+
+preserve
+	keep if flowcode=="M"
+	keep if reporteriso=="USA"
+	bysort hs2 t: egen tot=total(value)
+	gen USimportshare = 100*value/tot
+	drop tot
+	egen id = group(partner_code hs2)
+	reshape wide value USimportshare tariff, j(t) i(id)
+	rename value1 USimports_pre
+	rename value2 USimports_post
+	rename USimportshare1 USimportshare_pre
+	rename USimportshare2 USimportshare_post
+	rename partner_code country
+	rename partneriso iso
+	sort hs2 country
+	keep hs2 country US* iso tariff*
+	save tmp_us, replace  
+restore 
+
+	keep if flowcode=="X"
+	keep if reporteriso=="CHN"
+	bysort hs2 t: egen tot=total(value)
+	gen CNexportshare = 100*value/tot
+	drop tot 
+	egen id = group(partner_code hs2)
+	reshape wide value CNexportshare tariff, j(t) i(id)
+	rename value1 CNexports_pre
+	rename value2 CNexports_post
+	rename CNexportshare1 CNexportshare_pre
+	rename CNexportshare2 CNexportshare_post
+	rename partner_code country
+	rename partneriso iso
+	sort hs2 country
+	keep hs2 country CN* iso 
+	merge 1:1 hs2 country using tmp_us
+	keep if _m==3 
+	drop _m
+
+unique iso
+unique hs2
+rename iso iso_rpt
+replace iso_rpt = "TWN" if iso_rpt=="S19"
+merge m:1 iso_rpt using "$input\blocs.dta", keepus(ifscode bloc3ipd ae-em)
+keep if _m==3
+drop _m
+rename ifscode_rpt ifscode
+
+merge m:1 ifscode using "$input\weo_2018_23.dta"
+	keep if _m==3 
+	drop _m
+
+gen delta_CNexp = CNexportshare_post-CNexportshare_pre
+gen delta_USimp = USimportshare_post-USimportshare_pre
+
+	gen weight = ( USimports_pre)
+	replace weight = weight/1000000
+	egen id=group(country hs2)
+	gen tariff = 0 
+	replace tariff=1 if tariff1==1
+	replace tariff=1 if tariff2==1
+	
+	
+reghdfe delta_USimp delta_CNexp if hs2>=0 & bloc3ipd==3 & USimportshare_post>.05 [aw=weight], absorb(hs2) vce(cluster id)
+	outreg2 using "$tables\TS2.4.xls", nocons ctitle(1) bdec(4) tdec(4) se excel label replace addtext(Country FE, N, Sector FE, Y, Countries, Non-aligned, HS codes, share>0.5, Weights, Yes)
+reghdfe delta_USimp delta_CNexp growth if hs2>=0 & bloc3ipd==3 & USimportshare_post>.05 [aw=weight], absorb(hs2) vce(cluster id)
+	outreg2 using "$tables\TS2.4.xls", nocons ctitle(1) bdec(4) tdec(4) se excel label append addtext(Country FE, N, Sector FE, Y, Countries, Non-aligned, HS codes, share>0.5, Weights, Yes)
+	
+binscatter delta_USimp delta_CNexp if hs2>=0 & bloc3ipd==3 & USimportshare_post>.05 [aw=weight], n(50) absorb(hs2) ///
+					title(" ", color(black) size(medsmall)) ///
+					ytitle("Change (%) in US import share", size(medsmall)) ///
+					xtitle("Change (%) in Chinese export share", size(medsmall)) ///
+					xlabel(#5, angle(0) labsize(small)) ylabel(#5, angle(0) labsize(small) format(%9.1f)) ///
+					graphregion(color(white)) plotregion(color(white))  bgcolor(white) xsize(5)
+				graph export "$charts/FS1.6A.png", as(png) replace				
+				
+				
+** Analysis at the HS4 level **	
+use "$input\tmp4t", clear
+
+preserve
+	keep if flowcode=="M"
+	keep if reporteriso=="USA"
+	bysort hs2 t: egen tot=total(value)
+	gen USimportshare = 100*value/tot
+	drop tot
+	egen id = group(partner_code hs2)
+	reshape wide value USimportshare tariff, j(t) i(id)
+	rename value1 USimports_pre
+	rename value2 USimports_post
+	rename USimportshare1 USimportshare_pre
+	rename USimportshare2 USimportshare_post
+	rename partner_code country
+	rename partneriso iso
+	sort hs2 country
+	keep hs2 country US* iso tariff*
+	save tmp_us, replace  
+restore 
+
+	keep if flowcode=="X"
+	keep if reporteriso=="CHN"
+	bysort hs2 t: egen tot=total(value)
+	gen CNexportshare = 100*value/tot
+	drop tot 
+	egen id = group(partner_code hs2)
+	reshape wide value CNexportshare tariff, j(t) i(id)
+	rename value1 CNexports_pre
+	rename value2 CNexports_post
+	rename CNexportshare1 CNexportshare_pre
+	rename CNexportshare2 CNexportshare_post
+	rename partner_code country
+	rename partneriso iso
+	sort hs2 country
+	keep hs2 country CN* iso
+	merge 1:1 hs2 country using tmp_us
+	keep if _m==3 
+	drop _m
+
+unique iso
+unique hs2
+rename iso iso_rpt
+replace iso_rpt = "TWN" if iso_rpt=="S19"
+merge m:1 iso_rpt using "$input\blocs.dta", keepus(ifscode bloc3ipd ae-em)
+keep if _m==3
+drop _m
+rename ifscode_rpt ifscode
+
+merge m:1 ifscode using "$input\weo_2018_23.dta"
+	keep if _m==3 
+	drop _m
+	
+	
+gen delta_CNexp = CNexportshare_post-CNexportshare_pre
+gen delta_USimp = USimportshare_post-USimportshare_pre
+
+	gen weight = (USimports_pre)
+	replace weight = weight/1000000
+	egen id=group(country hs2)
+	gen tariff = 0 
+	replace tariff=1 if tariff1==1
+	replace tariff=1 if tariff2==1
+	
+reghdfe delta_USimp delta_CNexp if hs2>=0 & bloc3ipd==3 & USimportshare_post>.05 [aw=weight], absorb(hs2) vce(cluster id)
+	outreg2 using "$tables\TS2.4.xls", nocons ctitle(1) bdec(4) tdec(4) se excel label append addtext(Country FE, N, Sector FE, Y, Countries, Non-aligned, HS codes, share>0.5, Weights, Yes)
+reghdfe delta_USimp delta_CNexp growth if hs2>=0 & bloc3ipd==3 & USimportshare_post>.05 [aw=weight], absorb(hs2) vce(cluster id)
+	outreg2 using "$tables\TS2.4.xls", nocons ctitle(1) bdec(4) tdec(4) se excel label append addtext(Country FE, N, Sector FE, Y, Countries, Non-aligned, HS codes, share>0.5, Weights, Yes)
+	
+binscatter delta_USimp delta_CNexp if hs2>=0 & bloc3ipd==3 & USimportshare_post>.05 [aw=weight], n(50) absorb(hs2) ///
+					title(" ", color(black) size(medsmall)) ///
+					ytitle("Change (%) in US import share", size(medsmall)) ///
+					xtitle("Change (%) in Chinese export share", size(medsmall)) ///
+					xlabel(#5, angle(0) labsize(small)) ylabel(#5, angle(0) labsize(small) format(%9.1f)) ///
+					graphregion(color(white)) plotregion(color(white))  bgcolor(white) xsize(5)
+				graph export "$charts/FS1.6B.png", as(png) replace				
+
+				
+** Analysis at the HS6 level **
+	
+use "$input\tmp6t", clear
+
+preserve
+	keep if flowcode=="M"
+	keep if reporteriso=="USA"
+	bysort hs2 t: egen tot=total(value)
+	gen USimportshare = 100*value/tot
+	drop tot
+	egen id = group(partner_code hs2)
+	reshape wide value USimportshare tariff, j(t) i(id)
+	rename value1 USimports_pre
+	rename value2 USimports_post
+	rename USimportshare1 USimportshare_pre
+	rename USimportshare2 USimportshare_post
+	rename partner_code country
+	rename partneriso iso
+	sort hs2 country
+	keep hs2 country US* iso tariff*
+	save tmp_us, replace  
+restore 
+
+	keep if flowcode=="X"
+	keep if reporteriso=="CHN"
+	bysort hs2 t: egen tot=total(value)
+	gen CNexportshare = 100*value/tot
+	drop tot 
+	egen id = group(partner_code hs2)
+	reshape wide value CNexportshare tariff, j(t) i(id)
+	rename value1 CNexports_pre
+	rename value2 CNexports_post
+	rename CNexportshare1 CNexportshare_pre
+	rename CNexportshare2 CNexportshare_post
+	rename partner_code country
+	rename partneriso iso
+	sort hs2 country
+	keep hs2 country CN* iso
+	merge 1:1 hs2 country using tmp_us
+	keep if _m==3 
+	drop _m
+
+unique iso
+unique hs2
+rename iso iso_rpt
+replace iso_rpt = "TWN" if iso_rpt=="S19"
+merge m:1 iso_rpt using "$input\blocs.dta", keepus(ifscode bloc3ipd ae-em)
+keep if _m==3
+drop _m
+rename ifscode_rpt ifscode
+
+merge m:1 ifscode using "$input\weo_2018_23.dta"
+	keep if _m==3 
+	drop _m
+
+gen delta_CNexp = CNexportshare_post-CNexportshare_pre
+gen delta_USimp = USimportshare_post-USimportshare_pre
+
+	gen weight = ( USimports_pre)
+	replace weight = weight/1000000
+	egen id=group(country hs2)
+	gen tariff = 0 
+	replace tariff=1 if tariff1==1
+	replace tariff=1 if tariff2==1
+	
+
+reghdfe delta_USimp delta_CNexp if hs2>=0 & bloc3ipd==3 & USimportshare_post>.05 [aw=weight], absorb(hs2) vce(cluster id)
+	outreg2 using "$tables\TS2.4.xls", nocons ctitle(1) bdec(4) tdec(4) se excel label append addtext(Country FE, N, Sector FE, Y, Countries, Non-aligned, HS codes, share>0.5, Weights, Yes)
+reghdfe delta_USimp delta_CNexp growth if hs2>=0 & bloc3ipd==3 & USimportshare_post>.05 [aw=weight], absorb(hs2) vce(cluster id)
+	outreg2 using "$tables\TS2.4.xls", nocons ctitle(1) bdec(4) tdec(4) se excel label append addtext(Country FE, N, Sector FE, Y, Countries, Non-aligned, HS codes, share>0.5, Weights, Yes)
+reghdfe delta_USimp c.delta_CNexp#tariff growth if hs2>=0 & bloc3ipd==3 & USimportshare_post>.05 [aw=weight], absorb(hs2) vce(cluster id)
+	outreg2 using "$tables\TS2.4.xls", nocons ctitle(1) bdec(4) tdec(4) se excel label append addtext(Country FE, N, Sector FE, Y, Countries, Non-aligned, HS codes, share>0.5, Weights, Yes)
+	
+binscatter delta_USimp delta_CNexp if hs2>=0 & bloc3ipd==3 & USimportshare_post>.05 [aw=weight], n(50) absorb(hs2) ///
+					title(" ", color(black) size(medsmall)) ///
+					ytitle("Change (%) in US import share", size(medsmall)) ///
+					xtitle("Change (%) in Chinese export share", size(medsmall)) ///
+					xlabel(#5, angle(0) labsize(small)) ylabel(#5, angle(0) labsize(small) format(%9.1f)) ///
+					graphregion(color(white)) plotregion(color(white))  bgcolor(white) xsize(5)
+				graph export "$charts/FS1.6C.png", as(png) replace				
+				
+				
+				
+				
+********************************************************************************
+
+** Placebo **
+
+** Create datasets at different HS level - please reach out to get the master Comtrade file as it is too large **
+/*
+
+use "\\farchive1\ecn-repo\Users\APresbitero\Comtrade_bilateral.dta", clear
+egen tariff = rowmax(tariff_20180706 tariff_20180823 tariff_20180924 tariff_20190901)
+keep if year<=2015
+destring commodity, gen(hs)
+gen t = 1 
+replace t = 2 if year >= 2013
+keep reporteriso reporter_code partneriso partner_code flowcode t hs value tariff
+
+preserve 
+	gen tmp = hs/10000
+	gen hs2 = floor(tmp)
+	drop tmp hs
+	gcollapse (sum) value, by(reporteriso reporter_code partneriso partner_code flowcode t hs2)
+	save tmp2tp, replace
+restore
+
+preserve 
+	gen tmp = hs/100
+	gen hs2 = floor(tmp)
+	drop tmp hs
+	gcollapse (sum) value, by(reporteriso reporter_code partneriso partner_code flowcode t hs2)
+	save tmp4tp, replace
+restore
+
+preserve 
+	gen hs2 = hs
+	drop hs
+	gcollapse (sum) value (mean) tariff, by(reporteriso reporter_code partneriso partner_code flowcode t hs2)
+	save tmp6tp, replace
+restore
+
+*/
+
+** Analysis at the HS2 level **
+	
+use "$input\tmp2tp", clear
+
+preserve
+	keep if flowcode=="M"
+	keep if reporteriso=="USA"
+	bysort hs2 t: egen tot=total(value)
+	gen USimportshare = 100*value/tot
+	drop tot
+	egen id = group(partner_code hs2)
+	reshape wide value USimportshare, j(t) i(id)
+	rename value1 USimports_pre
+	rename value2 USimports_post
+	rename USimportshare1 USimportshare_pre
+	rename USimportshare2 USimportshare_post
+	rename partner_code country
+	rename partneriso iso
+	sort hs2 country
+	keep hs2 country US* iso
+
+	save tmp_us, replace  
+restore 
+
+	keep if flowcode=="X"
+	keep if reporteriso=="CHN"
+	bysort hs2 t: egen tot=total(value)
+	gen CNexportshare = 100*value/tot
+	drop tot 
+	egen id = group(partner_code hs2)
+	reshape wide value CNexportshare, j(t) i(id)
+	rename value1 CNexports_pre
+	rename value2 CNexports_post
+	rename CNexportshare1 CNexportshare_pre
+	rename CNexportshare2 CNexportshare_post
+	rename partner_code country
+	rename partneriso iso
+	sort hs2 country
+	keep hs2 country CN* iso
+	merge 1:1 hs2 country using tmp_us
+	keep if _m==3 
+	drop _m
+
+unique iso
+unique hs2
+rename iso iso_rpt
+replace iso_rpt = "TWN" if iso_rpt=="S19"
+merge m:1 iso_rpt using "$input\blocs.dta", keepus(ifscode bloc3ipd ae-em)
+keep if _m==3
+drop _m
+rename ifscode_rpt ifscode
+
+merge m:1 ifscode using "$input\weo_2013_15.dta"
+	keep if _m==3 
+	drop _m
+
+gen delta_CNexp = CNexportshare_post-CNexportshare_pre
+gen delta_USimp = USimportshare_post-USimportshare_pre
+
+	gen weight = ( USimports_pre)
+	replace weight = weight/1000000
+	egen id=group(country hs2)
+
+
+reghdfe delta_USimp delta_CNexp if hs2>=0 & bloc3ipd==3 & USimportshare_post>.05 [aw=weight], absorb(hs2) vce(cluster id)
+	outreg2 using "$tables\TS2.4.xls", nocons ctitle(1) bdec(4) tdec(4) se excel label append addtext(Country FE, N, Sector FE, Y, Countries, Non-aligned, HS codes, share>0.5, Weights, Yes)
+reghdfe delta_USimp delta_CNexp growth if hs2>=0 & bloc3ipd==3 & USimportshare_post>.05 [aw=weight], absorb(hs2) vce(cluster id)
+	outreg2 using "$tables\TS2.4.xls", nocons ctitle(1) bdec(4) tdec(4) se excel label append addtext(Country FE, N, Sector FE, Y, Countries, Non-aligned, HS codes, share>0.5, Weights, Yes)
+	
+binscatter delta_USimp delta_CNexp if hs2>=0 & bloc3ipd==3 & USimportshare_post>.05 [aw=weight], n(50) absorb(hs2) ///
+					title(" ", color(black) size(medsmall)) ///
+					ytitle("Change (%) in US import share", size(medsmall)) ///
+					xtitle("Change (%) in Chinese export share", size(medsmall)) ///
+					xlabel(#5, angle(0) labsize(small)) ylabel(#5, angle(0) labsize(small) format(%9.1f)) ///
+					graphregion(color(white)) plotregion(color(white))  bgcolor(white) xsize(5)
+				graph export "$charts/FS1.7A.png", as(png) replace				
+	
+	
+** Analysis at the HS4 level **
+	
+use "$input\tmp4tp", clear
+
+preserve
+	keep if flowcode=="M"
+	keep if reporteriso=="USA"
+	bysort hs2 t: egen tot=total(value)
+	gen USimportshare = 100*value/tot
+	drop tot
+	egen id = group(partner_code hs2)
+	reshape wide value USimportshare, j(t) i(id)
+	rename value1 USimports_pre
+	rename value2 USimports_post
+	rename USimportshare1 USimportshare_pre
+	rename USimportshare2 USimportshare_post
+	rename partner_code country
+	rename partneriso iso
+	sort hs2 country
+	keep hs2 country US* iso
+	save tmp_us, replace  
+restore 
+
+	keep if flowcode=="X"
+	keep if reporteriso=="CHN"
+	bysort hs2 t: egen tot=total(value)
+	gen CNexportshare = 100*value/tot
+	drop tot 
+	egen id = group(partner_code hs2)
+	reshape wide value CNexportshare, j(t) i(id)
+	rename value1 CNexports_pre
+	rename value2 CNexports_post
+	rename CNexportshare1 CNexportshare_pre
+	rename CNexportshare2 CNexportshare_post
+	rename partner_code country
+	rename partneriso iso
+	sort hs2 country
+	keep hs2 country CN* iso
+	merge 1:1 hs2 country using tmp_us
+	keep if _m==3 
+	drop _m
+
+unique iso
+unique hs2
+rename iso iso_rpt
+replace iso_rpt = "TWN" if iso_rpt=="S19"
+merge m:1 iso_rpt using "$input\blocs.dta", keepus(ifscode bloc3ipd ae-em)
+keep if _m==3
+drop _m
+rename ifscode_rpt ifscode
+
+merge m:1 ifscode using "$input\weo_2013_15.dta"
+	keep if _m==3 
+	drop _m
+
+gen delta_CNexp = CNexportshare_post-CNexportshare_pre
+gen delta_USimp = USimportshare_post-USimportshare_pre
+
+	gen weight = ( USimports_pre)
+	replace weight = weight/1000000
+	egen id=group(country hs2)
+
+reghdfe delta_USimp delta_CNexp if hs2>=0 & bloc3ipd==3 & USimportshare_post>.05 [aw=weight], absorb(hs2) vce(cluster id)
+	outreg2 using "$tables\TS2.4.xls", nocons ctitle(1) bdec(4) tdec(4) se excel label append addtext(Country FE, N, Sector FE, Y, Countries, Non-aligned, HS codes, share>0.5, Weights, Yes)
+reghdfe delta_USimp delta_CNexp growth if hs2>=0 & bloc3ipd==3 & USimportshare_post>.05 [aw=weight], absorb(hs2) vce(cluster id)
+	outreg2 using "$tables\TS2.4.xls", nocons ctitle(1) bdec(4) tdec(4) se excel label append addtext(Country FE, N, Sector FE, Y, Countries, Non-aligned, HS codes, share>0.5, Weights, Yes)
+	
+binscatter delta_USimp delta_CNexp if hs2>=0 & bloc3ipd==3 & USimportshare_post>.05 [aw=weight], n(50) absorb(hs2) ///
+					title(" ", color(black) size(medsmall)) ///
+					ytitle("Change (%) in US import share", size(medsmall)) ///
+					xtitle("Change (%) in Chinese export share", size(medsmall)) ///
+					xlabel(#5, angle(0) labsize(small)) ylabel(#5, angle(0) labsize(small) format(%9.1f)) ///
+					graphregion(color(white)) plotregion(color(white))  bgcolor(white) xsize(5)
+				graph export "$charts/FS1.7B.png", as(png) replace				
+				
+	
+** Analysis at the HS6 level **
+
+use "$input\tmp6tp", clear
+
+preserve
+	keep if flowcode=="M"
+	keep if reporteriso=="USA"
+	bysort hs2 t: egen tot=total(value)
+	gen USimportshare = 100*value/tot
+	drop tot
+	egen id = group(partner_code hs2)
+	reshape wide value USimportshare tariff, j(t) i(id)
+	rename value1 USimports_pre
+	rename value2 USimports_post
+	rename USimportshare1 USimportshare_pre
+	rename USimportshare2 USimportshare_post
+	rename partner_code country
+	rename partneriso iso
+	sort hs2 country
+	keep hs2 country US* iso tariff*
+	save tmp_us, replace  
+restore 
+
+	keep if flowcode=="X"
+	keep if reporteriso=="CHN"
+	bysort hs2 t: egen tot=total(value)
+	gen CNexportshare = 100*value/tot
+	drop tot 
+	egen id = group(partner_code hs2)
+	reshape wide value CNexportshare tariff, j(t) i(id)
+	rename value1 CNexports_pre
+	rename value2 CNexports_post
+	rename CNexportshare1 CNexportshare_pre
+	rename CNexportshare2 CNexportshare_post
+	rename partner_code country
+	rename partneriso iso
+	sort hs2 country
+	keep hs2 country CN* iso
+	merge 1:1 hs2 country using tmp_us
+	keep if _m==3 
+	drop _m
+
+unique iso
+unique hs2
+rename iso iso_rpt
+replace iso_rpt = "TWN" if iso_rpt=="S19"
+merge m:1 iso_rpt using "$input\blocs.dta", keepus(ifscode bloc3ipd ae-em)
+keep if _m==3
+drop _m
+rename ifscode_rpt ifscode
+
+merge m:1 ifscode using "$input\weo_2013_15.dta"
+	keep if _m==3 
+	drop _m
+
+gen delta_CNexp = CNexportshare_post-CNexportshare_pre
+gen delta_USimp = USimportshare_post-USimportshare_pre
+
+	gen weight = ( USimports_pre)
+	replace weight = weight/1000000
+	egen id=group(country hs2)
+	gen tariff = 0 
+	replace tariff=1 if tariff1==1
+	replace tariff=1 if tariff2==1
+	
+
+reghdfe delta_USimp delta_CNexp if hs2>=0 & bloc3ipd==3 & USimportshare_post>.05 [aw=weight], absorb(hs2) vce(cluster id)
+	outreg2 using "$tables\TS2.4.xls", nocons ctitle(1) bdec(4) tdec(4) se excel label append addtext(Country FE, N, Sector FE, Y, Countries, Non-aligned, HS codes, share>0.5, Weights, Yes)
+reghdfe delta_USimp delta_CNexp growth if hs2>=0 & bloc3ipd==3 & USimportshare_post>.05 [aw=weight], absorb(hs2) vce(cluster id)
+	outreg2 using "$tables\TS2.4.xls", nocons ctitle(1) bdec(4) tdec(4) se excel label append addtext(Country FE, N, Sector FE, Y, Countries, Non-aligned, HS codes, share>0.5, Weights, Yes)
+reghdfe delta_USimp c.delta_CNexp#tariff growth if hs2>=0 & bloc3ipd==3 & USimportshare_post>.05 [aw=weight], absorb(hs2) vce(cluster id)
+	outreg2 using "$tables\TS2.4.xls", nocons ctitle(1) bdec(4) tdec(4) se excel label append addtext(Country FE, N, Sector FE, Y, Countries, Non-aligned, HS codes, share>0.5, Weights, Yes)
+
+	
+binscatter delta_USimp delta_CNexp if hs2>=0 & bloc3ipd==3 & USimportshare_post>.05 [aw=weight], n(50) absorb(hs2) ///
+					title(" ", color(black) size(medsmall)) ///
+					ytitle("Change (%) in US import share", size(medsmall)) ///
+					xtitle("Change (%) in Chinese export share", size(medsmall)) ///
+					xlabel(#5, angle(0) labsize(small)) ylabel(#5, angle(0) labsize(small) format(%9.1f)) ///
+					graphregion(color(white)) plotregion(color(white))  bgcolor(white) xsize(5)
+				graph export "$charts/S1.7C.png", as(png) replace				
+				
+				

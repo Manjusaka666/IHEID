@@ -1,0 +1,105 @@
+
+global keep "country iso3 imf_income imf_region"
+
+
+** Construct the dataset of fDi at the host-source-year level **
+use "$input\fdimarket.dta", clear
+drop if source_phantom==1 | destination_phantom==1
+collapse (sum) n size, by(t source_ifscode destination_ifscode)
+
+rename source_ifscode ifscode
+merge m:1 ifscode using "$input\country_list_use.dta", keepusing($keep)
+foreach x of varlist $keep ifscode {
+	rename `x' source_`x'
+}
+drop if _m==2
+drop _m
+
+rename destination_ifscode ifscode
+merge m:1 ifscode using "$input\country_list_use.dta", keepusing($keep)
+foreach x of varlist $keep ifscode {
+	rename `x' destination_`x'
+}
+drop if _m==2
+drop _m
+
+replace destination_imf_region=2 if destination_country=="Taiwan Province of China"
+replace source_imf_region=2 if source_country=="Taiwan Province of China"
+replace destination_imf_region=5 if destination_country=="Venezuela"
+replace source_imf_region=5 if source_country=="Venezuela"
+replace destination_imf_region=5 if destination_country=="Puerto Rico"
+replace source_imf_region=5 if source_country=="Puerto Rico"
+replace destination_imf_region=4 if destination_country=="Syria"
+replace source_imf_region=4 if source_country=="Syria"
+replace destination_imf_region=4 if destination_country=="West Bank and Gaza"
+replace source_imf_region=4 if source_country=="West Bank and Gaza"
+
+	gen y = yofd(dofq(t))
+	drop if y ==2024
+	collapse (sum) n* size*, by(y source_ifscode source_country source_iso3 destination_country destination_ifscode destination_iso3)
+	egen pair = group(source_ifscode destination_ifscode)
+	tsset pair y
+	bysort pair: egen total = sum(n)
+	ta total
+	
+	fillin pair y
+	replace n = 0 if _fillin==1
+	bysort pair: egen source_ifscode2 = mean(source_ifscode)
+	bysort pair: egen destination_ifscode2 = mean(destination_ifscode)
+	drop source_ifscode destination_ifscode
+	rename destination_ifscode2 destination_ifscode
+	rename source_ifscode2 source_ifscode
+
+	lilien n, i(destination_ifscode) j(y) by(source_ifscode)
+	lilien n, i(destination_ifscode) j(y) by(source_ifscode) method(MLI)
+	lilien size, i(destination_ifscode) j(y) by(source_ifscode)
+	lilien size, i(destination_ifscode) j(y) by(source_ifscode) method(MLI)
+
+	collapse (mean) n_* size_*, by(source_ifscode y)
+	rename source_ifscode ifscode
+	merge m:1 ifscode using "$input\country_list_use.dta", keepusing($keep)
+		foreach x of varlist $keep ifscode {
+			rename `x' source_`x'
+		}
+	drop if _m==2
+	drop _m
+	
+** assign countries to blocs **	
+
+	rename source_ifscode ifscode_rpt
+	merge m:1 ifscode_rpt using "$input\blocs.dta", keepusing(bloc3ipd bloc3iea bloc3com)
+		rename bloc3iea source_bloc3iea
+		drop if _m==2
+		drop _m
+	rename ifscode_rpt source_ifscode
+
+** Figure 2, Panel B **
+xi: reghdfe size_MLI ib2017.y , absorb(source_ifscode) cluster(source_ifscode)
+
+coefplot, drop (_cons) vert graphregion(color(white)) bgcolor(white) ms(Oh) mc(dknavy) ci(90) ///
+	ytitle("Estimated coefficient of the MLI (by year, FDI)", size(small)) ylabel(, labsize(small) angle(0)) ///
+	xtitle("", size(small)) xlabel( ,labsize(vsmall) angle(90)) title(" ", span size(medlarge)) ///
+	legend(off) yline(0, lc(red)) xline(13.5, lc(black) lp(dash)) xline(17.5, lc(black) lp(dash)) ///
+	rename(^.*([1-2][0-9][0-9][0-9])\.year\#c\.between$ = \1, regex)
+	graph export "$charts\F2R.png", as(png) replace		
+
+	
+** Table S2.1, Panel B **
+cap drop time
+gen time = 0 
+replace time = 1 if y>=2008 & y<=2012
+replace time = 2 if y>=2013 & y<=2021
+replace time = 3 if y>=2022 & y<=2023	
+
+xi: reghdfe size_MLI ib0.time , absorb(source_ifscode) cluster(source_ifscode)
+	outreg2 using "$tables\T_S2.1_panelB.xls", nocons ctitle(All) bdec(4) tdec(4) se excel label replace addtext(Country FE, Y)
+xi: reghdfe size_MLI ib0.time if source_imf_income==1, absorb(source_ifscode) cluster(source_ifscode)
+	outreg2 using "$tables\T_S2.1_panelB.xls", nocons ctitle(AEs) bdec(4) tdec(4) se excel label append addtext(Country FE, Y)
+xi: reghdfe size_MLI ib0.time if source_imf_income!=1, absorb(source_ifscode) cluster(source_ifscode)
+	outreg2 using "$tables\T_S2.1_panelB.xls", nocons ctitle(EMDEs) bdec(4) tdec(4) se excel label append addtext(Country FE, Y)
+xi: reghdfe size_MLI ib0.time if bloc3ipd==1, absorb(source_ifscode) cluster(source_ifscode)
+	outreg2 using "$tables\T_S2.1_panelB.xls", nocons ctitle(US bloc) bdec(4) tdec(4) se excel label append addtext(Country FE, Y)
+xi: reghdfe size_MLI ib0.time if bloc3ipd!=1, absorb(source_ifscode) cluster(source_ifscode)
+	outreg2 using "$tables\T_S2.1_panelB.xls", nocons ctitle(Others) bdec(4) tdec(4) se excel label append addtext(Country FE, Y)
+	
+********************************************************************************

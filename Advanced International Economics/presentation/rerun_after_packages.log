@@ -1,0 +1,2497 @@
+
+  ___  ____  ____  ____  ____ ®
+ /__    /   ____/   /   ____/      18.0
+___/   /   /___/   /   /___/       MP—Parallel Edition
+
+ Statistics and Data Science       Copyright 1985-2023 StataCorp LLC
+                                   StataCorp
+                                   4905 Lakeway Drive
+                                   College Station, Texas 77845 USA
+                                   800-STATA-PC        https://www.stata.com
+                                   979-696-4600        stata@stata.com
+
+Stata license: Single-user 4-core  perpetual
+Serial number: 501806300204
+  Licensed to: Purgatoriofu
+               
+
+Notes:
+      1. Stata is running in batch mode.
+      2. Unicode is supported; see help unicode_advice.
+      3. More than 2 billion observations are allowed; see help obs_advice.
+      4. Maximum number of variables is set to 5,000 but can be increased;
+          see help set_maxvar.
+
+. do "E:\IHEID Economics\IHEID\Advanced International Economics\presentation\re
+> plication_audit\rerun_after_packages.do" 
+
+. *****************************************************************************
+> ***
+. *** Rerun modules that previously failed because of missing Stata commands.
+. *****************************************************************************
+> ***
+. 
+. clear all
+
+. set more off, perm
+(set more preference recorded)
+
+. 
+. global dir "E:\IHEID Economics\IHEID\Advanced International Economics\present
+> ation\Data for Changing Global Linkages A New Cold War\PPGT_JIE_replication"
+
+. global working "$dir\working"
+
+. global input "$dir\data"
+
+. global charts "$dir\charts"
+
+. global tables "$dir\tables"
+
+. 
+. cd "$working"
+E:\IHEID Economics\IHEID\Advanced International Economics\presentation\Data for
+>  Changing Global Linkages A New Cold War\PPGT_JIE_replication\working
+
+. 
+. capture log close _all
+
+. log using "E:\IHEID Economics\IHEID\Advanced International Economics\presenta
+> tion\replication_audit\rerun_after_packages.log", text replace
+(file E:\IHEID Economics\IHEID\Advanced International
+    Economics\presentation\replication_audit\rerun_after_packages.log not
+    found)
+-------------------------------------------------------------------------------
+      name:  <unnamed>
+       log:  E:\IHEID Economics\IHEID\Advanced International Economics\presenta
+> tion\replication_audit\rerun_after_packages.log
+  log type:  text
+ opened on:  11 May 2026, 15:25:39
+
+. 
+. foreach module in ///
+>     GGPT_JIE_trade_now.do ///
+>     GGPT_JIE_trade_coldwar.do ///
+>     GGPT_JIE_product_level.do {
+  2.     display as text "AUDIT_BEGIN `module'"
+  3.     capture noisily do "$dir\do files\\`module'"
+  4.     display as result "AUDIT_RC `module' " _rc
+  5. }
+AUDIT_BEGIN GGPT_JIE_trade_now.do
+
+. 
+. local createdata  = 0
+
+. local createdata_bydyad = 0
+
+. 
+. **** modify t use the blocs data that was created in the reallocation_full_da
+> ta.do
+. if `createdata' {
+. use "$input\Country_blocs_for_modelling", replace
+. keep iso3code ae em lics asia ukr_2022  Bloc_Modelling_4
+. rename iso3code iso3
+. rename lics lidc
+. duplicates drop 
+. ** for a few countries ukr_2022 is missing
+. 
+. replace ukr_2022 = 1 if iso3=="ABW" |  iso3=="KOS" |  iso3=="PRI"
+. replace ukr_2022 = 2 if iso3=="HKG" |  iso3=="MAC" |  iso3=="WBG"
+. sort iso3
+. save tmp, replace
+. 
+. 
+. ** quarterly bilateral from monthly is 
+. 
+. use "\\farchive1\ecn-repo\Users\Trade Data Monitor\DTA\qrtrly_bilateral_from_
+> monthly.dta", clear
+. keep if year==2017
+. append using "\\farchive1\ecn-repo\Users\Trade Data Monitor\DTA\qrtrly_bilate
+> ral_from_monthly_aug_update.dta"
+. 
+. ** just use the file in row 47 to get teh numbers for the results in the CEPR
+>  working paper version (as well as Oct 2023 WEO) **
+. 
+.         drop if ifs_rpt==998
+.         drop if ifs_ptn==998 
+.                 /*  trade where the EU is the trading partners */
+.         rename iso_rpt iso3
+.         sort iso3
+. merge m:1 iso3 using tmp
+.         tab _m
+.         drop if _m==2
+.         drop _m
+.         foreach X in ae em lidc asia ukr_2022 Bloc_Modelling_4 {
+  2.                         rename `X' `X'_rpt
+  3.         }
+.         rename iso3 iso_rpt
+.         rename iso_ptn iso3
+.         sort iso3
+. merge  m:1 iso3 using tmp
+.         tab _m
+.         drop if _m==2
+.         drop _m
+. foreach X in ae em lidc asia ukr_2022 Bloc_Modelling_4 {
+  2.                 rename `X' `X'_ptn
+  3. }
+. rename iso3 iso_ptn
+. 
+. replace ukr_2022_rpt = 1 if iso_rpt=="ABW" |  iso_rpt=="KOS"
+. replace ukr_2022_rpt = 2 if iso_rpt=="HKG" |  iso_rpt=="MAC"
+. 
+. replace ukr_2022_ptn = 1 if iso_ptn=="ABW" |  iso_ptn=="KOS" |  iso_ptn=="PRI
+> "
+. replace ukr_2022_ptn = 2 if iso_ptn=="HKG" |  iso_ptn=="MAC" |  iso_ptn=="WBG
+> "
+. 
+. *** merge in the bloc assignment in FDI chapter
+. 
+. sort iso_rpt
+. rename iso_rpt iso3
+. merge m:1 iso3  using "$input\bloc_assignment_bycountry.dta", keepusing(bloc_
+> assign_baseline)
+.                 rename bloc_assign_baseline rpt_bloc_assign_baseline
+.                 drop if _m==2
+.                 drop _m
+. merge m:1 iso3  using "$input\Country_alignments_to_USA_CHN", keepusing(close
+> *)
+.                 foreach z of varlist close* {
+  2.                     rename `z' rpt_`z'
+  3.                         }
+.             drop if _m==2
+.             drop _m
+. 
+. rename iso3 iso_rpt
+. rename iso_ptn iso3                             
+. merge m:1 iso3 using "$input\bloc_assignment_bycountry.dta", keepusing(bloc_a
+> ssign_baseline)
+.                 rename bloc_assign_baseline ptn_bloc_assign_baseline
+.                 drop if _m==2
+.                 drop _m
+. merge m:1 iso3  using "$input\Country_alignments_to_USA_CHN", keepusing(close
+> *)
+.                 foreach z of varlist close* {
+  2.                     rename `z' ptn_`z'
+  3.                         }
+.             drop if _m==2
+.             drop _m
+.                         rename iso3 iso_ptn     
+. 
+.         
+. *** define new blocs for FDMD   
+. foreach X in ptn rpt {
+  2.                 gen `X'_bl4 = Bloc_Modelling_4_`X'
+  3.                 replace  `X'_bl4 = 3 if Bloc_Modelling_4_`X'==4
+  4.                 replace `X'_bl4 =1 if iso_`X'=="CAN" | iso_`X'=="AUS" | is
+> o_`X'=="NZL"
+  5.                 replace `X'_bl4 =2 if iso_`X'=="BLR" | iso_`X'=="SYR" | is
+> o_`X'=="ERI" | iso_`X'=="NIC" | iso_`X'=="MLI" | iso_`X'=="SYR"
+  6.                 replace `X'_bl4 =3 if iso_`X'=="TUR"    
+  7.                 }
+.         
+.                         
+. ** construct dummies for linkages between and within blocs **
+. ** this is the bloc assignment in the FDI chapter, based on the 8 regions in 
+> GIMF **
+. cap drop linksFDI
+. gen linksFDI = .
+. replace linksFDI = 1 if ptn_bloc_assign_baseline==1 & rpt_bloc_assign_baselin
+> e==1
+. replace linksFDI = 1 if ptn_bloc_assign_baseline==2 & rpt_bloc_assign_baselin
+> e==2
+. replace linksFDI = 2 if ptn_bloc_assign_baseline==1 & rpt_bloc_assign_baselin
+> e==2
+. replace linksFDI = 2 if ptn_bloc_assign_baseline==2 & rpt_bloc_assign_baselin
+> e==1
+. replace linksFDI = 3 if ptn_bloc_assign_baseline==0 & rpt_bloc_assign_baselin
+> e==0
+. replace linksFDI = 3 if ptn_bloc_assign_baseline==0 & rpt_bloc_assign_baselin
+> e!=0
+. replace linksFDI = 3 if ptn_bloc_assign_baseline!=0 & rpt_bloc_assign_baselin
+> e==0
+. 
+. ** this is just CHN vs USA, based on IPD values **
+. 
+. cap drop links2
+. gen links2 = .
+. replace links2 = 1 if ptn_closer2USA_ipd==1 & rpt_closer2USA_ipd==1
+. replace links2 = 1 if ptn_closer2USA_ipd==0 & rpt_closer2USA_ipd==0
+. replace links2 = 2 if ptn_closer2USA_ipd==1 & rpt_closer2USA_ipd==0
+. replace links2 = 2 if ptn_closer2USA_ipd==0 & rpt_closer2USA_ipd==1
+. 
+. 
+. ** this is just CHN vs USA, based on Commodities chapter **
+. 
+. cap drop linksCOM
+. gen linksCOM = .
+. replace linksCOM = 1 if ukr_2022_rpt==1 & ukr_2022_ptn==1
+. replace linksCOM = 1 if ukr_2022_rpt==2 & ukr_2022_ptn==2
+. replace linksCOM = 2 if ukr_2022_rpt==1 & ukr_2022_ptn==2
+. replace linksCOM = 2 if ukr_2022_rpt==2 & ukr_2022_ptn==1
+. 
+.                                 
+. ** This is again US, CHN and non aligned depending on IPD values, country by 
+> country **
+. 
+. cap drop links3
+. gen links3 = .
+. replace links3 = 1 if ptn_closest_qtile_ipd_USA==1 & rpt_closest_qtile_ipd_US
+> A==1
+. replace links3 = 1 if ptn_closest_qtile_ipd_CHN==1 & rpt_closest_qtile_ipd_CH
+> N==1
+. replace links3 = 2 if ptn_closest_qtile_ipd_USA==1 & rpt_closest_qtile_ipd_CH
+> N==1
+. replace links3 = 2 if ptn_closest_qtile_ipd_CHN==1 & rpt_closest_qtile_ipd_US
+> A==1
+. replace links3 = 3 if ptn_closest_qtile_ipd_neither==1 & rpt_closest_qtile_ip
+> d_neither==1
+. replace links3 = 3 if ptn_closest_qtile_ipd_neither==1 & rpt_closest_qtile_ip
+> d_neither==0
+. replace links3 = 3 if ptn_closest_qtile_ipd_neither==0 & rpt_closest_qtile_ip
+> d_neither==1
+. 
+. 
+. * This is 3 blocs using the COMMODITIES chapter 3 bloc scenario **
+. 
+. cap drop linksCM3
+. gen linksCM3 = .
+. replace linksCM3 = 1 if Bloc_Modelling_4_ptn==1 & Bloc_Modelling_4_rpt==1
+. replace linksCM3 = 1 if Bloc_Modelling_4_ptn==2 & Bloc_Modelling_4_rpt==2
+. replace linksCM3 = 2 if Bloc_Modelling_4_ptn==1 & Bloc_Modelling_4_rpt==2
+. replace linksCM3 = 2 if Bloc_Modelling_4_ptn==2 & Bloc_Modelling_4_rpt==1
+. replace linksCM3 = 3 if Bloc_Modelling_4_ptn==1 & Bloc_Modelling_4_rpt>2 & Bl
+> oc_Modelling_4_rpt!=.
+. replace linksCM3 = 3 if Bloc_Modelling_4_ptn==2 & Bloc_Modelling_4_rpt>2 & Bl
+> oc_Modelling_4_rpt!=.
+. replace linksCM3 = 3 if Bloc_Modelling_4_ptn>2 & Bloc_Modelling_4_rpt==1
+. replace linksCM3 = 3 if Bloc_Modelling_4_ptn>2 & Bloc_Modelling_4_rpt==2
+. replace linksCM3 = 3 if Bloc_Modelling_4_ptn>2 & Bloc_Modelling_4_rpt>2
+. 
+. * This is 3 blocs using a slightly larger definition of blocs than the COMMOD
+> ITIES chapter 3 bloc scenario **
+. 
+. cap drop linksalt3
+. gen linksalt3 = .
+. replace linksalt3 = 1 if rpt_bl4==1 & ptn_bl4==1
+. replace linksalt3 = 1 if rpt_bl4==2 & ptn_bl4==2
+. replace linksalt3 = 2 if rpt_bl4==1 & ptn_bl4==2
+. replace linksalt3 = 2 if rpt_bl4==2 & ptn_bl4==1
+. replace linksalt3 = 3 if rpt_bl4==3 | ptn_bl4==3
+. 
+. 
+. label var linksFDI "3 bloc assignment in the FDI chapter, based on the 8 regi
+> ons in GIMF"
+. label var linksCOM "2 bloc assignment in the Commodities chapter, based on th
+> e 2022 UN vote on Ukraine"
+. label var links2 "2 CHN vs USA, based on IPD values"
+. label var links3 "3 US, CHN and non aligned depending on IPD values, country 
+> by country"
+. label var linksCM3 "3 US/EUR, CHN/RUS and all others are non aligned"
+. label var linksalt3 "3 US/EUR/CAN/AUS//NZL, CHN/RUS/BLR/SYR and all others ar
+> e non aligned"
+. 
+. save "overall_tradepartner_change_blocs_qrtrly.dta", replace
+. }
+
+. 
+. **** make sure there is one observation per dyad (2 countries and focus only 
+> on total trade)
+. 
+. if `createdata_bydyad' {
+. use "overall_tradepartner_change_blocs_qrtrly.dta", clear
+. 
+. *** create some trade based on imports and exports
+. 
+. foreach X in us_central_sector Trump_tariffs_sector {
+  2.                 gen trade_`X' = imports_`X'+exports_`X'
+  3. }
+. rename trade_us_central_sector trade_usc 
+. rename trade_Trump_tariffs_sector trade_trmptar 
+. 
+. 
+.         gen time = year*100+quarter
+.         gen yq = yq(year, quarter)
+.         gen pst2  = (time>=202202)
+.         
+.         gen dd1 = min(ifs_rpt, ifs_ptn)
+.         gen dd2 = max(ifs_rpt, ifs_ptn)
+.         
+.         gen dyad = dd1*1000+dd2
+.         
+.         gen btwCOM = (linksCOM==2)      
+.         gen btw2 = (links2==2)  
+.         gen btw3 = (links3==2)  
+.         gen btwFDI = (linksFDI==2)
+.         gen btwCM3 = (linksCM3==2)      
+.         gen btwalt3 = (linksalt3==2)    
+. 
+. 
+.         gen una3 = (links3==3) 
+.         gen unaFDI = (linksFDI==3)
+.         gen unaCM3 = (linksCM3==3) 
+.         gen unaalt3 = (linksalt3==3) 
+. 
+.         replace btwCOM = . if linksCOM==.
+.         replace btw2 = . if links2==.
+.         replace btw3 = . if links3==.
+.         replace btwCM3 = . if linksCM3==.
+.         replace btwFDI = . if linksFDI==.
+.         replace btwalt3 = . if linksalt3==.
+. 
+.         replace una3 = . if links3==.
+.         replace unaFDI = . if linksFDI==.
+.         replace unaCM3=. if linksCM3==.
+.         replace unaalt3=. if linksalt3==.
+. 
+.         foreach X in pst2 {
+  2.                 foreach y in btwCOM btw2 btwFDI btw3 btwCM3 btwalt3 unaFDI
+>  una3 unaCM3 unaalt3 {
+  3.                         gen `y'_`X'=`y'*`X'
+  4.                 }
+  5.         }
+.         
+.         gen trade_nstrg = total_trade*1000000-trade_strg
+.         replace trade_nstrg=0 if trade_nstrg<0 
+.         
+.         local tradelist "total_trade trade_strg trade_nstrg trade_chem trade_
+> mchn trade_arm trade_usc trade_trmptar trade_28 trade_29 trade_30 trade_38 tr
+> ade_84 trade_85 trade_87 trade_88 trade_90 trade_93 "
+.         
+. collapse (mean) `tradelist' , by(dyad time yq pst2 btwCOM* btw2* btwFDI* btw3
+> * btwCM3* btwalt3* unaFDI* una3* unaCM3* unaalt3* year quarter)
+.         tostring dyad, gen(ndyad)
+.         gen ifscode_1 = substr(ndyad, 1, 3)
+.         gen ifscode_2 = substr(ndyad, 4, 3)
+.         
+.         destring ifscode_1, gen(ifscode_rpt)
+.         sort ifscode_rpt
+.         merge m:1 ifscode_rpt using "`blocdata'", keepusing (ifscode_rpt iso_
+> rpt ae emde bloc*)
+.         ** merge characteristics of the dyad 
+.         tab _m
+.         drop if _m!=3
+.         rename ifscode_rpt ifs_code1 
+.         rename iso_rpt iso_rpt1
+.         foreach X in ae emde bloc3iea bloc3ipd  bloc3com {
+  2.                 rename `X' `X'_1 
+  3.         }
+.         drop _m
+.         destring ifscode_2, gen(ifscode_rpt)
+.         sort ifscode_rpt
+.         merge m:1 ifscode_rpt using "`blocdata'", keepusing (ifscode_rpt iso_
+> rpt ae emde bloc*)
+.         ** merge characteristics of the dyad 
+.         tab _m
+.         drop if _m!=3
+.         rename ifscode_rpt ifs_code2 
+.         rename iso_rpt iso_rpt2
+.         foreach X in ae emde bloc3iea bloc3ipd bloc3com {
+  2.                 rename `X' `X'_2
+  3.         }
+.         drop _m
+.         
+.         
+.         tsset dyad yq
+.         
+. foreach X in total_trade trade_strg trade_nstrg trade_chem trade_mchn trade_a
+> rm trade_usc trade_trmptar  trade_28 trade_29 trade_30 trade_38 trade_84 trad
+> e_85 trade_87 trade_88 trade_90 trade_93  {
+  2.                 cap drop ln`X'
+  3.                 cap drop dln`X'
+  4.                 gen ln`X'  = ln(`X'+sqrt(1+`X'^2))
+  5.                 bys dyad: gen dln`X'  = d.ln`X'
+  6.                 }
+.                 
+. *** create dummies for between trade with time 
+. 
+. save qrtrly_for_fragmentation_updated, replace
+. }
+
+. 
+. *****************************************************************************
+> ***
+. use  "$input\qrtrly_for_fragmentation_updated.dta", clear
+
+. 
+. tostring time, gen(t00)
+t00 generated as str6
+
+. 
+. gen str ifs1time = substr(ndyad, 1, 3)+t00
+
+. gen str ifs2time = substr(ndyad, 4, 3)+t00
+
+. 
+. drop t00
+
+. forvalue X = 228/256 {
+  2.         gen tm`X' = (yq==`X')
+  3. 
+. }
+
+.         foreach y in btw3 una3 btwalt3 unaalt3 btwCM3 unaCM3 {
+  2.         forvalue X = 228/256 {
+  3.                 gen `y'_tm`X' = `y'*tm`X'
+  4.         }
+  5.         }
+(27,745 missing values generated)
+(27,745 missing values generated)
+(27,745 missing values generated)
+(27,745 missing values generated)
+(27,745 missing values generated)
+(27,745 missing values generated)
+(27,745 missing values generated)
+(27,745 missing values generated)
+(27,745 missing values generated)
+(27,745 missing values generated)
+(27,745 missing values generated)
+(27,745 missing values generated)
+(27,745 missing values generated)
+(27,745 missing values generated)
+(27,745 missing values generated)
+(27,745 missing values generated)
+(27,745 missing values generated)
+(27,745 missing values generated)
+(27,745 missing values generated)
+(27,745 missing values generated)
+(27,745 missing values generated)
+(27,745 missing values generated)
+(27,745 missing values generated)
+(27,745 missing values generated)
+(27,745 missing values generated)
+(27,745 missing values generated)
+(27,745 missing values generated)
+(27,745 missing values generated)
+(27,745 missing values generated)
+(27,745 missing values generated)
+(27,745 missing values generated)
+(27,745 missing values generated)
+(27,745 missing values generated)
+(27,745 missing values generated)
+(27,745 missing values generated)
+(27,745 missing values generated)
+(27,745 missing values generated)
+(27,745 missing values generated)
+(27,745 missing values generated)
+(27,745 missing values generated)
+(27,745 missing values generated)
+(27,745 missing values generated)
+(27,745 missing values generated)
+(27,745 missing values generated)
+(27,745 missing values generated)
+(27,745 missing values generated)
+(27,745 missing values generated)
+(27,745 missing values generated)
+(27,745 missing values generated)
+(27,745 missing values generated)
+(27,745 missing values generated)
+(27,745 missing values generated)
+(27,745 missing values generated)
+(27,745 missing values generated)
+(27,745 missing values generated)
+(27,745 missing values generated)
+(27,745 missing values generated)
+(27,745 missing values generated)
+
+. 
+. 
+.         tsset 
+
+Panel variable: dyad (unbalanced)
+ Time variable: yq, 228 to 256, but with gaps
+         Delta: 1 unit
+
+. 
+.         cap drop btw3pre 
+
+.         gen btw3pre = 0
+
+.         replace btw3pre = 1 if btw3==1 & yq<=246
+(32,764 real changes made)
+
+.         cap drop una3pre 
+
+.         gen una3pre = 0
+
+.         replace una3pre = 1 if una3==1 & yq<=246
+(127,334 real changes made)
+
+.         
+. ** Regression to get the data for Figure 3 **
+.         ppmlhdfe total_trade l.total_trade btw3pre btw3_tm248-btw3_tm256 una3
+> pre una3_tm248-una3_tm256 if yq<257, absorb(dyad ifs1time ifs2time) cluster(d
+> yad time)
+(dropped 626 observations that are either singletons or separated by a fixed ef
+> fect)
+warning: dependent variable takes very low values after standardizing (2.4775e-
+> 14)
+Iteration 1:   deviance = 4.0464e+07  eps = .         iters = 6    tol = 1.0e-0
+> 4                                                                            
+>    min(eta) =  -4.29  P   
+Iteration 2:   deviance = 1.2143e+07  eps = 2.33e+00  iters = 5    tol = 1.0e-0
+> 4                                                                            
+>    min(eta) =  -5.89      
+Iteration 3:   deviance = 5.7666e+06  eps = 1.11e+00  iters = 5    tol = 1.0e-0
+> 4                                                                            
+>    min(eta) =  -7.35      
+Iteration 4:   deviance = 3.9127e+06  eps = 4.74e-01  iters = 5    tol = 1.0e-0
+> 4                                                                            
+>    min(eta) =  -8.47      
+Iteration 5:   deviance = 3.3929e+06  eps = 1.53e-01  iters = 4    tol = 1.0e-0
+> 4                                                                            
+>    min(eta) =  -9.60      
+Iteration 6:   deviance = 3.2567e+06  eps = 4.18e-02  iters = 4    tol = 1.0e-0
+> 4                                                                            
+>    min(eta) = -10.82      
+Iteration 7:   deviance = 3.2237e+06  eps = 1.02e-02  iters = 4    tol = 1.0e-0
+> 4                                                                            
+>    min(eta) = -12.59      
+Iteration 8:   deviance = 3.2164e+06  eps = 2.27e-03  iters = 3    tol = 1.0e-0
+> 4                                                                            
+>    min(eta) = -14.41      
+Iteration 9:   deviance = 3.2149e+06  eps = 4.60e-04  iters = 2    tol = 1.0e-0
+> 4                                                                            
+>    min(eta) = -16.10      
+Iteration 10:  deviance = 3.2147e+06  eps = 8.43e-05  iters = 2    tol = 1.0e-0
+> 4                                                                            
+>    min(eta) = -17.50      
+Iteration 11:  deviance = 3.2146e+06  eps = 1.42e-05  iters = 2    tol = 1.0e-0
+> 5                                                                            
+>    min(eta) = -18.60      
+Iteration 12:  deviance = 3.2146e+06  eps = 2.26e-06  iters = 2    tol = 1.0e-0
+> 5                                                                            
+>    min(eta) = -19.58   S  
+Iteration 13:  deviance = 3.2146e+06  eps = 3.54e-07  iters = 2    tol = 1.0e-0
+> 6                                                                            
+>    min(eta) = -20.50   S  
+Iteration 14:  deviance = 3.2146e+06  eps = 5.29e-08  iters = 2    tol = 1.0e-0
+> 7                                                                            
+>    min(eta) = -21.30   S  
+Iteration 15:  deviance = 3.2146e+06  eps = 7.10e-09  iters = 3    tol = 1.0e-0
+> 8                                                                            
+>    min(eta) = -21.87   S  
+Iteration 16:  deviance = 3.2146e+06  eps = 8.31e-10  iters = 3    tol = 1.0e-0
+> 9                                                                            
+>    min(eta) = -22.10   S O
+-------------------------------------------------------------------------------
+> -----------------------------
+(legend: p: exact partial-out   s: exact solver   h: step-halving   o: epsilon 
+> below tolerance)
+Converged in 16 iterations and 54 HDFE sub-iterations (tol = 1.0e-08)
+Warning: VCV matrix was non-positive semi-definite; adjustment from Cameron, Ge
+> lbach & Miller applied.
+warning: missing F statistic; dropped variables due to collinearity or too few 
+> clusters
+
+HDFE PPML regression                              No. of obs      =    259,780
+Absorbing 3 HDFE groups                           Residual df     =         27
+Statistics robust to heteroskedasticity           Wald chi2(21)   =          .
+Deviance             =  3214617.448               Prob > chi2     =          .
+Log pseudolikelihood = -2119337.293               Pseudo R2       =     0.9944
+
+Number of clusters (dyad)   =     11,303
+Number of clusters (time)   =         28
+                             (Std. err. adjusted for 28 clusters in dyad time)
+------------------------------------------------------------------------------
+             |               Robust
+ total_trade | Coefficient  std. err.      z    P>|z|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+ total_trade |
+         L1. |   5.52e-06   1.61e-06     3.42   0.001     2.36e-06    8.68e-06
+             |
+     btw3pre |    -.01627   .0176255    -0.92   0.356    -.0508154    .0182753
+  btw3_tm248 |  -.0050412   .0263957    -0.19   0.849    -.0567758    .0466933
+  btw3_tm249 |  -.0415988   .0288169    -1.44   0.149    -.0980789    .0148813
+  btw3_tm250 |  -.0341431   .0404543    -0.84   0.399    -.1134321    .0451459
+  btw3_tm251 |   -.095774   .0431067    -2.22   0.026    -.1802616   -.0112863
+  btw3_tm252 |  -.1487365   .0515685    -2.88   0.004     -.249809   -.0476641
+  btw3_tm253 |  -.1929866   .0511057    -3.78   0.000    -.2931519   -.0928213
+  btw3_tm254 |  -.1775084   .0518587    -3.42   0.001    -.2791495   -.0758672
+  btw3_tm255 |  -.2181967   .0497845    -4.38   0.000    -.3157725    -.120621
+  btw3_tm256 |  -.1958719    .050794    -3.86   0.000    -.2954263   -.0963174
+     una3pre |  -.0299894   .0205452    -1.46   0.144    -.0702573    .0102786
+  una3_tm248 |   .0064318   .0215068     0.30   0.765    -.0357207    .0485843
+  una3_tm249 |   .0459862   .0250287     1.84   0.066    -.0030691    .0950415
+  una3_tm250 |   .0624014   .0341954     1.82   0.068    -.0046203     .129423
+  una3_tm251 |   .0212742   .0354202     0.60   0.548    -.0481482    .0906965
+  una3_tm252 |  -.0275422   .0410788    -0.67   0.503    -.1080551    .0529707
+  una3_tm253 |   -.060925   .0424566    -1.43   0.151    -.1441384    .0222883
+  una3_tm254 |    -.03996   .0429443    -0.93   0.352    -.1241294    .0442093
+  una3_tm255 |  -.0830768   .0408153    -2.04   0.042    -.1630734   -.0030803
+  una3_tm256 |  -.1001806   .0406092    -2.47   0.014    -.1797732   -.0205881
+       _cons |   8.995475   .0523532   171.82   0.000     8.892864    9.098085
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-----------------------------------------------------+
+ Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------+---------------------------------------|
+        dyad |     11303       11303           0    *|
+    ifs1time |      5092        5092           0    *|
+    ifs2time |      5152        5152           0    *|
+-----------------------------------------------------+
+* = FE nested within cluster; treated as redundant for DoF computation
+
+.         outreg2 using "$tables\data_F3.xls", nocons ctitle(PPML) bdec(4) tdec
+> (4) se excel label replace addtext(Country-pair FE, Y, Time FE, -, Source x T
+> ime FE, Y, Destination x Time FE, Y, Blocs, Wider)
+E:\IHEID Economics\IHEID\Advanced International Economics\presentation\Data for
+>  Changing Global Linkages A New Cold War\PPGT_JIE_replication\tables\data_F3.
+> xls
+dir : seeout
+
+. 
+. ** Regression to get the data for Figure S1.2 **
+.         ppmlhdfe total_trade l.total_trade btw3_tm228-btw3_tm246 btw3_tm248-b
+> tw3_tm256 una3_tm228-una3_tm246 una3_tm248-una3_tm256 if yq<257, absorb(dyad 
+> ifs1time ifs2time) cluster(dyad time)
+(dropped 626 observations that are either singletons or separated by a fixed ef
+> fect)
+warning: dependent variable takes very low values after standardizing (2.4775e-
+> 14)
+note: 2 variables omitted because of collinearity: btw3_tm228 una3_tm228
+Iteration 1:   deviance = 4.0457e+07  eps = .         iters = 6    tol = 1.0e-0
+> 4                                                                            
+>    min(eta) =  -4.29  P   
+Iteration 2:   deviance = 1.2139e+07  eps = 2.33e+00  iters = 5    tol = 1.0e-0
+> 4                                                                            
+>    min(eta) =  -5.88      
+Iteration 3:   deviance = 5.7633e+06  eps = 1.11e+00  iters = 5    tol = 1.0e-0
+> 4                                                                            
+>    min(eta) =  -7.32      
+Iteration 4:   deviance = 3.9095e+06  eps = 4.74e-01  iters = 5    tol = 1.0e-0
+> 4                                                                            
+>    min(eta) =  -8.48      
+Iteration 5:   deviance = 3.3897e+06  eps = 1.53e-01  iters = 4    tol = 1.0e-0
+> 4                                                                            
+>    min(eta) =  -9.61      
+Iteration 6:   deviance = 3.2535e+06  eps = 4.19e-02  iters = 4    tol = 1.0e-0
+> 4                                                                            
+>    min(eta) = -10.81      
+Iteration 7:   deviance = 3.2205e+06  eps = 1.02e-02  iters = 4    tol = 1.0e-0
+> 4                                                                            
+>    min(eta) = -12.59      
+Iteration 8:   deviance = 3.2132e+06  eps = 2.27e-03  iters = 3    tol = 1.0e-0
+> 4                                                                            
+>    min(eta) = -14.41      
+Iteration 9:   deviance = 3.2117e+06  eps = 4.60e-04  iters = 2    tol = 1.0e-0
+> 4                                                                            
+>    min(eta) = -16.10      
+Iteration 10:  deviance = 3.2114e+06  eps = 8.43e-05  iters = 2    tol = 1.0e-0
+> 4                                                                            
+>    min(eta) = -17.50      
+Iteration 11:  deviance = 3.2114e+06  eps = 1.42e-05  iters = 2    tol = 1.0e-0
+> 5                                                                            
+>    min(eta) = -18.60      
+Iteration 12:  deviance = 3.2114e+06  eps = 2.26e-06  iters = 2    tol = 1.0e-0
+> 5                                                                            
+>    min(eta) = -19.58   S  
+Iteration 13:  deviance = 3.2114e+06  eps = 3.55e-07  iters = 2    tol = 1.0e-0
+> 6                                                                            
+>    min(eta) = -20.50   S  
+Iteration 14:  deviance = 3.2114e+06  eps = 5.29e-08  iters = 2    tol = 1.0e-0
+> 7                                                                            
+>    min(eta) = -21.30   S  
+Iteration 15:  deviance = 3.2114e+06  eps = 7.10e-09  iters = 3    tol = 1.0e-0
+> 8                                                                            
+>    min(eta) = -21.87   S  
+Iteration 16:  deviance = 3.2114e+06  eps = 8.32e-10  iters = 3    tol = 1.0e-0
+> 9                                                                            
+>    min(eta) = -22.10   S O
+-------------------------------------------------------------------------------
+> -----------------------------
+(legend: p: exact partial-out   s: exact solver   h: step-halving   o: epsilon 
+> below tolerance)
+Converged in 16 iterations and 54 HDFE sub-iterations (tol = 1.0e-08)
+Warning: VCV matrix was non-positive semi-definite; adjustment from Cameron, Ge
+> lbach & Miller applied.
+warning: missing F statistic; dropped variables due to collinearity or too few 
+> clusters
+
+HDFE PPML regression                              No. of obs      =    259,780
+Absorbing 3 HDFE groups                           Residual df     =         27
+Statistics robust to heteroskedasticity           Wald chi2(55)   =          .
+Deviance             =  3211386.722               Prob > chi2     =          .
+Log pseudolikelihood =  -2117721.93               Pseudo R2       =     0.9944
+
+Number of clusters (dyad)   =     11,303
+Number of clusters (time)   =         28
+                             (Std. err. adjusted for 28 clusters in dyad time)
+------------------------------------------------------------------------------
+             |               Robust
+ total_trade | Coefficient  std. err.      z    P>|z|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+ total_trade |
+         L1. |   5.57e-06   1.62e-06     3.44   0.001     2.39e-06    8.74e-06
+             |
+  btw3_tm228 |          0  (omitted)
+  btw3_tm229 |  -.0083683   .0408978    -0.20   0.838    -.0885265    .0717899
+  btw3_tm230 |   .0152153    .043084     0.35   0.724    -.0692277    .0996583
+  btw3_tm231 |   .0124803   .0424652     0.29   0.769    -.0707499    .0957105
+  btw3_tm232 |   .0015505   .0336798     0.05   0.963    -.0644606    .0675617
+  btw3_tm233 |   .0006219   .0372485     0.02   0.987    -.0723839    .0736277
+  btw3_tm234 |   .0305004   .0352456     0.87   0.387    -.0385798    .0995806
+  btw3_tm235 |   .0038899   .0236856     0.16   0.870     -.042533    .0503128
+  btw3_tm236 |  -.0261608   .0133328    -1.96   0.050    -.0522927    -.000029
+  btw3_tm237 |   -.001748   .0235295    -0.07   0.941     -.047865     .044369
+  btw3_tm238 |  -.0085368   .0180692    -0.47   0.637    -.0439519    .0268782
+  btw3_tm239 |  -.0535084   .0119902    -4.46   0.000    -.0770087   -.0300081
+  btw3_tm240 |  -.0673351   .0135223    -4.98   0.000    -.0938383   -.0408319
+  btw3_tm241 |   .0151634   .0262882     0.58   0.564    -.0363606    .0666874
+  btw3_tm242 |  -.0355451   .0183346    -1.94   0.053    -.0714803      .00039
+  btw3_tm243 |  -.0347179   .0177921    -1.95   0.051    -.0695898    .0001541
+  btw3_tm244 |  -.0633566   .0145346    -4.36   0.000    -.0918438   -.0348694
+  btw3_tm245 |  -.0391214   .0114227    -3.42   0.001    -.0615094   -.0167335
+  btw3_tm246 |  -.0203185   .0107569    -1.89   0.059    -.0414016    .0007645
+  btw3_tm248 |  -.0051724   .0257543    -0.20   0.841    -.0556499     .045305
+  btw3_tm249 |  -.0416504   .0286288    -1.45   0.146    -.0977618     .014461
+  btw3_tm250 |  -.0341322   .0404258    -0.84   0.398    -.1133653    .0451009
+  btw3_tm251 |  -.0957725   .0431852    -2.22   0.027    -.1804139    -.011131
+  btw3_tm252 |  -.1485937   .0520817    -2.85   0.004     -.250672   -.0465154
+  btw3_tm253 |  -.1927077   .0516841    -3.73   0.000    -.2940067   -.0914087
+  btw3_tm254 |  -.1771946   .0523252    -3.39   0.001    -.2797502    -.074639
+  btw3_tm255 |  -.2179068   .0503449    -4.33   0.000    -.3165811   -.1192326
+  btw3_tm256 |  -.1955647   .0511453    -3.82   0.000    -.2958076   -.0953217
+  una3_tm228 |          0  (omitted)
+  una3_tm229 |  -.0119011   .0380271    -0.31   0.754    -.0864329    .0626307
+  una3_tm230 |  -.0186717   .0390277    -0.48   0.632    -.0951645    .0578211
+  una3_tm231 |  -.0045551   .0385695    -0.12   0.906      -.08015    .0710399
+  una3_tm232 |   .0181348   .0324484     0.56   0.576    -.0454629    .0817326
+  una3_tm233 |  -.0211873   .0363951    -0.58   0.560    -.0925205    .0501458
+  una3_tm234 |   .0192744   .0318037     0.61   0.544    -.0430597    .0816086
+  una3_tm235 |   -.011778   .0246242    -0.48   0.632    -.0600405    .0364845
+  una3_tm236 |  -.0037346     .02198    -0.17   0.865    -.0468146    .0393453
+  una3_tm237 |  -.0340571   .0262633    -1.30   0.195    -.0855322    .0174179
+  una3_tm238 |  -.0414122   .0196222    -2.11   0.035    -.0798709   -.0029534
+  una3_tm239 |   -.079925   .0188374    -4.24   0.000    -.1168457   -.0430043
+  una3_tm240 |  -.0703729   .0179436    -3.92   0.000    -.1055418   -.0352041
+  una3_tm241 |  -.0685139   .0287615    -2.38   0.017    -.1248854   -.0121425
+  una3_tm242 |  -.0209879   .0279004    -0.75   0.452    -.0756717    .0336959
+  una3_tm243 |  -.0783982     .02378    -3.30   0.001    -.1250061   -.0317903
+  una3_tm244 |  -.0626028   .0158745    -3.94   0.000    -.0937162   -.0314894
+  una3_tm245 |  -.0327329   .0149158    -2.19   0.028    -.0619672   -.0034985
+  una3_tm246 |  -.0255704   .0156217    -1.64   0.102    -.0561882    .0050475
+  una3_tm248 |   .0064644   .0209231     0.31   0.757    -.0345441    .0474728
+  una3_tm249 |   .0459136   .0259003     1.77   0.076    -.0048501    .0966774
+  una3_tm250 |   .0623219   .0354218     1.76   0.079    -.0071035    .1317473
+  una3_tm251 |   .0212051   .0362277     0.59   0.558    -.0497998      .09221
+  una3_tm252 |  -.0275868   .0413303    -0.67   0.504    -.1085926     .053419
+  una3_tm253 |  -.0610119   .0425523    -1.43   0.152    -.1444128    .0223891
+  una3_tm254 |  -.0400223   .0430141    -0.93   0.352    -.1243285    .0442838
+  una3_tm255 |  -.0831527   .0409551    -2.03   0.042    -.1634232   -.0028822
+  una3_tm256 |  -.1001951   .0407207    -2.46   0.014    -.1800062    -.020384
+       _cons |   8.993937   .0521617   172.42   0.000     8.891702    9.096173
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-----------------------------------------------------+
+ Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------+---------------------------------------|
+        dyad |     11303       11303           0    *|
+    ifs1time |      5092        5092           0    *|
+    ifs2time |      5152        5152           0    *|
+-----------------------------------------------------+
+* = FE nested within cluster; treated as redundant for DoF computation
+
+.         outreg2 using "$tables\data_FS1.2.xls", nocons ctitle(PPML) bdec(4) t
+> dec(4) se excel label replace addtext(Country-pair FE, Y, Time FE, -, Source 
+> x Time FE, Y, Destination x Time FE, Y, Blocs, Wider)
+E:\IHEID Economics\IHEID\Advanced International Economics\presentation\Data for
+>  Changing Global Linkages A New Cold War\PPGT_JIE_replication\tables\data_FS1
+> .2.xls
+dir : seeout
+
+. 
+. 
+.         
+.         cap drop btw3pre 
+
+.         gen btw3pre = 0
+
+.         replace btw3pre = 1 if btw3==1 & yq<=247
+(34,513 real changes made)
+
+.         cap drop una3pre 
+
+.         gen una3pre = 0
+
+.         replace una3pre = 1 if una3==1 & yq<=247
+(134,233 real changes made)
+
+. 
+. ** Table 1, columns 1-2 **
+. 
+. foreach z in 3 {
+  2. 
+.         ppmlhdfe total_trade btw`z'_pst2 una`z'_pst2 l.total_trade if yq<257,
+>  absorb(dyad time) cluster(dyad time)
+  3.         outreg2 using "$tables\T1.xls", nocons ctitle(PPML) bdec(4) tdec(4
+> ) se excel label replace addtext(Country-pair FE, Y, Time FE, Y, Source x Tim
+> e FE, N, Destination x Time FE, N, Blocs, Wider)
+  4.         ppmlhdfe total_trade btw`z'_pst2 una`z'_pst2 l.total_trade if yq<2
+> 57, absorb(dyad ifs1time ifs2time) cluster(dyad )
+  5.         outreg2 using "$tables\T1.xls", nocons ctitle(PPML) bdec(4) tdec(4
+> ) se excel label append addtext(Country-pair FE, Y, Time FE, -, Source x Time
+>  FE, Y, Destination x Time FE, Y, Blocs, Wider)
+  6.                 }
+(dropped 566 observations that are either singletons or separated by a fixed ef
+> fect)
+warning: dependent variable takes very low values after standardizing (2.4777e-
+> 14)
+Iteration 1:   deviance = 4.2489e+07  eps = .         iters = 3    tol = 1.0e-0
+> 4                                                                            
+>    min(eta) =  -4.04  P   
+Iteration 2:   deviance = 1.3911e+07  eps = 2.05e+00  iters = 3    tol = 1.0e-0
+> 4                                                                            
+>    min(eta) =  -5.16      
+Iteration 3:   deviance = 7.6282e+06  eps = 8.24e-01  iters = 3    tol = 1.0e-0
+> 4                                                                            
+>    min(eta) =  -6.22      
+Iteration 4:   deviance = 5.8170e+06  eps = 3.11e-01  iters = 2    tol = 1.0e-0
+> 4                                                                            
+>    min(eta) =  -7.22      
+Iteration 5:   deviance = 5.3084e+06  eps = 9.58e-02  iters = 2    tol = 1.0e-0
+> 4                                                                            
+>    min(eta) =  -8.21      
+Iteration 6:   deviance = 5.1750e+06  eps = 2.58e-02  iters = 2    tol = 1.0e-0
+> 4                                                                            
+>    min(eta) =  -9.21      
+Iteration 7:   deviance = 5.1427e+06  eps = 6.27e-03  iters = 2    tol = 1.0e-0
+> 4                                                                            
+>    min(eta) = -10.20      
+Iteration 8:   deviance = 5.1356e+06  eps = 1.39e-03  iters = 2    tol = 1.0e-0
+> 4                                                                            
+>    min(eta) = -11.18      
+Iteration 9:   deviance = 5.1342e+06  eps = 2.81e-04  iters = 2    tol = 1.0e-0
+> 4                                                                            
+>    min(eta) = -12.15      
+Iteration 10:  deviance = 5.1339e+06  eps = 5.16e-05  iters = 2    tol = 1.0e-0
+> 4                                                                            
+>    min(eta) = -13.08      
+Iteration 11:  deviance = 5.1338e+06  eps = 8.68e-06  iters = 2    tol = 1.0e-0
+> 5                                                                            
+>    min(eta) = -14.06      
+Iteration 12:  deviance = 5.1338e+06  eps = 1.39e-06  iters = 2    tol = 1.0e-0
+> 6                                                                            
+>    min(eta) = -15.04   S  
+Iteration 13:  deviance = 5.1338e+06  eps = 2.17e-07  iters = 2    tol = 1.0e-0
+> 6                                                                            
+>    min(eta) = -16.00   S  
+Iteration 14:  deviance = 5.1338e+06  eps = 3.23e-08  iters = 2    tol = 1.0e-0
+> 7                                                                            
+>    min(eta) = -16.89   S  
+Iteration 15:  deviance = 5.1338e+06  eps = 4.31e-09  iters = 2    tol = 1.0e-0
+> 9                                                                            
+>    min(eta) = -17.79   S O
+-------------------------------------------------------------------------------
+> -----------------------------
+(legend: p: exact partial-out   s: exact solver   h: step-halving   o: epsilon 
+> below tolerance)
+Converged in 15 iterations and 33 HDFE sub-iterations (tol = 1.0e-08)
+Warning: VCV matrix was non-positive semi-definite; adjustment from Cameron, Ge
+> lbach & Miller applied.
+
+HDFE PPML regression                              No. of obs      =    259,840
+Absorbing 2 HDFE groups                           Residual df     =         27
+Statistics robust to heteroskedasticity           Wald chi2(3)    =      21.63
+Deviance             =  5133840.178               Prob > chi2     =     0.0001
+Log pseudolikelihood = -3079142.191               Pseudo R2       =     0.9919
+
+Number of clusters (dyad)   =     11,304
+Number of clusters (time)   =         28
+                             (Std. err. adjusted for 28 clusters in dyad time)
+------------------------------------------------------------------------------
+             |               Robust
+ total_trade | Coefficient  std. err.      z    P>|z|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+   btw3_pst2 |  -.1058807   .0412532    -2.57   0.010    -.1867354    -.025026
+   una3_pst2 |   .0403083   .0304073     1.33   0.185    -.0192889    .0999055
+             |
+ total_trade |
+         L1. |   2.75e-06   1.44e-06     1.91   0.056    -6.61e-08    5.56e-06
+             |
+       _cons |   9.059354   .0472463   191.75   0.000     8.966753    9.151955
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-----------------------------------------------------+
+ Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------+---------------------------------------|
+        dyad |     11304       11304           0    *|
+        time |        28          28           0    *|
+-----------------------------------------------------+
+* = FE nested within cluster; treated as redundant for DoF computation
+E:\IHEID Economics\IHEID\Advanced International Economics\presentation\Data for
+>  Changing Global Linkages A New Cold War\PPGT_JIE_replication\tables\T1.xls
+dir : seeout
+(dropped 626 observations that are either singletons or separated by a fixed ef
+> fect)
+warning: dependent variable takes very low values after standardizing (2.4775e-
+> 14)
+Iteration 1:   deviance = 4.0472e+07  eps = .         iters = 6    tol = 1.0e-0
+> 4                                                                            
+>    min(eta) =  -4.29  P   
+Iteration 2:   deviance = 1.2151e+07  eps = 2.33e+00  iters = 5    tol = 1.0e-0
+> 4                                                                            
+>    min(eta) =  -5.89      
+Iteration 3:   deviance = 5.7751e+06  eps = 1.10e+00  iters = 5    tol = 1.0e-0
+> 4                                                                            
+>    min(eta) =  -7.35      
+Iteration 4:   deviance = 3.9214e+06  eps = 4.73e-01  iters = 5    tol = 1.0e-0
+> 4                                                                            
+>    min(eta) =  -8.47      
+Iteration 5:   deviance = 3.4016e+06  eps = 1.53e-01  iters = 4    tol = 1.0e-0
+> 4                                                                            
+>    min(eta) =  -9.61      
+Iteration 6:   deviance = 3.2653e+06  eps = 4.17e-02  iters = 4    tol = 1.0e-0
+> 4                                                                            
+>    min(eta) = -10.82      
+Iteration 7:   deviance = 3.2324e+06  eps = 1.02e-02  iters = 4    tol = 1.0e-0
+> 4                                                                            
+>    min(eta) = -12.47      
+Iteration 8:   deviance = 3.2251e+06  eps = 2.26e-03  iters = 3    tol = 1.0e-0
+> 4                                                                            
+>    min(eta) = -14.28      
+Iteration 9:   deviance = 3.2236e+06  eps = 4.58e-04  iters = 2    tol = 1.0e-0
+> 4                                                                            
+>    min(eta) = -15.97      
+Iteration 10:  deviance = 3.2233e+06  eps = 8.40e-05  iters = 2    tol = 1.0e-0
+> 4                                                                            
+>    min(eta) = -17.37      
+Iteration 11:  deviance = 3.2233e+06  eps = 1.41e-05  iters = 2    tol = 1.0e-0
+> 5                                                                            
+>    min(eta) = -18.47      
+Iteration 12:  deviance = 3.2233e+06  eps = 2.26e-06  iters = 2    tol = 1.0e-0
+> 5                                                                            
+>    min(eta) = -19.45   S  
+Iteration 13:  deviance = 3.2233e+06  eps = 3.53e-07  iters = 2    tol = 1.0e-0
+> 6                                                                            
+>    min(eta) = -20.37   S  
+Iteration 14:  deviance = 3.2233e+06  eps = 5.27e-08  iters = 2    tol = 1.0e-0
+> 7                                                                            
+>    min(eta) = -21.17   S  
+Iteration 15:  deviance = 3.2233e+06  eps = 7.07e-09  iters = 2    tol = 1.0e-0
+> 8                                                                            
+>    min(eta) = -21.74   S  
+Iteration 16:  deviance = 3.2233e+06  eps = 8.28e-10  iters = 3    tol = 1.0e-0
+> 9                                                                            
+>    min(eta) = -21.97   S O
+-------------------------------------------------------------------------------
+> -----------------------------
+(legend: p: exact partial-out   s: exact solver   h: step-halving   o: epsilon 
+> below tolerance)
+Converged in 16 iterations and 53 HDFE sub-iterations (tol = 1.0e-08)
+
+HDFE PPML regression                              No. of obs      =    259,780
+Absorbing 3 HDFE groups                           Residual df     =     11,302
+Statistics robust to heteroskedasticity           Wald chi2(3)    =      34.57
+Deviance             =  3223275.693               Prob > chi2     =     0.0000
+Log pseudolikelihood = -2123666.415               Pseudo R2       =     0.9944
+
+Number of clusters (dyad)   =     11,303
+                              (Std. err. adjusted for 11,303 clusters in dyad)
+------------------------------------------------------------------------------
+             |               Robust
+ total_trade | Coefficient  std. err.      z    P>|z|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+   btw3_pst2 |   -.121234   .0583409    -2.08   0.038      -.23558    -.006888
+   una3_pst2 |   .0042953   .0510015     0.08   0.933    -.0956658    .1042564
+             |
+ total_trade |
+         L1. |   5.72e-06   1.21e-06     4.71   0.000     3.33e-06    8.10e-06
+             |
+       _cons |    8.97661   .0411365   218.22   0.000     8.895984    9.057236
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-----------------------------------------------------+
+ Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------+---------------------------------------|
+        dyad |     11303       11303           0    *|
+    ifs1time |      5092           1        5091     |
+    ifs2time |      5152          28        5124     |
+-----------------------------------------------------+
+* = FE nested within cluster; treated as redundant for DoF computation
+E:\IHEID Economics\IHEID\Advanced International Economics\presentation\Data for
+>  Changing Global Linkages A New Cold War\PPGT_JIE_replication\tables\T1.xls
+dir : seeout
+
+. 
+. foreach z in alt3 {
+  2. 
+.         ppmlhdfe total_trade btw`z'_pst2 una`z'_pst2 l.total_trade if yq<257,
+>  absorb(dyad time) cluster(dyad time)
+  3.         outreg2 using "$tables\T1.xls", nocons ctitle(PPML) bdec(4) tdec(4
+> ) se excel label append addtext(Country-pair FE, Y, Time FE, Y, Source x Time
+>  FE, N, Destination x Time FE, N, Blocs, Narrow)
+  4.         ppmlhdfe total_trade btw`z'_pst2 una`z'_pst2 l.total_trade if yq<2
+> 57, absorb(dyad ifs1time ifs2time) cluster(dyad )
+  5.         outreg2 using "$tables\T1.xls", nocons ctitle(PPML) bdec(4) tdec(4
+> ) se excel label append addtext(Country-pair FE, Y, Time FE, -, Source x Time
+>  FE, Y, Destination x Time FE, Y, Blocs, Narrow)
+  6.                 }
+(dropped 618 observations that are either singletons or separated by a fixed ef
+> fect)
+warning: dependent variable takes very low values after standardizing (2.4484e-
+> 14)
+Iteration 1:   deviance = 4.6876e+07  eps = .         iters = 3    tol = 1.0e-0
+> 4                                                                            
+>    min(eta) =  -4.02  P   
+Iteration 2:   deviance = 1.5264e+07  eps = 2.07e+00  iters = 3    tol = 1.0e-0
+> 4                                                                            
+>    min(eta) =  -5.15      
+Iteration 3:   deviance = 8.3143e+06  eps = 8.36e-01  iters = 3    tol = 1.0e-0
+> 4                                                                            
+>    min(eta) =  -6.20      
+Iteration 4:   deviance = 6.3098e+06  eps = 3.18e-01  iters = 2    tol = 1.0e-0
+> 4                                                                            
+>    min(eta) =  -7.21      
+Iteration 5:   deviance = 5.7466e+06  eps = 9.80e-02  iters = 2    tol = 1.0e-0
+> 4                                                                            
+>    min(eta) =  -8.20      
+Iteration 6:   deviance = 5.5988e+06  eps = 2.64e-02  iters = 2    tol = 1.0e-0
+> 4                                                                            
+>    min(eta) =  -9.19      
+Iteration 7:   deviance = 5.5630e+06  eps = 6.43e-03  iters = 2    tol = 1.0e-0
+> 4                                                                            
+>    min(eta) = -10.17      
+Iteration 8:   deviance = 5.5551e+06  eps = 1.43e-03  iters = 2    tol = 1.0e-0
+> 4                                                                            
+>    min(eta) = -11.16      
+Iteration 9:   deviance = 5.5535e+06  eps = 2.90e-04  iters = 2    tol = 1.0e-0
+> 4                                                                            
+>    min(eta) = -12.12      
+Iteration 10:  deviance = 5.5532e+06  eps = 5.34e-05  iters = 2    tol = 1.0e-0
+> 4                                                                            
+>    min(eta) = -13.10      
+Iteration 11:  deviance = 5.5531e+06  eps = 9.03e-06  iters = 2    tol = 1.0e-0
+> 5                                                                            
+>    min(eta) = -14.08      
+Iteration 12:  deviance = 5.5531e+06  eps = 1.46e-06  iters = 2    tol = 1.0e-0
+> 6                                                                            
+>    min(eta) = -15.04   S  
+Iteration 13:  deviance = 5.5531e+06  eps = 2.32e-07  iters = 2    tol = 1.0e-0
+> 6                                                                            
+>    min(eta) = -16.00   S  
+Iteration 14:  deviance = 5.5531e+06  eps = 3.42e-08  iters = 2    tol = 1.0e-0
+> 7                                                                            
+>    min(eta) = -16.89   S  
+Iteration 15:  deviance = 5.5531e+06  eps = 4.47e-09  iters = 2    tol = 1.0e-0
+> 9                                                                            
+>    min(eta) = -17.79   S O
+-------------------------------------------------------------------------------
+> -----------------------------
+(legend: p: exact partial-out   s: exact solver   h: step-halving   o: epsilon 
+> below tolerance)
+Converged in 15 iterations and 33 HDFE sub-iterations (tol = 1.0e-08)
+Warning: VCV matrix was non-positive semi-definite; adjustment from Cameron, Ge
+> lbach & Miller applied.
+
+HDFE PPML regression                              No. of obs      =    284,765
+Absorbing 2 HDFE groups                           Residual df     =         27
+Statistics robust to heteroskedasticity           Wald chi2(3)    =      20.40
+Deviance             =  5553124.408               Prob > chi2     =     0.0001
+Log pseudolikelihood = -3335136.599               Pseudo R2       =     0.9921
+
+Number of clusters (dyad)   =     12,379
+Number of clusters (time)   =         28
+                             (Std. err. adjusted for 28 clusters in dyad time)
+------------------------------------------------------------------------------
+             |               Robust
+ total_trade | Coefficient  std. err.      z    P>|z|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+btwalt3_pst2 |  -.1562103   .0528042    -2.96   0.003    -.2597047   -.0527159
+unaalt3_pst2 |   .0206597   .0312352     0.66   0.508    -.0405602    .0818797
+             |
+ total_trade |
+         L1. |   3.08e-06   1.39e-06     2.22   0.026     3.64e-07    5.80e-06
+             |
+       _cons |   9.078409   .0468369   193.83   0.000      8.98661    9.170207
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-----------------------------------------------------+
+ Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------+---------------------------------------|
+        dyad |     12379       12379           0    *|
+        time |        28          28           0    *|
+-----------------------------------------------------+
+* = FE nested within cluster; treated as redundant for DoF computation
+E:\IHEID Economics\IHEID\Advanced International Economics\presentation\Data for
+>  Changing Global Linkages A New Cold War\PPGT_JIE_replication\tables\T1.xls
+dir : seeout
+(dropped 677 observations that are either singletons or separated by a fixed ef
+> fect)
+warning: dependent variable takes very low values after standardizing (2.4481e-
+> 14)
+Iteration 1:   deviance = 4.4661e+07  eps = .         iters = 6    tol = 1.0e-0
+> 4                                                                            
+>    min(eta) =  -4.29  P   
+Iteration 2:   deviance = 1.3340e+07  eps = 2.35e+00  iters = 6    tol = 1.0e-0
+> 4                                                                            
+>    min(eta) =  -5.85      
+Iteration 3:   deviance = 6.2828e+06  eps = 1.12e+00  iters = 5    tol = 1.0e-0
+> 4                                                                            
+>    min(eta) =  -7.30      
+Iteration 4:   deviance = 4.2286e+06  eps = 4.86e-01  iters = 5    tol = 1.0e-0
+> 4                                                                            
+>    min(eta) =  -8.45      
+Iteration 5:   deviance = 3.6523e+06  eps = 1.58e-01  iters = 4    tol = 1.0e-0
+> 4                                                                            
+>    min(eta) =  -9.64      
+Iteration 6:   deviance = 3.5011e+06  eps = 4.32e-02  iters = 4    tol = 1.0e-0
+> 4                                                                            
+>    min(eta) = -10.83      
+Iteration 7:   deviance = 3.4644e+06  eps = 1.06e-02  iters = 3    tol = 1.0e-0
+> 4                                                                            
+>    min(eta) = -12.47      
+Iteration 8:   deviance = 3.4563e+06  eps = 2.35e-03  iters = 3    tol = 1.0e-0
+> 4                                                                            
+>    min(eta) = -14.29      
+Iteration 9:   deviance = 3.4546e+06  eps = 4.78e-04  iters = 2    tol = 1.0e-0
+> 4                                                                            
+>    min(eta) = -15.98      
+Iteration 10:  deviance = 3.4543e+06  eps = 8.79e-05  iters = 2    tol = 1.0e-0
+> 4                                                                            
+>    min(eta) = -17.38      
+Iteration 11:  deviance = 3.4543e+06  eps = 1.49e-05  iters = 2    tol = 1.0e-0
+> 5                                                                            
+>    min(eta) = -18.49      
+Iteration 12:  deviance = 3.4543e+06  eps = 2.41e-06  iters = 2    tol = 1.0e-0
+> 5                                                                            
+>    min(eta) = -19.46   S  
+Iteration 13:  deviance = 3.4543e+06  eps = 3.83e-07  iters = 2    tol = 1.0e-0
+> 6                                                                            
+>    min(eta) = -20.39   S  
+Iteration 14:  deviance = 3.4543e+06  eps = 5.67e-08  iters = 2    tol = 1.0e-0
+> 7                                                                            
+>    min(eta) = -21.19   S  
+Iteration 15:  deviance = 3.4543e+06  eps = 7.43e-09  iters = 2    tol = 1.0e-0
+> 8                                                                            
+>    min(eta) = -21.75   S  
+Iteration 16:  deviance = 3.4543e+06  eps = 8.33e-10  iters = 2    tol = 1.0e-0
+> 9                                                                            
+>    min(eta) = -21.99   S O
+-------------------------------------------------------------------------------
+> -----------------------------
+(legend: p: exact partial-out   s: exact solver   h: step-halving   o: epsilon 
+> below tolerance)
+Converged in 16 iterations and 52 HDFE sub-iterations (tol = 1.0e-08)
+
+HDFE PPML regression                              No. of obs      =    284,706
+Absorbing 3 HDFE groups                           Residual df     =     12,377
+Statistics robust to heteroskedasticity           Wald chi2(3)    =      47.72
+Deviance             =  3454278.114               Prob > chi2     =     0.0000
+Log pseudolikelihood = -2285593.779               Pseudo R2       =     0.9946
+
+Number of clusters (dyad)   =     12,378
+                              (Std. err. adjusted for 12,378 clusters in dyad)
+------------------------------------------------------------------------------
+             |               Robust
+ total_trade | Coefficient  std. err.      z    P>|z|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+btwalt3_pst2 |  -.1193603   .0885299    -1.35   0.178    -.2928757    .0541551
+unaalt3_pst2 |   .0761782   .0772661     0.99   0.324    -.0752605    .2276169
+             |
+ total_trade |
+         L1. |   5.90e-06   1.16e-06     5.10   0.000     3.63e-06    8.17e-06
+             |
+       _cons |   8.980647   .0414842   216.48   0.000     8.899339    9.061954
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-----------------------------------------------------+
+ Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------+---------------------------------------|
+        dyad |     12378       12378           0    *|
+    ifs1time |      5373           1        5372     |
+    ifs2time |      5432          28        5404     |
+-----------------------------------------------------+
+* = FE nested within cluster; treated as redundant for DoF computation
+E:\IHEID Economics\IHEID\Advanced International Economics\presentation\Data for
+>  Changing Global Linkages A New Cold War\PPGT_JIE_replication\tables\T1.xls
+dir : seeout
+
+. 
+.                 
+. 
+. ** Table S2.2, Columns 1-2 **
+.                 
+. preserve 
+
+.         drop if ifs_code1==111 | ifs_code2==111         
+(5,597 observations deleted)
+
+.         
+.         foreach z in 3 {
+  2. 
+.         ppmlhdfe total_trade btw`z'_pst2 una`z'_pst2 l.total_trade, absorb(dy
+> ad time) cluster(dyad time)
+  3.         outreg2 using "$tables\TS2.2.xls", nocons ctitle(PPML) bdec(4) tde
+> c(4) se excel label replace addtext(Country-pair FE, Y, Time FE, Y, Source x 
+> Time FE, N, Destination x Time FE, N, Blocs, Wider, Sample, No US)
+  4.         ppmlhdfe total_trade btw`z'_pst2 una`z'_pst2 l.total_trade, absorb
+> (dyad ifs1time ifs2time) cluster(dyad )
+  5.         outreg2 using "$tables\TS2.2.xls", nocons ctitle(PPML) bdec(4) tde
+> c(4) se excel label append addtext(Country-pair FE, Y, Time FE, -, Source x T
+> ime FE, Y, Destination x Time FE, Y, Blocs, Wider, Sample, No US)
+  6.                 }
+(dropped 566 observations that are either singletons or separated by a fixed ef
+> fect)
+warning: dependent variable takes very low values after standardizing (3.9110e-
+> 14)
+Iteration 1:   deviance = 3.2138e+07  eps = .         iters = 3    tol = 1.0e-0
+> 4                                                                            
+>    min(eta) =  -3.81  P   
+Iteration 2:   deviance = 1.0911e+07  eps = 1.95e+00  iters = 3    tol = 1.0e-0
+> 4                                                                            
+>    min(eta) =  -4.93      
+Iteration 3:   deviance = 6.2640e+06  eps = 7.42e-01  iters = 3    tol = 1.0e-0
+> 4                                                                            
+>    min(eta) =  -5.98      
+Iteration 4:   deviance = 4.9358e+06  eps = 2.69e-01  iters = 2    tol = 1.0e-0
+> 4                                                                            
+>    min(eta) =  -6.98      
+Iteration 5:   deviance = 4.5678e+06  eps = 8.06e-02  iters = 2    tol = 1.0e-0
+> 4                                                                            
+>    min(eta) =  -7.97      
+Iteration 6:   deviance = 4.4730e+06  eps = 2.12e-02  iters = 2    tol = 1.0e-0
+> 4                                                                            
+>    min(eta) =  -8.97      
+Iteration 7:   deviance = 4.4506e+06  eps = 5.04e-03  iters = 2    tol = 1.0e-0
+> 4                                                                            
+>    min(eta) =  -9.96      
+Iteration 8:   deviance = 4.4457e+06  eps = 1.09e-03  iters = 2    tol = 1.0e-0
+> 4                                                                            
+>    min(eta) = -10.94      
+Iteration 9:   deviance = 4.4448e+06  eps = 2.16e-04  iters = 2    tol = 1.0e-0
+> 4                                                                            
+>    min(eta) = -11.89      
+Iteration 10:  deviance = 4.4446e+06  eps = 3.88e-05  iters = 2    tol = 1.0e-0
+> 4                                                                            
+>    min(eta) = -12.83      
+Iteration 11:  deviance = 4.4446e+06  eps = 6.42e-06  iters = 2    tol = 1.0e-0
+> 5                                                                            
+>    min(eta) = -13.83      
+Iteration 12:  deviance = 4.4446e+06  eps = 1.02e-06  iters = 2    tol = 1.0e-0
+> 6                                                                            
+>    min(eta) = -14.81   S  
+Iteration 13:  deviance = 4.4446e+06  eps = 1.58e-07  iters = 2    tol = 1.0e-0
+> 6                                                                            
+>    min(eta) = -15.75   S  
+Iteration 14:  deviance = 4.4446e+06  eps = 2.30e-08  iters = 2    tol = 1.0e-0
+> 7                                                                            
+>    min(eta) = -16.62   S  
+Iteration 15:  deviance = 4.4446e+06  eps = 2.98e-09  iters = 2    tol = 1.0e-0
+> 9                                                                            
+>    min(eta) = -17.57   S O
+-------------------------------------------------------------------------------
+> -----------------------------
+(legend: p: exact partial-out   s: exact solver   h: step-halving   o: epsilon 
+> below tolerance)
+Converged in 15 iterations and 33 HDFE sub-iterations (tol = 1.0e-08)
+Warning: VCV matrix was non-positive semi-definite; adjustment from Cameron, Ge
+> lbach & Miller applied.
+
+HDFE PPML regression                              No. of obs      =    254,688
+Absorbing 2 HDFE groups                           Residual df     =         27
+Statistics robust to heteroskedasticity           Wald chi2(3)    =      35.98
+Deviance             =    4444577.3               Prob > chi2     =     0.0000
+Log pseudolikelihood = -2715406.185               Pseudo R2       =     0.9900
+
+Number of clusters (dyad)   =     11,120
+Number of clusters (time)   =         28
+                             (Std. err. adjusted for 28 clusters in dyad time)
+------------------------------------------------------------------------------
+             |               Robust
+ total_trade | Coefficient  std. err.      z    P>|z|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+   btw3_pst2 |  -.0903806   .0379774    -2.38   0.017     -.164815   -.0159463
+   una3_pst2 |   .0710361   .0307127     2.31   0.021     .0108404    .1312319
+             |
+ total_trade |
+         L1. |   .0000141   3.04e-06     4.65   0.000     8.18e-06    .0000201
+             |
+       _cons |   8.448296   .0523085   161.51   0.000     8.345773    8.550819
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-----------------------------------------------------+
+ Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------+---------------------------------------|
+        dyad |     11120       11120           0    *|
+        time |        28          28           0    *|
+-----------------------------------------------------+
+* = FE nested within cluster; treated as redundant for DoF computation
+E:\IHEID Economics\IHEID\Advanced International Economics\presentation\Data for
+>  Changing Global Linkages A New Cold War\PPGT_JIE_replication\tables\TS2.2.xl
+> s
+dir : seeout
+(dropped 682 observations that are either singletons or separated by a fixed ef
+> fect)
+warning: dependent variable takes very low values after standardizing (3.9104e-
+> 14)
+Iteration 1:   deviance = 3.0497e+07  eps = .         iters = 6    tol = 1.0e-0
+> 4                                                                            
+>    min(eta) =  -4.14  P   
+Iteration 2:   deviance = 9.4167e+06  eps = 2.24e+00  iters = 5    tol = 1.0e-0
+> 4                                                                            
+>    min(eta) =  -5.75      
+Iteration 3:   deviance = 4.6853e+06  eps = 1.01e+00  iters = 5    tol = 1.0e-0
+> 4                                                                            
+>    min(eta) =  -7.16      
+Iteration 4:   deviance = 3.3227e+06  eps = 4.10e-01  iters = 5    tol = 1.0e-0
+> 4                                                                            
+>    min(eta) =  -8.26      
+Iteration 5:   deviance = 2.9458e+06  eps = 1.28e-01  iters = 5    tol = 1.0e-0
+> 4                                                                            
+>    min(eta) =  -9.47      
+Iteration 6:   deviance = 2.8487e+06  eps = 3.41e-02  iters = 4    tol = 1.0e-0
+> 4                                                                            
+>    min(eta) = -10.76      
+Iteration 7:   deviance = 2.8257e+06  eps = 8.15e-03  iters = 4    tol = 1.0e-0
+> 4                                                                            
+>    min(eta) = -12.47      
+Iteration 8:   deviance = 2.8207e+06  eps = 1.77e-03  iters = 3    tol = 1.0e-0
+> 4                                                                            
+>    min(eta) = -14.27      
+Iteration 9:   deviance = 2.8197e+06  eps = 3.49e-04  iters = 2    tol = 1.0e-0
+> 4                                                                            
+>    min(eta) = -15.90      
+Iteration 10:  deviance = 2.8196e+06  eps = 6.26e-05  iters = 2    tol = 1.0e-0
+> 4                                                                            
+>    min(eta) = -17.22      
+Iteration 11:  deviance = 2.8195e+06  eps = 1.03e-05  iters = 2    tol = 1.0e-0
+> 5                                                                            
+>    min(eta) = -18.28      
+Iteration 12:  deviance = 2.8195e+06  eps = 1.64e-06  iters = 2    tol = 1.0e-0
+> 5                                                                            
+>    min(eta) = -19.24   S  
+Iteration 13:  deviance = 2.8195e+06  eps = 2.55e-07  iters = 2    tol = 1.0e-0
+> 6                                                                            
+>    min(eta) = -20.14   S  
+Iteration 14:  deviance = 2.8195e+06  eps = 3.73e-08  iters = 2    tol = 1.0e-0
+> 7                                                                            
+>    min(eta) = -20.90   S  
+Iteration 15:  deviance = 2.8195e+06  eps = 4.85e-09  iters = 2    tol = 1.0e-0
+> 8                                                                            
+>    min(eta) = -21.38   S  
+Iteration 16:  deviance = 2.8195e+06  eps = 5.42e-10  iters = 3    tol = 1.0e-0
+> 9                                                                            
+>    min(eta) = -21.55   S O
+-------------------------------------------------------------------------------
+> -----------------------------
+(legend: p: exact partial-out   s: exact solver   h: step-halving   o: epsilon 
+> below tolerance)
+Converged in 16 iterations and 54 HDFE sub-iterations (tol = 1.0e-08)
+
+HDFE PPML regression                              No. of obs      =    254,572
+Absorbing 3 HDFE groups                           Residual df     =     11,116
+Statistics robust to heteroskedasticity           Wald chi2(3)    =      54.41
+Deviance             =  2819522.315               Prob > chi2     =     0.0000
+Log pseudolikelihood = -1902426.339               Pseudo R2       =     0.9930
+
+Number of clusters (dyad)   =     11,117
+                              (Std. err. adjusted for 11,117 clusters in dyad)
+------------------------------------------------------------------------------
+             |               Robust
+ total_trade | Coefficient  std. err.      z    P>|z|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+   btw3_pst2 |  -.0863808   .0432174    -2.00   0.046    -.1710853   -.0016763
+   una3_pst2 |   .0328531   .0420629     0.78   0.435    -.0495887    .1152949
+             |
+ total_trade |
+         L1. |   .0000216   2.96e-06     7.30   0.000     .0000158    .0000274
+             |
+       _cons |   8.337246   .0512939   162.54   0.000     8.236712     8.43778
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-----------------------------------------------------+
+ Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------+---------------------------------------|
+        dyad |     11117       11117           0    *|
+    ifs1time |      5064           1        5063     |
+    ifs2time |      5096          28        5068     |
+-----------------------------------------------------+
+* = FE nested within cluster; treated as redundant for DoF computation
+E:\IHEID Economics\IHEID\Advanced International Economics\presentation\Data for
+>  Changing Global Linkages A New Cold War\PPGT_JIE_replication\tables\TS2.2.xl
+> s
+dir : seeout
+
+.                 
+. restore
+
+. 
+. preserve 
+
+.         drop if ifs_code1==924 | ifs_code2==924         
+(5,655 observations deleted)
+
+.         
+.         foreach z in 3 {
+  2. 
+.         ppmlhdfe total_trade btw`z'_pst2 una`z'_pst2 l.total_trade, absorb(dy
+> ad time) cluster(dyad time)
+  3.         outreg2 using "$tables\TS2.2.xls", nocons ctitle(PPML) bdec(4) tde
+> c(4) se excel label append addtext(Country-pair FE, Y, Time FE, Y, Source x T
+> ime FE, N, Destination x Time FE, N, Blocs, Wider, Sample, No CN)
+  4.         ppmlhdfe total_trade btw`z'_pst2 una`z'_pst2 l.total_trade, absorb
+> (dyad ifs1time ifs2time) cluster(dyad )
+  5.         outreg2 using "$tables\TS2.2.xls", nocons ctitle(PPML) bdec(4) tde
+> c(4) se excel label append addtext(Country-pair FE, Y, Time FE, -, Source x T
+> ime FE, Y, Destination x Time FE, Y, Blocs, Wider, Sample, No CN)
+  6.                 }
+(dropped 566 observations that are either singletons or separated by a fixed ef
+> fect)
+warning: dependent variable takes very low values after standardizing (3.1310e-
+> 14)
+Iteration 1:   deviance = 3.1580e+07  eps = .         iters = 3    tol = 1.0e-0
+> 4                                                                            
+>    min(eta) =  -4.10  P   
+Iteration 2:   deviance = 1.0677e+07  eps = 1.96e+00  iters = 3    tol = 1.0e-0
+> 4                                                                            
+>    min(eta) =  -5.24      
+Iteration 3:   deviance = 6.1280e+06  eps = 7.42e-01  iters = 3    tol = 1.0e-0
+> 4                                                                            
+>    min(eta) =  -6.31      
+Iteration 4:   deviance = 4.8323e+06  eps = 2.68e-01  iters = 2    tol = 1.0e-0
+> 4                                                                            
+>    min(eta) =  -7.31      
+Iteration 5:   deviance = 4.4739e+06  eps = 8.01e-02  iters = 2    tol = 1.0e-0
+> 4                                                                            
+>    min(eta) =  -8.31      
+Iteration 6:   deviance = 4.3818e+06  eps = 2.10e-02  iters = 2    tol = 1.0e-0
+> 4                                                                            
+>    min(eta) =  -9.30      
+Iteration 7:   deviance = 4.3600e+06  eps = 4.99e-03  iters = 2    tol = 1.0e-0
+> 4                                                                            
+>    min(eta) = -10.29      
+Iteration 8:   deviance = 4.3553e+06  eps = 1.08e-03  iters = 2    tol = 1.0e-0
+> 4                                                                            
+>    min(eta) = -11.27      
+Iteration 9:   deviance = 4.3544e+06  eps = 2.13e-04  iters = 2    tol = 1.0e-0
+> 4                                                                            
+>    min(eta) = -12.22      
+Iteration 10:  deviance = 4.3542e+06  eps = 3.81e-05  iters = 2    tol = 1.0e-0
+> 4                                                                            
+>    min(eta) = -13.14      
+Iteration 11:  deviance = 4.3542e+06  eps = 6.30e-06  iters = 2    tol = 1.0e-0
+> 5                                                                            
+>    min(eta) = -14.13      
+Iteration 12:  deviance = 4.3542e+06  eps = 1.00e-06  iters = 2    tol = 1.0e-0
+> 6                                                                            
+>    min(eta) = -15.11   S  
+Iteration 13:  deviance = 4.3542e+06  eps = 1.55e-07  iters = 2    tol = 1.0e-0
+> 6                                                                            
+>    min(eta) = -16.06   S  
+Iteration 14:  deviance = 4.3542e+06  eps = 2.25e-08  iters = 2    tol = 1.0e-0
+> 7                                                                            
+>    min(eta) = -16.92   S  
+Iteration 15:  deviance = 4.3542e+06  eps = 2.91e-09  iters = 2    tol = 1.0e-0
+> 9                                                                            
+>    min(eta) = -17.80   S O
+-------------------------------------------------------------------------------
+> -----------------------------
+(legend: p: exact partial-out   s: exact solver   h: step-halving   o: epsilon 
+> below tolerance)
+Converged in 15 iterations and 33 HDFE sub-iterations (tol = 1.0e-08)
+Warning: VCV matrix was non-positive semi-definite; adjustment from Cameron, Ge
+> lbach & Miller applied.
+
+HDFE PPML regression                              No. of obs      =    254,660
+Absorbing 2 HDFE groups                           Residual df     =         27
+Statistics robust to heteroskedasticity           Wald chi2(3)    =      14.49
+Deviance             =  4354200.757               Prob > chi2     =     0.0023
+Log pseudolikelihood =  -2667863.73               Pseudo R2       =     0.9904
+
+Number of clusters (dyad)   =     11,119
+Number of clusters (time)   =         28
+                             (Std. err. adjusted for 28 clusters in dyad time)
+------------------------------------------------------------------------------
+             |               Robust
+ total_trade | Coefficient  std. err.      z    P>|z|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+   btw3_pst2 |  -.1340371   .0589252    -2.27   0.023    -.2495283   -.0185458
+   una3_pst2 |    .045267   .0284355     1.59   0.111    -.0104657    .1009996
+             |
+ total_trade |
+         L1. |   2.33e-06   1.45e-06     1.61   0.108    -5.15e-07    5.18e-06
+             |
+       _cons |   8.731341    .039432   221.43   0.000     8.654056    8.808626
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-----------------------------------------------------+
+ Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------+---------------------------------------|
+        dyad |     11119       11119           0    *|
+        time |        28          28           0    *|
+-----------------------------------------------------+
+* = FE nested within cluster; treated as redundant for DoF computation
+E:\IHEID Economics\IHEID\Advanced International Economics\presentation\Data for
+>  Changing Global Linkages A New Cold War\PPGT_JIE_replication\tables\TS2.2.xl
+> s
+dir : seeout
+(dropped 637 observations that are either singletons or separated by a fixed ef
+> fect)
+warning: dependent variable takes very low values after standardizing (3.1306e-
+> 14)
+Iteration 1:   deviance = 2.9942e+07  eps = .         iters = 7    tol = 1.0e-0
+> 4                                                                            
+>    min(eta) =  -4.42  P   
+Iteration 2:   deviance = 9.2577e+06  eps = 2.23e+00  iters = 5    tol = 1.0e-0
+> 4                                                                            
+>    min(eta) =  -5.93      
+Iteration 3:   deviance = 4.6454e+06  eps = 9.93e-01  iters = 5    tol = 1.0e-0
+> 4                                                                            
+>    min(eta) =  -7.33      
+Iteration 4:   deviance = 3.3179e+06  eps = 4.00e-01  iters = 5    tol = 1.0e-0
+> 4                                                                            
+>    min(eta) =  -8.85      
+Iteration 5:   deviance = 2.9502e+06  eps = 1.25e-01  iters = 4    tol = 1.0e-0
+> 4                                                                            
+>    min(eta) = -10.22      
+Iteration 6:   deviance = 2.8554e+06  eps = 3.32e-02  iters = 4    tol = 1.0e-0
+> 4                                                                            
+>    min(eta) = -11.32      
+Iteration 7:   deviance = 2.8329e+06  eps = 7.95e-03  iters = 4    tol = 1.0e-0
+> 4                                                                            
+>    min(eta) = -12.52      
+Iteration 8:   deviance = 2.8280e+06  eps = 1.73e-03  iters = 3    tol = 1.0e-0
+> 4                                                                            
+>    min(eta) = -14.28      
+Iteration 9:   deviance = 2.8270e+06  eps = 3.42e-04  iters = 3    tol = 1.0e-0
+> 4                                                                            
+>    min(eta) = -15.81      
+Iteration 10:  deviance = 2.8268e+06  eps = 6.12e-05  iters = 2    tol = 1.0e-0
+> 4                                                                            
+>    min(eta) = -16.95      
+Iteration 11:  deviance = 2.8268e+06  eps = 1.01e-05  iters = 3    tol = 1.0e-0
+> 5                                                                            
+>    min(eta) = -17.61      
+Iteration 12:  deviance = 2.8268e+06  eps = 1.60e-06  iters = 3    tol = 1.0e-0
+> 5                                                                            
+>    min(eta) = -18.31   S  
+Iteration 13:  deviance = 2.8268e+06  eps = 2.49e-07  iters = 4    tol = 1.0e-0
+> 6                                                                            
+>    min(eta) = -19.21   S  
+Iteration 14:  deviance = 2.8268e+06  eps = 3.64e-08  iters = 4    tol = 1.0e-0
+> 7                                                                            
+>    min(eta) = -19.98   S  
+Iteration 15:  deviance = 2.8268e+06  eps = 4.75e-09  iters = 5    tol = 1.0e-0
+> 8                                                                            
+>    min(eta) = -20.47   S  
+Iteration 16:  deviance = 2.8268e+06  eps = 5.31e-10  iters = 5    tol = 1.0e-0
+> 9                                                                            
+>    min(eta) = -20.64   S O
+-------------------------------------------------------------------------------
+> -----------------------------
+(legend: p: exact partial-out   s: exact solver   h: step-halving   o: epsilon 
+> below tolerance)
+Converged in 16 iterations and 66 HDFE sub-iterations (tol = 1.0e-08)
+
+HDFE PPML regression                              No. of obs      =    254,589
+Absorbing 3 HDFE groups                           Residual df     =     11,117
+Statistics robust to heteroskedasticity           Wald chi2(3)    =      18.35
+Deviance             =  2826815.962               Prob > chi2     =     0.0004
+Log pseudolikelihood = -1904030.908               Pseudo R2       =     0.9931
+
+Number of clusters (dyad)   =     11,118
+                              (Std. err. adjusted for 11,118 clusters in dyad)
+------------------------------------------------------------------------------
+             |               Robust
+ total_trade | Coefficient  std. err.      z    P>|z|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+   btw3_pst2 |   -.130021   .0537065    -2.42   0.015    -.2352838   -.0247582
+   una3_pst2 |   .0144647   .0408045     0.35   0.723    -.0655107    .0944401
+             |
+ total_trade |
+         L1. |   6.00e-06   1.48e-06     4.07   0.000     3.11e-06    8.90e-06
+             |
+       _cons |   8.646501   .0407929   211.96   0.000     8.566548    8.726453
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-----------------------------------------------------+
+ Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------+---------------------------------------|
+        dyad |     11118       11118           0    *|
+    ifs1time |      5021           1        5020     |
+    ifs2time |      5124          28        5096     |
+-----------------------------------------------------+
+* = FE nested within cluster; treated as redundant for DoF computation
+E:\IHEID Economics\IHEID\Advanced International Economics\presentation\Data for
+>  Changing Global Linkages A New Cold War\PPGT_JIE_replication\tables\TS2.2.xl
+> s
+dir : seeout
+
+.                 
+. restore
+
+. 
+. 
+. 
+. 
+end of do-file
+AUDIT_RC GGPT_JIE_trade_now.do 0
+AUDIT_BEGIN GGPT_JIE_trade_coldwar.do
+
+. 
+. use "$input\IFScodes_all.dta", replace
+
+. keep eiscode isocode3char name36char
+
+. drop if name36char==""
+(7 observations deleted)
+
+. drop if eiscode<=110
+(38 observations deleted)
+
+. sort name36char 
+
+. merge m:1 name36char using "$input\name36_aggregate.dta"
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                           185
+        from master                       183  (_merge==1)
+        from using                          2  (_merge==2)
+
+    Matched                               235  (_merge==3)
+    -----------------------------------------
+
+. drop if _m==2
+(2 observations deleted)
+
+. drop if aggregates==1
+(136 observations deleted)
+
+. drop _m aggregates
+
+. rename eiscode ifscode
+
+. sort ifscode
+
+. save temp, replace
+file temp.dta saved
+
+. 
+. ** blocs from JDE paper **
+. use "$input\Gokmen_TableA3.dta" , clear
+
+. replace ifscode =183  if country=="Monaco"
+(1 real change made)
+
+. replace ifscode =171  if country=="Andorra"
+(1 real change made)
+
+. replace ifscode =147  if country=="Liechtenstein"
+(1 real change made)
+
+. replace ifscode =928  if country=="Cuba"
+(1 real change made)
+
+. replace ifscode =954  if country=="North Korea"
+(1 real change made)
+
+. merge m:1 ifscode using temp
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                           101
+        from master                         0  (_merge==1)
+        from using                        101  (_merge==2)
+
+    Matched                               181  (_merge==3)
+    -----------------------------------------
+
+. drop if ifscode==.
+(0 observations deleted)
+
+. 
+. replace bloc = 1 if name36=="Belgium-Luxembourg"
+(1 real change made)
+
+. replace bloc = 1 if name36=="Belgium-Luxembourg not specified"
+(1 real change made)
+
+. 
+. replace bloc = 2 if name36=="Czechoslovakia"
+(1 real change made)
+
+. replace bloc = 2 if name36=="Czechoslovakia not specified"
+(1 real change made)
+
+. replace bloc = 2 if name36=="Eastern Germany"
+(1 real change made)
+
+. replace bloc = 2 if name36=="U.S.S.R."
+(1 real change made)
+
+. replace bloc = 2 if name36=="U.S.S.R. not specified"
+(1 real change made)
+
+. 
+. 
+. replace bloc = 3 if name36=="Serbia Montenegro ns"
+(1 real change made)
+
+. replace bloc = 3 if name36=="Serbia and Montenegro"
+(1 real change made)
+
+. replace bloc = 3 if name36=="Montenegro, Republic of"
+(1 real change made)
+
+. replace bloc = 3 if name36=="Kosovo, Republic of"
+(1 real change made)
+
+. replace bloc = 3 if name36=="Yugoslavia not specified"
+(1 real change made)
+
+. replace bloc = 3 if name36=="Yugoslavia, SFR"
+(1 real change made)
+
+. replace bloc = 3 if name36=="Yemen Arab Rep."
+(1 real change made)
+
+. replace bloc = 3 if name36=="Yemen, P.D. Rep."
+(1 real change made)
+
+. rename isocode3char iso3code
+
+. replace iso3code="USSR" if name36=="U.S.S.R."
+variable iso3code was str3 now str4
+(1 real change made)
+
+. replace iso3code="EDEU" if name36=="Eastern Germany"
+(1 real change made)
+
+. drop _merge
+
+. drop if iso3code==""
+(29 observations deleted)
+
+. drop country
+
+. rename name36char country
+
+. sort iso3code
+
+. save temp, replace
+file temp.dta saved
+
+. 
+. *** merge in with the CEPII trade data
+. 
+. use "$input\TRADHIST_v4.dta", replace
+
+. drop if iso_o==""
+(1,501 observations deleted)
+
+. drop if iso_d==""
+(1,502 observations deleted)
+
+. * drop if year<1900
+. drop if iso_o=="ALASKA"
+(172 observations deleted)
+
+. drop if iso_d=="ALASKA"
+(150 observations deleted)
+
+. replace iso_o="CSK" if iso_o=="CZSK"
+(7,899 real changes made)
+
+. replace iso_d="CSK" if iso_d=="CZSK"
+(7,430 real changes made)
+
+. replace iso_o="DEU" if iso_o=="WDEU"
+(7,076 real changes made)
+
+. replace iso_d="DEU" if iso_d=="WDEU"
+(7,389 real changes made)
+
+. replace iso_o="ROU" if iso_o=="ROM"
+(12,859 real changes made)
+
+. replace iso_d="ROU" if iso_d=="ROM"
+(13,694 real changes made)
+
+. replace iso_o="YMN" if iso_o=="YAR"
+(6,331 real changes made)
+
+. replace iso_d="YMN" if iso_d=="YAR"
+(4,227 real changes made)
+
+. 
+. * cocos islands
+. replace iso_o="CCQ" if iso_o=="CCK"
+(34 real changes made)
+
+. replace iso_d="CCQ" if iso_d=="CCK"
+(25 real changes made)
+
+. 
+. * Christmas islands
+. replace iso_o="CXQ" if iso_o=="CXR"
+(222 real changes made)
+
+. replace iso_d="CXQ" if iso_d=="CXR"
+(270 real changes made)
+
+. 
+. * Curacao
+. replace iso_o="CRQ" if iso_o=="CUW"
+(754 real changes made)
+
+. replace iso_d="CRQ" if iso_d=="CUW"
+(780 real changes made)
+
+. 
+. 
+. rename iso_o iso3code
+
+. sort iso3code
+
+. merge m:1 iso3code using temp, keepusing(ifscode blocs iso3code country)
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                        56,350
+        from master                    56,329  (_merge==1)
+        from using                         21  (_merge==2)
+
+    Matched                         2,442,773  (_merge==3)
+    -----------------------------------------
+
+. tab _merge
+
+   Matching result from |
+                  merge |      Freq.     Percent        Cum.
+------------------------+-----------------------------------
+        Master only (1) |     56,329        2.25        2.25
+         Using only (2) |         21        0.00        2.25
+            Matched (3) |  2,442,773       97.75      100.00
+------------------------+-----------------------------------
+                  Total |  2,499,123      100.00
+
+. drop if _m==2
+(21 observations deleted)
+
+. drop _m
+
+. foreach X in ifscode blocs iso3code country {
+  2.                 rename `X' `X'_o
+  3. }
+
+. rename iso3code iso_o
+
+. rename iso_d iso3code
+
+. sort iso3code
+
+. merge m:1 iso3code using temp, keepusing(ifscode blocs iso3code country)
+
+    Result                      Number of obs
+    -----------------------------------------
+    Not matched                        56,629
+        from master                    56,608  (_merge==1)
+        from using                         21  (_merge==2)
+
+    Matched                         2,442,494  (_merge==3)
+    -----------------------------------------
+
+. tab _merge
+
+   Matching result from |
+                  merge |      Freq.     Percent        Cum.
+------------------------+-----------------------------------
+        Master only (1) |     56,608        2.27        2.27
+         Using only (2) |         21        0.00        2.27
+            Matched (3) |  2,442,494       97.73      100.00
+------------------------+-----------------------------------
+                  Total |  2,499,123      100.00
+
+. drop if _m==2
+(21 observations deleted)
+
+. drop _m
+
+. foreach X in ifscode blocs iso3code country {
+  2.                 rename `X' `X'_d
+  3. }
+
+. rename iso3code iso_d
+
+. 
+. replace blocs_o = 3 if iso_o=="AUTHUN"
+(3,172 real changes made)
+
+. replace blocs_d = 3 if iso_d=="AUTHUN"
+(3,429 real changes made)
+
+. 
+. * part of yemen
+. replace blocs_o = 3 if iso_o=="ADEN"
+(1,545 real changes made)
+
+. replace blocs_d = 3 if iso_d=="ADEN"
+(1,383 real changes made)
+
+. 
+. ** British India, Portuguese India
+. replace blocs_o = 3 if iso_o=="GBRIND" | iso_o=="PRTIND"
+(14,201 real changes made)
+
+. replace blocs_d = 3 if iso_d=="GBRIND" | iso_d=="PRTIND"
+(14,718 real changes made)
+
+. 
+. ** Spanish Morocco
+. replace blocs_o = 3 if iso_o=="MARESP" 
+(735 real changes made)
+
+. replace blocs_d = 3 if iso_d=="MARESP" 
+(597 real changes made)
+
+. 
+. ** Tangiers - part of morocco
+. replace blocs_o = 3 if iso_o=="TANGER" 
+(634 real changes made)
+
+. replace blocs_d = 3 if iso_d=="TANGER" 
+(492 real changes made)
+
+. 
+. ** The various parts of south africa
+. replace blocs_o = 3 if iso_o=="ZAFCAP" | iso_o=="ZAFNAT"  | iso_o=="ZAFORA" |
+>  iso_o=="ZAFTRA"
+(2,037 real changes made)
+
+. replace blocs_d = 3 if iso_d=="ZAFCAP" | iso_d=="ZAFNAT"  | iso_d=="ZAFORA"  
+> | iso_d=="ZAFTRA"
+(2,321 real changes made)
+
+. 
+. ** British somalia
+. replace blocs_o = 3 if iso_o=="GBRSOM" 
+(2,763 real changes made)
+
+. replace blocs_d = 3 if iso_d=="GBRSOM"
+(2,844 real changes made)
+
+. 
+. ** Zanzibar - part of Tanzania
+. replace blocs_o = 3 if iso_o=="ZANZ" 
+(1,113 real changes made)
+
+. replace blocs_d = 3 if iso_d=="ZANZ"
+(1,097 real changes made)
+
+. 
+. ** Barbary states - current Morocco, Algiers, Libya
+. replace blocs_o = 3 if iso_o=="BARBAR" 
+(125 real changes made)
+
+. replace blocs_d = 3 if iso_d=="BARBAR"
+(122 real changes made)
+
+. 
+. 
+. ** Straits settlements became part of Malaysia
+. replace blocs_o = 3 if iso_o=="STRAITS" 
+(1,529 real changes made)
+
+. replace blocs_d = 3 if iso_d=="STRAITS"
+(1,562 real changes made)
+
+. 
+. ** French mandate for Syria and Lebanon
+. replace blocs_o = 3 if iso_o=="SYRLBN" 
+(310 real changes made)
+
+. replace blocs_d = 3 if iso_d=="SYRLBN"
+(172 real changes made)
+
+. 
+. 
+. ** Borneo
+. replace blocs_o = 3 if iso_o=="GBRBORNEO" 
+(937 real changes made)
+
+. replace blocs_d = 3 if iso_d=="GBRBORNEO"
+(700 real changes made)
+
+. 
+. 
+. ** the Ottoman empire - assign to western bloc because of turkey
+. replace blocs_o = 1 if iso_o=="OTTO" 
+(1,494 real changes made)
+
+. replace blocs_d = 1 if iso_d=="OTTO" 
+(1,508 real changes made)
+
+. 
+. replace blocs_o = 1 if iso_o=="VAT"
+(41 real changes made)
+
+. replace blocs_d = 1 if iso_d=="VAT"
+(40 real changes made)
+
+. 
+. replace blocs_o = 1 if iso_o=="TRIEST"
+(499 real changes made)
+
+. replace blocs_d = 1 if iso_d=="TRIEST"
+(385 real changes made)
+
+. 
+. replace blocs_o = 1 if iso_o=="SWENOR"
+(269 real changes made)
+
+. replace blocs_d = 1 if iso_d=="SWENOR"
+(106 real changes made)
+
+. 
+. replace blocs_o = 1 if iso_o=="ALSLOR"
+(235 real changes made)
+
+. replace blocs_d = 1 if iso_d=="ALSLOR"
+(261 real changes made)
+
+. 
+. replace blocs_o = 1 if iso_o=="CANQBCONT"
+(23 real changes made)
+
+. replace blocs_d = 1 if iso_d=="CANQBCONT"
+(17 real changes made)
+
+. 
+. replace blocs_o = 1 if iso_o=="NFLD"
+(1,744 real changes made)
+
+. replace blocs_d = 1 if iso_d=="NFLD"
+(1,436 real changes made)
+
+. 
+. replace blocs_o = 1 if iso_o=="ROME"
+(289 real changes made)
+
+. replace blocs_d = 1 if iso_d=="ROME"
+(256 real changes made)
+
+. 
+. replace blocs_o = 1 if iso_o=="SARD"
+(189 real changes made)
+
+. replace blocs_d = 1 if iso_d=="SARD"
+(178 real changes made)
+
+. 
+. replace blocs_o = 1 if iso_o=="TUSC"
+(161 real changes made)
+
+. replace blocs_d = 1 if iso_d=="TUSC"
+(151 real changes made)
+
+. 
+. replace blocs_o = 1 if iso_o=="UKNLD"
+(11 real changes made)
+
+. replace blocs_d = 1 if iso_d=="UKNLD"
+(11 real changes made)
+
+. 
+. replace blocs_o = 1 if iso_o=="2SICIL"
+(175 real changes made)
+
+. replace blocs_d = 1 if iso_d=="2SICIL"
+(168 real changes made)
+
+. 
+. replace blocs_o = 1 if iso_o=="AUSNSW"
+(744 real changes made)
+
+. replace blocs_d = 1 if iso_d=="AUSNSW"
+(817 real changes made)
+
+. 
+. replace blocs_o = 1 if iso_o=="AUSQUE"
+(430 real changes made)
+
+. replace blocs_d = 1 if iso_d=="AUSQUE"
+(533 real changes made)
+
+. 
+. replace blocs_o = 1 if iso_o=="AUSSTH"
+(565 real changes made)
+
+. replace blocs_d = 1 if iso_d=="AUSSTH"
+(668 real changes made)
+
+. 
+. replace blocs_o = 1 if iso_o=="AUSTAS"
+(394 real changes made)
+
+. replace blocs_d = 1 if iso_d=="AUSTAS"
+(478 real changes made)
+
+. 
+. replace blocs_o = 1 if iso_o=="AUSVIC"
+(617 real changes made)
+
+. replace blocs_d = 1 if iso_d=="AUSVIC"
+(1,050 real changes made)
+
+. 
+. replace blocs_o = 1 if iso_o=="AUSWST"
+(474 real changes made)
+
+. replace blocs_d = 1 if iso_d=="AUSWST"
+(583 real changes made)
+
+. 
+. * Madeira - part of Portugal
+. replace blocs_o = 1 if iso_o=="MADEIRA"
+(689 real changes made)
+
+. replace blocs_d = 1 if iso_d=="MADEIRA"
+(722 real changes made)
+
+. 
+. * Azores - part of Portugal
+. replace blocs_o = 1 if iso_o=="AZORES"
+(672 real changes made)
+
+. replace blocs_d = 1 if iso_d=="AZORES"
+(630 real changes made)
+
+. 
+. * Canary Islands - part of Spain
+. replace blocs_o = 1 if iso_o=="CANARY"
+(1,241 real changes made)
+
+. replace blocs_d = 1 if iso_d=="CANARY"
+(1,018 real changes made)
+
+. 
+. * LUBECK - city in Germany 
+. replace blocs_o = 1 if iso_o=="LUBECK"
+(605 real changes made)
+
+. replace blocs_d = 1 if iso_d=="LUBECK"
+(547 real changes made)
+
+. 
+. * Assign Bermuda to western bloc
+. replace blocs_o = 1 if iso_o=="BMU"
+(16,279 real changes made)
+
+. replace blocs_d = 1 if iso_d=="BMU"
+(15,115 real changes made)
+
+. 
+. * Assign Saint Helena (british overseas territory) to western bloc
+. replace blocs_o = 1 if iso_o=="SHN"
+(15,581 real changes made)
+
+. replace blocs_d = 1 if iso_d=="SHN"
+(7,450 real changes made)
+
+. 
+. * Assign Cayman islands (british overseas territory) to western bloc
+. replace blocs_o = 1 if iso_o=="CYM"
+(1,861 real changes made)
+
+. replace blocs_d = 1 if iso_d=="CYM"
+(1,148 real changes made)
+
+. 
+. replace blocs_o = 1 if iso_o=="AUSWST"
+(0 real changes made)
+
+. replace blocs_d = 1 if iso_d=="AUSWST"
+(0 real changes made)
+
+. 
+. * Assign Hong Kong to western bloc
+. replace blocs_o = 1 if iso_o=="HKG"
+(13,232 real changes made)
+
+. replace blocs_d = 1 if iso_d=="HKG"
+(14,016 real changes made)
+
+. 
+. * Assign Channel Islands to western bloc
+. replace blocs_o = 1 if iso_o=="CHISL"
+(787 real changes made)
+
+. replace blocs_d = 1 if iso_d=="CHISL"
+(738 real changes made)
+
+. 
+. * assign Indochina to bloc2
+. replace blocs_o = 2 if iso_o=="INDOCHI"
+(1,081 real changes made)
+
+. replace blocs_d = 2 if iso_d=="INDOCHI"
+(1,179 real changes made)
+
+. 
+. * assign Kwantung leased territory to bloc2
+. replace blocs_o = 2 if iso_o=="KWANTU"
+(424 real changes made)
+
+. replace blocs_d = 2 if iso_d=="KWANTU"
+(501 real changes made)
+
+. 
+. * MANCHU
+. replace blocs_o = 2 if iso_o=="MANCHU" 
+(538 real changes made)
+
+. replace blocs_d = 2 if iso_d=="MANCHU" 
+(512 real changes made)
+
+. 
+. * Mecklenburg = part of east germany
+. replace blocs_o = 2 if iso_o=="MECKL" 
+(694 real changes made)
+
+. replace blocs_d = 2 if iso_d=="MECKL"
+(638 real changes made)
+
+. 
+. gen tradetype = 1 if blocs_o==1 & blocs_d==1
+(2,400,788 missing values generated)
+
+. replace tradetype = 2 if blocs_o==2 & blocs_d==2
+(23,681 real changes made)
+
+. replace tradetype = 3 if blocs_o==3 & blocs_d==3
+(962,793 real changes made)
+
+. replace tradetype = 4 if (blocs_o==1 & blocs_d==2) | (blocs_o==2 & blocs_d==1
+> )
+(85,439 real changes made)
+
+. replace tradetype = 5 if (blocs_o==1 & blocs_d==3) | (blocs_o==3 & blocs_d==1
+> )
+(566,887 real changes made)
+
+. replace tradetype = 6 if (blocs_o==2 & blocs_d==3) | (blocs_o==3 & blocs_d==2
+> )
+(288,899 real changes made)
+
+. 
+. gen n=1 if FLOW!=.
+(599,487 missing values generated)
+
+. 
+. save "TRADHIST_blocs.dta", replace
+file TRADHIST_blocs.dta saved
+
+. *****************************************************************************
+> ***
+. 
+. drop FLOW_0-GATT_d
+
+. gen l1trade = ln(FLOW+sqrt(1+FLOW^2))
+(599,487 missing values generated)
+
+. gen ltrade = ln(FLOW)
+(1,401,092 missing values generated)
+
+. gen FLOW1 = 1+FLOW
+(599,487 missing values generated)
+
+. 
+. gen id_ifs = iso_o+iso_d
+
+. tostring year, gen(yyy)
+yyy generated as str4
+
+. gen iso_o_year = iso_o+yyy
+
+. gen iso_d_year = iso_d+yyy
+
+. gen between = 0
+
+. replace between = 1 if tradetype==4
+(85,439 real changes made)
+
+. gen una = 0 
+
+. replace una = 1 if blocs_o==3 | blocs_d==3
+(2,120,834 real changes made)
+
+. 
+. encode iso_o, gen(c_o)
+
+. encode iso_d, gen(c_d)
+
+. replace between=. if tradetype==.
+(473,089 real changes made, 473,089 to missing)
+
+. 
+. gen coldwar = (year>=1947 & year<=1991)
+
+. gen btw_coldwar = between*coldwar
+(473,089 missing values generated)
+
+. gen una_coldwar = una*coldwar
+
+. 
+. forvalue y=1920/1990 {
+  2.                 gen d`y' = (year==`y')
+  3.                 gen btw_y`y' = between*d`y'
+  4.                 gen una_y`y' = una*d`y'
+  5.                 drop d`y'
+  6. }
+(473,089 missing values generated)
+(473,089 missing values generated)
+(473,089 missing values generated)
+(473,089 missing values generated)
+(473,089 missing values generated)
+(473,089 missing values generated)
+(473,089 missing values generated)
+(473,089 missing values generated)
+(473,089 missing values generated)
+(473,089 missing values generated)
+(473,089 missing values generated)
+(473,089 missing values generated)
+(473,089 missing values generated)
+(473,089 missing values generated)
+(473,089 missing values generated)
+(473,089 missing values generated)
+(473,089 missing values generated)
+(473,089 missing values generated)
+(473,089 missing values generated)
+(473,089 missing values generated)
+(473,089 missing values generated)
+(473,089 missing values generated)
+(473,089 missing values generated)
+(473,089 missing values generated)
+(473,089 missing values generated)
+(473,089 missing values generated)
+(473,089 missing values generated)
+(473,089 missing values generated)
+(473,089 missing values generated)
+(473,089 missing values generated)
+(473,089 missing values generated)
+(473,089 missing values generated)
+(473,089 missing values generated)
+(473,089 missing values generated)
+(473,089 missing values generated)
+(473,089 missing values generated)
+(473,089 missing values generated)
+(473,089 missing values generated)
+(473,089 missing values generated)
+(473,089 missing values generated)
+(473,089 missing values generated)
+(473,089 missing values generated)
+(473,089 missing values generated)
+(473,089 missing values generated)
+(473,089 missing values generated)
+(473,089 missing values generated)
+(473,089 missing values generated)
+(473,089 missing values generated)
+(473,089 missing values generated)
+(473,089 missing values generated)
+(473,089 missing values generated)
+(473,089 missing values generated)
+(473,089 missing values generated)
+(473,089 missing values generated)
+(473,089 missing values generated)
+(473,089 missing values generated)
+(473,089 missing values generated)
+(473,089 missing values generated)
+(473,089 missing values generated)
+(473,089 missing values generated)
+(473,089 missing values generated)
+(473,089 missing values generated)
+(473,089 missing values generated)
+(473,089 missing values generated)
+(473,089 missing values generated)
+(473,089 missing values generated)
+(473,089 missing values generated)
+(473,089 missing values generated)
+(473,089 missing values generated)
+(473,089 missing values generated)
+(473,089 missing values generated)
+
+. 
+. order iso_o-una_coldwar btw* una*
+
+. gen trade = FLOW
+(599,487 missing values generated)
+
+. 
+. encode id_ifs, gen (nid_ifs)
+
+. tsset nid_ifs year
+
+Panel variable: nid_ifs (unbalanced)
+ Time variable: year, 1827 to 2014, but with gaps
+         Delta: 1 unit
+
+. gen dl1trade = d.l1trade
+(675,055 missing values generated)
+
+. gen dltrade = d.ltrade
+(1,513,447 missing values generated)
+
+. drop if year<1920
+(218,554 observations deleted)
+
+. drop if year>1990
+(915,237 observations deleted)
+
+. 
+. 
+. ** Regression for Figure 3 **
+.         cap drop btwpre
+
+.         gen btwpre = 0
+
+.         replace btwpre = 1 if between==1 & year<=1946
+(8,295 real changes made)
+
+.         cap drop unapre
+
+.         gen unapre = 0
+
+.         replace unapre = 1 if una==1 & year<=1946
+(100,741 real changes made)
+
+. 
+. ppmlhdfe trade btwpre unapre btw_y1948-btw_y1990 una_y1948-una_y1990 l.trade 
+> if year>=1920 & year<1939 | year>1945, absorb(id_ifs iso_o_year iso_d_year) c
+> luster(id_ifs)
+(dropped 136349 observations that are either singletons or separated by a fixed
+>  effect)
+warning: dependent variable takes very low values after standardizing (1.0174e-
+> 11)
+Iteration 1:   deviance = 1.0021e+13  eps = .         iters = 9    tol = 1.0e-0
+> 4                                                                            
+>    min(eta) =  -7.31  P   
+Iteration 2:   deviance = 4.1180e+12  eps = 1.43e+00  iters = 7    tol = 1.0e-0
+> 4                                                                            
+>    min(eta) =  -9.34      
+Iteration 3:   deviance = 2.6393e+12  eps = 5.60e-01  iters = 6    tol = 1.0e-0
+> 4                                                                            
+>    min(eta) = -11.73      
+Iteration 4:   deviance = 2.1772e+12  eps = 2.12e-01  iters = 7    tol = 1.0e-0
+> 4                                                                            
+>    min(eta) = -14.07      
+Iteration 5:   deviance = 2.0364e+12  eps = 6.92e-02  iters = 9    tol = 1.0e-0
+> 4                                                                            
+>    min(eta) = -16.07      
+Iteration 6:   deviance = 1.9974e+12  eps = 1.95e-02  iters = 7    tol = 1.0e-0
+> 4                                                                            
+>    min(eta) = -17.58      
+Iteration 7:   deviance = 1.9874e+12  eps = 5.05e-03  iters = 7    tol = 1.0e-0
+> 4                                                                            
+>    min(eta) = -20.04      
+Iteration 8:   deviance = 1.9847e+12  eps = 1.32e-03  iters = 8    tol = 1.0e-0

@@ -1,0 +1,117 @@
+\documentclass[12pt]{article}
+
+% ---- Packages ----
+\usepackage[margin=1in]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{microtype}
+\usepackage[natbibapa]{apacite}
+\usepackage{setspace}
+\usepackage[hidelinks]{hyperref}
+
+% ---- Spacing ----
+\singlespacing
+
+% ---- Title ----
+\title{Artificial Intelligence and the Economy:\\
+Productivity, Macroeconomic Adjustment, Financial Stability,\\
+and Policy Challenges}
+\author{Christopher Fu\\
+\textit{The Graduate Institute, Geneva}\\
+\textit{Advanced International Economics (EI136)}}
+\date{May 2026}
+
+\begin{document}
+\maketitle
+
+% ================================================================
+\section{Literature Review}
+% ================================================================
+
+Artificial intelligence changes the cost of prediction, the productivity of cognitive tasks, and the organization of information-intensive markets \citep{agrawal2018prediction}. Recent generative AI systems differ from earlier automation technologies: rather than replacing routine physical or clerical labor, they write, code, analyze data, and assist decision-making across occupations that were previously insulated from automation \citep{eloundou2024}. Diffusion has been rapid. Organizational AI adoption rose from 55 to 78 percent in a single year, private investment in generative AI reached \$33.9 billion in 2024, and more than half of U.S.\ households have used generative AI tools \citep{stanfordhai2025}. As \citet{brynjolfsson2025agenda} argue, the economics literature has moved from documenting task-level productivity gains to asking whether AI will reshape aggregate growth, labor-market inequality, financial stability, and the research process itself.
+
+Economists have established credible micro-level productivity effects, but the mapping from task-level gains to macroeconomic outcomes remains unresolved. Aggregate effects depend on adoption speed, complementary intangible investment, sectoral reallocation, market structure, and general equilibrium feedbacks that current models treat quite differently. In finance, AI simultaneously promises improved information processing and threatens new forms of systemic fragility. Policy has not kept pace: the literature offers more questions than answers on inequality, taxation, competition, environmental costs, and financial regulation. This review proceeds in five steps: micro evidence on productivity and labor-market exposure, macroeconomic growth and inflation, AI in finance and central banking, AI as a research technology for economists, and policy challenges with open questions.
+
+% ================================================================
+\subsection{Micro productivity and labor-market exposure}
+% ================================================================
+
+The strongest evidence on AI comes from micro-level experiments and field studies, anchored by \citet{noy2023} and \citet{brynjolfsson2025work}. In a preregistered experiment, \citet{noy2023} find that ChatGPT access reduces writing-task completion time by 40 percent and raises output quality by 18 percent among 453 professionals, with the largest gains accruing to lower-performing workers. The design is clean---randomized, incentivized, blind-evaluated---but external validity is limited: the sample is drawn from a single online platform, the task is mid-complexity professional writing, and the experiment does not capture learning dynamics or organizational adjustment over time. Whether these effects persist in routine daily work or scale to other cognitive tasks is not tested. At larger scale and in a real workplace, \citet{brynjolfsson2025work} study 5,172 customer support agents and report average productivity gains of 14 percent, with the bottom skill quintile improving by 34 percent while top-quintile workers gain almost nothing. The AI encodes tacit practices of the best agents and transfers them to novices, flattening the experience curve. The identification is stronger here---the staggered rollout provides within-firm variation---and the sample size and real-work setting increase credibility relative to lab experiments.
+
+How broadly is the workforce exposed? \citet{eloundou2024} construct a task-level exposure rubric and estimate that roughly 80 percent of U.S.\ workers have at least 10 percent of their tasks exposed to large language models; about 19 percent face exposure on half or more. With complementary software, 47 to 56 percent of all tasks could be affected. Using a different methodology that links AI capabilities to occupational abilities, \citet{felten2023} report that higher-wage, higher-education occupations face the greatest exposure---a reversal of the pattern seen with earlier automation. Both approaches measure technical potential, not realized adoption: firms may choose not to automate, workers may adapt, and complementary investments may redirect deployment. The gap between exposure and adoption is one of the central measurement problems in this literature.
+
+Physical automation carries a cautionary record on what happens when substitution dominates. Between 1990 and 2007, one additional industrial robot per thousand workers reduced local employment by 0.2 percentage points and wages by 0.42 percent in U.S.\ commuting zones, with displacement dominating reinstatement \citep{acemoglu2020robots}. Whether AI follows this substitution pattern remains open. \citet{autor2024} argues that AI could rebuild middle-class expertise in healthcare, law, education, and software if deployed to support decision-making rather than to replace workers. But this optimistic scenario requires institutional choices that steer deployment toward complementarity, not just cost reduction.
+
+The micro evidence is internally consistent: generative AI raises productivity in cognitive tasks, with the largest gains at the bottom of the skill distribution. Whether these task-level effects aggregate into something meaningful for GDP depends on adoption, reallocation, and complementary investment---questions that belong to macroeconomics.
+
+
+% ================================================================
+\subsection{Macroeconomic adjustment: growth, output, and inflation}
+% ================================================================
+
+The macroeconomic debate is organized around three benchmark contributions: Acemoglu's task-based accounting framework, Aldasoro et al.'s multi-sector general equilibrium model, and Gambacorta et al.'s cross-country growth analysis. They disagree less about whether AI raises productivity somewhere than about how large, fast, and broadly distributed the aggregate effects will be.
+
+\citet{acemoglu2024simple} provides the cautious benchmark. Applying Hulten's theorem to a task-based framework, he estimates that AI will raise total factor productivity by 0.53 to 0.66 percent over ten years---roughly 0.06 percent per year. The logic is arithmetic: only about 20 percent of tasks are exposed \citep{eloundou2024}, only 23 percent of those can be profitably automated within a decade, and the average cost saving per task is about 27 percent. The estimate rests on a specific assumption: Hulten's theorem requires that marginal cost shares equal output elasticities, which holds under competitive conditions but may not when AI introduces non-marginal technology shifts or when market power in AI provision is substantial. Hard-to-learn tasks are excluded. \citet{aghion2024growth} use the same decomposition but argue for broader exposure (60 percent of tasks), faster adoption, and higher per-task gains averaging 40 percent. Their baseline estimate is 0.68 percentage points of additional annual TFP growth---ten times Acemoglu's figure---with a range spanning 0.07 to 1.24 percentage points. The disagreement is less about model structure than about three input parameters: the breadth of profitable automation, the pace of computing-cost decline, and the labor cost savings per task. Which calibration is more defensible given current evidence remains unresolved; the answer depends on adoption data that does not yet exist at the required granularity.
+
+General equilibrium forces complicate the translation from task productivity to aggregate output. \citet{aldasoro2024output} build a multi-sector model in which AI enters as a sector-specific productivity shock calibrated to an industry-level exposure index. AI could raise annual productivity growth by about one percentage point, but inflation effects depend on expectations: unanticipated gains are disinflationary, while anticipated gains trigger consumption and investment surges that generate inflationary pressure. The model reveals that a sector's initial AI exposure has little correlation with its long-run output gain, because input-output linkages redistribute productivity effects across the economy---a result that complicates any partial-equilibrium extrapolation from exposure scores.
+
+Cross-country evidence adds a distributional dimension. \citet{gambacorta2026growth} study 56 economies using a Rajan-Zingales identification strategy and find that generative AI benefits advanced economies more than emerging markets in the short run. The gap reflects sectoral composition, digital-infrastructure deficits, and AI-preparedness indicators that amplify or constrain gains at the country level.
+
+Growth theory offers a longer-run perspective. \citet{aghion2018} model AI as task automation within a CES framework and show that Baumol's cost disease constrains aggregate growth: automated sectors become cheap and lose GDP weight, while bottleneck sectors determine the long-run growth rate. This result is important because it means that full automation of goods production or automation of idea production itself is required for a growth explosion---neither of which current AI systems accomplish. Why, then, has measured productivity not yet responded? \citet{brynjolfsson2018paradox} argue that implementation lags matter most: AI requires complementary intangible investment in organizational redesign, training, and business-process co-invention that national accounts do not capture. \citet{brynjolfsson2021jcurve} formalize this as a J-curve: early in adoption, resources devoted to intangibles depress measured productivity; later, the accumulated stock generates output without being credited as input.
+
+These secondary papers matter because they clarify why AI's measured impact can lag behind its technical capability: adoption requires not just task exposure but complementary capital, organizational redesign, and institutional choices. The macroeconomic uncertainties carry particular weight for the financial sector, where AI adoption is faster than in most industries and where miscalibration affects systemic stability.
+
+
+% ================================================================
+\subsection{AI in finance and central banking}
+% ================================================================
+
+The financial literature is organized around a tension between efficiency gains and systemic fragility, with \citet{aldasoro2024finance}, the \citet{imf2024gfsr}, and the \citet{fsb2024} providing the main analytical frameworks. The financial sector is an early and intensive adopter: over 84 percent of surveyed institutions already use AI, and 86 percent plan to expand generative AI applications \citep{aldasoro2024finance}. AI improves credit scoring, automates compliance, and allows institutions to analyze unstructured data from earnings calls, filings, and news \citep{aldasoro2024finance, bis2024}. Algorithmic trading constitutes roughly 70 percent of U.S.\ equity volume, and AI-powered analysis of Federal Reserve communications now produces more accurate intraday price reactions within seconds of FOMC announcements \citep{imf2024gfsr}. The BIS's Project Aurora demonstrates that graph neural networks outperform rule-based methods for anti-money-laundering detection, with performance improving when data is pooled across borders \citep{bis2024}.
+
+The risks mirror the benefits. When institutions train models on similar data and use comparable architectures, trading strategies converge. This model herding can amplify market movements: algorithms simultaneously detecting the same adverse signal withdraw liquidity at the same moment \citep{fsb2024, adrian2025}. During the March 2020 turmoil, AI-powered ETFs showed increased portfolio turnover precisely when markets were most stressed \citep{imf2024gfsr}. \citet{adrian2025} identify a feedback loop: rising volatility triggers automated deleveraging, which amplifies price declines, which raises volatility further. Reaction times compressed to milliseconds mean localized stress can escalate before human intervention is possible.
+
+Third-party concentration compounds these vulnerabilities. A small number of cloud providers and foundation-model developers supply infrastructure to much of the financial sector. The \citet{fsb2024} identifies this as one of four systemic risks, alongside herding, cyber risk, and model opacity. A disruption at a single provider could propagate simultaneously across institutions---a correlation channel that existing stress-testing frameworks do not capture. The regulatory challenge is speed: AI changes markets faster than supervisory frameworks can adapt \citep{imf2024gfsr}.
+
+Beyond its role as a subject of study, AI is also changing how economists themselves produce research---a dual role that raises distinct methodological questions.
+
+
+% ================================================================
+\subsection{AI as a research technology for economists}
+% ================================================================
+
+\citet{korinek2023} identifies six domains where large language models assist economists: ideation, writing, background research, data analysis, coding, and mathematical derivation. He estimates productivity gains of 10 to 20 percent, primarily from automating routine cognitive subtasks. The gains arise from complementarity: LLMs handle boilerplate while economists supply identification strategies and domain expertise. The risk is hallucination---fabricated citations and confident but incorrect mathematical results---making human oversight indispensable.
+
+\citet{dell2025} surveys a different frontier: deep learning methods that convert unstructured data---text, images, satellite imagery, historical documents---into structured variables for econometric analysis. Transfer learning allows fine-tuning on small domain-specific datasets without large computational resources, opening research questions that were previously intractable. On the computational side, \citet{fernandez2025} shows that deep neural networks can approximate policy and value functions in high-dimensional dynamic equilibrium models, breaking the curse of dimensionality. Meanwhile, \citet{chi2025} find that well-regularized linear models perform nearly as well as deep networks for macroeconomic forecasting, suggesting limited marginal value of nonlinearity in this domain.
+
+AI tools reduce certain research costs but do not replace identification, measurement, or economic reasoning. Reproducibility, data leakage, interpretability, and disclosure norms remain unresolved \citep{korinek2023, dell2025}. These methodological concerns connect to the broader policy challenge of governing a technology whose implications cut across labor markets, financial systems, and the environment.
+
+
+% ================================================================
+\subsection{Policy challenges and open questions}
+% ================================================================
+
+The policy literature is less settled than the productivity literature. AI may raise aggregate welfare and worsen inequality at the same time, and policy trade-offs have only begun to be formalized.
+
+\citet{korinek2024policy} argues that AI threatens cognitive and creative occupations, not only routine work, so workers with specialized human capital may face larger income losses than blue-collar workers displaced by earlier automation. If gains accrue mainly to capital owners and firms controlling data and compute, the capital-labor distribution shifts in ways that erode tax bases built on labor income. The cross-country evidence reinforces this concern: as \citet{gambacorta2026growth} show, AI adoption benefits advanced economies more than emerging markets because the latter lack digital infrastructure, human capital, and institutional capacity. AI may widen both within-country and cross-country income gaps.
+
+On taxation, \citet{thuemmel2023} studies optimal robot taxation in a general equilibrium model with occupational choice. The optimal robot-specific tax or subsidy is small---on the order of one percent. At current prices, a modest subsidy is welfare-improving because it compresses the wage distribution from above. As robots become cheaper, the optimal policy switches to a tax, but the main welfare gains come from reforming income taxation, not from robot-specific instruments. The fiscal question that matters more is how to restructure income and capital taxation when labor's share of income is declining.
+
+Environmental costs are often overlooked. \citet{bonfiglioli2025} use a shift-share strategy across 722 U.S.\ commuting zones and find that localities with higher AI penetration experienced slower emissions declines between 2002 and 2022; without AI-driven growth, average emissions would have fallen approximately 37 percent more. Data centers require stable baseload power, and nearby plants shift generation toward fossil fuels. Training emissions for frontier models are growing rapidly \citep{stanfordhai2025}. Digital transformation and decarbonization cannot be pursued as independent agendas. Financial regulation faces parallel gaps: AI may outpace reporting systems and create third-party dependencies that concentrate operational risk \citep{bis2024, imf2024gfsr, fsb2024}.
+
+These policy gaps point toward a concrete research agenda. First, firm-level adoption data are needed: linking AI adoption to firm productivity, employment composition, intangible investment, and markups would discipline the parameter assumptions that drive macro disagreements. Second, worker-level panel studies should track whether AI-exposed workers experience wage gains, displacement, occupational mobility, or skill depreciation over time---the horizon matters because short-run augmentation and long-run substitution can coexist. Third, multi-sector models should be calibrated with observed adoption costs and organizational adjustment lags, not only occupational exposure scores. Fourth, financial regulators need transaction-level or portfolio-level evidence on whether AI-driven models generate correlated trading during stress episodes. Fifth, environmental studies should combine data-center location, electricity-source variation, and model-training demand to quantify AI's carbon footprint with greater precision. These questions cut across subfields and will require joint work connecting labor, macro, finance, industrial organization, public finance, and environmental economics \citep{brynjolfsson2025agenda, korinek2024policy}.
+
+
+% ================================================================
+\subsection{Concluding remarks}
+% ================================================================
+
+The economics literature on AI has advanced most on micro-level productivity: experimental and workplace studies credibly show that generative AI raises output in cognitive tasks, with the largest gains at the bottom of the skill distribution. The central unresolved issue is aggregation. Macroeconomic models produce TFP estimates that differ by an order of magnitude because they disagree on the breadth of profitable automation, adoption speed, and required complementary investment. The productivity-paradox literature offers one reconciliation---measured gains will arrive with a lag---but whether AI raises long-run growth rates depends on whether it automates idea production, a possibility that growth theory takes seriously but empirical evidence has not tested. In finance, AI improves information processing while introducing herding, concentration, and opacity risks. Policy remains underdeveloped on inequality, taxation, competition, financial regulation, and environmental costs. The most pressing need is not more micro experiments but better data on adoption, organizational adjustment, and general equilibrium feedbacks---the missing links between task-level promise and aggregate outcome.
+
+
+% ================================================================
+% References
+% ================================================================
+\bibliographystyle{apacite}
+\bibliography{references}
+
+\end{document}

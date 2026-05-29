@@ -1,0 +1,500 @@
+
+  ___  ____  ____  ____  ____ ®
+ /__    /   ____/   /   ____/      18.0
+___/   /   /___/   /   /___/       MP—Parallel Edition
+
+ Statistics and Data Science       Copyright 1985-2023 StataCorp LLC
+                                   StataCorp
+                                   4905 Lakeway Drive
+                                   College Station, Texas 77845 USA
+                                   800-STATA-PC        https://www.stata.com
+                                   979-696-4600        stata@stata.com
+
+Stata license: Single-user 4-core  perpetual
+Serial number: 501806300204
+  Licensed to: Purgatoriofu
+               
+
+Notes:
+      1. Stata is running in batch mode.
+      2. Unicode is supported; see help unicode_advice.
+      3. More than 2 billion observations are allowed; see help obs_advice.
+      4. Maximum number of variables is set to 5,000 but can be increased;
+          see help set_maxvar.
+
+. do "E:\IHEID Economics\IHEID\Advanced International Economics\presentation\re
+> plication_audit\run_master_local.do" 
+
+. *****************************************************************************
+> ***
+. *** Local replication wrapper for "Changing Global Linkages: A New Cold War?"
+. *** Created for audit. Only changes the root directory from the authors' Z: p
+> ath.
+. *****************************************************************************
+> ***
+. 
+. clear all
+
+. set more off, perm
+(set more preference recorded)
+
+. 
+. global dir "E:\IHEID Economics\IHEID\Advanced International Economics\present
+> ation\Data for Changing Global Linkages A New Cold War\PPGT_JIE_replication"
+
+. 
+. do "$dir\do files\GGPT_JIE_packages.do"
+
+.     * *** Add required packages from SSC to this list ***
+.     local ssc_packages unique estout reghdfe ftools binscatter outreg winsor2
+
+.     * *** Add required packages from SSC to this list ***
+. 
+.     if !missing("`ssc_packages'") {
+.         foreach pkg in "`ssc_packages'" {
+  2.         * install using ssc, but avoid re-installing if already present
+.             capture which `pkg'
+  3.             if _rc == 111 {                 
+  4.                dis "Installing `pkg'"
+  5.                quietly ssc install `pkg', replace
+  6.                }
+  7.         }
+.     }
+
+. 
+end of do-file
+
+. 
+. global working "$dir\working"
+
+. global input "$dir\data"
+
+. global charts "$dir\charts"
+
+. global tables "$dir\tables"
+
+. 
+. cd "$working"
+E:\IHEID Economics\IHEID\Advanced International Economics\presentation\Data for
+>  Changing Global Linkages A New Cold War\PPGT_JIE_replication\working
+
+. 
+. ** Figure 1 **
+. do "$dir\do files\GGPT_JIE_F1"
+
+. 
+. ** Figure 1, LHS **
+. import excel "$input\GGPT_tables.xlsx", sheet("dataF1L") firstrow clear
+(5 vars, 197 obs)
+
+. drop y
+
+. 
+. cap drop upper
+
+. generate upper = 50
+
+. local cw upper year if inrange(year, 1947, 1990), bcolor(gs14%30) base(0)
+
+. local ww upper year if inrange(year, 1939, 1945), bcolor(emidblue%20) base(0)
+
+. 
+.                         twoway (bar `cw' ) (bar `ww' )  ///
+>                                         (line Totaltrade year if year>=1920, 
+> lcolor(blue) ///
+>                                         lpattern(solid) lwidth(medthick)) ///
+>  
+>                                         (line betweenCW year if year>=1920, y
+> axis(2) lwidth(medthick) lcolor(red) lp(solid )), xsize(6) ///
+>                                         legend(off) ///
+>                                         title(" ", color(black) size(medsmall
+> )) ///
+>                                         ytitle(" ", size(medsmall)) ///
+>                                         ytitle(" ", size(medsmall) axis(2)) /
+> //
+>                                         xtitle(" ", size(medsmall)) ///
+>                                         xlabel(1920(10)2010 2023, angle(0) la
+> bsize(small)) ///
+>                                         ylabel(0(10)50, angle(0) labsize(smal
+> l) format(%9.0f)) ///
+>                                         ylabel(0(4)24, angle(0) labsize(small
+> ) format(%9.0f) axis(2)) ///
+>                                         graphregion(color(white)) plotregion(
+> color(white))  bgcolor(white) ///
+>                                         text(29 1975 "Global goods trade" "(%
+>  GDP, left axis)", size(small) place(w)  color(blue)) ///
+>                                         text(6 1988 "Goods trade between Cold
+>  War blocs" "(% total trade, right axis)", size(small) place(c)  color(red)) 
+> ///
+>                                         text(45 1938.5 "WW2", size(small) pla
+> ce(e)) ///
+>                                         text(45 1960 "Cold War", size(small) 
+> place(e))
+
+.                                 graph export "$charts/F1L.png", as(png) repla
+> ce
+file E:\IHEID Economics\IHEID\Advanced International
+    Economics\presentation\Data for Changing Global Linkages A New Cold
+    War\PPGT_JIE_replication\charts/F1L.png saved as PNG format
+
+. 
+. 
+. ** Figure 1, RHS **
+. import excel "$input\GGPT_tables.xlsx", sheet("dataF1R") firstrow clear
+(2 vars, 2 obs)
+
+. 
+. graph bar trade, over(type) xsize(4) ///
+>                 bar(1, lc(black) lw(thin) c(midblue%90)) ///
+>                 ylabel(, angle(0) labsize(small) format(%9.1f)) ///
+>                 ytitle("Change in trade growth (percentage points)", size(med
+> small)) 
+
+.         graph export "$charts/F1R.png", as(png) replace
+file E:\IHEID Economics\IHEID\Advanced International
+    Economics\presentation\Data for Changing Global Linkages A New Cold
+    War\PPGT_JIE_replication\charts/F1R.png saved as PNG format
+
+. 
+end of do-file
+
+. 
+. ** Figure 2 (panel A) and Table S2.1 (panel A) **
+. do "$dir\do files\GGPT_JIE_import_lilien.do"
+
+. 
+. use "$input\lilien_imports.dta", replace
+
+. cap drop post2020
+
+. gen post2021 = (year>=2021)
+
+. gen post2022 = (year>=2022)
+
+. cap drop d2013_2019
+
+. gen d2013_2020 = (year>=2013 & year<=2020)
+
+. gen d2013_2021 = (year>=2013 & year<=2021)
+
+. gen all = 1
+
+. gen d2000_2007 = (year<2007)
+
+. gen wbl = (bloc3ipd==1)
+
+. gen nwbl = (bloc3ipd!=1)
+
+. gen w2bl = (bloc3iea==1)
+
+. gen nw2bl = (bloc3iea!=1)
+
+. 
+. 
+. ** Figure 2, Panel A **
+. 
+. lab var year y
+
+.         
+. xi: reghdfe ktotal_imports_MLI ib2017.y , absorb(ifs_rpt) cluster(ifs_rpt)
+(MWFE estimator converged in 1 iterations)
+
+HDFE Linear regression                            Number of obs   =      2,639
+Absorbing 1 HDFE group                            F(  22,    141) =       6.15
+Statistics robust to heteroskedasticity           Prob > F        =     0.0000
+                                                  R-squared       =     0.4998
+                                                  Adj R-squared   =     0.4669
+                                                  Within R-sq.    =     0.0400
+Number of clusters (ifs_rpt) =        142         Root MSE        =     1.8383
+
+                              (Std. err. adjusted for 142 clusters in ifs_rpt)
+------------------------------------------------------------------------------
+             |               Robust
+ktotal_i~MLI | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+        year |
+       2001  |   .1230924   .2076634     0.59   0.554     -.287444    .5336289
+       2002  |   .1888572   .1835573     1.03   0.305     -.174023    .5517375
+       2003  |   .4134597   .1966807     2.10   0.037     .0246355    .8022839
+       2004  |   .3669266   .1858817     1.97   0.050    -.0005489     .734402
+       2005  |   .3657325   .1767516     2.07   0.040     .0163067    .7151582
+       2006  |   .6657083   .2886756     2.31   0.023     .0950165      1.2364
+       2007  |   .5258875   .2389044     2.20   0.029     .0535898    .9981852
+       2008  |   .6314132   .2036329     3.10   0.002     .2288449    1.033982
+       2009  |   .7029382   .1808206     3.89   0.000     .3454683    1.060408
+       2010  |   .7239599   .2232728     3.24   0.001     .2825649    1.165355
+       2011  |   .7971933   .1783994     4.47   0.000     .4445098    1.149877
+       2012  |   .7642156   .1731072     4.41   0.000     .4219946    1.106437
+       2013  |   .7268952    .195586     3.72   0.000     .3402351    1.113555
+       2014  |   .5832164   .1820759     3.20   0.002     .2232648    .9431679
+       2015  |   .4078963   .1323057     3.08   0.002      .146337    .6694556
+       2016  |   .3229235   .1375372     2.35   0.020     .0510218    .5948252
+       2018  |  -.0333591   .1300224    -0.26   0.798    -.2904045    .2236863
+       2019  |   .6775708   .2656636     2.55   0.012      .152372     1.20277
+       2020  |   .8994091   .2570051     3.50   0.001     .3913278    1.407491
+       2021  |   .6051045   .2568722     2.36   0.020     .0972857    1.112923
+       2022  |   1.089364    .262106     4.16   0.000     .5711983     1.60753
+       2023  |   1.739435   .2392843     7.27   0.000     1.266387    2.212484
+             |
+       _cons |   2.849007   .1111435    25.63   0.000     2.629284     3.06873
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-----------------------------------------------------+
+ Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------+---------------------------------------|
+     ifs_rpt |       142         142           0    *|
+-----------------------------------------------------+
+* = FE nested within cluster; treated as redundant for DoF computation
+
+. 
+. coefplot, drop (_cons) vert graphregion(color(white)) bgcolor(white) ms(Oh) m
+> c(dknavy) ci(90) ///
+>         ytitle("Estimated coefficient of the MLI (by year, imports)", size(sm
+> all)) ylabel(, labsize(small) angle(0)) ///
+>         xtitle("", size(small)) xlabel( ,labsize(vsmall) angle(90)) title(" "
+> , span size(medlarge)) ///
+>         legend(off) yline(0, lc(red)) xline(16.5, lc(black) lp(dash)) xline(2
+> 0.5, lc(black) lp(dash)) ///
+>         rename(^.*([1-2][0-9][0-9][0-9])\.year\#c\.between$ = \1, regex)
+
+.         graph export "$charts\F2L.png", as(png) replace 
+file E:\IHEID Economics\IHEID\Advanced International
+    Economics\presentation\Data for Changing Global Linkages A New Cold
+    War\PPGT_JIE_replication\charts\F2L.png saved as PNG format
+
+.         
+.         
+. ** Table S2.1, Panel A **
+. 
+.         gen str varlabel = ""
+(2,855 missing values generated)
+
+.         replace varlabel = "2000-2007" if _n==1
+variable varlabel was str1 now str9
+(1 real change made)
+
+.         replace varlabel = "2008-2012" if _n==2
+(1 real change made)
+
+.         replace varlabel = "2013-2021" if _n==3
+(1 real change made)
+
+.         replace varlabel = "2022-2023" if _n==4
+(1 real change made)
+
+.         
+. xi: reghdfe ktotal_imports_MLI d2008_2012 d2013_2021 post2022, absorb(ifs_rpt
+> ) cluster(ifs_rpt)
+(MWFE estimator converged in 1 iterations)
+
+HDFE Linear regression                            Number of obs   =      2,639
+Absorbing 1 HDFE group                            F(   3,    141) =      14.65
+Statistics robust to heteroskedasticity           Prob > F        =     0.0000
+                                                  R-squared       =     0.4906
+                                                  Adj R-squared   =     0.4612
+                                                  Within R-sq.    =     0.0222
+Number of clusters (ifs_rpt) =        142         Root MSE        =     1.8482
+
+                              (Std. err. adjusted for 142 clusters in ifs_rpt)
+------------------------------------------------------------------------------
+             |               Robust
+ktotal_i~MLI | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+  d2008_2012 |   .3387961   .1348062     2.51   0.013     .0722934    .6052988
+  d2013_2021 |   .0735712   .1191282     0.62   0.538    -.1619372    .3090796
+    post2022 |    .989915   .2086541     4.74   0.000     .5774202     1.40241
+       _cons |   3.236807   .0846547    38.24   0.000      3.06945    3.404163
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-----------------------------------------------------+
+ Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------+---------------------------------------|
+     ifs_rpt |       142         142           0    *|
+-----------------------------------------------------+
+* = FE nested within cluster; treated as redundant for DoF computation
+
+.         outreg2 using "$tables\T_S2.1_panelA.xls", nocons ctitle(All) bdec(4)
+>  tdec(4) se excel label replace addtext(Country FE, Y)
+E:\IHEID Economics\IHEID\Advanced International Economics\presentation\Data for
+>  Changing Global Linkages A New Cold War\PPGT_JIE_replication\tables\T_S2.1_p
+> anelA.xls
+dir : seeout
+
+. xi: reghdfe ktotal_imports_MLI d2008_2012 d2013_2021 post2022 if ae==1, absor
+> b(ifs_rpt) cluster(ifs_rpt)
+(MWFE estimator converged in 1 iterations)
+
+HDFE Linear regression                            Number of obs   =        785
+Absorbing 1 HDFE group                            F(   3,     35) =      12.93
+Statistics robust to heteroskedasticity           Prob > F        =     0.0000
+                                                  R-squared       =     0.4467
+                                                  Adj R-squared   =     0.4186
+                                                  Within R-sq.    =     0.1233
+Number of clusters (ifs_rpt) =         36         Root MSE        =     1.0287
+
+                               (Std. err. adjusted for 36 clusters in ifs_rpt)
+------------------------------------------------------------------------------
+             |               Robust
+ktotal_i~MLI | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+  d2008_2012 |   .4303103   .1232001     3.49   0.001     .1802008    .6804199
+  d2013_2021 |    .472797   .1652117     2.86   0.007     .1373994    .8081947
+    post2022 |   1.431819   .2434963     5.88   0.000     .9374954    1.926143
+       _cons |   1.977424    .104011    19.01   0.000      1.76627    2.188577
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-----------------------------------------------------+
+ Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------+---------------------------------------|
+     ifs_rpt |        36          36           0    *|
+-----------------------------------------------------+
+* = FE nested within cluster; treated as redundant for DoF computation
+
+.         outreg2 using "$tables\T_S2.1_panelA.xls", nocons ctitle(AEs) bdec(4)
+>  tdec(4) se excel label append addtext(Country FE, Y)
+E:\IHEID Economics\IHEID\Advanced International Economics\presentation\Data for
+>  Changing Global Linkages A New Cold War\PPGT_JIE_replication\tables\T_S2.1_p
+> anelA.xls
+dir : seeout
+
+. xi: reghdfe ktotal_imports_MLI d2008_2012 d2013_2021 post2022 if emde==1, abs
+> orb(ifs_rpt) cluster(ifs_rpt)
+(MWFE estimator converged in 1 iterations)
+
+HDFE Linear regression                            Number of obs   =      1,854
+Absorbing 1 HDFE group                            F(   3,    105) =       9.81
+Statistics robust to heteroskedasticity           Prob > F        =     0.0000
+                                                  R-squared       =     0.4549
+                                                  Adj R-squared   =     0.4212
+                                                  Within R-sq.    =     0.0156
+Number of clusters (ifs_rpt) =        106         Root MSE        =     2.0992
+
+                              (Std. err. adjusted for 106 clusters in ifs_rpt)
+------------------------------------------------------------------------------
+             |               Robust
+ktotal_i~MLI | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+  d2008_2012 |   .2727077   .1890889     1.44   0.152    -.1022207    .6476361
+  d2013_2021 |  -.1270219    .155228    -0.82   0.415    -.4348104    .1807666
+    post2022 |   .7506929   .2854789     2.63   0.010      .184641    1.316745
+       _cons |   3.804698   .1154421    32.96   0.000     3.575797    4.033598
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-----------------------------------------------------+
+ Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------+---------------------------------------|
+     ifs_rpt |       106         106           0    *|
+-----------------------------------------------------+
+* = FE nested within cluster; treated as redundant for DoF computation
+
+.         outreg2 using "$tables\T_S2.1_panelA.xls", nocons ctitle(EMDEs) bdec(
+> 4) tdec(4) se excel label append addtext(Country FE, Y)
+E:\IHEID Economics\IHEID\Advanced International Economics\presentation\Data for
+>  Changing Global Linkages A New Cold War\PPGT_JIE_replication\tables\T_S2.1_p
+> anelA.xls
+dir : seeout
+
+. xi: reghdfe ktotal_imports_MLI d2008_2012 d2013_2021 post2022 if w2bl==1, abs
+> orb(ifs_rpt) cluster(ifs_rpt)
+(MWFE estimator converged in 1 iterations)
+
+HDFE Linear regression                            Number of obs   =        893
+Absorbing 1 HDFE group                            F(   3,     40) =      17.42
+Statistics robust to heteroskedasticity           Prob > F        =     0.0000
+                                                  R-squared       =     0.4030
+                                                  Adj R-squared   =     0.3727
+                                                  Within R-sq.    =     0.1331
+Number of clusters (ifs_rpt) =         41         Root MSE        =     1.1044
+
+                               (Std. err. adjusted for 41 clusters in ifs_rpt)
+------------------------------------------------------------------------------
+             |               Robust
+ktotal_i~MLI | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+  d2008_2012 |   .3974812   .1200896     3.31   0.002     .1547711    .6401914
+  d2013_2021 |   .2748175   .1643198     1.67   0.102    -.0572852    .6069202
+    post2022 |   1.597279   .2445652     6.53   0.000     1.102994    2.091563
+       _cons |   2.169719   .1035685    20.95   0.000       1.9604    2.379039
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-----------------------------------------------------+
+ Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------+---------------------------------------|
+     ifs_rpt |        41          41           0    *|
+-----------------------------------------------------+
+* = FE nested within cluster; treated as redundant for DoF computation
+
+.         outreg2 using "$tables\T_S2.1_panelA.xls", nocons ctitle(US bloc) bde
+> c(4) tdec(4) se excel label append addtext(Country FE, Y)
+E:\IHEID Economics\IHEID\Advanced International Economics\presentation\Data for
+>  Changing Global Linkages A New Cold War\PPGT_JIE_replication\tables\T_S2.1_p
+> anelA.xls
+dir : seeout
+
+. xi: reghdfe ktotal_imports_MLI d2008_2012 d2013_2021 post2022 if nw2bl==1, ab
+> sorb(ifs_rpt) cluster(ifs_rpt)
+(MWFE estimator converged in 1 iterations)
+
+HDFE Linear regression                            Number of obs   =      1,746
+Absorbing 1 HDFE group                            F(   3,    100) =       5.84
+Statistics robust to heteroskedasticity           Prob > F        =     0.0010
+                                                  R-squared       =     0.4632
+                                                  Adj R-squared   =     0.4296
+                                                  Within R-sq.    =     0.0100
+Number of clusters (ifs_rpt) =        101         Root MSE        =     2.1291
+
+                              (Std. err. adjusted for 101 clusters in ifs_rpt)
+------------------------------------------------------------------------------
+             |               Robust
+ktotal_i~MLI | Coefficient  std. err.      t    P>|t|     [95% conf. interval]
+-------------+----------------------------------------------------------------
+  d2008_2012 |   .2856029   .2000302     1.43   0.156    -.1112514    .6824572
+  d2013_2021 |  -.0621924   .1633599    -0.38   0.704    -.3862938    .2619089
+    post2022 |   .6115834   .2935781     2.08   0.040     .0291327    1.194034
+       _cons |   3.813065    .121478    31.39   0.000     3.572056    4.054074
+------------------------------------------------------------------------------
+
+Absorbed degrees of freedom:
+-----------------------------------------------------+
+ Absorbed FE | Categories  - Redundant  = Num. Coefs |
+-------------+---------------------------------------|
+     ifs_rpt |       101         101           0    *|
+-----------------------------------------------------+
+* = FE nested within cluster; treated as redundant for DoF computation
+
+.         outreg2 using "$tables\T_S2.1_panelA.xls", nocons ctitle(Others) bdec
+> (4) tdec(4) se excel label append addtext(Country FE, Y)
+E:\IHEID Economics\IHEID\Advanced International Economics\presentation\Data for
+>  Changing Global Linkages A New Cold War\PPGT_JIE_replication\tables\T_S2.1_p
+> anelA.xls
+dir : seeout
+
+. 
+end of do-file
+
+. 
+. ** Figure 2 (panel B) and Table S2.1 (panel B) **
+. do "$dir\do files\GGPT_JIE_FDI_lilien.do"
+
+. 
+. global keep "country iso3 imf_income imf_region"
+
+. 
+. 
+. ** Construct the dataset of fDi at the host-source-year level **
+. use "$input\fdimarket.dta", clear
+file E:\IHEID Economics\IHEID\Advanced International
+    Economics\presentation\Data for Changing Global Linkages A New Cold
+    War\PPGT_JIE_replication\data\fdimarket.dta not found
+r(601);
+
+end of do-file
+r(601);
+
+end of do-file
+r(601);

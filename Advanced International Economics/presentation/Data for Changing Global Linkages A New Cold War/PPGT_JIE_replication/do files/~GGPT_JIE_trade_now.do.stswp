@@ -1,0 +1,377 @@
+
+local createdata  = 0
+local createdata_bydyad = 0
+
+**** modify t use the blocs data that was created in the reallocation_full_data.do
+if `createdata' {
+use "$input\Country_blocs_for_modelling", replace
+keep iso3code ae em lics asia ukr_2022  Bloc_Modelling_4
+rename iso3code iso3
+rename lics lidc
+duplicates drop 
+** for a few countries ukr_2022 is missing
+
+replace ukr_2022 = 1 if iso3=="ABW" |  iso3=="KOS" |  iso3=="PRI"
+replace ukr_2022 = 2 if iso3=="HKG" |  iso3=="MAC" |  iso3=="WBG"
+sort iso3
+save tmp, replace
+
+
+** quarterly bilateral from monthly is 
+
+use "\\farchive1\ecn-repo\Users\Trade Data Monitor\DTA\qrtrly_bilateral_from_monthly.dta", clear
+keep if year==2017
+append using "\\farchive1\ecn-repo\Users\Trade Data Monitor\DTA\qrtrly_bilateral_from_monthly_aug_update.dta"
+
+** just use the file in row 47 to get teh numbers for the results in the CEPR working paper version (as well as Oct 2023 WEO) **
+
+	drop if ifs_rpt==998
+	drop if ifs_ptn==998 
+		/*  trade where the EU is the trading partners */
+	rename iso_rpt iso3
+	sort iso3
+merge m:1 iso3 using tmp
+	tab _m
+	drop if _m==2
+	drop _m
+	foreach X in ae em lidc asia ukr_2022 Bloc_Modelling_4 {
+			rename `X' `X'_rpt
+	}
+	rename iso3 iso_rpt
+	rename iso_ptn iso3
+	sort iso3
+merge  m:1 iso3 using tmp
+	tab _m
+	drop if _m==2
+	drop _m
+foreach X in ae em lidc asia ukr_2022 Bloc_Modelling_4 {
+		rename `X' `X'_ptn
+}
+rename iso3 iso_ptn
+
+replace ukr_2022_rpt = 1 if iso_rpt=="ABW" |  iso_rpt=="KOS"
+replace ukr_2022_rpt = 2 if iso_rpt=="HKG" |  iso_rpt=="MAC"
+
+replace ukr_2022_ptn = 1 if iso_ptn=="ABW" |  iso_ptn=="KOS" |  iso_ptn=="PRI"
+replace ukr_2022_ptn = 2 if iso_ptn=="HKG" |  iso_ptn=="MAC" |  iso_ptn=="WBG"
+
+*** merge in the bloc assignment in FDI chapter
+
+sort iso_rpt
+rename iso_rpt iso3
+merge m:1 iso3  using "$input\bloc_assignment_bycountry.dta", keepusing(bloc_assign_baseline)
+		rename bloc_assign_baseline rpt_bloc_assign_baseline
+                drop if _m==2
+                drop _m
+merge m:1 iso3  using "$input\Country_alignments_to_USA_CHN", keepusing(close*)
+		foreach z of varlist close* {
+		    rename `z' rpt_`z'
+			}
+            drop if _m==2
+            drop _m
+
+rename iso3 iso_rpt
+rename iso_ptn iso3				
+merge m:1 iso3 using "$input\bloc_assignment_bycountry.dta", keepusing(bloc_assign_baseline)
+		rename bloc_assign_baseline ptn_bloc_assign_baseline
+                drop if _m==2
+                drop _m
+merge m:1 iso3  using "$input\Country_alignments_to_USA_CHN", keepusing(close*)
+		foreach z of varlist close* {
+		    rename `z' ptn_`z'
+			}
+            drop if _m==2
+            drop _m
+			rename iso3 iso_ptn	
+
+	
+*** define new blocs for FDMD 	
+foreach X in ptn rpt {
+		gen `X'_bl4 = Bloc_Modelling_4_`X'
+		replace  `X'_bl4 = 3 if Bloc_Modelling_4_`X'==4
+		replace `X'_bl4 =1 if iso_`X'=="CAN" | iso_`X'=="AUS" | iso_`X'=="NZL"
+		replace `X'_bl4 =2 if iso_`X'=="BLR" | iso_`X'=="SYR" | iso_`X'=="ERI" | iso_`X'=="NIC" | iso_`X'=="MLI" | iso_`X'=="SYR"
+		replace `X'_bl4 =3 if iso_`X'=="TUR"	
+		}
+	
+			
+** construct dummies for linkages between and within blocs **
+** this is the bloc assignment in the FDI chapter, based on the 8 regions in GIMF **
+cap drop linksFDI
+gen linksFDI = .
+replace linksFDI = 1 if ptn_bloc_assign_baseline==1 & rpt_bloc_assign_baseline==1
+replace linksFDI = 1 if ptn_bloc_assign_baseline==2 & rpt_bloc_assign_baseline==2
+replace linksFDI = 2 if ptn_bloc_assign_baseline==1 & rpt_bloc_assign_baseline==2
+replace linksFDI = 2 if ptn_bloc_assign_baseline==2 & rpt_bloc_assign_baseline==1
+replace linksFDI = 3 if ptn_bloc_assign_baseline==0 & rpt_bloc_assign_baseline==0
+replace linksFDI = 3 if ptn_bloc_assign_baseline==0 & rpt_bloc_assign_baseline!=0
+replace linksFDI = 3 if ptn_bloc_assign_baseline!=0 & rpt_bloc_assign_baseline==0
+
+** this is just CHN vs USA, based on IPD values **
+
+cap drop links2
+gen links2 = .
+replace links2 = 1 if ptn_closer2USA_ipd==1 & rpt_closer2USA_ipd==1
+replace links2 = 1 if ptn_closer2USA_ipd==0 & rpt_closer2USA_ipd==0
+replace links2 = 2 if ptn_closer2USA_ipd==1 & rpt_closer2USA_ipd==0
+replace links2 = 2 if ptn_closer2USA_ipd==0 & rpt_closer2USA_ipd==1
+
+
+** this is just CHN vs USA, based on Commodities chapter **
+
+cap drop linksCOM
+gen linksCOM = .
+replace linksCOM = 1 if ukr_2022_rpt==1 & ukr_2022_ptn==1
+replace linksCOM = 1 if ukr_2022_rpt==2 & ukr_2022_ptn==2
+replace linksCOM = 2 if ukr_2022_rpt==1 & ukr_2022_ptn==2
+replace linksCOM = 2 if ukr_2022_rpt==2 & ukr_2022_ptn==1
+
+				
+** This is again US, CHN and non aligned depending on IPD values, country by country **
+
+cap drop links3
+gen links3 = .
+replace links3 = 1 if ptn_closest_qtile_ipd_USA==1 & rpt_closest_qtile_ipd_USA==1
+replace links3 = 1 if ptn_closest_qtile_ipd_CHN==1 & rpt_closest_qtile_ipd_CHN==1
+replace links3 = 2 if ptn_closest_qtile_ipd_USA==1 & rpt_closest_qtile_ipd_CHN==1
+replace links3 = 2 if ptn_closest_qtile_ipd_CHN==1 & rpt_closest_qtile_ipd_USA==1
+replace links3 = 3 if ptn_closest_qtile_ipd_neither==1 & rpt_closest_qtile_ipd_neither==1
+replace links3 = 3 if ptn_closest_qtile_ipd_neither==1 & rpt_closest_qtile_ipd_neither==0
+replace links3 = 3 if ptn_closest_qtile_ipd_neither==0 & rpt_closest_qtile_ipd_neither==1
+
+
+* This is 3 blocs using the COMMODITIES chapter 3 bloc scenario **
+
+cap drop linksCM3
+gen linksCM3 = .
+replace linksCM3 = 1 if Bloc_Modelling_4_ptn==1 & Bloc_Modelling_4_rpt==1
+replace linksCM3 = 1 if Bloc_Modelling_4_ptn==2 & Bloc_Modelling_4_rpt==2
+replace linksCM3 = 2 if Bloc_Modelling_4_ptn==1 & Bloc_Modelling_4_rpt==2
+replace linksCM3 = 2 if Bloc_Modelling_4_ptn==2 & Bloc_Modelling_4_rpt==1
+replace linksCM3 = 3 if Bloc_Modelling_4_ptn==1 & Bloc_Modelling_4_rpt>2 & Bloc_Modelling_4_rpt!=.
+replace linksCM3 = 3 if Bloc_Modelling_4_ptn==2 & Bloc_Modelling_4_rpt>2 & Bloc_Modelling_4_rpt!=.
+replace linksCM3 = 3 if Bloc_Modelling_4_ptn>2 & Bloc_Modelling_4_rpt==1
+replace linksCM3 = 3 if Bloc_Modelling_4_ptn>2 & Bloc_Modelling_4_rpt==2
+replace linksCM3 = 3 if Bloc_Modelling_4_ptn>2 & Bloc_Modelling_4_rpt>2
+
+* This is 3 blocs using a slightly larger definition of blocs than the COMMODITIES chapter 3 bloc scenario **
+
+cap drop linksalt3
+gen linksalt3 = .
+replace linksalt3 = 1 if rpt_bl4==1 & ptn_bl4==1
+replace linksalt3 = 1 if rpt_bl4==2 & ptn_bl4==2
+replace linksalt3 = 2 if rpt_bl4==1 & ptn_bl4==2
+replace linksalt3 = 2 if rpt_bl4==2 & ptn_bl4==1
+replace linksalt3 = 3 if rpt_bl4==3 | ptn_bl4==3
+
+
+label var linksFDI "3 bloc assignment in the FDI chapter, based on the 8 regions in GIMF"
+label var linksCOM "2 bloc assignment in the Commodities chapter, based on the 2022 UN vote on Ukraine"
+label var links2 "2 CHN vs USA, based on IPD values"
+label var links3 "3 US, CHN and non aligned depending on IPD values, country by country"
+label var linksCM3 "3 US/EUR, CHN/RUS and all others are non aligned"
+label var linksalt3 "3 US/EUR/CAN/AUS//NZL, CHN/RUS/BLR/SYR and all others are non aligned"
+
+save "overall_tradepartner_change_blocs_qrtrly.dta", replace
+}
+
+**** make sure there is one observation per dyad (2 countries and focus only on total trade)
+
+if `createdata_bydyad' {
+use "overall_tradepartner_change_blocs_qrtrly.dta", clear
+
+*** create some trade based on imports and exports
+
+foreach X in us_central_sector Trump_tariffs_sector {
+		gen trade_`X' = imports_`X'+exports_`X'
+}
+rename trade_us_central_sector trade_usc 
+rename trade_Trump_tariffs_sector trade_trmptar 
+
+
+	gen time = year*100+quarter
+	gen yq = yq(year, quarter)
+	gen pst2  = (time>=202202)
+	
+	gen dd1 = min(ifs_rpt, ifs_ptn)
+	gen dd2 = max(ifs_rpt, ifs_ptn)
+	
+	gen dyad = dd1*1000+dd2
+	
+	gen btwCOM = (linksCOM==2)	
+	gen btw2 = (links2==2)	
+	gen btw3 = (links3==2)	
+	gen btwFDI = (linksFDI==2)
+	gen btwCM3 = (linksCM3==2)	
+	gen btwalt3 = (linksalt3==2)	
+
+
+	gen una3 = (links3==3) 
+	gen unaFDI = (linksFDI==3)
+	gen unaCM3 = (linksCM3==3) 
+	gen unaalt3 = (linksalt3==3) 
+
+	replace btwCOM = . if linksCOM==.
+	replace btw2 = . if links2==.
+	replace btw3 = . if links3==.
+	replace btwCM3 = . if linksCM3==.
+	replace btwFDI = . if linksFDI==.
+	replace btwalt3 = . if linksalt3==.
+
+	replace una3 = . if links3==.
+	replace unaFDI = . if linksFDI==.
+	replace unaCM3=. if linksCM3==.
+	replace unaalt3=. if linksalt3==.
+
+	foreach X in pst2 {
+		foreach y in btwCOM btw2 btwFDI btw3 btwCM3 btwalt3 unaFDI una3 unaCM3 unaalt3 {
+			gen `y'_`X'=`y'*`X'
+		}
+	}
+	
+	gen trade_nstrg = total_trade*1000000-trade_strg
+	replace trade_nstrg=0 if trade_nstrg<0 
+	
+	local tradelist "total_trade trade_strg trade_nstrg trade_chem trade_mchn trade_arm trade_usc trade_trmptar trade_28 trade_29 trade_30 trade_38 trade_84 trade_85 trade_87 trade_88 trade_90 trade_93 "
+	
+collapse (mean) `tradelist' , by(dyad time yq pst2 btwCOM* btw2* btwFDI* btw3* btwCM3* btwalt3* unaFDI* una3* unaCM3* unaalt3* year quarter)
+	tostring dyad, gen(ndyad)
+	gen ifscode_1 = substr(ndyad, 1, 3)
+	gen ifscode_2 = substr(ndyad, 4, 3)
+	
+	destring ifscode_1, gen(ifscode_rpt)
+	sort ifscode_rpt
+	merge m:1 ifscode_rpt using "`blocdata'", keepusing (ifscode_rpt iso_rpt ae emde bloc*)
+	** merge characteristics of the dyad 
+	tab _m
+	drop if _m!=3
+	rename ifscode_rpt ifs_code1 
+	rename iso_rpt iso_rpt1
+	foreach X in ae emde bloc3iea bloc3ipd  bloc3com {
+		rename `X' `X'_1 
+	}
+	drop _m
+	destring ifscode_2, gen(ifscode_rpt)
+	sort ifscode_rpt
+	merge m:1 ifscode_rpt using "`blocdata'", keepusing (ifscode_rpt iso_rpt ae emde bloc*)
+	** merge characteristics of the dyad 
+	tab _m
+	drop if _m!=3
+	rename ifscode_rpt ifs_code2 
+	rename iso_rpt iso_rpt2
+	foreach X in ae emde bloc3iea bloc3ipd bloc3com {
+		rename `X' `X'_2
+	}
+	drop _m
+	
+	
+	tsset dyad yq
+	
+foreach X in total_trade trade_strg trade_nstrg trade_chem trade_mchn trade_arm trade_usc trade_trmptar  trade_28 trade_29 trade_30 trade_38 trade_84 trade_85 trade_87 trade_88 trade_90 trade_93  {
+		cap drop ln`X'
+		cap drop dln`X'
+		gen ln`X'  = ln(`X'+sqrt(1+`X'^2))
+		bys dyad: gen dln`X'  = d.ln`X'
+		}
+		
+*** create dummies for between trade with time 
+
+save qrtrly_for_fragmentation_updated, replace
+}
+
+********************************************************************************
+use  "$input\qrtrly_for_fragmentation_updated.dta", clear
+
+tostring time, gen(t00)
+
+gen str ifs1time = substr(ndyad, 1, 3)+t00
+gen str ifs2time = substr(ndyad, 4, 3)+t00
+
+drop t00
+forvalue X = 228/256 {
+	gen tm`X' = (yq==`X')
+
+}
+	foreach y in btw3 una3 btwalt3 unaalt3 btwCM3 unaCM3 {
+	forvalue X = 228/256 {
+		gen `y'_tm`X' = `y'*tm`X'
+	}
+	}
+
+
+	tsset 
+
+	cap drop btw3pre 
+	gen btw3pre = 0
+	replace btw3pre = 1 if btw3==1 & yq<=246
+	cap drop una3pre 
+	gen una3pre = 0
+	replace una3pre = 1 if una3==1 & yq<=246
+	
+** Regression to get the data for Figure 3 **
+	ppmlhdfe total_trade l.total_trade btw3pre btw3_tm248-btw3_tm256 una3pre una3_tm248-una3_tm256 if yq<257, absorb(dyad ifs1time ifs2time) cluster(dyad time)
+	outreg2 using "$tables\data_F3.xls", nocons ctitle(PPML) bdec(4) tdec(4) se excel label replace addtext(Country-pair FE, Y, Time FE, -, Source x Time FE, Y, Destination x Time FE, Y, Blocs, Wider)
+
+** Regression to get the data for Figure S1.2 **
+	ppmlhdfe total_trade l.total_trade btw3_tm228-btw3_tm246 btw3_tm248-btw3_tm256 una3_tm228-una3_tm246 una3_tm248-una3_tm256 if yq<257, absorb(dyad ifs1time ifs2time) cluster(dyad time)
+	outreg2 using "$tables\data_FS1.2.xls", nocons ctitle(PPML) bdec(4) tdec(4) se excel label replace addtext(Country-pair FE, Y, Time FE, -, Source x Time FE, Y, Destination x Time FE, Y, Blocs, Wider)
+
+
+	
+	cap drop btw3pre 
+	gen btw3pre = 0
+	replace btw3pre = 1 if btw3==1 & yq<=247
+	cap drop una3pre 
+	gen una3pre = 0
+	replace una3pre = 1 if una3==1 & yq<=247
+
+** Table 1, columns 1-2 **
+
+foreach z in 3 {
+
+	ppmlhdfe total_trade btw`z'_pst2 una`z'_pst2 l.total_trade if yq<257, absorb(dyad time) cluster(dyad time)
+	outreg2 using "$tables\T1.xls", nocons ctitle(PPML) bdec(4) tdec(4) se excel label replace addtext(Country-pair FE, Y, Time FE, Y, Source x Time FE, N, Destination x Time FE, N, Blocs, Wider)
+	ppmlhdfe total_trade btw`z'_pst2 una`z'_pst2 l.total_trade if yq<257, absorb(dyad ifs1time ifs2time) cluster(dyad )
+	outreg2 using "$tables\T1.xls", nocons ctitle(PPML) bdec(4) tdec(4) se excel label append addtext(Country-pair FE, Y, Time FE, -, Source x Time FE, Y, Destination x Time FE, Y, Blocs, Wider)
+		}
+
+foreach z in alt3 {
+
+	ppmlhdfe total_trade btw`z'_pst2 una`z'_pst2 l.total_trade if yq<257, absorb(dyad time) cluster(dyad time)
+	outreg2 using "$tables\T1.xls", nocons ctitle(PPML) bdec(4) tdec(4) se excel label append addtext(Country-pair FE, Y, Time FE, Y, Source x Time FE, N, Destination x Time FE, N, Blocs, Narrow)
+	ppmlhdfe total_trade btw`z'_pst2 una`z'_pst2 l.total_trade if yq<257, absorb(dyad ifs1time ifs2time) cluster(dyad )
+	outreg2 using "$tables\T1.xls", nocons ctitle(PPML) bdec(4) tdec(4) se excel label append addtext(Country-pair FE, Y, Time FE, -, Source x Time FE, Y, Destination x Time FE, Y, Blocs, Narrow)
+		}
+
+		
+
+** Table S2.2, Columns 1-2 **
+		
+preserve 
+	drop if ifs_code1==111 | ifs_code2==111		
+	
+	foreach z in 3 {
+
+	ppmlhdfe total_trade btw`z'_pst2 una`z'_pst2 l.total_trade, absorb(dyad time) cluster(dyad time)
+	outreg2 using "$tables\TS2.2.xls", nocons ctitle(PPML) bdec(4) tdec(4) se excel label replace addtext(Country-pair FE, Y, Time FE, Y, Source x Time FE, N, Destination x Time FE, N, Blocs, Wider, Sample, No US)
+	ppmlhdfe total_trade btw`z'_pst2 una`z'_pst2 l.total_trade, absorb(dyad ifs1time ifs2time) cluster(dyad )
+	outreg2 using "$tables\TS2.2.xls", nocons ctitle(PPML) bdec(4) tdec(4) se excel label append addtext(Country-pair FE, Y, Time FE, -, Source x Time FE, Y, Destination x Time FE, Y, Blocs, Wider, Sample, No US)
+		}
+		
+restore
+
+preserve 
+	drop if ifs_code1==924 | ifs_code2==924		
+	
+	foreach z in 3 {
+
+	ppmlhdfe total_trade btw`z'_pst2 una`z'_pst2 l.total_trade, absorb(dyad time) cluster(dyad time)
+	outreg2 using "$tables\TS2.2.xls", nocons ctitle(PPML) bdec(4) tdec(4) se excel label append addtext(Country-pair FE, Y, Time FE, Y, Source x Time FE, N, Destination x Time FE, N, Blocs, Wider, Sample, No CN)
+	ppmlhdfe total_trade btw`z'_pst2 una`z'_pst2 l.total_trade, absorb(dyad ifs1time ifs2time) cluster(dyad )
+	outreg2 using "$tables\TS2.2.xls", nocons ctitle(PPML) bdec(4) tdec(4) se excel label append addtext(Country-pair FE, Y, Time FE, -, Source x Time FE, Y, Destination x Time FE, Y, Blocs, Wider, Sample, No CN)
+		}
+		
+restore
+
+
+
