@@ -1,0 +1,69 @@
+\begin{thebibliography}{99}
+
+\bibitem[Autor et~al.(2013)]{AutorDornHanson2013}
+Autor, David~H., David Dorn, and Gordon~H. Hanson. 2013. ``The China Syndrome: Local Labor Market Effects of Import Competition in the United States.'' \textit{American Economic Review} 103 (6): 2121--2168.
+
+\bibitem[Branstetter and Li(2022)]{BranstetterLi2022}
+Branstetter, Lee~G., and Guangwei Li. 2022. ``Does `Made in China 2025' Work for China? Evidence from Chinese Listed Firms.'' \textit{NBER Working Paper} No.~30676.
+
+\bibitem[Branstetter et~al.(2023)]{BranstetterLiRen2022}
+Branstetter, Lee~G., Guangwei Li, and Mengjia Ren. 2023. ``Picking Winners? Government Subsidies and Firm Productivity in China.'' \textit{Journal of Comparative Economics} 51 (4): 1186--1199.
+
+\bibitem[European Commission(2024)]{EC2024BEV}
+European Commission. 2024. ``EU Imposes Definitive Countervailing Duties on Battery Electric Vehicles from China.'' Press release, October 29, 2024.
+
+\bibitem[Fang et~al.(2025{\natexlab{a}})]{FangLiLu2025}
+Fang, Hanming, Ming Li, and Guangli Lu. 2025a. ``Decoding China's Industrial Policies.'' \textit{NBER Working Paper} No.~33814.
+
+\bibitem[Fang et~al.(2025{\natexlab{b}})]{FangLiWu2022}
+Fang, Hanming, Ming Li, and Zenan Wu. 2025b. ``Tournament-Style Political Competition and Local Protectionism: Theory and Evidence from China.'' \textit{Journal of Public Economics} 248: 105421.
+
+\bibitem[Gunter et~al.(2025)]{MERICS2025}
+Gunter, Jacob, Alexander Brown, Fran\c{c}ois Chimits, Antonia Hmaidi, Abiga\"el Vasselier, and Max~J. Zenglein. 2025. ``Beyond Overcapacity: Chinese-Style Modernization and the Clash of Economic Models.'' MERICS Report, April 2025.
+
+\bibitem[IEA(2025{\natexlab{a}})]{IEA2025GEO}
+International Energy Agency. 2025a. \textit{Global EV Outlook 2025.} Paris: IEA.
+
+\bibitem[IEA(2025{\natexlab{b}})]{IEAPVPS2025}
+International Energy Agency. 2025b. \textit{Snapshot of Global PV Markets 2025.} IEA PVPS Report T1-48:2025.
+
+\bibitem[IMF(2026)]{IMF2026}
+International Monetary Fund. 2026. \textit{People's Republic of China: 2025 Article IV Consultation.} IMF Country Report No.~26/044.
+
+\bibitem[Johnson(1982)]{Johnson1982}
+Johnson, Chalmers. 1982. \textit{MITI and the Japanese Miracle: The Growth of Industrial Policy, 1925--1975.} Stanford: Stanford University Press.
+
+\bibitem[Klein and Pettis(2020)]{KleinPettis2020}
+Klein, Matthew~C., and Michael Pettis. 2020. \textit{Trade Wars Are Class Wars.} New Haven: Yale University Press.
+
+\bibitem[Mayr et~al.(2026)]{MayrEtAl2026}
+Mayr, Stefan, et~al. 2026. \textit{Industrial Overcapacities, with a Focus on China.} Brussels: European Parliament, External Policies Analysis and Support Unit. PE~783.610.
+
+\bibitem[NBS(2026)]{NBS2026PPI}
+National Bureau of Statistics of China. 2026. ``Industrial Producer Price Indexes in December 2025.'' January 12, 2026. \url{https://www.stats.gov.cn/english/PressRelease/202601/t20260112_1962293.html}.
+
+\bibitem[OECD(2025)]{OECD2025Subsidies}
+OECD. 2025. ``The State of Play of Industrial Subsidies as of 2023.'' \textit{OECD Policy Briefs} No.~22. Paris: OECD Publishing.
+
+\bibitem[OECD(2026)]{OECD2026Solar}
+OECD. 2026. ``Subsidies and the Solar Panel Industry: Too Close to the Sun.'' \textit{OECD Policy Briefs} No.~47. Paris: OECD Publishing.
+
+\bibitem[Rotunno and Ruta(2024)]{RotunnoRuta2024}
+Rotunno, Lorenzo, and Michele Ruta. 2024. ``Trade Implications of China's Subsidies.'' \textit{IMF Working Paper} 2024/180.
+
+\bibitem[State Council(2025{\natexlab{a}})]{StateCouncil2025NEV}
+State Council of the People's Republic of China. 2025a. ``Chinese Premier Chairs Meeting on Internal Circulation, NEV Industry Competition.'' July 17, 2025. \url{https://english.www.gov.cn/news/202507/17/content_WS68782fb8c6d0868f4e8f438d.html}.
+
+\bibitem[State Council(2025{\natexlab{b}})]{StateCouncil2025Market}
+State Council / NDRC. 2025b. ``China Unveils Guideline for Building Unified National Market.'' January 7, 2025. \url{https://english.www.gov.cn/policies/policywatch/202501/07/content_WS677d2d7dc6d0868f4e8ee95a.html}.
+
+\bibitem[USTR(2024)]{USTR2024}
+United States Trade Representative. 2024. ``Notice of Modification of Section 301 Action: China's Acts, Policies, and Practices Related to Technology Transfer.'' \textit{Federal Register} 89 (182): 76930--76962. September 18, 2024.
+
+\bibitem[USCC(2025)]{USCC2025}
+U.S.-China Economic and Security Review Commission. 2025. \textit{2025 Annual Report to Congress}, Chapter~8: ``China Shock 2.0.''
+
+\bibitem[World Bank(2025)]{WorldBank2025}
+World Bank. 2025. \textit{China Economic Update, December 2025: Advancing Reforms, Enhancing Prospects.}
+
+\end{thebibliography}
