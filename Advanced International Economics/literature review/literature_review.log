@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.28 (TeX Live 2025) (preloaded format=pdflatex 2025.9.9)  22 MAY 2026 11:21
+This is pdfTeX, Version 3.141592653-2.6-1.40.28 (TeX Live 2025) (preloaded format=pdflatex 2025.9.9)  1 JUN 2026 10:04
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -408,11 +408,9 @@ texmf-dist/fonts/enc/dvips/lm/lm-ec.enc}]
 
 [5] (./literature_review.bbl
 
-[6]
+[6])
 
-[7])
-
-[8] (./literature_review.aux)
+[7] (./literature_review.aux)
  ***********
 LaTeX2e <2025-06-01> patch level 1
 L3 programming layer <2025-08-13>
@@ -421,21 +419,21 @@ Package rerunfilecheck Info: File `literature_review.out' has not changed.
 (rerunfilecheck)             Checksum: 6EE895FEBE99F5DBF8EAEE5A8BF8BF4B;1688.
  ) 
 Here is how much of TeX's memory you used:
- 11383 strings out of 469703
- 178967 string characters out of 5480018
- 634887 words of memory out of 5000000
+ 11376 strings out of 469703
+ 178901 string characters out of 5480018
+ 632887 words of memory out of 5000000
  39504 multiletter control sequences out of 15000+600000
- 672646 words of font info for 131 fonts, out of 8000000 for 9000
+ 672373 words of font info for 128 fonts, out of 8000000 for 9000
  36 hyphenation exceptions out of 8191
- 75i,6n,79p,1521b,636s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 75i,6n,79p,1345b,622s stack positions out of 10000i,1000n,20000p,200000b,200000s
 <d:/texlive/2025/texmf-dist/fonts/type1/public/lm/lmbx12.pfb><d:/texlive/2025
 /texmf-dist/fonts/type1/public/lm/lmr12.pfb><d:/texlive/2025/texmf-dist/fonts/t
 ype1/public/lm/lmr17.pfb><d:/texlive/2025/texmf-dist/fonts/type1/public/lm/lmri
 12.pfb>
-Output written on literature_review.pdf (8 pages, 146178 bytes).
+Output written on literature_review.pdf (7 pages, 143112 bytes).
 PDF statistics:
- 242 PDF objects out of 1000 (max. 8388607)
- 221 compressed objects within 3 object streams
- 45 named destinations out of 1000 (max. 500000)
+ 224 PDF objects out of 1000 (max. 8388607)
+ 204 compressed objects within 3 object streams
+ 44 named destinations out of 1000 (max. 500000)
  22585 words of extra memory for PDF output out of 24883 (max. 10000000)
 
