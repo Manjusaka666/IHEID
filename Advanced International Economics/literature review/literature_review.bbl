@@ -17,8 +17,7 @@ Acemoglu, D.%
 \newblock
 \APACrefYearMonthDay{2024}{}{}.
 \newblock
-\APACrefbtitle {The Simple Macroeconomics of {AI}} {The simple macroeconomics
-  of {AI}}\ \APACbVolEdTR {}{Working Paper\ \BNUM\ 32487}.
+\APACrefbtitle {The Simple Macroeconomics of {AI}} {The simple macroeconomics of {AI}}\ \APACbVolEdTR {}{Working Paper\ \BNUM\ 32487}.
 \newblock
 \APACaddressInstitution{}{National Bureau of Economic Research}.
 \PrintBackRefs{\CurrentBib}
@@ -43,37 +42,9 @@ Acemoglu, D.%
 \newblock
 \APACrefYearMonthDay{2020}{}{}.
 \newblock
-{\BBOQ}\APACrefatitle {Robots and Jobs: Evidence from {US} Labor Markets}
-  {Robots and jobs: Evidence from {US} labor markets}.{\BBCQ}
+{\BBOQ}\APACrefatitle {Robots and Jobs: Evidence from {US} Labor Markets} {Robots and jobs: Evidence from {US} labor markets}.{\BBCQ}
 \newblock
 \APACjournalVolNumPages{Journal of Political Economy}{128}{6}{2188--2244}.
-\PrintBackRefs{\CurrentBib}
-
-\bibitem [\protect \citeauthoryear {%
-Adrian%
-, Mosk%
-\BCBL {}\ \BBA {} Wu%
-}{%
-Adrian%
-\ \protect \BOthers {.}}{%
-{\protect \APACyear {2025}}%
-}]{%
-adrian2025}
-\APACinsertmetastar {%
-adrian2025}%
-\begin{APACrefauthors}%
-Adrian, T.%
-, Mosk, B.%
-\BCBL {}\ \BBA {} Wu, J.%
-\end{APACrefauthors}%
-\unskip\
-\newblock
-\APACrefYearMonthDay{2025}{}{}.
-\newblock
-\APACrefbtitle {The Future of {AI} in Capital Markets} {The future of {AI} in
-  capital markets}\ \APACbVolEdTR {}{Discussion Paper\ \BNUM\ 20748}.
-\newblock
-\APACaddressInstitution{}{Centre for Economic Policy Research}.
 \PrintBackRefs{\CurrentBib}
 
 \bibitem [\protect \citeauthoryear {%
@@ -96,8 +67,7 @@ Aghion, P.%
 \newblock
 \APACrefYearMonthDay{2024}{}{}.
 \newblock
-\APACrefbtitle {{AI} and Growth: Where Do We Stand?} {{AI} and growth: Where do
-  we stand?}\ \APACbVolEdTR {}{Policy Note}.
+\APACrefbtitle {{AI} and Growth: Where Do We Stand?} {{AI} and growth: Where do we stand?}\ \APACbVolEdTR {}{Policy Note}.
 \newblock
 \APACaddressInstitution{}{Federal Reserve Bank of San Francisco}.
 \PrintBackRefs{\CurrentBib}
@@ -123,42 +93,11 @@ Aghion, P.%
 \newblock
 \APACrefYearMonthDay{2018}{}{}.
 \newblock
-{\BBOQ}\APACrefatitle {Artificial Intelligence and Economic Growth} {Artificial
-  intelligence and economic growth}.{\BBCQ}
+{\BBOQ}\APACrefatitle {Artificial Intelligence and Economic Growth} {Artificial intelligence and economic growth}.{\BBCQ}
 \newblock
-\BIn{} A.~Agrawal, J.~Gans\BCBL {}\ \BBA {} A.~Goldfarb\ (\BEDS),
-  \APACrefbtitle {The Economics of Artificial Intelligence: An Agenda.} {The
-  economics of artificial intelligence: An agenda.}
+\BIn{} A.~Agrawal, J.~Gans\BCBL {}\ \BBA {} A.~Goldfarb\ (\BEDS), \APACrefbtitle {The Economics of Artificial Intelligence: An Agenda.} {The economics of artificial intelligence: An agenda.}
 \newblock
 \APACaddressPublisher{Chicago}{University of Chicago Press}.
-\PrintBackRefs{\CurrentBib}
-
-\bibitem [\protect \citeauthoryear {%
-Agrawal%
-, Gans%
-\BCBL {}\ \BBA {} Goldfarb%
-}{%
-Agrawal%
-\ \protect \BOthers {.}}{%
-{\protect \APACyear {2018}}%
-}]{%
-agrawal2018prediction}
-\APACinsertmetastar {%
-agrawal2018prediction}%
-\begin{APACrefauthors}%
-Agrawal, A.%
-, Gans, J.%
-\BCBL {}\ \BBA {} Goldfarb, A.%
-\end{APACrefauthors}%
-\unskip\
-\newblock
-\APACrefYear{2018}.
-\newblock
-\APACrefbtitle {Prediction Machines: The Simple Economics of Artificial
-  Intelligence} {Prediction machines: The simple economics of artificial
-  intelligence}.
-\newblock
-\APACaddressPublisher{Boston}{Harvard Business Review Press}.
 \PrintBackRefs{\CurrentBib}
 
 \bibitem [\protect \citeauthoryear {%
@@ -168,8 +107,7 @@ Aldasoro%
 \BCBL {}\ \BBA {} Rees%
 }{%
 Aldasoro%
-, Doerr%
-\BCBL {}\ \protect \BOthers {.}}{%
+\ \protect \BOthers {.}}{%
 {\protect \APACyear {2024}}%
 }]{%
 aldasoro2024output}
@@ -185,42 +123,7 @@ Aldasoro, I.%
 \newblock
 \APACrefYearMonthDay{2024}{}{}.
 \newblock
-\APACrefbtitle {The Impact of Artificial Intelligence on Output and Inflation}
-  {The impact of artificial intelligence on output and inflation}\
-  \APACbVolEdTR {}{Working Paper\ \BNUM\ 1179}.
-\newblock
-\APACaddressInstitution{}{Bank for International Settlements}.
-\PrintBackRefs{\CurrentBib}
-
-\bibitem [\protect \citeauthoryear {%
-Aldasoro%
-, Gambacorta%
-, Korinek%
-, Shreeti%
-\BCBL {}\ \BBA {} Stein%
-}{%
-Aldasoro%
-, Gambacorta%
-\BCBL {}\ \protect \BOthers {.}}{%
-{\protect \APACyear {2024}}%
-}]{%
-aldasoro2024finance}
-\APACinsertmetastar {%
-aldasoro2024finance}%
-\begin{APACrefauthors}%
-Aldasoro, I.%
-, Gambacorta, L.%
-, Korinek, A.%
-, Shreeti, V.%
-\BCBL {}\ \BBA {} Stein, M.%
-\end{APACrefauthors}%
-\unskip\
-\newblock
-\APACrefYearMonthDay{2024}{}{}.
-\newblock
-\APACrefbtitle {Intelligent Financial System: How {AI} Is Transforming Finance}
-  {Intelligent financial system: How {AI} is transforming finance}\
-  \APACbVolEdTR {}{Working Paper\ \BNUM\ 1194}.
+\APACrefbtitle {The Impact of Artificial Intelligence on Output and Inflation} {The impact of artificial intelligence on output and inflation}\ \APACbVolEdTR {}{Working Paper\ \BNUM\ 1179}.
 \newblock
 \APACaddressInstitution{}{Bank for International Settlements}.
 \PrintBackRefs{\CurrentBib}
@@ -242,37 +145,9 @@ Autor, D\BPBI H.%
 \newblock
 \APACrefYearMonthDay{2024}{}{}.
 \newblock
-\APACrefbtitle {Applying {AI} to Rebuild Middle Class Jobs} {Applying {AI} to
-  rebuild middle class jobs}\ \APACbVolEdTR {}{Working Paper\ \BNUM\ 32140}.
+\APACrefbtitle {Applying {AI} to Rebuild Middle Class Jobs} {Applying {AI} to rebuild middle class jobs}\ \APACbVolEdTR {}{Working Paper\ \BNUM\ 32140}.
 \newblock
 \APACaddressInstitution{}{National Bureau of Economic Research}.
-\PrintBackRefs{\CurrentBib}
-
-\bibitem [\protect \citeauthoryear {%
-{Bank for International Settlements}%
-}{%
-{Bank for International Settlements}%
-}{%
-{\protect \APACyear {2024}}%
-}]{%
-bis2024}
-\APACinsertmetastar {%
-bis2024}%
-\begin{APACrefauthors}%
-{Bank for International Settlements}.%
-\end{APACrefauthors}%
-\unskip\
-\newblock
-\APACrefYearMonthDay{2024}{}{}.
-\newblock
-{\BBOQ}\APACrefatitle {Artificial Intelligence and the Economy: Implications
-  for Central Banks} {Artificial intelligence and the economy: Implications for
-  central banks}.{\BBCQ}
-\newblock
-\BIn{} \APACrefbtitle {Annual Economic Report 2024} {Annual economic report
-  2024}\ (\BCHAP~III).
-\newblock
-\APACaddressPublisher{Basel}{Bank for International Settlements}.
 \PrintBackRefs{\CurrentBib}
 
 \bibitem [\protect \citeauthoryear {%
@@ -298,9 +173,7 @@ Bonfiglioli, A.%
 \newblock
 \APACrefYearMonthDay{2025}{}{}.
 \newblock
-\APACrefbtitle {Data, Power and Emissions: The Environmental Cost of {AI}}
-  {Data, power and emissions: The environmental cost of {AI}}\ \APACbVolEdTR
-  {}{Discussion Paper\ \BNUM\ 20686}.
+\APACrefbtitle {Data, Power and Emissions: The Environmental Cost of {AI}} {Data, power and emissions: The environmental cost of {AI}}\ \APACbVolEdTR {}{Discussion Paper\ \BNUM\ 20686}.
 \newblock
 \APACaddressInstitution{}{Centre for Economic Policy Research}.
 \PrintBackRefs{\CurrentBib}
@@ -328,9 +201,7 @@ Brynjolfsson, E.%
 \newblock
 \APACrefYearMonthDay{2025}{}{}.
 \newblock
-\APACrefbtitle {A Research Agenda for the Economics of Transformative {AI}} {A
-  research agenda for the economics of transformative {AI}}\ \APACbVolEdTR
-  {}{Working Paper\ \BNUM\ 34256}.
+\APACrefbtitle {A Research Agenda for the Economics of Transformative {AI}} {A research agenda for the economics of transformative {AI}}\ \APACbVolEdTR {}{Working Paper\ \BNUM\ 34256}.
 \newblock
 \APACaddressInstitution{}{National Bureau of Economic Research}.
 \PrintBackRefs{\CurrentBib}
@@ -358,8 +229,7 @@ Brynjolfsson, E.%
 \newblock
 \APACrefYearMonthDay{2025}{}{}.
 \newblock
-{\BBOQ}\APACrefatitle {Generative {AI} at Work} {Generative {AI} at
-  work}.{\BBCQ}
+{\BBOQ}\APACrefatitle {Generative {AI} at Work} {Generative {AI} at work}.{\BBCQ}
 \newblock
 \APACjournalVolNumPages{Quarterly Journal of Economics}{140}{2}{889--942}.
 \PrintBackRefs{\CurrentBib}
@@ -385,14 +255,9 @@ Brynjolfsson, E.%
 \newblock
 \APACrefYearMonthDay{2018}{}{}.
 \newblock
-{\BBOQ}\APACrefatitle {Artificial Intelligence and the Modern Productivity
-  Paradox: A Clash of Expectations and Statistics} {Artificial intelligence and
-  the modern productivity paradox: A clash of expectations and
-  statistics}.{\BBCQ}
+{\BBOQ}\APACrefatitle {Artificial Intelligence and the Modern Productivity Paradox: A Clash of Expectations and Statistics} {Artificial intelligence and the modern productivity paradox: A clash of expectations and statistics}.{\BBCQ}
 \newblock
-\BIn{} A.~Agrawal, J.~Gans\BCBL {}\ \BBA {} A.~Goldfarb\ (\BEDS),
-  \APACrefbtitle {The Economics of Artificial Intelligence: An Agenda.} {The
-  economics of artificial intelligence: An agenda.}
+\BIn{} A.~Agrawal, J.~Gans\BCBL {}\ \BBA {} A.~Goldfarb\ (\BEDS), \APACrefbtitle {The Economics of Artificial Intelligence: An Agenda.} {The economics of artificial intelligence: An agenda.}
 \newblock
 \APACaddressPublisher{Chicago}{University of Chicago Press}.
 \PrintBackRefs{\CurrentBib}
@@ -418,67 +283,9 @@ Brynjolfsson, E.%
 \newblock
 \APACrefYearMonthDay{2021}{}{}.
 \newblock
-{\BBOQ}\APACrefatitle {The Productivity {J}-Curve: How Intangibles Complement
-  General Purpose Technologies} {The productivity {J}-curve: How intangibles
-  complement general purpose technologies}.{\BBCQ}
+{\BBOQ}\APACrefatitle {The Productivity {J}-Curve: How Intangibles Complement General Purpose Technologies} {The productivity {J}-curve: How intangibles complement general purpose technologies}.{\BBCQ}
 \newblock
-\APACjournalVolNumPages{American Economic Journal:
-  Macroeconomics}{13}{1}{333--372}.
-\PrintBackRefs{\CurrentBib}
-
-\bibitem [\protect \citeauthoryear {%
-Chi%
-, Fan%
-, Ghigliazza%
-, Giannone%
-\BCBL {}\ \BBA {} Wang%
-}{%
-Chi%
-\ \protect \BOthers {.}}{%
-{\protect \APACyear {2025}}%
-}]{%
-chi2025}
-\APACinsertmetastar {%
-chi2025}%
-\begin{APACrefauthors}%
-Chi, T\BHBI C.%
-, Fan, T\BHBI H.%
-, Ghigliazza, R.%
-, Giannone, D.%
-\BCBL {}\ \BBA {} Wang, Z\BPBI K.%
-\end{APACrefauthors}%
-\unskip\
-\newblock
-\APACrefYearMonthDay{2025}{}{}.
-\newblock
-\APACrefbtitle {Macroeconomic Forecasting and Machine Learning} {Macroeconomic
-  forecasting and machine learning}\ \APACbVolEdTR {}{Discussion Paper\ \BNUM\
-  20727}.
-\newblock
-\APACaddressInstitution{}{Centre for Economic Policy Research}.
-\PrintBackRefs{\CurrentBib}
-
-\bibitem [\protect \citeauthoryear {%
-Dell%
-}{%
-Dell%
-}{%
-{\protect \APACyear {2025}}%
-}]{%
-dell2025}
-\APACinsertmetastar {%
-dell2025}%
-\begin{APACrefauthors}%
-Dell, M.%
-\end{APACrefauthors}%
-\unskip\
-\newblock
-\APACrefYearMonthDay{2025}{}{}.
-\newblock
-{\BBOQ}\APACrefatitle {Deep Learning for Economists} {Deep learning for
-  economists}.{\BBCQ}
-\newblock
-\APACjournalVolNumPages{Journal of Economic Literature}{63}{1}{5--58}.
+\APACjournalVolNumPages{American Economic Journal: Macroeconomics}{13}{1}{333--372}.
 \PrintBackRefs{\CurrentBib}
 
 \bibitem [\protect \citeauthoryear {%
@@ -504,8 +311,7 @@ Eloundou, T.%
 \newblock
 \APACrefYearMonthDay{2024}{}{}.
 \newblock
-{\BBOQ}\APACrefatitle {{GPTs} Are {GPTs}: Labor Market Impact Potential of
-  {LLMs}} {{GPTs} are {GPTs}: Labor market impact potential of {LLMs}}.{\BBCQ}
+{\BBOQ}\APACrefatitle {{GPTs} Are {GPTs}: Labor Market Impact Potential of {LLMs}} {{GPTs} are {GPTs}: Labor market impact potential of {LLMs}}.{\BBCQ}
 \newblock
 \APACjournalVolNumPages{Science}{384}{6702}{1306--1308}.
 \PrintBackRefs{\CurrentBib}
@@ -531,58 +337,9 @@ Felten, E\BPBI W.%
 \newblock
 \APACrefYearMonthDay{2023}{}{}.
 \newblock
-\APACrefbtitle {Occupational Heterogeneity in Exposure to Generative {AI}}
-  {Occupational heterogeneity in exposure to generative {AI}}\ \APACbVolEdTR
-  {}{Working Paper}.
+\APACrefbtitle {Occupational Heterogeneity in Exposure to Generative {AI}} {Occupational heterogeneity in exposure to generative {AI}}\ \APACbVolEdTR {}{Working Paper}.
 \newblock
 \APACaddressInstitution{}{SSRN}.
-\PrintBackRefs{\CurrentBib}
-
-\bibitem [\protect \citeauthoryear {%
-Fern\'{a}ndez-Villaverde%
-}{%
-Fern\'{a}ndez-Villaverde%
-}{%
-{\protect \APACyear {2025}}%
-}]{%
-fernandez2025}
-\APACinsertmetastar {%
-fernandez2025}%
-\begin{APACrefauthors}%
-Fern\'{a}ndez-Villaverde, J.%
-\end{APACrefauthors}%
-\unskip\
-\newblock
-\APACrefYearMonthDay{2025}{}{}.
-\newblock
-\APACrefbtitle {Deep Learning for Solving Economic Models} {Deep learning for
-  solving economic models}\ \APACbVolEdTR {}{Discussion Paper\ \BNUM\ 20669}.
-\newblock
-\APACaddressInstitution{}{Centre for Economic Policy Research}.
-\PrintBackRefs{\CurrentBib}
-
-\bibitem [\protect \citeauthoryear {%
-{Financial Stability Board}%
-}{%
-{Financial Stability Board}%
-}{%
-{\protect \APACyear {2024}}%
-}]{%
-fsb2024}
-\APACinsertmetastar {%
-fsb2024}%
-\begin{APACrefauthors}%
-{Financial Stability Board}.%
-\end{APACrefauthors}%
-\unskip\
-\newblock
-\APACrefYearMonthDay{2024}{November}{}.
-\newblock
-\APACrefbtitle {The Financial Stability Implications of Artificial
-  Intelligence} {The financial stability implications of artificial
-  intelligence}\ \APACbVolEdTR{}{\BTR{}}.
-\newblock
-\APACaddressInstitution{}{Financial Stability Board}.
 \PrintBackRefs{\CurrentBib}
 
 \bibitem [\protect \citeauthoryear {%
@@ -608,63 +365,9 @@ Gambacorta, L.%
 \newblock
 \APACrefYearMonthDay{2026}{}{}.
 \newblock
-\APACrefbtitle {Artificial Intelligence and Growth in Advanced and Emerging
-  Economies: Short-Run Impact} {Artificial intelligence and growth in advanced
-  and emerging economies: Short-run impact}\ \APACbVolEdTR {}{Discussion Paper\
-  \BNUM\ 20992}.
+\APACrefbtitle {Artificial Intelligence and Growth in Advanced and Emerging Economies: Short-Run Impact} {Artificial intelligence and growth in advanced and emerging economies: Short-run impact}\ \APACbVolEdTR {}{Discussion Paper\ \BNUM\ 20992}.
 \newblock
 \APACaddressInstitution{}{Centre for Economic Policy Research}.
-\PrintBackRefs{\CurrentBib}
-
-\bibitem [\protect \citeauthoryear {%
-{International Monetary Fund}%
-}{%
-{International Monetary Fund}%
-}{%
-{\protect \APACyear {2024}}%
-}]{%
-imf2024gfsr}
-\APACinsertmetastar {%
-imf2024gfsr}%
-\begin{APACrefauthors}%
-{International Monetary Fund}.%
-\end{APACrefauthors}%
-\unskip\
-\newblock
-\APACrefYearMonthDay{2024}{October}{}.
-\newblock
-{\BBOQ}\APACrefatitle {Advances in Artificial Intelligence: Implications for
-  Capital Market Activities} {Advances in artificial intelligence: Implications
-  for capital market activities}.{\BBCQ}
-\newblock
-\BIn{} \APACrefbtitle {Global Financial Stability Report} {Global financial
-  stability report}\ (\BCHAP~3).
-\newblock
-\APACaddressPublisher{Washington, DC}{International Monetary Fund}.
-\PrintBackRefs{\CurrentBib}
-
-\bibitem [\protect \citeauthoryear {%
-Korinek%
-}{%
-Korinek%
-}{%
-{\protect \APACyear {2023}}%
-}]{%
-korinek2023}
-\APACinsertmetastar {%
-korinek2023}%
-\begin{APACrefauthors}%
-Korinek, A.%
-\end{APACrefauthors}%
-\unskip\
-\newblock
-\APACrefYearMonthDay{2023}{}{}.
-\newblock
-{\BBOQ}\APACrefatitle {Generative {AI} for Economic Research: Use Cases and
-  Implications for Economists} {Generative {AI} for economic research: Use
-  cases and implications for economists}.{\BBCQ}
-\newblock
-\APACjournalVolNumPages{Journal of Economic Literature}{61}{4}{1281--1317}.
 \PrintBackRefs{\CurrentBib}
 
 \bibitem [\protect \citeauthoryear {%
@@ -684,9 +387,7 @@ Korinek, A.%
 \newblock
 \APACrefYearMonthDay{2024}{}{}.
 \newblock
-\APACrefbtitle {Economic Policy Challenges for the Age of {AI}} {Economic
-  policy challenges for the age of {AI}}\ \APACbVolEdTR {}{Discussion Paper\
-  \BNUM\ 19539}.
+\APACrefbtitle {Economic Policy Challenges for the Age of {AI}} {Economic policy challenges for the age of {AI}}\ \APACbVolEdTR {}{Discussion Paper\ \BNUM\ 19539}.
 \newblock
 \APACaddressInstitution{}{Centre for Economic Policy Research}.
 \PrintBackRefs{\CurrentBib}
@@ -711,9 +412,7 @@ Noy, S.%
 \newblock
 \APACrefYearMonthDay{2023}{}{}.
 \newblock
-{\BBOQ}\APACrefatitle {Experimental Evidence on the Productivity Effects of
-  Generative Artificial Intelligence} {Experimental evidence on the
-  productivity effects of generative artificial intelligence}.{\BBCQ}
+{\BBOQ}\APACrefatitle {Experimental Evidence on the Productivity Effects of Generative Artificial Intelligence} {Experimental evidence on the productivity effects of generative artificial intelligence}.{\BBCQ}
 \newblock
 \APACjournalVolNumPages{Science}{381}{6654}{187--192}.
 \PrintBackRefs{\CurrentBib}
@@ -735,8 +434,7 @@ stanfordhai2025}%
 \newblock
 \APACrefYearMonthDay{2025}{}{}.
 \newblock
-\APACrefbtitle {Artificial Intelligence Index Report 2025} {Artificial
-  intelligence index report 2025}\ \APACbVolEdTR{}{\BTR{}}.
+\APACrefbtitle {Artificial Intelligence Index Report 2025} {Artificial intelligence index report 2025}\ \APACbVolEdTR{}{\BTR{}}.
 \newblock
 \APACaddressInstitution{}{Stanford University}.
 \PrintBackRefs{\CurrentBib}
@@ -758,11 +456,9 @@ Thuemmel, U.%
 \newblock
 \APACrefYearMonthDay{2023}{}{}.
 \newblock
-{\BBOQ}\APACrefatitle {Optimal Taxation of Robots} {Optimal taxation of
-  robots}.{\BBCQ}
+{\BBOQ}\APACrefatitle {Optimal Taxation of Robots} {Optimal taxation of robots}.{\BBCQ}
 \newblock
-\APACjournalVolNumPages{Journal of the European Economic
-  Association}{21}{3}{1154--1190}.
+\APACjournalVolNumPages{Journal of the European Economic Association}{21}{3}{1154--1190}.
 \PrintBackRefs{\CurrentBib}
 
 \end{thebibliography}
