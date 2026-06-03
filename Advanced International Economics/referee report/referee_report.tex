@@ -1,4 +1,4 @@
-\documentclass[12pt, a4paper]{article}
+\documentclass[11pt, a4paper]{article}
 
 \usepackage[margin=1in]{geometry}
 \usepackage[T1]{fontenc}
@@ -10,7 +10,7 @@
 \titlespacing*{\section}{0pt}{1.2ex plus .2ex minus .1ex}{0.8ex plus .1ex}
 \usepackage{hyperref}
 \hypersetup{colorlinks=true, linkcolor=black, citecolor=black, urlcolor=blue}
-\setlength{\parskip}{0.3em}
+\setlength{\parskip}{0.2em}
 \setlength{\parindent}{0pt}
 
 \title{\vspace{-2em}\textbf{Referee Report} \\[0.3em]
@@ -18,8 +18,8 @@
 by Brandao-Marques, Gelos, Hofman, Otten, Pasricha, and Strauss \\
 (IMF Working Paper 2023/224; CEPR DP18774)\vspace{-1em}}
 
-\author{}
-\date{}
+\author{Jingle Fu}
+\date{June 2026}
 
 \begin{document}
 \maketitle
@@ -27,43 +27,72 @@ by Brandao-Marques, Gelos, Hofman, Otten, Pasricha, and Strauss \\
 
 \section{Summary}
 
-This paper asks whether the \emph{distribution} of household inflation expectations---not just the median---carries useful information for predicting one-year-ahead CPI inflation. Drawing on micro data from consumer expectation surveys in the US, UK, Germany, and Canada, the authors first document how household expectation densities shifted rightward during the post-2021 inflation episode in all four countries.  They then narrow the analysis to the US, where the Michigan Survey of Consumers provides the longest available time series (1978--2023), and estimate a reduced-form forecasting regression of twelve-month-ahead inflation on current inflation and three distributional moments: median, variance, and skewness.
+Central banks track inflation expectations because what households believe about future prices shapes what they spend, save, and bargain for today. Most research looks at the median expectation. This paper looks at the whole distribution.
 
-Three results stand out. Variance and skewness add significant explanatory power over the median alone, but only within high-inflation regimes identified by Bai--Perron (2003) breakpoint tests. The variance coefficient switches sign across regimes: positive when inflation is accelerating (rising disagreement among households accompanies building price pressures), negative when inflation is decelerating (disagreement lingers as less-informed households catch up with a lag). In a comparison exercise against Consensus Forecasts and Cleveland Fed market-implied expectations, moments of the household distribution still retain some added predictive content, particularly over the recent 2017--2022 sub-period.
+The authors use micro data from consumer surveys in the US, UK, Germany, and Canada. Section~II documents how one-year-ahead expectation densities shifted right across all four economies after 2021. The econometric work narrows to the US, where the Michigan Survey of Consumers gives monthly data from 1978. The authors fit kernel densities, extract the median, variance, and skewness, and regress twelve-month-ahead CPI inflation on current inflation and those three moments. They also run a horse race against Consensus Forecasts and Cleveland Fed market-implied expectations.
 
-The paper builds on the heterogeneous-expectations literature associated with Mankiw, Reis, and Wolfers (2003) and Reis (2021), and makes a case that policymakers should track the shape of the household expectation distribution rather than monitoring medians alone.
+Variance and skewness raise the in-sample $R^2$ over a model using only the median, though the gain concentrates almost entirely in high-inflation regimes identified by Bai--Perron (2003) breakpoint tests. The sign on variance switches: positive when inflation rises, negative when it falls. The authors read this through a staggered-updating lens in which better-informed households adjust first and others follow with a lag. Household moments retain predictive content in the 2017--2022 sub-period even after controlling for professional forecaster moments and market-based measures, though this rests on only sixty monthly observations. The paper draws on Mankiw, Reis, and Wolfers (2003) and Reis (2021). Its message is that central banks should watch the shape of the distribution, not just the median.
 
-\section{Comments, Criticisms, and Suggestions}
+\section{Major Concerns}
 
-\textbf{1. The regime dependence of the variance coefficient raises a serious forecasting problem.}
-The paper's central result---that higher moments predict inflation---holds only conditional on the inflation regime. During the 1978--1990 period of high and then declining inflation, variance enters with a negative coefficient; during the recent inflationary surge, it enters positively. The authors explain this through a staggered-updating story that is internally consistent, but the implication for practice is uncomfortable. A forecaster who wants to use household disagreement as a signal must first know whether inflation is accelerating or decelerating, which is precisely what the forecast is supposed to tell her.
+\textbf{1. The regime-dependence of the variance coefficient undercuts the forecasting claim.}
 
-The Bai--Perron breakpoints are estimated over the full sample, embedding future information into the regime labels. When the authors attempt an out-of-sample exercise without imposing regime dummies (Table~6), higher moments add essentially nothing to forecast accuracy relative to a model using only the median and lagged inflation. The RMSEs improve only when the estimation sample is restricted to a past inflationary episode (1978--1990) and evaluated on a recent one (2020--2022, Table~7)---a clever but narrow test that presupposes we recognize in real time that we have entered a similar environment. A Markov-switching specification, or a simple threshold model keyed to trailing twelve-month CPI changes, would allow the sign of variance to shift endogenously without requiring ex-post information. Standard predictive accuracy tests such as Diebold--Mariano would also be appropriate here and are absent from the paper.
+The variance of household expectations predicts inflation. But the sign depends on whether inflation is rising or falling. A forecaster who wants to use disagreement as a signal must first know which regime she is in---the very thing the forecast is meant to tell her.
 
-\textbf{2. The multi-country motivation is disconnected from the econometric analysis.}
-The title and introduction frame the paper as a general investigation, and Section~II presents descriptive distributional evidence for four economies. The regression analysis then uses only US data. This gap between framing and execution is jarring. The UK and Canada offer quarterly expectation surveys long enough to support at least auxiliary regressions; Germany's CES, starting in 2020, is too short. Running even reduced-power regressions on UK and Canadian data would test whether the distributional channel is specific to the Michigan Survey or generalises across institutional settings. Without that, the cross-country section reads as scene-setting that never pays off analytically.
+The authors know this. They do not solve it.
 
-\textbf{3. The forecasting equation is atheoretical, yet the paper implies causal content.}
-Equation~(1) regresses future inflation on current inflation and distributional moments---a pure forecasting relationship. But the introduction references the New Keynesian Phillips Curve and discusses how household expectations shape wage bargaining and consumption decisions. The empirical design cannot distinguish whether distributional moments \emph{cause} inflation through these channels or simply correlate with the same supply-side shocks that drive inflation. This matters for the policy interpretation: if higher moments are just noisy proxies for energy prices or supply disruptions, monitoring them adds little to what commodity indices already reveal. Embedding the moments into a Phillips Curve specification with an output gap term would clarify what distributional information contributes beyond standard macro indicators. At minimum, the paper should include the unemployment rate or capacity utilisation as controls in the main specification rather than leaving them to a robustness appendix.
+The breakpoints that define regimes come from a Bai--Perron test on the full sample. The regime labels embed information no forecaster had at the time. Table~6, the out-of-sample exercise without regime dummies, shows variance and skewness add nothing. The RMSEs improve only when the authors estimate on 1978--1990 and evaluate on 2020--2022 (Table~7). Both periods share high inflation. That is why it works. But it assumes the forecaster knows, after the fact, that the two episodes are alike. I also note an inconsistency: the text describes estimation on 1978M1--1990M7, while the Table~7 note states 1978M1--1980M12. If the latter is correct, the key cross-episode forecast exercise rests on three years of monthly data.
 
-\textbf{4. Data construction choices need scrutiny.}
-The kernel bandwidth of 1.3, taken from Reis (2021), is applied without discussion of sensitivity. Variance and especially skewness are tail-driven statistics, and tail estimates from kernel densities are sensitive to bandwidth choice. Moreover, ``don't know how much up'' responses in the Michigan Survey (code 96) are imputed at the mean of positive expectations. The frequency of this response category plausibly varies with the macroeconomic environment---respondents may be more uncertain about magnitudes precisely when inflation is volatile. If so, the imputation rule introduces measurement variation that is correlated with the regressor of interest. Reporting results under cross-validated bandwidths and under alternative imputation schemes (exclusion, or imputation at the median of positives) would indicate how robust the distributional findings really are.
+Two fixes would help. A Markov-switching model, or a threshold keyed to the trailing twelve-month CPI change, would let the sign of variance shift endogenously. The interaction terms in Table~3 move this direction but still condition on ex-post inflation thresholds. The authors should also report formal forecast-comparison tests for nested models with overlapping horizons, as discussed in point~4.
 
-\textbf{5. The horse race against professional forecasters is underpowered.}
-Consensus Forecasts data begin only in October 1989, so the horse race (Table~5) discards the entire Volcker disinflation---the regime where the household-moments model fits best. The resulting full-sample adjusted $R^2$ drops sharply, and most household-distribution coefficients lose significance. The encouraging sub-period results (2017--2022) rest on just 60 monthly observations. The Philadelphia Fed's Survey of Professional Forecasters, available from 1968, could serve as an alternative benchmark and would preserve the pre-1989 variation that gives the model its best performance.
+\textbf{2. The baseline level regression may capture common persistence, not predictive information.}
 
-\section{Alternatives}
+The authors estimate the main model in levels. A footnote acknowledges that unit roots in inflation and the moment series cannot be rejected over the full sample. They relegate first-difference results to an appendix. The significance weakens there. This goes to the heart of the paper's claim.
 
-The Michigan Survey micro data include demographic identifiers---age, income, education, region. A natural extension is to decompose the distributional shifts by demographic group and test whether certain subpopulations (say, lower-income households whose consumption baskets weight food and energy more heavily) provide more informative signals about headline inflation. Malmendier and Nagel (2016) show that lifetime inflation experience shapes individual expectations. Connecting that heterogeneity to forecasting power could reveal whether the predictive content of higher moments originates in younger cohorts updating faster or older cohorts anchoring at outdated levels.
+The strongest fit comes from the high-inflation regimes. Between them sits the Great Moderation, where the model explains almost nothing. When inflation, the median, variance, and skewness all rise together in high-inflation periods and stay flat in low-inflation periods, a levels regression finds significant coefficients. That reflects a shared low-frequency trend, not predictive content. Stock and Watson (2008) show that inflation-forecasting relationships are unstable across regimes.\footnote{Stock, J.H. and M.W. Watson, ``Phillips Curve Inflation Forecasts,'' NBER Working Paper No.~14322, 2008.} Reis (2021) argues that shifts in the inflation anchor are slow, regime-like phenomena.\footnote{Reis, R., ``Losing the Inflation Anchor,'' \textit{Brookings Papers on Economic Activity}, Fall 2021.}
 
-A separate question the data can address: rather than forecasting the \emph{level} of inflation, do distributional moments help predict \emph{turning points}---transitions from low to high regimes and back? A probit model for acceleration or deceleration episodes, using moments as predictors, may be more practically useful than the level regression and would speak directly to the regime-switching concern raised above.
+The first-difference specification belongs in the main text. The authors should also report break-adjusted stationarity tests, a specification in deviations from trend or target, and rolling-window out-of-sample forecasts.
 
-On methodology, the authors relegate Functional Principal Component Analysis (FPCA) to an appendix, even though it captures richer distributional information than three moments can. Promoting FPCA to a main result and comparing its forecast accuracy against the moments model would clarify how much information is lost in the reduction to three summary statistics. Alternatively, pooling the quarterly US, UK, and Canadian data in a panel framework would increase statistical power and permit a test of whether the distributional channel operates similarly across different central bank communication regimes---a question with direct policy relevance.
+\textbf{3. The two high-inflation windows are event-contaminated and not structurally comparable.}
+
+The paper's most striking out-of-sample result estimates the model on 1978--1990 and evaluates it on 2020--2022. This comparison is more fragile than the paper acknowledges.
+
+The 1978--1990 window is not a clean high-inflation regime. It contains the second oil shock, the Volcker disinflation (the funds rate rose from roughly 11 to 19 percent), the 1980 and 1981--82 recessions, and the early Great Moderation. The negative variance coefficient in this window may simply reflect lagged household updating during the Volcker disinflation, not a general relation between disagreement and future inflation.
+
+The 2015--2022 window is no cleaner. The Bai--Perron test labels 2015M11 as the start of a high-inflation regime, but 2015--2019 was a period of low inflation and falling oil prices. The actual surge arrived in 2021--2022, driven by COVID reopening, supply-chain disruptions, fiscal transfers, and the energy and commodity shocks that followed the Russian invasion of Ukraine. Household expectations during this period responded to highly visible everyday prices. The rightward shift of the household distribution may therefore reflect reactions to salient food and energy prices, not an independent predictive signal.\footnote{Federal Reserve History, ``Oil Shock of 1978--79,'' ``The Great Inflation,'' and ``Recession of 1981--82''; Brookings Institution, ``What Caused the U.S. Pandemic-Era Inflation?'' 2023; BLS, ``Exploring Price Increases in 2021 and Previous Periods of Inflation,'' \textit{Beyond the Numbers}, 2022; D'Acunto, F., U. Malmendier, J. Ospina, and M. Weber, ``Exposure to Daily Price Changes and Inflation Expectations,'' NBER Working Paper No.~26237, 2019.}
+
+These are not two draws from the same data-generating process. One is an unanchored-expectations, monetary-regime-change episode. The other is a pandemic supply-shock episode on top of decades of anchored expectations. That both produced high headline inflation does not justify transporting coefficients across them.
+
+The authors should split each window into event-driven and non-event sub-periods, add controls for oil shocks, recessions, pandemic months, fiscal stimulus, and supply-chain disruptions, and run leave-one-episode-out tests. If the predictive content disappears outside the event windows, the paper should be reframed as evidence that household distributions react strongly during salient inflation episodes.
+
+\textbf{4. The paper has not run a forecasting horse race by the standards of the inflation-forecasting literature.}
+
+The current horse race is too narrow. Standard benchmarks include no-change and Atkeson--Ohanian average-inflation forecasts, AR models, Phillips-curve variants, energy-price-augmented models, and SPF forecasts.\footnote{Atkeson, A. and L.E. Ohanian, ``Are Phillips Curves Useful for Forecasting Inflation?'' \textit{FRB Minneapolis Quarterly Review}, 25(1), 2001; Faust, J. and J.H. Wright, ``Forecasting Inflation,'' in \textit{Handbook of Economic Forecasting}, Vol.~2, Elsevier, 2013.} The authors compare only against Consensus Forecasts and Cleveland Fed market-implied measures. Consensus Forecasts start in 1989, dropping the Volcker disinflation where the model fits best. The SPF runs from 1968.
+
+The forecast evaluation method needs attention. Monthly data predicting twelve-month-ahead inflation produces heavily overlapping errors, and the median-only model nests inside the median-plus-moments model. The authors should use Clark--West or Clark--McCracken tests rather than relying on RMSE comparisons alone.\footnote{Clark, T.E. and K.D. West, ``Approximately Normal Tests for Equal Predictive Accuracy in Nested Models,'' \textit{Journal of Econometrics}, 138(1), 2007; Clark, T.E. and M.W. McCracken, ``Tests of Equal Forecast Accuracy and Encompassing for Nested Models,'' \textit{Journal of Econometrics}, 105(1), 2001.} Without a proper contest against the established benchmarks, the paper has not shown that household moments help predict inflation.
+
+\textbf{5. The kernel bandwidth and the imputation rule receive no sensitivity analysis.}
+
+The authors take the bandwidth of 1.3 from Reis (2021) without discussion. Variance and skewness are tail statistics, and tail estimates from kernels are bandwidth-sensitive. The Michigan Survey codes ``don't know how much up'' as 96. The authors impute the mean of positive expectations. The share of these responses almost certainly moves with the inflation environment, since people give precise numbers less often when inflation is volatile. This injects measurement error correlated with the variation the regression exploits. Results under cross-validated bandwidths and alternative imputation rules (dropping code-96 responses, imputing the median) would tell me where the fragility lies.
+
+\section{Framing and Presentation}
+
+The paper states clearly that it discusses four countries and then zooms in on the US. The main regressions belong on US data. But the title and introduction still frame the paper as a general investigation. I reach Section~III after the four-country plots in Section~II expecting the cross-country thread to return. It does not. Running the same regression on the UK and Canadian quarterly data would show whether the result travels. If it does not, the title should say ``Evidence from the United States.''
+
+The introduction also overpromises. Equation~(1) is a forecasting regression, but the introduction invokes the New Keynesian Phillips Curve and household expectations shaping wage bargaining and consumption. A pure forecasting regression cannot speak to those channels. The introduction should match what the regression does.
+
+\section{Suggestions and Extensions}
+
+The conclusion notes that household expectations around turning points deserve further investigation. A probit or logit model using variance and skewness to forecast transitions into and out of high-inflation episodes would speak directly to the regime-switching problem in point~1. The Michigan Survey micro data carry demographics. If the predictive content comes disproportionately from younger cohorts or lower-income households, that tells us whether the signal reflects price pressures or the composition of who answers the survey.\footnote{Malmendier, U. and S. Nagel, ``Learning from Inflation Experiences,'' \textit{Quarterly Journal of Economics}, 131(1), 2016.} A panel specification pooling the US, UK, and Canada would test whether the distributional channel operates similarly across central bank communication regimes. FPCA captures more of the distribution than three moments can; comparing its out-of-sample accuracy against the moments model would reveal how much information the summary throws away.
 
 \section{Recommendation}
 
-The paper identifies a genuinely interesting pattern: the shape of the household expectation distribution, not just its central tendency, correlates with subsequent inflation movements. The descriptive cross-country evidence is well done, and the theoretical motivation through staggered expectation updating is intuitive.
+The paper has a good idea. The shape of the household expectations distribution moves with future inflation in ways that a staggered-information model predicts, the descriptive work is careful, and the theoretical motivation is clear.
 
-But the paper's value proposition rests on forecasting, and the forecasting evidence is where it falls short. The dependence on ex-post regime identification, the weak out-of-sample results without regime conditioning, the absent sensitivity analysis on data construction, and the gap between multi-country framing and single-country regressions collectively prevent the paper from delivering on its promise. These are addressable problems, not fatal flaws. I recommend \textbf{Revise and Resubmit}. The revision should demonstrate that distributional moments add forecasting value under a real-time regime classification scheme, provide rolling-window out-of-sample evaluation with formal accuracy tests, report sensitivity to bandwidth and imputation choices, and either run regressions on UK/Canadian data or reframe the paper as a US study.
+The forecasting evidence, however, does not hold up yet. The two high-inflation windows are event-contaminated and not structurally comparable. The baseline level regression may reflect common persistence rather than predictive information. The variance coefficient changes sign across regimes, the regime labels use future information, and the horse race omits the standard benchmarks while lacking nested forecast evaluation tests. Data construction choices go unexamined.
+
+Each of these has a fix. Split the high-inflation windows into event-driven and non-event sub-periods, with controls for oil shocks, recessions, and supply disruptions. First-difference and deviation-from-target specifications in the main text. A real-time regime classification scheme. A proper horse race against no-change, AR, Atkeson--Ohanian, Phillips curve, and energy-price benchmarks, with Clark--West or Clark--McCracken tests. Sensitivity checks on the bandwidth and the code-96 imputation. UK and Canadian regressions, or a title that says ``Evidence from the United States.''
+
+I recommend revision and resubmission.
 
 \end{document}
